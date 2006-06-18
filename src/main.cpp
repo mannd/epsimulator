@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by David Mann, MD   *
+ *   Copyright (C) 2006 by David Mann   *
  *   mannd@epstudiossoftware.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,52 +19,14 @@
  ***************************************************************************/
 
 
+#include <qapplication.h>
 #include "epsimulator.h"
-#include <kapplication.h>
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <klocale.h>
 
-static const char description[] =
-    I18N_NOOP("A KDE KPart Application");
-
-static const char version[] = "0.1";
-
-static KCmdLineOptions options[] =
-{
-//    { "+[URL]", I18N_NOOP( "Document to open" ), 0 },
-    KCmdLineLastOption
-};
-
-int main(int argc, char **argv)
-{
-    KAboutData about("epsimulator", I18N_NOOP("epsimulator"), version, description,
-		     KAboutData::License_GPL, "(C) 2006 David Mann, MD", 0, 0, "mannd@epstudiossoftware.com");
-    about.addAuthor( "David Mann, MD", 0, "mannd@epstudiossoftware.com" );
-    KCmdLineArgs::init(argc, argv, &about);
-    KCmdLineArgs::addCmdLineOptions( options );
-    KApplication app;
-    epsimulator *mainWin = 0;
-
-    if (app.isRestored())
-    {
-        RESTORE(epsimulator);
-    }
-    else
-    {
-        // no session.. just start up normally
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
-        /// @todo do something with the command line args here
-
-        mainWin = new epsimulator();
-        app.setMainWidget( mainWin );
-        mainWin->show();
-
-        args->clear();
-    }
-
-    // mainWin has WDestructiveClose flag by default, so it will delete itself.
-    return app.exec();
+int main( int argc, char ** argv ) {
+    QApplication a( argc, argv );
+    epsimulator * mw = new epsimulator();
+    mw->setCaption( "epsimulator" );
+    mw->show();
+    a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );
+    return a.exec();
 }
-

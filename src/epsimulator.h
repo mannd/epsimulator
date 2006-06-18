@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by David Mann, MD   *
+ *   Copyright (C) 2006 by David Mann   *
  *   mannd@epstudiossoftware.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,33 +19,40 @@
  ***************************************************************************/
 
 
-#ifndef _EPSIMULATOR_H_
-#define _EPSIMULATOR_H_
+#ifndef EPSIMULATOR_H
+#define EPSIMULATOR_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include <qmainwindow.h>
 
-#include <kmainwindow.h>
+class QTextEdit;
 
-/**
- * @short Application Main Window
- * @author David Mann, MD <mannd@epstudiossoftware.com>
- * @version 0.1
- */
-class epsimulator : public KMainWindow
+class epsimulator: public QMainWindow
 {
     Q_OBJECT
-public:
-    /**
-     * Default Constructor
-     */
-    epsimulator();
 
-    /**
-     * Default Destructor
-     */
-    virtual ~epsimulator();
+public:
+    epsimulator();
+    ~epsimulator();
+
+protected:
+    void closeEvent( QCloseEvent* );
+
+private slots:
+    void newDoc();
+    void choose();
+    void load( const QString &fileName );
+    void save();
+    void saveAs();
+    void print();
+
+    void about();
+    void aboutQt();
+
+private:
+    QPrinter *printer;
+    QTextEdit *e;
+    QString filename;
 };
 
-#endif // _EPSIMULATOR_H_
+
+#endif
