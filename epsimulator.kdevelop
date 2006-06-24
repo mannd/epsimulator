@@ -86,7 +86,7 @@
       <directoryradio>executable</directoryradio>
     </run>
     <general>
-      <activedir>src</activedir>
+      <activedir></activedir>
     </general>
   </kdevtrollproject>
   <workspace>
@@ -133,5 +133,8 @@
       <argumentsHintDelay>400</argumentsHintDelay>
       <headerCompletionDelay>250</headerCompletionDelay>
     </codecompletion>
+    <designerintegration>
+      <qtdesigner/>
+    </designerintegration>
   </kdevcppsupport>
 </kdevelop>

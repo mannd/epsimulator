@@ -20,11 +20,12 @@
 
 
 #include <qapplication.h>
-#include "epsimulator.h"
+//#include "epsimulator.h"
+#include "monitor.h"
 
 int main( int argc, char ** argv ) {
     QApplication a( argc, argv );
-    epsimulator * mw = new epsimulator();
+    Monitor * mw = new Monitor();
     mw->setCaption( "epsimulator" );
     mw->show();
     a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );
