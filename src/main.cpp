@@ -22,6 +22,7 @@
 #include <qapplication.h>
 //#include "epsimulator.h"
 #include "monitor.h"
+#include "monitor.h"
 
 int main( int argc, char ** argv ) {
     QApplication a( argc, argv );

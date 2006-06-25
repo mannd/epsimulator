@@ -5,7 +5,6 @@
 TEMPLATE = app
 DEPENDPATH += src
 INCLUDEPATH += . src
-
 # Input
 HEADERS += src/epsimulator.h
 INTERFACES += src/monitor.ui
