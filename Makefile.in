@@ -810,30 +810,8 @@ dist-hook:
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
 
-clean-bcheck: 
-	rm -f *.bchecktest.cc *.bchecktest.cc.class a.out
-
-bcheck: bcheck-recursive
-
-bcheck-am:
-	@for i in ; do \
-	    if test $(srcdir)/$$i -nt $$i.bchecktest.cc; then \
-	        echo "int main() {return 0;}" > $$i.bchecktest.cc ; \
-	        echo "#include \"$$i\"" >> $$i.bchecktest.cc ; \
-	        echo "$$i"; \
-	        if ! $(CXX) $(DEFS) -I. -I$(srcdir) -I$(top_builddir) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(KDE_CXXFLAGS)  --dump-class-hierarchy -c $$i.bchecktest.cc; then \
-	            rm -f $$i.bchecktest.cc; exit 1; \
-	        fi ; \
-	        echo "" >> $$i.bchecktest.cc.class; \
-	        perl $(top_srcdir)/admin/bcheck.pl $$i.bchecktest.cc.class || { rm -f $$i.bchecktest.cc; exit 1; }; \
-	        rm -f a.out; \
-	    fi ; \
-	done
-
-
-
 #>+ 2
-KDE_DIST=stamp-h.in subdirs Makefile.in epsimulator.kdevelop configure.files config.h.in configure.in Makefile.cvs aclocal.m4 Doxyfile Makefile.am configure acinclude.m4 
+KDE_DIST=stamp-h.in epsimulator.kdevelop.pcs subdirs Makefile.in epsimulator.kdevelop configure.files config.h.in epsimulator.kdevses configure.in Makefile.cvs aclocal.m4 Doxyfile Makefile.am configure acinclude.m4 
 
 #>+ 2
 docs-am:

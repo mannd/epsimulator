@@ -35,13 +35,18 @@ Epsimulator::Epsimulator()
     KPopupMenu *menuStudy = new KPopupMenu(this);
     KPopupMenu *menuStudyConfiguration = new KPopupMenu(this);
     KPopupMenu *menuMeasurements = new KPopupMenu(this);
+    KPopupMenu *menuWindows = new KPopupMenu(this);
+    KPopupMenu *menuAdministration = new KPopupMenu(this);
 
-    menuBar()->insertItem("&Study", menuStudy);
-    menuBar()->insertItem("Study &Configuration", menuStudyConfiguration);
-    menuBar()->insertItem("&Measurements", menuMeasurements);
-    menuBar()->insertItem("&Help", helpMenu());
+    menuBar()->insertItem(i18n("&Study"), menuStudy);
+    menuBar()->insertItem(i18n("Study &Configuration"), menuStudyConfiguration);
+    menuBar()->insertItem(i18n("&Measurements"), menuMeasurements);
+    menuBar()->insertItem(i18n("&Windows"), menuWindows);
+    menuBar()->insertItem(i18n("&Administration"), menuAdministration);
+    
+    menuBar()->insertItem(i18n("&Help"), helpMenu());
 
-    statusBar()->message("Epsimulator has started.");
+    statusBar()->message(i18n("Epsimulator has started."));
 
 }
 
