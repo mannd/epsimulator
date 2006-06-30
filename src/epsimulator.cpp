@@ -22,6 +22,7 @@
 #include "epsimulator.h"
 
 #include <qlabel.h>
+#include <qmessagebox.h>
 
 #include <kmainwindow.h>
 #include <klocale.h>
@@ -52,6 +53,15 @@ Epsimulator::Epsimulator()
 
 Epsimulator::~Epsimulator()
 {
+}
+
+void Epsimulator::closeEvent(QCloseEvent *event)
+{
+    if (QMessageBox::question(
+            this,
+            tr("Really quit?"),
+            tr("Quit Epsimulator?")))
+        ;
 }
 
 #include "epsimulator.moc"

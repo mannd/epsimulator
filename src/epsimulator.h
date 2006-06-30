@@ -46,6 +46,10 @@ public:
      * Default Destructor
      */
     virtual ~Epsimulator();
+
+protected:
+    void closeEvent(QCloseEvent * event);
+
 };
 
 #endif // _EPSIMULATOR_H_
