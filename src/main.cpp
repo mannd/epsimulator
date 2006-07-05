@@ -32,9 +32,9 @@ static KCmdLineOptions options[] = { KCmdLineLastOption };
 int main(int argc, char **argv)
 {
     KAboutData about("epsimulator", 
-                        I18N_NOOP("Epsimulator"), 
+                        I18N_NOOP("EPSimulator"), 
                         version,
-                        I18N_NOOP("Simulates an EP recording system"),
+                        I18N_NOOP("Simulates an electrophysiology recording system"),
 		        KAboutData::License_GPL, "(C) 2006 David Mann",
                         0,  //any text 
                         "http://www.epstudiossoftware.com",

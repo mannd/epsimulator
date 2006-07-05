@@ -47,7 +47,7 @@ Epsimulator::Epsimulator()
     
     menuBar()->insertItem(i18n("&Help"), helpMenu());
 
-    statusBar()->message(i18n("Epsimulator has started."));
+    statusBar()->message(i18n("EPSimulator has started."));
 
 }
 
@@ -57,11 +57,17 @@ Epsimulator::~Epsimulator()
 
 void Epsimulator::closeEvent(QCloseEvent *event)
 {
-    if (QMessageBox::question(
+    int ret = QMessageBox::question(
             this,
             tr("Really quit?"),
-            tr("Quit Epsimulator?")))
-        ;
+            tr("Quit EPSimulator?"),
+            QMessageBox::Yes | QMessageBox::Default,
+            QMessageBox::No,
+            QMessageBox::Cancel | QMessageBox::Escape);
+    if (ret == QMessageBox::Yes)
+        event->accept();
+    else
+        event->ignore();
 }
 
 #include "epsimulator.moc"
