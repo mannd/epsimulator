@@ -35,22 +35,23 @@ Epsimulator::Epsimulator()
 {
     qtable = new QTable(this);
     setCentralWidget(qtable);
+    setCaption(tr("EP Simulator"));
 
     QPopupMenu *menuStudy = new QPopupMenu(this);
     QPopupMenu *menuStudyConfiguration = new QPopupMenu(this);
     QPopupMenu *menuMeasurements = new QPopupMenu(this);
     QPopupMenu *menuWindows = new QPopupMenu(this);
     QPopupMenu *menuAdministration = new QPopupMenu(this);
+    QPopupMenu *menuHelp = new QPopupMenu(this);
 
     menuBar()->insertItem(tr("&Study"), menuStudy);
     menuBar()->insertItem(tr("Study &Configuration"), menuStudyConfiguration);
     menuBar()->insertItem(tr("&Measurements"), menuMeasurements);
     menuBar()->insertItem(tr("&Windows"), menuWindows);
     menuBar()->insertItem(tr("&Administration"), menuAdministration);
-    
-    menuBar()->insertItem(tr("&Help"), helpMenu());
+    menuBar()->insertItem(tr("&Help"), menuHelp);
 
-    statusBar()->message(tr("EPSimulator has started."));
+    statusBar()->message(tr("EP Simulator has started."));
 
 }
 
@@ -63,7 +64,7 @@ void Epsimulator::closeEvent(QCloseEvent *event)
     int ret = QMessageBox::question(
             this,
             tr("Really quit?"),
-            tr("Quit EPSimulator?"),
+            tr("Quit EP Simulator?"),
             QMessageBox::Yes | QMessageBox::Default,
             QMessageBox::No,
             QMessageBox::Cancel | QMessageBox::Escape);
@@ -73,4 +74,4 @@ void Epsimulator::closeEvent(QCloseEvent *event)
         event->ignore();
 }
 
-#include "epsimulator.moc"
+//#include "epsimulator.moc"

@@ -7,3 +7,4 @@ CONFIG += release \
           thread \
           qt
 TARGET = ../bin/epsimulator
+TRANSLATIONS = epsimulator_de.ts

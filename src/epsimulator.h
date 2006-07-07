@@ -36,26 +36,26 @@ public:
 
 protected:
     void closeEvent(QCloseEvent * event);
-    void contextMenuEvent(QContextMenuEvent * event);
+//    void contextMenuEvent(QContextMenuEvent * event);
 
 private slots:
-    void newPatient();
+/*    void newPatient();
     void openPatient();
     void newStudy();
     void openStudy();
     // Patients and studies are saved automatically when created and modified
     // At least I think that is the Prucka behavior
     void about();
-
+*/
 private:
-    void createActions();
+/*    void createActions();
     void createMenus();
     void createToolBars();
     void loadPatient();
     void savePatient();
     void loadStudy();
     void saveStudy();
-    
+*/  
     QTable *qtable;
 };
 
