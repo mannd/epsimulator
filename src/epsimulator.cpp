@@ -24,30 +24,33 @@
 #include <qlabel.h>
 #include <qmessagebox.h>
 
-#include <kmainwindow.h>
-#include <klocale.h>
-#include <kstatusbar.h>
-#include <kpopupmenu.h>
-#include <kmenubar.h>
+#include <qmainwindow.h>
+#include <qstatusbar.h>
+#include <qpopupmenu.h>
+#include <qmenubar.h>
+#include <qtable.h>		// this is a tmp central widget
 
 Epsimulator::Epsimulator()
-    : KMainWindow( 0, "epsimulator" )
+    : QMainWindow( 0, "epsimulator", WDestructiveClose )
 {
-    KPopupMenu *menuStudy = new KPopupMenu(this);
-    KPopupMenu *menuStudyConfiguration = new KPopupMenu(this);
-    KPopupMenu *menuMeasurements = new KPopupMenu(this);
-    KPopupMenu *menuWindows = new KPopupMenu(this);
-    KPopupMenu *menuAdministration = new KPopupMenu(this);
+    qtable = new QTable(this);
+    setCentralWidget(qtable);
 
-    menuBar()->insertItem(i18n("&Study"), menuStudy);
-    menuBar()->insertItem(i18n("Study &Configuration"), menuStudyConfiguration);
-    menuBar()->insertItem(i18n("&Measurements"), menuMeasurements);
-    menuBar()->insertItem(i18n("&Windows"), menuWindows);
-    menuBar()->insertItem(i18n("&Administration"), menuAdministration);
+    QPopupMenu *menuStudy = new QPopupMenu(this);
+    QPopupMenu *menuStudyConfiguration = new QPopupMenu(this);
+    QPopupMenu *menuMeasurements = new QPopupMenu(this);
+    QPopupMenu *menuWindows = new QPopupMenu(this);
+    QPopupMenu *menuAdministration = new QPopupMenu(this);
+
+    menuBar()->insertItem(tr("&Study"), menuStudy);
+    menuBar()->insertItem(tr("Study &Configuration"), menuStudyConfiguration);
+    menuBar()->insertItem(tr("&Measurements"), menuMeasurements);
+    menuBar()->insertItem(tr("&Windows"), menuWindows);
+    menuBar()->insertItem(tr("&Administration"), menuAdministration);
     
-    menuBar()->insertItem(i18n("&Help"), helpMenu());
+    menuBar()->insertItem(tr("&Help"), helpMenu());
 
-    statusBar()->message(i18n("EPSimulator has started."));
+    statusBar()->message(tr("EPSimulator has started."));
 
 }
 
@@ -59,8 +62,8 @@ void Epsimulator::closeEvent(QCloseEvent *event)
 {
     int ret = QMessageBox::question(
             this,
-            i18n("Really quit?"),
-            i18n("Quit EPSimulator?"),
+            tr("Really quit?"),
+            tr("Quit EPSimulator?"),
             QMessageBox::Yes | QMessageBox::Default,
             QMessageBox::No,
             QMessageBox::Cancel | QMessageBox::Escape);
