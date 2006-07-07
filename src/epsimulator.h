@@ -22,30 +22,17 @@
 #ifndef _EPSIMULATOR_H_
 #define _EPSIMULATOR_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include <qmainwindow.h>
 
-#include <kmainwindow.h>
+class QTable;
 
-/**
- * @short Application Main Window
- * @author David Mann <mannd@epstudiossoftware.com>
- * @version 0.1
- */
-class Epsimulator : public KMainWindow
+class Epsimulator : public QMainWindow
 {
     Q_OBJECT
-public:
-    /**
-     * Default Constructor
-     */
-    Epsimulator();
 
-    /**
-     * Default Destructor
-     */
-    virtual ~Epsimulator();
+public:
+    Epsimulator();
+    ~Epsimulator();
 
 protected:
     void closeEvent(QCloseEvent * event);
@@ -57,7 +44,7 @@ private slots:
     void newStudy();
     void openStudy();
     // Patients and studies are saved automatically when created and modified
-    // At least I think that is the Pruck behavior
+    // At least I think that is the Prucka behavior
     void about();
 
 private:
@@ -68,6 +55,8 @@ private:
     void savePatient();
     void loadStudy();
     void saveStudy();
+    
+    QTable *qtable;
 };
 
 #endif // _EPSIMULATOR_H_

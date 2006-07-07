@@ -19,44 +19,18 @@
  ***************************************************************************/
 
 
+#include <qapplication.h>
 #include "epsimulator.h"
-#include <kapplication.h>
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <klocale.h>
-
-static const char version[] = "0.1";
-
-static KCmdLineOptions options[] = { KCmdLineLastOption };
 
 int main(int argc, char **argv)
 {
-    KAboutData about("epsimulator", 
-                        I18N_NOOP("EPSimulator"), 
-                        version,
-                        I18N_NOOP("Simulates an electrophysiology recording system"),
-		        KAboutData::License_GPL, "(C) 2006 David Mann",
-                        0,  //any text 
-                        "http://www.epstudiossoftware.com",
-                        "mannd@epstudiossoftware.com");
-    about.addAuthor( "David Mann", I18N_NOOP("Author"), "mannd@epstudiossoftware.com" );
-    KCmdLineArgs::init(argc, argv, &about);
-    KCmdLineArgs::addCmdLineOptions( options );
-    KApplication app;
-    Epsimulator *mainWin = 0;
-
-    // no session.. just start up normally
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
-    /// @todo do something with the command line args here
-
-    mainWin = new Epsimulator();
-    app.setMainWidget( mainWin );
+    QApplication app(argc, argv);
+    // code to handle commandline args here
+    // might be easier to code main as KDE app to handle this
+    // and use Qt exclusively for eveything else
+    Epsimulator *mainWin = new Epsimulator();
+    app.setMainWidget(mainWin);
     mainWin->show();
-
-    args->clear();
-
-    // mainWin has WDestructiveClose flag by default, so it will delete itself.
     return app.exec();
 }
 
