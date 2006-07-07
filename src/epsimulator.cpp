@@ -59,8 +59,8 @@ void Epsimulator::closeEvent(QCloseEvent *event)
 {
     int ret = QMessageBox::question(
             this,
-            tr("Really quit?"),
-            tr("Quit EPSimulator?"),
+            i18n("Really quit?"),
+            i18n("Quit EPSimulator?"),
             QMessageBox::Yes | QMessageBox::Default,
             QMessageBox::No,
             QMessageBox::Cancel | QMessageBox::Escape);

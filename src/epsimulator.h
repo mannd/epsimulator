@@ -49,7 +49,25 @@ public:
 
 protected:
     void closeEvent(QCloseEvent * event);
+    void contextMenuEvent(QContextMenuEvent * event);
 
+private slots:
+    void newPatient();
+    void openPatient();
+    void newStudy();
+    void openStudy();
+    // Patients and studies are saved automatically when created and modified
+    // At least I think that is the Pruck behavior
+    void about();
+
+private:
+    void createActions();
+    void createMenus();
+    void createToolBars();
+    void loadPatient();
+    void savePatient();
+    void loadStudy();
+    void saveStudy();
 };
 
 #endif // _EPSIMULATOR_H_

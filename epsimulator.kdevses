@@ -1,37 +1,19 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="10" >
+ <DocsAndViews NumberOfDocuments="4" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
-   <View0 line="49" Type="Source" />
+   <View0 line="26" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/main.cpp" >
    <View0 line="36" Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.h" >
-   <View0 Type="Source" />
+   <View0 line="69" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///opt/kde3/share/doc/HTML/en/kdelibs-apidocs/kdeui/html/kmainwindow_8cpp-source.html#l00314" >
+  <Doc3 NumberOfViews="1" URL="file:///opt/kde3/share/doc/HTML/en/kdelibs-apidocs/kdeui/html/classKMainWindow.html" >
    <View0 Type="Documentation" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qmessagebox.html" >
-   <View0 Type="Documentation" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/simple-application.html#closeEvent" >
-   <View0 Type="Documentation" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qmessagebox.html" >
-   <View0 Type="Documentation" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/simple-application.html#closeEvent" >
-   <View0 Type="Documentation" />
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qmessagebox.html" >
-   <View0 Type="Documentation" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qmessagebox.html#question-2" >
-   <View0 Type="Documentation" />
-  </Doc9>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
