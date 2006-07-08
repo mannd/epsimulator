@@ -28,6 +28,7 @@
 #include <qstatusbar.h>
 #include <qpopupmenu.h>
 #include <qmenubar.h>
+#include <qaction.h>
 #include <qtable.h>		// this is a tmp central widget
 
 Epsimulator::Epsimulator()
@@ -35,21 +36,13 @@ Epsimulator::Epsimulator()
 {
     qtable = new QTable(this);
     setCentralWidget(qtable);
+
+    createActions();
+    createMenus();
+
     setCaption(tr("EP Simulator"));
 
-    QPopupMenu *menuStudy = new QPopupMenu(this);
-    QPopupMenu *menuStudyConfiguration = new QPopupMenu(this);
-    QPopupMenu *menuMeasurements = new QPopupMenu(this);
-    QPopupMenu *menuWindows = new QPopupMenu(this);
-    QPopupMenu *menuAdministration = new QPopupMenu(this);
-    QPopupMenu *menuHelp = new QPopupMenu(this);
 
-    menuBar()->insertItem(tr("&Study"), menuStudy);
-    menuBar()->insertItem(tr("Study &Configuration"), menuStudyConfiguration);
-    menuBar()->insertItem(tr("&Measurements"), menuMeasurements);
-    menuBar()->insertItem(tr("&Windows"), menuWindows);
-    menuBar()->insertItem(tr("&Administration"), menuAdministration);
-    menuBar()->insertItem(tr("&Help"), menuHelp);
 
     statusBar()->message(tr("EP Simulator has started."));
 
@@ -57,6 +50,37 @@ Epsimulator::Epsimulator()
 
 Epsimulator::~Epsimulator()
 {
+}
+
+void Epsimulator::newPatient()
+{
+}
+
+void Epsimulator::createActions()
+{
+    newPatientAct = new QAction(tr("&New Patient"), tr("Ctrl+N"), this);
+    newPatientAct->setStatusTip(tr("Create a new patient"));
+    connect(newPatientAct, SIGNAL(activated()), this, SLOT(newPatient()));
+}
+
+void Epsimulator::createMenus()
+{
+//    QPopupMenu *menuStudy = new QPopupMenu(this);
+    QPopupMenu *menuStudyConfiguration = new QPopupMenu(this);
+    QPopupMenu *menuMeasurements = new QPopupMenu(this);
+    QPopupMenu *menuWindows = new QPopupMenu(this);
+    QPopupMenu *menuAdministration = new QPopupMenu(this);
+    QPopupMenu *menuHelp = new QPopupMenu(this);
+
+    menuStudy = new QPopupMenu(this);
+    newPatientAct->addTo(menuStudy);
+
+    menuBar()->insertItem(tr("&Study"), menuStudy);
+    menuBar()->insertItem(tr("Study &Configuration"), menuStudyConfiguration);
+    menuBar()->insertItem(tr("&Measurements"), menuMeasurements);
+    menuBar()->insertItem(tr("&Windows"), menuWindows);
+    menuBar()->insertItem(tr("&Administration"), menuAdministration);
+    menuBar()->insertItem(tr("&Help"), menuHelp);
 }
 
 void Epsimulator::closeEvent(QCloseEvent *event)
@@ -74,4 +98,3 @@ void Epsimulator::closeEvent(QCloseEvent *event)
         event->ignore();
 }
 
-//#include "epsimulator.moc"

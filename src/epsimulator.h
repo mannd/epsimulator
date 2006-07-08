@@ -19,12 +19,15 @@
  ***************************************************************************/
 
 
-#ifndef _EPSIMULATOR_H_
-#define _EPSIMULATOR_H_
+#ifndef EPSIMULATOR_H
+#define EPSIMULATOR_H
 
 #include <qmainwindow.h>
 
 class QTable;
+class QAction;
+class QPopupMenu;
+
 
 class Epsimulator : public QMainWindow
 {
@@ -39,8 +42,8 @@ protected:
 //    void contextMenuEvent(QContextMenuEvent * event);
 
 private slots:
-/*    void newPatient();
-    void openPatient();
+    void newPatient();
+/*    void openPatient();
     void newStudy();
     void openStudy();
     // Patients and studies are saved automatically when created and modified
@@ -48,15 +51,17 @@ private slots:
     void about();
 */
 private:
-/*    void createActions();
+    void createActions();
     void createMenus();
-    void createToolBars();
+/*    void createToolBars();
     void loadPatient();
     void savePatient();
     void loadStudy();
     void saveStudy();
 */  
     QTable *qtable;
+    QAction *newPatientAct;
+    QPopupMenu *menuStudy;
 };
 
-#endif // _EPSIMULATOR_H_
+#endif // EPSIMULATOR_H
