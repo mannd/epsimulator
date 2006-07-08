@@ -56,30 +56,51 @@ void Epsimulator::newPatient()
 {
 }
 
+void Epsimulator::about()
+{
+    QMessageBox::about(this, tr("About EP Simulator"),
+		       tr("<h2>EP Simulator 0.1</h2>"
+		          "<p>Copyright &copy; 2006 EP Studios, Inc."
+			  "<p>EP Simulator simulates an EP recording "
+			  "system."));
+}
+
 void Epsimulator::createActions()
 {
     newPatientAct = new QAction(tr("&New Patient"), tr("Ctrl+N"), this);
     newPatientAct->setStatusTip(tr("Create a new patient"));
     connect(newPatientAct, SIGNAL(activated()), this, SLOT(newPatient()));
+
+    exitAct = new QAction(tr("E&xit"), tr("Ctrl+X"), this);
+    exitAct->setStatusTip(tr("Exit EP Simulator"));
+    connect(exitAct, SIGNAL(activated()), this, SLOT(close()));
+
+    aboutAct = new QAction(tr("&About"), 0, this);
+    aboutAct->setStatusTip(tr("About EP Simulator"));
+    connect(aboutAct, SIGNAL(activated()), this, SLOT(about()));
 }
 
 void Epsimulator::createMenus()
 {
 //    QPopupMenu *menuStudy = new QPopupMenu(this);
-    QPopupMenu *menuStudyConfiguration = new QPopupMenu(this);
-    QPopupMenu *menuMeasurements = new QPopupMenu(this);
-    QPopupMenu *menuWindows = new QPopupMenu(this);
-    QPopupMenu *menuAdministration = new QPopupMenu(this);
-    QPopupMenu *menuHelp = new QPopupMenu(this);
 
     menuStudy = new QPopupMenu(this);
     newPatientAct->addTo(menuStudy);
+    exitAct->addTo(menuStudy);
 
+    menuStudyConfiguration = new QPopupMenu(this);
+    menuMeasurements = new QPopupMenu(this);
+    menuWindows = new QPopupMenu(this);
+    menuAdministration = new QPopupMenu(this);
+    menuHelp = new QPopupMenu(this);
+    aboutAct->addTo(menuHelp);
+    
     menuBar()->insertItem(tr("&Study"), menuStudy);
     menuBar()->insertItem(tr("Study &Configuration"), menuStudyConfiguration);
     menuBar()->insertItem(tr("&Measurements"), menuMeasurements);
     menuBar()->insertItem(tr("&Windows"), menuWindows);
     menuBar()->insertItem(tr("&Administration"), menuAdministration);
+    menuBar()->insertSeparator();
     menuBar()->insertItem(tr("&Help"), menuHelp);
 }
 

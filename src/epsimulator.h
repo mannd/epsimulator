@@ -50,9 +50,15 @@ private slots:
     // At least I think that is the Prucka behavior
     void about();
 */
+
+ void about(); 
+
 private:
     void createActions();
     void createMenus();
+
+
+
 /*    void createToolBars();
     void loadPatient();
     void savePatient();
@@ -61,7 +67,16 @@ private:
 */  
     QTable *qtable;
     QAction *newPatientAct;
+
+    QAction *aboutAct;
+    QAction *exitAct;
+
     QPopupMenu *menuStudy;
+    QPopupMenu *menuStudyConfiguration;
+    QPopupMenu *menuMeasurements;
+    QPopupMenu *menuWindows;
+    QPopupMenu *menuAdministration;
+    QPopupMenu *menuHelp;
 };
 
 #endif // EPSIMULATOR_H
