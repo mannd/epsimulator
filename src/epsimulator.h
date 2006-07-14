@@ -42,7 +42,7 @@ protected:
 //    void contextMenuEvent(QContextMenuEvent * event);
 
 private slots:
-    void newPatient();
+    void patientInformation();
 /*    void openPatient();
     void newStudy();
     void openStudy();
@@ -51,7 +51,8 @@ private slots:
     void about();
 */
 
- void about(); 
+    void about();
+    void closeStudy();
 
 private:
     void createActions();
@@ -65,12 +66,23 @@ private:
     void loadStudy();
     void saveStudy();
 */  
+    // fake central widget
     QTable *qtable;
-    QAction *newPatientAct;
 
-    QAction *aboutAct;
+    // Study Menu
+    QAction *patientInformationAct;
+    QAction *consciousSedationAct;
+    // other actions in this section
+    QAction *ordersAct;
+    QAction *reportsAct;
+    QAction *exportDataAct;
+    QAction *closeStudyAct;
     QAction *exitAct;
 
+
+    QAction *aboutAct;
+    
+    // Main Menu Bar
     QPopupMenu *menuStudy;
     QPopupMenu *menuStudyConfiguration;
     QPopupMenu *menuMeasurements;

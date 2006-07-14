@@ -1,24 +1,30 @@
-<?xml version="1.0"?>
+<?xml version = '1.0'?>
 <kdevelop>
- <general>
-  <author>David Mann</author>
-  <email>mannd@epstudiossoftware.com</email>
-  <version>$VERSION$</version>
-  <projectmanagement>KDevTrollProject</projectmanagement>
-  <primarylanguage>C++</primarylanguage>
-  <keywords>
-   <keyword>Qt</keyword>
-  </keywords>
- </general>
- <kdevfileview>
-  <groups>
-   <group pattern="*.cpp;*.cxx;*.h" name="Sources" />
-   <group pattern="*.ui" name="User Interface" />
-   <group pattern="*.png" name="Icons" />
-   <group pattern="*" name="Others" />
-  </groups>
- </kdevfileview>
- <kdevdoctreeview>
+  <general>
+    <author>David Mann</author>
+    <email>mannd@epstudiossoftware.com</email>
+    <version>$VERSION$</version>
+    <projectmanagement>KDevTrollProject</projectmanagement>
+    <primarylanguage>C++</primarylanguage>
+    <keywords>
+      <keyword>Qt</keyword>
+    </keywords>
+  </general>
+  <kdevfileview>
+    <groups>
+      <group pattern="*.cpp;*.cxx;*.h" name="Sources" />
+      <group pattern="*.ui" name="User Interface" />
+      <group pattern="*.png" name="Icons" />
+      <group pattern="*" name="Others" />
+      <hidenonprojectfiles>false</hidenonprojectfiles>
+      <hidenonlocation>false</hidenonlocation>
+    </groups>
+    <tree>
+      <hidepatterns>*.o,*.lo,CVS</hidepatterns>
+      <hidenonprojectfiles>false</hidenonprojectfiles>
+    </tree>
+  </kdevfileview>
+  <kdevdoctreeview>
     <ignoretocs>
       <toc>bash</toc>
       <toc>bash_bugs</toc>
@@ -55,12 +61,12 @@
     <ignoredoxygen>
       <toc>KDE Libraries (Doxygen)</toc>
     </ignoredoxygen>
- </kdevdoctreeview>
- <kdevdebugger>
-  <general>
-   <dbgshell/>
-  </general>
- </kdevdebugger>
+  </kdevdoctreeview>
+  <kdevdebugger>
+    <general>
+      <dbgshell/>
+    </general>
+  </kdevdebugger>
   <kdevfilecreate>
     <useglobaltypes>
       <type ext="ui" />
@@ -68,4 +74,27 @@
       <type ext="h" />
     </useglobaltypes>
   </kdevfilecreate>
+  <kdevtrollproject>
+    <general>
+      <activedir>src</activedir>
+    </general>
+    <run>
+      <directoryradio>executable</directoryradio>
+    </run>
+  </kdevtrollproject>
+  <kdevcppsupport>
+    <references/>
+    <codecompletion>
+      <includeGlobalFunctions>true</includeGlobalFunctions>
+      <includeTypes>true</includeTypes>
+      <includeEnums>true</includeEnums>
+      <includeTypedefs>false</includeTypedefs>
+      <automaticCodeCompletion>true</automaticCodeCompletion>
+      <automaticArgumentsHint>true</automaticArgumentsHint>
+      <automaticHeaderCompletion>true</automaticHeaderCompletion>
+      <codeCompletionDelay>250</codeCompletionDelay>
+      <argumentsHintDelay>400</argumentsHintDelay>
+      <headerCompletionDelay>250</headerCompletionDelay>
+    </codecompletion>
+  </kdevcppsupport>
 </kdevelop>

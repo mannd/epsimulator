@@ -52,7 +52,11 @@ Epsimulator::~Epsimulator()
 {
 }
 
-void Epsimulator::newPatient()
+void Epsimulator::patientInformation()
+{
+}
+
+void Epsimulator::closeStudy()
 {
 }
 
@@ -62,20 +66,41 @@ void Epsimulator::about()
 		       tr("<h2>EP Simulator 0.1</h2>"
 		          "<p>Copyright &copy; 2006 EP Studios, Inc."
 			  "<p>EP Simulator simulates an EP recording "
-			  "system."));
+			  "system."
+                          "<p><a href=www.epstudiossoftware.com> www.epstudiossoftware.com</a>"));
+///TODO make this an actual hyperlink that you can click on and go to
 }
 
 void Epsimulator::createActions()
 {
-    newPatientAct = new QAction(tr("&New Patient"), tr("Ctrl+N"), this);
-    newPatientAct->setStatusTip(tr("Create a new patient"));
-    connect(newPatientAct, SIGNAL(activated()), this, SLOT(newPatient()));
+    // It appears the Prucka does not have typical shortcut keys and accelerator keys
+    // due to keyboard relabeling.  We'll provide some anyway.
+    patientInformationAct = new QAction(tr("&Patient Information"), 0 , this);
+    patientInformationAct->setStatusTip(tr("Create and modify patient information"));
+    connect(patientInformationAct, SIGNAL(activated()), this, SLOT(patientInformation()));
+
+    consciousSedationAct = new QAction(tr("Conscious Sedation"), tr("Ctrl+A"), this);
+    consciousSedationAct->setStatusTip(tr("Record conscious sedation information"));
+    //connect signal slot here
+
+    ordersAct = new QAction(tr("Orders"), 0, this);
+    ordersAct->setStatusTip(tr("Enter orders"));
+
+    reportsAct = new QAction(tr("Reports..."), 0, this);
+    reportsAct->setStatusTip(tr("Create procedure reports"));
+
+    exportDataAct = new QAction(tr("Export Data"), 0, this);
+    exportDataAct->setStatusTip(tr("Export data to external formats"));
+
+    closeStudyAct = new QAction(tr("&Close Study"), tr("Ctrl+C"), this);
+    closeStudyAct->setStatusTip(tr("Close patient study"));
+    connect(closeStudyAct, SIGNAL(activated()), this, SLOT(closeStudy()));
 
     exitAct = new QAction(tr("E&xit"), tr("Ctrl+X"), this);
     exitAct->setStatusTip(tr("Exit EP Simulator"));
     connect(exitAct, SIGNAL(activated()), this, SLOT(close()));
 
-    aboutAct = new QAction(tr("&About"), 0, this);
+    aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
     connect(aboutAct, SIGNAL(activated()), this, SLOT(about()));
 }
@@ -85,7 +110,16 @@ void Epsimulator::createMenus()
 //    QPopupMenu *menuStudy = new QPopupMenu(this);
 
     menuStudy = new QPopupMenu(this);
-    newPatientAct->addTo(menuStudy);
+    patientInformationAct->addTo(menuStudy);
+    menuStudy->insertSeparator();
+    consciousSedationAct->addTo(menuStudy);
+    ordersAct->addTo(menuStudy);
+    menuStudy->insertSeparator();
+    reportsAct->addTo(menuStudy);
+    menuStudy->insertSeparator();
+    exportDataAct->addTo(menuStudy);
+    menuStudy->insertSeparator();
+    closeStudyAct->addTo(menuStudy);
     exitAct->addTo(menuStudy);
 
     menuStudyConfiguration = new QPopupMenu(this);
