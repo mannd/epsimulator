@@ -100,6 +100,25 @@ void Epsimulator::createActions()
     exitAct->setStatusTip(tr("Exit EP Simulator"));
     connect(exitAct, SIGNAL(activated()), this, SLOT(close()));
 
+    // Study Configuration
+    switchAct = new QAction(tr("Switch..."), 0, this);
+    switchAct->setStatusTip(tr("Switch study configuration"));
+
+    saveAct = new QAction(tr("Save"), 0, this);
+    saveAct->setStatusTip(tr("Save study configuration"));
+
+    saveAsAct = new QAction(tr("Save As..."), 0, this);
+    saveAsAct->setStatusTip(tr("Save study configuration under different name"));
+
+    intervalsAct = new QAction(tr("Intervals"), 0, this);
+    intervalsAct->setStatusTip(tr("Configure study intervals"));
+
+    columnFormatsAct = new QAction(tr("Column Formats"), 0, this);
+    columnFormatsAct->setStatusTip(tr("Configure column formats"));
+
+    protocolsAct = new QAction(tr("Protocols"), 0, this);
+    protocolsAct->setStatusTip(tr("Configure protocols"));
+
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
     connect(aboutAct, SIGNAL(activated()), this, SLOT(about()));
@@ -123,6 +142,14 @@ void Epsimulator::createMenus()
     exitAct->addTo(menuStudy);
 
     menuStudyConfiguration = new QPopupMenu(this);
+    switchAct->addTo(menuStudyConfiguration);
+    saveAct->addTo(menuStudyConfiguration);
+    saveAsAct->addTo(menuStudyConfiguration);
+    menuStudyConfiguration->insertSeparator();
+    intervalsAct->addTo(menuStudyConfiguration);
+    columnFormatsAct->addTo(menuStudyConfiguration);
+    protocolsAct->addTo(menuStudyConfiguration);
+
     menuMeasurements = new QPopupMenu(this);
     menuWindows = new QPopupMenu(this);
     menuAdministration = new QPopupMenu(this);

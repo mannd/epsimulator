@@ -77,7 +77,16 @@ private:
     QAction *reportsAct;
     QAction *exportDataAct;
     QAction *closeStudyAct;
-    QAction *exitAct;
+    QAction *exitAct;   // not part of original Prucka menu
+
+    // Study Configuration
+    QAction *switchAct;
+    QAction *saveAct;
+    QAction *saveAsAct;
+    QAction *intervalsAct;
+    QAction *columnFormatsAct;
+    QAction *protocolsAct;
+
 
 
     QAction *aboutAct;
