@@ -87,6 +87,19 @@ private:
     QAction *columnFormatsAct;
     QAction *protocolsAct;
 
+    // Measurements
+    QAction *conductionIntervalsAct;
+    QAction *snrtAct;
+    QAction *anteRPsAct;
+    QAction *retroRPsAct;
+    QAction *manualMeasurementsAct;
+    QAction *statVitalsAct;
+    QAction *startStopNBPAct;
+    QAction *autoLogVitalsAct;
+    QAction *autoLogNBPAct;
+    QAction *measurementConfigurationAct;
+    QAction *dataExtractionAct;
+
 
 
     QAction *aboutAct;

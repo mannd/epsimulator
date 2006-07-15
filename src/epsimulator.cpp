@@ -119,6 +119,41 @@ void Epsimulator::createActions()
     protocolsAct = new QAction(tr("Protocols"), 0, this);
     protocolsAct->setStatusTip(tr("Configure protocols"));
 
+    // Measurements
+    conductionIntervalsAct = new QAction(tr("Conduction Intervals..."), 0, this);
+    conductionIntervalsAct->setStatusTip(tr("Measure conduction intervals"));
+   
+    snrtAct = new QAction(tr("SNRT..."), 0, this);
+    snrtAct->setStatusTip(tr("Measure sinus node recovery time"));
+
+    anteRPsAct = new QAction(tr("Ante RPs..."), 0, this);
+    anteRPsAct->setStatusTip(tr("Measure anterograde refractory periods"));
+
+    retroRPsAct = new QAction(tr("Retro RPs..."), 0, this);
+    retroRPsAct->setStatusTip(tr("Measure retrograde refractory periods"));
+
+    manualMeasurementsAct = new QAction(tr("Manual Measurements"), 0, this);
+    manualMeasurementsAct->setStatusTip(tr("Make manual measurements"));
+
+    statVitalsAct = new QAction(tr("Stat Vitals"), 0, this);
+    statVitalsAct->setStatusTip(tr("Record stat vital signs"));
+
+    startStopNBPAct = new QAction(tr("Start/Stop NBP"), 0, this);
+    startStopNBPAct->setStatusTip(tr("Start or stop noninvasive BP measurements"));
+
+    autoLogVitalsAct = new QAction(tr("Auto-Log Vitals"), 0, this);
+    autoLogVitalsAct->setStatusTip(tr("Auto-log vital signs"));
+
+    autoLogNBPAct = new QAction(tr("Auto-Log NBP"), 0, this);
+    autoLogNBPAct->setStatusTip(tr("Auto-log noninvasive BP measurements"));
+
+    measurementConfigurationAct = new QAction(tr("Measurement Configuration"), 0, this);
+    measurementConfigurationAct->setStatusTip(tr("Configure measurements"));
+
+    dataExtractionAct = new QAction(tr("Data Extraction"), 0, this);
+    dataExtractionAct->setStatusTip(tr("Extract data"));
+
+
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
     connect(aboutAct, SIGNAL(activated()), this, SLOT(about()));
@@ -151,6 +186,21 @@ void Epsimulator::createMenus()
     protocolsAct->addTo(menuStudyConfiguration);
 
     menuMeasurements = new QPopupMenu(this);
+    conductionIntervalsAct->addTo(menuMeasurements);
+    snrtAct->addTo(menuMeasurements);
+    anteRPsAct->addTo(menuMeasurements);
+    retroRPsAct->addTo(menuMeasurements);
+    manualMeasurementsAct->addTo(menuMeasurements);
+    menuMeasurements->insertSeparator();
+    statVitalsAct->addTo(menuMeasurements);
+    startStopNBPAct->addTo(menuMeasurements);
+    autoLogVitalsAct->addTo(menuMeasurements);
+    autoLogNBPAct->addTo(menuMeasurements);
+    menuMeasurements->insertSeparator();
+    measurementConfigurationAct->addTo(menuMeasurements);
+    menuMeasurements->insertSeparator();
+    dataExtractionAct->addTo(menuMeasurements);
+
     menuWindows = new QPopupMenu(this);
     menuAdministration = new QPopupMenu(this);
     menuHelp = new QPopupMenu(this);
