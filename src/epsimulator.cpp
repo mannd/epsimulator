@@ -166,13 +166,15 @@ void Epsimulator::createActions()
     statVitalsAct = new QAction(tr("Stat Vitals"), 0, this);
     statVitalsAct->setStatusTip(tr("Record stat vital signs"));
 
-    startStopNBPAct = new QAction(tr("Start/Stop NBP"), 0, this);
+    startStopNBPAct = new QAction(tr("Start/Stop NBP"), tr("F8"), this);
     startStopNBPAct->setStatusTip(tr("Start or stop noninvasive BP measurements"));
 
     autoLogVitalsAct = new QAction(tr("Auto-Log Vitals"), 0, this);
+    autoLogVitalsAct->setToggleAction(true);
     autoLogVitalsAct->setStatusTip(tr("Auto-log vital signs"));
 
     autoLogNBPAct = new QAction(tr("Auto-Log NBP"), 0, this);
+    autoLogNBPAct->setToggleAction(true);
     autoLogNBPAct->setStatusTip(tr("Auto-log noninvasive BP measurements"));
 
     measurementConfigurationAct = new QAction(tr("Measurement Configuration"), 0, this);
