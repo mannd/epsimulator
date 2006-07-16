@@ -106,8 +106,6 @@ private:
     QAction *measurementConfigurationAct;
     QAction *dataExtractionAct;
 
-
-
     QAction *aboutAct;
     
     // Main Menu Bar

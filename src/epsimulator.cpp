@@ -20,6 +20,7 @@
 
 
 #include "epsimulator.h"
+#include "patientinformationdialog.h"
 
 #include <qlabel.h>
 #include <qmessagebox.h>
@@ -54,6 +55,8 @@ Epsimulator::~Epsimulator()
 
 void Epsimulator::patientInformation()
 {
+    PatientInformationDialog *patientInformationDialog = new PatientInformationDialog;
+    patientInformationDialog->show();
 }
 
 void Epsimulator::closeStudy()
