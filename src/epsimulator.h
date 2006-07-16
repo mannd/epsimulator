@@ -72,7 +72,13 @@ private:
     // Study Menu
     QAction *patientInformationAct;
     QAction *consciousSedationAct;
-    // other actions in this section
+    QAction *complicationsAct;
+    QAction *radiologyAct;
+    QAction *medicationAct;
+    QAction *suppliesAct;
+    QAction *staffAct;
+    QAction *clinicalProceduresAct;
+    QAction *macrosAct;
     QAction *ordersAct;
     QAction *reportsAct;
     QAction *exportDataAct;

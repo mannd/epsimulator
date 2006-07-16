@@ -75,13 +75,38 @@ void Epsimulator::createActions()
 {
     // It appears the Prucka does not have typical shortcut keys and accelerator keys
     // due to keyboard relabeling.  We'll provide some anyway.
-    patientInformationAct = new QAction(tr("&Patient Information"), 0 , this);
+    patientInformationAct = new QAction(tr("Patient Information"), 0 , this);
     patientInformationAct->setStatusTip(tr("Create and modify patient information"));
     connect(patientInformationAct, SIGNAL(activated()), this, SLOT(patientInformation()));
 
-    consciousSedationAct = new QAction(tr("Conscious Sedation"), tr("Ctrl+A"), this);
-    consciousSedationAct->setStatusTip(tr("Record conscious sedation information"));
+    // Note that the keyboard hints are totally non-mnemotic.  Should
+    // have a function that delivers the right QString, depending on whether
+    // using Prucka compatible or simplified menu, or just have a separate
+    // set of menus -- probably that is easier -- for each configuration
+    consciousSedationAct = new QAction(tr("Conscious Sedation"), tr("Alt+A"), this);
+    consciousSedationAct->setStatusTip(tr("Conscious sedation list"));
     //connect signal slot here
+
+    complicationsAct = new QAction(tr("Complications"), tr("Alt+M"), this);
+    complicationsAct->setStatusTip(tr("Complications list"));
+
+    radiologyAct = new QAction(tr("Radiology"), tr("Alt+N"), this);
+    radiologyAct->setStatusTip(tr("Radiology list"));
+
+    medicationAct = new QAction(tr("Medications"), tr("Alt+B"), this);
+    medicationAct->setStatusTip(tr("Medication list"));
+
+    suppliesAct = new QAction(tr("Supplies"), tr("Alt+V"), this);
+    suppliesAct->setStatusTip(tr("Supplies list"));
+
+    staffAct = new QAction(tr("Staff"), tr("Alt+C"), this);
+    staffAct->setStatusTip(tr("Staff list"));
+
+    clinicalProceduresAct = new QAction(tr("Clinical Procedures"), tr("Alt+X"), this);
+    clinicalProceduresAct->setStatusTip(tr("Clinical procedures list"));
+
+    macrosAct = new QAction(tr("Macros"), tr("Alt+Z"), this);
+    macrosAct->setStatusTip(tr("Macros list"));    
 
     ordersAct = new QAction(tr("Orders"), 0, this);
     ordersAct->setStatusTip(tr("Enter orders"));
@@ -92,11 +117,11 @@ void Epsimulator::createActions()
     exportDataAct = new QAction(tr("Export Data"), 0, this);
     exportDataAct->setStatusTip(tr("Export data to external formats"));
 
-    closeStudyAct = new QAction(tr("&Close Study"), tr("Ctrl+C"), this);
+    closeStudyAct = new QAction(tr("Close Study"), 0, this);
     closeStudyAct->setStatusTip(tr("Close patient study"));
     connect(closeStudyAct, SIGNAL(activated()), this, SLOT(closeStudy()));
 
-    exitAct = new QAction(tr("E&xit"), tr("Ctrl+X"), this);
+    exitAct = new QAction(tr("Exit"), 0, this);
     exitAct->setStatusTip(tr("Exit EP Simulator"));
     connect(exitAct, SIGNAL(activated()), this, SLOT(close()));
 
@@ -120,16 +145,16 @@ void Epsimulator::createActions()
     protocolsAct->setStatusTip(tr("Configure protocols"));
 
     // Measurements
-    conductionIntervalsAct = new QAction(tr("Conduction Intervals..."), 0, this);
+    conductionIntervalsAct = new QAction(tr("Conduction Intervals..."), tr("Alt+Q"), this);
     conductionIntervalsAct->setStatusTip(tr("Measure conduction intervals"));
    
-    snrtAct = new QAction(tr("SNRT..."), 0, this);
+    snrtAct = new QAction(tr("SNRT..."), tr("Alt+W"), this);
     snrtAct->setStatusTip(tr("Measure sinus node recovery time"));
 
-    anteRPsAct = new QAction(tr("Ante RPs..."), 0, this);
+    anteRPsAct = new QAction(tr("Ante RPs..."), tr("Alt+E"), this);
     anteRPsAct->setStatusTip(tr("Measure anterograde refractory periods"));
 
-    retroRPsAct = new QAction(tr("Retro RPs..."), 0, this);
+    retroRPsAct = new QAction(tr("Retro RPs..."), tr("Alt+R"), this);
     retroRPsAct->setStatusTip(tr("Measure retrograde refractory periods"));
 
     manualMeasurementsAct = new QAction(tr("Manual Measurements"), 0, this);
@@ -167,6 +192,13 @@ void Epsimulator::createMenus()
     patientInformationAct->addTo(menuStudy);
     menuStudy->insertSeparator();
     consciousSedationAct->addTo(menuStudy);
+    complicationsAct->addTo(menuStudy);
+    radiologyAct->addTo(menuStudy);
+    medicationAct->addTo(menuStudy);
+    suppliesAct->addTo(menuStudy);
+    staffAct->addTo(menuStudy);
+    clinicalProceduresAct->addTo(menuStudy);
+    macrosAct->addTo(menuStudy);
     ordersAct->addTo(menuStudy);
     menuStudy->insertSeparator();
     reportsAct->addTo(menuStudy);
