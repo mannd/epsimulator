@@ -81,6 +81,7 @@
     <run>
       <directoryradio>executable</directoryradio>
     </run>
+    <subclassing/>
   </kdevtrollproject>
   <kdevcppsupport>
     <references/>
@@ -96,5 +97,8 @@
       <argumentsHintDelay>400</argumentsHintDelay>
       <headerCompletionDelay>250</headerCompletionDelay>
     </codecompletion>
+    <designerintegration>
+      <qtdesigner/>
+    </designerintegration>
   </kdevcppsupport>
 </kdevelop>

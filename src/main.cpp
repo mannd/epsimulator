@@ -30,7 +30,7 @@ int main(int argc, char **argv)
     // and use Qt exclusively for eveything else
     Epsimulator *mainWin = new Epsimulator();
     app.setMainWidget(mainWin);
-    mainWin->show();
+    mainWin->showMaximized();
     return app.exec();
 }
 

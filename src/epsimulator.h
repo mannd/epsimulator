@@ -106,6 +106,37 @@ private:
     QAction *measurementConfigurationAct;
     QAction *dataExtractionAct;
 
+    // Windows
+    QAction *winSaveAct;   // note that Study Config menu has duplicate names
+    QAction *winSaveAsAct;
+    QAction *winSwitchAct;
+    QAction *winDeleteAct;
+    QAction *timerAct;
+    QAction *stopwatchAct;
+    QAction *realTimeAct;
+    QAction *review1Act;
+    QAction *review2Act;
+    QAction *logAct;
+    QAction *ablationAct;
+    QAction *alignmentAct;
+    QAction *mapAct;
+    QAction *holterAct;
+    QAction *plotAct;
+    QAction *macroAct;
+    QAction *image1Act;
+    QAction *image2Act;
+    QAction *imageLibraryAct;
+
+    // Administration Menu
+    QAction *securityAct;
+    QAction *systemSettingsAct;
+    QAction *printSetupAct;
+    QAction *adminReportsAct;   // there is a Report action in the Study menu too
+    QAction *compressionRatioAct;
+    QAction *amplifierTestAct;
+    QAction *ejectOpticalDiskAct;
+    
+
     QAction *aboutAct;
     
     // Main Menu Bar

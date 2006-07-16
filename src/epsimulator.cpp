@@ -42,10 +42,11 @@ Epsimulator::Epsimulator()
     createMenus();
 
     setCaption(tr("EP Simulator"));
+    setIcon(QPixmap::fromMimeSource("hi16-app-epsimulator.png"));
 
 
 
-    statusBar()->message(tr("EP Simulator has started."));
+    statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
 
 }
 
@@ -183,6 +184,104 @@ void Epsimulator::createActions()
     dataExtractionAct = new QAction(tr("Data Extraction"), 0, this);
     dataExtractionAct->setStatusTip(tr("Extract data"));
 
+    // Windows Menu
+    winSaveAct = new QAction(tr("Save"), 0, this);
+    winSaveAct->setStatusTip(tr("Save window configuration"));
+
+    winSaveAsAct = new QAction(tr("Save As..."), 0, this);
+    winSaveAct->setStatusTip(tr("Save windows configuration as..."));
+
+    winSwitchAct = new QAction(tr("Switch..."), 0, this);
+    winSwitchAct->setStatusTip(tr("Switch windows configuration"));
+
+    winDeleteAct = new QAction(tr("Delete..."), 0, this);
+    winDeleteAct->setStatusTip(tr("Delete windows configuration"));
+
+    timerAct = new QAction(tr("Timer"), 0, this);
+    timerAct->setToggleAction(true);
+    timerAct->setStatusTip(tr("Show timer"));
+
+    stopwatchAct = new QAction(tr("Stopwatch"), 0, this);
+    stopwatchAct->setToggleAction(true);
+    stopwatchAct->setStatusTip(tr("Show stopwatch"));
+
+    realTimeAct = new QAction(tr("Real-Time"), 0, this);
+    realTimeAct->setToggleAction(true);
+    realTimeAct->setOn(true);   // for now, default to on
+    realTimeAct->setStatusTip(tr("Show real-time window"));
+
+    review1Act = new QAction(tr("Review 1"), 0, this);
+    review1Act->setToggleAction(true);
+    review1Act->setStatusTip(tr("Show review 1 window"));
+
+    review2Act = new QAction(tr("Review 2"), 0, this);
+    review2Act->setToggleAction(true);
+    review2Act->setStatusTip(tr("Show review 2 window"));
+
+    logAct = new QAction(tr("Log"), 0, this);
+    logAct->setToggleAction(true);
+    logAct->setStatusTip(tr("Show log window"));
+
+    ablationAct = new QAction(tr("Ablation"), 0, this);
+    ablationAct->setToggleAction(true);
+    ablationAct->setStatusTip(tr("Show ablation window"));
+
+    alignmentAct = new QAction(tr("Alignment"), 0, this);
+    alignmentAct->setToggleAction(true);
+    alignmentAct->setStatusTip(tr("Show alignment window"));
+
+    mapAct = new QAction(tr("Map"), 0, this);
+    mapAct->setToggleAction(true);
+    mapAct->setStatusTip(tr("Show map window"));
+
+    holterAct = new QAction(tr("Holter"), 0, this);
+    holterAct->setToggleAction(true);
+    holterAct->setStatusTip(tr("Show holter window"));
+
+    plotAct = new QAction(tr("Plot"), 0, this);
+    plotAct->setToggleAction(true);
+    plotAct->setStatusTip(tr("Show plot window"));
+
+    macroAct = new QAction(tr("Macro"), 0, this);
+    macroAct->setToggleAction(true);
+    macroAct->setStatusTip(tr("Show macro window"));
+
+    image1Act = new QAction(tr("Image 1"), 0, this);
+    image1Act->setToggleAction(true);
+    image1Act->setStatusTip(tr("Show image 1 window"));
+
+    image2Act = new QAction(tr("Image 2"), 0, this);
+    image2Act->setToggleAction(true);
+    image2Act->setStatusTip(tr("Show image 2 window"));
+
+    imageLibraryAct = new QAction(tr("Image Library"), 0, this);
+    imageLibraryAct->setToggleAction(true);
+    imageLibraryAct->setStatusTip(tr("Show image library window"));
+
+    securityAct = new QAction(tr("Security"), 0, this);
+    securityAct->setStatusTip(tr("Security settings"));
+    
+    systemSettingsAct = new QAction(tr("System Settings"), 0, this);
+    systemSettingsAct->setStatusTip(tr("Configure system settings"));
+    
+    printSetupAct = new QAction(tr("Print Setup"), 0, this);
+    printSetupAct->setStatusTip(tr("Setup printer"));
+
+    adminReportsAct = new QAction(tr("Reports"), 0, this);
+    adminReportsAct->setStatusTip(tr("Generate procedure reports"));
+    
+    compressionRatioAct = new QAction(tr("Compression Ratio"), 0, this);
+    compressionRatioAct->setStatusTip(tr("Set compression ratio"));
+
+    amplifierTestAct = new QAction(tr("Amplifier Test..."), 0, this);
+    amplifierTestAct->setStatusTip(tr("Test amplifier"));
+
+    ejectOpticalDiskAct = new QAction(tr("Eject Optical Disk"), 0, this);
+    ejectOpticalDiskAct->setStatusTip(tr("Eject optical disk"));
+    
+    
+    
+    
 
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
@@ -239,7 +338,40 @@ void Epsimulator::createMenus()
     dataExtractionAct->addTo(menuMeasurements);
 
     menuWindows = new QPopupMenu(this);
+    winSaveAct->addTo(menuWindows);
+    winSaveAsAct->addTo(menuWindows);
+    winSwitchAct->addTo(menuWindows);
+    winDeleteAct->addTo(menuWindows);
+    menuWindows->insertSeparator();
+    timerAct->addTo(menuWindows);
+    stopwatchAct->addTo(menuWindows);
+    menuWindows->insertSeparator();
+    realTimeAct->addTo(menuWindows);
+    review1Act->addTo(menuWindows);
+    review2Act->addTo(menuWindows);
+    logAct->addTo(menuWindows);
+    ablationAct->addTo(menuWindows);
+    alignmentAct->addTo(menuWindows);
+    mapAct->addTo(menuWindows);
+    holterAct->addTo(menuWindows);
+    plotAct->addTo(menuWindows);
+    macroAct->addTo(menuWindows);
+    image1Act->addTo(menuWindows);
+    image2Act->addTo(menuWindows);
+    imageLibraryAct->addTo(menuWindows);
+
     menuAdministration = new QPopupMenu(this);
+    securityAct->addTo(menuAdministration);
+    menuAdministration->insertSeparator();
+    systemSettingsAct->addTo(menuAdministration);
+    printSetupAct->addTo(menuAdministration);
+    adminReportsAct->addTo(menuAdministration);
+    menuAdministration->insertSeparator();
+    compressionRatioAct->addTo(menuAdministration);
+    amplifierTestAct->addTo(menuAdministration);
+    menuAdministration->insertSeparator();
+    ejectOpticalDiskAct->addTo(menuAdministration);
+
     menuHelp = new QPopupMenu(this);
     aboutAct->addTo(menuHelp);
     

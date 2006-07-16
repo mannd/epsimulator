@@ -5,8 +5,8 @@
 
 FORMS += patientinformationdialog.ui 
 TRANSLATIONS += epsimulator_de.ts 
-IMAGES += hi16-app-epsimulator.png \
-          hi32-app-epsimulator.png 
+IMAGES += images/hi16-app-epsimulator.png  \
+            images/hi32-app-epsimulator.png
 HEADERS += epsimulator.h 
 SOURCES += epsimulator.cpp \
            main.cpp 
