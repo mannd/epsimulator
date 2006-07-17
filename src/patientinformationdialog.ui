@@ -459,5 +459,11 @@
     <tabstop>buttonCancel</tabstop>
     <tabstop>demographicsTabWidget</tabstop>
 </tabstops>
+<includes>
+    <include location="local" impldecl="in implementation">patientinformationdialog.ui.h</include>
+</includes>
+<slots>
+    <slot>Init()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

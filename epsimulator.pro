@@ -1,6 +1,6 @@
 SUBDIRS += src
 TEMPLATE = subdirs 
-CONFIG += release \
+CONFIG += debug \
           warn_on \
           qt \
           thread 

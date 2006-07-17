@@ -5,13 +5,14 @@
 
 FORMS += patientinformationdialog.ui 
 TRANSLATIONS += epsimulator_de.ts 
-IMAGES += images/hi16-app-epsimulator.png  \
-            images/hi32-app-epsimulator.png
-HEADERS += epsimulator.h 
+IMAGES += images/hi16-app-epsimulator.png \
+          images/hi32-app-epsimulator.png 
+HEADERS += epsimulator.h \
+           patientinformationdialog.ui.h 
 SOURCES += epsimulator.cpp \
            main.cpp 
 TEMPLATE += app
-CONFIG += release \
+CONFIG += debug \
 warn_on \
 thread \
 qt

@@ -1,12 +1,12 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="6" >
+ <DocsAndViews NumberOfDocuments="5" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
-   <View0 line="45" Type="Source" />
+   <View0 line="0" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/main.cpp" >
-   <View0 line="32" Type="Source" />
+   <View0 Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.h" >
    <View0 line="29" Type="Source" />
@@ -14,19 +14,20 @@
   <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientinformationdialog.ui" >
    <View0 Type="Other" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/epsimulator.pro" >
-   <View0 line="0" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientinformationdialog.ui.h" >
+   <View0 line="12" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/src.pro" >
-   <View0 line="11" Type="Source" />
-  </Doc5>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
    <breakpointList/>
   </kdevdebugger>
   <kdevbookmarks>
-   <bookmarks/>
+   <bookmarks>
+    <bookmark url="/home/mannd/dev/epsimulator/src/patientinformationdialog.ui.h" >
+     <mark line="16" />
+    </bookmark>
+   </bookmarks>
   </kdevbookmarks>
   <kdevvalgrind>
    <executable path="" params="" />

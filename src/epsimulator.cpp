@@ -375,13 +375,13 @@ void Epsimulator::createMenus()
     menuHelp = new QPopupMenu(this);
     aboutAct->addTo(menuHelp);
     
-    menuBar()->insertItem(tr("&Study"), menuStudy);
-    menuBar()->insertItem(tr("Study &Configuration"), menuStudyConfiguration);
-    menuBar()->insertItem(tr("&Measurements"), menuMeasurements);
-    menuBar()->insertItem(tr("&Windows"), menuWindows);
-    menuBar()->insertItem(tr("&Administration"), menuAdministration);
+    menuBar()->insertItem(tr("Study"), menuStudy);
+    menuBar()->insertItem(tr("Study Configuration"), menuStudyConfiguration);
+    menuBar()->insertItem(tr("Measurements"), menuMeasurements);
+    menuBar()->insertItem(tr("Windows"), menuWindows);
+    menuBar()->insertItem(tr("Administration"), menuAdministration);
     menuBar()->insertSeparator();
-    menuBar()->insertItem(tr("&Help"), menuHelp);
+    menuBar()->insertItem(tr("Help"), menuHelp);
 }
 
 void Epsimulator::closeEvent(QCloseEvent *event)
