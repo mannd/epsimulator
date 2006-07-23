@@ -8,9 +8,13 @@ TRANSLATIONS += epsimulator_de.ts
 IMAGES += images/hi16-app-epsimulator.png \
           images/hi32-app-epsimulator.png 
 HEADERS += epsimulator.h \
-           patientinformationdialog.ui.h 
+           patientinformationdialog.ui.h \
+           navigator.h \
+           aboutepsimulator.h 
 SOURCES += epsimulator.cpp \
-           main.cpp 
+           main.cpp \
+           navigator.cpp \
+           aboutepsimulator.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
