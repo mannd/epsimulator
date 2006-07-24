@@ -27,6 +27,7 @@
 #include <qmenubar.h>
 #include <qaction.h>
 #include <qtable.h>
+#include <qmessagebox.h>
 
 Navigator::Navigator()
  : QMainWindow( 0, "navigator", WDestructiveClose )
@@ -63,7 +64,22 @@ void Navigator::createMenus()
 
 void Navigator::about()
 {
-    Epsimulator::about();
+    Epsimulator::about(this);
+}
+
+void Navigator::closeEvent(QCloseEvent *event)
+{
+    int ret = QMessageBox::question(
+            this,
+            tr("Really quit?"),
+            tr("Quit EP Simulator?"),
+            QMessageBox::Yes | QMessageBox::Default,
+            QMessageBox::No,
+            QMessageBox::Cancel | QMessageBox::Escape);
+    if (ret == QMessageBox::Yes)
+        event->accept();
+    else
+        event->ignore();
 }
 
 Navigator::~Navigator()

@@ -38,8 +38,10 @@ public:
     ~Epsimulator();
 
 protected:
-    void closeEvent(QCloseEvent * event);
 //    void contextMenuEvent(QContextMenuEvent * event);
+
+public slots:
+	static void about(QWidget *);
 
 private slots:
     void patientInformation();
@@ -50,8 +52,7 @@ private slots:
     // At least I think that is the Prucka behavior
     void about();
 */
-
-    void about();
+//    static void about(QWidget *);
     void closeStudy();
 
 private:

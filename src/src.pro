@@ -9,12 +9,10 @@ IMAGES += images/hi16-app-epsimulator.png \
           images/hi32-app-epsimulator.png 
 HEADERS += epsimulator.h \
            patientinformationdialog.ui.h \
-           navigator.h \
-           aboutepsimulator.h 
+           navigator.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
-           navigator.cpp \
-           aboutepsimulator.cpp 
+           navigator.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

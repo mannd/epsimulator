@@ -64,9 +64,9 @@ void Epsimulator::closeStudy()
 {
 }
 
-void Epsimulator::about()
+void Epsimulator::about(QWidget *parent)
 {
-    QMessageBox::about(this, tr("About EP Simulator"),
+    QMessageBox::about(parent, tr("About EP Simulator"),
 		       tr("<h2>EP Simulator 0.1</h2>"
 		          "<p>Copyright &copy; 2006 EP Studios, Inc."
 			  "<p>EP Simulator simulates an EP recording "
@@ -285,7 +285,7 @@ void Epsimulator::createActions()
 
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
-    connect(aboutAct, SIGNAL(activated()), this, SLOT(about()));
+    connect(aboutAct, SIGNAL(activated()), this, SLOT(about(this)));
 }
 
 void Epsimulator::createMenus()
@@ -384,18 +384,5 @@ void Epsimulator::createMenus()
     menuBar()->insertItem(tr("Help"), menuHelp);
 }
 
-void Epsimulator::closeEvent(QCloseEvent *event)
-{
-    int ret = QMessageBox::question(
-            this,
-            tr("Really quit?"),
-            tr("Quit EP Simulator?"),
-            QMessageBox::Yes | QMessageBox::Default,
-            QMessageBox::No,
-            QMessageBox::Cancel | QMessageBox::Escape);
-    if (ret == QMessageBox::Yes)
-        event->accept();
-    else
-        event->ignore();
-}
+
 
