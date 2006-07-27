@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>817</width>
-            <height>401</height>
+            <width>822</width>
+            <height>410</height>
         </rect>
     </property>
     <property name="caption">
@@ -27,9 +27,9 @@
         </property>
         <property name="geometry">
             <rect>
-                <x>10</x>
-                <y>360</y>
-                <width>760</width>
+                <x>11</x>
+                <y>361</y>
+                <width>780</width>
                 <height>29</height>
             </rect>
         </property>
@@ -113,7 +113,7 @@
         </property>
         <property name="geometry">
             <rect>
-                <x>10</x>
+                <x>20</x>
                 <y>10</y>
                 <width>770</width>
                 <height>340</height>
@@ -253,7 +253,7 @@
                 </property>
                 <property name="geometry">
                     <rect>
-                        <x>30</x>
+                        <x>10</x>
                         <y>40</y>
                         <width>333</width>
                         <height>240</height>
@@ -393,9 +393,9 @@
                 </property>
                 <property name="geometry">
                     <rect>
-                        <x>380</x>
+                        <x>350</x>
                         <y>40</y>
-                        <width>361</width>
+                        <width>428</width>
                         <height>240</height>
                     </rect>
                 </property>
@@ -409,17 +409,17 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QLineEdit" row="0" column="5">
+                    <widget class="QLineEdit" row="0" column="4">
                         <property name="name">
                             <cstring>heightCmLineEdit</cstring>
                         </property>
                     </widget>
-                    <widget class="QLineEdit" row="1" column="5">
+                    <widget class="QLineEdit" row="1" column="4">
                         <property name="name">
                             <cstring>WeightKgLineEdit</cstring>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="1" column="6">
+                    <widget class="QLabel" row="1" column="5">
                         <property name="name">
                             <cstring>textLabel4</cstring>
                         </property>
@@ -427,28 +427,12 @@
                             <string>kg</string>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="0" column="6">
+                    <widget class="QLabel" row="0" column="5">
                         <property name="name">
                             <cstring>textLabel2</cstring>
                         </property>
                         <property name="text">
                             <string>cm</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="0" column="4">
-                        <property name="name">
-                            <cstring>textLabel1</cstring>
-                        </property>
-                        <property name="text">
-                            <string>ft</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="1" column="4">
-                        <property name="name">
-                            <cstring>textLabel3</cstring>
-                        </property>
-                        <property name="text">
-                            <string>lbs</string>
                         </property>
                     </widget>
                     <widget class="QLabel" row="1" column="0">
@@ -473,16 +457,6 @@
                             <cstring>heightFeetLineEdit</cstring>
                         </property>
                     </widget>
-                    <widget class="QLineEdit" row="0" column="1" rowspan="1" colspan="3">
-                        <property name="name">
-                            <cstring>heightFeetLineEdit</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLineEdit" row="1" column="1" rowspan="1" colspan="3">
-                        <property name="name">
-                            <cstring>weighPoundstLineEdit</cstring>
-                        </property>
-                    </widget>
                     <widget class="QLabel" row="2" column="0">
                         <property name="name">
                             <cstring>bsaLabel</cstring>
@@ -499,7 +473,7 @@
                             <cstring>bsaLineEdit</cstring>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="2" column="3" rowspan="1" colspan="2">
+                    <widget class="QLabel" row="2" column="3">
                         <property name="name">
                             <cstring>textLabel7</cstring>
                         </property>
@@ -507,7 +481,7 @@
                             <string>m2</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="2" column="5">
+                    <widget class="QCheckBox" row="2" column="4">
                         <property name="name">
                             <cstring>manualEditBsaCheckBox</cstring>
                         </property>
@@ -518,18 +492,7 @@
                             <string></string>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="3" column="0" rowspan="2" colspan="3">
-                        <property name="name">
-                            <cstring>textLabel8</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Gender:</string>
-                        </property>
-                        <property name="buddy" stdset="0">
-                            <cstring>genderComboBox</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
+                    <widget class="QLabel" row="4" column="0" rowspan="1" colspan="2">
                         <property name="name">
                             <cstring>textLabel9</cstring>
                         </property>
@@ -540,7 +503,7 @@
                             <cstring>raceComboBox</cstring>
                         </property>
                     </widget>
-                    <widget class="QComboBox" row="4" column="2" rowspan="1" colspan="2">
+                    <widget class="QComboBox" row="3" column="2" rowspan="1" colspan="2">
                         <item>
                             <property name="text">
                                 <string>Male</string>
@@ -555,7 +518,7 @@
                             <cstring>genderComboBox</cstring>
                         </property>
                     </widget>
-                    <widget class="QComboBox" row="5" column="2" rowspan="1" colspan="2">
+                    <widget class="QComboBox" row="4" column="2" rowspan="1" colspan="2">
                         <item>
                             <property name="text">
                                 <string>Caucasian</string>
@@ -595,6 +558,43 @@
                             <cstring>raceComboBox</cstring>
                         </property>
                     </widget>
+                    <widget class="QLabel" row="3" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>textLabel8</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Gender:</string>
+                        </property>
+                        <property name="buddy" stdset="0">
+                            <cstring>genderComboBox</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLineEdit" row="0" column="1" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>heightFeetLineEdit</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLineEdit" row="1" column="1" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>weighPoundstLineEdit</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="0" column="3">
+                        <property name="name">
+                            <cstring>textLabel1</cstring>
+                        </property>
+                        <property name="text">
+                            <string>ft</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="1" column="3">
+                        <property name="name">
+                            <cstring>textLabel3</cstring>
+                        </property>
+                        <property name="text">
+                            <string>lbs</string>
+                        </property>
+                    </widget>
                 </grid>
             </widget>
         </widget>
@@ -605,6 +605,192 @@
             <attribute name="title">
                 <string>Contact</string>
             </attribute>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>SSN/SIN:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>ssnLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="4" column="0">
+                    <property name="name">
+                        <cstring>textLabel5</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Cit&amp;y:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>cityLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="5" column="0">
+                    <property name="name">
+                        <cstring>textLabel8_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Country:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>countryLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>textLabel2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Insurance info:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>insuranceLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>textLabel3_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Address:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>address1LineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="4" column="5">
+                    <property name="name">
+                        <cstring>textLabel7_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Postal code:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>postalCodeLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="7" column="0">
+                    <property name="name">
+                        <cstring>textLabel11</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Fa&amp;x:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>faxLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="0" column="2" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>ssnLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="1" column="2" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>insuranceLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="2" column="2" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>address1LineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="3" column="2" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>addess2LineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QComboBox" row="4" column="4">
+                    <property name="name">
+                        <cstring>stateComboBox</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="4" column="3">
+                    <property name="name">
+                        <cstring>textLabel6</cstring>
+                    </property>
+                    <property name="text">
+                        <string>State:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>stateComboBox</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="6" column="0">
+                    <property name="name">
+                        <cstring>textLabel9_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Home phone:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>homePhoneLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="7" column="1" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>faxLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="6" column="1" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>homePhoneLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="5" column="1" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>countryLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="4" column="1" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>cityLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="4" column="6">
+                    <property name="name">
+                        <cstring>postalCodeLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="6" column="5" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>workPhoneLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="7" column="5" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>emailLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="6" column="3" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>textLabel10</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Wor&amp;k phone:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>workPhoneLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="7" column="3" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>textLabel12</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Email:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>emailLineEdit</cstring>
+                    </property>
+                </widget>
+            </grid>
         </widget>
     </widget>
 </widget>
