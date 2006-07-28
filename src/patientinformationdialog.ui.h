@@ -10,10 +10,9 @@
 ** destructor.
 *****************************************************************************/
 
-///TODO This doesn't work right, ? why?  change to subclass and rename
-// PatientInformationDialog to PatientInformationDialogBase
 
-void PatientInformationDialog::Init()
+
+void PatientInformationDialog::init()
 {
-    studyDateEdit->setDate(QDate::currentDate());
+	studyDateEdit->setDate(QDate::currentDate());
 }

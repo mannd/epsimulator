@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     // code to handle commandline args here
     // might be easier to code main as KDE app to handle this
     // and use Qt exclusively for eveything else
-    Navigator *mainWin = new Navigator();
+    Epsimulator *mainWin = new Epsimulator();
     app.setMainWidget(mainWin);
     mainWin->showMaximized();
     return app.exec();

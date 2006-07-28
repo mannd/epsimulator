@@ -5,7 +5,7 @@
 **      images/hi16-app-epsimulator.png
 **      images/hi32-app-epsimulator.png
 **
-** Created: Sun Jul 23 22:16:18 2006
+** Created: Thu Jul 27 21:53:23 2006
 **      by: The User Interface Compiler ($Id: qt/embed.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!

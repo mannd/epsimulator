@@ -1,0 +1,5 @@
+Developer notes
+
+Problem with ui.h file.  Adding code to Form::Init() did nothing.  I had to add a new slot to the form called init(), and this was added to the end of the constructor of the Form in the generated Form.cpp file.  I still needed to have the Form::Init() function in the ui.h file.
+
+Ok, in KDevelop, add a public slot called init().  When asked for implementation class for the dialog, hit cancel.  This will create the Form.ui.h file.  Everything seems to work ok now.

@@ -139,7 +139,7 @@
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Last Name:</string>
+                    <string>Last &amp;Name:</string>
                 </property>
                 <property name="buddy" stdset="0">
                     <cstring>lastNameLineEdit</cstring>
@@ -346,7 +346,7 @@
                             <cstring>accountNumberLabel</cstring>
                         </property>
                         <property name="text">
-                            <string>Account #:</string>
+                            <string>&amp;Account #:</string>
                         </property>
                         <property name="buddy" stdset="0">
                             <cstring>accountNumberLineEdit</cstring>
@@ -821,7 +821,7 @@
     <include location="local" impldecl="in implementation">patientinformationdialog.ui.h</include>
 </includes>
 <slots>
-    <slot>Init()</slot>
+    <slot>init()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
