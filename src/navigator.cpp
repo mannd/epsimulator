@@ -17,8 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+// Basically the navigator window is the main window.  When switching to
+// the epsimulator window, we will actually just be changing the menus
+// and the central widget
+
 #include "navigator.h"
 #include "epsimulator.h"    // some menu items are duplicated in the epsimulator
+#include "patient.h"
+
                             // main window
 
 #include <qmainwindow.h>
@@ -26,14 +33,15 @@
 #include <qpopupmenu.h>
 #include <qmenubar.h>
 #include <qaction.h>
-#include <qtable.h>
 #include <qmessagebox.h>
+#include <qworkspace.h>
 
 Navigator::Navigator()
  : QMainWindow( 0, "navigator", WDestructiveClose )
 {
-    qtable = new QTable(this);
-    setCentralWidget(qtable);
+    currentPatient = new Patient;
+    workspace = new QWorkspace(this);
+    setCentralWidget(workspace);
 
     createActions();
     createMenus();

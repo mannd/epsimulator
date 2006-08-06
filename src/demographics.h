@@ -17,61 +17,57 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef NAVIGATOR_H
-#define NAVIGATOR_H
+#ifndef DEMOGRAPHICS_H
+#define DEMOGRAPHICS_H
 
-#include <qmainwindow.h>
-
-class QAction;
-class QPopupMenu;
-class QWorkspace;
-class Patient;
+#include <qstring.h>
+#include <qdatetime.h>
 
 /**
+Patient demographics are stored here.  A Demographics instance is part of the Patient class.
+This is basically a struct, the data members are public.  Data is validated by the entry
+form.  The only real processing is the BSA.
+ 
 	@author David Mann <mannd@epstudiossoftware.com>
 */
-class Navigator : public QMainWindow
+
+class Demographics
 {
-    Q_OBJECT
-
 public:
-    Navigator();
-    ~Navigator();
+    enum Sex {male, female};
 
-protected:
-    void closeEvent(QCloseEvent * event);
-    //    void contextMenuEvent(QContextMenuEvent * event);
+    Demographics();
 
-private slots:
-    //    void patientInformation();
-    /*    void openPatient();
-        void newStudy();
-        void openStudy();
-        // Patients and studies are saved automatically when created and modified
-        // At least I think that is the Prucka behavior
-        void about();
-    */
+    QString lastName;
+    QString firstName;
+    QString middleName;
+    QString mrn;	// medical record number
+    QDate dateOfBirth;
+    double height;	// use metric units: cm for height, convert to English in form
+    double weight;	// in kg
+    bool bsaManualEdit;
+    Sex sex;
+    QString race;
+    QString ssn;
+    QString insurance;
+    QString address1;
+    QString address2;
+    QString city;
+    QString state;
+    QString postalCode;
+    QString country;
+    QString homePhone;
+    QString workPhone;
+    QString fax;
+    QString email;
 
-    void about();
+    double bsa() const;    // calculated or manually edited
+    void setManualBsa(const int value) {manualBsa = value;}  //
+
+    ~Demographics();
 
 private:
-    Patient *currentPatient;
-    void createActions();
-    void createMenus();
-
-
-
-    /*    void createToolBars();
-        void loadPatient();
-        void savePatient();
-        void loadStudy();
-        void saveStudy();
-    */
-    // fake central widget
-    QWorkspace *workspace;
-    QAction *aboutAct;
-
-    QPopupMenu *menuHelp;
+    double manualBsa;  //manually entered BSA in m2
 
 };
 

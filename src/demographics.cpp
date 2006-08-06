@@ -17,62 +17,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef NAVIGATOR_H
-#define NAVIGATOR_H
+#include "demographics.h"
+#include <math.h>
 
-#include <qmainwindow.h>
+Demographics::Demographics()
+{}
 
-class QAction;
-class QPopupMenu;
-class QWorkspace;
-class Patient;
-
-/**
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class Navigator : public QMainWindow
+double Demographics::bsa() const
 {
-    Q_OBJECT
+    if (bsaManualEdit)
+        return manualBsa;
+    else
+        return sqrt((height * weight)/3600);
+}
 
-public:
-    Navigator();
-    ~Navigator();
-
-protected:
-    void closeEvent(QCloseEvent * event);
-    //    void contextMenuEvent(QContextMenuEvent * event);
-
-private slots:
-    //    void patientInformation();
-    /*    void openPatient();
-        void newStudy();
-        void openStudy();
-        // Patients and studies are saved automatically when created and modified
-        // At least I think that is the Prucka behavior
-        void about();
-    */
-
-    void about();
-
-private:
-    Patient *currentPatient;
-    void createActions();
-    void createMenus();
+Demographics::~Demographics()
+{}
 
 
-
-    /*    void createToolBars();
-        void loadPatient();
-        void savePatient();
-        void loadStudy();
-        void saveStudy();
-    */
-    // fake central widget
-    QWorkspace *workspace;
-    QAction *aboutAct;
-
-    QPopupMenu *menuHelp;
-
-};
-
-#endif

@@ -23,8 +23,9 @@
 #define EPSIMULATOR_H
 
 #include <qmainwindow.h>
+#include <qworkspace.h>
 
-class QTable;
+class QWorkspace;
 class QAction;
 class QPopupMenu;
 
@@ -38,21 +39,21 @@ public:
     ~Epsimulator();
 
 protected:
-//    void contextMenuEvent(QContextMenuEvent * event);
+    //    void contextMenuEvent(QContextMenuEvent * event);
 
 public slots:
-	static void about(QWidget *);
+    static void about(QWidget *);
 
 private slots:
     void patientInformation();
-/*    void openPatient();
-    void newStudy();
-    void openStudy();
-    // Patients and studies are saved automatically when created and modified
-    // At least I think that is the Prucka behavior
-    void about();
-*/
-//    static void about(QWidget *);
+    /*    void openPatient();
+        void newStudy();
+        void openStudy();
+        // Patients and studies are saved automatically when created and modified
+        // At least I think that is the Prucka behavior
+        void about();
+    */
+    //    static void about(QWidget *);
     void closeStudy();
 
 private:
@@ -61,14 +62,14 @@ private:
 
 
 
-/*    void createToolBars();
-    void loadPatient();
-    void savePatient();
-    void loadStudy();
-    void saveStudy();
-*/  
+    /*    void createToolBars();
+        void loadPatient();
+        void savePatient();
+        void loadStudy();
+        void saveStudy();
+    */
     // fake central widget
-    QTable *qtable;
+    QWorkspace *workspace;
 
     // Study Menu
     QAction *patientInformationAct;
@@ -136,10 +137,10 @@ private:
     QAction *compressionRatioAct;
     QAction *amplifierTestAct;
     QAction *ejectOpticalDiskAct;
-    
+
 
     QAction *aboutAct;
-    
+
     // Main Menu Bar
     QPopupMenu *menuStudy;
     QPopupMenu *menuStudyConfiguration;

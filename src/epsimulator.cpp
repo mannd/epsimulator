@@ -30,13 +30,13 @@
 #include <qpopupmenu.h>
 #include <qmenubar.h>
 #include <qaction.h>
-#include <qtable.h>		// this is a tmp central widget
+#include <qworkspace.h>		// this is a tmp central widget
 
 Epsimulator::Epsimulator()
     : QMainWindow( 0, "epsimulator", WDestructiveClose )
 {
-    qtable = new QTable(this);
-    setCentralWidget(qtable);
+    workspace = new QWorkspace(this);
+    setCentralWidget(workspace);
 
     createActions();
     createMenus();

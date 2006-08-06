@@ -17,62 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef NAVIGATOR_H
-#define NAVIGATOR_H
+#include "patient.h"
 
-#include <qmainwindow.h>
-
-class QAction;
-class QPopupMenu;
-class QWorkspace;
-class Patient;
-
-/**
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class Navigator : public QMainWindow
+Patient::Patient()
 {
-    Q_OBJECT
-
-public:
-    Navigator();
-    ~Navigator();
-
-protected:
-    void closeEvent(QCloseEvent * event);
-    //    void contextMenuEvent(QContextMenuEvent * event);
-
-private slots:
-    //    void patientInformation();
-    /*    void openPatient();
-        void newStudy();
-        void openStudy();
-        // Patients and studies are saved automatically when created and modified
-        // At least I think that is the Prucka behavior
-        void about();
-    */
-
-    void about();
-
-private:
-    Patient *currentPatient;
-    void createActions();
-    void createMenus();
+}
 
 
+Patient::~Patient()
+{
+}
 
-    /*    void createToolBars();
-        void loadPatient();
-        void savePatient();
-        void loadStudy();
-        void saveStudy();
-    */
-    // fake central widget
-    QWorkspace *workspace;
-    QAction *aboutAct;
 
-    QPopupMenu *menuHelp;
-
-};
-
-#endif
