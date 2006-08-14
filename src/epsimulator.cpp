@@ -18,10 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-#include "epsimulator.h"
-#include "patientinformationdialog.h"
-
 #include <qlabel.h>
 #include <qmessagebox.h>
 
@@ -31,6 +27,9 @@
 #include <qmenubar.h>
 #include <qaction.h>
 #include <qworkspace.h>		// this is a tmp central widget
+
+#include "epsimulator.h"
+#include "patientinformationdialog.h"
 
 Epsimulator::Epsimulator()
     : QMainWindow( 0, "epsimulator", WDestructiveClose )
@@ -125,9 +124,6 @@ void Epsimulator::createActions()
     closeStudyAct->setStatusTip(tr("Close patient study"));
     connect(closeStudyAct, SIGNAL(activated()), this, SLOT(closeStudy()));
 
-    exitAct = new QAction(tr("Exit"), 0, this);
-    exitAct->setStatusTip(tr("Exit EP Simulator"));
-    connect(exitAct, SIGNAL(activated()), this, SLOT(close()));
 
     // Study Configuration
     switchAct = new QAction(tr("Switch..."), 0, this);
@@ -310,7 +306,6 @@ void Epsimulator::createMenus()
     exportDataAct->addTo(menuStudy);
     menuStudy->insertSeparator();
     closeStudyAct->addTo(menuStudy);
-    exitAct->addTo(menuStudy);
 
     menuStudyConfiguration = new QPopupMenu(this);
     switchAct->addTo(menuStudyConfiguration);

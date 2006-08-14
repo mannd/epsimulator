@@ -85,7 +85,6 @@ private:
     QAction *reportsAct;
     QAction *exportDataAct;
     QAction *closeStudyAct;
-    QAction *exitAct;   // not part of original Prucka menu
 
     // Study Configuration
     QAction *switchAct;
@@ -140,7 +139,7 @@ private:
 
 
     QAction *aboutAct;
-
+    ///TODO change format menuStudy to studyMenu throughout
     // Main Menu Bar
     QPopupMenu *menuStudy;
     QPopupMenu *menuStudyConfiguration;

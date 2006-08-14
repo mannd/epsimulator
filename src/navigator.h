@@ -69,9 +69,37 @@ private:
     */
     // fake central widget
     QWorkspace *workspace;
+
+    // Study menu
+    QAction *newAct;
+    QAction *continueAct;
+    QAction *reviewAct;
+    QAction *preregisterAct;
+    QAction *reportsAct;
+    QAction *copyAct;
+    QAction *deleteAct;
+    QAction *exportAct;
+    QAction *exitAct;
+
+    // Administration menu
+    QAction *loginAct;
+    QAction *logoutAct;
+    QAction *changePasswordAct;
+    QAction *intervalsAct;
+    QAction *columnFormatsAct;
+    QAction *protocolsAct;
+    QAction *studyConfigurationsAct;
+    QAction *systemSettingsAct;
+
+
     QAction *aboutAct;
 
-    QPopupMenu *menuHelp;
+    QPopupMenu *studyMenu;
+    QPopupMenu *catalogMenu;
+    QPopupMenu *utilitiesMenu;
+    QPopupMenu *administrationMenu;
+    QPopupMenu *securitySubMenu;
+    QPopupMenu *helpMenu;
 
 };
 
