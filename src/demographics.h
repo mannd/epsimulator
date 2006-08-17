@@ -34,32 +34,24 @@ form.  The only real processing is the BSA.
 class Demographics
 {
 public:
-    enum Sex {male, female};
+ 
 
     Demographics();
 
+    // using public data members for now?
+    // we only include characteristics needed for the simulator
     QString lastName;
     QString firstName;
     QString middleName;
     QString mrn;	// medical record number
     QDate dateOfBirth;
+    enum Sex {male, female};
+    Sex sex;
+    QString race;
+    // should below be in patient or in study?  These change over time
     double height;	// use metric units: cm for height, convert to English in form
     double weight;	// in kg
     bool bsaManualEdit;
-    Sex sex;
-    QString race;
-    QString ssn;
-    QString insurance;
-    QString address1;
-    QString address2;
-    QString city;
-    QString state;
-    QString postalCode;
-    QString country;
-    QString homePhone;
-    QString workPhone;
-    QString fax;
-    QString email;
 
     double bsa() const;    // calculated or manually edited
     void setManualBsa(const int value) {manualBsa = value;}  //

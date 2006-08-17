@@ -21,9 +21,12 @@
 #define PATIENT_H
 
 #include "demographics.h"
+class Heart;
+class AutonomicTone;
 
 /**
-The Patient class includes demographics, drugs, autonomic tone, and the heart classes.
+The Patient class includes demographics, baseline autonomic tone, and the heart classes.
+Drugs and sedation are part of the specific Study for each patient.
  
 	@author David Mann <mannd@epstudiossoftware.com>
 */
@@ -32,9 +35,12 @@ class Patient
 public:
     Patient();
     Demographics demographics;
-
+    
     ~Patient();
 
+private:
+    Heart *heart;
+    AutonomicTone *autonomicTone;
 };
 
 #endif
