@@ -26,8 +26,6 @@ Patient::Patient()
 
 Patient::~Patient()
 {
-    delete heart;
-    delete autonomicTone;
 }
 
 

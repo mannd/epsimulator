@@ -20,27 +20,76 @@
 #ifndef PATIENT_H
 #define PATIENT_H
 
-#include "demographics.h"
-class Heart;
-class AutonomicTone;
-
 /**
-The Patient class includes demographics, baseline autonomic tone, and the heart classes.
-Drugs and sedation are part of the specific Study for each patient.
+The Patient class includes demographics, baseline autonomic tone, ejection fraction, diagnoses and the heart classes.  Drugs and sedation are part of the specific Study for each patient.
  
 	@author David Mann <mannd@epstudiossoftware.com>
 */
-class Patient
-{
+
+#include <qstring.h>
+#include <qdatetime.h>
+
+class Heart;
+
+struct Name {
+    QString firstName;
+    QString lastName;
+    QString middleInitial;
+};
+
+typedef int AutonomicTone;
+
+enum Sex {MALE, FEMALE};
+
+class Patient {
 public:
     Patient();
-    Demographics demographics;
-    
-    ~Patient();
 
+    Name name() const {
+        return theName;
+    };
+    QString fullName(bool lastFirst = false,
+                     bool useMiddleName = false) const;
+    QString mrn() const {
+        return theMrn;
+    }
+    QDate dateOfBirth() const {
+        return theDateOfBirth;
+    }
+    Sex sex() const {
+        return theSex;
+    }
+    double height() const {
+        return theHeight;
+    }
+    double weight() const {
+        return theWeight;
+    }
+    double bsa() const;
+
+    void setManualBsa(const int value) {
+        manualBsa = value;
+    }  //
+
+    ~Patient();
 private:
-    Heart *heart;
-    AutonomicTone *autonomicTone;
+    Name theName;
+    QString theMrn;	// medical record number
+    QDate theDateOfBirth;
+    Sex theSex;
+    // should below be in patient or in study?  These change over time
+    double theHeight;	// use metric units: cm for height, convert to English in form
+    double theWeight;	// in kg
+    double theBsa() const;    // calculated or manually edited
+    double manualBsa;  //manually entered BSA in m2
+
+    Heart heart;
+    AutonomicTone vagalTone;
+    AutonomicTone sympatheticTone;
+    int ef;
+    bool ischemia;
+    // other factors?
+
 };
 
 #endif

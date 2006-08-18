@@ -11,12 +11,10 @@ IMAGES += images/hi16-app-epsimulator.png \
 HEADERS += epsimulator.h \
            patientinformationdialog.ui.h \
            navigator.h \
-           demographics.h \
            patient.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
-           demographics.cpp \
            patient.cpp 
 TEMPLATE += app
 CONFIG += debug \
