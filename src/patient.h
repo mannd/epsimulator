@@ -82,8 +82,9 @@ private:
     double theWeight;	// in kg
     double theBsa() const;    // calculated or manually edited
     double manualBsa;  //manually entered BSA in m2
+    bool bsaManualEdit;
 
-    Heart heart;
+    Heart *heart;
     AutonomicTone vagalTone;
     AutonomicTone sympatheticTone;
     int ef;

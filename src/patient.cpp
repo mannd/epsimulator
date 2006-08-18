@@ -17,15 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <math.h>
+
 #include "patient.h"
 
-Patient::Patient()
-{
+Patient::Patient() {}
+
+double Patient::bsa() const {
+    if (bsaManualEdit)
+        return manualBsa;
+    else
+        return sqrt((theHeight * theWeight)/3600);
 }
 
 
-Patient::~Patient()
-{
-}
+Patient::~Patient() {}
 
 
