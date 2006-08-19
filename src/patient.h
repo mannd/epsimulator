@@ -45,31 +45,27 @@ class Patient {
 public:
     Patient();
 
-    Name name() const {
-        return theName;
-    };
+    Name name() const {return theName;};
     QString fullName(bool lastFirst = false,
                      bool useMiddleName = false) const;
-    QString mrn() const {
-        return theMrn;
-    }
-    QDate dateOfBirth() const {
-        return theDateOfBirth;
-    }
-    Sex sex() const {
-        return theSex;
-    }
-    double height() const {
-        return theHeight;
-    }
-    double weight() const {
-        return theWeight;
-    }
+    QString mrn() const {return theMrn;}
+    QDate dateOfBirth() const {return theDateOfBirth;}
+    Sex sex() const {return theSex;}
+    double height() const {return theHeight;}
+    double weight() const {return theWeight;}
     double bsa() const;
+    bool bsaManualEdit() const {return doBsaManualEdit;}
+    int ef() {return theEf;}
+    bool ischemia() {return hasIschemia;}
+    AutonomicTone vagalTone() {return theVagalTone;}
+    AutonomicTone sympatheticTone() {return theSympatheticTone;}
 
-    void setManualBsa(const int value) {
-        manualBsa = value;
-    }  //
+    void setManualBsa(const int value) {theManualBsa = value;}
+    void setName(Name value);
+    void setMrn(QString value) {theMrn = value;}
+    void setHeight(double value) {theHeight = value;}
+    void setWeight(double value) {theWeight = value;}
+    void setBsaManualEdit(bool value) {doBsaManualEdit = value;}
 
     ~Patient();
 private:
@@ -78,17 +74,18 @@ private:
     QDate theDateOfBirth;
     Sex theSex;
     // should below be in patient or in study?  These change over time
-    double theHeight;	// use metric units: cm for height, convert to English in form
+    double theHeight;	// use metric units: cm for height,
+                        //convert to English in form
     double theWeight;	// in kg
     double theBsa() const;    // calculated or manually edited
-    double manualBsa;  //manually entered BSA in m2
-    bool bsaManualEdit;
+    double theManualBsa;  //manually entered BSA in m2
+    bool doBsaManualEdit;
 
     Heart *heart;
-    AutonomicTone vagalTone;
-    AutonomicTone sympatheticTone;
-    int ef;
-    bool ischemia;
+    AutonomicTone theVagalTone;
+    AutonomicTone theSympatheticTone;
+    int theEf;
+    bool hasIschemia;
     // other factors?
 
 };

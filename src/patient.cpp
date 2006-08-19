@@ -24,8 +24,8 @@
 Patient::Patient() {}
 
 double Patient::bsa() const {
-    if (bsaManualEdit)
-        return manualBsa;
+    if (doBsaManualEdit)
+        return theManualBsa;
     else
         return sqrt((theHeight * theWeight)/3600);
 }
