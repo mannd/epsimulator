@@ -2,4 +2,17 @@ Developer notes
 
 Problem with ui.h file.  Adding code to Form::Init() did nothing.  I had to add a new slot to the form called init(), and this was added to the end of the constructor of the Form in the generated Form.cpp file.  I still needed to have the Form::Init() function in the ui.h file.
 
-Ok, in KDevelop, add a public slot called init().  When asked for implementation class for the dialog, hit cancel.  This will create the Form.ui.h file.  Everything seems to work ok now.
+Ok, in KDevelop, add a public slot called init().  When asked for
+implementation class for the dialog, hit cancel.  This will create the
+Form.ui.h file.  Everything seems to work ok now.
+
+Source code formatting
+
+Will stick to Bruce Eckel convention of starting brace always at end of line.
+indent with spaces 4 spaces.
+Header files go from most specific to general as in Eckel.
+Will use the get and set convention for member functions.
+private variables will end in underscore.
+enums, consts and defines will be all caps.
+Typedefs will be capitalized.
+

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>634</width>
-            <height>667</height>
+            <width>628</width>
+            <height>576</height>
         </rect>
     </property>
     <property name="caption">
@@ -18,337 +18,383 @@
     <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
-    <widget class="QLayoutWidget">
+    <grid>
         <property name="name">
-            <cstring>layout5</cstring>
+            <cstring>unnamed</cstring>
         </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>10</y>
-                <width>610</width>
-                <height>580</height>
-            </rect>
-        </property>
-        <grid>
+        <widget class="QLabel" row="3" column="0">
             <property name="name">
-                <cstring>unnamed</cstring>
+                <cstring>textLabel4</cstring>
             </property>
-            <widget class="QLabel" row="8" column="0">
+            <property name="text">
+                <string>Date of Birth:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>dobDateEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel3</cstring>
+            </property>
+            <property name="text">
+                <string>Middle Name:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>middleNameLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="0" column="2" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>lastNameLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="1" column="2" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>firstNameLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="2" column="2" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>middleNameLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QDateEdit" row="3" column="2" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>dobDateEdit</cstring>
+            </property>
+            <property name="date">
+                <date>
+                    <year>1960</year>
+                    <month>1</month>
+                    <day>1</day>
+                </date>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>textLabel2</cstring>
+            </property>
+            <property name="text">
+                <string>First Name:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>firstNameLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Last Name:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>lastNameLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="11" column="0" rowspan="1" colspan="7">
+            <property name="name">
+                <cstring>layout3</cstring>
+            </property>
+            <hbox>
                 <property name="name">
-                    <cstring>textLabel13</cstring>
+                    <cstring>unnamed</cstring>
                 </property>
-                <property name="text">
-                    <string>Vagal Tone:</string>
-                </property>
-            </widget>
-            <widget class="QSpinBox" row="8" column="5">
-                <property name="name">
-                    <cstring>spinBox2</cstring>
-                </property>
-                <property name="maxValue">
-                    <number>100</number>
-                </property>
-                <property name="minValue">
-                    <number>1</number>
-                </property>
-                <property name="value">
-                    <number>50</number>
-                </property>
-            </widget>
-            <widget class="QLabel" row="6" column="0" rowspan="1" colspan="4">
-                <property name="name">
-                    <cstring>textLabel12</cstring>
-                </property>
-                <property name="text">
-                    <string>Calculated BSA:                       m2</string>
-                </property>
-            </widget>
-            <widget class="QLabel" row="3" column="0">
-                <property name="name">
-                    <cstring>textLabel4</cstring>
-                </property>
-                <property name="text">
-                    <string>Date of Birth:</string>
-                </property>
-            </widget>
-            <widget class="QComboBox" row="7" column="2" rowspan="1" colspan="2">
-                <item>
-                    <property name="text">
-                        <string>default</string>
-                    </property>
-                </item>
-                <property name="name">
-                    <cstring>comboBox5</cstring>
-                </property>
-            </widget>
-            <widget class="QLineEdit" row="1" column="2" rowspan="1" colspan="3">
-                <property name="name">
-                    <cstring>lineEdit24</cstring>
-                </property>
-            </widget>
-            <widget class="QSpinBox" row="8" column="1">
-                <property name="name">
-                    <cstring>spinBox1</cstring>
-                </property>
-                <property name="maxValue">
-                    <number>100</number>
-                </property>
-                <property name="minValue">
-                    <number>1</number>
-                </property>
-                <property name="value">
-                    <number>50</number>
-                </property>
-            </widget>
-            <widget class="QLabel" row="4" column="0">
-                <property name="name">
-                    <cstring>textLabel6</cstring>
-                </property>
-                <property name="text">
-                    <string>Height:</string>
-                </property>
-            </widget>
-            <widget class="QComboBox" row="5" column="4">
-                <item>
-                    <property name="text">
-                        <string>lbs</string>
-                    </property>
-                </item>
-                <item>
-                    <property name="text">
-                        <string>kg</string>
-                    </property>
-                </item>
-                <property name="name">
-                    <cstring>comboBox7</cstring>
-                </property>
-            </widget>
-            <widget class="QComboBox" row="4" column="4">
-                <item>
-                    <property name="text">
-                        <string>inches</string>
-                    </property>
-                </item>
-                <item>
-                    <property name="text">
-                        <string>cm</string>
-                    </property>
-                </item>
-                <property name="name">
-                    <cstring>comboBox6</cstring>
-                </property>
-            </widget>
-            <widget class="QLineEdit" row="0" column="2" rowspan="1" colspan="3">
-                <property name="name">
-                    <cstring>lineEdit23</cstring>
-                </property>
-            </widget>
-            <widget class="QDateEdit" row="3" column="2" rowspan="1" colspan="2">
-                <property name="name">
-                    <cstring>dateEdit3</cstring>
-                </property>
-            </widget>
-            <widget class="QLabel" row="5" column="0">
-                <property name="name">
-                    <cstring>textLabel11</cstring>
-                </property>
-                <property name="text">
-                    <string>Weight:</string>
-                </property>
-            </widget>
-            <widget class="QLineEdit" row="2" column="2" rowspan="1" colspan="3">
-                <property name="name">
-                    <cstring>lineEdit25</cstring>
-                </property>
-            </widget>
-            <widget class="QButtonGroup" row="9" column="0" rowspan="1" colspan="3">
-                <property name="name">
-                    <cstring>buttonGroup1</cstring>
-                </property>
-                <property name="title">
-                    <string>buttonGroup1</string>
-                </property>
-                <grid>
+                <spacer>
                     <property name="name">
-                        <cstring>unnamed</cstring>
+                        <cstring>Horizontal Spacing2</cstring>
                     </property>
-                    <widget class="QCheckBox" row="0" column="0" rowspan="2" colspan="1">
-                        <property name="name">
-                            <cstring>checkBox2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>chec&amp;kBox2</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+K</string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="2" column="0">
-                        <property name="name">
-                            <cstring>checkBox3</cstring>
-                        </property>
-                        <property name="text">
-                            <string>check&amp;Box3</string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="3" column="0">
-                        <property name="name">
-                            <cstring>checkBox4</cstring>
-                        </property>
-                        <property name="text">
-                            <string>checkBo&amp;x4</string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="0" column="1">
-                        <property name="name">
-                            <cstring>checkBox5</cstring>
-                        </property>
-                        <property name="text">
-                            <string>checkBox&amp;5</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+5</string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="1" column="1" rowspan="2" colspan="1">
-                        <property name="name">
-                            <cstring>checkBox6</cstring>
-                        </property>
-                        <property name="text">
-                            <string>checkBox&amp;6</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+6</string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="3" column="1">
-                        <property name="name">
-                            <cstring>checkBox7</cstring>
-                        </property>
-                        <property name="text">
-                            <string>checkBox&amp;7</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+7</string>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
-            <widget class="QLabel" row="8" column="3" rowspan="1" colspan="2">
-                <property name="name">
-                    <cstring>textLabel14</cstring>
-                </property>
-                <property name="text">
-                    <string>Sympathetic Tone:</string>
-                </property>
-            </widget>
-            <widget class="QLabel" row="0" column="0">
-                <property name="name">
-                    <cstring>textLabel1</cstring>
-                </property>
-                <property name="text">
-                    <string>Last Name:</string>
-                </property>
-            </widget>
-            <widget class="QLabel" row="2" column="0">
-                <property name="name">
-                    <cstring>textLabel3</cstring>
-                </property>
-                <property name="text">
-                    <string>Middle Name:</string>
-                </property>
-            </widget>
-            <widget class="QLabel" row="1" column="0">
-                <property name="name">
-                    <cstring>textLabel2</cstring>
-                </property>
-                <property name="text">
-                    <string>First Name:</string>
-                </property>
-            </widget>
-            <widget class="QLabel" row="7" column="0">
-                <property name="name">
-                    <cstring>textLabel5</cstring>
-                </property>
-                <property name="text">
-                    <string>Heart:</string>
-                </property>
-            </widget>
-        </grid>
-    </widget>
-    <widget class="QLayoutWidget">
-        <property name="name">
-            <cstring>Layout1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>610</y>
-                <width>610</width>
-                <height>34</height>
-            </rect>
-        </property>
-        <hbox>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>426</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Save</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+S</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QSpinBox" row="9" column="6">
             <property name="name">
-                <cstring>unnamed</cstring>
+                <cstring>sympatheticToneSpinBox</cstring>
             </property>
-            <property name="margin">
-                <number>0</number>
+            <property name="maxValue">
+                <number>100</number>
             </property>
-            <property name="spacing">
-                <number>6</number>
+            <property name="minValue">
+                <number>1</number>
             </property>
-            <spacer>
-                <property name="name">
-                    <cstring>Horizontal Spacing2</cstring>
-                </property>
-                <property name="orientation">
-                    <enum>Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>20</width>
-                        <height>20</height>
-                    </size>
-                </property>
-            </spacer>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>buttonOk</cstring>
-                </property>
+            <property name="value">
+                <number>50</number>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="5" column="2" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>heightLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="7" column="5" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>manualEditBsaCheckBox</cstring>
+            </property>
+            <property name="text">
+                <string>Manual Edit BSA</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="7" column="2" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>bsaLineEdit</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="6" column="0">
+            <property name="name">
+                <cstring>textLabel11</cstring>
+            </property>
+            <property name="text">
+                <string>Weight (kg):</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>weightLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="10" column="5" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>ischemiaCheckBox</cstring>
+            </property>
+            <property name="text">
+                <string>Ischemia</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="9" column="1">
+            <property name="name">
+                <cstring>vagalToneSpinBox</cstring>
+            </property>
+            <property name="maxValue">
+                <number>100</number>
+            </property>
+            <property name="minValue">
+                <number>1</number>
+            </property>
+            <property name="value">
+                <number>50</number>
+            </property>
+        </widget>
+        <widget class="QLabel" row="8" column="0">
+            <property name="name">
+                <cstring>textLabel5</cstring>
+            </property>
+            <property name="text">
+                <string>Heart:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>heartComboBox</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="6" column="2" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>weightLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="5" column="5" rowspan="1" colspan="2">
+            <item>
                 <property name="text">
-                    <string>&amp;Save</string>
+                    <string>inches</string>
                 </property>
-                <property name="accel">
-                    <string>Alt+S</string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>buttonCancel</cstring>
-                </property>
+            </item>
+            <item>
                 <property name="text">
-                    <string>&amp;Cancel</string>
+                    <string>cm</string>
                 </property>
-                <property name="accel">
-                    <string></string>
+            </item>
+            <property name="name">
+                <cstring>heightUnitsComboBox</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="9" column="0">
+            <property name="name">
+                <cstring>textLabel13</cstring>
+            </property>
+            <property name="text">
+                <string>Vagal Tone:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>vagalToneSpinBox</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="9" column="4" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel14</cstring>
+            </property>
+            <property name="text">
+                <string>Sympathetic Tone:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>sympatheticToneSpinBox</cstring>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="6" column="5" rowspan="1" colspan="2">
+            <item>
+                <property name="text">
+                    <string>lbs</string>
                 </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
+            </item>
+            <item>
+                <property name="text">
+                    <string>kg</string>
                 </property>
-            </widget>
-        </hbox>
-    </widget>
+            </item>
+            <property name="name">
+                <cstring>weightUnitsComboBox</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel12</cstring>
+            </property>
+            <property name="text">
+                <string>BSA (m2):</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>bsaLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="0">
+            <property name="name">
+                <cstring>textLabel6</cstring>
+            </property>
+            <property name="text">
+                <string>Height (cm2):</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>heightLineEdit</cstring>
+            </property>
+        </widget>
+        <spacer row="9" column="2" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>spacer3</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>40</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <spacer row="10" column="3" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>40</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QSpinBox" row="10" column="2">
+            <property name="name">
+                <cstring>efSpinBox</cstring>
+            </property>
+            <property name="maxValue">
+                <number>100</number>
+            </property>
+            <property name="minValue">
+                <number>1</number>
+            </property>
+            <property name="value">
+                <number>50</number>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="8" column="2" rowspan="1" colspan="3">
+            <item>
+                <property name="text">
+                    <string>default</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>heartComboBox</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="10" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>Ejection Fraction (%):</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>efSpinBox</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="4" column="2" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>mrnLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="4" column="0">
+            <property name="name">
+                <cstring>textLabel2_2</cstring>
+            </property>
+            <property name="text">
+                <string>MRN:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>mrnLineEdit</cstring>
+            </property>
+        </widget>
+    </grid>
 </widget>
 <connections>
     <connection>
@@ -364,5 +410,25 @@
         <slot>reject()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+    <tabstop>lastNameLineEdit</tabstop>
+    <tabstop>firstNameLineEdit</tabstop>
+    <tabstop>middleNameLineEdit</tabstop>
+    <tabstop>dobDateEdit</tabstop>
+    <tabstop>mrnLineEdit</tabstop>
+    <tabstop>heightLineEdit</tabstop>
+    <tabstop>heightUnitsComboBox</tabstop>
+    <tabstop>weightLineEdit</tabstop>
+    <tabstop>weightUnitsComboBox</tabstop>
+    <tabstop>bsaLineEdit</tabstop>
+    <tabstop>manualEditBsaCheckBox</tabstop>
+    <tabstop>heartComboBox</tabstop>
+    <tabstop>vagalToneSpinBox</tabstop>
+    <tabstop>sympatheticToneSpinBox</tabstop>
+    <tabstop>efSpinBox</tabstop>
+    <tabstop>ischemiaCheckBox</tabstop>
+</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

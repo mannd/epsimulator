@@ -45,47 +45,47 @@ class Patient {
 public:
     Patient();
 
-    Name name() const {return theName;};
-    QString fullName(bool lastFirst = false,
+    Name getName() const {return name_;};
+    QString getFullName(bool lastFirst = false,
                      bool useMiddleName = false) const;
-    QString mrn() const {return theMrn;}
-    QDate dateOfBirth() const {return theDateOfBirth;}
-    Sex sex() const {return theSex;}
-    double height() const {return theHeight;}
-    double weight() const {return theWeight;}
-    double bsa() const;
-    bool bsaManualEdit() const {return doBsaManualEdit;}
-    int ef() {return theEf;}
-    bool ischemia() {return hasIschemia;}
-    AutonomicTone vagalTone() {return theVagalTone;}
-    AutonomicTone sympatheticTone() {return theSympatheticTone;}
+    QString getMrn() const {return mrn_;}
+    QDate getDateOfBirth() const {return dateOfBirth_;}
+    Sex getSex() const {return sex_;}
+    double getHeight() const {return height_;}
+    double getWeight() const {return weight_;}
+    double getBsa() const;
+    bool doBsaManualEdit() const {return bsaManualEdit_;}
+    int getEf() {return ef_;}
+    bool hasIschemia() {return ischemia_;}
+    AutonomicTone getVagalTone() {return vagalTone_;}
+    AutonomicTone getSympatheticTone() {return sympatheticTone_;}
 
-    void setManualBsa(const int value) {theManualBsa = value;}
-    void setName(Name value);
-    void setMrn(QString value) {theMrn = value;}
-    void setHeight(double value) {theHeight = value;}
-    void setWeight(double value) {theWeight = value;}
-    void setBsaManualEdit(bool value) {doBsaManualEdit = value;}
+    void setManualBsa(const int manualBsa) {manualBsa_ = manualBsa;}
+    void setName(const Name name);
+    void setMrn(const QString mrn) {mrn_ = mrn;}
+    void setHeight(const double height) {height_ = height;}
+    void setWeight(const double weight) {weight_ = weight;}
+    void setBsaManualEdit(const bool bsaManualEdit) {
+	bsaManualEdit_ = bsaManualEdit;}
 
     ~Patient();
-private:
-    Name theName;
-    QString theMrn;	// medical record number
-    QDate theDateOfBirth;
-    Sex theSex;
-    // should below be in patient or in study?  These change over time
-    double theHeight;	// use metric units: cm for height,
-                        //convert to English in form
-    double theWeight;	// in kg
-    double theBsa() const;    // calculated or manually edited
-    double theManualBsa;  //manually entered BSA in m2
-    bool doBsaManualEdit;
 
-    Heart *heart;
-    AutonomicTone theVagalTone;
-    AutonomicTone theSympatheticTone;
-    int theEf;
-    bool hasIschemia;
+private:
+    Name name_;
+    QString mrn_;	// medical record number
+    QDate dateOfBirth_;
+    Sex sex_;
+    // should below be in patient or in study?  These change over time
+    double height_;	// use metric units: cm for height,
+                        //convert to English in form
+    double weight_;	// in kg
+    double manualBsa_;  //manually entered BSA in m2
+    bool bsaManualEdit_;
+    Heart *heart_;
+    AutonomicTone vagalTone_;
+    AutonomicTone sympatheticTone_;
+    int ef_;
+    bool ischemia_;
     // other factors?
 
 };
