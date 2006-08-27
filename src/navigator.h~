@@ -22,9 +22,10 @@
 
 #include <qmainwindow.h>
 
-class QTable;
 class QAction;
 class QPopupMenu;
+class QWorkspace;
+class Patient;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -39,39 +40,66 @@ public:
 
 protected:
     void closeEvent(QCloseEvent * event);
-//    void contextMenuEvent(QContextMenuEvent * event);
+    //    void contextMenuEvent(QContextMenuEvent * event);
 
 private slots:
-//    void patientInformation();
-/*    void openPatient();
-    void newStudy();
-    void openStudy();
-    // Patients and studies are saved automatically when created and modified
-    // At least I think that is the Prucka behavior
-    void about();
-*/
+    //    void patientInformation();
+    /*    void openPatient();
+        void newStudy();
+        void openStudy();
+        // Patients and studies are saved automatically when created and modified
+        // At least I think that is the Prucka behavior
+        void about();
+    */
 
     void about();
-    void closeStudy();
 
 private:
+    Patient *currentPatient;
     void createActions();
     void createMenus();
 
 
 
-/*    void createToolBars();
-    void loadPatient();
-    void savePatient();
-    void loadStudy();
-    void saveStudy();
-*/  
+    /*    void createToolBars();
+        void loadPatient();
+        void savePatient();
+        void loadStudy();
+        void saveStudy();
+    */
     // fake central widget
-    QTable *qtable;
+    QWorkspace *workspace;
+
+    // Study menu
+    QAction *newAct;
+    QAction *continueAct;
+    QAction *reviewAct;
+    QAction *preregisterAct;
+    QAction *reportsAct;
+    QAction *copyAct;
+    QAction *deleteAct;
+    QAction *exportAct;
+    QAction *exitAct;
+
+    // Administration menu
+    QAction *loginAct;
+    QAction *logoutAct;
+    QAction *changePasswordAct;
+    QAction *intervalsAct;
+    QAction *columnFormatsAct;
+    QAction *protocolsAct;
+    QAction *studyConfigurationsAct;
+    QAction *systemSettingsAct;
+
 
     QAction *aboutAct;
 
-    QPopupMenu *menuHelp;
+    QPopupMenu *studyMenu;
+    QPopupMenu *catalogMenu;
+    QPopupMenu *utilitiesMenu;
+    QPopupMenu *administrationMenu;
+    QPopupMenu *securitySubMenu;
+    QPopupMenu *helpMenu;
 
 };
 
