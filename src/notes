@@ -12,6 +12,17 @@ Will stick to Bruce Eckel convention of starting brace always at end of line.
 indent with spaces 4 spaces.
 Header files go from most specific to general as in Eckel.
 Will use the get and set convention for member functions.
+     Note it is possible to avoid get, for example:
+
+Class Fruit {
+      public:
+            Fruit(string banana);
+	    void setBanana(string banana);
+	    string banana();
+      private:
+	    string banana_;
+}
+
 private variables will end in underscore.
 enums, consts and defines will be all caps.
 Typedefs will be capitalized.

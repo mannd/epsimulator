@@ -17,32 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PATIENTDIALOG_H
+#define PATIENTDIALOG_H
 
-#include "patient.h"
-#include <math.h>
-#include <qstring.h>
+#include "patientdialogbase.h"
 
-Patient::Patient() {}
+class PatientDialog: public PatientDialogBase {
+Q_OBJECT
+public:
+    PatientDialog(QWidget *parent = 0, const char *name = 0);
 
-QString Patient::getFullName(bool lastFirst, bool useMiddleName) const {
-    QString middleName;
-    if (useMiddleName && !name_.middle.isEmpty()) 
-	middleName = " " + name_.middle + " ";
-    else
-	middleName = " ";
-    if (lastFirst) 
-	return name_.last + "," + name_.first + name_.middle;
-    else
-	return name_.first + name_.middle + name_.last;
-}
+private:
+    double inchesToCentimeters(double inches);
+    double poundsToKilograms(double pounds);
 
-double Patient::getBsa() const {
-    if (bsaManualEdit_)
-        return manualBsa_;
-    else
-        return sqrt((height_ * weight_)/3600);
-}
+};
 
-
-
-Patient::~Patient() {}
+#endif

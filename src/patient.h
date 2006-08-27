@@ -32,9 +32,9 @@ The Patient class includes demographics, baseline autonomic tone, ejection fract
 class Heart;
 
 struct Name {
-    QString firstName;
-    QString lastName;
-    QString middleInitial;
+    QString first;
+    QString last;
+    QString middle;
 };
 
 typedef int AutonomicTone;
@@ -71,6 +71,10 @@ public:
     ~Patient();
 
 private:
+    // these don't need to be here, need to be on data entry form
+    double inchesToCentimeters(double inches);
+    double poundsToKilograms(double pounds);
+
     Name name_;
     QString mrn_;	// medical record number
     QDate dateOfBirth_;

@@ -3,19 +3,19 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  ../bin/epsimulator
 
-FORMS += patientinformationdialog.ui \
-         patientdialogbase.ui 
+FORMS += patientdialogbase.ui 
 TRANSLATIONS += epsimulator_de.ts 
 IMAGES += images/hi16-app-epsimulator.png \
           images/hi32-app-epsimulator.png 
 HEADERS += epsimulator.h \
-           patientinformationdialog.ui.h \
            navigator.h \
-           patient.h 
+           patient.h \
+           patientdialog.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
-           patient.cpp 
+           patient.cpp \
+           patientdialog.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

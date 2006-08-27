@@ -1,8 +1,8 @@
 <!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>PatientDialog</class>
+<class>PatientDialogBase</class>
 <widget class="QDialog">
     <property name="name">
-        <cstring>PatientDialog</cstring>
+        <cstring>PatientDialogBase</cstring>
     </property>
     <property name="geometry">
         <rect>
@@ -27,7 +27,7 @@
                 <cstring>textLabel4</cstring>
             </property>
             <property name="text">
-                <string>Date of Birth:</string>
+                <string>Date of &amp;Birth:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>dobDateEdit</cstring>
@@ -38,7 +38,7 @@
                 <cstring>textLabel3</cstring>
             </property>
             <property name="text">
-                <string>Middle Name:</string>
+                <string>&amp;Middle Name:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>middleNameLineEdit</cstring>
@@ -191,7 +191,7 @@
                 <cstring>textLabel11</cstring>
             </property>
             <property name="text">
-                <string>Weight (kg):</string>
+                <string>Weight (&amp;kg):</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>weightLineEdit</cstring>
@@ -266,7 +266,7 @@
                 <cstring>textLabel14</cstring>
             </property>
             <property name="text">
-                <string>Sympathetic Tone:</string>
+                <string>S&amp;ympathetic Tone:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>sympatheticToneSpinBox</cstring>
@@ -292,7 +292,7 @@
                 <cstring>textLabel12</cstring>
             </property>
             <property name="text">
-                <string>BSA (m2):</string>
+                <string>BSA (m&amp;2):</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>bsaLineEdit</cstring>
@@ -372,7 +372,7 @@
                 <cstring>textLabel1_2</cstring>
             </property>
             <property name="text">
-                <string>Ejection Fraction (%):</string>
+                <string>E&amp;jection Fraction (%):</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>efSpinBox</cstring>
@@ -400,13 +400,13 @@
     <connection>
         <sender>buttonOk</sender>
         <signal>clicked()</signal>
-        <receiver>PatientDialog</receiver>
+        <receiver>PatientDialogBase</receiver>
         <slot>accept()</slot>
     </connection>
     <connection>
         <sender>buttonCancel</sender>
         <signal>clicked()</signal>
-        <receiver>PatientDialog</receiver>
+        <receiver>PatientDialogBase</receiver>
         <slot>reject()</slot>
     </connection>
 </connections>
