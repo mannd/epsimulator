@@ -45,7 +45,7 @@ public slots:
     static void about(QWidget *);
 
 private slots:
-    void patientInformation();
+    //void patientInformation();
     /*    void openPatient();
         void newStudy();
         void openStudy();

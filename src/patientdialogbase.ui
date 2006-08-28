@@ -191,7 +191,7 @@
                 <cstring>textLabel11</cstring>
             </property>
             <property name="text">
-                <string>Weight (&amp;kg):</string>
+                <string>Weight:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>weightLineEdit</cstring>
@@ -303,7 +303,7 @@
                 <cstring>textLabel6</cstring>
             </property>
             <property name="text">
-                <string>Height (cm2):</string>
+                <string>Height:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>heightLineEdit</cstring>
@@ -409,6 +409,12 @@
         <receiver>PatientDialogBase</receiver>
         <slot>reject()</slot>
     </connection>
+    <connection>
+        <sender>heightLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>PatientDialogBase</receiver>
+        <slot>heightLineEdit_textChanged(const QString&amp;)</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>buttonOk</tabstop>
@@ -430,5 +436,8 @@
     <tabstop>efSpinBox</tabstop>
     <tabstop>ischemiaCheckBox</tabstop>
 </tabstops>
+<slots>
+    <slot>heightLineEdit_textChanged(const QString&amp;)</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

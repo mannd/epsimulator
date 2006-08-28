@@ -27,9 +27,14 @@ Q_OBJECT
 public:
     PatientDialog(QWidget *parent = 0, const char *name = 0);
 
+public slots:
+    virtual void heightLineEdit_textChanged(const QString&);
+
 private:
     double inchesToCentimeters(double inches);
     double poundsToKilograms(double pounds);
+    double metricHeight;
+    double metricWeight;
 
 };
 

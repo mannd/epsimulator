@@ -53,11 +53,6 @@ Epsimulator::~Epsimulator()
 {
 }
 
-void Epsimulator::patientInformation()
-{
-    PatientInformationDialog *patientInformationDialog = new PatientInformationDialog;
-    patientInformationDialog->show();
-}
 
 void Epsimulator::closeStudy()
 {

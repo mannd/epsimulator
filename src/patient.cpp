@@ -24,7 +24,7 @@
 
 Patient::Patient() {}
 
-QString Patient::getFullName(bool lastFirst, bool useMiddleName) const {
+QString Patient::fullName(bool lastFirst, bool useMiddleName) const {
     QString middleName;
     if (useMiddleName && !name_.middle.isEmpty()) 
 	middleName = " " + name_.middle + " ";
@@ -36,7 +36,7 @@ QString Patient::getFullName(bool lastFirst, bool useMiddleName) const {
 	return name_.first + name_.middle + name_.last;
 }
 
-double Patient::getBsa() const {
+double Patient::bsa() const {
     if (bsaManualEdit_)
         return manualBsa_;
     else

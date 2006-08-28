@@ -43,7 +43,7 @@ protected:
     //    void contextMenuEvent(QContextMenuEvent * event);
 
 private slots:
-    //    void patientInformation();
+        void patientInformation();
     /*    void openPatient();
         void newStudy();
         void openStudy();

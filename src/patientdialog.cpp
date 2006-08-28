@@ -19,9 +19,13 @@
  ***************************************************************************/
 #include "patientdialog.h"
 
+#include <qcombobox.h>
+#include <qlineedit.h>
+
 PatientDialog::PatientDialog(QWidget *parent, const char *name)
     :PatientDialogBase(parent, name)
 {
+//    heightLineEdit->
 }
 
 double PatientDialog::inchesToCentimeters(double inches) {
@@ -30,4 +34,12 @@ double PatientDialog::inchesToCentimeters(double inches) {
 
 double PatientDialog::poundsToKilograms(double pounds) {
     return pounds * 0.45;
+}
+
+void PatientDialog::heightLineEdit_textChanged(const QString&)
+{
+    if (heightUnitsComboBox->currentItem() == 0)
+        metricHeight = inchesToCentimeters(heightLineEdit->text().toDouble());
+    else
+        metricHeight = heightLineEdit->text().toDouble();
 }

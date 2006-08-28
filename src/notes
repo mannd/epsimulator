@@ -23,6 +23,8 @@ Class Fruit {
 	    string banana_;
 }
 
+Actually I have now changed to the above style.
+
 private variables will end in underscore.
 enums, consts and defines will be all caps.
 Typedefs will be capitalized.

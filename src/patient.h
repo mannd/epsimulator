@@ -45,20 +45,20 @@ class Patient {
 public:
     Patient();
 
-    Name getName() const {return name_;};
-    QString getFullName(bool lastFirst = false,
+    Name name() const {return name_;};
+    QString fullName(bool lastFirst = false,
                      bool useMiddleName = false) const;
-    QString getMrn() const {return mrn_;}
-    QDate getDateOfBirth() const {return dateOfBirth_;}
-    Sex getSex() const {return sex_;}
-    double getHeight() const {return height_;}
-    double getWeight() const {return weight_;}
-    double getBsa() const;
+    QString mrn() const {return mrn_;}
+    QDate dateOfBirth() const {return dateOfBirth_;}
+    Sex sex() const {return sex_;}
+    double height() const {return height_;}
+    double weight() const {return weight_;}
+    double bsa() const;
     bool doBsaManualEdit() const {return bsaManualEdit_;}
-    int getEf() {return ef_;}
+    int ef() {return ef_;}
     bool hasIschemia() {return ischemia_;}
-    AutonomicTone getVagalTone() {return vagalTone_;}
-    AutonomicTone getSympatheticTone() {return sympatheticTone_;}
+    AutonomicTone vagalTone() {return vagalTone_;}
+    AutonomicTone sympatheticTone() {return sympatheticTone_;}
 
     void setManualBsa(const int manualBsa) {manualBsa_ = manualBsa;}
     void setName(const Name name);
