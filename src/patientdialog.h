@@ -28,14 +28,18 @@ public:
     PatientDialog(QWidget *parent = 0, const char *name = 0);
 
 public slots:
-    virtual void heightLineEdit_textChanged(const QString&);
+    virtual void manualEditBsaCheckBox_toggled(bool);
+    virtual void heightLineEdit_returnPressed();
+    virtual void weightLineEdit_returnPressed();
 
 private:
     double inchesToCentimeters(double inches);
     double poundsToKilograms(double pounds);
-    double metricHeight;
-    double metricWeight;
+    double bsa() const;
+    void setBsaText();
 
+    double metricHeight_;
+    double metricWeight_;
 };
 
 #endif

@@ -21,10 +21,13 @@
 
 #include <qcombobox.h>
 #include <qlineedit.h>
+#include <qcheckbox.h>
+#include <qstring.h>
+
+#include <math.h>
 
 PatientDialog::PatientDialog(QWidget *parent, const char *name)
-    :PatientDialogBase(parent, name)
-{
+    :PatientDialogBase(parent, name) {
 //    heightLineEdit->
 }
 
@@ -36,10 +39,23 @@ double PatientDialog::poundsToKilograms(double pounds) {
     return pounds * 0.45;
 }
 
-void PatientDialog::heightLineEdit_textChanged(const QString&)
-{
-    if (heightUnitsComboBox->currentItem() == 0)
-        metricHeight = inchesToCentimeters(heightLineEdit->text().toDouble());
-    else
-        metricHeight = heightLineEdit->text().toDouble();
+void PatientDialog::manualEditBsaCheckBox_toggled(bool checked) {
+    bsaLineEdit->setEnabled(checked);
+}
+
+void PatientDialog::heightLineEdit_returnPressed() {
+    setBsaText();
+}
+
+void PatientDialog::weightLineEdit_returnPressed() {
+    setBsaText();
+}
+
+double PatientDialog::bsa() const {
+   return sqrt((heightLineEdit->text().toDouble() * weightLineEdit->text().toDouble())/3600);
+}
+
+void PatientDialog::setBsaText() {
+    if (!manualEditBsaCheckBox->isChecked())
+        bsaLineEdit->setText(QString::number(bsa()));
 }

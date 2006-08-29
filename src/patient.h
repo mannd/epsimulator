@@ -53,7 +53,6 @@ public:
     Sex sex() const {return sex_;}
     double height() const {return height_;}
     double weight() const {return weight_;}
-    double bsa() const;
     bool doBsaManualEdit() const {return bsaManualEdit_;}
     int ef() {return ef_;}
     bool hasIschemia() {return ischemia_;}

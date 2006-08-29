@@ -410,10 +410,10 @@
         <slot>reject()</slot>
     </connection>
     <connection>
-        <sender>heightLineEdit</sender>
-        <signal>textChanged(const QString&amp;)</signal>
+        <sender>manualEditBsaCheckBox</sender>
+        <signal>toggled(bool)</signal>
         <receiver>PatientDialogBase</receiver>
-        <slot>heightLineEdit_textChanged(const QString&amp;)</slot>
+        <slot>manualEditBsaCheckBox_toggled(bool)</slot>
     </connection>
 </connections>
 <tabstops>
@@ -438,6 +438,7 @@
 </tabstops>
 <slots>
     <slot>heightLineEdit_textChanged(const QString&amp;)</slot>
+    <slot>manualEditBsaCheckBox_toggled(bool)</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

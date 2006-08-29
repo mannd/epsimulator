@@ -36,12 +36,7 @@ QString Patient::fullName(bool lastFirst, bool useMiddleName) const {
 	return name_.first + name_.middle + name_.last;
 }
 
-double Patient::bsa() const {
-    if (bsaManualEdit_)
-        return manualBsa_;
-    else
-        return sqrt((height_ * weight_)/3600);
-}
+
 
 
 
