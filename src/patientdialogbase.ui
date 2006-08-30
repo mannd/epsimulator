@@ -27,7 +27,7 @@
                 <cstring>textLabel4</cstring>
             </property>
             <property name="text">
-                <string>Date of &amp;Birth:</string>
+                <string>Date &amp;of Birth:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>dobDateEdit</cstring>
@@ -175,7 +175,7 @@
                 <cstring>manualEditBsaCheckBox</cstring>
             </property>
             <property name="text">
-                <string>Manual Edit BSA</string>
+                <string>Manual Edit &amp;BSA</string>
             </property>
         </widget>
         <widget class="QLineEdit" row="7" column="2" rowspan="1" colspan="3">
@@ -255,7 +255,7 @@
                 <cstring>textLabel13</cstring>
             </property>
             <property name="text">
-                <string>Vagal Tone:</string>
+                <string>Va&amp;gal Tone:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>vagalToneSpinBox</cstring>
@@ -415,6 +415,12 @@
         <receiver>PatientDialogBase</receiver>
         <slot>manualEditBsaCheckBox_toggled(bool)</slot>
     </connection>
+    <connection>
+        <sender>heightUnitsComboBox</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>PatientDialogBase</receiver>
+        <slot>heightUnitsComboBox_textChanged(const QString&amp;)</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>buttonOk</tabstop>
@@ -439,6 +445,7 @@
 <slots>
     <slot>heightLineEdit_textChanged(const QString&amp;)</slot>
     <slot>manualEditBsaCheckBox_toggled(bool)</slot>
+    <slot>heightUnitsComboBox_textChanged(const QString&amp;)</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

@@ -35,7 +35,7 @@ public slots:
 private:
     double inchesToCentimeters(double inches);
     double poundsToKilograms(double pounds);
-    double bsa() const;
+    double bsa();
     void setBsaText();
 
     double metricHeight_;

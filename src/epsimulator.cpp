@@ -29,7 +29,6 @@
 #include <qworkspace.h>		// this is a tmp central widget
 
 #include "epsimulator.h"
-#include "patientinformationdialog.h"
 
 Epsimulator::Epsimulator()
     : QMainWindow( 0, "epsimulator", WDestructiveClose )

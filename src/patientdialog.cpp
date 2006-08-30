@@ -51,8 +51,14 @@ void PatientDialog::weightLineEdit_returnPressed() {
     setBsaText();
 }
 
-double PatientDialog::bsa() const {
-   return sqrt((heightLineEdit->text().toDouble() * weightLineEdit->text().toDouble())/3600);
+double PatientDialog::bsa() {
+    double height = heightLineEdit->text().toDouble();
+    if (heightUnitsComboBox->currentItem() == 0)    // inches
+        height = inchesToCentimeters(height);
+    double weight = weightLineEdit->text().toDouble();
+    if (weightUnitsComboBox->currentItem() == 0)    // poundsetBsaText()
+        weight = poundsToKilograms(weight);
+    return sqrt(height * weight) / 3600;
 }
 
 void PatientDialog::setBsaText() {
