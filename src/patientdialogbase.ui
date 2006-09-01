@@ -292,7 +292,7 @@
                 <cstring>textLabel12</cstring>
             </property>
             <property name="text">
-                <string>BSA (m&amp;2):</string>
+                <string>BSA (m&lt;SUP&gt;2&lt;/SUP&gt;):</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>bsaLineEdit</cstring>
@@ -416,10 +416,28 @@
         <slot>manualEditBsaCheckBox_toggled(bool)</slot>
     </connection>
     <connection>
+        <sender>heightLineEdit</sender>
+        <signal>lostFocus()</signal>
+        <receiver>PatientDialogBase</receiver>
+        <slot>heightLineEdit_lostFocus()</slot>
+    </connection>
+    <connection>
+        <sender>weightLineEdit</sender>
+        <signal>lostFocus()</signal>
+        <receiver>PatientDialogBase</receiver>
+        <slot>weightLineEdit_lostFocus()</slot>
+    </connection>
+    <connection>
         <sender>heightUnitsComboBox</sender>
         <signal>textChanged(const QString&amp;)</signal>
         <receiver>PatientDialogBase</receiver>
         <slot>heightUnitsComboBox_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>weightUnitsComboBox</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>PatientDialogBase</receiver>
+        <slot>weightUnitsComboBox_textChanged(const QString&amp;)</slot>
     </connection>
 </connections>
 <tabstops>
@@ -445,7 +463,10 @@
 <slots>
     <slot>heightLineEdit_textChanged(const QString&amp;)</slot>
     <slot>manualEditBsaCheckBox_toggled(bool)</slot>
+    <slot>heightLineEdit_lostFocus()</slot>
+    <slot>weightLineEdit_lostFocus()</slot>
     <slot>heightUnitsComboBox_textChanged(const QString&amp;)</slot>
+    <slot>weightUnitsComboBox_textChanged(const QString&amp;)</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

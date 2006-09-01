@@ -98,7 +98,9 @@
       <headerCompletionDelay>250</headerCompletionDelay>
     </codecompletion>
     <designerintegration>
-      <qtdesigner/>
+      <qtdesigner>
+        <implementation class="PatientDialog" path="src/patientdialogbase.ui" implementationpath="src/patientdialog.h" />
+      </qtdesigner>
     </designerintegration>
   </kdevcppsupport>
 </kdevelop>

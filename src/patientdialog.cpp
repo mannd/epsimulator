@@ -43,11 +43,16 @@ void PatientDialog::manualEditBsaCheckBox_toggled(bool checked) {
     bsaLineEdit->setEnabled(checked);
 }
 
-void PatientDialog::heightLineEdit_returnPressed() {
+void PatientDialog::setBsaText() {
+    if (!manualEditBsaCheckBox->isChecked())
+        bsaLineEdit->setText(QString::number(bsa()));
+}
+
+void PatientDialog::heightLineEdit_lostFocus() {
     setBsaText();
 }
 
-void PatientDialog::weightLineEdit_returnPressed() {
+void PatientDialog::weightLineEdit_lostFocus() {
     setBsaText();
 }
 
@@ -61,7 +66,15 @@ double PatientDialog::bsa() {
     return sqrt(height * weight) / 3600;
 }
 
-void PatientDialog::setBsaText() {
-    if (!manualEditBsaCheckBox->isChecked())
-        bsaLineEdit->setText(QString::number(bsa()));
+void PatientDialog::weightUnitsComboBox_textChanged(const QString&) {
+    setBsaText();
 }
+
+void PatientDialog::heightUnitsComboBox_textChanged(const QString&) {
+    setBsaText();
+}
+
+
+
+
+

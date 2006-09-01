@@ -48,7 +48,7 @@ Navigator::Navigator()
     createMenus();
 
     setCaption(tr("Navigator"));
-    setIcon(QPixmap::fromMimeSource("hi16-app-epsimulator.png"));
+    setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
 
 
 

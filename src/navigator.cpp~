@@ -23,6 +23,11 @@
 // and the central widget
                             // main window
 
+#include "navigator.h"
+#include "epsimulator.h"    // some menu items are duplicated in the epsimulator
+#include "patient.h"
+#include "patientdialog.h"
+
 #include <qmainwindow.h>
 #include <qstatusbar.h>
 #include <qpopupmenu.h>
@@ -31,9 +36,6 @@
 #include <qmessagebox.h>
 #include <qworkspace.h>
 
-#include "navigator.h"
-#include "epsimulator.h"    // some menu items are duplicated in the epsimulator
-#include "patient.h"
 
 Navigator::Navigator()
  : QMainWindow( 0, "navigator", WDestructiveClose )
@@ -57,6 +59,7 @@ void Navigator::createActions()
 {
     newAct = new QAction(tr("New..."), 0, this);
     newAct->setStatusTip(tr("New study"));
+    connect(newAct, SIGNAL(activated()), this, SLOT(patientInformation()));
 
     continueAct = new QAction(tr("Continue"), 0, this);
     continueAct->setStatusTip(tr("Continue study"));
@@ -145,7 +148,7 @@ void Navigator::createMenus()
     protocolsAct->addTo(administrationMenu);
     studyConfigurationsAct->addTo(administrationMenu);
     administrationMenu->insertSeparator();
- //   systemSettingsAct->addTo(administrationMenu);
+    systemSettingsAct->addTo(administrationMenu);
     // insert reports submenu here
 
     helpMenu = new QPopupMenu(this);
@@ -157,6 +160,12 @@ void Navigator::createMenus()
     menuBar()->insertItem(tr("Administration"), administrationMenu);
     menuBar()->insertItem(tr("Help"), helpMenu);
 
+}
+
+void Navigator::patientInformation()
+{
+    PatientDialog *patientDialog = new PatientDialog;
+    patientDialog->show();
 }
 
 void Navigator::about()
