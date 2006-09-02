@@ -29,10 +29,10 @@ public:
 
 public slots:
     virtual void manualEditBsaCheckBox_toggled(bool);
-    virtual void weightUnitsComboBox_textChanged(const QString&);
-    virtual void heightUnitsComboBox_textChanged(const QString&);
-    virtual void weightLineEdit_lostFocus();
-    virtual void heightLineEdit_lostFocus();
+    virtual void weightKgLineEdit_lostFocus();
+    virtual void weightLbsLineEdit_lostFocus();
+    virtual void heightCmLineEdit_lostFocus();
+    virtual void heightInLineEdit_lostFocus();
 
 private:
     double inchesToCentimeters(double inches);

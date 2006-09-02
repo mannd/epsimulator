@@ -48,31 +48,32 @@ void PatientDialog::setBsaText() {
         bsaLineEdit->setText(QString::number(bsa()));
 }
 
-void PatientDialog::heightLineEdit_lostFocus() {
-    setBsaText();
-}
-
-void PatientDialog::weightLineEdit_lostFocus() {
-    setBsaText();
-}
-
 double PatientDialog::bsa() {
-    double height = heightLineEdit->text().toDouble();
-    if (heightUnitsComboBox->currentItem() == 0)    // inches
-        height = inchesToCentimeters(height);
-    double weight = weightLineEdit->text().toDouble();
-    if (weightUnitsComboBox->currentItem() == 0)    // poundsetBsaText()
-        weight = poundsToKilograms(weight);
+    double height = heightCmLineEdit->text().toDouble();
+    double weight = weightKgLineEdit->text().toDouble();
     return sqrt(height * weight) / 3600;
 }
 
-void PatientDialog::weightUnitsComboBox_textChanged(const QString&) {
+void PatientDialog::heightInLineEdit_lostFocus() {
+    heightCmLineEdit->setText(QString::number(inchesToCentimeters(heightInLineEdit->text().toDouble())));
     setBsaText();
 }
 
-void PatientDialog::heightUnitsComboBox_textChanged(const QString&) {
+void PatientDialog::weightLbsLineEdit_lostFocus() {
+    weightKgLineEdit->setText(QString::number(poundsToKilograms(weightLbsLineEdit->text().toDouble())));
     setBsaText();
 }
+
+void PatientDialog::heightCmLineEdit_lostFocus() {
+    setBsaText();
+}
+
+void PatientDialog::weightKgLineEdit_lostFocus() {
+    setBsaText();
+}
+
+
+
 
 
 

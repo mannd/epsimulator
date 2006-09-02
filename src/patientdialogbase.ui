@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Create or Edit Patient</string>
+        <string>Patient Information</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>true</bool>
@@ -44,22 +44,22 @@
                 <cstring>middleNameLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QLineEdit" row="0" column="2" rowspan="1" colspan="5">
+        <widget class="QLineEdit" row="0" column="2" rowspan="1" colspan="7">
             <property name="name">
                 <cstring>lastNameLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QLineEdit" row="1" column="2" rowspan="1" colspan="5">
+        <widget class="QLineEdit" row="1" column="2" rowspan="1" colspan="7">
             <property name="name">
                 <cstring>firstNameLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QLineEdit" row="2" column="2" rowspan="1" colspan="5">
+        <widget class="QLineEdit" row="2" column="2" rowspan="1" colspan="7">
             <property name="name">
                 <cstring>middleNameLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QDateEdit" row="3" column="2" rowspan="1" colspan="3">
+        <widget class="QDateEdit" row="3" column="2" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>dobDateEdit</cstring>
             </property>
@@ -87,13 +87,13 @@
                 <cstring>textLabel1</cstring>
             </property>
             <property name="text">
-                <string>Last Name:</string>
+                <string>L&amp;ast Name:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>lastNameLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QLayoutWidget" row="11" column="0" rowspan="1" colspan="7">
+        <widget class="QLayoutWidget" row="11" column="0" rowspan="1" colspan="9">
             <property name="name">
                 <cstring>layout3</cstring>
             </property>
@@ -151,7 +151,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QSpinBox" row="9" column="6">
+        <widget class="QSpinBox" row="9" column="8">
             <property name="name">
                 <cstring>sympatheticToneSpinBox</cstring>
             </property>
@@ -165,27 +165,6 @@
                 <number>50</number>
             </property>
         </widget>
-        <widget class="QLineEdit" row="5" column="2" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>heightLineEdit</cstring>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="7" column="5" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>manualEditBsaCheckBox</cstring>
-            </property>
-            <property name="text">
-                <string>Manual Edit &amp;BSA</string>
-            </property>
-        </widget>
-        <widget class="QLineEdit" row="7" column="2" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>bsaLineEdit</cstring>
-            </property>
-            <property name="enabled">
-                <bool>false</bool>
-            </property>
-        </widget>
         <widget class="QLabel" row="6" column="0">
             <property name="name">
                 <cstring>textLabel11</cstring>
@@ -194,10 +173,10 @@
                 <string>Weight:</string>
             </property>
             <property name="buddy" stdset="0">
-                <cstring>weightLineEdit</cstring>
+                <cstring>weightLbsLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QCheckBox" row="10" column="5" rowspan="1" colspan="2">
+        <widget class="QCheckBox" row="10" column="7" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>ischemiaCheckBox</cstring>
             </property>
@@ -230,26 +209,6 @@
                 <cstring>heartComboBox</cstring>
             </property>
         </widget>
-        <widget class="QLineEdit" row="6" column="2" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>weightLineEdit</cstring>
-            </property>
-        </widget>
-        <widget class="QComboBox" row="5" column="5" rowspan="1" colspan="2">
-            <item>
-                <property name="text">
-                    <string>inches</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>cm</string>
-                </property>
-            </item>
-            <property name="name">
-                <cstring>heightUnitsComboBox</cstring>
-            </property>
-        </widget>
         <widget class="QLabel" row="9" column="0">
             <property name="name">
                 <cstring>textLabel13</cstring>
@@ -261,7 +220,7 @@
                 <cstring>vagalToneSpinBox</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="9" column="4" rowspan="1" colspan="2">
+        <widget class="QLabel" row="9" column="5" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>textLabel14</cstring>
             </property>
@@ -272,32 +231,6 @@
                 <cstring>sympatheticToneSpinBox</cstring>
             </property>
         </widget>
-        <widget class="QComboBox" row="6" column="5" rowspan="1" colspan="2">
-            <item>
-                <property name="text">
-                    <string>lbs</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>kg</string>
-                </property>
-            </item>
-            <property name="name">
-                <cstring>weightUnitsComboBox</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel12</cstring>
-            </property>
-            <property name="text">
-                <string>BSA (m&lt;SUP&gt;2&lt;/SUP&gt;):</string>
-            </property>
-            <property name="buddy" stdset="0">
-                <cstring>bsaLineEdit</cstring>
-            </property>
-        </widget>
         <widget class="QLabel" row="5" column="0">
             <property name="name">
                 <cstring>textLabel6</cstring>
@@ -306,10 +239,10 @@
                 <string>Height:</string>
             </property>
             <property name="buddy" stdset="0">
-                <cstring>heightLineEdit</cstring>
+                <cstring>heightInLineEdit</cstring>
             </property>
         </widget>
-        <spacer row="9" column="2" rowspan="1" colspan="2">
+        <spacer row="9" column="2" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>spacer3</cstring>
             </property>
@@ -326,7 +259,7 @@
                 </size>
             </property>
         </spacer>
-        <spacer row="10" column="3" rowspan="1" colspan="2">
+        <spacer row="10" column="3" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -357,10 +290,15 @@
                 <number>50</number>
             </property>
         </widget>
-        <widget class="QComboBox" row="8" column="2" rowspan="1" colspan="3">
+        <widget class="QComboBox" row="8" column="2" rowspan="1" colspan="5">
             <item>
                 <property name="text">
                     <string>default</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>new heart</string>
                 </property>
             </item>
             <property name="name">
@@ -378,7 +316,7 @@
                 <cstring>efSpinBox</cstring>
             </property>
         </widget>
-        <widget class="QLineEdit" row="4" column="2" rowspan="1" colspan="3">
+        <widget class="QLineEdit" row="4" column="2" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>mrnLineEdit</cstring>
             </property>
@@ -392,6 +330,96 @@
             </property>
             <property name="buddy" stdset="0">
                 <cstring>mrnLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="5" column="2" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>heightInLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="6" column="2" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>weightLbsLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="4" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_3</cstring>
+            </property>
+            <property name="text">
+                <string>in</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="6" column="4" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel2_3</cstring>
+            </property>
+            <property name="text">
+                <string>lbs</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="7" column="2" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>bsaLineEdit</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel12</cstring>
+            </property>
+            <property name="text">
+                <string>BSA:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>bsaLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="7" column="4">
+            <property name="name">
+                <cstring>textLabel5_2</cstring>
+            </property>
+            <property name="text">
+                <string>m&lt;SUP&gt;2&lt;/SUP&gt;</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="7" column="6" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>manualEditBsaCheckBox</cstring>
+            </property>
+            <property name="text">
+                <string>Manual Edit &amp;BSA</string>
+            </property>
+            <property name="accel">
+                <string>Alt+B</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="6" column="6" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>weightKgLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="5" column="6" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>heightCmLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="6" column="8">
+            <property name="name">
+                <cstring>textLabel4_2</cstring>
+            </property>
+            <property name="text">
+                <string>kg</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="8">
+            <property name="name">
+                <cstring>textLabel3_2</cstring>
+            </property>
+            <property name="text">
+                <string>cm</string>
             </property>
         </widget>
     </grid>
@@ -416,28 +444,22 @@
         <slot>manualEditBsaCheckBox_toggled(bool)</slot>
     </connection>
     <connection>
-        <sender>heightLineEdit</sender>
+        <sender>heightInLineEdit</sender>
         <signal>lostFocus()</signal>
         <receiver>PatientDialogBase</receiver>
-        <slot>heightLineEdit_lostFocus()</slot>
+        <slot>heightInLineEdit_lostFocus()</slot>
     </connection>
     <connection>
-        <sender>weightLineEdit</sender>
+        <sender>heightCmLineEdit</sender>
         <signal>lostFocus()</signal>
         <receiver>PatientDialogBase</receiver>
-        <slot>weightLineEdit_lostFocus()</slot>
+        <slot>heightCmLineEdit_lostFocus()</slot>
     </connection>
     <connection>
-        <sender>heightUnitsComboBox</sender>
-        <signal>textChanged(const QString&amp;)</signal>
+        <sender>weightLbsLineEdit</sender>
+        <signal>lostFocus()</signal>
         <receiver>PatientDialogBase</receiver>
-        <slot>heightUnitsComboBox_textChanged(const QString&amp;)</slot>
-    </connection>
-    <connection>
-        <sender>weightUnitsComboBox</sender>
-        <signal>textChanged(const QString&amp;)</signal>
-        <receiver>PatientDialogBase</receiver>
-        <slot>weightUnitsComboBox_textChanged(const QString&amp;)</slot>
+        <slot>weightLbsLineEdit_lostFocus()</slot>
     </connection>
 </connections>
 <tabstops>
@@ -448,10 +470,10 @@
     <tabstop>middleNameLineEdit</tabstop>
     <tabstop>dobDateEdit</tabstop>
     <tabstop>mrnLineEdit</tabstop>
-    <tabstop>heightLineEdit</tabstop>
-    <tabstop>heightUnitsComboBox</tabstop>
-    <tabstop>weightLineEdit</tabstop>
-    <tabstop>weightUnitsComboBox</tabstop>
+    <tabstop>heightInLineEdit</tabstop>
+    <tabstop>heightCmLineEdit</tabstop>
+    <tabstop>weightLbsLineEdit</tabstop>
+    <tabstop>weightKgLineEdit</tabstop>
     <tabstop>bsaLineEdit</tabstop>
     <tabstop>manualEditBsaCheckBox</tabstop>
     <tabstop>heartComboBox</tabstop>
@@ -467,6 +489,9 @@
     <slot>weightLineEdit_lostFocus()</slot>
     <slot>heightUnitsComboBox_textChanged(const QString&amp;)</slot>
     <slot>weightUnitsComboBox_textChanged(const QString&amp;)</slot>
+    <slot>heightInLineEdit_lostFocus()</slot>
+    <slot>heightCmLineEdit_lostFocus()</slot>
+    <slot>weightLbsLineEdit_lostFocus()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
