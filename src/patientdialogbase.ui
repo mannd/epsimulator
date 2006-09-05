@@ -59,18 +59,6 @@
                 <cstring>middleNameLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QDateEdit" row="3" column="2" rowspan="1" colspan="5">
-            <property name="name">
-                <cstring>dobDateEdit</cstring>
-            </property>
-            <property name="date">
-                <date>
-                    <year>1960</year>
-                    <month>1</month>
-                    <day>1</day>
-                </date>
-            </property>
-        </widget>
         <widget class="QLabel" row="1" column="0">
             <property name="name">
                 <cstring>textLabel2</cstring>
@@ -231,17 +219,6 @@
                 <cstring>sympatheticToneSpinBox</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="5" column="0">
-            <property name="name">
-                <cstring>textLabel6</cstring>
-            </property>
-            <property name="text">
-                <string>Height:</string>
-            </property>
-            <property name="buddy" stdset="0">
-                <cstring>heightInLineEdit</cstring>
-            </property>
-        </widget>
         <spacer row="9" column="2" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>spacer3</cstring>
@@ -316,11 +293,6 @@
                 <cstring>efSpinBox</cstring>
             </property>
         </widget>
-        <widget class="QLineEdit" row="4" column="2" rowspan="1" colspan="5">
-            <property name="name">
-                <cstring>mrnLineEdit</cstring>
-            </property>
-        </widget>
         <widget class="QLabel" row="4" column="0">
             <property name="name">
                 <cstring>textLabel2_2</cstring>
@@ -332,25 +304,12 @@
                 <cstring>mrnLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QLineEdit" row="5" column="2" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>heightInLineEdit</cstring>
-            </property>
-        </widget>
         <widget class="QLineEdit" row="6" column="2" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>weightLbsLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="5" column="4" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel1_3</cstring>
-            </property>
-            <property name="text">
-                <string>in</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="6" column="4" rowspan="1" colspan="2">
+        <widget class="QLabel" row="6" column="4">
             <property name="name">
                 <cstring>textLabel2_3</cstring>
             </property>
@@ -385,25 +344,15 @@
                 <string>m&lt;SUP&gt;2&lt;/SUP&gt;</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="7" column="6" rowspan="1" colspan="3">
+        <widget class="QCheckBox" row="7" column="5" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>manualEditBsaCheckBox</cstring>
             </property>
             <property name="text">
-                <string>Manual Edit &amp;BSA</string>
+                <string>Manual Edit</string>
             </property>
             <property name="accel">
-                <string>Alt+B</string>
-            </property>
-        </widget>
-        <widget class="QLineEdit" row="6" column="6" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>weightKgLineEdit</cstring>
-            </property>
-        </widget>
-        <widget class="QLineEdit" row="5" column="6" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>heightCmLineEdit</cstring>
+                <string></string>
             </property>
         </widget>
         <widget class="QLabel" row="6" column="8">
@@ -414,12 +363,86 @@
                 <string>kg</string>
             </property>
         </widget>
+        <widget class="QDateEdit" row="3" column="2" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>dobDateEdit</cstring>
+            </property>
+            <property name="date">
+                <date>
+                    <year>1960</year>
+                    <month>1</month>
+                    <day>1</day>
+                </date>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="4" column="2" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>mrnLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="3" column="6" rowspan="1" colspan="3">
+            <item>
+                <property name="text">
+                    <string>Male</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Female</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>sexComboBox</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="6" column="5" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>weightKgLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="0">
+            <property name="name">
+                <cstring>textLabel6</cstring>
+            </property>
+            <property name="text">
+                <string>Height:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>heightInLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="5" column="2" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>heightInLineEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="4">
+            <property name="name">
+                <cstring>textLabel1_3</cstring>
+            </property>
+            <property name="text">
+                <string>in</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="5" column="5" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>heightCmLineEdit</cstring>
+            </property>
+        </widget>
         <widget class="QLabel" row="5" column="8">
             <property name="name">
                 <cstring>textLabel3_2</cstring>
             </property>
             <property name="text">
                 <string>cm</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="5">
+            <property name="name">
+                <cstring>textLabel1_4</cstring>
+            </property>
+            <property name="text">
+                <string>Sex:</string>
             </property>
         </widget>
     </grid>
@@ -469,6 +492,7 @@
     <tabstop>firstNameLineEdit</tabstop>
     <tabstop>middleNameLineEdit</tabstop>
     <tabstop>dobDateEdit</tabstop>
+    <tabstop>sexComboBox</tabstop>
     <tabstop>mrnLineEdit</tabstop>
     <tabstop>heightInLineEdit</tabstop>
     <tabstop>heightCmLineEdit</tabstop>
