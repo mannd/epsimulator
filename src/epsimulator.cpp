@@ -64,7 +64,7 @@ void Epsimulator::about(QWidget *parent)
 		          "<p>Copyright &copy; 2006 EP Studios, Inc."
 			  "<p>EP Simulator simulates an EP recording "
 			  "system."
-                          "<p><a href=www.epstudiossoftware.com> www.epstudiossoftware.com</a>"));
+                          "<p><a href=http://www.epstudiossoftware.com> www.epstudiossoftware.com</a>"));
 ///TODO make this an actual hyperlink that you can click on and go to
 }
 
