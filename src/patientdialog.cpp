@@ -23,11 +23,15 @@
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qstring.h>
+#include <qdatetime.h>
+#include <qdatetimeedit.h>
 
 #include <math.h>
 
 PatientDialog::PatientDialog(QWidget *parent, const char *name)
     :PatientDialogBase(parent, name) {
+    studyDateEdit->setDate(QDate::currentDate());
+    studyTimeEdit->setTime(QTime::currentTime());
 //    heightLineEdit->
 }
 

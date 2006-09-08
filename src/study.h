@@ -34,9 +34,9 @@ public:
     void setTime(QDateTime &time);
     void setNumber(int number);
 
-    Patient *patient() const;
-    QDateTime &date() const;
-    QDateTime &time() const;
+    Patient* patient() const;
+    QDateTime date() const;
+    QDateTime time() const;
     int number() const;
     
     ~Study();
@@ -47,4 +47,6 @@ private:
     QDateTime time_;
     int number_;
     
+};
+
 #endif
