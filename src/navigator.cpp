@@ -25,7 +25,7 @@
 
 #include "navigator.h"
 #include "epsimulator.h"    // some menu items are duplicated in the epsimulator
-#include "patient.h"
+#include "study.h"
 #include "patientdialog.h"
 
 #include <qmainwindow.h>
@@ -40,7 +40,7 @@
 Navigator::Navigator()
  : QMainWindow( 0, "navigator", WDestructiveClose )
 {
-    currentPatient = new Patient;
+    study_ = new Study;
     workspace = new QWorkspace(this);
     setCentralWidget(workspace);
 
@@ -190,6 +190,7 @@ void Navigator::closeEvent(QCloseEvent *event)
 
 Navigator::~Navigator()
 {
+    delete study_;
 }
 
 

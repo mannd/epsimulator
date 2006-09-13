@@ -25,7 +25,7 @@
 class QAction;
 class QPopupMenu;
 class QWorkspace;
-class Patient;
+class Study;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -55,11 +55,11 @@ private slots:
     void about();
 
 private:
-    Patient *currentPatient;
     void createActions();
     void createMenus();
 
-
+    // current study
+    Study* study_;
 
     /*    void createToolBars();
         void loadPatient();

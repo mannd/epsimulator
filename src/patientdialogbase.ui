@@ -541,6 +541,12 @@
         <receiver>PatientDialogBase</receiver>
         <slot>weightLbsLineEdit_lostFocus()</slot>
     </connection>
+    <connection>
+        <sender>weightKgLineEdit</sender>
+        <signal>lostFocus()</signal>
+        <receiver>PatientDialogBase</receiver>
+        <slot>weightKgLineEdit_lostFocus()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>buttonOk</tabstop>
@@ -567,7 +573,7 @@
     <slot>heightLineEdit_textChanged(const QString&amp;)</slot>
     <slot>manualEditBsaCheckBox_toggled(bool)</slot>
     <slot>heightLineEdit_lostFocus()</slot>
-    <slot>weightLineEdit_lostFocus()</slot>
+    <slot>weightKgLineEdit_lostFocus()</slot>
     <slot>heightUnitsComboBox_textChanged(const QString&amp;)</slot>
     <slot>weightUnitsComboBox_textChanged(const QString&amp;)</slot>
     <slot>heightInLineEdit_lostFocus()</slot>

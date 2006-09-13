@@ -40,7 +40,7 @@
 Navigator::Navigator()
  : QMainWindow( 0, "navigator", WDestructiveClose )
 {
-    currentPatient = new Patient;
+    study_ = new Study;
     workspace = new QWorkspace(this);
     setCentralWidget(workspace);
 
@@ -48,7 +48,7 @@ Navigator::Navigator()
     createMenus();
 
     setCaption(tr("Navigator"));
-    setIcon(QPixmap::fromMimeSource("hi16-app-epsimulator.png"));
+    setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
 
 
 
@@ -190,6 +190,7 @@ void Navigator::closeEvent(QCloseEvent *event)
 
 Navigator::~Navigator()
 {
+    delete study_;
 }
 
 

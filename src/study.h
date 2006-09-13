@@ -24,20 +24,21 @@
 #include "patient.h"
 
 #include <qdatetime.h>
+#include <qstring.h>
 
 class Study {
    
 public:
     Study();
     void setPatient(Patient *patient);
-    void setDate(QDateTime &date);
-    void setTime(QDateTime &time);
-    void setNumber(int number);
+    void setDate(QDateTime& date);
+    void setTime(QDateTime& time);
+    void setNumber(QString& number);
 
     Patient* patient() const;
     QDateTime date() const;
     QDateTime time() const;
-    int number() const;
+    QString number() const;
     
     ~Study();
 
@@ -45,7 +46,7 @@ private:
     Patient *patient_;
     QDateTime date_;
     QDateTime time_;
-    int number_;
+    QString number_;
     
 };
 
