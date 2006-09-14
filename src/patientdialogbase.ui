@@ -90,28 +90,6 @@
                 <cstring>studyDateEdit</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel2_4</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Study #</string>
-            </property>
-            <property name="buddy" stdset="0">
-                <cstring>lineEdit10</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel1_5</cstring>
-            </property>
-            <property name="text">
-                <string>Study &amp;Date</string>
-            </property>
-            <property name="buddy" stdset="0">
-                <cstring>dateEdit2</cstring>
-            </property>
-        </widget>
         <widget class="QLayoutWidget" row="7" column="0" rowspan="1" colspan="11">
             <property name="name">
                 <cstring>layout3</cstring>
@@ -311,100 +289,6 @@
                 <cstring>mrnLineEdit</cstring>
             </property>
         </widget>
-        <widget class="QLayoutWidget" row="1" column="7" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>layout3</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel6</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Height</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>heightInLineEdit</cstring>
-                    </property>
-                </widget>
-                <widget class="QLineEdit">
-                    <property name="name">
-                        <cstring>heightInLineEdit</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel1_3</cstring>
-                    </property>
-                    <property name="text">
-                        <string>in</string>
-                    </property>
-                </widget>
-                <widget class="QLineEdit">
-                    <property name="name">
-                        <cstring>heightCmLineEdit</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel3_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>cm</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QLayoutWidget" row="2" column="7" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>layout4</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel11</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Weight</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>weightLbsLineEdit</cstring>
-                    </property>
-                </widget>
-                <widget class="QLineEdit">
-                    <property name="name">
-                        <cstring>weightLbsLineEdit</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel2_3</cstring>
-                    </property>
-                    <property name="text">
-                        <string>lbs</string>
-                    </property>
-                </widget>
-                <widget class="QLineEdit">
-                    <property name="name">
-                        <cstring>weightKgLineEdit</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel4_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>kg</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
         <widget class="QLayoutWidget" row="3" column="7" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>layout7</cstring>
@@ -453,17 +337,6 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QLabel" row="4" column="0" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>textLabel4</cstring>
-            </property>
-            <property name="text">
-                <string>Date &amp;of Birth</string>
-            </property>
-            <property name="buddy" stdset="0">
-                <cstring>dobDateEdit</cstring>
-            </property>
-        </widget>
         <widget class="QComboBox" row="4" column="9" rowspan="1" colspan="2">
             <item>
                 <property name="text">
@@ -501,6 +374,123 @@
             <property name="buddy" stdset="0">
                 <cstring>sexComboBox</cstring>
             </property>
+        </widget>
+        <widget class="QLabel" row="4" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>textLabel4</cstring>
+            </property>
+            <property name="text">
+                <string>Date &amp;of Birth</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>dobDateEdit</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel2_4</cstring>
+            </property>
+            <property name="text">
+                <string>Study #</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>lineEdit10</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_5</cstring>
+            </property>
+            <property name="text">
+                <string>Study Date</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>dateEdit2</cstring>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="1" column="7" rowspan="2" colspan="4">
+            <property name="name">
+                <cstring>layout10</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="2">
+                    <property name="name">
+                        <cstring>textLabel1_3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>in</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="1" column="3">
+                    <property name="name">
+                        <cstring>weightKgLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="4">
+                    <property name="name">
+                        <cstring>textLabel3_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>cm</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>heightInLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel11</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Weight</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>weightLbsLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel6</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Height</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>heightInLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="2">
+                    <property name="name">
+                        <cstring>textLabel2_3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>lbs</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="0" column="3">
+                    <property name="name">
+                        <cstring>heightCmLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="4">
+                    <property name="name">
+                        <cstring>textLabel4_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>kg</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>weightLbsLineEdit</cstring>
+                    </property>
+                </widget>
+            </grid>
         </widget>
     </grid>
 </widget>
@@ -554,15 +544,18 @@
     <tabstop>lastNameLineEdit</tabstop>
     <tabstop>firstNameLineEdit</tabstop>
     <tabstop>middleNameLineEdit</tabstop>
-    <tabstop>dobDateEdit</tabstop>
-    <tabstop>sexComboBox</tabstop>
     <tabstop>mrnLineEdit</tabstop>
+    <tabstop>studyDateEdit</tabstop>
+    <tabstop>studyTimeEdit</tabstop>
+    <tabstop>studyNumberLineEdit</tabstop>
     <tabstop>heightInLineEdit</tabstop>
     <tabstop>heightCmLineEdit</tabstop>
     <tabstop>weightLbsLineEdit</tabstop>
     <tabstop>weightKgLineEdit</tabstop>
     <tabstop>bsaLineEdit</tabstop>
     <tabstop>manualEditBsaCheckBox</tabstop>
+    <tabstop>dobDateEdit</tabstop>
+    <tabstop>sexComboBox</tabstop>
     <tabstop>heartComboBox</tabstop>
     <tabstop>vagalToneSpinBox</tabstop>
     <tabstop>sympatheticToneSpinBox</tabstop>
