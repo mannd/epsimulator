@@ -22,6 +22,8 @@
 
 #include <qmainwindow.h>
 
+#include <vector>
+
 class QAction;
 class QPopupMenu;
 class QWorkspace;
@@ -60,6 +62,7 @@ private:
 
     // current study
     Study* study_;
+    std::vector<Study> studys_;
 
     /*    void createToolBars();
         void loadPatient();

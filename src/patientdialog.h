@@ -21,11 +21,13 @@
 #define PATIENTDIALOG_H
 
 #include "patientdialogbase.h"
+#include "study.h"
 
 class PatientDialog: public PatientDialogBase {
 Q_OBJECT
 public:
-    PatientDialog(QWidget *parent = 0, const char *name = 0);
+    PatientDialog(Study* study, QWidget *parent = 0, 
+		  const char *name = 0);
 
 public slots:
     virtual void manualEditBsaCheckBox_toggled(bool);

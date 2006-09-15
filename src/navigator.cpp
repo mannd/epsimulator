@@ -164,7 +164,8 @@ void Navigator::createMenus()
 
 void Navigator::patientInformation()
 {
-    PatientDialog *patientDialog = new PatientDialog;
+    Study* newStudy = new Study;
+    PatientDialog *patientDialog = new PatientDialog(newStudy);
     patientDialog->show();
 }
 

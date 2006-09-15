@@ -28,7 +28,8 @@
 
 #include <math.h>
 
-PatientDialog::PatientDialog(QWidget *parent, const char *name)
+PatientDialog::PatientDialog(Study* study, QWidget *parent, 
+			     const char *name)
     :PatientDialogBase(parent, name) {
     studyDateEdit->setDate(QDate::currentDate());
     studyTimeEdit->setTime(QTime::currentTime());
