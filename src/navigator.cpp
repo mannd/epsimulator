@@ -27,6 +27,7 @@
 #include "epsimulator.h"    // some menu items are duplicated in the epsimulator
 #include "study.h"
 #include "patientdialog.h"
+#include "studytable.h"
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>
@@ -38,16 +39,15 @@
 
 
 Navigator::Navigator()
- : QMainWindow( 0, "navigator", WDestructiveClose )
-{
+ : QMainWindow( 0, "navigator", WDestructiveClose ) {
     study_ = new Study;
-    workspace = new QWorkspace(this);
-    setCentralWidget(workspace);
+    studyTable = new QTable(this);
+    setCentralWidget(studyTable);
 
     createActions();
     createMenus();
 
-    setCaption(tr("Navigator"));
+    setCaption(tr("EP Simulator Navigator"));
     setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
 
 
@@ -55,8 +55,7 @@ Navigator::Navigator()
     statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
 }
 
-void Navigator::createActions()
-{
+void Navigator::createActions() {
     newAct = new QAction(tr("New..."), 0, this);
     newAct->setStatusTip(tr("New study"));
     connect(newAct, SIGNAL(activated()), this, SLOT(patientInformation()));
@@ -116,8 +115,7 @@ void Navigator::createActions()
     connect(aboutAct, SIGNAL(activated()), this, SLOT(about()));
 }
 
-void Navigator::createMenus()
-{
+void Navigator::createMenus() {
 
     studyMenu = new QPopupMenu(this);
     newAct->addTo(studyMenu);
@@ -162,20 +160,27 @@ void Navigator::createMenus()
 
 }
 
-void Navigator::patientInformation()
-{
+void Navigator::patientInformation() {
     Study* newStudy = new Study;
     PatientDialog *patientDialog = new PatientDialog(newStudy);
-    patientDialog->show();
+    if (patientDialog->exec()) {
+        if (!study_ == 0) 
+            delete study_;
+        study_ = newStudy;
+    }
+    else
+        delete newStudy;
+    studies_.push_back(study_);
+    // debug below
+    QMessageBox::information(this, "Patient Name",
+                            study_->patient()->fullName());
 }
 
-void Navigator::about()
-{
+void Navigator::about() {
     Epsimulator::about(this);
 }
 
-void Navigator::closeEvent(QCloseEvent *event)
-{
+void Navigator::closeEvent(QCloseEvent *event) {
     int ret = QMessageBox::question(
             this,
             tr("Really quit?"),
@@ -189,8 +194,7 @@ void Navigator::closeEvent(QCloseEvent *event)
         event->ignore();
 }
 
-Navigator::~Navigator()
-{
+Navigator::~Navigator() {
     delete study_;
 }
 

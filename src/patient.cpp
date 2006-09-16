@@ -31,11 +31,16 @@ QString Patient::fullName(bool lastFirst, bool useMiddleName) const {
     else
 	middleName = " ";
     if (lastFirst) 
-	return name_.last + "," + name_.first + name_.middle;
+	return name_.last + "," + name_.first + middleName;
     else
-	return name_.first + name_.middle + name_.last;
+	return name_.first + middleName + name_.last;
 }
 
+void Patient::setName(const Name name) {
+    name_.last = name.last;
+    name_.first = name.first;
+    name_.middle = name.middle;
+}
 
 
 

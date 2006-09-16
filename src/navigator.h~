@@ -22,10 +22,12 @@
 
 #include <qmainwindow.h>
 
+#include <vector>
+
 class QAction;
 class QPopupMenu;
-class QWorkspace;
-class Patient;
+class Study;
+class StudyTable;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -55,11 +57,12 @@ private slots:
     void about();
 
 private:
-    Patient *currentPatient;
     void createActions();
     void createMenus();
 
-
+    // current study
+    Study* study_;
+    std::vector<Study*> studies_;
 
     /*    void createToolBars();
         void loadPatient();
@@ -67,8 +70,8 @@ private:
         void loadStudy();
         void saveStudy();
     */
-    // fake central widget
-    QWorkspace *workspace;
+    // central widget
+    QTable *studyTable;
 
     // Study menu
     QAction *newAct;

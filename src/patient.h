@@ -53,6 +53,8 @@ public:
     Sex sex() const {return sex_;}
     double height() const {return height_;}
     double weight() const {return weight_;}
+    double heightIn() const {return heightIn_;}
+    double weightLbs() const {return weightLbs_;}
     bool doBsaManualEdit() const {return bsaManualEdit_;}
     int ef() {return ef_;}
     bool hasIschemia() {return ischemia_;}
@@ -64,6 +66,8 @@ public:
     void setMrn(const QString mrn) {mrn_ = mrn;}
     void setHeight(const double height) {height_ = height;}
     void setWeight(const double weight) {weight_ = weight;}
+    void setHeightIn(const double heightIn) {heightIn_ = heightIn;}
+    void setWeightLbs(const double weightLbs) {weightLbs_ = weightLbs;}
     void setBsaManualEdit(const bool bsaManualEdit) {
 	bsaManualEdit_ = bsaManualEdit;}
 
@@ -82,6 +86,8 @@ private:
     double height_;	// use metric units: cm for height,
                         //convert to English in form
     double weight_;	// in kg
+    double heightIn_;   // English versions
+    double weightLbs_;
     double manualBsa_;  //manually entered BSA in m2
     bool bsaManualEdit_;
     Heart *heart_;

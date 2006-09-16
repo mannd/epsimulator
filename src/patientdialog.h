@@ -24,7 +24,7 @@
 #include "study.h"
 
 class PatientDialog: public PatientDialogBase {
-Q_OBJECT
+    Q_OBJECT
 public:
     PatientDialog(Study* study, QWidget *parent = 0, 
 		  const char *name = 0);
@@ -35,15 +35,18 @@ public slots:
     virtual void weightLbsLineEdit_lostFocus();
     virtual void heightCmLineEdit_lostFocus();
     virtual void heightInLineEdit_lostFocus();
+    virtual void accept();
 
 private:
     double inchesToCentimeters(double inches);
     double poundsToKilograms(double pounds);
     double bsa();
     void setBsaText();
+    void saveStudy();
 
     double metricHeight_;
     double metricWeight_;
+    Study* study_;
 };
 
 #endif

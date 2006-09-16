@@ -26,8 +26,8 @@
 
 class QAction;
 class QPopupMenu;
-class QWorkspace;
 class Study;
+class QTable;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -62,7 +62,7 @@ private:
 
     // current study
     Study* study_;
-    std::vector<Study> studys_;
+    std::vector<Study*> studies_;
 
     /*    void createToolBars();
         void loadPatient();
@@ -70,8 +70,8 @@ private:
         void loadStudy();
         void saveStudy();
     */
-    // fake central widget
-    QWorkspace *workspace;
+    // central widget
+    QTable *studyTable;
 
     // Study menu
     QAction *newAct;

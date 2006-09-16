@@ -11,13 +11,15 @@ HEADERS += epsimulator.h \
            navigator.h \
            patient.h \
            patientdialog.h \
-           study.h 
+           study.h \
+           studytable.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
            patient.cpp \
            patientdialog.cpp \
-           study.cpp 
+           study.cpp \
+           studytable.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

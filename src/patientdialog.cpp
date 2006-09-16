@@ -31,6 +31,7 @@
 PatientDialog::PatientDialog(Study* study, QWidget *parent, 
 			     const char *name)
     :PatientDialogBase(parent, name) {
+    study_ = study;
     studyDateEdit->setDate(QDate::currentDate());
     studyTimeEdit->setTime(QTime::currentTime());
 //    heightLineEdit->
@@ -77,10 +78,15 @@ void PatientDialog::weightKgLineEdit_lostFocus() {
     setBsaText();
 }
 
+void PatientDialog::accept() {
+    saveStudy();
+    PatientDialogBase::accept();
+}
 
-
-
-
-
-
-
+void PatientDialog::saveStudy() {
+    Name name;
+    name.last = lastNameLineEdit->text();
+    name.first = firstNameLineEdit->text();
+    name.middle = middleNameLineEdit->text();
+    study_->patient()->setName(name);
+}
