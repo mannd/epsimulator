@@ -35,13 +35,11 @@
 #include <qmenubar.h>
 #include <qaction.h>
 #include <qmessagebox.h>
-#include <qworkspace.h>
-
 
 Navigator::Navigator()
  : QMainWindow( 0, "navigator", WDestructiveClose ) {
     study_ = new Study;
-    studyTable = new QTable(this);
+    studyTable = new StudyTable(this);
     setCentralWidget(studyTable);
 
     createActions();

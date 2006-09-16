@@ -27,7 +27,7 @@
 class QAction;
 class QPopupMenu;
 class Study;
-class QTable;
+class StudyTable;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -71,7 +71,7 @@ private:
         void saveStudy();
     */
     // central widget
-    QTable *studyTable;
+    StudyTable *studyTable;
 
     // Study menu
     QAction *newAct;
