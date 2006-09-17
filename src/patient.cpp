@@ -22,7 +22,8 @@
 #include <math.h>
 #include <qstring.h>
 
-Patient::Patient() {}
+Patient::Patient() : dateOfBirth_(1950, 1, 1) {
+}
 
 QString Patient::fullName(bool lastFirst, bool useMiddleName) const {
     QString middleName;

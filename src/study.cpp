@@ -23,22 +23,24 @@
 
 Study::Study() {
     patient_ = new Patient;
+    setDate(QDate::currentDate());
+    setTime(QTime::currentTime());
 }
 
 void Study::setPatient(Patient* patient) {
     patient_ = patient;
 }
 
-void Study::setDate(QDateTime& date) {
+void Study::setDate(QDate date) {
     date_ = date;
 }
 
 
-void Study::setTime(QDateTime& time) {
+void Study::setTime(QTime time) {
     time_ = time;
 }
 
-void Study::setNumber(QString& number) {
+void Study::setNumber(QString number) {
     number_ = number;
 }
 
@@ -46,12 +48,12 @@ Patient* Study::patient() const {
     return patient_;
 }
 
-QDateTime Study::date() const {
+QDate Study::date() const {
     return date_;
 }
 
 
-QDateTime Study::time() const {
+QTime Study::time() const {
     return time_;
 }
 

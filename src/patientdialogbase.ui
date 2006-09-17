@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>781</width>
+            <width>814</width>
             <height>503</height>
         </rect>
     </property>
@@ -191,13 +191,6 @@
         <widget class="QDateEdit" row="4" column="4" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>dobDateEdit</cstring>
-            </property>
-            <property name="date">
-                <date>
-                    <year>1960</year>
-                    <month>1</month>
-                    <day>1</day>
-                </date>
             </property>
         </widget>
         <widget class="QLabel" row="4" column="9" rowspan="1" colspan="5">

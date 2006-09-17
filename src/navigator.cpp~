@@ -35,8 +35,6 @@
 #include <qmenubar.h>
 #include <qaction.h>
 #include <qmessagebox.h>
-#include <qworkspace.h>
-
 
 Navigator::Navigator()
  : QMainWindow( 0, "navigator", WDestructiveClose ) {
@@ -171,9 +169,8 @@ void Navigator::patientInformation() {
     else
         delete newStudy;
     studies_.push_back(study_);
+    studyTable->refresh(studies_);
     // debug below
-    QMessageBox::information(this, "Patient Name",
-                            study_->patient()->fullName());
 }
 
 void Navigator::about() {

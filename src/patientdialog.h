@@ -42,7 +42,8 @@ private:
     double poundsToKilograms(double pounds);
     double bsa();
     void setBsaText();
-    void saveStudy();
+    void setFields();
+    void getFields();
 
     double metricHeight_;
     double metricWeight_;

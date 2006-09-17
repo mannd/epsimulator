@@ -32,8 +32,10 @@ PatientDialog::PatientDialog(Study* study, QWidget *parent,
 			     const char *name)
     :PatientDialogBase(parent, name) {
     study_ = study;
-    studyDateEdit->setDate(QDate::currentDate());
-    studyTimeEdit->setTime(QTime::currentTime());
+    setFields();
+    // below set by above
+    //studyDateEdit->setDate(QDate::currentDate());
+    //studyTimeEdit->setTime(QTime::currentTime());
 //    heightLineEdit->
 }
 
@@ -79,14 +81,29 @@ void PatientDialog::weightKgLineEdit_lostFocus() {
 }
 
 void PatientDialog::accept() {
-    saveStudy();
+    setFields();
     PatientDialogBase::accept();
 }
 
-void PatientDialog::saveStudy() {
+void PatientDialog::setFields() {
+    Name name = study_->patient()->name();
+    lastNameLineEdit->setText(name.last);
+    firstNameLineEdit->setText(name.first);
+    middleNameLineEdit->setText(name.middle);
+    studyDateEdit->setDate(study_->date());
+    studyTimeEdit->setTime(study_->time());
+}
+
+void PatientDialog::getFields() {
     Name name;
     name.last = lastNameLineEdit->text();
     name.first = firstNameLineEdit->text();
     name.middle = middleNameLineEdit->text();
     study_->patient()->setName(name);
+    study_->patient()->setMrn(mrnLineEdit->text());
+    //study_->patient()->setSex(
+    study_->patient()->setHeight(heightCmLineEdit->text().toDouble());
+    study_->patient()->setWeight(weightKgLineEdit->text().toDouble()); 
+    study_->patient()->setHeightIn(heightInLineEdit->text().toDouble());
+    study_->patient()->setWeightLbs(weightLbsLineEdit->text().toDouble());
 }

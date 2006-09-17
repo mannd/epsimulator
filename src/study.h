@@ -26,28 +26,31 @@
 #include <qdatetime.h>
 #include <qstring.h>
 
+#include <vector>
+
 class Study {
    
 public:
     Study();
     void setPatient(Patient *patient);
-    void setDate(QDateTime& date);
-    void setTime(QDateTime& time);
-    void setNumber(QString& number);
+    void setDate(QDate date);
+    void setTime(QTime time);
+    void setNumber(QString number);
 
     Patient* patient() const;
-    QDateTime date() const;
-    QDateTime time() const;
+    QDate date() const;
+    QTime time() const;
     QString number() const;
     
     ~Study();
 
 private:
     Patient *patient_;
-    QDateTime date_;
-    QDateTime time_;
+    QDate date_;
+    QTime time_;
     QString number_;
     
 };
 
+typedef std::vector<Study*> Studies;
 #endif

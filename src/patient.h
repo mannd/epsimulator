@@ -55,13 +55,13 @@ public:
     double weight() const {return weight_;}
     double heightIn() const {return heightIn_;}
     double weightLbs() const {return weightLbs_;}
-    bool doBsaManualEdit() const {return bsaManualEdit_;}
-    int ef() {return ef_;}
-    bool hasIschemia() {return ischemia_;}
-    AutonomicTone vagalTone() {return vagalTone_;}
-    AutonomicTone sympatheticTone() {return sympatheticTone_;}
+    bool bsaManualEdit() const {return bsaManualEdit_;}
+    int ef() const {return ef_;}
+    bool hasIschemia() const {return ischemia_;}
+    AutonomicTone vagalTone() const {return vagalTone_;}
+    AutonomicTone sympatheticTone() const {return sympatheticTone_;}
 
-    void setManualBsa(const int manualBsa) {manualBsa_ = manualBsa;}
+    void setBsa(const int bsa) {bsa_ = bsa;}
     void setName(const Name name);
     void setMrn(const QString mrn) {mrn_ = mrn;}
     void setHeight(const double height) {height_ = height;}
@@ -74,22 +74,16 @@ public:
     ~Patient();
 
 private:
-    // these don't need to be here, need to be on data entry form
-    double inchesToCentimeters(double inches);
-    double poundsToKilograms(double pounds);
-
     Name name_;
     QString mrn_;	// medical record number
     QDate dateOfBirth_;
     Sex sex_;
-    // should below be in patient or in study?  These change over time
     double height_;	// use metric units: cm for height,
-                        //convert to English in form
     double weight_;	// in kg
     double heightIn_;   // English versions
     double weightLbs_;
-    double manualBsa_;  //manually entered BSA in m2
-    bool bsaManualEdit_;
+    double bsa_;  // BSA either manually edited or calculated
+    bool bsaManualEdit_;  // should BSA be manually edited or calculated?
     Heart *heart_;
     AutonomicTone vagalTone_;
     AutonomicTone sympatheticTone_;

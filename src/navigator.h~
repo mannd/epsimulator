@@ -71,7 +71,7 @@ private:
         void saveStudy();
     */
     // central widget
-    QTable *studyTable;
+    StudyTable *studyTable;
 
     // Study menu
     QAction *newAct;

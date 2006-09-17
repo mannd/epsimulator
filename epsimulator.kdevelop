@@ -21,6 +21,8 @@
       <group pattern="*.ui" name="User Interface" />
       <group pattern="*.png" name="Icons" />
       <group pattern="*" name="Others" />
+      <hidenonprojectfiles>false</hidenonprojectfiles>
+      <hidenonlocation>false</hidenonlocation>
     </groups>
     <tree>
       <hidepatterns>*.o,*.lo,CVS</hidepatterns>
@@ -104,7 +106,6 @@
       <autocompile>true</autocompile>
       <envvars/>
     </run>
-    <subclassing/>
     <make>
       <abortonerror>true</abortonerror>
       <runmultiplejobs>false</runmultiplejobs>
@@ -114,6 +115,7 @@
       <prio>0</prio>
       <envvars/>
     </make>
+    <subclassing/>
   </kdevtrollproject>
   <kdevcppsupport>
     <references/>

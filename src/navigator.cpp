@@ -169,9 +169,7 @@ void Navigator::patientInformation() {
     else
         delete newStudy;
     studies_.push_back(study_);
-    // debug below
-    QMessageBox::information(this, "Patient Name",
-                            study_->patient()->fullName());
+    studyTable->refresh(studies_);
 }
 
 void Navigator::about() {

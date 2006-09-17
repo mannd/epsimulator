@@ -20,13 +20,12 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include <qmainwindow.h>
+#include <study.h>
 
-#include <vector>
+#include <qmainwindow.h>
 
 class QAction;
 class QPopupMenu;
-class Study;
 class StudyTable;
 
 /**
@@ -62,7 +61,7 @@ private:
 
     // current study
     Study* study_;
-    std::vector<Study*> studies_;
+    Studies studies_;
 
     /*    void createToolBars();
         void loadPatient();
