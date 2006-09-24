@@ -1,52 +1,46 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="15" >
+ <DocsAndViews NumberOfDocuments="13" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patient.h" >
-   <View0 line="73" Type="Source" />
+   <View0 Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patient.cpp" >
-   <View0 line="33" Type="Source" />
+   <View0 Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.h" >
-   <View0 line="37" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
+   <View0 Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.cpp" >
-   <View0 line="82" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
+   <View0 Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
-   <View0 line="21" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 line="63" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
-   <View0 line="45" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
+   <View0 Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 line="73" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studytable.h" >
+   <View0 Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="46" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studytable.cpp" >
+   <View0 Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studytable.h" >
-   <View0 line="35" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.h" >
+   <View0 Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studytable.cpp" >
-   <View0 line="45" Type="Source" />
+  <Doc9 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qcombobox.html#currentItem-prop" >
+   <View0 Type="Documentation" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qtable.h" >
-   <View0 line="551" Type="Source" />
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.cpp" >
+   <View0 Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qglist.h" >
-   <View0 line="152" Type="Source" />
+  <Doc11 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qdate.html#QDate" >
+   <View0 Type="Documentation" />
   </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qstringlist.h" >
-   <View0 line="0" Type="Source" />
+  <Doc12 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qdateedit.html" >
+   <View0 Type="Documentation" />
   </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qheader.html#setLabel" >
-   <View0 Type="Documentation" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/statistics-example.html#x2784" >
-   <View0 Type="Documentation" />
-  </Doc14>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -57,7 +51,7 @@
   </kdevbookmarks>
   <kdevvalgrind>
    <executable path="" params="" />
-   <valgrind path="" params="" />
+   <valgrind path="valgrind" params="--tool=memcheck  --leak-check=yes" />
    <calltree path="" params="" />
    <kcachegrind path="" />
   </kdevvalgrind>

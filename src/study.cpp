@@ -21,6 +21,12 @@
 
 #include "study.h"
 
+void studyCopy(Study* lhs, Study* rhs) {
+    patientCopy(lhs->patient_, rhs->patient_);
+    //copy rest of study here
+}
+
+
 Study::Study() {
     patient_ = new Patient;
     setDate(QDate::currentDate());

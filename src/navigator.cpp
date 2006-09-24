@@ -38,7 +38,7 @@
 
 Navigator::Navigator()
  : QMainWindow( 0, "navigator", WDestructiveClose ) {
-    study_ = new Study;
+    study_ = 0;
     studyTable = new StudyTable(this);
     setCentralWidget(studyTable);
 
@@ -160,6 +160,8 @@ void Navigator::createMenus() {
 
 void Navigator::patientInformation() {
     Study* newStudy = new Study;
+    if (study_ != 0)    // use current study as base for new study
+        studyCopy(newStudy, study_);
     PatientDialog *patientDialog = new PatientDialog(newStudy);
     if (patientDialog->exec()) {
         if (!study_ == 0) 

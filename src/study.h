@@ -30,6 +30,7 @@
 
 class Study {
    
+    friend void studyCopy(Study* lhs, Study* rhs);
 public:
     Study();
     void setPatient(Patient *patient);

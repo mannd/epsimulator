@@ -22,6 +22,23 @@
 #include <math.h>
 #include <qstring.h>
 
+void patientCopy(Patient* lhs, Patient* rhs) {
+    lhs->name_ = rhs->name_;
+    lhs->mrn_ = rhs->mrn_;
+    lhs->sex_ = rhs->sex_;
+    lhs->height_ = rhs->height_;
+    lhs->weight_ = rhs->weight_;
+    lhs->heightIn_ = rhs->heightIn_;
+    lhs->weightLbs_ = rhs-> weightLbs_;
+    lhs->bsa_ = rhs->bsa_;
+    lhs->bsaManualEdit_ = rhs->bsaManualEdit_;
+    lhs->vagalTone_ = rhs->vagalTone_;
+    lhs->sympatheticTone_ = rhs->sympatheticTone_;
+    lhs->ef_ = rhs->ef_;
+    lhs->ischemia_ = rhs->ischemia_;
+    // copyHeart(lhs->heart_, rhs->heart_);
+}
+
 Patient::Patient() : dateOfBirth_(1950, 1, 1) {
 }
 

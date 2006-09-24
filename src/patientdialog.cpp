@@ -81,7 +81,7 @@ void PatientDialog::weightKgLineEdit_lostFocus() {
 }
 
 void PatientDialog::accept() {
-    setFields();
+    getFields();
     PatientDialogBase::accept();
 }
 
@@ -90,6 +90,7 @@ void PatientDialog::setFields() {
     lastNameLineEdit->setText(name.last);
     firstNameLineEdit->setText(name.first);
     middleNameLineEdit->setText(name.middle);
+    mrnLineEdit->setText(study_->patient()->mrn());
     studyDateEdit->setDate(study_->date());
     studyTimeEdit->setTime(study_->time());
 }

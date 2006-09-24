@@ -35,6 +35,7 @@ struct Name {
     QString first;
     QString last;
     QString middle;
+    
 };
 
 typedef int AutonomicTone;
@@ -42,6 +43,7 @@ typedef int AutonomicTone;
 enum Sex {MALE, FEMALE};
 
 class Patient {
+    friend void patientCopy(Patient* lhs, Patient* rhs);
 public:
     Patient();
 
