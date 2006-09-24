@@ -86,11 +86,11 @@ void PatientDialog::accept() {
 }
 
 void PatientDialog::setFields() {
-    Name name = study_->patient()->name();
+    Name name = study_->name();
     lastNameLineEdit->setText(name.last);
     firstNameLineEdit->setText(name.first);
     middleNameLineEdit->setText(name.middle);
-    mrnLineEdit->setText(study_->patient()->mrn());
+    mrnLineEdit->setText(study_->mrn());
     studyDateEdit->setDate(study_->date());
     studyTimeEdit->setTime(study_->time());
 }
@@ -100,11 +100,11 @@ void PatientDialog::getFields() {
     name.last = lastNameLineEdit->text();
     name.first = firstNameLineEdit->text();
     name.middle = middleNameLineEdit->text();
-    study_->patient()->setName(name);
-    study_->patient()->setMrn(mrnLineEdit->text());
+    study_->setName(name);
+    study_->setMrn(mrnLineEdit->text());
     //study_->patient()->setSex(
-    study_->patient()->setHeight(heightCmLineEdit->text().toDouble());
-    study_->patient()->setWeight(weightKgLineEdit->text().toDouble()); 
-    study_->patient()->setHeightIn(heightInLineEdit->text().toDouble());
-    study_->patient()->setWeightLbs(weightLbsLineEdit->text().toDouble());
+    study_->setHeight(heightCmLineEdit->text().toDouble());
+    study_->setWeight(weightKgLineEdit->text().toDouble()); 
+    study_->setHeightIn(heightInLineEdit->text().toDouble());
+    study_->setWeightLbs(weightLbsLineEdit->text().toDouble());
 }

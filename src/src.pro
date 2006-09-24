@@ -9,14 +9,12 @@ IMAGES += images/hi16-app-epsimulator.png \
           images/hi32-app-epsimulator.png 
 HEADERS += epsimulator.h \
            navigator.h \
-           patient.h \
            patientdialog.h \
            study.h \
            studytable.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
-           patient.cpp \
            patientdialog.cpp \
            study.cpp \
            studytable.cpp 

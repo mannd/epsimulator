@@ -22,23 +22,47 @@
 #include "study.h"
 
 void studyCopy(Study* lhs, Study* rhs) {
-    patientCopy(lhs->patient_, rhs->patient_);
-    //copy rest of study here
+    lhs->name_ = rhs->name_;
+    lhs->mrn_ = rhs->mrn_;
+    lhs->sex_ = rhs->sex_;
+    lhs->height_ = rhs->height_;
+    lhs->weight_ = rhs->weight_;
+    lhs->heightIn_ = rhs->heightIn_;
+    lhs->weightLbs_ = rhs-> weightLbs_;
+    lhs->bsa_ = rhs->bsa_;
+    lhs->bsaManualEdit_ = rhs->bsaManualEdit_;
+    lhs->vagalTone_ = rhs->vagalTone_;
+    lhs->sympatheticTone_ = rhs->sympatheticTone_;
+    lhs->ef_ = rhs->ef_;
+    lhs->ischemia_ = rhs->ischemia_;
+    // copyHeart(lhs->heart_, rhs->heart_);
 }
 
-
-Study::Study() {
-    patient_ = new Patient;
+Study::Study() : dateOfBirth_(1950, 1, 1) {
     setDate(QDate::currentDate());
     setTime(QTime::currentTime());
 }
 
-void Study::setPatient(Patient* patient) {
-    patient_ = patient;
-}
-
 void Study::setDate(QDate date) {
     date_ = date;
+}
+
+QString Study::fullName(bool lastFirst, bool useMiddleName) const {
+    QString middleName;
+    if (useMiddleName && !name_.middle.isEmpty()) 
+	middleName = " " + name_.middle + " ";
+    else
+	middleName = " ";
+    if (lastFirst) 
+	return name_.last + "," + name_.first + middleName;
+    else
+	return name_.first + middleName + name_.last;
+}
+
+void Study::setName(const Name name) {
+    name_.last = name.last;
+    name_.first = name.first;
+    name_.middle = name.middle;
 }
 
 
@@ -48,10 +72,6 @@ void Study::setTime(QTime time) {
 
 void Study::setNumber(QString number) {
     number_ = number;
-}
-
-Patient* Study::patient() const {
-    return patient_;
 }
 
 QDate Study::date() const {
@@ -68,5 +88,4 @@ QString Study::number() const {
 }
 
 Study::~Study() {
-    delete patient_;
 }
