@@ -28,10 +28,10 @@
 
 #include <math.h>
 
-PatientDialog::PatientDialog(Study* study, QWidget *parent, 
+PatientDialog::PatientDialog(Study& study, QWidget *parent, 
 			     const char *name)
-    :PatientDialogBase(parent, name) {
-    study_ = study;
+    :PatientDialogBase(parent, name), study_(study) {
+ //   study_ = study;
     setFields();
     // below set by above
     //studyDateEdit->setDate(QDate::currentDate());
@@ -86,13 +86,13 @@ void PatientDialog::accept() {
 }
 
 void PatientDialog::setFields() {
-    Name name = study_->name();
+    Name name = study_.name();
     lastNameLineEdit->setText(name.last);
     firstNameLineEdit->setText(name.first);
     middleNameLineEdit->setText(name.middle);
-    mrnLineEdit->setText(study_->mrn());
-    studyDateEdit->setDate(study_->date());
-    studyTimeEdit->setTime(study_->time());
+    mrnLineEdit->setText(study_.mrn());
+    studyDateEdit->setDate(study_.date());
+    studyTimeEdit->setTime(study_.time());
 }
 
 void PatientDialog::getFields() {
@@ -100,11 +100,11 @@ void PatientDialog::getFields() {
     name.last = lastNameLineEdit->text();
     name.first = firstNameLineEdit->text();
     name.middle = middleNameLineEdit->text();
-    study_->setName(name);
-    study_->setMrn(mrnLineEdit->text());
+    study_.setName(name);
+    study_.setMrn(mrnLineEdit->text());
     //study_->patient()->setSex(
-    study_->setHeight(heightCmLineEdit->text().toDouble());
-    study_->setWeight(weightKgLineEdit->text().toDouble()); 
-    study_->setHeightIn(heightInLineEdit->text().toDouble());
-    study_->setWeightLbs(weightLbsLineEdit->text().toDouble());
+    study_.setHeight(heightCmLineEdit->text().toDouble());
+    study_.setWeight(weightKgLineEdit->text().toDouble()); 
+    study_.setHeightIn(heightInLineEdit->text().toDouble());
+    study_.setWeightLbs(weightLbsLineEdit->text().toDouble());
 }

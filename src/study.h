@@ -42,6 +42,7 @@ class Study {
     friend void studyCopy(Study* lhs, Study* rhs);
 public:
     Study();
+    Study(const Study&);
 
     Name name() const {return name_;};
     QString fullName(bool lastFirst = false,
@@ -75,6 +76,8 @@ public:
     void setTime(QTime time);
     void setNumber(QString number);
 
+    Study& operator=(const Study& rhs);
+
     ~Study();
 
 private:
@@ -99,6 +102,6 @@ private:
     // other factors?
 };
 
-typedef std::vector<Study*> Studies;
+typedef std::vector<Study> Studies;
 
 #endif
