@@ -163,7 +163,7 @@ void Navigator::patientInformation() {
 //    if (study_ != 0)    // use current study as base for new study
 //        studyCopy(newStudy, study_);
     Study newStudy(study_);
-    PatientDialog *patientDialog = new PatientDialog(newStudy);
+    PatientDialog *patientDialog = new PatientDialog(newStudy, this);
     if (patientDialog->exec()) {
         study_ = newStudy;
     }

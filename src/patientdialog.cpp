@@ -30,14 +30,8 @@
 
 PatientDialog::PatientDialog(Study& study, QWidget *parent, 
 			     const char *name)
-    : study_(study) {
- //   study_ = study;
+    : PatientDialogBase(parent, name), study_(study) {
     setFields();
-    PatientDialogBase(parent, name);
-    // below set by above
-    //studyDateEdit->setDate(QDate::currentDate());
-    //studyTimeEdit->setTime(QTime::currentTime());
-//    heightLineEdit->
 }
 
 double PatientDialog::inchesToCentimeters(double inches) {
@@ -103,7 +97,7 @@ void PatientDialog::getFields() {
     name.middle = middleNameLineEdit->text();
     study_.setName(name);
     study_.setMrn(mrnLineEdit->text());
-    //study_->patient()->setSex(
+//    study_.setSex(
     study_.setHeight(heightCmLineEdit->text().toDouble());
     study_.setWeight(weightKgLineEdit->text().toDouble()); 
     study_.setHeightIn(heightInLineEdit->text().toDouble());

@@ -52,6 +52,9 @@ Study::Study() : date_(QDate::currentDate()),
 
 Study::Study(const Study& study) {
     name_ = study.name_;    // default copy constructor works here
+    date_ = study.date_;
+    time_ = study.time_;
+    dateOfBirth_ = study.dateOfBirth_;
     mrn_ = study.mrn_;
     sex_ = study.sex_;
     height_ = study.height_;
@@ -81,23 +84,10 @@ QString Study::fullName(bool lastFirst, bool useMiddleName) const {
 	return name_.first + middleName + name_.last;
 }
 
-void Study::setName(const Name name) {
+void Study::setName(const Name& name) {
     name_.last = name.last;
     name_.first = name.first;
     name_.middle = name.middle;
-}
-
-
-QDate Study::date() const {
-    return date_;
-}
-
-QTime Study::time() const {
-    return time_;
-}
-
-QString Study::number() const {
-    return number_;
 }
 
 AutonomicTone Study::adjustTone(AutonomicTone tone) {
@@ -118,6 +108,9 @@ Study& Study::operator =(const Study& rhs) {
     if (this == &rhs)
         return *this;
     name_ = rhs.name_;
+    date_ = rhs.date_;
+    time_ = rhs.time_;
+    dateOfBirth_ = rhs.dateOfBirth_;
     mrn_ = rhs.mrn_;
     sex_ = rhs.sex_;
     height_ = rhs.height_;

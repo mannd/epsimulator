@@ -60,12 +60,12 @@ public:
     bool hasIschemia() const {return ischemia_;}
     AutonomicTone vagalTone() const {return vagalTone_;}
     AutonomicTone sympatheticTone() const {return sympatheticTone_;}
-    QDate date() const;
-    QTime time() const;
-    QString number() const;
+    QDate date() const {return date_;}
+    QTime time() const {return time_;}
+    QString number() const {return number_;}
 
     void setBsa(const int bsa) {bsa_ = bsa;}
-    void setName(const Name name);
+    void setName(const Name& name);
     void setMrn(const QString mrn) {mrn_ = mrn;}
     void setHeight(const double height) {height_ = height;}
     void setWeight(const double weight) {weight_ = weight;}

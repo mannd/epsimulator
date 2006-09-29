@@ -37,7 +37,7 @@
 #include <qmessagebox.h>
 
 Navigator::Navigator()
- : QMainWindow( 0, "navigator", WDestructiveClose ), study_() {
+ : QMainWindow( 0, "navigator", WDestructiveClose ) {
 //    study_ = 0;
     studyTable = new StudyTable(this);
     setCentralWidget(studyTable);
@@ -163,7 +163,8 @@ void Navigator::patientInformation() {
 //    if (study_ != 0)    // use current study as base for new study
 //        studyCopy(newStudy, study_);
     Study newStudy(study_);
-    PatientDialog *patientDialog = new PatientDialog(newStudy);
+    PatientDialog *patientDialog = new PatientDialog(newStudy, this);
+    patientDialog->setFields();
     if (patientDialog->exec()) {
         study_ = newStudy;
     }
