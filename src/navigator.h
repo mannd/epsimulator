@@ -60,6 +60,7 @@ private:
     void createMenus();
 
     // current study
+    // it looks like in Qt subclasses, embedded objects must be pointers
     Study study_;
     Studies studies_;
 

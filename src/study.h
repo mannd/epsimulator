@@ -39,7 +39,8 @@ typedef int AutonomicTone;
 enum Sex {MALE, FEMALE};
 
 class Study {
-    friend void studyCopy(Study* lhs, Study* rhs);
+
+ //  friend void studyCopy(Study* lhs, Study* rhs);
 public:
     Study();
     Study(const Study&);
@@ -72,15 +73,22 @@ public:
     void setWeightLbs(const double weightLbs) {weightLbs_ = weightLbs;}
     void setBsaManualEdit(const bool bsaManualEdit) {
 	bsaManualEdit_ = bsaManualEdit;}
-    void setDate(QDate date);
-    void setTime(QTime time);
-    void setNumber(QString number);
+    void setDate(QDate date) {date_ = date;}
+    void setTime(QTime time) {time_ = time;}
+    void setNumber(QString number) {number_ = number;}
+    void setVagalTone(AutonomicTone tone);
+    void setSympatheticTone(AutonomicTone tone);
 
     Study& operator=(const Study& rhs);
 
     ~Study();
 
 private:
+    enum {MIN_TONE = 0, MAX_TONE = 100};  // min and max autonomic tone
+
+    void testInvariant() const;
+    AutonomicTone adjustTone(AutonomicTone tone);
+
     QDate date_;
     QTime time_;
     QString number_;

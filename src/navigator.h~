@@ -63,12 +63,6 @@ private:
     Study study_;
     Studies studies_;
 
-    /*    void createToolBars();
-        void loadPatient();
-        void savePatient();
-        void loadStudy();
-        void saveStudy();
-    */
     // central widget
     StudyTable *studyTable;
 

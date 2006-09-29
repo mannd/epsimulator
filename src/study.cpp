@@ -18,13 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #include "study.h"
 #include "heart.h"
 
- 
+#include <cassert> 
 
-void studyCopy(Study* lhs, Study* rhs) {
+/* void studyCopy(Study* lhs, Study* rhs) {
     lhs->name_ = rhs->name_;
     lhs->mrn_ = rhs->mrn_;
     lhs->sex_ = rhs->sex_;
@@ -40,13 +39,15 @@ void studyCopy(Study* lhs, Study* rhs) {
     lhs->ischemia_ = rhs->ischemia_;
     // copyHeart(lhs->heart_, rhs->heart_);
 }
+*/
 
 Study::Study() : date_(QDate::currentDate()),
     time_(QTime::currentTime()), dateOfBirth_(1950, 1, 1),
-    sex_(MALE), height_(0), weight_(0), 
+    sex_(FEMALE), height_(0), weight_(0), 
     heightIn_(0), weightLbs_(0), bsa_(0), 
     bsaManualEdit_(false), vagalTone_(50),
     sympatheticTone_(50), ef_(50), ischemia_(false), heart_(0) {
+    testInvariant();
 }
 
 Study::Study(const Study& study) {
@@ -65,6 +66,7 @@ Study::Study(const Study& study) {
     ischemia_ = study.ischemia_;
     // copy the heart pointer
     heart_ = 0; //don't deal with it yet
+    testInvariant();
 }
 
 QString Study::fullName(bool lastFirst, bool useMiddleName) const {
@@ -86,14 +88,9 @@ void Study::setName(const Name name) {
 }
 
 
-void Study::setNumber(QString number) {
-    number_ = number;
-}
-
 QDate Study::date() const {
     return date_;
 }
-
 
 QTime Study::time() const {
     return time_;
@@ -101,6 +98,20 @@ QTime Study::time() const {
 
 QString Study::number() const {
     return number_;
+}
+
+AutonomicTone Study::adjustTone(AutonomicTone tone) {
+    tone > MAX_TONE ? tone = MAX_TONE : tone;
+    tone < MIN_TONE ? tone = MIN_TONE : tone;
+    return tone;
+}
+
+void Study::setVagalTone(AutonomicTone tone) {
+    vagalTone_ = adjustTone(tone);
+}
+
+void Study::setSympatheticTone(AutonomicTone tone) {
+    sympatheticTone_ = adjustTone(tone);
 }
 
 Study& Study::operator =(const Study& rhs) {
@@ -122,6 +133,13 @@ Study& Study::operator =(const Study& rhs) {
     // deal with heart pointer
     heart_ = 0;
     return *this;
+    testInvariant();
+}
+
+inline void Study::testInvariant() const {
+    assert(vagalTone_ >= MIN_TONE && vagalTone_ <= MAX_TONE);
+    assert(sympatheticTone_ >= MIN_TONE && sympatheticTone_ <= MAX_TONE);
+    assert (sex_ == MALE || sex_ == FEMALE);
 }
 
 

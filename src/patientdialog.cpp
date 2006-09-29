@@ -30,9 +30,10 @@
 
 PatientDialog::PatientDialog(Study& study, QWidget *parent, 
 			     const char *name)
-    :PatientDialogBase(parent, name), study_(study) {
+    : study_(study) {
  //   study_ = study;
     setFields();
+    PatientDialogBase(parent, name);
     // below set by above
     //studyDateEdit->setDate(QDate::currentDate());
     //studyTimeEdit->setTime(QTime::currentTime());
