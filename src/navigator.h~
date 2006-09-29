@@ -20,13 +20,12 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include <qmainwindow.h>
+#include "study.h"
 
-#include <vector>
+#include <qmainwindow.h>
 
 class QAction;
 class QPopupMenu;
-class Study;
 class StudyTable;
 
 /**
@@ -45,7 +44,7 @@ protected:
     //    void contextMenuEvent(QContextMenuEvent * event);
 
 private slots:
-        void patientInformation();
+    void patientInformation();
     /*    void openPatient();
         void newStudy();
         void openStudy();
@@ -61,8 +60,8 @@ private:
     void createMenus();
 
     // current study
-    Study* study_;
-    std::vector<Study*> studies_;
+    Study study_;
+    Studies studies_;
 
     /*    void createToolBars();
         void loadPatient();
@@ -103,7 +102,6 @@ private:
     QPopupMenu *administrationMenu;
     QPopupMenu *securitySubMenu;
     QPopupMenu *helpMenu;
-
 };
 
 #endif

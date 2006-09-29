@@ -37,8 +37,8 @@
 #include <qmessagebox.h>
 
 Navigator::Navigator()
- : QMainWindow( 0, "navigator", WDestructiveClose ) {
-    study_ = new Study;
+ : QMainWindow( 0, "navigator", WDestructiveClose ), study_() {
+//    study_ = 0;
     studyTable = new StudyTable(this);
     setCentralWidget(studyTable);
 
@@ -159,18 +159,22 @@ void Navigator::createMenus() {
 }
 
 void Navigator::patientInformation() {
-    Study* newStudy = new Study;
+//    Study* newStudy = new Study;
+//    if (study_ != 0)    // use current study as base for new study
+//        studyCopy(newStudy, study_);
+    Study newStudy(study_);
     PatientDialog *patientDialog = new PatientDialog(newStudy);
     if (patientDialog->exec()) {
-        if (!study_ == 0) 
-            delete study_;
         study_ = newStudy;
     }
-    else
-        delete newStudy;
+//        if (!study_ == 0) 
+//            delete study_;
+//        study_ = newStudy;
+//    }
+//    else
+//        delete newStudy;
     studies_.push_back(study_);
     studyTable->refresh(studies_);
-    // debug below
 }
 
 void Navigator::about() {
@@ -192,7 +196,6 @@ void Navigator::closeEvent(QCloseEvent *event) {
 }
 
 Navigator::~Navigator() {
-    delete study_;
 }
 
 

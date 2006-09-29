@@ -20,7 +20,7 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include <study.h>
+#include "study.h"
 
 #include <qmainwindow.h>
 
@@ -63,12 +63,6 @@ private:
     Study study_;
     Studies studies_;
 
-    /*    void createToolBars();
-        void loadPatient();
-        void savePatient();
-        void loadStudy();
-        void saveStudy();
-    */
     // central widget
     StudyTable *studyTable;
 
@@ -102,7 +96,6 @@ private:
     QPopupMenu *administrationMenu;
     QPopupMenu *securitySubMenu;
     QPopupMenu *helpMenu;
-
 };
 
 #endif

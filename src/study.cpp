@@ -20,6 +20,7 @@
 
 
 #include "study.h"
+#include "heart.h"
 
  
 
@@ -40,8 +41,16 @@ void studyCopy(Study* lhs, Study* rhs) {
     // copyHeart(lhs->heart_, rhs->heart_);
 }
 
+Study::Study() : date_(QDate::currentDate()),
+    time_(QTime::currentTime()), dateOfBirth_(1950, 1, 1),
+    sex_(MALE), height_(0), weight_(0), 
+    heightIn_(0), weightLbs_(0), bsa_(0), 
+    bsaManualEdit_(false), vagalTone_(50),
+    sympatheticTone_(50), ef_(50), ischemia_(false), heart_(0) {
+}
+
 Study::Study(const Study& study) {
-    name_ = study.name_;
+    name_ = study.name_;    // default copy constructor works here
     mrn_ = study.mrn_;
     sex_ = study.sex_;
     height_ = study.height_;
@@ -55,15 +64,7 @@ Study::Study(const Study& study) {
     ef_ = study.ef_;
     ischemia_ = study.ischemia_;
     // copy the heart pointer
-}
-
-Study::Study() : dateOfBirth_(1950, 1, 1) {
-    setDate(QDate::currentDate());
-    setTime(QTime::currentTime());
-}
-
-void Study::setDate(QDate date) {
-    date_ = date;
+    heart_ = 0; //don't deal with it yet
 }
 
 QString Study::fullName(bool lastFirst, bool useMiddleName) const {
@@ -84,10 +85,6 @@ void Study::setName(const Name name) {
     name_.middle = name.middle;
 }
 
-
-void Study::setTime(QTime time) {
-    time_ = time;
-}
 
 void Study::setNumber(QString number) {
     number_ = number;
@@ -123,9 +120,11 @@ Study& Study::operator =(const Study& rhs) {
     ef_ = rhs.ef_;
     ischemia_ = rhs.ischemia_;
     // deal with heart pointer
+    heart_ = 0;
     return *this;
 }
 
 
 Study::~Study() {
+    delete heart_;
 }

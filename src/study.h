@@ -94,11 +94,11 @@ private:
     double weightLbs_;
     double bsa_;  // BSA either manually edited or calculated
     bool bsaManualEdit_;  // should BSA be manually edited or calculated?
-    Heart *heart_;
     AutonomicTone vagalTone_;
     AutonomicTone sympatheticTone_;
     int ef_;
     bool ischemia_;
+    Heart *heart_;
     // other factors?
 };
 
