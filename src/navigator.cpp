@@ -38,7 +38,6 @@
 
 Navigator::Navigator()
  : QMainWindow( 0, "navigator", WDestructiveClose ) {
-//    study_ = 0;
     studyTable = new StudyTable(this);
     setCentralWidget(studyTable);
 
@@ -47,8 +46,6 @@ Navigator::Navigator()
 
     setCaption(tr("EP Simulator Navigator"));
     setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
-
-
 
     statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
 }
@@ -159,20 +156,13 @@ void Navigator::createMenus() {
 }
 
 void Navigator::patientInformation() {
-//    Study* newStudy = new Study;
-//    if (study_ != 0)    // use current study as base for new study
-//        studyCopy(newStudy, study_);
     Study newStudy(study_);
-    PatientDialog *patientDialog = new PatientDialog(newStudy, this);
+    PatientDialog *patientDialog = new PatientDialog(this);
+    patientDialog->setFields(newStudy);
     if (patientDialog->exec()) {
+        patientDialog->getFields(newStudy);
         study_ = newStudy;
     }
-//        if (!study_ == 0) 
-//            delete study_;
-//        study_ = newStudy;
-//    }
-//    else
-//        delete newStudy;
     studies_.push_back(study_);
     studyTable->refresh(studies_);
 }
@@ -197,5 +187,3 @@ void Navigator::closeEvent(QCloseEvent *event) {
 
 Navigator::~Navigator() {
 }
-
-

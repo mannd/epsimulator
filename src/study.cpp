@@ -23,30 +23,14 @@
 
 #include <cassert> 
 
-/* void studyCopy(Study* lhs, Study* rhs) {
-    lhs->name_ = rhs->name_;
-    lhs->mrn_ = rhs->mrn_;
-    lhs->sex_ = rhs->sex_;
-    lhs->height_ = rhs->height_;
-    lhs->weight_ = rhs->weight_;
-    lhs->heightIn_ = rhs->heightIn_;
-    lhs->weightLbs_ = rhs-> weightLbs_;
-    lhs->bsa_ = rhs->bsa_;
-    lhs->bsaManualEdit_ = rhs->bsaManualEdit_;
-    lhs->vagalTone_ = rhs->vagalTone_;
-    lhs->sympatheticTone_ = rhs->sympatheticTone_;
-    lhs->ef_ = rhs->ef_;
-    lhs->ischemia_ = rhs->ischemia_;
-    // copyHeart(lhs->heart_, rhs->heart_);
-}
-*/
-
 Study::Study() : date_(QDate::currentDate()),
     time_(QTime::currentTime()), dateOfBirth_(1950, 1, 1),
     sex_(FEMALE), height_(0), weight_(0), 
     heightIn_(0), weightLbs_(0), bsa_(0), 
-    bsaManualEdit_(false), vagalTone_(50),
-    sympatheticTone_(50), ef_(50), ischemia_(false), heart_(0) {
+    bsaManualEdit_(false), vagalTone_(DEFAULT_VAGAL_TONE),
+    sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), ef_(DEFAULT_EF), 
+    ischemia_(false), heart_(0) {
+    heart_ = new Heart;
     testInvariant();
 }
 
@@ -91,8 +75,8 @@ void Study::setName(const Name& name) {
 }
 
 AutonomicTone Study::adjustTone(AutonomicTone tone) {
-    tone > MAX_TONE ? tone = MAX_TONE : tone;
-    tone < MIN_TONE ? tone = MIN_TONE : tone;
+    tone = tone > MAX_TONE ? MAX_TONE : tone;
+    tone = tone < MIN_TONE ? MIN_TONE : tone;
     return tone;
 }
 
@@ -125,14 +109,21 @@ Study& Study::operator =(const Study& rhs) {
     ischemia_ = rhs.ischemia_;
     // deal with heart pointer
     heart_ = 0;
-    return *this;
     testInvariant();
+    return *this;
+   
+}
+
+void Study::setEf(int ef) {
+    ef_ = ef > MAX_EF ? MAX_EF : ef;
+    ef_ = ef < MIN_EF ? MIN_EF : ef;
 }
 
 inline void Study::testInvariant() const {
     assert(vagalTone_ >= MIN_TONE && vagalTone_ <= MAX_TONE);
     assert(sympatheticTone_ >= MIN_TONE && sympatheticTone_ <= MAX_TONE);
     assert (sex_ == MALE || sex_ == FEMALE);
+    assert (ef_ >= MIN_EF && ef_ <= MAX_EF);
 }
 
 

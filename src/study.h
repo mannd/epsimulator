@@ -38,9 +38,13 @@ typedef int AutonomicTone;
 
 enum Sex {MALE, FEMALE};
 
+// change these to programmable options
+#define DEFAULT_EF 55
+#define DEFAULT_VAGAL_TONE 70
+#define DEFAULT_SYMPATHETIC_TONE 30
+
 class Study {
 
- //  friend void studyCopy(Study* lhs, Study* rhs);
 public:
     Study();
     Study(const Study&);
@@ -55,6 +59,7 @@ public:
     double weight() const {return weight_;}
     double heightIn() const {return heightIn_;}
     double weightLbs() const {return weightLbs_;}
+    double bsa() const {return bsa_;}
     bool bsaManualEdit() const {return bsaManualEdit_;}
     int ef() const {return ef_;}
     bool hasIschemia() const {return ischemia_;}
@@ -64,18 +69,22 @@ public:
     QTime time() const {return time_;}
     QString number() const {return number_;}
 
-    void setBsa(const int bsa) {bsa_ = bsa;}
+    void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
-    void setMrn(const QString mrn) {mrn_ = mrn;}
-    void setHeight(const double height) {height_ = height;}
-    void setWeight(const double weight) {weight_ = weight;}
-    void setHeightIn(const double heightIn) {heightIn_ = heightIn;}
-    void setWeightLbs(const double weightLbs) {weightLbs_ = weightLbs;}
-    void setBsaManualEdit(const bool bsaManualEdit) {
+    void setMrn(QString mrn) {mrn_ = mrn;}
+    void setDateOfBirth(QDate date) {date_ = date;}
+    void setSex(Sex sex) {sex_ = sex;}
+    void setHeight(double height) {height_ = height;}
+    void setWeight(double weight) {weight_ = weight;}
+    void setHeightIn(double heightIn) {heightIn_ = heightIn;}
+    void setWeightLbs(double weightLbs) {weightLbs_ = weightLbs;}
+    void setBsaManualEdit(bool bsaManualEdit) {
 	bsaManualEdit_ = bsaManualEdit;}
+    void setEf(int ef);
     void setDate(QDate date) {date_ = date;}
     void setTime(QTime time) {time_ = time;}
     void setNumber(QString number) {number_ = number;}
+    void setIschemia(bool ischemia) {ischemia_ = ischemia;}
     void setVagalTone(AutonomicTone tone);
     void setSympatheticTone(AutonomicTone tone);
 
@@ -85,6 +94,7 @@ public:
 
 private:
     enum {MIN_TONE = 0, MAX_TONE = 100};  // min and max autonomic tone
+    enum {MIN_EF = 1, MAX_EF = 99};
 
     void testInvariant() const;
     AutonomicTone adjustTone(AutonomicTone tone);
@@ -107,7 +117,6 @@ private:
     int ef_;
     bool ischemia_;
     Heart *heart_;
-    // other factors?
 };
 
 typedef std::vector<Study> Studies;

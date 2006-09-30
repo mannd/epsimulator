@@ -25,13 +25,12 @@
 #include <qstring.h>
 #include <qdatetime.h>
 #include <qdatetimeedit.h>
+#include <qspinbox.h>
 
 #include <math.h>
 
-PatientDialog::PatientDialog(Study& study, QWidget *parent, 
-			     const char *name)
-    : PatientDialogBase(parent, name), study_(study) {
-    setFields();
+PatientDialog::PatientDialog(QWidget *parent, const char *name)
+    : PatientDialogBase(parent, name) {
 }
 
 double PatientDialog::inchesToCentimeters(double inches) {
@@ -75,31 +74,61 @@ void PatientDialog::weightKgLineEdit_lostFocus() {
     setBsaText();
 }
 
-void PatientDialog::accept() {
-    getFields();
-    PatientDialogBase::accept();
-}
+//void PatientDialog::accept() {
+//    getFields();
+//    PatientDialogBase::accept();
+//}
 
-void PatientDialog::setFields() {
-    Name name = study_.name();
+void PatientDialog::setFields(Study& study) {
+    Name name = study.name();
     lastNameLineEdit->setText(name.last);
     firstNameLineEdit->setText(name.first);
     middleNameLineEdit->setText(name.middle);
-    mrnLineEdit->setText(study_.mrn());
-    studyDateEdit->setDate(study_.date());
-    studyTimeEdit->setTime(study_.time());
+    mrnLineEdit->setText(study.mrn());
+    sexComboBox->setCurrentItem(study.sex());
+    studyDateEdit->setDate(study.date());
+    studyTimeEdit->setTime(study.time());
+    studyNumberLineEdit->setText(study.number());
+    dobDateEdit->setDate(study.dateOfBirth());
+    sexComboBox->setCurrentItem(study.sex());
+    heightInLineEdit->setText(QString::number(study.heightIn()));
+    weightLbsLineEdit->setText(QString::number(study.weightLbs()));
+    heightCmLineEdit->setText(QString::number(study.height()));
+    weightKgLineEdit->setText(QString::number(study.weight()));
+    manualEditBsaCheckBox->setChecked(study.bsaManualEdit());
+    bsaLineEdit->setText(QString::number(study.bsa()));
+    efSpinBox->setValue(study.ef());
+    vagalToneSpinBox->setValue(study.vagalTone());
+    sympatheticToneSpinBox->setValue(study.sympatheticTone());
+    ischemiaCheckBox->setChecked(study.hasIschemia());
+    // handle heart
 }
 
-void PatientDialog::getFields() {
+void PatientDialog::getFields(Study& study) {
     Name name;
     name.last = lastNameLineEdit->text();
     name.first = firstNameLineEdit->text();
     name.middle = middleNameLineEdit->text();
-    study_.setName(name);
-    study_.setMrn(mrnLineEdit->text());
-//    study_.setSex(
-    study_.setHeight(heightCmLineEdit->text().toDouble());
-    study_.setWeight(weightKgLineEdit->text().toDouble()); 
-    study_.setHeightIn(heightInLineEdit->text().toDouble());
-    study_.setWeightLbs(weightLbsLineEdit->text().toDouble());
+    study.setName(name);
+    study.setMrn(mrnLineEdit->text());
+    study.setDate(studyDateEdit->date());
+    study.setTime(studyTimeEdit->time());
+    study.setNumber(studyNumberLineEdit->text());
+    study.setDateOfBirth(dobDateEdit->date());
+    study.setSex(getSex());
+    study.setHeight(heightCmLineEdit->text().toDouble());
+    study.setWeight(weightKgLineEdit->text().toDouble()); 
+    study.setHeightIn(heightInLineEdit->text().toDouble());
+    study.setWeightLbs(weightLbsLineEdit->text().toDouble());
+    study.setBsaManualEdit(manualEditBsaCheckBox->isChecked());
+    study.setBsa(bsaLineEdit->text().toDouble());
+    study.setEf(efSpinBox->value());
+    study.setVagalTone(vagalToneSpinBox->value());
+    study.setSympatheticTone(sympatheticToneSpinBox->value());
+    study.setIschemia(ischemiaCheckBox->isChecked());
+    // handle heart here
+}
+
+Sex PatientDialog::getSex() {
+    return sexComboBox->currentItem() == 0 ? MALE : FEMALE;
 }

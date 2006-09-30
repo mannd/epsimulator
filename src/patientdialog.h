@@ -26,8 +26,10 @@
 class PatientDialog: public PatientDialogBase {
     Q_OBJECT
 public:
-    PatientDialog(Study& study, QWidget *parent = 0, 
+    PatientDialog(QWidget *parent = 0, 
 		  const char *name = 0);
+    void setFields(Study& study);
+    void getFields(Study& study);
    
 public slots:
     virtual void manualEditBsaCheckBox_toggled(bool);
@@ -35,19 +37,18 @@ public slots:
     virtual void weightLbsLineEdit_lostFocus();
     virtual void heightCmLineEdit_lostFocus();
     virtual void heightInLineEdit_lostFocus();
-    virtual void accept();
+//    virtual void accept();
 
 private:
     double inchesToCentimeters(double inches);
     double poundsToKilograms(double pounds);
     double bsa();
     void setBsaText();
-    void getFields();
-    void setFields();
+    Sex getSex();
 
     double metricHeight_;
     double metricWeight_;
-    Study& study_;   // This has to be a reference, or else PatientDialog won't act on the original study object !!
+//    Study& study_;   // This has to be a reference, or else PatientDialog won't act on the original study object !!
 };
 
 #endif
