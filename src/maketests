@@ -1,0 +1,2 @@
+cxxtestgen.pl --error-printer -o runner.cpp MyTestSuite.h
+g++ -o runner runner.cpp study.o -L$QTDIR/lib -I$QTDIR/include -lqt-mt heart.o               

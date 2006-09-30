@@ -62,7 +62,7 @@ public:
     double bsa() const {return bsa_;}
     bool bsaManualEdit() const {return bsaManualEdit_;}
     int ef() const {return ef_;}
-    bool hasIschemia() const {return ischemia_;}
+    bool ischemia() const {return ischemia_;}
     AutonomicTone vagalTone() const {return vagalTone_;}
     AutonomicTone sympatheticTone() const {return sympatheticTone_;}
     QDate date() const {return date_;}
@@ -72,7 +72,7 @@ public:
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
     void setMrn(QString mrn) {mrn_ = mrn;}
-    void setDateOfBirth(QDate date) {date_ = date;}
+    void setDateOfBirth(QDate dateOfBirth) {dateOfBirth_ = dateOfBirth;}
     void setSex(Sex sex) {sex_ = sex;}
     void setHeight(double height) {height_ = height;}
     void setWeight(double weight) {weight_ = weight;}

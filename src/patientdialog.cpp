@@ -100,7 +100,7 @@ void PatientDialog::setFields(Study& study) {
     efSpinBox->setValue(study.ef());
     vagalToneSpinBox->setValue(study.vagalTone());
     sympatheticToneSpinBox->setValue(study.sympatheticTone());
-    ischemiaCheckBox->setChecked(study.hasIschemia());
+    ischemiaCheckBox->setChecked(study.ischemia());
     // handle heart
 }
 
