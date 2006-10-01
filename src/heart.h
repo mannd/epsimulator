@@ -17,38 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef HEART_H
+#define HEART_H
 
-// MyTestSuite.h
-#include <cxxtest/TestSuite.h>
-#include "study.h"
+/**
+Obviously the heart.
 
-class MyTestSuite : public CxxTest::TestSuite {
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+class Heart{
 public:
-    void testAddition( void ) {
+    Heart();
 
-        TS_ASSERT( 1 + 1 > 1 );
+    ~Heart();
 
-        TS_ASSERT_EQUALS( 1 + 1, 2 );
-    }
-    void testStudyConstructor(void) {
-        Study study;
-        TS_ASSERT(study.sex() == FEMALE);
-        TS_ASSERT(study.vagalTone() == DEFAULT_VAGAL_TONE);
-        TS_ASSERT(study.sympatheticTone() == DEFAULT_SYMPATHETIC_TONE);
-        TS_ASSERT(study.ef() == DEFAULT_EF);
-        TS_ASSERT(study.ischemia() == false);
-    }
 };
 
-/*date_(QDate::currentDate()),
-    time_(QTime::currentTime()), dateOfBirth_(1950, 1, 1),
-    sex_(FEMALE), height_(0), weight_(0), 
-    heightIn_(0), weightLbs_(0), bsa_(0), 
-    bsaManualEdit_(false), vagalTone_(DEFAULT_VAGAL_TONE),
-    sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), ef_(DEFAULT_EF), 
-    ischemia_(false), heart_(0) {
-    heart_ = new Heart;
-    testInvariant();
-}
-
-*/
+#endif
