@@ -35,17 +35,48 @@
 #include <qaction.h>
 #include <qmessagebox.h>
 #include <qsplitter.h>
-//#include <qiconview.h>
 #include <qbuttongroup.h>
 #include <qlistview.h>
+#include <qpushbutton.h>
+#include <qlabel.h>
+#include <qsizepolicy.h>
 
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
+    createActions();
+    createMenus();
+    createCentralWidget();
 
+    setCaption(tr("EP Simulator Navigator"));
+    setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
+
+    statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
+}
+
+void Navigator::createCentralWidget() {
     horizontalSplitter = new QSplitter(Horizontal, this);
     setCentralWidget(horizontalSplitter);
-    buttonGroupView = new QButtonGroup(1, Vertical, horizontalSplitter);
+    buttonGroupView = new QButtonGroup(1, Horizontal, horizontalSplitter);
+    ///TODO: need to do the width more elegantly
+    buttonGroupView->setFixedWidth(200);
     buttonGroupView->setPaletteBackgroundColor("blue");
+    newStudyButton = new QPushButton(tr("New Study"), buttonGroupView);
+    connect(newStudyButton, SIGNAL(clicked()), this, SLOT(patientInformation()));    
+    newStudyLabel = new QLabel(tr("New Study"), buttonGroupView);
+    formatLabel(newStudyLabel, newStudyButton);
+    continueStudyButton = new QPushButton(buttonGroupView, tr("Continue Study"));
+    continueStudyLabel = new QLabel(tr("Continue Study"), buttonGroupView);
+    formatLabel(continueStudyLabel, continueStudyButton);
+    reviewStudyButton = new QPushButton(buttonGroupView, tr("Review Study"));
+    reviewStudyLabel = new QLabel(tr("Review Study"), buttonGroupView);
+    formatLabel(reviewStudyLabel, reviewStudyButton);
+    preregisterPatientButton = new QPushButton(buttonGroupView, tr("Pre-Register Patient"));
+    connect(preregisterPatientButton, SIGNAL(clicked()), this, SLOT(patientInformation()));
+    preregisterPatientLabel = new QLabel(tr("Pre-Register Patient"), buttonGroupView);
+    formatLabel(preregisterPatientLabel, preregisterPatientButton);
+    reportsButton = new QPushButton(buttonGroupView, tr("Reports"));
+    reportsLabel = new QLabel(tr("Reports"), buttonGroupView);
+    formatLabel(reportsLabel, reportsButton);
     tableListView = new QListView(horizontalSplitter);
     tableListView->addColumn(tr("Patient"));
     tableListView->addColumn(tr("MRN"));
@@ -54,14 +85,12 @@ Navigator::Navigator(QWidget* parent, const char* name)
     tableListView->setAllColumnsShowFocus(true);
     tableListView->setShowSortIndicator(true);
     tableListView->setResizeMode(QListView::AllColumns);
+}
 
-    createActions();
-    createMenus();
-
-    setCaption(tr("EP Simulator Navigator"));
-    setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
-
-    statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
+void Navigator::formatLabel(QLabel* label, QPushButton* button) {
+    label->setBuddy(button);
+    label->setAlignment(Qt::AlignHCenter);
+    label->setPaletteForegroundColor("white");
 }
 
 void Navigator::createActions() {
@@ -77,6 +106,7 @@ void Navigator::createActions() {
 
     preregisterAct = new QAction(tr("Pre-Register"), 0, this);
     preregisterAct->setStatusTip(tr("Pre-register patient"));
+    connect(newAct, SIGNAL(activated()), this, SLOT(patientInformation()));
 
     reportsAct = new QAction(tr("Reports..."), 0, this);
     reportsAct->setStatusTip(tr("Procedure reports"));
