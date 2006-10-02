@@ -26,7 +26,10 @@
 
 class QAction;
 class QPopupMenu;
-class StudyTable;
+class QSplitter;
+class QButtonGroup;
+class QListView;
+class QButton;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -36,7 +39,7 @@ class Navigator : public QMainWindow
     Q_OBJECT
 
 public:
-    Navigator();
+    Navigator(QWidget* parent = 0, const char *name = "navigator");
     ~Navigator();
 
 protected:
@@ -64,8 +67,15 @@ private:
     Study study_;
     Studies studies_;
 
-    // central widget
-    StudyTable *studyTable;
+    // central widget stuff    QSplitter* horizontalSplitter;
+    QSplitter* horizontalSplitter;
+    QButtonGroup* buttonGroupView;
+    QListView* tableListView;
+    QButton* newStudyButton;
+    QButton* continueStudyButton;
+    QButton* reviewStudyButton;
+    QButton* preregisterPatientButton;
+    QButton* reportsButton; 
 
     // Study menu
     QAction *newAct;

@@ -27,7 +27,6 @@
 #include "epsimulator.h"    // some menu items are duplicated in the epsimulator
 #include "study.h"
 #include "patientdialog.h"
-#include "studytable.h"
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>
@@ -35,11 +34,25 @@
 #include <qmenubar.h>
 #include <qaction.h>
 #include <qmessagebox.h>
+#include <qsplitter.h>
+#include <qbuttongroup.h>
+#include <qlistview.h>
 
-Navigator::Navigator()
- : QMainWindow( 0, "navigator", WDestructiveClose ) {
-    studyTable = new StudyTable(this);
-    setCentralWidget(studyTable);
+Navigator::Navigator(QWidget* parent, const char* name)
+ : QMainWindow( parent, name, WDestructiveClose ) {
+
+    horizontalSplitter = new QSplitter(Horizontal, this);
+    setCentralWidget(horizontalSplitter);
+    buttonGroupView = new QButtonGroup(1, Vertical, horizontalSplitter);
+    buttonGroupView->setPaletteBackgroundColor("blue");
+    tableListView = new QListView(horizontalSplitter);
+    tableListView->addColumn(tr("Patient"));
+    tableListView->addColumn(tr("MRN"));
+    tableListView->addColumn(tr("Study Date"));
+    tableListView->addColumn(tr("Study Number"));
+    tableListView->setAllColumnsShowFocus(true);
+    tableListView->setShowSortIndicator(true);
+    tableListView->setResizeMode(QListView::AllColumns);
 
     createActions();
     createMenus();
@@ -164,7 +177,7 @@ void Navigator::patientInformation() {
         study_ = newStudy;
     }
     studies_.push_back(study_);
-    studyTable->refresh(studies_);
+//    studyTable->refresh(studies_);
 }
 
 void Navigator::about() {

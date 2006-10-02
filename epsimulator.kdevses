@@ -6,16 +6,16 @@
    <View0 line="74" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
-   <View0 line="41" Type="Source" />
+   <View0 line="54" Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.h" >
-   <View0 line="46" Type="Source" />
+   <View0 Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.cpp" >
-   <View0 line="102" Type="Source" />
+   <View0 Type="Source" />
   </Doc3>
   <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="171" Type="Source" />
+   <View0 Type="Source" />
   </Doc4>
   <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
    <View0 Type="Source" />
@@ -24,28 +24,28 @@
    <View0 Type="Source" />
   </Doc6>
   <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.h" >
-   <View0 line="0" Type="Source" />
+   <View0 Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/studytest.h" >
-   <View0 line="25" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/notes" >
+   <View0 Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/studytest.cpp" >
-   <View0 line="21" Type="Source" />
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+   <View0 line="54" Type="Source" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/test.pro" >
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/testmake2" >
    <View0 line="0" Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/notes" >
-   <View0 line="33" Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/study.h" >
-   <View0 line="26" Type="Source" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-   <View0 line="52" Type="Source" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/Makefile" >
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/maketests" >
    <View0 line="0" Type="Source" />
+  </Doc11>
+  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/heart.h" >
+   <View0 line="37" Type="Source" />
+  </Doc12>
+  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studytable.h" >
+   <View0 line="0" Type="Source" />
+  </Doc13>
+  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/heart.cpp" >
+   <View0 line="24" Type="Source" />
   </Doc14>
  </DocsAndViews>
  <pluginList>

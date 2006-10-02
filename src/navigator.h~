@@ -26,7 +26,10 @@
 
 class QAction;
 class QPopupMenu;
-class StudyTable;
+class QSplitter;
+//class QIconView;
+class QButtonGroup;
+class QListView;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -36,7 +39,7 @@ class Navigator : public QMainWindow
     Q_OBJECT
 
 public:
-    Navigator();
+    Navigator(QWidget* parent = 0, const char *name = "navigator");
     ~Navigator();
 
 protected:
@@ -60,11 +63,16 @@ private:
     void createMenus();
 
     // current study
+    // it looks like in Qt subclasses, embedded objects must be pointers
     Study study_;
     Studies studies_;
 
-    // central widget
-    StudyTable *studyTable;
+    // central widget stuff    QSplitter* horizontalSplitter;
+    QSplitter* horizontalSplitter;
+//    QIconView* buttonsIconView;
+    QButtonGroup* buttonGroupView;
+    QListView* tableListView;
+//    StudyTable *studyTable;
 
     // Study menu
     QAction *newAct;

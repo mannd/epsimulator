@@ -20,16 +20,27 @@
 #ifndef HEART_H
 #define HEART_H
 
+#include <qstring.h>
+
 /**
 Obviously the heart.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */
+
+#define DEFAULT_HEART "default"
+
 class Heart{
 public:
-    Heart();
+    Heart(QString name = DEFAULT_HEART);
+    Heart (const Heart& heart);
+
+    QString name() {return name_;}
 
     ~Heart();
+
+private:
+    QString name_;
 
 };
 

@@ -34,7 +34,7 @@ Study::Study() : date_(QDate::currentDate()),
     testInvariant();
 }
 
-Study::Study(const Study& study) {
+void Study::copyStudy(const Study& study) {
     name_ = study.name_;    // default copy constructor works here
     date_ = study.date_;
     time_ = study.time_;
@@ -52,7 +52,11 @@ Study::Study(const Study& study) {
     ef_ = study.ef_;
     ischemia_ = study.ischemia_;
     // copy the heart pointer
-    heart_ = 0; //don't deal with it yet
+    heart_ = new Heart(*study.heart_);
+}
+
+Study::Study(const Study& study) {
+    copyStudy(study);
     testInvariant();
 }
 
@@ -91,24 +95,7 @@ void Study::setSympatheticTone(AutonomicTone tone) {
 Study& Study::operator =(const Study& rhs) {
     if (this == &rhs)
         return *this;
-    name_ = rhs.name_;
-    date_ = rhs.date_;
-    time_ = rhs.time_;
-    dateOfBirth_ = rhs.dateOfBirth_;
-    mrn_ = rhs.mrn_;
-    sex_ = rhs.sex_;
-    height_ = rhs.height_;
-    weight_ = rhs.weight_;
-    heightIn_ = rhs.heightIn_;
-    weightLbs_ = rhs. weightLbs_;
-    bsa_ = rhs.bsa_;
-    bsaManualEdit_ = rhs.bsaManualEdit_;
-    vagalTone_ = rhs.vagalTone_;
-    sympatheticTone_ = rhs.sympatheticTone_;
-    ef_ = rhs.ef_;
-    ischemia_ = rhs.ischemia_;
-    // deal with heart pointer
-    heart_ = 0;
+    copyStudy(rhs);
     testInvariant();
     return *this;
    

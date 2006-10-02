@@ -21,6 +21,7 @@
 // MyTestSuite.h
 #include <cxxtest/TestSuite.h>
 #include "../src/study.h"
+#include "../src/heart.h"
 
 class MyTestSuite : public CxxTest::TestSuite {
 public:
@@ -51,6 +52,7 @@ private:
             == study.bsa() == 0);
         TS_ASSERT(study.bsaManualEdit() == false);
         TS_ASSERT(study.date() == QDate::currentDate());
+//        TS_ASSERT(study.heart()->name() == DEFAULT_HEART);
     }
 };
 

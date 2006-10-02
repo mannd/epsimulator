@@ -97,6 +97,7 @@ private:
     enum {MIN_EF = 1, MAX_EF = 99};
 
     void testInvariant() const;
+    void copyStudy(const Study& study);
     AutonomicTone adjustTone(AutonomicTone tone);
 
     QDate date_;
