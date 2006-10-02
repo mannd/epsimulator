@@ -6,7 +6,13 @@
 FORMS += patientdialogbase.ui 
 TRANSLATIONS += epsimulator_de.ts 
 IMAGES += images/hi16-app-epsimulator.png \
-          images/hi32-app-epsimulator.png 
+          images/hi32-app-epsimulator.png \
+          images/NewStudy.png \
+          images/hi32-newstudy.png \
+          images/hi32-continuestudy.png \
+          images/hi32-preregister.png \
+          images/hi32-reports.png \
+          images/hi32-reviewstudy.png 
 HEADERS += epsimulator.h \
            navigator.h \
            patientdialog.h \

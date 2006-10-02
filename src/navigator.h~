@@ -60,6 +60,7 @@ private slots:
     void about();
 
 private:
+    void createCentralWidget();
     void createActions();
     void createMenus();
     void formatLabel(QLabel*, QPushButton*);  // sets up the labels for the QButtonGroup

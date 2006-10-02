@@ -60,21 +60,28 @@ void Navigator::createCentralWidget() {
     ///TODO: need to do the width more elegantly
     buttonGroupView->setFixedWidth(200);
     buttonGroupView->setPaletteBackgroundColor("blue");
-    newStudyButton = new QPushButton(tr("New Study"), buttonGroupView);
-    connect(newStudyButton, SIGNAL(clicked()), this, SLOT(patientInformation()));    
+    
+    newStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-newstudy.png"),
+        "" , buttonGroupView);
+    connect(newStudyButton, SIGNAL(clicked()), this, SLOT(newStudy()));    
     newStudyLabel = new QLabel(tr("New Study"), buttonGroupView);
     formatLabel(newStudyLabel, newStudyButton);
-    continueStudyButton = new QPushButton(buttonGroupView, tr("Continue Study"));
+    continueStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-continuestudy.png"),
+        "", buttonGroupView);
     continueStudyLabel = new QLabel(tr("Continue Study"), buttonGroupView);
     formatLabel(continueStudyLabel, continueStudyButton);
-    reviewStudyButton = new QPushButton(buttonGroupView, tr("Review Study"));
+    reviewStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-reviewstudy.png"),
+        "", buttonGroupView);
     reviewStudyLabel = new QLabel(tr("Review Study"), buttonGroupView);
     formatLabel(reviewStudyLabel, reviewStudyButton);
-    preregisterPatientButton = new QPushButton(buttonGroupView, tr("Pre-Register Patient"));
-    connect(preregisterPatientButton, SIGNAL(clicked()), this, SLOT(patientInformation()));
+    preregisterPatientButton = 
+        new QPushButton(QPixmap::fromMimeSource("hi32-preregister.png"),
+        "", buttonGroupView);
+    connect(preregisterPatientButton, SIGNAL(clicked()), this, SLOT(preregisterPatient()));
     preregisterPatientLabel = new QLabel(tr("Pre-Register Patient"), buttonGroupView);
     formatLabel(preregisterPatientLabel, preregisterPatientButton);
-    reportsButton = new QPushButton(buttonGroupView, tr("Reports"));
+    reportsButton = new QPushButton(QPixmap::fromMimeSource("hi32-reports.png"),
+        "", buttonGroupView);
     reportsLabel = new QLabel(tr("Reports"), buttonGroupView);
     formatLabel(reportsLabel, reportsButton);
     tableListView = new QListView(horizontalSplitter);
@@ -94,21 +101,26 @@ void Navigator::formatLabel(QLabel* label, QPushButton* button) {
 }
 
 void Navigator::createActions() {
-    newAct = new QAction(tr("New..."), 0, this);
+    newAct = new QAction(tr("&New..."), tr("Ctrl+N"), this);
+    newAct->setIconSet(QPixmap::fromMimeSource("hi32-newstudy.png"));
     newAct->setStatusTip(tr("New study"));
-    connect(newAct, SIGNAL(activated()), this, SLOT(patientInformation()));
+    connect(newAct, SIGNAL(activated()), this, SLOT(newStudy()));
 
-    continueAct = new QAction(tr("Continue"), 0, this);
+    continueAct = new QAction(tr("&Continue"), 0, this);
+    continueAct->setIconSet(QPixmap::fromMimeSource("hi32-continuestudy.png"));
     continueAct->setStatusTip(tr("Continue study"));
     
-    reviewAct = new QAction(tr("Review"), 0, this);
+    reviewAct = new QAction(tr("&Review"), 0, this);
+    reviewAct->setIconSet(QPixmap::fromMimeSource("hi32-reviewstudy.png"));
     reviewAct->setStatusTip(tr("Review study"));
 
-    preregisterAct = new QAction(tr("Pre-Register"), 0, this);
+    preregisterAct = new QAction(tr("&Pre-Register"), 0, this);
+    preregisterAct->setIconSet(QPixmap::fromMimeSource("hi32-preregister.png"));
     preregisterAct->setStatusTip(tr("Pre-register patient"));
-    connect(preregisterAct, SIGNAL(activated()), this, SLOT(patientInformation()));
+    connect(preregisterAct, SIGNAL(activated()), this, SLOT(preregisterPatient()));
 
-    reportsAct = new QAction(tr("Reports..."), 0, this);
+    reportsAct = new QAction(tr("R&eports..."), 0, this);
+    reportsAct->setIconSet(QPixmap::fromMimeSource("hi32-reports.png"));
     reportsAct->setStatusTip(tr("Procedure reports"));
 
     copyAct = new QAction(tr("Copy..."), 0, this);
@@ -121,7 +133,7 @@ void Navigator::createActions() {
     exportAct->setStatusTip(tr("Export study"));
 
     // Exit menu item is the only one with accelerator key
-    exitAct = new QAction(tr("E&xit"), 0, this);
+    exitAct = new QAction(tr("E&xit"), tr("Ctrl+X"), this);
     exitAct->setStatusTip("Exit EP Simulator");
     connect(exitAct, SIGNAL(activated()), this, SLOT(close()));
 
@@ -191,24 +203,40 @@ void Navigator::createMenus() {
     helpMenu = new QPopupMenu(this);
     aboutAct->addTo(helpMenu);
 
-    menuBar()->insertItem(tr("Study"), studyMenu);
-    menuBar()->insertItem(tr("Catalog"), catalogMenu);
-    menuBar()->insertItem(tr("Utilities"), utilitiesMenu);
-    menuBar()->insertItem(tr("Administration"), administrationMenu);
-    menuBar()->insertItem(tr("Help"), helpMenu);
+    menuBar()->insertItem(tr("&Study"), studyMenu);
+    menuBar()->insertItem(tr("&Catalog"), catalogMenu);
+    menuBar()->insertItem(tr("&Utilities"), utilitiesMenu);
+    menuBar()->insertItem(tr("&Administration"), administrationMenu);
+    menuBar()->insertItem(tr("&Help"), helpMenu);
 
 }
 
 void Navigator::patientInformation() {
     Study newStudy(study_);
-    PatientDialog *patientDialog = new PatientDialog(this);
+    PatientDialog* patientDialog = new PatientDialog(this);
     patientDialog->setFields(newStudy);
     if (patientDialog->exec()) {
         patientDialog->getFields(newStudy);
         study_ = newStudy;
     }
     studies_.push_back(study_);
+    QListViewItem* item = new QListViewItem(tableListView);
+    item->setText(0, study_.fullName());
 //    studyTable->refresh(studies_);
+}
+
+void Navigator::newStudy() {
+    patientInformation();
+    startStudy(study_);
+}
+
+void Navigator::preregisterPatient() {
+    patientInformation();
+}
+
+void Navigator::startStudy(Study& study) {
+    
+    // start up the main study screen
 }
 
 void Navigator::about() {
