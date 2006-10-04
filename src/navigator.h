@@ -67,7 +67,7 @@ private:
     void createMenus();
     void formatLabel(QLabel*, QPushButton*);  // sets up the labels for the QButtonGroup
     void startStudy(Study& study);
-    void patientInformation();
+    bool getStudyInformation();
 
     // current study
     // it looks like in Qt subclasses, embedded objects must be pointers

@@ -24,7 +24,7 @@
 #include <cassert> 
 
 Study::Study() : date_(QDate::currentDate()),
-    time_(QTime::currentTime()), dateOfBirth_(1950, 1, 1),
+    time_(QTime::currentTime()), dateOfBirth_(DEFAULT_BIRTH_DATE),
     sex_(FEMALE), height_(0), weight_(0), 
     heightIn_(0), weightLbs_(0), bsa_(0), 
     bsaManualEdit_(false), vagalTone_(DEFAULT_VAGAL_TONE),
@@ -40,6 +40,7 @@ void Study::copyStudy(const Study& study) {
     time_ = study.time_;
     dateOfBirth_ = study.dateOfBirth_;
     mrn_ = study.mrn_;
+    number_ = study.number_;
     sex_ = study.sex_;
     height_ = study.height_;
     weight_ = study.weight_;
@@ -60,6 +61,7 @@ Study::Study(const Study& study) {
     testInvariant();
 }
 
+///TODO this fails its test
 QString Study::fullName(bool lastFirst, bool useMiddleName) const {
     QString middleName;
     if (useMiddleName && !name_.middle.isEmpty()) 

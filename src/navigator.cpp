@@ -39,6 +39,7 @@
 #include <qlistview.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
+#include <qlayout.h>
 #include <qsizepolicy.h>
 
 Navigator::Navigator(QWidget* parent, const char* name)
@@ -59,6 +60,7 @@ void Navigator::createCentralWidget() {
     buttonGroupView = new QButtonGroup(1, Horizontal, horizontalSplitter);
     ///TODO: need to do the width more elegantly
     buttonGroupView->setFixedWidth(200);
+    buttonGroupView->layout()->setSpacing(10);
     buttonGroupView->setPaletteBackgroundColor("blue");
     
     newStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-newstudy.png"),
@@ -210,33 +212,37 @@ void Navigator::createMenus() {
     menuBar()->insertItem(tr("&Help"), helpMenu);
 
 }
-
-void Navigator::patientInformation() {
+// returns true if PatientDialog is saved, false if cancelled
+bool Navigator::getStudyInformation() {
     Study newStudy(study_);
     PatientDialog* patientDialog = new PatientDialog(this);
     patientDialog->setFields(newStudy);
     if (patientDialog->exec()) {
         patientDialog->getFields(newStudy);
-        study_ = newStudy;
+        study_ = newStudy;  
+        studies_.push_back(study_);
+        QListViewItem* item = new QListViewItem(tableListView);
+        item->setText(0, study_.fullName());
+        item->setText(1, study_.mrn());
+        item->setText(2, study_.date().toString());
+        item->setText(3, study_.number());
+        return true;
     }
-    studies_.push_back(study_);
-    QListViewItem* item = new QListViewItem(tableListView);
-    item->setText(0, study_.fullName());
-//    studyTable->refresh(studies_);
+    return false;
 }
 
 void Navigator::newStudy() {
-    patientInformation();
-    startStudy(study_);
+    if (getStudyInformation())
+        startStudy(study_);
 }
 
 void Navigator::preregisterPatient() {
-    patientInformation();
+    getStudyInformation();
 }
 
 void Navigator::startStudy(Study& study) {
-    
-    // start up the main study screen
+    Epsimulator* eps = new Epsimulator(this);
+    eps->showMaximized();
 }
 
 void Navigator::about() {

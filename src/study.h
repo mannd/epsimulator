@@ -42,6 +42,7 @@ enum Sex {MALE, FEMALE};
 #define DEFAULT_EF 55
 #define DEFAULT_VAGAL_TONE 70
 #define DEFAULT_SYMPATHETIC_TONE 30
+#define DEFAULT_BIRTH_DATE (QDate(1950,1,1))
 
 class Study {
 

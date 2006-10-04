@@ -30,8 +30,8 @@
 
 #include "epsimulator.h"
 
-Epsimulator::Epsimulator()
-    : QMainWindow( 0, "epsimulator", WDestructiveClose )
+Epsimulator::Epsimulator(QWidget* parent)
+    : QMainWindow(parent, "epsimulator")
 {
     workspace = new QWorkspace(this);
     setCentralWidget(workspace);

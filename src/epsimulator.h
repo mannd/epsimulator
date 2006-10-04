@@ -35,7 +35,7 @@ class Epsimulator : public QMainWindow
     Q_OBJECT
 
 public:
-    Epsimulator();
+    Epsimulator(QWidget* parent);
     ~Epsimulator();
 
 protected:
@@ -45,15 +45,6 @@ public slots:
     static void about(QWidget *);
 
 private slots:
-    //void patientInformation();
-    /*    void openPatient();
-        void newStudy();
-        void openStudy();
-        // Patients and studies are saved automatically when created and modified
-        // At least I think that is the Prucka behavior
-        void about();
-    */
-    //    static void about(QWidget *);
     void closeStudy();
 
 private:

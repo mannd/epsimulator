@@ -48,7 +48,9 @@ protected:
     //    void contextMenuEvent(QContextMenuEvent * event);
 
 private slots:
-    void patientInformation();
+    void newStudy();
+    void preregisterPatient();
+ 
     /*    void openPatient();
         void newStudy();
         void openStudy();
@@ -64,6 +66,8 @@ private:
     void createActions();
     void createMenus();
     void formatLabel(QLabel*, QPushButton*);  // sets up the labels for the QButtonGroup
+    void startStudy(Study& study);
+    void patientInformation();
 
     // current study
     // it looks like in Qt subclasses, embedded objects must be pointers

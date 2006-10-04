@@ -1,2 +1,2 @@
 cxxtestgen.pl --gui=QtGui -o runner.cpp ../test/MyTestSuite.h
-g++ -o ../bin/runner runner.cpp study.o -L$QTDIR/lib -I$QTDIR/include -lqt-mt heart.o               
+g++ -o ../bin/runner runner.cpp study.o heart.o -L$QTDIR/lib -I$QTDIR/include -lqt-mt 
