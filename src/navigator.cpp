@@ -222,7 +222,7 @@ bool Navigator::getStudyInformation() {
         study_ = newStudy;  
         studies_.push_back(study_);
         QListViewItem* item = new QListViewItem(tableListView);
-        item->setText(0, study_.fullName());
+        item->setText(0, study_.name().fullName());
         item->setText(1, study_.mrn());
         item->setText(2, study_.dateTime().toString());
         item->setText(3, study_.number());

@@ -32,6 +32,8 @@ struct Name {
     QString first;
     QString last;
     QString middle;
+    QString fullName(bool lastFirst = false,
+                     bool useMiddleName = false) const;
 };
 
 typedef int AutonomicTone;
@@ -51,8 +53,6 @@ public:
     Study(const Study&);
 
     Name name() const {return name_;};
-    QString fullName(bool lastFirst = false,
-                     bool useMiddleName = false) const;
     QString mrn() const {return mrn_;}
     QDate dateOfBirth() const {return dateOfBirth_;}
     Sex sex() const {return sex_;}

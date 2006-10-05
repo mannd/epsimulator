@@ -89,7 +89,7 @@ void Navigator::createCentralWidget() {
     tableListView = new QListView(horizontalSplitter);
     tableListView->addColumn(tr("Patient"));
     tableListView->addColumn(tr("MRN"));
-    tableListView->addColumn(tr("Study Date"));
+    tableListView->addColumn(tr("Study Date/Time"));
     tableListView->addColumn(tr("Study Number"));
     tableListView->setAllColumnsShowFocus(true);
     tableListView->setShowSortIndicator(true);
@@ -224,7 +224,7 @@ bool Navigator::getStudyInformation() {
         QListViewItem* item = new QListViewItem(tableListView);
         item->setText(0, study_.fullName());
         item->setText(1, study_.mrn());
-        item->setText(2, study_.date().toString());
+        item->setText(2, study_.dateTime().toString());
         item->setText(3, study_.number());
         return true;
     }

@@ -23,6 +23,22 @@
 
 #include <cassert> 
 
+
+///TODO this fails its test
+QString Name::fullName(bool lastFirst, bool useMiddleName) const {
+    QString middleName;
+    if (useMiddleName && !middle.isEmpty()) 
+	middleName = " " + middle.stripWhiteSpace() + " ";
+    else
+	middleName = " ";
+    if (lastFirst) 
+	return (last.stripWhiteSpace() + ", " + first.stripWhiteSpace()
+                 + middleName).stripWhiteSpace();
+    else
+	return first.stripWhiteSpace() + middleName + last.stripWhiteSpace();
+}
+
+
 Study::Study() : dateTime_(QDateTime::currentDateTime()),
     dateOfBirth_(DEFAULT_BIRTH_DATE),
     sex_(FEMALE), height_(0), weight_(0), 
@@ -58,19 +74,6 @@ void Study::copyStudy(const Study& study) {
 Study::Study(const Study& study) {
     copyStudy(study);
     testInvariant();
-}
-
-///TODO this fails its test
-QString Study::fullName(bool lastFirst, bool useMiddleName) const {
-    QString middleName;
-    if (useMiddleName && !name_.middle.isEmpty()) 
-	middleName = " " + name_.middle + " ";
-    else
-	middleName = " ";
-    if (lastFirst) 
-	return name_.last + "," + name_.first + middleName;
-    else
-	return name_.first + middleName + name_.last;
 }
 
 void Study::setName(const Name& name) {
