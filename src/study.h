@@ -66,8 +66,7 @@ public:
     bool ischemia() const {return ischemia_;}
     AutonomicTone vagalTone() const {return vagalTone_;}
     AutonomicTone sympatheticTone() const {return sympatheticTone_;}
-    QDate date() const {return date_;}
-    QTime time() const {return time_;}
+    QDateTime dateTime() const {return dateTime_;}
     QString number() const {return number_;}
 
     void setBsa(double bsa) {bsa_ = bsa;}
@@ -82,8 +81,7 @@ public:
     void setBsaManualEdit(bool bsaManualEdit) {
 	bsaManualEdit_ = bsaManualEdit;}
     void setEf(int ef);
-    void setDate(QDate date) {date_ = date;}
-    void setTime(QTime time) {time_ = time;}
+    void setDateTime(QDateTime dateTime) {dateTime_ = dateTime;}
     void setNumber(QString number) {number_ = number;}
     void setIschemia(bool ischemia) {ischemia_ = ischemia;}
     void setVagalTone(AutonomicTone tone);
@@ -101,8 +99,7 @@ private:
     void copyStudy(const Study& study);
     AutonomicTone adjustTone(AutonomicTone tone);
 
-    QDate date_;
-    QTime time_;
+    QDateTime dateTime_;
     QString number_;
     Name name_;
     QString mrn_;	// medical record number

@@ -23,8 +23,8 @@
 
 #include <cassert> 
 
-Study::Study() : date_(QDate::currentDate()),
-    time_(QTime::currentTime()), dateOfBirth_(DEFAULT_BIRTH_DATE),
+Study::Study() : dateTime_(QDateTime::currentDateTime()),
+    dateOfBirth_(DEFAULT_BIRTH_DATE),
     sex_(FEMALE), height_(0), weight_(0), 
     heightIn_(0), weightLbs_(0), bsa_(0), 
     bsaManualEdit_(false), vagalTone_(DEFAULT_VAGAL_TONE),
@@ -36,8 +36,7 @@ Study::Study() : date_(QDate::currentDate()),
 
 void Study::copyStudy(const Study& study) {
     name_ = study.name_;    // default copy constructor works here
-    date_ = study.date_;
-    time_ = study.time_;
+    dateTime_ = study.dateTime_;
     dateOfBirth_ = study.dateOfBirth_;
     mrn_ = study.mrn_;
     number_ = study.number_;

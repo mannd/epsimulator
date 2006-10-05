@@ -242,7 +242,7 @@ void Navigator::preregisterPatient() {
 
 void Navigator::startStudy(Study& study) {
     Epsimulator* eps = new Epsimulator(this);
-    eps->show();
+    eps->showMaximized();
 }
 
 void Navigator::about() {

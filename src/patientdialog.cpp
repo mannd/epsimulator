@@ -86,8 +86,7 @@ void PatientDialog::setFields(Study& study) {
     middleNameLineEdit->setText(name.middle);
     mrnLineEdit->setText(study.mrn());
     sexComboBox->setCurrentItem(study.sex());
-    studyDateEdit->setDate(study.date());
-    studyTimeEdit->setTime(study.time());
+    studyDateTimeEdit->setDateTime(study.dateTime());
     studyNumberLineEdit->setText(study.number());
     dobDateEdit->setDate(study.dateOfBirth());
     sexComboBox->setCurrentItem(study.sex());
@@ -111,8 +110,7 @@ void PatientDialog::getFields(Study& study) {
     name.middle = middleNameLineEdit->text();
     study.setName(name);
     study.setMrn(mrnLineEdit->text());
-    study.setDate(studyDateEdit->date());
-    study.setTime(studyTimeEdit->time());
+    study.setDateTime(studyDateTimeEdit->dateTime());
     study.setNumber(studyNumberLineEdit->text());
     study.setDateOfBirth(dobDateEdit->date());
     study.setSex(getSex());
