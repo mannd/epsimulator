@@ -27,6 +27,9 @@
 #include <qstring.h>
 #include <qdatetime.h>
 
+#include <iostream>
+using namespace std;
+
 class MyTestSuite : public CxxTest::TestSuite {
 public:
     void testStudyConstructor(void) {
@@ -49,12 +52,12 @@ public:
         testStudiesSimilar(s1, s2);
     }
     // 2 studies should not be equal: time should be different
-    void testStudyTimesNotEqual() {
+    void testStudyDateTimesNotEqual() {
         Study s1;
         for (int i = 0; i < 100000; ++i)
             ;
         Study s2;
-        TS_ASSERT(s1.time() != s2.time());
+        TS_ASSERT(s1.dateTime() != s2.dateTime());
     } 
     void testFullName1() {
         Study s;
@@ -63,10 +66,31 @@ public:
         name.middle = "E.";
         name.last = "Mann";
         s.setName(name);
-        TS_ASSERT(s.fullName() == "David Mann");
-        TS_ASSERT(s.fullName(true) == "Mann, David");
-        TS_ASSERT(s.fullName(false, true) == "David E. Mann");
-        TS_ASSERT(s.fullName(true, true) == "Mann, David E.");
+        TS_ASSERT(s.name().fullName() == "David Mann");
+        TS_ASSERT(s.name().fullName(true) == "Mann, David");
+        TS_ASSERT(s.name().fullName(false, true) == "David E. Mann");
+        TS_ASSERT(s.name().fullName(true, true) == "Mann, David E.");
+        cout <<s.name().fullName() << '\n';
+        cout <<s.name().fullName(true) << '\n';
+        cout <<s.name().fullName(false, true) << '\n';
+        cout <<s.name().fullName(true, true)  << '\n';
+    }
+    // make sure extra spaces are trimmed off
+    void testFullName2() {
+        Study s;
+        Name name;
+        name.first = "         David          ";
+        name.middle = "   E.     ";
+        name.last = "     Mann          ";
+        s.setName(name);
+        TS_ASSERT(s.name().fullName() == "David Mann");
+        TS_ASSERT(s.name().fullName(true) == "Mann, David");
+        TS_ASSERT(s.name().fullName(false, true) == "David E. Mann");
+        TS_ASSERT(s.name().fullName(true, true) == "Mann, David E.");
+        cout <<s.name().fullName() << '\n';
+        cout <<s.name().fullName(true) << '\n';
+        cout <<s.name().fullName(false, true) << '\n';
+        cout <<s.name().fullName(true, true)  << '\n';
     }
         
 
@@ -90,7 +114,7 @@ private:
             == study.heightIn() == study.weightLbs() 
             == study.bsa() == 0);
         TS_ASSERT(study.bsaManualEdit() == false);
-        TS_ASSERT(study.date() == QDate::currentDate());
+        TS_ASSERT(study.dateTime().date() == QDateTime::currentDateTime().date());
 //        TS_ASSERT(study.heart()->name() == DEFAULT_HEART);
     }
     // this won't test date or time
@@ -130,10 +154,7 @@ private:
         TS_ASSERT_EQUALS(s1.ischemia(), s2.ischemia());
         TS_ASSERT_EQUALS(s1.vagalTone(), s2.vagalTone());
         TS_ASSERT_EQUALS(s1.sympatheticTone(), s2.sympatheticTone());
-        TS_ASSERT_EQUALS(s1.date(), s2.date());  // there is a slight chance 
-        // this will fail around midnight!
-        TS_ASSERT_EQUALS(s1.time(), s2.time());  // this will fail for 2 different
-        // studies 
+        TS_ASSERT_EQUALS(s1.dateTime(), s2.dateTime());  
         TS_ASSERT_EQUALS(s1.number(), s2.number());
     }
 };

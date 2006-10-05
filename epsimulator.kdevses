@@ -1,48 +1,41 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="8" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/src.pro" >
-   <View0 line="0" Type="Source" />
-  </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-   <View0 Type="Source" />
-  </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 Type="Source" />
-  </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="121" Type="Source" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/main.cpp" >
-   <View0 Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qkeysequence.html" >
+ <DocsAndViews NumberOfDocuments="10" >
+  <Doc0 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qpushbutton.html" >
    <View0 Type="Documentation" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qsizepolicy.h" >
+  </Doc0>
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
+   <View0 line="273" Type="Source" />
+  </Doc1>
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.cpp" >
+   <View0 line="113" Type="Source" />
+  </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
+   <View0 line="34" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
+   <View0 line="35" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.h" >
    <View0 line="0" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 line="70" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
-   <View0 Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/runner.cpp" >
+   <View0 line="54" Type="Source" />
   </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+   <View0 line="86" Type="Source" />
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qtoolbox.html" >
+   <View0 Type="Documentation" />
+  </Doc9>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
-   <breakpointList>
-    <breakpoint0 location="/home/mannd/dev/epsimulator/src/navigator.cpp:220" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint0>
-    <breakpoint1 location="/home/mannd/dev/epsimulator/src/navigator.cpp:221" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint1>
-    <breakpoint2 location="/home/mannd/dev/epsimulator/src/navigator.cpp:222" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint2>
-    <breakpoint3 location="/home/mannd/dev/epsimulator/src/navigator.cpp:223" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint3>
-   </breakpointList>
+   <breakpointList/>
   </kdevdebugger>
   <kdevbookmarks>
    <bookmarks/>

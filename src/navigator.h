@@ -27,7 +27,7 @@
 class QAction;
 class QPopupMenu;
 class QSplitter;
-class QButtonGroup;
+class QVButtonGroup;
 class QListView;
 class QPushButton;
 class QLabel;
@@ -65,9 +65,10 @@ private:
     void createCentralWidget();
     void createActions();
     void createMenus();
-    void formatLabel(QLabel*, QPushButton*);  // sets up the labels for the QButtonGroup
     void startStudy(Study& study);
     bool getStudyInformation();
+    void saveSettings();
+    void readSettings();
 
     // current study
     // it looks like in Qt subclasses, embedded objects must be pointers
@@ -76,19 +77,13 @@ private:
 
     // central widget stuff    QSplitter* horizontalSplitter;
     QSplitter* horizontalSplitter;
-    QButtonGroup* buttonGroupView;
+    QVButtonGroup* buttonGroupView;
     QListView* tableListView;
     QPushButton* newStudyButton;
     QPushButton* continueStudyButton;
     QPushButton* reviewStudyButton;
     QPushButton* preregisterPatientButton;
     QPushButton* reportsButton; 
-    // labels for above
-    QLabel* newStudyLabel;
-    QLabel* continueStudyLabel;
-    QLabel* reviewStudyLabel;
-    QLabel* preregisterPatientLabel;
-    QLabel* reportsLabel;
 
     // Study menu
     QAction *newAct;
