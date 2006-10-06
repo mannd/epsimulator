@@ -1,6 +1,0 @@
-all:
-	$(MAKE) ../bin/epsimulator
-	./maketests
-	../bin/runner -keep
-
-
