@@ -3,7 +3,8 @@
 # Subdir relative project main directory: .
 # Target is a subdirs project 
 
-SUBDIRS += src 
+SUBDIRS += src \
+           test 
 TEMPLATE = subdirs
 CONFIG += debug \
 warn_on \

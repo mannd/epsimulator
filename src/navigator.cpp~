@@ -35,13 +35,14 @@
 #include <qaction.h>
 #include <qmessagebox.h>
 #include <qsplitter.h>
-#include <qvbuttongroup.h>
 #include <qlistview.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
-//#include <qlayout.h>
+#include <qlayout.h>
 #include <qsizepolicy.h>
 #include <qsettings.h>
+
+#define BUTTON_SIZE 80
 
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
@@ -58,25 +59,84 @@ Navigator::Navigator(QWidget* parent, const char* name)
 void Navigator::createCentralWidget() {
     horizontalSplitter = new QSplitter(Horizontal, this);
     setCentralWidget(horizontalSplitter);
-    buttonGroupView = new QVButtonGroup(horizontalSplitter);
-    ///TODO: need to do the width more elegantly
-    //buttonGroupView->setMaximumWidth(250);
+
+    buttonFrame = new QFrame(horizontalSplitter);
+    buttonFrame->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)1, (QSizePolicy::SizeType)5, 0, 0, buttonFrame->sizePolicy().hasHeightForWidth() ) );
+    buttonFrame->setFrameShape(QFrame::StyledPanel);
+    buttonFrame->setPaletteBackgroundColor("blue");
+    buttonFrame->setMaximumWidth(200);
+    buttonFrameLayout = new QGridLayout(buttonFrame, 1, 1, 11, 6, "");
+
+    
+
  
-    buttonGroupView->setPaletteBackgroundColor("blue");
     newStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-newstudy.png"),
-        tr("New Study") , buttonGroupView);
-    connect(newStudyButton, SIGNAL(clicked()), this, SLOT(newStudy()));    
+        "" , buttonFrame);
+    newStudyButton->setMinimumHeight(BUTTON_SIZE);
+    buttonFrameLayout->addWidget(newStudyButton, 0, 0);
+//    buttonGridLayout->addWidget(newStudyButton, 0, 0);
+    connect(newStudyButton, SIGNAL(clicked()), this, SLOT(newStudy())); 
+
+    newStudyLabel = new QLabel(tr("New Study"), buttonFrame);
+    newStudyLabel->setPaletteForegroundColor("white");
+    buttonFrameLayout->addWidget(newStudyLabel, 1, 0);
+
     continueStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-continuestudy.png"),
-        tr("Continue Study"), buttonGroupView);
+        "", buttonFrame);
+    continueStudyButton->setMinimumHeight(BUTTON_SIZE);
+    buttonFrameLayout->addWidget(continueStudyButton, 2, 0);
+    
+    continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame);
+    continueStudyLabel->setPaletteForegroundColor("white");
+    buttonFrameLayout->addWidget(continueStudyLabel, 3, 0);
+ //   buttonGridLayout->addWidget(continueStudyButton, 1, 0);
+    
     reviewStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-reviewstudy.png"),
-        tr("Review Study"), buttonGroupView);
+        "", buttonFrame);
+    reviewStudyButton->setMinimumHeight(BUTTON_SIZE);
+    buttonFrameLayout->addWidget(reviewStudyButton, 4, 0);
+//    buttonGridLayout->addWidget(reviewStudyButton, 2, 0);
+    
+    reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame);
+    reviewStudyLabel->setPaletteForegroundColor("white");
+    buttonFrameLayout->addWidget(reviewStudyLabel, 5, 0);
+    
     preregisterPatientButton = 
         new QPushButton(QPixmap::fromMimeSource("hi32-preregister.png"),
-        tr("Pre-Register Patient"), buttonGroupView);
+        "", buttonFrame);
+    preregisterPatientButton->setMinimumHeight(BUTTON_SIZE);
+    buttonFrameLayout->addWidget(preregisterPatientButton, 6, 0);
+//    buttonGridLayout->addWidget(preregisterPatientButton, 3, 0);
     connect(preregisterPatientButton, SIGNAL(clicked()), this, SLOT(preregisterPatient()));
+
+    preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame);
+    preregisterPatientLabel->setPaletteForegroundColor("white");
+    buttonFrameLayout->addWidget(preregisterPatientLabel, 7, 0);
+  
     reportsButton = new QPushButton(QPixmap::fromMimeSource("hi32-reports.png"),
-        tr("Reports"), buttonGroupView);
+        "", buttonFrame);
+    reportsButton->setMinimumHeight(BUTTON_SIZE);
+    buttonFrameLayout->addWidget(reportsButton, 8, 0);
+    
+    reportsLabel = new QLabel(tr("Reports"), buttonFrame);
+    reportsLabel->setPaletteForegroundColor("white");
+    buttonFrameLayout->addWidget(reportsLabel, 9, 0);
+
+    spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
+    buttonFrameLayout->addItem( spacer, 10, 0 );
+//    buttonFrame->addStretch(1);
  
+//    buttonGridLayout->addWidget(reportsButton, 4, 0);    
+    
+
+ //    buttonGroupLayout->addLayout(buttonGridLayout, 0, 0);
+//     newStudyLabel->setBuddy(newStudyButton);
+//     continueStudyLabel->setBuddy(continueStudyButton);       
+//     reviewStudyLabel->setBuddy(reviewStudyButton);
+//     preregisterPatientLabel->setBuddy(preregisterPatientButton);
+//     reportsLabel->setBuddy(reportsButton);
+
+
     tableListView = new QListView(horizontalSplitter);
     tableListView->addColumn(tr("Patient"));
     tableListView->addColumn(tr("MRN"));
@@ -85,8 +145,8 @@ void Navigator::createCentralWidget() {
     tableListView->setAllColumnsShowFocus(true);
     tableListView->setShowSortIndicator(true);
     tableListView->setResizeMode(QListView::AllColumns);
-//    buttonGroupView->adjustSize();
-    readSettings(); 
+//    buttonFrame->adjustSize();
+//    readSettings(); 
 }
 
 void Navigator::saveSettings() {
@@ -275,5 +335,5 @@ void Navigator::closeEvent(QCloseEvent *event) {
 }
 
 Navigator::~Navigator() {
-    saveSettings();
+//    saveSettings();
 }

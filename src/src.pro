@@ -3,7 +3,8 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  ../bin/epsimulator
 
-FORMS += patientdialogbase.ui 
+FORMS += patientdialogbase.ui \
+         form3.ui 
 TRANSLATIONS += epsimulator_de.ts 
 IMAGES += images/hi16-app-epsimulator.png \
           images/hi32-app-epsimulator.png \

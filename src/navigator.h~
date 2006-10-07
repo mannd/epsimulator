@@ -27,7 +27,8 @@
 class QAction;
 class QPopupMenu;
 class QSplitter;
-class QVButtonGroup;
+class QFrame;
+class QGridLayout;
 class QListView;
 class QPushButton;
 class QLabel;
@@ -67,7 +68,7 @@ private:
     void createMenus();
     void startStudy(Study& study);
     bool getStudyInformation();
-    void writeSettings();
+    void saveSettings();
     void readSettings();
 
     // current study
@@ -77,13 +78,21 @@ private:
 
     // central widget stuff    QSplitter* horizontalSplitter;
     QSplitter* horizontalSplitter;
-    QVButtonGroup* buttonGroupView;
+    QFrame* buttonFrame;
+    QGridLayout* buttonFrameLayout;
+//    QGridLayout* buttonGroupLayout;
+//    QGridLayout* buttonGridLayout;
     QListView* tableListView;
     QPushButton* newStudyButton;
     QPushButton* continueStudyButton;
     QPushButton* reviewStudyButton;
     QPushButton* preregisterPatientButton;
     QPushButton* reportsButton; 
+    QLabel* newStudyLabel;
+    QLabel* continueStudyLabel;
+    QLabel* reviewStudyLabel;
+    QLabel* preregisterPatientLabel;
+    QLabel* reportsLabel;
 
     // Study menu
     QAction *newAct;

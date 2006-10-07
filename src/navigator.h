@@ -27,10 +27,12 @@
 class QAction;
 class QPopupMenu;
 class QSplitter;
-class QVButtonGroup;
+class QFrame;
+class QGridLayout;
 class QListView;
 class QPushButton;
 class QLabel;
+class QSpacerItem;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -77,13 +79,22 @@ private:
 
     // central widget stuff    QSplitter* horizontalSplitter;
     QSplitter* horizontalSplitter;
-    QVButtonGroup* buttonGroupView;
+    QFrame* buttonFrame;
+    QGridLayout* buttonFrameLayout;
+//    QGridLayout* buttonGroupLayout;
+//    QGridLayout* buttonGridLayout;
     QListView* tableListView;
     QPushButton* newStudyButton;
     QPushButton* continueStudyButton;
     QPushButton* reviewStudyButton;
     QPushButton* preregisterPatientButton;
     QPushButton* reportsButton; 
+    QLabel* newStudyLabel;
+    QLabel* continueStudyLabel;
+    QLabel* reviewStudyLabel;
+    QLabel* preregisterPatientLabel;
+    QLabel* reportsLabel;
+    QSpacerItem* spacer;
 
     // Study menu
     QAction *newAct;
