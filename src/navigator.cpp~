@@ -67,59 +67,59 @@ void Navigator::createCentralWidget() {
     buttonFrame->setMaximumWidth(200);
     buttonFrameLayout = new QGridLayout(buttonFrame, 1, 1, 11, 6, "");
 
-    
-
- 
-    newStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-newstudy.png"),
-        "" , buttonFrame);
-    newStudyButton->setMinimumHeight(BUTTON_SIZE);
+    newStudyButton = new QPushButton(buttonFrame);
+    newStudyButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
+    newStudyButton->setPixmap(QPixmap::fromMimeSource("hi64-newstudy.png"));
     buttonFrameLayout->addWidget(newStudyButton, 0, 0);
 //    buttonGridLayout->addWidget(newStudyButton, 0, 0);
     connect(newStudyButton, SIGNAL(clicked()), this, SLOT(newStudy())); 
 
     newStudyLabel = new QLabel(tr("New Study"), buttonFrame);
     newStudyLabel->setPaletteForegroundColor("white");
+    newStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(newStudyLabel, 1, 0);
 
-    continueStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-continuestudy.png"),
-        "", buttonFrame);
-    continueStudyButton->setMinimumHeight(BUTTON_SIZE);
+    continueStudyButton = new QPushButton(buttonFrame);
+    continueStudyButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
+    continueStudyButton->setPixmap(QPixmap::fromMimeSource("hi64-continuestudy.png"));
     buttonFrameLayout->addWidget(continueStudyButton, 2, 0);
     
     continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame);
     continueStudyLabel->setPaletteForegroundColor("white");
+    continueStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(continueStudyLabel, 3, 0);
  //   buttonGridLayout->addWidget(continueStudyButton, 1, 0);
     
-    reviewStudyButton = new QPushButton(QPixmap::fromMimeSource("hi32-reviewstudy.png"),
-        "", buttonFrame);
-    reviewStudyButton->setMinimumHeight(BUTTON_SIZE);
+    reviewStudyButton = new QPushButton(buttonFrame);
+    reviewStudyButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
+    reviewStudyButton->setPixmap(QPixmap::fromMimeSource("hi64-reviewstudy.png"));
     buttonFrameLayout->addWidget(reviewStudyButton, 4, 0);
 //    buttonGridLayout->addWidget(reviewStudyButton, 2, 0);
     
     reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame);
     reviewStudyLabel->setPaletteForegroundColor("white");
+    reviewStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(reviewStudyLabel, 5, 0);
     
-    preregisterPatientButton = 
-        new QPushButton(QPixmap::fromMimeSource("hi32-preregister.png"),
-        "", buttonFrame);
-    preregisterPatientButton->setMinimumHeight(BUTTON_SIZE);
-    buttonFrameLayout->addWidget(preregisterPatientButton, 6, 0);
+    preregisterPatientButton = new QPushButton(buttonFrame);
+    preregisterPatientButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
+    preregisterPatientButton->setPixmap(QPixmap::fromMimeSource("hi64-preregister.png")); buttonFrameLayout->addWidget(preregisterPatientButton, 6, 0);
 //    buttonGridLayout->addWidget(preregisterPatientButton, 3, 0);
     connect(preregisterPatientButton, SIGNAL(clicked()), this, SLOT(preregisterPatient()));
 
     preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame);
     preregisterPatientLabel->setPaletteForegroundColor("white");
+    preregisterPatientLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(preregisterPatientLabel, 7, 0);
   
-    reportsButton = new QPushButton(QPixmap::fromMimeSource("hi32-reports.png"),
-        "", buttonFrame);
-    reportsButton->setMinimumHeight(BUTTON_SIZE);
+    reportsButton = new QPushButton(buttonFrame);
+    reportsButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
+    reportsButton->setPixmap(QPixmap::fromMimeSource("hi64-reports.png"));
     buttonFrameLayout->addWidget(reportsButton, 8, 0);
     
     reportsLabel = new QLabel(tr("Reports"), buttonFrame);
     reportsLabel->setPaletteForegroundColor("white");
+    reportsLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(reportsLabel, 9, 0);
 
     spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
