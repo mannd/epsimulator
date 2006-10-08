@@ -27,6 +27,7 @@
 #include "epsimulator.h"    // some menu items are duplicated in the epsimulator
 #include "study.h"
 #include "patientdialog.h"
+#include "systemsettings.h"
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>
@@ -74,7 +75,7 @@ void Navigator::createCentralWidget() {
 //    buttonGridLayout->addWidget(newStudyButton, 0, 0);
     connect(newStudyButton, SIGNAL(clicked()), this, SLOT(newStudy())); 
 
-    newStudyLabel = new QLabel(tr("New Study"), buttonFrame);
+    newStudyLabel = new QLabel(tr("New\nStudy"), buttonFrame);
     newStudyLabel->setPaletteForegroundColor("white");
     newStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(newStudyLabel, 1, 0);
@@ -84,7 +85,7 @@ void Navigator::createCentralWidget() {
     continueStudyButton->setPixmap(QPixmap::fromMimeSource("hi64-continuestudy.png"));
     buttonFrameLayout->addWidget(continueStudyButton, 2, 0);
     
-    continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame);
+    continueStudyLabel = new QLabel(tr("Continue\nStudy"), buttonFrame);
     continueStudyLabel->setPaletteForegroundColor("white");
     continueStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(continueStudyLabel, 3, 0);
@@ -96,7 +97,7 @@ void Navigator::createCentralWidget() {
     buttonFrameLayout->addWidget(reviewStudyButton, 4, 0);
 //    buttonGridLayout->addWidget(reviewStudyButton, 2, 0);
     
-    reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame);
+    reviewStudyLabel = new QLabel(tr("Review\nStudy"), buttonFrame);
     reviewStudyLabel->setPaletteForegroundColor("white");
     reviewStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(reviewStudyLabel, 5, 0);
@@ -107,7 +108,7 @@ void Navigator::createCentralWidget() {
 //    buttonGridLayout->addWidget(preregisterPatientButton, 3, 0);
     connect(preregisterPatientButton, SIGNAL(clicked()), this, SLOT(preregisterPatient()));
 
-    preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame);
+    preregisterPatientLabel = new QLabel(tr("Pre-\nRegister"), buttonFrame);
     preregisterPatientLabel->setPaletteForegroundColor("white");
     preregisterPatientLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(preregisterPatientLabel, 7, 0);
@@ -145,8 +146,7 @@ void Navigator::createCentralWidget() {
     tableListView->setAllColumnsShowFocus(true);
     tableListView->setShowSortIndicator(true);
     tableListView->setResizeMode(QListView::AllColumns);
-//    buttonFrame->adjustSize();
-//    readSettings(); 
+    readSettings(); 
 }
 
 void Navigator::saveSettings() {
@@ -233,6 +233,7 @@ void Navigator::createActions() {
    
     systemSettingsAct = new QAction(tr("System Settings"), 0, this);
     systemSettingsAct->setStatusTip(tr("Change system settings"));
+    connect(systemSettingsAct, SIGNAL(activate()), this, SLOT(systemSettings()));
  
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
@@ -283,6 +284,7 @@ void Navigator::createMenus() {
     menuBar()->insertItem(tr("&Help"), helpMenu);
 
 }
+
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation() {
     Study newStudy(study_);
@@ -316,6 +318,12 @@ void Navigator::startStudy(Study& study) {
     eps->showMaximized();
 }
 
+void Navigator::systemSettings() {
+    SystemDialog* systemDialog = new SystemDialog(this);
+    if (systemDialog->exec())
+        ;
+}
+
 void Navigator::about() {
     Epsimulator::about(this);
 }
@@ -335,5 +343,5 @@ void Navigator::closeEvent(QCloseEvent *event) {
 }
 
 Navigator::~Navigator() {
-//    saveSettings();
+    saveSettings();
 }

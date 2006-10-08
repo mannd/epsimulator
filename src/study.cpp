@@ -24,7 +24,6 @@
 #include <cassert> 
 
 
-///TODO this fails its test
 QString Name::fullName(bool lastFirst, bool useMiddleName) const {
     QString middleName;
     if (useMiddleName && !middle.isEmpty()) 

@@ -32,6 +32,7 @@ class QGridLayout;
 class QListView;
 class QPushButton;
 class QLabel;
+class QSpacerItem;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -51,14 +52,6 @@ protected:
 private slots:
     void newStudy();
     void preregisterPatient();
- 
-    /*    void openPatient();
-        void newStudy();
-        void openStudy();
-        // Patients and studies are saved automatically when created and modified
-        // At least I think that is the Prucka behavior
-        void about();
-    */
 
     void about();
 
@@ -80,8 +73,6 @@ private:
     QSplitter* horizontalSplitter;
     QFrame* buttonFrame;
     QGridLayout* buttonFrameLayout;
-//    QGridLayout* buttonGroupLayout;
-//    QGridLayout* buttonGridLayout;
     QListView* tableListView;
     QPushButton* newStudyButton;
     QPushButton* continueStudyButton;
@@ -93,6 +84,7 @@ private:
     QLabel* reviewStudyLabel;
     QLabel* preregisterPatientLabel;
     QLabel* reportsLabel;
+    QSpacerItem* spacer;
 
     // Study menu
     QAction *newAct;

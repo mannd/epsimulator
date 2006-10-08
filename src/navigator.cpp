@@ -27,6 +27,7 @@
 #include "epsimulator.h"    // some menu items are duplicated in the epsimulator
 #include "study.h"
 #include "patientdialog.h"
+#include "systemsettings.h"
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>
@@ -145,8 +146,7 @@ void Navigator::createCentralWidget() {
     tableListView->setAllColumnsShowFocus(true);
     tableListView->setShowSortIndicator(true);
     tableListView->setResizeMode(QListView::AllColumns);
-//    buttonFrame->adjustSize();
-//    readSettings(); 
+    readSettings(); 
 }
 
 void Navigator::saveSettings() {
@@ -233,6 +233,7 @@ void Navigator::createActions() {
    
     systemSettingsAct = new QAction(tr("System Settings"), 0, this);
     systemSettingsAct->setStatusTip(tr("Change system settings"));
+    connect(systemSettingsAct, SIGNAL(activated()), this, SLOT(systemSettings()));
  
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
@@ -283,6 +284,7 @@ void Navigator::createMenus() {
     menuBar()->insertItem(tr("&Help"), helpMenu);
 
 }
+
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation() {
     Study newStudy(study_);
@@ -316,6 +318,12 @@ void Navigator::startStudy(Study& study) {
     eps->showMaximized();
 }
 
+void Navigator::systemSettings() {
+    SystemDialog* systemDialog = new SystemDialog(this);
+    if (systemDialog->exec())
+        ;
+}
+
 void Navigator::about() {
     Epsimulator::about(this);
 }
@@ -335,5 +343,5 @@ void Navigator::closeEvent(QCloseEvent *event) {
 }
 
 Navigator::~Navigator() {
-//    saveSettings();
+    saveSettings();
 }

@@ -52,15 +52,8 @@ protected:
 private slots:
     void newStudy();
     void preregisterPatient();
- 
-    /*    void openPatient();
-        void newStudy();
-        void openStudy();
-        // Patients and studies are saved automatically when created and modified
-        // At least I think that is the Prucka behavior
-        void about();
-    */
 
+    void systemSettings();
     void about();
 
 private:
@@ -81,8 +74,6 @@ private:
     QSplitter* horizontalSplitter;
     QFrame* buttonFrame;
     QGridLayout* buttonFrameLayout;
-//    QGridLayout* buttonGroupLayout;
-//    QGridLayout* buttonGridLayout;
     QListView* tableListView;
     QPushButton* newStudyButton;
     QPushButton* continueStudyButton;
