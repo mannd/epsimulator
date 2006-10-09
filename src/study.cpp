@@ -22,6 +22,7 @@
 #include "heart.h"
 
 #include <cassert> 
+#include <qdir.h>
 
 
 QString Name::fullName(bool lastFirst, bool useMiddleName) const {
@@ -116,6 +117,13 @@ inline void Study::testInvariant() const {
     assert (ef_ >= MIN_EF && ef_ <= MAX_EF);
 }
 
+///TODO make sure this works under windows.  According to Qt documentation 
+/// should.  See QDir::covert()
+QString Study::filePath() {
+    if (! (path_.endsWith("/") || file_.startsWith("/")))
+        path_ += "/";
+    return QDir::cleanDirPath(path_ + file_);
+}
 
 Study::~Study() {
     delete heart_;

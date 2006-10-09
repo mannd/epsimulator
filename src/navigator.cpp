@@ -27,7 +27,7 @@
 #include "epsimulator.h"    // some menu items are duplicated in the epsimulator
 #include "study.h"
 #include "patientdialog.h"
-#include "systemsettings.h"
+#include "systemdialog.h"
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>
@@ -147,6 +147,7 @@ void Navigator::createCentralWidget() {
     tableListView->setShowSortIndicator(true);
     tableListView->setResizeMode(QListView::AllColumns);
     readSettings(); 
+    // populate the list from disk
 }
 
 void Navigator::saveSettings() {

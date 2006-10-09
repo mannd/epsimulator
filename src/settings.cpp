@@ -17,21 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include "settings.h"
 
-
-#include <qapplication.h>
-//#include "epsimulator.h"
-#include "navigator.h"
-
-int main(int argc, char **argv)
+Settings::Settings()
 {
-    QApplication app(argc, argv);
-    // code to handle commandline args here
-    // might be easier to code main as KDE app to handle this
-    // and use Qt exclusively for eveything else
-    Navigator *mainWin = new Navigator();
-    app.setMainWidget(mainWin);
-    mainWin->showMaximized();
-    return app.exec();
 }
+
+
+Settings::~Settings()
+{
+}
+
 

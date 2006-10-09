@@ -51,14 +51,6 @@ public:
         Study s1, s2;
         testStudiesSimilar(s1, s2);
     }
-    // 2 studies should not be equal: time should be different
-    void testStudyDateTimesNotEqual() {
-        Study s1;
-        for (int i = 0; i < 100000; ++i)
-            ;
-        Study s2;
-        TS_ASSERT(s1.dateTime() != s2.dateTime());
-    } 
     void testFullName1() {
         Study s;
         Name name;
@@ -92,6 +84,24 @@ public:
         cout <<s.name().fullName(false, true) << '\n';
         cout <<s.name().fullName(true, true)  << '\n';
     }
+        
+    void testFilePath() {
+        Study s;
+        s.setPath("/home/");
+        s.setFile("/epfiles");
+        TS_ASSERT(s.filePath() == "/home/epfiles");
+        cout << s.filePath();
+        s.setPath("/home");
+        TS_ASSERT(s.filePath() == "/home/epfiles");
+        s.setFile("epfiles");
+        TS_ASSERT(s.filePath() == "/home/epfiles");
+        s.setPath("home");
+        TS_ASSERT(s.filePath() == "home/epfiles");
+        s.setPath("");
+        s.setFile("epfiles");
+        TS_ASSERT(s.filePath() == "/epfiles");
+    }
+
         
 
 //    void testGetSetPatientDialogDefaultStudies() {

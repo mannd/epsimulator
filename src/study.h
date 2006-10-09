@@ -68,6 +68,9 @@ public:
     AutonomicTone sympatheticTone() const {return sympatheticTone_;}
     QDateTime dateTime() const {return dateTime_;}
     QString number() const {return number_;}
+    QString path() const {return path_;}
+    QString file() const {return file_;}
+    QString filePath();   // returns full path of study, fixes path if doesn't end in '/'
 
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
@@ -86,6 +89,8 @@ public:
     void setIschemia(bool ischemia) {ischemia_ = ischemia;}
     void setVagalTone(AutonomicTone tone);
     void setSympatheticTone(AutonomicTone tone);
+    void setPath(QString path) {path_ = path;}
+    void setFile(QString file) {file_ = file;}
 
     Study& operator=(const Study& rhs);
 
@@ -116,6 +121,8 @@ private:
     int ef_;
     bool ischemia_;
     Heart *heart_;
+    QString path_;  // location (path) of this study
+    QString file_;  //  name of study file
 };
 
 typedef std::vector<Study> Studies;

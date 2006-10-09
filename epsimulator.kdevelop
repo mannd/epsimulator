@@ -95,7 +95,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src</activedir>
+      <activedir>test</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -134,6 +134,7 @@
     <designerintegration>
       <qtdesigner>
         <implementation class="PatientDialog" path="src/patientdialogbase.ui" implementationpath="src/patientdialog.h" />
+        <implementation class="SystemSettings" path="src/systemdialogbase.ui" implementationpath="src/systemsettings.h" />
       </qtdesigner>
     </designerintegration>
     <qt>

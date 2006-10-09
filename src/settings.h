@@ -17,21 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
+/**
+Class with static functions only to manipulate system settings.
 
-#include <qapplication.h>
-//#include "epsimulator.h"
-#include "navigator.h"
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+class Settings{
+public:
+    Settings();
 
-int main(int argc, char **argv)
-{
-    QApplication app(argc, argv);
-    // code to handle commandline args here
-    // might be easier to code main as KDE app to handle this
-    // and use Qt exclusively for eveything else
-    Navigator *mainWin = new Navigator();
-    app.setMainWidget(mainWin);
-    mainWin->showMaximized();
-    return app.exec();
-}
+    ~Settings();
 
+};
+
+#endif

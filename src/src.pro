@@ -23,14 +23,16 @@ HEADERS += epsimulator.h \
            patientdialog.h \
            study.h \
            heart.h \
-           systemdialog.h 
+           systemdialog.h \
+           settings.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
            patientdialog.cpp \
            study.cpp \
            heart.cpp \
-           systemdialog.cpp 
+           systemdialog.cpp \
+           settings.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
