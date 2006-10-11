@@ -19,10 +19,24 @@
  ***************************************************************************/
 #include "settings.h"
 
-Settings::Settings()
-{
+Settings::Settings() {
+    settings_.setPath("EPStudios", "EPSimulator");
 }
 
+QString Settings::readSetting(QString key) {
+    settings_.beginGroup("/EPSimulator"); 
+    ///TODO is this redundant??
+    QString str = settings_.readEntry(key);
+    settings_.endGroup();
+    return str;
+}
+
+void Settings::writeSetting(QString key, QString setting) {
+    settings_.beginGroup("/EPSimulator");
+    settings_.writeEntry(key, setting);
+    settings_.endGroup();
+}
+    
 
 Settings::~Settings()
 {

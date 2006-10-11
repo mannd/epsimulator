@@ -125,18 +125,6 @@ void Navigator::createCentralWidget() {
 
     spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
     buttonFrameLayout->addItem( spacer, 10, 0 );
-//    buttonFrame->addStretch(1);
- 
-//    buttonGridLayout->addWidget(reportsButton, 4, 0);    
-    
-
- //    buttonGroupLayout->addLayout(buttonGridLayout, 0, 0);
-//     newStudyLabel->setBuddy(newStudyButton);
-//     continueStudyLabel->setBuddy(continueStudyButton);       
-//     reviewStudyLabel->setBuddy(reviewStudyButton);
-//     preregisterPatientLabel->setBuddy(preregisterPatientButton);
-//     reportsLabel->setBuddy(reportsButton);
-
 
     tableListView = new QListView(horizontalSplitter);
     tableListView->addColumn(tr("Patient"));
