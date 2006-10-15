@@ -71,6 +71,7 @@ public:
     QString path() const {return path_;}
     QString file() const {return file_;}
     QString filePath();   // returns full path of study, fixes path if doesn't end in '/'
+    QString config() const {return config_;}
 
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
@@ -91,6 +92,7 @@ public:
     void setSympatheticTone(AutonomicTone tone);
     void setPath(QString path) {path_ = path;}
     void setFile(QString file) {file_ = file;}
+    void setConfig(QString config) {config_ = config;}
 
     Study& operator=(const Study& rhs);
 
@@ -109,6 +111,7 @@ private:
     Name name_;
     QString mrn_;	// medical record number
     QDate dateOfBirth_;
+    QString config_;    // this will eventually be a class probably
     Sex sex_;
     double height_;	// use metric units: cm for height,
     double weight_;	// in kg

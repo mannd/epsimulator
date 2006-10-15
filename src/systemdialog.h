@@ -28,7 +28,9 @@ class SystemDialog : public SystemDialogBase {
 Q_OBJECT
 public:
     SystemDialog(QWidget *parent = 0, const char *name = 0);
-    QString studyPath() {return studyPath_;}
+    QString studyPath() const {return studyPath_;}
+
+    void setStudyPath(QString path);
     ~SystemDialog();
 public slots:
     virtual void browseFilePaths();

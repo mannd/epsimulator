@@ -17,29 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#include "studyconfigdialog.h"
 
-#include <qsettings.h>
-#include <qstring.h>
-
-/**
-Class with static functions only to manipulate system settings.
-Probably should be a Singleton class.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class Settings{
-public:
-    Settings();
-
-    QString readSetting(QString key);
-    void writeSetting(QString key, QString setting);
-
-    ~Settings();
-
-private:
-    QSettings settings_;
-};
-
-#endif
+StudyConfigDialog::StudyConfigDialog(QWidget *parent, const char *name)
+    :StudyConfigDialogBase(parent, name)
+{
+}

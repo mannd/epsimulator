@@ -4,7 +4,8 @@
 # Target is an application:  ../bin/epsimulator
 
 FORMS += patientdialogbase.ui \
-         systemdialogbase.ui 
+         systemdialogbase.ui \
+         studyconfigdialogbase.ui 
 TRANSLATIONS += epsimulator_de.ts 
 IMAGES += images/hi16-app-epsimulator.png \
           images/hi32-app-epsimulator.png \
@@ -24,7 +25,7 @@ HEADERS += epsimulator.h \
            study.h \
            heart.h \
            systemdialog.h \
-           settings.h 
+           studyconfigdialog.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -32,7 +33,7 @@ SOURCES += epsimulator.cpp \
            study.cpp \
            heart.cpp \
            systemdialog.cpp \
-           settings.cpp 
+           studyconfigdialog.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

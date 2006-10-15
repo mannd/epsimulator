@@ -17,29 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "settings.h"
+#ifndef STUDYCONFIGDIALOG_H
+#define STUDYCONFIGDIALOG_H
 
-Settings::Settings() {
-    settings_.setPath("EPStudios", "EPSimulator");
-}
+#include "studyconfigdialogbase.h"
 
-QString Settings::readSetting(QString key) {
-    settings_.beginGroup("/EPSimulator"); 
-    ///TODO is this redundant??
-    QString str = settings_.readEntry(key);
-    settings_.endGroup();
-    return str;
-}
+class StudyConfigDialog: public StudyConfigDialogBase {
+Q_OBJECT
+public:
+    StudyConfigDialog(QWidget *parent = 0, const char *name = 0);
+};
 
-void Settings::writeSetting(QString key, QString setting) {
-    settings_.beginGroup("/EPSimulator");
-    settings_.writeEntry(key, setting);
-    settings_.endGroup();
-}
-    
-
-Settings::~Settings()
-{
-}
-
-
+#endif

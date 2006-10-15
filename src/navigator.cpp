@@ -28,6 +28,7 @@
 #include "study.h"
 #include "patientdialog.h"
 #include "systemdialog.h"
+#include "studyconfigdialog.h"
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>
@@ -130,7 +131,9 @@ void Navigator::createCentralWidget() {
     tableListView->addColumn(tr("Patient"));
     tableListView->addColumn(tr("MRN"));
     tableListView->addColumn(tr("Study Date/Time"));
+    tableListView->addColumn(tr("Study Config"));
     tableListView->addColumn(tr("Study Number"));
+    tableListView->addColumn(tr("Location of Study"));
     tableListView->setAllColumnsShowFocus(true);
     tableListView->setShowSortIndicator(true);
     tableListView->setResizeMode(QListView::AllColumns);
@@ -147,6 +150,9 @@ void Navigator::saveSettings() {
     QTextOStream out1(&str);
     out1 << *horizontalSplitter;
     settings.writeEntry("/horizontalSplitter", str);
+    QTextOStream out2(&str);
+    out2 << study_.path();
+    settings.writeEntry("/studyPath", str);
     settings.endGroup();
 }
 
@@ -155,9 +161,11 @@ void Navigator::readSettings() {
     settings.setPath("EPStudios", "EPSimulator");
     settings.beginGroup("/EPSimulator");
     
-    QString str = settings.readEntry("/horizontalSplitter");
-    QTextIStream in(&str);
-    in >> *horizontalSplitter;
+    QString str1 = settings.readEntry("/horizontalSplitter");
+    QTextIStream in1(&str1);
+    in1 >> *horizontalSplitter;
+    QString str2 = settings.readEntry("/studyPath");
+    study_.setPath(str2);
     settings.endGroup();
 }
 
@@ -277,6 +285,7 @@ void Navigator::createMenus() {
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation() {
     Study newStudy(study_);
+    newStudy.setDateTime(QDateTime::currentDateTime());
     PatientDialog* patientDialog = new PatientDialog(this);
     patientDialog->setFields(newStudy);
     if (patientDialog->exec()) {
@@ -287,15 +296,23 @@ bool Navigator::getStudyInformation() {
         item->setText(0, study_.name().fullName());
         item->setText(1, study_.mrn());
         item->setText(2, study_.dateTime().toString());
-        item->setText(3, study_.number());
+        item->setText(3, study_.config());
+        item->setText(4, study_.number());
+        item->setText(5, study_.path());
         return true;
     }
     return false;
 }
 
 void Navigator::newStudy() {
-    if (getStudyInformation())
-        startStudy(study_);
+    StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
+    if (studyConfigDialog->exec()) {
+///TODO StudyConfigDialog should probably be SelectConfigDialog and 
+/// need to fix below
+//        study_.setConfig(studyConfigDialog->configListBox->currentText());
+        if (getStudyInformation())
+            startStudy(study_);
+    }
 }
 
 void Navigator::preregisterPatient() {
@@ -309,8 +326,11 @@ void Navigator::startStudy(Study& study) {
 
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
-    if (systemDialog->exec())
-        ;
+    systemDialog->setStudyPath(study_.path());
+    if (systemDialog->exec()) {
+        study_.setPath(systemDialog->studyPath());
+        saveSettings();
+    }
 }
 
 void Navigator::about() {

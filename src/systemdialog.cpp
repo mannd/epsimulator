@@ -30,10 +30,16 @@ SystemDialog::SystemDialog(QWidget *parent, const char *name)
 void SystemDialog::browseFilePaths() {
     QFileDialog *fd = new QFileDialog(this, 0, true);
     fd->setMode(QFileDialog::Directory);
+    fd->setDir(studyPath_);
     if (fd->exec() == QDialog::Accepted) {
         studyPath_ = fd->selectedFile();
         localStudyPathLineEdit->setText(studyPath_);
     }
+}
+
+void SystemDialog::setStudyPath(QString path) {
+    studyPath_ = path;
+    localStudyPathLineEdit->setText(studyPath_);
 }
 
 SystemDialog::~SystemDialog() {
