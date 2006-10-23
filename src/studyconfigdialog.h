@@ -26,6 +26,10 @@ class StudyConfigDialog: public StudyConfigDialogBase {
 Q_OBJECT
 public:
     StudyConfigDialog(QWidget *parent = 0, const char *name = 0);
+    ~StudyConfigDialog();
 };
 
 #endif
+
+///TODO  This should probably be called the SelectStudyConfigDialog.  There is a separate
+/// study configuration dialog.

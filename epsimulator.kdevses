@@ -1,56 +1,53 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="14" >
-  <Doc0 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qdir.html#cleanDirPath" >
+ <DocsAndViews NumberOfDocuments="12" >
+  <Doc0 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qlistbox.html#currentText" >
    <View0 Type="Documentation" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 line="55" Type="Source" />
+   <View0 Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/settings.h" >
-   <View0 line="31" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
+   <View0 Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="29" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/systemdialog.h" >
+   <View0 Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/systemdialog.h" >
-   <View0 line="31" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/systemdialog.cpp" >
+   <View0 Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/systemdialog.cpp" >
-   <View0 line="23" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.cpp" >
+   <View0 Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/systemdialogbase.ui" >
-   <View0 Type="Other" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
+   <View0 Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.cpp" >
-   <View0 line="81" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
+   <View0 Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
-   <View0 line="92" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/Makefile" >
+   <View0 Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
-   <View0 line="105" Type="Source" />
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.h" >
+   <View0 Type="Source" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-   <View0 line="92" Type="Source" />
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studyconfigdialog.cpp" >
+   <View0 line="25" Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/Makefile" >
-   <View0 line="23" Type="Source" />
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studyconfigdialog.h" >
+   <View0 line="28" Type="Source" />
   </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/bin/runner.sh" >
-   <View0 line="2" Type="Source" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/runner.sh" >
-   <View0 line="4" Type="Source" />
-  </Doc13>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
    <breakpointList>
-    <breakpoint0 location="/home/mannd/dev/epsimulator/src/navigator.cpp:184" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint0 location="/home/mannd/dev/epsimulator/src/systemdialog.cpp:41" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint0>
+    <breakpoint1 location="/home/mannd/dev/epsimulator/src/systemdialog.cpp:42" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint1>
    </breakpointList>
   </kdevdebugger>
   <kdevbookmarks>

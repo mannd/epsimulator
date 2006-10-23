@@ -305,6 +305,8 @@ bool Navigator::getStudyInformation() {
 }
 
 void Navigator::newStudy() {
+///TODO study_ must be "blank" unless a study is selected in the catalog.
+/// Same thing for preregister and continue study
     StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
     if (studyConfigDialog->exec()) {
 ///TODO StudyConfigDialog should probably be SelectConfigDialog and 
@@ -317,6 +319,17 @@ void Navigator::newStudy() {
 
 void Navigator::preregisterPatient() {
     getStudyInformation();
+}
+
+/// returns true and a study if highlighted in the catalog; otherwise returns false
+bool Navigator::studySelected(Study& study) {
+    QListViewItem* item = tableListView->selectedItem();
+    if (item) {
+        // somehow set the study from the list and
+        return true;
+    }
+    else
+        return false;
 }
 
 void Navigator::startStudy(Study& study) {

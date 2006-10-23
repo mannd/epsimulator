@@ -53,6 +53,7 @@ private slots:
     void newStudy();
     void preregisterPatient();
 
+    void systemSettings();
     void about();
 
 private:
