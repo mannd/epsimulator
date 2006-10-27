@@ -102,7 +102,16 @@ public:
         TS_ASSERT(s.filePath() == "/epfiles");
     }
 
-        
+//     void testKey() {
+//         Study s;
+//         TS_ASSERT(s.key() == QString::null);
+//         Name name;
+//         name.first = "John";
+//         name.last = "Doe";
+//         s.setName(name);
+//         TS_ASSERT(s.key() == "Doe_John." + dateTime().toString("dd.MM.yyyy.hh.mm.ss"));
+// }
+//         
 
 //    void testGetSetPatientDialogDefaultStudies() {
 //        PatientDialog pd;
