@@ -4,8 +4,7 @@ CXXFLAGS := -pipe -O2 -march=i586 -mcpu=i686 -fmessage-length=0 -Wall -fno-stric
 INCPATH  := -I/usr/lib/qt3/mkspecs/default -I. -I/usr/include -I$(QTDIR)/include -I$../src
 LIBS     := $(SUBLIBS) -L/usr/lib/ -L$(QTDIR)/lib/ -L/usr/X11R6/lib/ -lqt-mt -lXext -lX11 -lm -lpthread
 OBJECTS := 	$(OBJ_DIR)/study.o \
-		$(OBJ_DIR)/heart.o  \
-		$(OBJ_DIR)/navigator.o
+		$(OBJ_DIR)/heart.o 
 
 vpath %.cpp ../src
 vpath %.h ../src
@@ -18,7 +17,7 @@ $(DEST_DIR)/runner: runner.cpp
 
 
 runner.cpp: MyTestSuite.h
-	$(MAKE) --directory=..
+	$(MAKE) ../bin/epsimulator
 	cxxtestgen.pl --gui=QtGui -o $@ $<
 
 test: $(DEST_DIR)/runner

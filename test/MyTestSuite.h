@@ -62,10 +62,7 @@ public:
         TS_ASSERT(s.name().fullName(true) == "Mann, David");
         TS_ASSERT(s.name().fullName(false, true) == "David E. Mann");
         TS_ASSERT(s.name().fullName(true, true) == "Mann, David E.");
-        cout <<s.name().fullName() << '\n';
-        cout <<s.name().fullName(true) << '\n';
-        cout <<s.name().fullName(false, true) << '\n';
-        cout <<s.name().fullName(true, true)  << '\n';
+        showFullNameOutput(s);
     }
     // make sure extra spaces are trimmed off
     void testFullName2() {
@@ -79,10 +76,7 @@ public:
         TS_ASSERT(s.name().fullName(true) == "Mann, David");
         TS_ASSERT(s.name().fullName(false, true) == "David E. Mann");
         TS_ASSERT(s.name().fullName(true, true) == "Mann, David E.");
-        cout <<s.name().fullName() << '\n';
-        cout <<s.name().fullName(true) << '\n';
-        cout <<s.name().fullName(false, true) << '\n';
-        cout <<s.name().fullName(true, true)  << '\n';
+        showFullNameOutput(s);
     }
         
     void testFilePath() {
@@ -90,7 +84,7 @@ public:
         s.setPath("/home/");
         s.setFile("/epfiles");
         TS_ASSERT(s.filePath() == "/home/epfiles");
-        cout << s.filePath();
+        cout << "filePath() = " << s.filePath() << '\n';
         s.setPath("/home");
         TS_ASSERT(s.filePath() == "/home/epfiles");
         s.setFile("epfiles");
@@ -102,16 +96,28 @@ public:
         TS_ASSERT(s.filePath() == "/epfiles");
     }
 
-//     void testKey() {
-//         Study s;
-//         TS_ASSERT(s.key() == QString::null);
-//         Name name;
-//         name.first = "John";
-//         name.last = "Doe";
-//         s.setName(name);
-//         TS_ASSERT(s.key() == "Doe_John." + dateTime().toString("dd.MM.yyyy.hh.mm.ss"));
-// }
-//         
+    void testKey() {
+        Study s;
+        TS_ASSERT(s.key() == QString::null);
+        Name name;
+        name.first = "John";
+        name.last = "Doe";
+        s.setName(name);
+        TS_ASSERT(s.key() == "Doe_John." + s.dateTime().toString("dd.MM.yyyy.hh.mm.ss"));
+}
+
+// make sure white space is removed
+    void testKey2() {
+        Study s;
+        TS_ASSERT(s.key() == QString::null);
+        Name name;
+        name.first = "    John  ";
+        name.last = "   Doe        ";
+        s.setName(name);
+        cout <<  "testKey2 result is " << s.key() << "\n";
+        TS_ASSERT(s.key() == "Doe_John." + s.dateTime().toString("dd.MM.yyyy.hh.mm.ss"));
+}
+        
 
 //    void testGetSetPatientDialogDefaultStudies() {
 //        PatientDialog pd;
@@ -176,7 +182,16 @@ private:
         TS_ASSERT_EQUALS(s1.dateTime(), s2.dateTime());  
         TS_ASSERT_EQUALS(s1.number(), s2.number());
     }
+
+    void showFullNameOutput(const Study& s) {
+        cout << "fullName() = " << s.name().fullName() << '\n';
+        cout << "fullName(true) = " << s.name().fullName(true) << '\n';
+        cout << "fullName(false, true) = " << s.name().fullName(false, true) << '\n';
+        cout << "fullName(true, true) = " << s.name().fullName(true, true)  << '\n';
+    }
 };
+
+
 
 /*date_(QDate::currentDate()),
     time_(QTime::currentTime()), dateOfBirth_(1950, 1, 1),
