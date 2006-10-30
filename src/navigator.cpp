@@ -38,16 +38,22 @@
 #include <qmessagebox.h>
 #include <qsplitter.h>
 #include <qlistview.h>
+#include <qheader.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qsizepolicy.h>
 #include <qsettings.h>
 
+#include <algorithm>
+
 #define BUTTON_SIZE 80
 
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
+    ///TODO get this from the system options
+    studiesPath_ = ".";
+
     createActions();
     createMenus();
     createCentralWidget();
@@ -134,11 +140,36 @@ void Navigator::createCentralWidget() {
     tableListView->addColumn(tr("Study Config"));
     tableListView->addColumn(tr("Study Number"));
     tableListView->addColumn(tr("Location of Study"));
+    tableListView->addColumn(tr("Hidden key"));
+    // hide the hidden key column: make sure it is defined correctly in KEY_COLUMN
     tableListView->setAllColumnsShowFocus(true);
     tableListView->setShowSortIndicator(true);
-    tableListView->setResizeMode(QListView::AllColumns);
+    tableListView->setColumnWidthMode(KEY_COLUMN, QListView::Manual);
+    tableListView->hideColumn(KEY_COLUMN);
+    tableListView->header()->setResizeEnabled(false, KEY_COLUMN);    
+    //tableListView->setResizeMode(QListView::AllColumns);  
+    // his messes up the hidden column
     readSettings(); 
     // populate the list from disk
+    //loadStudies();
+    populateTableListView();
+}
+
+
+/// This function populates the table from studies_.  studies_ is populated
+/// in the Navigator constructor.
+void Navigator::populateTableListView() {
+    Studies::iterator pos;
+    for (pos = studies_.begin(); pos != studies_.end(); ++pos) {
+        (void) new QListViewItem(tableListView, 
+            pos->second.name().fullName(),
+            pos->second.mrn(),
+            pos->second.dateTime().toString(),
+            pos->second.config(),
+            pos->second.number(),
+            pos->second.path(),
+            pos->second.key());
+    }
 }
 
 void Navigator::saveSettings() {
@@ -291,7 +322,7 @@ bool Navigator::getStudyInformation() {
     if (patientDialog->exec()) {
         patientDialog->getFields(newStudy);
         study_ = newStudy;  
-        studies_.push_back(study_);
+        studies_[study_.key()] = study_;
         QListViewItem* item = new QListViewItem(tableListView);
         item->setText(0, study_.name().fullName());
         item->setText(1, study_.mrn());
@@ -299,6 +330,7 @@ bool Navigator::getStudyInformation() {
         item->setText(3, study_.config());
         item->setText(4, study_.number());
         item->setText(5, study_.path());
+        item->setText(6, study_.key());
         return true;
     }
     return false;
@@ -313,7 +345,7 @@ void Navigator::newStudy() {
 /// need to fix below
 //        study_.setConfig(studyConfigDialog->configListBox->currentText());
         if (getStudyInformation())
-            startStudy(study_);
+            startStudy();
     }
 }
 
@@ -321,18 +353,21 @@ void Navigator::preregisterPatient() {
     getStudyInformation();
 }
 
-/// returns true and a study if highlighted in the catalog; otherwise returns false
-bool Navigator::studySelected(Study& study) {
-    QListViewItem* item = tableListView->selectedItem();
-    if (item) {
-        // somehow set the study from the list and
-        return true;
+/// returns true and switches to study highlighted in the catalog; otherwise returns /// false if no study highlighted and leaves study_ unchanged
+bool Navigator::studySelected() {
+    if (QListViewItem* item = tableListView->selectedItem()) {
+        Studies::iterator pos;
+        pos = studies_.find(item->text(KEY_COLUMN));
+        if (pos != studies_.end()) {
+            study_ = pos->second;
+            return true;
+        }
     }
-    else
-        return false;
+    return false;
 }
 
-void Navigator::startStudy(Study& study) {
+void Navigator::startStudy() {
+    ///TODO need to pass study_ to eps
     Epsimulator* eps = new Epsimulator(this);
     eps->showMaximized();
 }

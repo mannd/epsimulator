@@ -57,19 +57,22 @@ private slots:
     void about();
 
 private:
+    enum {KEY_COLUMN = 6};
     void createCentralWidget();
     void createActions();
     void createMenus();
-    void startStudy(Study& study);
+    void startStudy();
     bool getStudyInformation();
     void saveSettings();
     void readSettings();
-    bool studySelected(Study& study);
+    bool studySelected();
+    void populateTableListView();
 
     // current study
     // it looks like in Qt subclasses, embedded objects must be pointers
     Study study_;
     Studies studies_;
+    QString studiesPath_;
 
     // central widget stuff    QSplitter* horizontalSplitter;
     QSplitter* horizontalSplitter;

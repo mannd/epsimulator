@@ -76,6 +76,13 @@ Study::Study(const Study& study) {
     testInvariant();
 }
 
+QString Study::key() const {
+    if (name_.last.isNull()) 
+        return QString::null;
+    return name_.last.stripWhiteSpace() + "_" + name_.first.stripWhiteSpace()
+         + "." + dateTime_.toString("dd.MM.yyyy.hh.mm.ss");
+}
+
 void Study::setName(const Name& name) {
     name_.last = name.last;
     name_.first = name.first;

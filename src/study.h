@@ -24,7 +24,7 @@
 #include <qdatetime.h>
 #include <qstring.h>
 
-#include <vector>
+#include <map>
 
 class Heart;
 
@@ -72,6 +72,7 @@ public:
     QString file() const {return file_;}
     QString filePath();   // returns full path of study, fixes path if doesn't end in '/'
     QString config() const {return config_;}
+    QString key() const;    // generates key based on name and datetime to identify study uniquely
 
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
@@ -128,6 +129,6 @@ private:
     QString file_;  //  name of study file
 };
 
-typedef std::vector<Study> Studies;
+typedef std::map<QString, Study> Studies;
 
 #endif

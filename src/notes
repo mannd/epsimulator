@@ -32,4 +32,25 @@ Typedefs will be capitalized.
 Unit Testing
 For now will use cxxtest.  Run ./maketests from epsimulator/src to generate the runner program.  Edit maketests to add dependencies, and MyTestSuite.h contains the tests.  The tests HAVE to be in the src directory to compile, and so tests are not a subproject.  Need to make the test suite into a make file, using a different makefile name than Makefile, e.g. maketests and invoke as make -fmaketests, e.g.  Could make a link to this named maketests to keep everything the same.
 
+Unique identifier for each study
+A key for each study can be constructed by
+lastName+"_"+firstName+"_"+date/time.  Use this for the file name of the data
+files and use this to locate the study data in the studieslist (? Make this a
+map between the key and the data?)
 
+Use QString QDateTime::toString(const QString& format) const to generate the
+date time of the study.  This format string should work:
+
+
+dd.MM.yyyy.hh.mm.ss
+
+? add millisecs: zzz
+
+Thus the map could be: QString key: Study study.
+
+I need to be able to generate the key from the QListView (note QListView has
+full name and formatted date time as strings, so not easy to change format back).
+
+Can use QListView::hideColumn(int column) along with setResizeEnabled(FALSE,
+column) to have hidden list view columns.  The hidden column can contain the
+map key.
