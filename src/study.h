@@ -23,6 +23,7 @@
 
 #include <qdatetime.h>
 #include <qstring.h>
+#include <qdatastream.h>
 
 #include <map>
 
@@ -47,6 +48,8 @@ enum Sex {MALE, FEMALE};
 #define DEFAULT_BIRTH_DATE (QDate(1950,1,1))
 
 class Study {
+    friend QDataStream& operator<<(QDataStream&, const Study&);
+    friend QDataStream& operator>>(QDataStream&, Study&);
 
 public:
     Study();

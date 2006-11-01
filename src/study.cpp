@@ -38,6 +38,34 @@ QString Name::fullName(bool lastFirst, bool useMiddleName) const {
 	return first.stripWhiteSpace() + middleName + last.stripWhiteSpace();
 }
 
+QDataStream& operator<<(QDataStream& out, const Study& study) {
+    out << study.dateTime_ << study.number_ << study.name_.first << study.name_.middle
+        << study.name_.last << study.mrn_ << study.dateOfBirth_ << study.config_
+        << (Q_INT32)study.sex_ << study.height_ << study.weight_ << study.heightIn_
+        << study.weightLbs_ << study.bsa_ << (Q_INT32)study.bsaManualEdit_
+        << (Q_INT32)study.vagalTone_ << (Q_INT32)study.sympatheticTone_ << (Q_INT32)study.ef_
+        << (Q_INT32)study.ischemia_ << study.path_ << study.file_;
+    ///TODO need to add heart to this
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, Study& study) {
+    Q_INT32 sex, bsaManualEdit, vagalTone, sympatheticTone, ef, ischemia;
+    in >> study.dateTime_ >> study.number_ >> study.name_.first >> study.name_.middle
+        >> study.name_.last >> study.mrn_ >> study.dateOfBirth_ >> study.config_
+        >> sex >> study.height_ >> study.weight_ >> study.heightIn_
+        >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
+        >> vagalTone >> sympatheticTone >> ef
+        >> ischemia >> study.path_ >> study.file_;
+    ///TODO need to add heart to this
+    study.sex_ = (sex != 0) ? FEMALE : MALE;
+    study.bsaManualEdit_ = bsaManualEdit;
+    study.vagalTone_ = vagalTone;
+    study.sympatheticTone_ = sympatheticTone;
+    study.ef_ = ef;
+    study.ischemia_ = ischemia;
+    return in;
+}
 
 Study::Study() : dateTime_(QDateTime::currentDateTime()),
     dateOfBirth_(DEFAULT_BIRTH_DATE),

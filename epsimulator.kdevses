@@ -1,46 +1,28 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="13" >
-  <Doc0 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qstring.html#stripWhiteSpace" >
-   <View0 Type="Documentation" />
+ <DocsAndViews NumberOfDocuments="7" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
+   <View0 line="347" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qheader.html#setResizeEnabled" >
+   <View0 Type="Documentation" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qlistviewitem.html#details" >
+   <View0 Type="Documentation" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/systemdialog.h" >
-   <View0 Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
+   <View0 line="109" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/systemdialog.cpp" >
-   <View0 Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 line="67" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.cpp" >
-   <View0 Type="Source" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
-   <View0 Type="Source" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
-   <View0 line="77" Type="Source" />
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/Makefile" >
-   <View0 line="6" Type="Source" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.h" >
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/systemdialog.cpp" >
    <View0 line="0" Type="Source" />
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studyconfigdialog.cpp" >
-   <View0 Type="Source" />
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studyconfigdialog.h" >
-   <View0 Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-   <View0 line="116" Type="Source" />
-  </Doc12>
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/systemdialog.h" >
+   <View0 line="0" Type="Source" />
+  </Doc6>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
