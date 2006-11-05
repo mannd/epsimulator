@@ -58,6 +58,7 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
         >> vagalTone >> sympatheticTone >> ef
         >> ischemia >> study.path_ >> study.file_;
     ///TODO need to add heart to this
+    ///TODO the below may not work, as it has nothing to do with in
     study.sex_ = (sex != 0) ? FEMALE : MALE;
     study.bsaManualEdit_ = bsaManualEdit;
     study.vagalTone_ = vagalTone;
@@ -69,7 +70,7 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
 
 Study::Study() : dateTime_(QDateTime::currentDateTime()),
     dateOfBirth_(DEFAULT_BIRTH_DATE),
-    sex_(FEMALE), height_(0), weight_(0), 
+    sex_(MALE), height_(0), weight_(0), 
     heightIn_(0), weightLbs_(0), bsa_(0), 
     bsaManualEdit_(false), vagalTone_(DEFAULT_VAGAL_TONE),
     sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), ef_(DEFAULT_EF), 

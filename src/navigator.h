@@ -23,6 +23,7 @@
 #include "study.h"
 
 #include <qmainwindow.h>
+#include <qlistview.h>
 
 class QAction;
 class QPopupMenu;
@@ -57,6 +58,26 @@ private slots:
     void about();
 
 private:
+
+    class TableListViewItem : public QListViewItem {
+    public:
+        TableListViewItem(QListView* parent, const Study& study,
+            QString label1, QString label2 = QString::null, QString label3 = QString::null, QString label4 = QString::null, QString label5 = QString::null, QString label6 = QString::null, QString label7 = QString::null, QString label8 = QString::null );
+        ~TableListViewItem();
+        Study study() {return study_;}
+    private:
+        Study study_;
+    };
+    
+    class TableListView : public QListView {
+    public:
+        TableListView(QWidget* parent);
+        ~TableListView();
+    private:
+        readStudies();
+        writeStudies();
+    };
+
     enum {KEY_COLUMN = 6};
     void createCentralWidget();
     void createActions();

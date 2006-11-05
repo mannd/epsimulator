@@ -129,7 +129,8 @@ public:
 
 private:
     void testStudyDefaults(Study& study) {
-        TS_ASSERT(study.sex() == FEMALE);
+        TS_ASSERT(study.sex() == MALE);
+        cout << (int)study.sex() << '\n';;
         TS_ASSERT(study.vagalTone() == DEFAULT_VAGAL_TONE);
         TS_ASSERT(study.sympatheticTone() == DEFAULT_SYMPATHETIC_TONE);
         TS_ASSERT(study.ef() == DEFAULT_EF);

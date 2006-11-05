@@ -29,7 +29,7 @@
 
 #include <math.h>
 
-PatientDialog::PatientDialog(QWidget *parent, const char *name)
+PatientDialog::PatientDialog(QWidget* parent, const char* name)
     : PatientDialogBase(parent, name) {
 }
 
@@ -73,11 +73,6 @@ void PatientDialog::heightCmLineEdit_lostFocus() {
 void PatientDialog::weightKgLineEdit_lostFocus() {
     setBsaText();
 }
-
-//void PatientDialog::accept() {
-//    getFields();
-//    PatientDialogBase::accept();
-//}
 
 void PatientDialog::setFields(Study& study) {
     Name name = study.name();

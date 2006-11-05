@@ -49,6 +49,32 @@
 
 #define BUTTON_SIZE 80
 
+Navigator::TableListViewItem::TableListViewItem(QListView* parent, const Study& study,
+    QString label1, QString label2, QString label3, 
+    QString label4, QString label5, QString label6, 
+    QString label7, QString label8 ) 
+    : QListViewItem(parent, label1, label2, label3, label4, label5, label6, label7, label8), study_(study) {
+}
+
+Navigator::TableListViewItem::~TableListViewItem() {
+}
+
+Navigator::TableListView::TableListView(QWidget* parent) 
+    : QListView(parent) {
+    ///TODO initialize the TableListView.  Read the studies from disk
+}
+
+Navigator::TableListView::~TableListView() {
+    ///TODO write the studies to disk.
+}
+
+Navigator::TableListView::readStudies() {
+}
+
+Navigator::TableListView::writeStudies() {
+}
+
+
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
     ///TODO get this from the system options
@@ -161,7 +187,7 @@ void Navigator::createCentralWidget() {
 void Navigator::populateTableListView() {
     Studies::iterator pos;
     for (pos = studies_.begin(); pos != studies_.end(); ++pos) {
-        (void) new QListViewItem(tableListView, 
+        (void) new TableListViewItem(tableListView, pos->second, 
             pos->second.name().fullName(),
             pos->second.mrn(),
             pos->second.dateTime().toString(),
