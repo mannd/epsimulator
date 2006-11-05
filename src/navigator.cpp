@@ -68,10 +68,10 @@ Navigator::TableListView::~TableListView() {
     ///TODO write the studies to disk.
 }
 
-Navigator::TableListView::readStudies() {
+void Navigator::TableListView::readStudies() {
 }
 
-Navigator::TableListView::writeStudies() {
+void Navigator::TableListView::writeStudies() {
 }
 
 

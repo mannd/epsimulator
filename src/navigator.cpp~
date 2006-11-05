@@ -59,6 +59,21 @@ Navigator::TableListViewItem::TableListViewItem(QListView* parent, const Study& 
 Navigator::TableListViewItem::~TableListViewItem() {
 }
 
+Navigator::TableListView::TableListView(QWidget* parent) 
+    : QListView(parent) {
+    ///TODO initialize the TableListView.  Read the studies from disk
+}
+
+Navigator::TableListView::~TableListView() {
+    ///TODO write the studies to disk.
+}
+
+Navigator::TableListView::readStudies() {
+}
+
+Navigator::TableListView::writeStudies() {
+}
+
 
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {

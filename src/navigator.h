@@ -74,8 +74,8 @@ private:
         TableListView(QWidget* parent);
         ~TableListView();
     private:
-        readStudies();
-        writeStudies();
+        void readStudies();
+        void writeStudies();
     };
 
     enum {KEY_COLUMN = 6};
