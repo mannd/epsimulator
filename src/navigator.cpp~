@@ -49,7 +49,7 @@
 
 #define BUTTON_SIZE 80
 
-Navigator::TableListViewItem::TableListViewItem(QListView* parent, const Study& study,
+Navigator::TableListViewItem::TableListViewItem(TableListView* parent, const Study& study,
     QString label1, QString label2, QString label3, 
     QString label4, QString label5, QString label6, 
     QString label7, QString label8 ) 
@@ -62,18 +62,49 @@ Navigator::TableListViewItem::~TableListViewItem() {
 Navigator::TableListView::TableListView(QWidget* parent) 
     : QListView(parent) {
     ///TODO initialize the TableListView.  Read the studies from disk
+    
 }
 
 Navigator::TableListView::~TableListView() {
     ///TODO write the studies to disk.
 }
 
-Navigator::TableListView::readStudies() {
+bool Navigator::TableListView::load(const QString& fileName) {
 }
 
-Navigator::TableListView::writeStudies() {
+bool Navigator::TableListView::save(const QString& fileName) {
 }
 
+void Navigator::TableListView::addStudy(const Study& study) {
+    (void) new TableListViewItem(this, study,
+            study.name().fullName(),
+            study.mrn(),
+            study.dateTime().toString(),
+            study.config(),
+            study.number(),
+            study.path(),
+            study.key());
+}
+
+void Navigator::TableListView::readFromStream(QDataStream& in) {
+    clear();
+    while (!in.atEnd()) {
+        Study study;
+        in >> study;
+        addStudy(study);
+    }
+}
+
+void Navigator::TableListView::writeToStream(QDataStream& out) {
+}
+
+void Navigator::TableListView::error(const QFile& file, const QString& message) {
+    QMessageBox::warning(0, tr("EP Simulator"), message.arg(file.name()));
+}
+
+void Navigator::TableListView::ioError(const QFile& file, const QString& message) {
+    error(file, message + ": " + file.errorString());
+}
 
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
@@ -159,7 +190,7 @@ void Navigator::createCentralWidget() {
     spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
     buttonFrameLayout->addItem( spacer, 10, 0 );
 
-    tableListView = new QListView(horizontalSplitter);
+    tableListView = new TableListView(horizontalSplitter);
     tableListView->addColumn(tr("Patient"));
     tableListView->addColumn(tr("MRN"));
     tableListView->addColumn(tr("Study Date/Time"));
@@ -178,10 +209,10 @@ void Navigator::createCentralWidget() {
     readSettings(); 
     // populate the list from disk
     //loadStudies();
-    populateTableListView();
+    //populateTableListView();
 }
 
-
+///TODO scheduled for deletion!!
 /// This function populates the table from studies_.  studies_ is populated
 /// in the Navigator constructor.
 void Navigator::populateTableListView() {
@@ -348,15 +379,7 @@ bool Navigator::getStudyInformation() {
     if (patientDialog->exec()) {
         patientDialog->getFields(newStudy);
         study_ = newStudy;  
-        studies_[study_.key()] = study_;
-        QListViewItem* item = new QListViewItem(tableListView);
-        item->setText(0, study_.name().fullName());
-        item->setText(1, study_.mrn());
-        item->setText(2, study_.dateTime().toString());
-        item->setText(3, study_.config());
-        item->setText(4, study_.number());
-        item->setText(5, study_.path());
-        item->setText(6, study_.key());
+        tableListView->addStudy(study_);
         return true;
     }
     return false;
@@ -365,6 +388,11 @@ bool Navigator::getStudyInformation() {
 void Navigator::newStudy() {
 ///TODO study_ must be "blank" unless a study is selected in the catalog.
 /// Same thing for preregister and continue study
+    if (!studySelected()) {
+        ///TODO is this really the best way to do this???
+        Study newStudy;
+        study_ = newStudy;
+    }
     StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
     if (studyConfigDialog->exec()) {
 ///TODO StudyConfigDialog should probably be SelectConfigDialog and 
@@ -381,13 +409,11 @@ void Navigator::preregisterPatient() {
 
 /// returns true and switches to study highlighted in the catalog; otherwise returns /// false if no study highlighted and leaves study_ unchanged
 bool Navigator::studySelected() {
-    if (QListViewItem* item = tableListView->selectedItem()) {
-        Studies::iterator pos;
-        pos = studies_.find(item->text(KEY_COLUMN));
-        if (pos != studies_.end()) {
-            study_ = pos->second;
-            return true;
-        }
+    if (TableListViewItem* item = tableListView->selectedItem()) {
+        // must cast item to a TableListViewItem* to get study from it.
+        //study_ = static_cast<TableListViewItem*>(item)->study();
+        study_ = item->study();
+        return true;
     }
     return false;
 }

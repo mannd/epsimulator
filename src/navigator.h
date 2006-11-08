@@ -24,6 +24,7 @@
 
 #include <qmainwindow.h>
 #include <qlistview.h>
+#include <qfile.h>
 
 class QAction;
 class QPopupMenu;
@@ -59,9 +60,26 @@ private slots:
 
 private:
 
+
+    class TableListView : public QListView {
+    public:
+        TableListView(QWidget* parent);
+        ~TableListView();
+        bool load(const QString& fileName);
+        bool save(const QString& fileName);
+        void addStudy(const Study& study);
+    private:
+        enum {MAGIC_NUMBER = 0x99c798f2};
+        
+        void readFromStream(QDataStream& in);
+        void writeToStream(QDataStream& out);
+        void error(const QFile& file, const QString& message);
+        void ioError(const QFile& file, const QString& message);
+    };
+
     class TableListViewItem : public QListViewItem {
     public:
-        TableListViewItem(QListView* parent, const Study& study,
+        TableListViewItem(TableListView* parent, const Study& study,
             QString label1, QString label2 = QString::null, QString label3 = QString::null, QString label4 = QString::null, QString label5 = QString::null, QString label6 = QString::null, QString label7 = QString::null, QString label8 = QString::null );
         ~TableListViewItem();
         Study study() {return study_;}
@@ -69,14 +87,6 @@ private:
         Study study_;
     };
     
-    class TableListView : public QListView {
-    public:
-        TableListView(QWidget* parent);
-        ~TableListView();
-    private:
-        void readStudies();
-        void writeStudies();
-    };
 
     enum {KEY_COLUMN = 6};
     void createCentralWidget();
@@ -99,7 +109,7 @@ private:
     QSplitter* horizontalSplitter;
     QFrame* buttonFrame;
     QGridLayout* buttonFrameLayout;
-    QListView* tableListView;
+    TableListView* tableListView;
     QPushButton* newStudyButton;
     QPushButton* continueStudyButton;
     QPushButton* reviewStudyButton;
