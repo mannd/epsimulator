@@ -24,6 +24,16 @@
 #include <cassert> 
 #include <qdir.h>
 
+QDataStream& operator<<(QDataStream& out, const Name& name) {
+    out << name.first << name.middle << name.last;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, Name& name) {
+    in >> name.first >> name.middle >> name.last;
+    return in;
+}
+
 
 QString Name::fullName(bool lastFirst, bool useMiddleName) const {
     QString middleName;
@@ -39,8 +49,8 @@ QString Name::fullName(bool lastFirst, bool useMiddleName) const {
 }
 
 QDataStream& operator<<(QDataStream& out, const Study& study) {
-    out << study.dateTime_ << study.number_ << study.name_.first << study.name_.middle
-        << study.name_.last << study.mrn_ << study.dateOfBirth_ << study.config_
+    out << study.dateTime_ << study.number_ << study.name_
+        << study.mrn_ << study.dateOfBirth_ << study.config_
         << (Q_INT32)study.sex_ << study.height_ << study.weight_ << study.heightIn_
         << study.weightLbs_ << study.bsa_ << (Q_INT32)study.bsaManualEdit_
         << (Q_INT32)study.vagalTone_ << (Q_INT32)study.sympatheticTone_ << (Q_INT32)study.ef_
@@ -51,8 +61,8 @@ QDataStream& operator<<(QDataStream& out, const Study& study) {
 
 QDataStream& operator>>(QDataStream& in, Study& study) {
     Q_INT32 sex, bsaManualEdit, vagalTone, sympatheticTone, ef, ischemia;
-    in >> study.dateTime_ >> study.number_ >> study.name_.first >> study.name_.middle
-        >> study.name_.last >> study.mrn_ >> study.dateOfBirth_ >> study.config_
+    in >> study.dateTime_ >> study.number_ >> study.name_
+        >> study.mrn_ >> study.dateOfBirth_ >> study.config_
         >> sex >> study.height_ >> study.weight_ >> study.heightIn_
         >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
         >> vagalTone >> sympatheticTone >> ef
@@ -74,7 +84,11 @@ Study::Study() : dateTime_(QDateTime::currentDateTime()),
     heightIn_(0), weightLbs_(0), bsa_(0), 
     bsaManualEdit_(false), vagalTone_(DEFAULT_VAGAL_TONE),
     sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), ef_(DEFAULT_EF), 
-    ischemia_(false), heart_(0) {
+    ischemia_(false) {
+    ///TODO need to compute path
+    config_ = "";
+    file_ = "";
+    path_ = ".";
     heart_ = new Heart;
     testInvariant();
 }
@@ -96,6 +110,9 @@ void Study::copyStudy(const Study& study) {
     sympatheticTone_ = study.sympatheticTone_;
     ef_ = study.ef_;
     ischemia_ = study.ischemia_;
+    config_ = study.config_;
+    path_ = study.path_;
+    file_ = study.file_;
     // copy the heart pointer
     heart_ = new Heart(*study.heart_);
 }

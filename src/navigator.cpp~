@@ -73,6 +73,20 @@ bool Navigator::TableListView::load(const QString& fileName) {
 }
 
 bool Navigator::TableListView::save(const QString& fileName) {
+    QFile file(fileName);
+    if (!file.open(IO_WriteOnly)) {
+        ioError(file, tr("Cannot open file %1 for writing"));
+        return false;
+    }
+    QDataStream out(&file);
+    out.setVersion(5);
+    out << (Q_UINT32)MAGIC_NUMBER;
+    writeToStream(out);
+    if (file.status() != IO_Ok) {
+        ioError(file, tr("Error writing to file %1"));
+        return false;
+    }
+    return true;
 }
 
 void Navigator::TableListView::addStudy(const Study& study) {
@@ -96,8 +110,14 @@ void Navigator::TableListView::readFromStream(QDataStream& in) {
 }
 
 void Navigator::TableListView::writeToStream(QDataStream& out) {
+  QListViewItemIterator it(this);
+  while (it.current()) {
+    QListViewItem* item = *it;
+    out << static_cast<TableListViewItem*>(item)->study();
+    ++it;
+  }
 }
-
+    
 void Navigator::TableListView::error(const QFile& file, const QString& message) {
     QMessageBox::warning(0, tr("EP Simulator"), message.arg(file.name()));
 }
@@ -409,10 +429,9 @@ void Navigator::preregisterPatient() {
 
 /// returns true and switches to study highlighted in the catalog; otherwise returns /// false if no study highlighted and leaves study_ unchanged
 bool Navigator::studySelected() {
-    if (TableListViewItem* item = tableListView->selectedItem()) {
+    if (QListViewItem* item = tableListView->selectedItem()) {
         // must cast item to a TableListViewItem* to get study from it.
-        //study_ = static_cast<TableListViewItem*>(item)->study();
-        study_ = item->study();
+        study_ = static_cast<TableListViewItem*>(item)->study();
         return true;
     }
     return false;

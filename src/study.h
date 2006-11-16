@@ -35,6 +35,8 @@ struct Name {
     QString middle;
     QString fullName(bool lastFirst = false,
                      bool useMiddleName = false) const;
+    friend QDataStream& operator<<(QDataStream&, const Name&);
+    friend QDataStream& operator>>(QDataStream&, Name&);
 };
 
 typedef int AutonomicTone;

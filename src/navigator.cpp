@@ -70,9 +70,42 @@ Navigator::TableListView::~TableListView() {
 }
 
 bool Navigator::TableListView::load(const QString& fileName) {
+    QFile file(fileName);
+    if (!file.open(IO_ReadOnly)) {
+        ioError(file, tr("Cannot open file %1 for reading"));
+        return false;
+    }
+    QDataStream in(&file);
+    in.setVersion(5);
+    Q_UINT32 magic;
+    in >> magic;
+    if (magic != MAGIC_NUMBER) {
+        error(file, tr("File %1 is not a EP Study file"));
+        return false;
+    }
+    readFromStream(in);
+    if (file.status() != IO_Ok) {
+        ioError(file, tr("Error reading from file %1"));
+        return false;
+    }
+    return true;
 }
 
 bool Navigator::TableListView::save(const QString& fileName) {
+    QFile file(fileName);
+    if (!file.open(IO_WriteOnly)) {
+        ioError(file, tr("Cannot open file %1 for writing"));
+        return false;
+    }
+    QDataStream out(&file);
+    out.setVersion(5);
+    out << (Q_UINT32)MAGIC_NUMBER;
+    writeToStream(out);
+    if (file.status() != IO_Ok) {
+        ioError(file, tr("Error writing to file %1"));
+        return false;
+    }
+    return true;
 }
 
 void Navigator::TableListView::addStudy(const Study& study) {
@@ -96,8 +129,14 @@ void Navigator::TableListView::readFromStream(QDataStream& in) {
 }
 
 void Navigator::TableListView::writeToStream(QDataStream& out) {
+  QListViewItemIterator it(this);
+  while (it.current()) {
+    QListViewItem* item = *it;
+    out << static_cast<TableListViewItem*>(item)->study();
+    ++it;
+  }
 }
-
+    
 void Navigator::TableListView::error(const QFile& file, const QString& message) {
     QMessageBox::warning(0, tr("EP Simulator"), message.arg(file.name()));
 }

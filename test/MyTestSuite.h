@@ -117,7 +117,8 @@ public:
         cout <<  "testKey2 result is " << s.key() << "\n";
         TS_ASSERT(s.key() == "Doe_John." + s.dateTime().toString("dd.MM.yyyy.hh.mm.ss"));
 }
-        
+    
+         
 
 //    void testGetSetPatientDialogDefaultStudies() {
 //        PatientDialog pd;
