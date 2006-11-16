@@ -23,7 +23,7 @@
 #include <qlineedit.h>
 
 SystemDialog::SystemDialog(QWidget *parent, const char *name)
-    :SystemDialogBase(parent, name) {
+    :SystemDialogBase(parent, name), studyPath_(".") {
     // set up dialog here, from system settings on disk
 }
 

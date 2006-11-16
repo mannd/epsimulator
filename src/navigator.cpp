@@ -42,6 +42,7 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qlayout.h>
+#include <qlistbox.h>
 #include <qsizepolicy.h>
 #include <qsettings.h>
 
@@ -71,6 +72,9 @@ Navigator::TableListView::~TableListView() {
 
 bool Navigator::TableListView::load(const QString& fileName) {
     QFile file(fileName);
+    // create a studies file if it doesn't exist already
+    if (!file.exists()) 
+        save(fileName);
     if (!file.open(IO_ReadOnly)) {
         ioError(file, tr("Cannot open file %1 for reading"));
         return false;
@@ -246,27 +250,12 @@ void Navigator::createCentralWidget() {
     //tableListView->setResizeMode(QListView::AllColumns);  
     // his messes up the hidden column
     readSettings(); 
+    tableListView->load(studiesPath_ + "studies.eps");
     // populate the list from disk
     //loadStudies();
     //populateTableListView();
 }
 
-///TODO scheduled for deletion!!
-/// This function populates the table from studies_.  studies_ is populated
-/// in the Navigator constructor.
-void Navigator::populateTableListView() {
-    Studies::iterator pos;
-    for (pos = studies_.begin(); pos != studies_.end(); ++pos) {
-        (void) new TableListViewItem(tableListView, pos->second, 
-            pos->second.name().fullName(),
-            pos->second.mrn(),
-            pos->second.dateTime().toString(),
-            pos->second.config(),
-            pos->second.number(),
-            pos->second.path(),
-            pos->second.key());
-    }
-}
 
 void Navigator::saveSettings() {
     QSettings settings;
@@ -436,7 +425,7 @@ void Navigator::newStudy() {
     if (studyConfigDialog->exec()) {
 ///TODO StudyConfigDialog should probably be SelectConfigDialog and 
 /// need to fix below
-//        study_.setConfig(studyConfigDialog->configListBox->currentText());
+        study_.setConfig(studyConfigDialog->configListBox->currentText());
         if (getStudyInformation())
             startStudy();
     }
@@ -491,4 +480,5 @@ void Navigator::closeEvent(QCloseEvent *event) {
 
 Navigator::~Navigator() {
     saveSettings();
+    tableListView->save(studiesPath_ + "studies.eps");
 }

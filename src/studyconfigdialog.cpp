@@ -19,8 +19,22 @@
  ***************************************************************************/
 #include "studyconfigdialog.h"
 
+#include <qpushbutton.h>
+#include <qlistbox.h>
+
 StudyConfigDialog::StudyConfigDialog(QWidget *parent, const char *name)
     :StudyConfigDialogBase(parent, name) {
 }
 
+
+// void StudyConfigDialog::enableOkButton() {
+//     
+// }
+
+
 StudyConfigDialog::~StudyConfigDialog() {}
+
+void StudyConfigDialog::enableOkButton() {
+    okButton->setEnabled(configListBox->selectedItem());
+}
+

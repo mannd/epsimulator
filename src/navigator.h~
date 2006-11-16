@@ -60,16 +60,7 @@ private slots:
 
 private:
 
-    class TableListViewItem : public QListViewItem {
-    public:
-        TableListViewItem(TableListView* parent, const Study& study,
-            QString label1, QString label2 = QString::null, QString label3 = QString::null, QString label4 = QString::null, QString label5 = QString::null, QString label6 = QString::null, QString label7 = QString::null, QString label8 = QString::null );
-        ~TableListViewItem();
-        Study study() {return study_;}
-    private:
-        Study study_;
-    };
-    
+
     class TableListView : public QListView {
     public:
         TableListView(QWidget* parent);
@@ -86,6 +77,17 @@ private:
         void ioError(const QFile& file, const QString& message);
     };
 
+    class TableListViewItem : public QListViewItem {
+    public:
+        TableListViewItem(TableListView* parent, const Study& study,
+            QString label1, QString label2 = QString::null, QString label3 = QString::null, QString label4 = QString::null, QString label5 = QString::null, QString label6 = QString::null, QString label7 = QString::null, QString label8 = QString::null );
+        ~TableListViewItem();
+        Study study() {return study_;}
+    private:
+        Study study_;
+    };
+    
+
     enum {KEY_COLUMN = 6};
     void createCentralWidget();
     void createActions();
@@ -100,7 +102,7 @@ private:
     // current study
     // it looks like in Qt subclasses, embedded objects must be pointers
     Study study_;
-    Studies studies_;
+ //   Studies studies_;
     QString studiesPath_;
 
     // central widget stuff    QSplitter* horizontalSplitter;

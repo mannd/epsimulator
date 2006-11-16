@@ -25,8 +25,6 @@
 #include <qstring.h>
 #include <qdatastream.h>
 
-#include <map>
-
 class Heart;
 
 struct Name {
@@ -133,7 +131,5 @@ private:
     QString path_;  // location (path) of this study
     QString file_;  //  name of study file
 };
-
-typedef std::map<QString, Study> Studies;
 
 #endif

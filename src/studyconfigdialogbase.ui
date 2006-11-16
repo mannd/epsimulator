@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Study Config</string>
+        <string>Select Study Configuration</string>
     </property>
     <grid>
         <property name="name">
@@ -48,6 +48,9 @@
                     <property name="name">
                         <cstring>okButton</cstring>
                     </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
                     <property name="text">
                         <string>&amp;OK</string>
                     </property>
@@ -63,10 +66,10 @@
                         <cstring>cancelButton</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Cancel</string>
+                        <string>C&amp;ancel</string>
                     </property>
                     <property name="accel">
-                        <string>Alt+C</string>
+                        <string>Alt+A</string>
                     </property>
                 </widget>
             </hbox>
@@ -96,6 +99,15 @@
         <receiver>StudyConfigDialogBase</receiver>
         <slot>close()</slot>
     </connection>
+    <connection>
+        <sender>configListBox</sender>
+        <signal>selectionChanged()</signal>
+        <receiver>StudyConfigDialogBase</receiver>
+        <slot>enableOkButton()</slot>
+    </connection>
 </connections>
+<slots>
+    <slot access="private">enableOkButton()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

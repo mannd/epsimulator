@@ -23,10 +23,13 @@
 #include "studyconfigdialogbase.h"
 
 class StudyConfigDialog: public StudyConfigDialogBase {
-Q_OBJECT
+    Q_OBJECT
 public:
     StudyConfigDialog(QWidget *parent = 0, const char *name = 0);
     ~StudyConfigDialog();
+
+private slots:
+    void enableOkButton();
 };
 
 #endif
