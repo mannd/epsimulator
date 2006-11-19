@@ -18,10 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include "navigator.h"
 
 #include <qapplication.h>
-//#include "epsimulator.h"
-#include "navigator.h"
 
 int main(int argc, char **argv)
 {
@@ -34,4 +33,3 @@ int main(int argc, char **argv)
     mainWin->showMaximized();
     return app.exec();
 }
-

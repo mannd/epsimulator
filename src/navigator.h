@@ -39,8 +39,7 @@ class QSplitter;
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
 */
-class Navigator : public QMainWindow
-{
+class Navigator : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -54,21 +53,25 @@ protected:
 private slots:
     void newStudy();
     void preregisterPatient();
+    void deleteStudy();
 
     void systemSettings();
     void about();
 
 private:
     class TableListView : public QListView {
+
     public:
         TableListView(QWidget* parent);
         ~TableListView();
+
         bool load(const QString& fileName);
         bool save(const QString& fileName);
         void addStudy(const Study& study);
+
     private:
         enum {MagicNumber = 0x99c798f2};
-        
+
         void readFromStream(QDataStream& in);
         void writeToStream(QDataStream& out);
         void error(const QFile& file, const QString& message);
@@ -76,33 +79,39 @@ private:
     };
 
     class TableListViewItem : public QListViewItem {
+
     public:
         TableListViewItem(TableListView* parent, const Study& study,
-            QString label1, QString label2 = QString::null, QString label3 = QString::null, QString label4 = QString::null, QString label5 = QString::null, QString label6 = QString::null, QString label7 = QString::null, QString label8 = QString::null );
+                          QString label1, 
+                          QString label2 = QString::null, 
+                          QString label3 = QString::null, 
+                          QString label4 = QString::null, 
+                          QString label5 = QString::null, 
+                          QString label6 = QString::null, 
+                          QString label7 = QString::null, 
+                          QString label8 = QString::null );
         ~TableListViewItem();
+
         Study study() {return study_;}
+
     private:
         Study study_;
     };
-    
 
-    enum {KeyColumn = 6};
     void createCentralWidget();
     void createActions();
     void createMenus();
+
     void startStudy();
     bool getStudyInformation();
     void saveSettings();
     void readSettings();
     bool studySelected();
-    void populateTableListView();
 
-    // current study
-    // it looks like in Qt subclasses, embedded objects must be pointers
-    Study study_;
-    QString studiesPath_;
+    Study study_;           // current study
+    QString studiesPath_;   // path to studies
 
-    // central widget stuff    QSplitter* horizontalSplitter;
+    // central widget stuff
     QSplitter* horizontalSplitter;
     QFrame* buttonFrame;
     QGridLayout* buttonFrameLayout;
@@ -140,9 +149,10 @@ private:
     QAction *studyConfigurationsAct;
     QAction *systemSettingsAct;
 
-
+    // Help menu
     QAction *aboutAct;
 
+    // menus
     QPopupMenu *studyMenu;
     QPopupMenu *catalogMenu;
     QPopupMenu *utilitiesMenu;

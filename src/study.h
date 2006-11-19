@@ -73,9 +73,14 @@ public:
     QString number() const {return number_;}
     QString path() const {return path_;}
     QString file() const {return file_;}
-    QString filePath();   // returns full path of study, fixes path if doesn't end in '/'
+    QString filePath();     // Returns full path of study, 
+                            // fixes path if doesn't end in '/'.
     QString config() const {return config_;}
-    QString key() const;    // generates key based on name and datetime to identify study uniquely
+    QString key() const;    // Generates key based on name and datetime
+                            // to identify study uniquely.
+    bool isPreregisterStudy() const {return config_.isEmpty();}
+                            // Preregistered study has no config
+                            // Must disallow empty configs!
 
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);

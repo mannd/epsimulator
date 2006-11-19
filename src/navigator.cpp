@@ -112,7 +112,8 @@ bool Navigator::TableListView::save(const QString& fileName) {
 
 void Navigator::TableListView::addStudy(const Study& study) {
     (void) new TableListViewItem(this, study,
-            study.name().fullName(),
+            study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
+            study.name().fullName(true, true),
             study.mrn(),
             study.dateTime().toString(),
             study.config(),
@@ -232,20 +233,24 @@ void Navigator::createCentralWidget() {
     buttonFrameLayout->addItem( spacer, 10, 0 );
 
     tableListView = new TableListView(horizontalSplitter);
-    tableListView->addColumn(tr("Patient"));
-    tableListView->addColumn(tr("MRN"));
-    tableListView->addColumn(tr("Study Date/Time"));
-    tableListView->addColumn(tr("Study Config"));
-    tableListView->addColumn(tr("Study Number"));
-    tableListView->addColumn(tr("Location of Study"));
-    tableListView->addColumn(tr("Hidden key"));
-    // hide the hidden key column: make sure it is defined correctly in KeyColumn
+    tableListView->addColumn(tr("Study Type"));         // col 0
+    tableListView->addColumn(tr("Patient"));            // col 1
+    tableListView->addColumn(tr("MRN"));                // col 2
+    tableListView->addColumn(tr("Study Date/Time"));    // col 3
+    tableListView->addColumn(tr("Study Config"));       // col 4
+    tableListView->addColumn(tr("Study Number"));       // col 5
+    tableListView->addColumn(tr("Location of Study"));  // col 6
+    tableListView->addColumn(tr("Hidden key"));         // col 7
+
     tableListView->setAllColumnsShowFocus(true);
     tableListView->setShowSortIndicator(true);
-    tableListView->setColumnWidthMode(KeyColumn, QListView::Manual);
-    tableListView->hideColumn(KeyColumn);
-    tableListView->header()->setResizeEnabled(false, KeyColumn);    
-    //tableListView->setResizeMode(QListView::AllColumns);  
+    tableListView->setSortColumn(3);    // default sort is date/time
+    // hide the hidden key column: make sure it is defined correctly in keyColumn
+    int keyColumn = 7;
+    tableListView->setColumnWidthMode(keyColumn, QListView::Manual);
+    tableListView->hideColumn(keyColumn);
+    tableListView->header()->setResizeEnabled(false, keyColumn);
+    //tableListView->setResizeMode(QListView::AllColumns);
     // above messes up the hidden column
     readSettings(); 
     tableListView->load(studiesPath_ + "studies.eps");
@@ -309,6 +314,7 @@ void Navigator::createActions() {
 
     deleteAct = new QAction(tr("Delete..."), 0, this);
     deleteAct->setStatusTip(tr("Delete study"));
+    connect(deleteAct, SIGNAL(activated()), this, SLOT(deleteStudy()));
 
     exportAct = new QAction(tr("Export..."), 0, this);
     exportAct->setStatusTip(tr("Export study"));
@@ -428,6 +434,25 @@ void Navigator::newStudy() {
 
 void Navigator::preregisterPatient() {
     getStudyInformation();
+}
+
+void Navigator::deleteStudy() {
+    if (QListViewItem* item = tableListView->selectedItem()) {
+        int ret = QMessageBox::warning(
+            this, tr("Delete Study?"),
+            tr("The selected study will be permanently "
+               "deleted.  Do you wish to continue?"),
+            QMessageBox::Yes ,
+            QMessageBox::No | QMessageBox::Default, // default is NO!
+            QMessageBox::Cancel | QMessageBox::Escape);
+        if (ret == QMessageBox::Yes)
+            delete item;
+    } 
+    else {
+        QMessageBox::information(this, tr("No Study Selected"),
+            tr("You must first select a study to delete it."),
+            QMessageBox::Ok);
+    }
 }
 
 /// returns true and switches to study highlighted in the catalog; otherwise returns /// false if no study highlighted and leaves study_ unchanged
