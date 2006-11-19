@@ -123,5 +123,5 @@ void PatientDialog::getFields(Study& study) {
 }
 
 Sex PatientDialog::getSex() {
-    return sexComboBox->currentItem() == 0 ? MALE : FEMALE;
+    return sexComboBox->currentItem() == 0 ? Male : Female;
 }

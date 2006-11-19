@@ -26,8 +26,10 @@ Class Fruit {
 Actually I have now changed to the above style.
 
 private variables will end in underscore.
-enums, consts and defines will be all caps.
-Typedefs will be capitalized.
+//enums, consts and defines will be all caps.
+enums, consts and typedefs will be UpperCamelCase
+defines will be all caps with underscores
+
 
 Unit Testing
 For now will use cxxtest.  Run ./maketests from epsimulator/src to generate the runner program.  Edit maketests to add dependencies, and MyTestSuite.h contains the tests.  The tests HAVE to be in the src directory to compile, and so tests are not a subproject.  Need to make the test suite into a make file, using a different makefile name than Makefile, e.g. maketests and invoke as make -fmaketests, e.g.  Could make a link to this named maketests to keep everything the same.

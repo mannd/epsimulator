@@ -21,9 +21,9 @@
 #ifndef STUDY_H
 #define STUDY_H
 
+#include <qdatastream.h>
 #include <qdatetime.h>
 #include <qstring.h>
-#include <qdatastream.h>
 
 class Heart;
 
@@ -39,7 +39,7 @@ struct Name {
 
 typedef int AutonomicTone;
 
-enum Sex {MALE, FEMALE};
+enum Sex {Male, Female};
 
 // change these to programmable options
 #define DEFAULT_EF 55

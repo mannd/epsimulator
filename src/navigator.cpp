@@ -21,30 +21,30 @@
 // Basically the navigator window is the main window.  When switching to
 // the epsimulator window, we will actually just be changing the menus
 // and the central widget
-                            // main window
 
+#include "epsimulator.h"  
 #include "navigator.h"
-#include "epsimulator.h"    // some menu items are duplicated in the epsimulator
-#include "study.h"
 #include "patientdialog.h"
-#include "systemdialog.h"
+#include "study.h"
 #include "studyconfigdialog.h"
+#include "systemdialog.h"
 
-#include <qmainwindow.h>
-#include <qstatusbar.h>
-#include <qpopupmenu.h>
-#include <qmenubar.h>
 #include <qaction.h>
-#include <qmessagebox.h>
-#include <qsplitter.h>
-#include <qlistview.h>
+#include <qdir.h>
 #include <qheader.h>
-#include <qpushbutton.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qlistbox.h>
-#include <qsizepolicy.h>
+#include <qlistview.h>
+#include <qmainwindow.h>
+#include <qmenubar.h>
+#include <qmessagebox.h>
+#include <qpopupmenu.h>
+#include <qpushbutton.h>
 #include <qsettings.h>
+#include <qsizepolicy.h>
+#include <qsplitter.h>
+#include <qstatusbar.h>
 
 #include <algorithm>
 
@@ -62,12 +62,10 @@ Navigator::TableListViewItem::~TableListViewItem() {
 
 Navigator::TableListView::TableListView(QWidget* parent) 
     : QListView(parent) {
-    ///TODO initialize the TableListView.  Read the studies from disk
-    
 }
 
 Navigator::TableListView::~TableListView() {
-    ///TODO write the studies to disk.
+
 }
 
 bool Navigator::TableListView::load(const QString& fileName) {
@@ -83,7 +81,7 @@ bool Navigator::TableListView::load(const QString& fileName) {
     in.setVersion(5);
     Q_UINT32 magic;
     in >> magic;
-    if (magic != MAGIC_NUMBER) {
+    if (magic != MagicNumber) {
         error(file, tr("File %1 is not a EP Study file"));
         return false;
     }
@@ -103,7 +101,7 @@ bool Navigator::TableListView::save(const QString& fileName) {
     }
     QDataStream out(&file);
     out.setVersion(5);
-    out << (Q_UINT32)MAGIC_NUMBER;
+    out << (Q_UINT32)MagicNumber;
     writeToStream(out);
     if (file.status() != IO_Ok) {
         ioError(file, tr("Error writing to file %1"));
@@ -152,7 +150,7 @@ void Navigator::TableListView::ioError(const QFile& file, const QString& message
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
     ///TODO get this from the system options
-    studiesPath_ = ".";
+    studiesPath_ = QDir::homeDirPath() + "/";
 
     createActions();
     createMenus();
@@ -241,19 +239,16 @@ void Navigator::createCentralWidget() {
     tableListView->addColumn(tr("Study Number"));
     tableListView->addColumn(tr("Location of Study"));
     tableListView->addColumn(tr("Hidden key"));
-    // hide the hidden key column: make sure it is defined correctly in KEY_COLUMN
+    // hide the hidden key column: make sure it is defined correctly in KeyColumn
     tableListView->setAllColumnsShowFocus(true);
     tableListView->setShowSortIndicator(true);
-    tableListView->setColumnWidthMode(KEY_COLUMN, QListView::Manual);
-    tableListView->hideColumn(KEY_COLUMN);
-    tableListView->header()->setResizeEnabled(false, KEY_COLUMN);    
+    tableListView->setColumnWidthMode(KeyColumn, QListView::Manual);
+    tableListView->hideColumn(KeyColumn);
+    tableListView->header()->setResizeEnabled(false, KeyColumn);    
     //tableListView->setResizeMode(QListView::AllColumns);  
-    // his messes up the hidden column
+    // above messes up the hidden column
     readSettings(); 
     tableListView->load(studiesPath_ + "studies.eps");
-    // populate the list from disk
-    //loadStudies();
-    //populateTableListView();
 }
 
 

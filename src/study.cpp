@@ -69,7 +69,7 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
         >> ischemia >> study.path_ >> study.file_;
     ///TODO need to add heart to this
     ///TODO the below may not work, as it has nothing to do with in
-    study.sex_ = (sex != 0) ? FEMALE : MALE;
+    study.sex_ = (sex != 0) ? Female : Male;
     study.bsaManualEdit_ = bsaManualEdit;
     study.vagalTone_ = vagalTone;
     study.sympatheticTone_ = sympatheticTone;
@@ -80,7 +80,7 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
 
 Study::Study() : dateTime_(QDateTime::currentDateTime()),
     dateOfBirth_(DEFAULT_BIRTH_DATE),
-    sex_(MALE), height_(0), weight_(0), 
+    sex_(Male), height_(0), weight_(0), 
     heightIn_(0), weightLbs_(0), bsa_(0), 
     bsaManualEdit_(false), vagalTone_(DEFAULT_VAGAL_TONE),
     sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), ef_(DEFAULT_EF), 
@@ -166,7 +166,7 @@ void Study::setEf(int ef) {
 inline void Study::testInvariant() const {
     assert(vagalTone_ >= MIN_TONE && vagalTone_ <= MAX_TONE);
     assert(sympatheticTone_ >= MIN_TONE && sympatheticTone_ <= MAX_TONE);
-    assert (sex_ == MALE || sex_ == FEMALE);
+    assert (sex_ == Male || sex_ == Female);
     assert (ef_ >= MIN_EF && ef_ <= MAX_EF);
 }
 

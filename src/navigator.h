@@ -22,19 +22,19 @@
 
 #include "study.h"
 
-#include <qmainwindow.h>
-#include <qlistview.h>
 #include <qfile.h>
+#include <qlistview.h>
+#include <qmainwindow.h>
 
 class QAction;
-class QPopupMenu;
-class QSplitter;
 class QFrame;
 class QGridLayout;
-class QListView;
-class QPushButton;
 class QLabel;
+class QListView;
+class QPopupMenu;
+class QPushButton;
 class QSpacerItem;
+class QSplitter;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -59,8 +59,6 @@ private slots:
     void about();
 
 private:
-
-
     class TableListView : public QListView {
     public:
         TableListView(QWidget* parent);
@@ -69,7 +67,7 @@ private:
         bool save(const QString& fileName);
         void addStudy(const Study& study);
     private:
-        enum {MAGIC_NUMBER = 0x99c798f2};
+        enum {MagicNumber = 0x99c798f2};
         
         void readFromStream(QDataStream& in);
         void writeToStream(QDataStream& out);
@@ -88,7 +86,7 @@ private:
     };
     
 
-    enum {KEY_COLUMN = 6};
+    enum {KeyColumn = 6};
     void createCentralWidget();
     void createActions();
     void createMenus();
