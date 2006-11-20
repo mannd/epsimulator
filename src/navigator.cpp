@@ -22,7 +22,8 @@
 // the epsimulator window, we will actually just be changing the menus
 // and the central widget
 
-#include "epsimulator.h"  
+#include "epsimulator.h"
+#include "options.h"
 #include "navigator.h"
 #include "patientdialog.h"
 #include "study.h"
@@ -54,7 +55,8 @@ Navigator::TableListViewItem::TableListViewItem(TableListView* parent, const Stu
     QString label1, QString label2, QString label3, 
     QString label4, QString label5, QString label6, 
     QString label7, QString label8 ) 
-    : QListViewItem(parent, label1, label2, label3, label4, label5, label6, label7, label8), study_(study) {
+    : QListViewItem(parent, label1, label2, label3, 
+      label4, label5, label6, label7, label8), study_(study) {
 }
 
 Navigator::TableListViewItem::~TableListViewItem() {
@@ -65,7 +67,6 @@ Navigator::TableListView::TableListView(QWidget* parent)
 }
 
 Navigator::TableListView::~TableListView() {
-
 }
 
 bool Navigator::TableListView::load(const QString& fileName) {
@@ -151,7 +152,8 @@ void Navigator::TableListView::ioError(const QFile& file, const QString& message
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
     ///TODO get this from the system options
-    studiesPath_ = QDir::homeDirPath() + "/";
+    options_ = Options::instance();
+//    studiesPath_ = QDir::homeDirPath() + "/";
 
     createActions();
     createMenus();
@@ -253,7 +255,7 @@ void Navigator::createCentralWidget() {
     //tableListView->setResizeMode(QListView::AllColumns);
     // above messes up the hidden column
     readSettings(); 
-    tableListView->load(studiesPath_ + "studies.eps");
+    tableListView->load(options_->studyPath() + "studies.eps");
 }
 
 
@@ -263,12 +265,9 @@ void Navigator::saveSettings() {
     settings.beginGroup("/EPSimulator");
 
     QString str;
-    QTextOStream out1(&str);
-    out1 << *horizontalSplitter;
+    QTextOStream out(&str);
+    out << *horizontalSplitter;
     settings.writeEntry("/horizontalSplitter", str);
-    QTextOStream out2(&str);
-    out2 << study_.path();
-    settings.writeEntry("/studyPath", str);
     settings.endGroup();
 }
 
@@ -277,11 +276,9 @@ void Navigator::readSettings() {
     settings.setPath("EPStudios", "EPSimulator");
     settings.beginGroup("/EPSimulator");
     
-    QString str1 = settings.readEntry("/horizontalSplitter");
-    QTextIStream in1(&str1);
-    in1 >> *horizontalSplitter;
-    QString str2 = settings.readEntry("/studyPath");
-    study_.setPath(str2);
+    QString str = settings.readEntry("/horizontalSplitter");
+    QTextIStream in(&str);
+    in >> *horizontalSplitter;
     settings.endGroup();
 }
 
@@ -473,10 +470,9 @@ void Navigator::startStudy() {
 
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
-    systemDialog->setStudyPath(study_.path());
+    systemDialog->setStudyPath(options_->studyPath());
     if (systemDialog->exec()) {
-        study_.setPath(systemDialog->studyPath());
-        saveSettings();
+        options_->setStudyPath(systemDialog->studyPath());
     }
 }
 
@@ -500,5 +496,6 @@ void Navigator::closeEvent(QCloseEvent *event) {
 
 Navigator::~Navigator() {
     saveSettings();
-    tableListView->save(studiesPath_ + "studies.eps");
+    tableListView->save(options_->studyPath() + "studies.eps");
+    delete options_;
 }

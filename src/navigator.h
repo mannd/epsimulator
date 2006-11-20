@@ -20,12 +20,14 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
+#include "options.h"
 #include "study.h"
 
 #include <qfile.h>
 #include <qlistview.h>
 #include <qmainwindow.h>
 
+class Options;
 class QAction;
 class QFrame;
 class QGridLayout;
@@ -109,7 +111,8 @@ private:
     bool studySelected();
 
     Study study_;           // current study
-    QString studiesPath_;   // path to studies
+    Options* options_;
+//    QString studiesPath_;   // path to studies
 
     // central widget stuff
     QSplitter* horizontalSplitter;

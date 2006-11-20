@@ -25,7 +25,8 @@ HEADERS += epsimulator.h \
            study.h \
            heart.h \
            systemdialog.h \
-           studyconfigdialog.h 
+           studyconfigdialog.h \
+           options.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -33,7 +34,8 @@ SOURCES += epsimulator.cpp \
            study.cpp \
            heart.cpp \
            systemdialog.cpp \
-           studyconfigdialog.cpp 
+           studyconfigdialog.cpp \
+           options.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
