@@ -88,7 +88,7 @@ Study::Study() : dateTime_(QDateTime::currentDateTime()),
     ///TODO need to compute path
     config_ = "";
     file_ = "";
-    path_ = ".";
+    path_ = "";
     heart_ = new Heart;
     testInvariant();
 }

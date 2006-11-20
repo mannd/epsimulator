@@ -30,10 +30,13 @@ Singleton class providing one-stop shopping for all program options.
 class Options{
 public:
     static Options* instance();
-    
+
     QString studyPath() const {return studyPath_;}
 
     void setStudyPath(QString studyPath) {studyPath_ = studyPath;}
+
+    void readSettings();
+    void writeSettings();
 
     ~Options();
 
@@ -42,8 +45,6 @@ protected:
     static Options* instance_;
 
 private:
-    void readSettings();
-    void writeSettings();
 
     QString studyPath_;
 

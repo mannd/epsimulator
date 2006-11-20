@@ -48,6 +48,7 @@
 #include <qstatusbar.h>
 
 #include <algorithm>
+#include <stdlib.h>
 
 #define BUTTON_SIZE 80
 
@@ -157,12 +158,32 @@ Navigator::Navigator(QWidget* parent, const char* name)
 
     createActions();
     createMenus();
+    createStatusBar();
     createCentralWidget();
 
     setCaption(tr("EP Simulator Navigator"));
     setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
+}
 
-    statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
+void Navigator::createStatusBar() {
+    messageLabel_ = new QLabel(tr("For Help, press F1"), this);
+       
+    userLabel_ = new QLabel(tr(" User: %1 ").arg(std::getenv("USER")), this);
+    userLabel_->setAlignment(AlignHCenter);
+    userLabel_->setMinimumSize(userLabel_->sizeHint());
+
+    sourceLabel_ = new QLabel(tr(" Source:    "), this);
+    sourceLabel_->setAlignment(AlignHCenter);
+    sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
+
+    filterLabel_ = new QLabel(tr(" Unfiltered "), this);
+    filterLabel_->setAlignment(AlignHCenter);
+    filterLabel_->setMinimumSize(filterLabel_->sizeHint());
+
+    statusBar()->addWidget(messageLabel_, 1);
+    statusBar()->addWidget(userLabel_);
+    statusBar()->addWidget(sourceLabel_);
+    statusBar()->addWidget(filterLabel_);
 }
 
 void Navigator::createCentralWidget() {
@@ -284,6 +305,7 @@ void Navigator::readSettings() {
 
 
 void Navigator::createActions() {
+    // Study menu
     newAct = new QAction(tr("&New..."), tr("Ctrl+N"), this);
     newAct->setIconSet(QPixmap::fromMimeSource("hi32-newstudy.png"));
     newAct->setStatusTip(tr("New study"));
@@ -313,14 +335,53 @@ void Navigator::createActions() {
     deleteAct->setStatusTip(tr("Delete study"));
     connect(deleteAct, SIGNAL(activated()), this, SLOT(deleteStudy()));
 
-    exportAct = new QAction(tr("Export..."), 0, this);
-    exportAct->setStatusTip(tr("Export study"));
+    exportAct_ = new QAction(tr("Export..."), 0, this);
+    exportAct_->setStatusTip(tr("Export study"));
 
     // Exit menu item is the only one with accelerator key
-    exitAct = new QAction(tr("E&xit"), tr("Ctrl+X"), this);
+    exitAct = new QAction(tr("E&xit"), tr("Ctrl+Q"), this);
     exitAct->setStatusTip("Exit EP Simulator");
     connect(exitAct, SIGNAL(activated()), this, SLOT(close()));
 
+    // Catalog menu
+    switchAct_ = new QAction(tr("Switch"), 0, this);
+    switchAct_->setStatusTip(tr("Switch"));
+
+    filterStudiesAct_ = new QAction(tr("Filter Studies..."), 0, this);
+    filterStudiesAct_->setStatusTip(tr("Filter studies"));
+
+    removeStudiesFilterAct_ = new QAction(tr("Remove Studies Filter"), 0, this);
+    removeStudiesFilterAct_->setStatusTip(tr("Remove studies filter"));
+
+    refreshViewAct_ = new QAction(tr("Refresh View"), 0, this);
+    refreshViewAct_->setStatusTip(tr("Refresh the catalog"));
+
+    regenerateAct_ = new QAction(tr("Regenerate"), 0, this);
+    regenerateAct_->setStatusTip(tr("Regenerate the catalog"));
+
+    relabelDiskAct_ = new QAction(tr("Re-Label Disk..."), 0 ,this);
+    relabelDiskAct_->setStatusTip(tr("Re-label the optical disk"));
+
+    mergeStudiesAct_ = new QAction(tr("Merge Studies..."), 0, this);
+    mergeStudiesAct_->setStatusTip(tr("Merge studies together"));
+
+    // Utilities menu
+    exportListsAct_ = new QAction(tr("Export Lists..."), 0, this);
+    exportListsAct_->setStatusTip(tr("Export lists"));
+
+    exportReportFormatsAct_ = new QAction(tr("Export Report Formats..."), 0, this);
+    exportReportFormatsAct_->setStatusTip(tr("Export report formats"));
+
+    importListsAct_ = new QAction(tr("Import Lists..."), 0, this);
+    importListsAct_->setStatusTip(tr("Import lists"));
+
+    importReportFormatsAct_ = new QAction(tr("Import Report Formats..."), 0, this);
+    importReportFormatsAct_->setStatusTip(tr("Import report formats"));
+
+    ejectOpticalDiskAct_ = new QAction(tr("Eject Optical Disk"), 0, this);
+    ejectOpticalDiskAct_->setStatusTip(tr("Eject optical disk"));
+
+    // Administration menu
     loginAct = new QAction(tr("Login..."), 0, this);
     loginAct->setStatusTip(tr("Login"));
 
@@ -345,6 +406,10 @@ void Navigator::createActions() {
     systemSettingsAct = new QAction(tr("System Settings"), 0, this);
     systemSettingsAct->setStatusTip(tr("Change system settings"));
     connect(systemSettingsAct, SIGNAL(activated()), this, SLOT(systemSettings()));
+
+    // Help menu
+    epsimulatorHelpAct_ = new QAction(tr("EP Simulator Help..."), tr("F1"), this);
+    epsimulatorHelpAct_->setStatusTip(tr("Get help for EP Simulator"));
  
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
@@ -362,12 +427,28 @@ void Navigator::createMenus() {
     studyMenu->insertSeparator();
     copyAct->addTo(studyMenu);
     deleteAct->addTo(studyMenu);
-    exportAct->addTo(studyMenu);
+    exportAct_->addTo(studyMenu);
     studyMenu->insertSeparator();
     exitAct->addTo(studyMenu);
 
     catalogMenu = new QPopupMenu(this);
+    switchAct_->addTo(catalogMenu);
+    filterStudiesAct_->addTo(catalogMenu);
+    removeStudiesFilterAct_->addTo(catalogMenu);
+    catalogMenu->insertSeparator();
+    refreshViewAct_->addTo(catalogMenu);
+    regenerateAct_->addTo(catalogMenu);
+    relabelDiskAct_->addTo(catalogMenu);
+    mergeStudiesAct_->addTo(catalogMenu);
+
     utilitiesMenu = new QPopupMenu(this);
+    exportListsAct_->addTo(utilitiesMenu);
+    exportReportFormatsAct_->addTo(utilitiesMenu);
+    utilitiesMenu->insertSeparator();
+    importListsAct_->addTo(utilitiesMenu);
+    importReportFormatsAct_->addTo(utilitiesMenu);
+    utilitiesMenu->insertSeparator();
+    ejectOpticalDiskAct_->addTo(utilitiesMenu);
 
     administrationMenu = new QPopupMenu(this);
     securitySubMenu = new QPopupMenu(this);
@@ -386,6 +467,7 @@ void Navigator::createMenus() {
     // insert reports submenu here
 
     helpMenu = new QPopupMenu(this);
+    epsimulatorHelpAct_->addTo(helpMenu);
     aboutAct->addTo(helpMenu);
 
     menuBar()->insertItem(tr("&Study"), studyMenu);
@@ -404,7 +486,8 @@ bool Navigator::getStudyInformation() {
     patientDialog->setFields(newStudy);
     if (patientDialog->exec()) {
         patientDialog->getFields(newStudy);
-        study_ = newStudy;  
+        study_ = newStudy;
+        study_.setPath(options_->studyPath());
         tableListView->addStudy(study_);
         return true;
     }
@@ -424,8 +507,9 @@ void Navigator::newStudy() {
 ///TODO StudyConfigDialog should probably be SelectConfigDialog and 
 /// need to fix below
         study_.setConfig(studyConfigDialog->configListBox->currentText());
-        if (getStudyInformation())
+        if (getStudyInformation()) {
             startStudy();
+        }
     }
 }
 
@@ -468,11 +552,15 @@ void Navigator::startStudy() {
     eps->showMaximized();
 }
 
+///TODO The studies.eps file cannot change with the studyPath, as it must contain the different 
+/// paths for all the studies in the catalog.  studies.eps must be in a fixed place, probably a
+/// relative path to the executable, or in the executable directory, e.g.  Must fix this soon.
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
     systemDialog->setStudyPath(options_->studyPath());
     if (systemDialog->exec()) {
         options_->setStudyPath(systemDialog->studyPath());
+        options_->writeSettings();
     }
 }
 
@@ -497,4 +585,5 @@ void Navigator::closeEvent(QCloseEvent *event) {
 Navigator::~Navigator() {
     saveSettings();
     tableListView->save(options_->studyPath() + "studies.eps");
+    delete options_;
 }

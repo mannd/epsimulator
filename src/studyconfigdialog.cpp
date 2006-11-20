@@ -23,7 +23,7 @@
 #include <qlistbox.h>
 
 StudyConfigDialog::StudyConfigDialog(QWidget *parent, const char *name)
-    :StudyConfigDialogBase(parent, name) {
+    : StudyConfigDialogBase(parent, name) {
 }
 
 

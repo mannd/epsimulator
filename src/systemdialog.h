@@ -22,20 +22,21 @@
 
 #include "systemdialogbase.h"
 
+#include <qlineedit.h>
 #include <qstring.h>
 
 class SystemDialog : public SystemDialogBase {
-Q_OBJECT
+    Q_OBJECT
+
 public:
     SystemDialog(QWidget *parent = 0, const char *name = 0);
-    QString studyPath() const {return studyPath_;}
+    QString studyPath() const {return localStudyPathLineEdit->text();}
 
     void setStudyPath(QString path);
     ~SystemDialog();
+
 public slots:
     virtual void browseFilePaths();
-private:
-    QString studyPath_;
 };
 
 #endif

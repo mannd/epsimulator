@@ -19,13 +19,13 @@
  ***************************************************************************/
 #include "patientdialog.h"
 
-#include <qcombobox.h>
-#include <qlineedit.h>
 #include <qcheckbox.h>
-#include <qstring.h>
+#include <qcombobox.h>
 #include <qdatetime.h>
 #include <qdatetimeedit.h>
+#include <qlineedit.h>
 #include <qspinbox.h>
+#include <qstring.h>
 
 #include <math.h>
 

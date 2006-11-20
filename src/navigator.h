@@ -103,6 +103,7 @@ private:
     void createCentralWidget();
     void createActions();
     void createMenus();
+    void createStatusBar();
 
     void startStudy();
     bool getStudyInformation();
@@ -113,6 +114,12 @@ private:
     Study study_;           // current study
     Options* options_;
 //    QString studiesPath_;   // path to studies
+
+    // StatusBar labels
+    QLabel* messageLabel_;
+    QLabel* userLabel_;
+    QLabel* sourceLabel_;
+    QLabel* filterLabel_;
 
     // central widget stuff
     QSplitter* horizontalSplitter;
@@ -139,8 +146,24 @@ private:
     QAction *reportsAct;
     QAction *copyAct;
     QAction *deleteAct;
-    QAction *exportAct;
     QAction *exitAct;
+
+    // Catalog menu
+    QAction* switchAct_;
+    QAction* filterStudiesAct_;
+    QAction* removeStudiesFilterAct_;
+    QAction* refreshViewAct_;
+    QAction* exportAct_;
+    QAction* regenerateAct_;
+    QAction* relabelDiskAct_;
+    QAction* mergeStudiesAct_;
+
+    // Utilities menu
+    QAction* exportListsAct_;
+    QAction* exportReportFormatsAct_;
+    QAction* importListsAct_;
+    QAction* importReportFormatsAct_;
+    QAction* ejectOpticalDiskAct_;
 
     // Administration menu
     QAction *loginAct;
@@ -153,6 +176,7 @@ private:
     QAction *systemSettingsAct;
 
     // Help menu
+    QAction* epsimulatorHelpAct_;
     QAction *aboutAct;
 
     // menus

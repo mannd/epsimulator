@@ -20,30 +20,26 @@
 #include "systemdialog.h"
 
 #include <qfiledialog.h>
-#include <qlineedit.h>
 
 SystemDialog::SystemDialog(QWidget *parent, const char *name)
-    :SystemDialogBase(parent, name), studyPath_(".") {
+    :SystemDialogBase(parent, name) {
     // set up dialog here, from system settings on disk
 }
 
 void SystemDialog::browseFilePaths() {
     QFileDialog *fd = new QFileDialog(this, 0, true);
     fd->setMode(QFileDialog::Directory);
-    fd->setDir(studyPath_);
+    fd->setDir(localStudyPathLineEdit->text());
     if (fd->exec() == QDialog::Accepted) {
-        studyPath_ = fd->selectedFile();
-        localStudyPathLineEdit->setText(studyPath_);
+        localStudyPathLineEdit->setText(fd->selectedFile());
     }
 }
 
 void SystemDialog::setStudyPath(QString path) {
-    studyPath_ = path;
-    localStudyPathLineEdit->setText(studyPath_);
+    localStudyPathLineEdit->setText(path);
 }
 
 SystemDialog::~SystemDialog() {
-    // write dialog values to disk hereEpsimulator
 }
 
 
