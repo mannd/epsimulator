@@ -30,7 +30,7 @@ class QAction;
 class QPopupMenu;
 
 
-class Epsimulator : public QMainWindow
+class Epsimulator : public QMainWindow 
 {
     Q_OBJECT
 

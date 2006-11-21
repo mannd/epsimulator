@@ -18,6 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+// Note that below is Froglogics GetOpt class, but header file is
+// renamed from getopt.h to getopts.h because of conflict with 
+// unix getopt.h.
+#include "getopts.h"
 #include "options.h"
 
 #include <qdir.h>
@@ -25,6 +29,15 @@
 
 Options::Options() {
     readSettings();
+    // command line options override settings
+    GetOpt opts;
+    QString arg;
+    QString path;
+    opts.addOption('p', "path", &path);
+    // ignore error?
+    opts.parse();
+    if (! path.isEmpty())
+        studyPath_ = path;
 }
 
 Options* Options::instance_ = 0;

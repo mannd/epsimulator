@@ -1,32 +1,44 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="5" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 Type="Source" />
+ <DocsAndViews NumberOfDocuments="10" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.h" >
+   <View0 line="32" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
+   <View0 line="20" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
-   <View0 Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/getopt.h" >
+   <View0 line="40" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
-   <View0 Type="Source" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qaction-application-example.html" >
+  <Doc3 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qstringlist.html" >
    <View0 Type="Documentation" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
+   <View0 line="26" Type="Source" />
   </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 line="27" Type="Source" />
+  </Doc6>
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/heart.h" >
+   <View0 line="22" Type="Source" />
+  </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qtextstream.h" >
+   <View0 line="186" Type="Source" />
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/heart.cpp" >
+   <View0 line="27" Type="Source" />
+  </Doc9>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
    <breakpointList>
-    <breakpoint0 location="/home/mannd/dev/epsimulator/src/systemdialog.cpp:41" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint0 location="/home/mannd/dev/epsimulator/src/navigator.cpp:561" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint0>
-    <breakpoint1 location="/home/mannd/dev/epsimulator/src/systemdialog.cpp:42" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint1>
     <breakpoint2 location="/home/mannd/dev/epsimulator/src/navigator.cpp:420" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint2>

@@ -561,7 +561,9 @@ void Navigator::systemSettings() {
         options_->setStudyPath(systemDialog->studyPath());
         options_->writeSettings();
         // status bar might be changed 
-        createStatusBar();
+        sourceLabel_->setText(tr(" Source: %1 ").arg(options_->studyPath()));
+        sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
+        statusBar()->update();
     }
 }
 

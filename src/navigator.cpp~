@@ -560,6 +560,9 @@ void Navigator::systemSettings() {
     if (systemDialog->exec()) {
         options_->setStudyPath(systemDialog->studyPath());
         options_->writeSettings();
+        // status bar might be changed 
+        sourceLabel_->setText(tr(" Source: %1 ").arg(options_->studyPath()));
+        statusBar()->update();
     }
 }
 
