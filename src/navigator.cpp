@@ -172,7 +172,7 @@ void Navigator::createStatusBar() {
     userLabel_->setAlignment(AlignHCenter);
     userLabel_->setMinimumSize(userLabel_->sizeHint());
 
-    sourceLabel_ = new QLabel(tr(" Source:    "), this);
+    sourceLabel_ = new QLabel(tr(" Source: %1 ").arg(options_->studyPath()), this);
     sourceLabel_->setAlignment(AlignHCenter);
     sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
 
@@ -560,6 +560,8 @@ void Navigator::systemSettings() {
     if (systemDialog->exec()) {
         options_->setStudyPath(systemDialog->studyPath());
         options_->writeSettings();
+        // status bar might be changed 
+        createStatusBar();
     }
 }
 

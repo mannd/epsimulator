@@ -172,7 +172,7 @@ void Navigator::createStatusBar() {
     userLabel_->setAlignment(AlignHCenter);
     userLabel_->setMinimumSize(userLabel_->sizeHint());
 
-    sourceLabel_ = new QLabel(tr(" Source:    "), this);
+    sourceLabel_ = new QLabel(tr(" Source: %1 ").arg(options_->studyPath()), this);
     sourceLabel_->setAlignment(AlignHCenter);
     sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
 
@@ -338,7 +338,6 @@ void Navigator::createActions() {
     exportAct_ = new QAction(tr("Export..."), 0, this);
     exportAct_->setStatusTip(tr("Export study"));
 
-    // Exit menu item is the only one with accelerator key
     exitAct = new QAction(tr("E&xit"), tr("Ctrl+Q"), this);
     exitAct->setStatusTip("Exit EP Simulator");
     connect(exitAct, SIGNAL(activated()), this, SLOT(close()));
