@@ -20,9 +20,9 @@
 
 // MyTestSuite.h
 #include <cxxtest/TestSuite.h>
-#include "../src/study.h"
-#include "../src/heart.h"
-#include "../src/patientdialog.h"
+#include "study.h"
+#include "heart.h"
+#include "options.h"
 
 #include <qstring.h>
 #include <qdatetime.h>
@@ -118,6 +118,10 @@ public:
         TS_ASSERT(s.key() == "Doe_John." + s.dateTime().toString("dd.MM.yyyy.hh.mm.ss"));
 }
     
+    void testOptions() {
+        Options* options = Options::instance();
+        cout << options->studyPath();
+    }
          
 
 //    void testGetSetPatientDialogDefaultStudies() {
@@ -130,7 +134,7 @@ public:
 
 private:
     void testStudyDefaults(Study& study) {
-        TS_ASSERT(study.sex() == MALE);
+        TS_ASSERT(study.sex() == Male);
         cout << (int)study.sex() << '\n';;
         TS_ASSERT(study.vagalTone() == DEFAULT_VAGAL_TONE);
         TS_ASSERT(study.sympatheticTone() == DEFAULT_SYMPATHETIC_TONE);

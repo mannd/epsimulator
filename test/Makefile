@@ -1,10 +1,11 @@
 DEST_DIR := ../bin
 OBJ_DIR := ../src
 CXXFLAGS := -pipe -O2 -fmessage-length=0 -Wall -fno-strict-aliasing -Wall -W -g -D_REENTRANT  -DQT_THREAD_SUPPORT -DQT_SHARED -DQT_TABLET_SUPPORT -DQT_NO_DEBUG
-INCPATH  := -I/usr/lib/qt3/mkspecs/default -I. -I/usr/include -I$(QTDIR)/include -I$../src
+INCPATH  := -I/usr/lib/qt3/mkspecs/default -I. -I/usr/include -I$(QTDIR)/include  -I../src
 LIBS     := $(SUBLIBS) -L/usr/lib/ -L$(QTDIR)/lib/ -L/usr/X11R6/lib/ -lqt-mt -lXext -lX11 -lm -lpthread
 OBJECTS := 	$(OBJ_DIR)/study.o \
-		$(OBJ_DIR)/heart.o 
+		$(OBJ_DIR)/heart.o \
+		$(OBJ_DIR)/options.o
 
 vpath %.cpp ../src
 vpath %.h ../src
