@@ -579,7 +579,7 @@ void Navigator::systemSettings() {
 
 void Navigator::epsimulatorHelp() {
     QMessageBox::information(this, tr("EP Simulator Help"),
-        tr("Help is available from www.epstudios.com"),
+        tr("Help is available from www.epstudiossoftware.com"),
         QMessageBox::Ok);
 }
 
@@ -604,4 +604,5 @@ void Navigator::closeEvent(QCloseEvent *event) {
 Navigator::~Navigator() {
     saveSettings();
     tableListView_->save(options_->studyPath() + "studies.eps");
+    delete options_;
 }
