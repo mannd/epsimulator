@@ -1,51 +1,58 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="10" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.h" >
-   <View0 line="32" Type="Source" />
+ <DocsAndViews NumberOfDocuments="12" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 line="63" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
-   <View0 line="20" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
+   <View0 line="162" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/getopt.h" >
-   <View0 line="40" Type="Source" />
-  </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qstringlist.html" >
-   <View0 Type="Documentation" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
-   <View0 line="26" Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.cpp" >
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
    <View0 line="0" Type="Source" />
+  </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.cpp" >
+   <View0 line="38" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/getopts.h" >
+   <View0 line="51" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qapplication.html#quit" >
+   <View0 Type="Documentation" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 line="27" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/main.cpp" >
+   <View0 line="35" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/heart.h" >
-   <View0 line="22" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qtextstream.h" >
-   <View0 line="186" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qstring.h" >
+   <View0 line="837" Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/heart.cpp" >
-   <View0 line="27" Type="Source" />
+  <Doc9 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qshared.h" >
+   <View0 line="49" Type="Source" />
   </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qvaluelist.h" >
+   <View0 line="520" Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/getopts.cpp" >
+   <View0 line="444" Type="Source" />
+  </Doc11>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
    <breakpointList>
-    <breakpoint0 location="/home/mannd/dev/epsimulator/src/navigator.cpp:561" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint0 location="/home/mannd/dev/epsimulator/src/options.cpp:33" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint0>
-    <breakpoint2 location="/home/mannd/dev/epsimulator/src/navigator.cpp:420" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint2>
    </breakpointList>
   </kdevdebugger>
   <kdevbookmarks>
-   <bookmarks/>
+   <bookmarks>
+    <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
+     <mark line="154" />
+    </bookmark>
+   </bookmarks>
   </kdevbookmarks>
   <kdevvalgrind>
    <executable path="" params="" />
