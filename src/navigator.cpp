@@ -152,9 +152,7 @@ void Navigator::TableListView::ioError(const QFile& file, const QString& message
 
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
-    ///TODO get this from the system options
     options_ = Options::instance();
-//    studiesPath_ = QDir::homeDirPath() + "/";
 
     createActions();
     createMenus();
@@ -167,7 +165,8 @@ Navigator::Navigator(QWidget* parent, const char* name)
 
 void Navigator::createStatusBar() {
     messageLabel_ = new QLabel(tr("For Help, press F1"), this);
-       
+
+    ///TODO make sure getenv works for Windows too
     userLabel_ = new QLabel(tr(" User: %1 ").arg(std::getenv("USER")), this);
     userLabel_->setAlignment(AlignHCenter);
     userLabel_->setMinimumSize(userLabel_->sizeHint());
@@ -191,7 +190,9 @@ void Navigator::createCentralWidget() {
     setCentralWidget(horizontalSplitter);
 
     buttonFrame = new QFrame(horizontalSplitter);
-    buttonFrame->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)1, (QSizePolicy::SizeType)5, 0, 0, buttonFrame->sizePolicy().hasHeightForWidth() ) );
+    buttonFrame->setSizePolicy(QSizePolicy( (QSizePolicy::SizeType)1, 
+                              (QSizePolicy::SizeType)5, 0, 0,
+                               buttonFrame->sizePolicy().hasHeightForWidth() ) );
     buttonFrame->setFrameShape(QFrame::StyledPanel);
     buttonFrame->setPaletteBackgroundColor("blue");
     buttonFrame->setMaximumWidth(200);
@@ -201,7 +202,6 @@ void Navigator::createCentralWidget() {
     newStudyButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
     newStudyButton->setPixmap(QPixmap::fromMimeSource("hi64-newstudy.png"));
     buttonFrameLayout->addWidget(newStudyButton, 0, 0);
-//    buttonGridLayout->addWidget(newStudyButton, 0, 0);
     connect(newStudyButton, SIGNAL(clicked()), this, SLOT(newStudy())); 
 
     newStudyLabel = new QLabel(tr("New\nStudy"), buttonFrame);
@@ -218,13 +218,11 @@ void Navigator::createCentralWidget() {
     continueStudyLabel->setPaletteForegroundColor("white");
     continueStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
     buttonFrameLayout->addWidget(continueStudyLabel, 3, 0);
- //   buttonGridLayout->addWidget(continueStudyButton, 1, 0);
     
     reviewStudyButton = new QPushButton(buttonFrame);
     reviewStudyButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
     reviewStudyButton->setPixmap(QPixmap::fromMimeSource("hi64-reviewstudy.png"));
     buttonFrameLayout->addWidget(reviewStudyButton, 4, 0);
-//    buttonGridLayout->addWidget(reviewStudyButton, 2, 0);
     
     reviewStudyLabel = new QLabel(tr("Review\nStudy"), buttonFrame);
     reviewStudyLabel->setPaletteForegroundColor("white");
@@ -233,8 +231,8 @@ void Navigator::createCentralWidget() {
     
     preregisterPatientButton = new QPushButton(buttonFrame);
     preregisterPatientButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
-    preregisterPatientButton->setPixmap(QPixmap::fromMimeSource("hi64-preregister.png")); buttonFrameLayout->addWidget(preregisterPatientButton, 6, 0);
-//    buttonGridLayout->addWidget(preregisterPatientButton, 3, 0);
+    preregisterPatientButton->setPixmap(QPixmap::fromMimeSource("hi64-preregister.png"));
+    buttonFrameLayout->addWidget(preregisterPatientButton, 6, 0);
     connect(preregisterPatientButton, SIGNAL(clicked()), this, SLOT(preregisterPatient()));
 
     preregisterPatientLabel = new QLabel(tr("Pre-\nRegister"), buttonFrame);
@@ -255,28 +253,36 @@ void Navigator::createCentralWidget() {
     spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
     buttonFrameLayout->addItem( spacer, 10, 0 );
 
-    tableListView = new TableListView(horizontalSplitter);
-    tableListView->addColumn(tr("Study Type"));         // col 0
-    tableListView->addColumn(tr("Patient"));            // col 1
-    tableListView->addColumn(tr("MRN"));                // col 2
-    tableListView->addColumn(tr("Study Date/Time"));    // col 3
-    tableListView->addColumn(tr("Study Config"));       // col 4
-    tableListView->addColumn(tr("Study Number"));       // col 5
-    tableListView->addColumn(tr("Location of Study"));  // col 6
-    tableListView->addColumn(tr("Hidden key"));         // col 7
+    tableListView_ = new TableListView(horizontalSplitter);
+    tableListView_->addColumn(tr("Study Type"));         // col 0
+    tableListView_->addColumn(tr("Patient"));            // col 1
+    tableListView_->addColumn(tr("MRN"));                // col 2
+    tableListView_->addColumn(tr("Study Date/Time"));    // col 3
+    tableListView_->addColumn(tr("Study Config"));       // col 4
+    tableListView_->addColumn(tr("Study Number"));       // col 5
+    tableListView_->addColumn(tr("Location of Study"));  // col 6
+    tableListView_->addColumn(tr("Hidden key"));         // col 7
 
-    tableListView->setAllColumnsShowFocus(true);
-    tableListView->setShowSortIndicator(true);
-    tableListView->setSortColumn(3);    // default sort is date/time
+    tableListView_->setAllColumnsShowFocus(true);
+    tableListView_->setShowSortIndicator(true);
+    tableListView_->setSortColumn(3);    // default sort is date/time
     // hide the hidden key column: make sure it is defined correctly in keyColumn
     int keyColumn = 7;
-    tableListView->setColumnWidthMode(keyColumn, QListView::Manual);
-    tableListView->hideColumn(keyColumn);
-    tableListView->header()->setResizeEnabled(false, keyColumn);
-    //tableListView->setResizeMode(QListView::AllColumns);
+    tableListView_->setColumnWidthMode(keyColumn, QListView::Manual);
+    tableListView_->hideColumn(keyColumn);
+    tableListView_->header()->setResizeEnabled(false, keyColumn);
+    //tableListView_->setResizeMode(QListView::AllColumns);
     // above messes up the hidden column
     readSettings(); 
-    tableListView->load(options_->studyPath() + "studies.eps");
+    refreshCatalog();
+}
+
+void Navigator::refreshCatalog() {
+    tableListView_->load(options_->studyPath() + "studies.eps");
+}
+
+void Navigator::regenerateCatalog() {
+    ///TODO this will read through the studies in the directory and recreate the catalog
 }
 
 
@@ -352,11 +358,13 @@ void Navigator::createActions() {
     removeStudiesFilterAct_ = new QAction(tr("Remove Studies Filter"), 0, this);
     removeStudiesFilterAct_->setStatusTip(tr("Remove studies filter"));
 
-    refreshViewAct_ = new QAction(tr("Refresh View"), 0, this);
+    refreshViewAct_ = new QAction(tr("Refresh"), 0, this);
     refreshViewAct_->setStatusTip(tr("Refresh the catalog"));
+    connect(refreshViewAct_, SIGNAL(activated()), this, SLOT(refreshCatalog()));
 
     regenerateAct_ = new QAction(tr("Regenerate"), 0, this);
     regenerateAct_->setStatusTip(tr("Regenerate the catalog"));
+    connect(regenerateAct_, SIGNAL(activated()), this, SLOT(regenerateCatalog()));
 
     relabelDiskAct_ = new QAction(tr("Re-Label Disk..."), 0 ,this);
     relabelDiskAct_->setStatusTip(tr("Re-label the optical disk"));
@@ -409,6 +417,7 @@ void Navigator::createActions() {
     // Help menu
     epsimulatorHelpAct_ = new QAction(tr("EP Simulator Help..."), tr("F1"), this);
     epsimulatorHelpAct_->setStatusTip(tr("Get help for EP Simulator"));
+    connect(epsimulatorHelpAct_, SIGNAL(activated()), this, SLOT(epsimulatorHelp()));
  
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
@@ -487,7 +496,7 @@ bool Navigator::getStudyInformation() {
         patientDialog->getFields(newStudy);
         study_ = newStudy;
         study_.setPath(options_->studyPath());
-        tableListView->addStudy(study_);
+        tableListView_->addStudy(study_);
         return true;
     }
     return false;
@@ -517,7 +526,7 @@ void Navigator::preregisterPatient() {
 }
 
 void Navigator::deleteStudy() {
-    if (QListViewItem* item = tableListView->selectedItem()) {
+    if (QListViewItem* item = tableListView_->selectedItem()) {
         int ret = QMessageBox::warning(
             this, tr("Delete Study?"),
             tr("The selected study will be permanently "
@@ -537,7 +546,7 @@ void Navigator::deleteStudy() {
 
 /// returns true and switches to study highlighted in the catalog; otherwise returns /// false if no study highlighted and leaves study_ unchanged
 bool Navigator::studySelected() {
-    if (QListViewItem* item = tableListView->selectedItem()) {
+    if (QListViewItem* item = tableListView_->selectedItem()) {
         // must cast item to a TableListViewItem* to get study from it.
         study_ = static_cast<TableListViewItem*>(item)->study();
         return true;
@@ -560,11 +569,18 @@ void Navigator::systemSettings() {
     if (systemDialog->exec()) {
         options_->setStudyPath(systemDialog->studyPath());
         options_->writeSettings();
-        // status bar might be changed 
+        // status bar and catalog might be changed 
         sourceLabel_->setText(tr(" Source: %1 ").arg(options_->studyPath()));
         sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
         statusBar()->update();
+        refreshCatalog();
     }
+}
+
+void Navigator::epsimulatorHelp() {
+    QMessageBox::information(this, tr("EP Simulator Help"),
+        tr("Help is available from www.epstudios.com"),
+        QMessageBox::Ok);
 }
 
 void Navigator::about() {
@@ -587,6 +603,5 @@ void Navigator::closeEvent(QCloseEvent *event) {
 
 Navigator::~Navigator() {
     saveSettings();
-    tableListView->save(options_->studyPath() + "studies.eps");
-    delete options_;
+    tableListView_->save(options_->studyPath() + "studies.eps");
 }

@@ -18,16 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+// Note that below is Froglogics GetOpt class, but header file is
+// renamed from getopt.h to getopts.h because of conflict with 
+// unix getopt.h.
+#include "getopts.h"
+#include "options.h"
 #include "navigator.h"
 
 #include <qapplication.h>
+#include <qstring.h>
+
+#include <iostream>
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    // code to handle commandline args here
-    // might be easier to code main as KDE app to handle this
-    // and use Qt exclusively for eveything else
+    GetOpt opts;
+    QString path;
+    opts.addOption('p', "path", &path);
+    bool help;
+    opts.addSwitch("help", &help);
+    if (!opts.parse()) {
+        std::cerr << "Usage: " << opts.appName().ascii()
+        << " [--path=filename]" << std::endl;
+        return 1;
+    }
+    if (help) {
+        std::cerr << "Help message here..." << std::endl; 
+        return 1;
+    }
+    Options* options = Options::instance();
+    if (! path.isEmpty())
+        options->setStudyPath(path);
     Navigator *mainWin = new Navigator();
     app.setMainWidget(mainWin);
     mainWin->showMaximized();

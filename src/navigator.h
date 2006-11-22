@@ -56,8 +56,12 @@ private slots:
     void newStudy();
     void preregisterPatient();
     void deleteStudy();
+    void refreshCatalog();
+    void regenerateCatalog();
 
     void systemSettings();
+
+    void epsimulatorHelp();
     void about();
 
 private:
@@ -125,7 +129,7 @@ private:
     QSplitter* horizontalSplitter;
     QFrame* buttonFrame;
     QGridLayout* buttonFrameLayout;
-    TableListView* tableListView;
+    TableListView* tableListView_;
     QPushButton* newStudyButton;
     QPushButton* continueStudyButton;
     QPushButton* reviewStudyButton;
@@ -146,6 +150,7 @@ private:
     QAction *reportsAct;
     QAction *copyAct;
     QAction *deleteAct;
+    QAction* exportAct_;
     QAction *exitAct;
 
     // Catalog menu
@@ -153,7 +158,6 @@ private:
     QAction* filterStudiesAct_;
     QAction* removeStudiesFilterAct_;
     QAction* refreshViewAct_;
-    QAction* exportAct_;
     QAction* regenerateAct_;
     QAction* relabelDiskAct_;
     QAction* mergeStudiesAct_;
