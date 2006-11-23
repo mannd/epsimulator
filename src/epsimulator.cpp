@@ -18,6 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include "epsim.h"
+#include "epsimulator.h"
+
 #include <qlabel.h>
 #include <qmessagebox.h>
 
@@ -28,7 +31,6 @@
 #include <qaction.h>
 #include <qworkspace.h>		// this is a tmp central widget
 
-#include "epsimulator.h"
 
 Epsimulator::Epsimulator(QWidget* parent)
     : QMainWindow(parent, "epsimulator")
@@ -64,7 +66,7 @@ void Epsimulator::about(QWidget *parent)
 		          "<p>Copyright &copy; 2006 EP Studios, Inc."
 			  "<p>EP Simulator simulates an EP recording "
 			  "system."
-                          "<p><a href=http://www.epstudiossoftware.com> www.epstudiossoftware.com</a>"));
+                          "<p><a href=http://www.epstudiossoftware.com> http://www.epstudiossoftware.com</a>"));
 ///TODO make this an actual hyperlink that you can click on and go to
 }
 

@@ -27,7 +27,8 @@ HEADERS += epsimulator.h \
            systemdialog.h \
            studyconfigdialog.h \
            options.h \
-           getopts.h 
+           getopts.h \
+           epsim.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \

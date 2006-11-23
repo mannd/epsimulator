@@ -18,52 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef EPSIM_H
+#define EPSIM_H
 
-#include "options.h"
+#define APPNAME qApp->translate("Global", "EP Simulator")
+#define VERSION qApp->translate("Global", "0.1")
 
-#include <qapplication.h>
-#include <qdir.h>
-#include <qsettings.h>
-
-Options::Options() {
-    readSettings();
-}
-
-Options* Options::instance_ = 0;
-
-Options* Options::instance() {
-    if (instance_ == 0)
-        instance_ = new Options;
-    return instance_;
-}
-
-/**
- * Reads options from QSetting (platform-dependent location).
- */
-void Options::readSettings() {
-    QSettings settings;
-    settings.setPath("EPStudios", "EPSimulator");
-    settings.beginGroup("/EPSimulator");
-    studyPath_ = settings.readEntry("/studyPath");
-    // Provide default directory, but maybe should be isNull()?
-    if (studyPath_.isEmpty())
-        studyPath_ = QDir::homeDirPath() + "/";
-
-    settings.endGroup();
-}
-
-/**
- * Writes options to QSetting (platform-dependent location).
- */
-void Options::writeSettings() {
-    QSettings settings;
-    settings.setPath("EPStudios", "EPSimulator");
-    settings.beginGroup("/EPSimulator");
-    settings.writeEntry("/studyPath", studyPath_);
-
-    settings.endGroup();
-}
-
-
-Options::~Options() {
-}
+#endif

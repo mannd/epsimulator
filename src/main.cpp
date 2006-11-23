@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include "epsim.h"
 // Note that below is Froglogics GetOpt class, but header file is
 // renamed from getopt.h to getopts.h because of conflict with 
 // unix getopt.h.
@@ -44,7 +45,7 @@ int main(int argc, char **argv)
         return 1;
     }
     if (help) {
-        std::cerr << "Help message here..." << std::endl; 
+        std::cerr << APPNAME << ": Help message here." << std::endl; 
         return 1;
     }
     Options* options = Options::instance();

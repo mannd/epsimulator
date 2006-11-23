@@ -22,6 +22,7 @@
 // the epsimulator window, we will actually just be changing the menus
 // and the central widget
 
+#include "epsim.h"
 #include "epsimulator.h"
 #include "options.h"
 #include "navigator.h"
