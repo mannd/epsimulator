@@ -23,6 +23,7 @@
 #include "patientdialogbase.h"
 #include "study.h"
 
+/// TODO Consider not allowing any edits of study date and time in PatientDialogBase.ui
 class PatientDialog: public PatientDialogBase {
     Q_OBJECT
 public:
@@ -48,7 +49,6 @@ private:
 
     double metricHeight_;
     double metricWeight_;
-//    Study& study_;   // This has to be a reference, or else PatientDialog won't act on the original study object !!
 };
 
 #endif

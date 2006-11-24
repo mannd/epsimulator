@@ -3,40 +3,40 @@
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="12" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 line="63" Type="Source" />
+   <View0 line="22" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="162" Type="Source" />
+   <View0 line="146" Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
-   <View0 line="0" Type="Source" />
+   <View0 line="20" Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.cpp" >
-   <View0 line="38" Type="Source" />
+   <View0 line="40" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/getopts.h" >
-   <View0 line="51" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/main.cpp" >
+   <View0 line="47" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qapplication.html#quit" >
-   <View0 Type="Documentation" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
+   <View0 line="34" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/main.cpp" >
-   <View0 line="35" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsim.h" >
+   <View0 line="27" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
-   <View0 line="0" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qstring.html#arg" >
+   <View0 Type="Documentation" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qstring.h" >
-   <View0 line="837" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/linguist-manual-4.html" >
+   <View0 Type="Documentation" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qshared.h" >
-   <View0 line="49" Type="Source" />
+  <Doc9 NumberOfViews="1" URL="http://www.stack.nl/~dimitri/doxygen/grouping.html" >
+   <View0 Type="Documentation" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qvaluelist.h" >
-   <View0 line="520" Type="Source" />
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/html/classAboutEpsimulator.html" >
+   <View0 line="0" Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/getopts.cpp" >
-   <View0 line="444" Type="Source" />
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
+   <View0 line="88" Type="Source" />
   </Doc11>
  </DocsAndViews>
  <pluginList>
@@ -48,11 +48,7 @@
    </breakpointList>
   </kdevdebugger>
   <kdevbookmarks>
-   <bookmarks>
-    <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
-     <mark line="154" />
-    </bookmark>
-   </bookmarks>
+   <bookmarks/>
   </kdevbookmarks>
   <kdevvalgrind>
    <executable path="" params="" />

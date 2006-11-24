@@ -13,7 +13,7 @@
     <absoluteprojectpath>false</absoluteprojectpath>
     <description>EP Simulator simulates a complete electrophysiologic recording system.</description>
     <ignoreparts/>
-    <versioncontrol/>
+    <versioncontrol></versioncontrol>
   </general>
   <kdevfileview>
     <groups>
@@ -69,12 +69,12 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell/>
-      <programargs/>
-      <gdbpath/>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <dbgshell></dbgshell>
+      <programargs></programargs>
+      <gdbpath></gdbpath>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
@@ -95,13 +95,13 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src</activedir>
+      <activedir>test</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
       <customdirectory>/</customdirectory>
-      <mainprogram/>
-      <programargs/>
+      <mainprogram></mainprogram>
+      <programargs></programargs>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars/>
@@ -111,7 +111,7 @@
       <runmultiplejobs>false</runmultiplejobs>
       <numberofjobs>1</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
+      <makebin></makebin>
       <prio>0</prio>
       <envvars/>
     </make>
@@ -143,7 +143,7 @@
       <root>/usr/lib/qt3</root>
     </qt>
     <creategettersetter>
-      <prefixGet/>
+      <prefixGet></prefixGet>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>

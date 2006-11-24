@@ -113,7 +113,12 @@ private:
     bool getStudyInformation();
     void saveSettings();
     void readSettings();
+
     bool studySelected();
+
+    void deleteDataFile();      // delete data file associated with current study
+    void createDataFile();      // create a data file for a new study
+    void openDataFile();        // open a previous data file for review or appending data
 
     Study study_;           // current study
     Options* options_;

@@ -21,7 +21,17 @@
 #ifndef EPSIM_H
 #define EPSIM_H
 
-#define APPNAME qApp->translate("Global", "EP Simulator")
+// APP_NAME is internal program name.  PROGRAM_NAME is the polished program name
+/// TODO Consider using epsim instead of epsimulator as APP_NAME
+#define APP_NAME "epsimulator"  
+/// TODO might change this to QObject::tr() and avoid needing to include qapplication.h
+#define PROGRAM_NAME qApp->translate("Global", "EP Simulator")
 #define VERSION qApp->translate("Global", "0.1")
+
+// Languages
+// Only define 1 of the below
+//#define GERMAN
+//#define FRENCH
+#define ENGLISH
 
 #endif

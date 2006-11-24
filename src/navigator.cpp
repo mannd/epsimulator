@@ -32,6 +32,7 @@
 #include "systemdialog.h"
 
 #include <qaction.h>
+#include <qapplication.h>
 #include <qdir.h>
 #include <qheader.h>
 #include <qlabel.h>
@@ -51,7 +52,22 @@
 #include <algorithm>
 #include <stdlib.h>
 
+///TODO This constant may be better derived from screen realestate.
 #define BUTTON_SIZE 80
+
+/**
+ * Constructor for TableListViewItem subclass of Navigator
+ * @param parent 
+ * @param study 
+ * @param label1 
+ * @param label2 
+ * @param label3 
+ * @param label4 
+ * @param label5 
+ * @param label6 
+ * @param label7 
+ * @param label8 
+ */
 
 Navigator::TableListViewItem::TableListViewItem(TableListView* parent, const Study& study,
     QString label1, QString label2, QString label3, 
@@ -66,6 +82,8 @@ Navigator::TableListViewItem::~TableListViewItem() {
 
 Navigator::TableListView::TableListView(QWidget* parent) 
     : QListView(parent) {
+    connect(this, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), 
+        parent->parent(), SLOT(newStudy()));
 }
 
 Navigator::TableListView::~TableListView() {
@@ -121,7 +139,9 @@ void Navigator::TableListView::addStudy(const Study& study) {
             study.dateTime().toString(),
             study.config(),
             study.number(),
-            study.path(),
+            //study.path(),
+            ///FIXME below is temporary
+            study.dataFile(),
             study.key());
 }
 
@@ -151,6 +171,10 @@ void Navigator::TableListView::ioError(const QFile& file, const QString& message
     error(file, message + ": " + file.errorString());
 }
 
+/**
+ * Navigator constructor
+ */
+
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
     options_ = Options::instance();
@@ -160,7 +184,7 @@ Navigator::Navigator(QWidget* parent, const char* name)
     createStatusBar();
     createCentralWidget();
 
-    setCaption(tr("EP Simulator Navigator"));
+    setCaption(tr("%1 Navigator").arg(PROGRAM_NAME));
     setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
 }
 
@@ -535,8 +559,10 @@ void Navigator::deleteStudy() {
             QMessageBox::Yes ,
             QMessageBox::No | QMessageBox::Default, // default is NO!
             QMessageBox::Cancel | QMessageBox::Escape);
-        if (ret == QMessageBox::Yes)
+        if (ret == QMessageBox::Yes) {
             delete item;
+            deleteDataFile();
+        }
     } 
     else {
         QMessageBox::information(this, tr("No Study Selected"),
@@ -553,6 +579,9 @@ bool Navigator::studySelected() {
         return true;
     }
     return false;
+}
+
+void Navigator::deleteDataFile() {
 }
 
 void Navigator::startStudy() {
@@ -579,7 +608,7 @@ void Navigator::systemSettings() {
 }
 
 void Navigator::epsimulatorHelp() {
-    QMessageBox::information(this, tr("EP Simulator Help"),
+    QMessageBox::information(this, tr("%1 Help").arg(PROGRAM_NAME),
         tr("Help is available from www.epstudiossoftware.com"),
         QMessageBox::Ok);
 }
@@ -592,7 +621,7 @@ void Navigator::closeEvent(QCloseEvent *event) {
     int ret = QMessageBox::question(
             this,
             tr("Really quit?"),
-            tr("Quit EP Simulator?"),
+            tr("Quit %1").arg(PROGRAM_NAME),
             QMessageBox::Yes | QMessageBox::Default,
             QMessageBox::No,
             QMessageBox::Cancel | QMessageBox::Escape);

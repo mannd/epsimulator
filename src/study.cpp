@@ -130,6 +130,13 @@ QString Study::key() const {
          + "." + dateTime_.toString("dd.MM.yyyy.hh.mm.ss");
 }
 
+QString Study::dataFile() const {
+    if (! isPreregisterStudy())
+        return key() + ".eps";
+    else
+        return QString::null;
+}
+
 void Study::setName(const Name& name) {
     name_.last = name.last;
     name_.first = name.first;

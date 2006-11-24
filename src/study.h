@@ -41,7 +41,7 @@ typedef int AutonomicTone;
 
 enum Sex {Male, Female};
 
-// change these to programmable options
+///TODO Change these to programmable options
 #define DEFAULT_EF 55
 #define DEFAULT_VAGAL_TONE 70
 #define DEFAULT_SYMPATHETIC_TONE 30
@@ -78,6 +78,7 @@ public:
     QString config() const {return config_;}
     QString key() const;    // Generates key based on name and datetime
                             // to identify study uniquely.
+    QString dataFile() const;     // returns data file name for current study without path
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
@@ -115,12 +116,11 @@ private:
     void copyStudy(const Study& study);
     AutonomicTone adjustTone(AutonomicTone tone);
 
-    QDateTime dateTime_;
-    QString number_;
     Name name_;
-    QString mrn_;	// medical record number
+    QDateTime dateTime_;
     QDate dateOfBirth_;
-    QString config_;    // this will eventually be a class probably
+    QString mrn_;	// medical record number
+    QString number_;
     Sex sex_;
     double height_;	// use metric units: cm for height,
     double weight_;	// in kg
@@ -132,9 +132,10 @@ private:
     AutonomicTone sympatheticTone_;
     int ef_;
     bool ischemia_;
-    Heart *heart_;
+    QString config_;    // this will eventually be a class probably
     QString path_;  // location (path) of this study
     QString file_;  //  name of study file
+    Heart *heart_;
 };
 
 #endif

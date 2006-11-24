@@ -29,23 +29,47 @@
 #include <qapplication.h>
 #include <qstring.h>
 
+#ifndef ENGLISH
+#include <qtranslator.h>
+#endif
+
 #include <iostream>
+
+using std::endl;
+using std::cerr;
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+
+// International stuff below
+#ifndef ENGLISH
+    QTranslator translator( 0 );
+#ifdef GERMAN
+    translator.load( "epsimulator_de.qm", "." );
+#endif
+#ifdef FRENCH
+    translator.load( "epsimulator_fr.qm", "." );
+#endif
+    app.installTranslator( &translator );
+#endif
+
     GetOpt opts;
     QString path;
     opts.addOption('p', "path", &path);
     bool help;
     opts.addSwitch("help", &help);
     if (!opts.parse()) {
-        std::cerr << "Usage: " << opts.appName().ascii()
-        << " [--path=filename]" << std::endl;
+        cerr << QObject::tr("Usage:  %1 [--path=filename]").arg(APP_NAME) 
+            << endl << endl;
         return 1;
     }
     if (help) {
-        std::cerr << APPNAME << ": Help message here." << std::endl; 
+        cerr << 
+            QObject::tr("%1 version %2").arg(PROGRAM_NAME).arg(VERSION)
+            << endl << QObject::tr("Copyright (c) 2006 EP Studios, Inc.")
+            << endl << QObject::tr("See www.epstudiossoftware.com for help.")
+            << endl << endl; 
         return 1;
     }
     Options* options = Options::instance();
