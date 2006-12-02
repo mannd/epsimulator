@@ -56,3 +56,7 @@ full name and formatted date time as strings, so not easy to change format back)
 Can use QListView::hideColumn(int column) along with setResizeEnabled(FALSE,
 column) to have hidden list view columns.  The hidden column can contain the
 map key.
+
+FIX FOR CXXTEST PROBLEM
+
+Merely including ALL the *.o files needed all Qt-specific tests to compile.  That is, to test PatientDialog, must include in linked files patientdialog.o, moc_patientdialog.o, patientdialogbase.o and moc_patientdialog.o.  (Actually maybe the non-moc ones are needed -- will test).
