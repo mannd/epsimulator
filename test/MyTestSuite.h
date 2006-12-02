@@ -23,6 +23,7 @@
 #include "study.h"
 #include "heart.h"
 #include "options.h"
+#include "patientdialog.h"
 
 #include <qstring.h>
 #include <qdatetime.h>
@@ -121,6 +122,35 @@ public:
     void testOptions() {
         Options* options = Options::instance();
         cout << options->studyPath();
+        QString s = options->studyPath();
+        options->setStudyPath(s);
+        TS_ASSERT(s == options->studyPath());
+        delete options;
+    }
+
+    void testPatientDialog() {
+        Study s1, s2;
+        Name n;
+        n.last = "Test3";
+        n.first = "John";
+        s1.setName(n);
+        PatientDialog* p = new PatientDialog;
+        p->setFields(s1);
+        p->getFields(s2);
+        TS_ASSERT(s2.name().last == "Test3");
+        TS_ASSERT(s2.name().first == "John");
+        delete p;
+    }
+        
+    void testPatientDialogCalculations() {
+        Study s;
+        s.setHeight(172);
+        s.setWeight(79);
+        PatientDialog* p = new PatientDialog;
+        p->setFields(s);
+        p->getFields(s);
+        cout << s.bsa();
+        delete p;
     }
          
 

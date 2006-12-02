@@ -439,6 +439,9 @@
             <property name="name">
                 <cstring>studyDateTimeEdit</cstring>
             </property>
+            <property name="enabled">
+                <bool>true</bool>
+            </property>
         </widget>
     </grid>
 </widget>

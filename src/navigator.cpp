@@ -158,7 +158,7 @@ void Navigator::TableListView::writeToStream(QDataStream& out) {
   QListViewItemIterator it(this);
   while (it.current()) {
     QListViewItem* item = *it;
-    out << static_cast<TableListViewItem*>(item)->study();
+    out << dynamic_cast<TableListViewItem*>(item)->study();
     ++it;
   }
 }
