@@ -89,6 +89,11 @@ Navigator::TableListView::TableListView(QWidget* parent)
 Navigator::TableListView::~TableListView() {
 }
 
+/**
+ * Loads studies catalog file
+ * @param fileName is name of file to be loaded.
+ * @return false if catalog file can't be loaded for any reason
+ */
 bool Navigator::TableListView::load(const QString& fileName) {
     QFile file(fileName);
     // create a studies file if it doesn't exist already

@@ -17,6 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+/** \file header file for the Navigator classs,
+    which is the main window for the program.
+*/
+
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
@@ -65,6 +70,7 @@ private slots:
     void about();
 
 private:
+
     class TableListView : public QListView {
 
     public:
