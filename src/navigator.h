@@ -114,6 +114,10 @@ private:
     void createActions();
     void createMenus();
     void createStatusBar();
+    void setupButton(QPushButton* button, QString pixmapName, 
+                      QLabel* label, const char* slotName);
+    void setupAction(QAction* action, QString statusTip,
+                     const char* slotName, const char* iconName = 0);
 
     void startStudy();
     bool getStudyInformation();

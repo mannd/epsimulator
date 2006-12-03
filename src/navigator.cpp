@@ -215,6 +215,26 @@ void Navigator::createStatusBar() {
     statusBar()->addWidget(filterLabel_);
 }
 
+/**
+ * Sets up each square button along the side of the Navigator window.
+ * @param frame 
+ * @param  
+ */
+void Navigator::setupButton(QPushButton* button, QString pixmapName,
+                             QLabel* label, const char* slotName) {
+    button->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
+    button->setPixmap(QPixmap::fromMimeSource(pixmapName));
+    static int row = 0;   // allows adding widgets in correct row
+    // last parameter centers the buttons and labels horizontally
+    buttonFrameLayout->addWidget(button, row++, 0, Qt::AlignHCenter);
+    // Notice that a SLOT is passed as a function parameter as a const char*.
+    if (slotName)
+        connect(button, SIGNAL(clicked()), this, slotName); 
+    label->setPaletteForegroundColor("white");
+    label->setAlignment(int(QLabel::AlignCenter));
+    buttonFrameLayout->addWidget(label, row++, 0, Qt::AlignHCenter);
+}
+
 void Navigator::createCentralWidget() {
     horizontalSplitter = new QSplitter(Horizontal, this);
     setCentralWidget(horizontalSplitter);
@@ -229,56 +249,26 @@ void Navigator::createCentralWidget() {
     buttonFrameLayout = new QGridLayout(buttonFrame, 1, 1, 11, 6, "");
 
     newStudyButton = new QPushButton(buttonFrame);
-    newStudyButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
-    newStudyButton->setPixmap(QPixmap::fromMimeSource("hi64-newstudy.png"));
-    buttonFrameLayout->addWidget(newStudyButton, 0, 0);
-    connect(newStudyButton, SIGNAL(clicked()), this, SLOT(newStudy())); 
-
-    newStudyLabel = new QLabel(tr("New\nStudy"), buttonFrame);
-    newStudyLabel->setPaletteForegroundColor("white");
-    newStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
-    buttonFrameLayout->addWidget(newStudyLabel, 1, 0);
+    newStudyLabel = new QLabel(tr("New Study"), buttonFrame);
+    setupButton(newStudyButton, "hi64-newstudy.png", newStudyLabel, SLOT(newStudy()));
 
     continueStudyButton = new QPushButton(buttonFrame);
-    continueStudyButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
-    continueStudyButton->setPixmap(QPixmap::fromMimeSource("hi64-continuestudy.png"));
-    buttonFrameLayout->addWidget(continueStudyButton, 2, 0);
-    
-    continueStudyLabel = new QLabel(tr("Continue\nStudy"), buttonFrame);
-    continueStudyLabel->setPaletteForegroundColor("white");
-    continueStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
-    buttonFrameLayout->addWidget(continueStudyLabel, 3, 0);
+    continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame);
+    setupButton(continueStudyButton, "hi64-continuestudy.png", continueStudyLabel, 0 /* slot */);
+
     
     reviewStudyButton = new QPushButton(buttonFrame);
-    reviewStudyButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
-    reviewStudyButton->setPixmap(QPixmap::fromMimeSource("hi64-reviewstudy.png"));
-    buttonFrameLayout->addWidget(reviewStudyButton, 4, 0);
-    
-    reviewStudyLabel = new QLabel(tr("Review\nStudy"), buttonFrame);
-    reviewStudyLabel->setPaletteForegroundColor("white");
-    reviewStudyLabel->setAlignment( int( QLabel::AlignCenter ) );
-    buttonFrameLayout->addWidget(reviewStudyLabel, 5, 0);
-    
-    preregisterPatientButton = new QPushButton(buttonFrame);
-    preregisterPatientButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
-    preregisterPatientButton->setPixmap(QPixmap::fromMimeSource("hi64-preregister.png"));
-    buttonFrameLayout->addWidget(preregisterPatientButton, 6, 0);
-    connect(preregisterPatientButton, SIGNAL(clicked()), this, SLOT(preregisterPatient()));
+    reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame);
+    setupButton(reviewStudyButton, "hi64-reviewstudy.png", reviewStudyLabel, 0 /* slot */);
 
-    preregisterPatientLabel = new QLabel(tr("Pre-\nRegister"), buttonFrame);
-    preregisterPatientLabel->setPaletteForegroundColor("white");
-    preregisterPatientLabel->setAlignment( int( QLabel::AlignCenter ) );
-    buttonFrameLayout->addWidget(preregisterPatientLabel, 7, 0);
-  
+    preregisterPatientButton = new QPushButton(buttonFrame);
+    preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame);
+    setupButton(preregisterPatientButton, "hi64-preregister.png", preregisterPatientLabel, 
+        SLOT(preregisterPatient()));
+
     reportsButton = new QPushButton(buttonFrame);
-    reportsButton->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
-    reportsButton->setPixmap(QPixmap::fromMimeSource("hi64-reports.png"));
-    buttonFrameLayout->addWidget(reportsButton, 8, 0);
-    
     reportsLabel = new QLabel(tr("Reports"), buttonFrame);
-    reportsLabel->setPaletteForegroundColor("white");
-    reportsLabel->setAlignment( int( QLabel::AlignCenter ) );
-    buttonFrameLayout->addWidget(reportsLabel, 9, 0);
+    setupButton(reportsButton, "hi64-reports.png", reportsLabel, 0 /* slot */);
 
     spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
     buttonFrameLayout->addItem( spacer, 10, 0 );
@@ -340,118 +330,92 @@ void Navigator::readSettings() {
 }
 
 
+/**
+ * Sets up icon, status tip, and slot for an action.
+ */
+void Navigator::setupAction(QAction* action, QString statusTip, 
+                            const char* slotName, const char* iconName) {
+    if (iconName)
+        action->setIconSet(QPixmap::fromMimeSource(iconName));
+    action->setStatusTip(tr(statusTip));
+    if (slotName)
+        connect(action, SIGNAL(activated()), this, slotName);
+} 
+
+
 void Navigator::createActions() {
     // Study menu
     newAct = new QAction(tr("&New..."), tr("Ctrl+N"), this);
-    newAct->setIconSet(QPixmap::fromMimeSource("hi32-newstudy.png"));
-    newAct->setStatusTip(tr("New study"));
-    connect(newAct, SIGNAL(activated()), this, SLOT(newStudy()));
-
+    setupAction(newAct, "New study", SLOT(newStudy()), "hi32-newstudy.png");
     continueAct = new QAction(tr("&Continue"), 0, this);
-    continueAct->setIconSet(QPixmap::fromMimeSource("hi32-continuestudy.png"));
-    continueAct->setStatusTip(tr("Continue study"));
-    
+    setupAction(continueAct, "Continue study", 0, "hi32-continuestudy.png");
     reviewAct = new QAction(tr("&Review"), 0, this);
-    reviewAct->setIconSet(QPixmap::fromMimeSource("hi32-reviewstudy.png"));
-    reviewAct->setStatusTip(tr("Review study"));
-
+    setupAction(reviewAct, "Review study", 0, "hi32-reviewstudy.png");
     preregisterAct = new QAction(tr("&Pre-Register"), 0, this);
-    preregisterAct->setIconSet(QPixmap::fromMimeSource("hi32-preregister.png"));
-    preregisterAct->setStatusTip(tr("Pre-register patient"));
-    connect(preregisterAct, SIGNAL(activated()), this, SLOT(preregisterPatient()));
-
+    setupAction(preregisterAct, "Pre-register patient", 
+        SLOT(preregisterPatient()), "hi32-preregister.png");
     reportsAct = new QAction(tr("R&eports..."), 0, this);
-    reportsAct->setIconSet(QPixmap::fromMimeSource("hi32-reports.png"));
-    reportsAct->setStatusTip(tr("Procedure reports"));
-
+    setupAction(reportsAct, "Procedure reports", 0, "hi32-reports.png" );
     copyAct = new QAction(tr("Copy..."), 0, this);
-    copyAct->setStatusTip(tr("Copy study"));
-
+    setupAction(copyAct, "Copy study", 0);
     deleteAct = new QAction(tr("Delete..."), 0, this);
-    deleteAct->setStatusTip(tr("Delete study"));
-    connect(deleteAct, SIGNAL(activated()), this, SLOT(deleteStudy()));
-
+    setupAction(deleteAct, "Delete study", SLOT(deleteStudy()));
     exportAct_ = new QAction(tr("Export..."), 0, this);
-    exportAct_->setStatusTip(tr("Export study"));
-
+    setupAction(exportAct_, "Export study", 0);
     exitAct = new QAction(tr("E&xit"), tr("Ctrl+Q"), this);
-    exitAct->setStatusTip("Exit EP Simulator");
-    connect(exitAct, SIGNAL(activated()), this, SLOT(close()));
+    setupAction(exitAct, "Exit EP Simulator", SLOT(close()));
 
     // Catalog menu
     switchAct_ = new QAction(tr("Switch"), 0, this);
-    switchAct_->setStatusTip(tr("Switch"));
-
+    setupAction(switchAct_, "Switch", 0);
     filterStudiesAct_ = new QAction(tr("Filter Studies..."), 0, this);
-    filterStudiesAct_->setStatusTip(tr("Filter studies"));
-
+    setupAction(filterStudiesAct_, "Filter studies", 0);
     removeStudiesFilterAct_ = new QAction(tr("Remove Studies Filter"), 0, this);
-    removeStudiesFilterAct_->setStatusTip(tr("Remove studies filter"));
-
+    setupAction(removeStudiesFilterAct_, "Remove studies filter", 0);
     refreshViewAct_ = new QAction(tr("Refresh"), 0, this);
-    refreshViewAct_->setStatusTip(tr("Refresh the catalog"));
-    connect(refreshViewAct_, SIGNAL(activated()), this, SLOT(refreshCatalog()));
-
+    setupAction(refreshViewAct_, "Refresh the catalog", SLOT(refreshCatalog()));
     regenerateAct_ = new QAction(tr("Regenerate"), 0, this);
-    regenerateAct_->setStatusTip(tr("Regenerate the catalog"));
-    connect(regenerateAct_, SIGNAL(activated()), this, SLOT(regenerateCatalog()));
-
+    setupAction(regenerateAct_, "Regenerate the catalog", SLOT(regenerateCatalog()));
     relabelDiskAct_ = new QAction(tr("Re-Label Disk..."), 0 ,this);
-    relabelDiskAct_->setStatusTip(tr("Re-label the optical disk"));
-
+    setupAction(relabelDiskAct_, "Re-label the optical disk", 0);
     mergeStudiesAct_ = new QAction(tr("Merge Studies..."), 0, this);
-    mergeStudiesAct_->setStatusTip(tr("Merge studies together"));
+    setupAction(mergeStudiesAct_, "Merge studies together", 0);
 
     // Utilities menu
     exportListsAct_ = new QAction(tr("Export Lists..."), 0, this);
-    exportListsAct_->setStatusTip(tr("Export lists"));
-
+    setupAction(exportListsAct_, "Export lists", 0);
     exportReportFormatsAct_ = new QAction(tr("Export Report Formats..."), 0, this);
-    exportReportFormatsAct_->setStatusTip(tr("Export report formats"));
-
+    setupAction(exportReportFormatsAct_, "Export report formats", 0);
     importListsAct_ = new QAction(tr("Import Lists..."), 0, this);
-    importListsAct_->setStatusTip(tr("Import lists"));
-
+    setupAction(importListsAct_, "Import lists", 0);
     importReportFormatsAct_ = new QAction(tr("Import Report Formats..."), 0, this);
-    importReportFormatsAct_->setStatusTip(tr("Import report formats"));
-
+    setupAction(importReportFormatsAct_, "Import report formats", 0);
     ejectOpticalDiskAct_ = new QAction(tr("Eject Optical Disk"), 0, this);
-    ejectOpticalDiskAct_->setStatusTip(tr("Eject optical disk"));
+    setupAction(ejectOpticalDiskAct_, "Eject optical disk", 0);
 
     // Administration menu
     loginAct = new QAction(tr("Login..."), 0, this);
-    loginAct->setStatusTip(tr("Login"));
-
+    setupAction(loginAct, "Login", 0);
     logoutAct = new QAction(tr("Logout"), 0, this);
-    logoutAct->setStatusTip(tr("Logout"));
-
+    setupAction(logoutAct, "Logout", 0);
     changePasswordAct = new QAction(tr("Change Password..."), 0, this);
-    changePasswordAct->setStatusTip(tr("Change administrator password"));
-
+    setupAction(changePasswordAct, "Change administrator password", 0);
     intervalsAct = new QAction(tr("Intervals"), 0, this);
-    intervalsAct->setStatusTip(tr("Intervals"));
-
+    setupAction(intervalsAct, "Intervals", 0);
     columnFormatsAct = new QAction(tr("Column Formats"), 0, this);
-    columnFormatsAct->setStatusTip(tr("Column formats"));
-
+    setupAction(columnFormatsAct, "Column formats", 0);
     protocolsAct = new QAction(tr("Protocols"), 0, this);
-    protocolsAct->setStatusTip(tr("Protocols"));
-
+    setupAction(protocolsAct, "Protocols", 0);
     studyConfigurationsAct = new QAction(tr("Study Configurations"), 0, this);
-    studyConfigurationsAct->setStatusTip(tr("Study configurations"));
-   
+    setupAction(studyConfigurationsAct, "Study configurations", 0);
     systemSettingsAct = new QAction(tr("System Settings"), 0, this);
-    systemSettingsAct->setStatusTip(tr("Change system settings"));
-    connect(systemSettingsAct, SIGNAL(activated()), this, SLOT(systemSettings()));
+    setupAction(systemSettingsAct, "Change system settings", SLOT(systemSettings()));
 
     // Help menu
     epsimulatorHelpAct_ = new QAction(tr("EP Simulator Help..."), tr("F1"), this);
-    epsimulatorHelpAct_->setStatusTip(tr("Get help for EP Simulator"));
-    connect(epsimulatorHelpAct_, SIGNAL(activated()), this, SLOT(epsimulatorHelp()));
- 
+    setupAction(epsimulatorHelpAct_, "Get help for EP Simulator", SLOT(epsimulatorHelp()));
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
-    aboutAct->setStatusTip(tr("About EP Simulator"));
-    connect(aboutAct, SIGNAL(activated()), this, SLOT(about()));
+    setupAction(aboutAct, "About EP Simulator", SLOT(about()));
 }
 
 void Navigator::createMenus() {
