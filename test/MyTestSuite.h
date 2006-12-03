@@ -29,7 +29,9 @@
 #include <qdatetime.h>
 
 #include <iostream>
-using namespace std;
+#include <math.h>
+
+using std::cout;
 
 class MyTestSuite : public CxxTest::TestSuite {
 public:
@@ -121,7 +123,7 @@ public:
     
     void testOptions() {
         Options* options = Options::instance();
-        cout << options->studyPath();
+        cout << options->studyPath() << '\n';
         QString s = options->studyPath();
         options->setStudyPath(s);
         TS_ASSERT(s == options->studyPath());
@@ -144,12 +146,30 @@ public:
         
     void testPatientDialogCalculations() {
         Study s;
-        s.setHeight(172);
-        s.setWeight(79);
+        double heightIn = 72, weightLbs = 143;
+        s.setHeightIn(heightIn);
+        s.setWeightLbs(weightLbs);
         PatientDialog* p = new PatientDialog;
         p->setFields(s);
+        // Below should do all the calculations by faking
+        // tabbing through the fields.
+        completePatientDialog(p);
         p->getFields(s);
         cout << s.bsa();
+        double delta = 0.001;
+        TS_ASSERT_DELTA(s.height(), heightIn * 2.54, delta);
+        TS_ASSERT_DELTA(s.weight(), weightLbs * 0.45, delta);
+        TS_ASSERT_DELTA(s.bsa(), 
+                        sqrt(s.height() * s.weight()) / 3600,
+                        delta);
+        // Now test manually setting bsa.
+        double bsa = 12345.1;
+        s.setBsa(bsa);
+        s.setBsaManualEdit(true);
+        p->setFields(s);
+        completePatientDialog(p);
+        p->getFields(s);
+        TS_ASSERT_DELTA(s.bsa(), bsa, delta);
         delete p;
     }
          
@@ -224,6 +244,13 @@ private:
         cout << "fullName(true) = " << s.name().fullName(true) << '\n';
         cout << "fullName(false, true) = " << s.name().fullName(false, true) << '\n';
         cout << "fullName(true, true) = " << s.name().fullName(true, true)  << '\n';
+    }
+
+    void completePatientDialog(PatientDialog* p) {
+        p->weightKgLineEdit_lostFocus();
+        p->weightLbsLineEdit_lostFocus();
+        p->heightCmLineEdit_lostFocus();
+        p->heightInLineEdit_lostFocus();
     }
 };
 
