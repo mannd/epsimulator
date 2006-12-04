@@ -24,6 +24,7 @@
 
 #include "epsim.h"
 #include "epsimulator.h"
+#include "filtercatalog.h"
 #include "options.h"
 #include "navigator.h"
 #include "patientdialog.h"
@@ -44,6 +45,7 @@
 #include <qmessagebox.h>
 #include <qpopupmenu.h>
 #include <qpushbutton.h>
+#include <qregexp.h>
 #include <qsettings.h>
 #include <qsizepolicy.h>
 #include <qsplitter.h>
@@ -369,7 +371,7 @@ void Navigator::createActions() {
     switchAct_ = new QAction(tr("Switch"), 0, this);
     setupAction(switchAct_, "Switch", 0);
     filterStudiesAct_ = new QAction(tr("Filter Studies..."), 0, this);
-    setupAction(filterStudiesAct_, "Filter studies", 0);
+    setupAction(filterStudiesAct_, "Filter studies", SLOT(filterStudies()));
     removeStudiesFilterAct_ = new QAction(tr("Remove Studies Filter"), 0, this);
     setupAction(removeStudiesFilterAct_, "Remove studies filter", 0);
     refreshViewAct_ = new QAction(tr("Refresh"), 0, this);
@@ -494,6 +496,25 @@ bool Navigator::getStudyInformation() {
         return true;
     }
     return false;
+}
+
+void Navigator::filterStudies() {
+    FilterCatalog* filterCatalog = new FilterCatalog(this);
+    if (filterCatalog->exec()) {
+	QRegExp lastNameRegEx(filterCatalog->lastNameLineEdit_->text(),
+			      false, true);
+	QRegExp firstNameRegEx(filterCatalog->firstNameLineEdit_->text(),
+			      false, true);
+	QRegExp mrnRegEx(filterCatalog->mrnLineEdit_->text(),
+			      false, true);
+	QRegExp studyConfigRegEx(filterCatalog->studyConfigLineEdit_->text(),
+			      false, true);
+	QRegExp studyNumberRegEx(filterCatalog->studyNumberLineEdit_->text(),
+			      false, true);
+	QRegExp studyFileRegEx(filterCatalog->studyFileLineEdit_->text(),
+			      false, true);
+	// date stuff next
+    }
 }
 
 void Navigator::newStudy() {

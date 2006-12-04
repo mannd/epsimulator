@@ -61,6 +61,7 @@ private slots:
     void newStudy();
     void preregisterPatient();
     void deleteStudy();
+    void filterStudies();
     void refreshCatalog();
     void regenerateCatalog();
 

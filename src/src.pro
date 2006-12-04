@@ -5,7 +5,8 @@
 
 FORMS += patientdialogbase.ui \
          systemdialogbase.ui \
-         studyconfigdialogbase.ui 
+         studyconfigdialogbase.ui \
+         filtercatalogbase.ui 
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 IMAGES += images/hi16-app-epsimulator.png \
@@ -29,7 +30,8 @@ HEADERS += epsimulator.h \
            studyconfigdialog.h \
            options.h \
            getopts.h \
-           epsim.h 
+           epsim.h \
+           filtercatalog.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -39,7 +41,8 @@ SOURCES += epsimulator.cpp \
            systemdialog.cpp \
            studyconfigdialog.cpp \
            options.cpp \
-           getopts.cpp 
+           getopts.cpp \
+           filtercatalog.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
