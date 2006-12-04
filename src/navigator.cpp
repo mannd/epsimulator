@@ -34,6 +34,8 @@
 
 #include <qaction.h>
 #include <qapplication.h>
+#include <qbuttongroup.h>
+#include <qdatetimeedit.h>
 #include <qdir.h>
 #include <qheader.h>
 #include <qlabel.h>
@@ -514,6 +516,28 @@ void Navigator::filterStudies() {
 	QRegExp studyFileRegEx(filterCatalog->studyFileLineEdit_->text(),
 			      false, true);
 	// date stuff next
+	QDate today = QDate::currentDate();
+	QDate startDate = today, endDate = today;
+	bool anyDate = false;
+	switch (filterCatalog->studyDateButtonGroup_->selectedId()) {
+	    case 0 : 
+		anyDate = true;
+		break;
+
+	    case 1 : // today, default settings are true
+		break;
+
+	    case 2 : 
+		startDate = endDate.addDays(-7);
+		break; // i.e. last week's studies
+
+	    case 3 : 
+		startDate = filterCatalog->beginDateEdit_->date();
+		endDate = filterCatalog->endDateEdit_->date();
+		break;
+	}	       
+		
+	// rest of processing here   
     }
 }
 
