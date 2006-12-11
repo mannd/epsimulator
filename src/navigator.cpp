@@ -56,8 +56,12 @@
 #include <algorithm>
 #include <stdlib.h>
 
+#ifndef NDEBUG
+#include <iostream> // for debugging
+#endif
+
 ///TODO This constant may be better derived from screen realestate.
-#define BUTTON_SIZE 80
+#define BUTTON_SIZE 70
 
 /**
  * Constructor for TableListViewItem subclass of Navigator
@@ -225,7 +229,7 @@ void Navigator::createStatusBar() {
  * @param  
  */
 void Navigator::setupButton(QPushButton* button, QString pixmapName,
-                             QLabel* label, const char* slotName) {
+                             QLabel* label, const char* slotName, bool lastButton) {
     button->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
     button->setPixmap(QPixmap::fromMimeSource(pixmapName));
     static int row = 0;   // allows adding widgets in correct row
@@ -237,6 +241,13 @@ void Navigator::setupButton(QPushButton* button, QString pixmapName,
     label->setPaletteForegroundColor("white");
     label->setAlignment(int(QLabel::AlignCenter));
     buttonFrameLayout->addWidget(label, row++, 0, Qt::AlignHCenter);
+    QLabel* spaceLabel = new QLabel("", buttonFrame);   // insert line between button/label groups
+    spaceLabel->setAlignment(int(QLabel::AlignCenter));
+    buttonFrameLayout->addWidget(spaceLabel, row++, 0);
+    if (lastButton) {
+        spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
+        buttonFrameLayout->addItem( spacer, row, 0 );
+    }
 }
 
 void Navigator::createCentralWidget() {
@@ -272,10 +283,7 @@ void Navigator::createCentralWidget() {
 
     reportsButton = new QPushButton(buttonFrame);
     reportsLabel = new QLabel(tr("Reports"), buttonFrame);
-    setupButton(reportsButton, "hi64-reports.png", reportsLabel, 0 /* slot */);
-
-    spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
-    buttonFrameLayout->addItem( spacer, 10, 0 );
+    setupButton(reportsButton, "hi64-reports.png", reportsLabel, 0 /* slot */, true);
 
     tableListView_ = new TableListView(horizontalSplitter);
     tableListView_->addColumn(tr("Study Type"));         // col 0

@@ -1,39 +1,66 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="6" >
+ <DocsAndViews NumberOfDocuments="13" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-   <View0 line="145" Type="Source" />
+   <View0 Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 line="23" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.cpp" >
+   <View0 Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="93" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.h" >
+   <View0 Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///tmp/kde-mannd/kdevelopUqvCTp/html/index.html" >
-   <View0 Type="Documentation" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/notes" >
+   <View0 Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/Doxyfile" >
-   <View0 line="0" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/Makefile" >
+   <View0 Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/html/index.html" >
-   <View0 line="0" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qlabel.html" >
+   <View0 Type="Documentation" />
   </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
+   <View0 line="247" Type="Source" />
+  </Doc6>
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 line="118" Type="Source" />
+  </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/filtercatalogbase.ui" >
+   <View0 Type="Other" />
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/filtercatalog.h" >
+   <View0 Type="Source" />
+  </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
+   <View0 Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/filtercatalog.cpp" >
+   <View0 line="27" Type="Source" />
+  </Doc11>
+  <Doc12 NumberOfViews="1" URL="http://www.icce.rug.nl/documents/cplusplus/cplusplus08.html#l126" >
+   <View0 Type="Documentation" />
+  </Doc12>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
    <breakpointList>
-    <breakpoint0 location="/home/mannd/dev/epsimulator/src/systemdialog.cpp:41" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint0 location="/home/mannd/dev/epsimulator/src/options.cpp:33" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint0>
-    <breakpoint1 location="/home/mannd/dev/epsimulator/src/systemdialog.cpp:42" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint1>
    </breakpointList>
   </kdevdebugger>
   <kdevbookmarks>
-   <bookmarks/>
+   <bookmarks>
+    <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
+     <mark line="222" />
+     <mark line="509" />
+     <mark line="339" />
+    </bookmark>
+    <bookmark url="/home/mannd/dev/epsimulator/src/navigator.h" >
+     <mark line="111" />
+    </bookmark>
+   </bookmarks>
   </kdevbookmarks>
   <kdevvalgrind>
    <executable path="" params="" />

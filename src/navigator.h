@@ -116,7 +116,7 @@ private:
     void createMenus();
     void createStatusBar();
     void setupButton(QPushButton* button, QString pixmapName, 
-                      QLabel* label, const char* slotName);
+                      QLabel* label, const char* slotName, bool lastButton = false);
     void setupAction(QAction* action, QString statusTip,
                      const char* slotName, const char* iconName = 0);
 
