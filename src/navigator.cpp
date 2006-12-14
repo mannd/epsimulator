@@ -383,11 +383,15 @@ void Navigator::createActions() {
     filterStudiesAct_ = new QAction(tr("Filter Studies..."), 0, this);
     setupAction(filterStudiesAct_, "Filter studies", SLOT(filterStudies()));
     removeStudiesFilterAct_ = new QAction(tr("Remove Studies Filter"), 0, this);
-    setupAction(removeStudiesFilterAct_, "Remove studies filter", 0);
+    setupAction(removeStudiesFilterAct_, "Remove studies filter",
+	SLOT(unfilterStudies()));
+    // inactivate removeStudiesFilterAct_ by default
+    removeStudiesFilterAct_->setEnabled(false);
     refreshViewAct_ = new QAction(tr("Refresh"), 0, this);
     setupAction(refreshViewAct_, "Refresh the catalog", SLOT(refreshCatalog()));
     regenerateAct_ = new QAction(tr("Regenerate"), 0, this);
-    setupAction(regenerateAct_, "Regenerate the catalog", SLOT(regenerateCatalog()));
+    setupAction(regenerateAct_, "Regenerate the catalog",
+	SLOT(regenerateCatalog()));
     relabelDiskAct_ = new QAction(tr("Re-Label Disk..."), 0 ,this);
     setupAction(relabelDiskAct_, "Re-label the optical disk", 0);
     mergeStudiesAct_ = new QAction(tr("Merge Studies..."), 0, this);
@@ -544,9 +548,21 @@ void Navigator::filterStudies() {
 		endDate = filterCatalog->endDateEdit_->date();
 		break;
 	}	       
-		
+	
+	filterLabel_->setText(tr(" Filtered "));
+	statusBar()->update();	
+        filterStudiesAct_->setEnabled(false);
+        removeStudiesFilterAct_->setEnabled(true);
 	// rest of processing here   
     }
+}
+
+void Navigator::unfilterStudies() {
+    // do the unfiltering here
+    filterLabel_->setText(tr(" Unfiltered "));
+    statusBar()->update();
+    removeStudiesFilterAct_->setEnabled(false);
+    filterStudiesAct_->setEnabled(true);
 }
 
 void Navigator::newStudy() {
