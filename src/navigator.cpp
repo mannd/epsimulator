@@ -52,6 +52,7 @@
 #include <qsizepolicy.h>
 #include <qsplitter.h>
 #include <qstatusbar.h>
+#include <qtoolbar.h>
 
 #include <algorithm>
 #include <stdlib.h>
@@ -194,6 +195,7 @@ Navigator::Navigator(QWidget* parent, const char* name)
 
     createActions();
     createMenus();
+    createToolBars();
     createStatusBar();
     createCentralWidget();
 
@@ -381,14 +383,14 @@ void Navigator::createActions() {
     switchAct_ = new QAction(tr("Switch"), 0, this);
     setupAction(switchAct_, "Switch", 0);
     filterStudiesAct_ = new QAction(tr("Filter Studies..."), 0, this);
-    setupAction(filterStudiesAct_, "Filter studies", SLOT(filterStudies()));
+    setupAction(filterStudiesAct_, "Filter studies", SLOT(filterStudies()), "hi32-filterstudies.png");
     removeStudiesFilterAct_ = new QAction(tr("Remove Studies Filter"), 0, this);
     setupAction(removeStudiesFilterAct_, "Remove studies filter",
-	SLOT(unfilterStudies()));
+	SLOT(unfilterStudies()), "hi32-removefilter.png");
     // inactivate removeStudiesFilterAct_ by default
     removeStudiesFilterAct_->setEnabled(false);
     refreshViewAct_ = new QAction(tr("Refresh"), 0, this);
-    setupAction(refreshViewAct_, "Refresh the catalog", SLOT(refreshCatalog()));
+    setupAction(refreshViewAct_, "Refresh the catalog", SLOT(refreshCatalog()), "hi32-refreshcatalog.png");
     regenerateAct_ = new QAction(tr("Regenerate"), 0, this);
     setupAction(regenerateAct_, "Regenerate the catalog",
 	SLOT(regenerateCatalog()));
@@ -429,9 +431,18 @@ void Navigator::createActions() {
 
     // Help menu
     epsimulatorHelpAct_ = new QAction(tr("EP Simulator Help..."), tr("F1"), this);
-    setupAction(epsimulatorHelpAct_, "Get help for EP Simulator", SLOT(epsimulatorHelp()));
+    setupAction(epsimulatorHelpAct_, "Get help for EP Simulator", SLOT(help()));
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     setupAction(aboutAct, "About EP Simulator", SLOT(about()));
+}
+
+void Navigator::createToolBars() {
+    navigatorToolBar_ = new QToolBar(tr("Navigator"), this);
+    filterStudiesAct_->addTo(navigatorToolBar_);
+    removeStudiesFilterAct_->addTo(navigatorToolBar_);
+    navigatorToolBar_->addSeparator();
+    refreshViewAct_->addTo(navigatorToolBar_);
+     
 }
 
 void Navigator::createMenus() {
@@ -645,7 +656,7 @@ void Navigator::systemSettings() {
     }
 }
 
-void Navigator::epsimulatorHelp() {
+void Navigator::help() {
     QMessageBox::information(this, tr("%1 Help").arg(PROGRAM_NAME),
         tr("Help is available from www.epstudiossoftware.com"),
         QMessageBox::Ok);

@@ -42,6 +42,7 @@ class QPopupMenu;
 class QPushButton;
 class QSpacerItem;
 class QSplitter;
+class QToolBar;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -68,7 +69,7 @@ private slots:
 
     void systemSettings();
 
-    void epsimulatorHelp();
+    void help();
     void about();
 
 private:
@@ -115,6 +116,7 @@ private:
     void createCentralWidget();
     void createActions();
     void createMenus();
+    void createToolBars();
     void createStatusBar();
     void setupButton(QPushButton* button, QString pixmapName, 
                       QLabel* label, const char* slotName, bool lastButton = false);
@@ -207,6 +209,9 @@ private:
     QPopupMenu *administrationMenu;
     QPopupMenu *securitySubMenu;
     QPopupMenu *helpMenu;
+
+    // toolbars
+    QToolBar* navigatorToolBar_;
 };
 
 #endif
