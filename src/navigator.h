@@ -96,8 +96,8 @@ private:
                          QRegExp studyNumber,
                          QRegExp studyFile,
                          bool anyDate,
-                         QDate startDate,
-                         QDate endDate);
+                         const QDate& startDate,
+                         const QDate& endDate);
         void removeFilter();
 
     private:

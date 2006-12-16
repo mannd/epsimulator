@@ -179,6 +179,8 @@ void Navigator::TableListView::ioError(const QFile& file, const QString& message
     error(file, message + ": " + file.errorString());
 }
 
+///FIXME this doesn't work yet.  Need to fix the date filter and add
+/// the studyType filter
 void Navigator::TableListView::applyFilter( FilterStudyType filterStudyType,
                                             QRegExp lastName,
                                             QRegExp firstName,
@@ -187,20 +189,23 @@ void Navigator::TableListView::applyFilter( FilterStudyType filterStudyType,
                                             QRegExp studyNumber,
                                             QRegExp studyFile,
                                             bool anyDate,
-                                            QDate startDate,
-                                            QDate endDate) {
+                                            const QDate& startDate,
+                                            const QDate& endDate) {
     // fake first test
     bool show = false;
 //    bool studyTypeMatch
     QListViewItemIterator it(this);
     while (it.current()) {
         TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it);
+        QDate studyDate = item->study().dateTime().date();
         show = lastName.exactMatch(item->study().name().last) &&
             firstName.exactMatch(item->study().name().first) &&
             mrn.exactMatch(item->study().mrn()) &&
             studyConfig.exactMatch(item->study().config()) &&
             studyNumber.exactMatch(item->study().number()) &&
-            studyFile.exactMatch(item->study().file());
+            studyFile.exactMatch(item->study().file()) &&
+            (anyDate ? true : (startDate <= studyDate &&
+            studyDate >= endDate));
         item->setVisible(show);
         ++it;
     }
