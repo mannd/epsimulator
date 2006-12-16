@@ -62,8 +62,6 @@
 #include <iostream> // for debugging
 #endif
 
-///TODO This constant may be better derived from screen realestate.
-#define BUTTON_SIZE 70
 
 /**
  * Constructor for TableListViewItem subclass of Navigator
@@ -268,7 +266,7 @@ void Navigator::createStatusBar() {
  */
 void Navigator::setupButton(QPushButton* button, QString pixmapName,
                              QLabel* label, const char* slotName, bool lastButton) {
-    button->setFixedSize(BUTTON_SIZE, BUTTON_SIZE);
+    button->setFixedSize(buttonSize, buttonSize);
     button->setPixmap(QPixmap::fromMimeSource(pixmapName));
     static int row = 0;   // allows adding widgets in correct row
     // last parameter centers the buttons and labels horizontally
@@ -288,7 +286,7 @@ void Navigator::setupButton(QPushButton* button, QString pixmapName,
     }
 }
 
-void Navigator::createCentralWidget() {
+void Navigator::createButtonFrame() {
     horizontalSplitter = new QSplitter(Horizontal, this);
     setCentralWidget(horizontalSplitter);
 
@@ -323,6 +321,9 @@ void Navigator::createCentralWidget() {
     reportsLabel = new QLabel(tr("Reports"), buttonFrame);
     setupButton(reportsButton, "hi64-reports.png", reportsLabel, 0 /* slot */, true);
 
+}
+
+void Navigator::createTableListView() {
     tableListView_ = new TableListView(horizontalSplitter);
     tableListView_->addColumn(tr("Study Type"));         // col 0
     tableListView_->addColumn(tr("Patient"));            // col 1
@@ -343,6 +344,12 @@ void Navigator::createCentralWidget() {
     tableListView_->header()->setResizeEnabled(false, keyColumn);
     //tableListView_->setResizeMode(QListView::AllColumns);
     // above messes up the hidden column
+
+}
+
+void Navigator::createCentralWidget() {
+    createButtonFrame();
+    createTableListView();
     readSettings(); 
     refreshCatalog();
 }
@@ -669,7 +676,7 @@ void Navigator::deleteStudy() {
 bool Navigator::studySelected() {
     if (QListViewItem* item = tableListView_->selectedItem()) {
         // must cast item to a TableListViewItem* to get study from it.
-        study_ = static_cast<TableListViewItem*>(item)->study();
+        study_ = dynamic_cast<TableListViewItem*>(item)->study();
         return true;
     }
     return false;

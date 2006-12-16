@@ -78,6 +78,8 @@ private slots:
 
 private:
 
+    static const int buttonSize = 70;   // size of square buttons in blue panel
+
  
     class TableListView : public QListView {
 
@@ -101,7 +103,7 @@ private:
         void removeFilter();
 
     private:
-        enum {MagicNumber = 0x99c798f2};
+        enum {MagicNumber = 0x99c798f2};    // first bytes of EP Simulator binary files
 
         void readFromStream(QDataStream& in);
         void writeToStream(QDataStream& out);
@@ -129,6 +131,8 @@ private:
         Study study_;
     };
 
+    void createButtonFrame();
+    void createTableListView();
     void createCentralWidget();
     void createActions();
     void createMenus();
