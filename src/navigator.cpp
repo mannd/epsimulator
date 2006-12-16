@@ -35,6 +35,7 @@
 #include <qaction.h>
 #include <qapplication.h>
 #include <qbuttongroup.h>
+#include <qcombobox.h>
 #include <qdatetimeedit.h>
 #include <qdir.h>
 #include <qheader.h>
@@ -68,14 +69,7 @@
  * Constructor for TableListViewItem subclass of Navigator
  * @param parent 
  * @param study 
- * @param label1 
- * @param label2 
- * @param label3 
- * @param label4 
- * @param label5 
- * @param label6 
- * @param label7 
- * @param label8 
+ * @param label1  etc.
  */
 
 Navigator::TableListViewItem::TableListViewItem(TableListView* parent, const Study& study,
@@ -183,6 +177,43 @@ void Navigator::TableListView::error(const QFile& file, const QString& message) 
 
 void Navigator::TableListView::ioError(const QFile& file, const QString& message) {
     error(file, message + ": " + file.errorString());
+}
+
+void Navigator::TableListView::applyFilter( FilterStudyType filterStudyType,
+                                            QRegExp lastName,
+                                            QRegExp firstName,
+                                            QRegExp mrn,
+                                            QRegExp studyConfig,
+                                            QRegExp studyNumber,
+                                            QRegExp studyFile,
+                                            bool anyDate,
+                                            QDate startDate,
+                                            QDate endDate) {
+    // fake first test
+    bool show = false;
+//    bool studyTypeMatch
+    QListViewItemIterator it(this);
+    while (it.current()) {
+        TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it);
+        show = lastName.exactMatch(item->study().name().last) &&
+            firstName.exactMatch(item->study().name().first) &&
+            mrn.exactMatch(item->study().mrn()) &&
+            studyConfig.exactMatch(item->study().config()) &&
+            studyNumber.exactMatch(item->study().number()) &&
+            studyFile.exactMatch(item->study().file());
+        item->setVisible(show);
+        ++it;
+    }
+
+}
+
+void Navigator::TableListView::removeFilter() {
+    QListViewItemIterator it(this);
+    while (it.current()) {
+        QListViewItem* item = *it;
+        dynamic_cast<TableListViewItem*>(item)->setVisible(true);
+        ++it;
+    }
 }
 
 /**
@@ -526,18 +557,21 @@ bool Navigator::getStudyInformation() {
 void Navigator::filterStudies() {
     FilterCatalog* filterCatalog = new FilterCatalog(this);
     if (filterCatalog->exec()) {
-	QRegExp lastNameRegEx(filterCatalog->lastNameLineEdit_->text(),
-			      false, true);
-	QRegExp firstNameRegEx(filterCatalog->firstNameLineEdit_->text(),
-			      false, true);
-	QRegExp mrnRegEx(filterCatalog->mrnLineEdit_->text(),
-			      false, true);
-	QRegExp studyConfigRegEx(filterCatalog->studyConfigLineEdit_->text(),
-			      false, true);
-	QRegExp studyNumberRegEx(filterCatalog->studyNumberLineEdit_->text(),
-			      false, true);
-	QRegExp studyFileRegEx(filterCatalog->studyFileLineEdit_->text(),
-			      false, true);
+        // if the LineEdit is blank, it matches anything, so make it "*"
+       	QRegExp lastNameRegExp(filterCatalog->lastNameLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->lastNameLineEdit_->text(), false, true);
+	QRegExp firstNameRegExp(filterCatalog->firstNameLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->firstNameLineEdit_->text(), false, true);
+	QRegExp mrnRegExp(filterCatalog->mrnLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->mrnLineEdit_->text(), false, true);
+	QRegExp studyConfigRegExp(
+            filterCatalog->studyConfigLineEdit_->text().isEmpty()
+            ? "*" :filterCatalog->studyConfigLineEdit_->text(), false, true);
+	QRegExp studyNumberRegExp(
+            filterCatalog->studyNumberLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->studyNumberLineEdit_->text(), false, true);
+	QRegExp studyFileRegExp(filterCatalog->studyFileLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->studyFileLineEdit_->text(), false, true);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;
@@ -554,12 +588,17 @@ void Navigator::filterStudies() {
 		startDate = endDate.addDays(-7);
 		break; // i.e. last week's studies
 
-	    case 3 : 
+	    case 3 :   // specific dates selected
 		startDate = filterCatalog->beginDateEdit_->date();
 		endDate = filterCatalog->endDateEdit_->date();
 		break;
-	}	       
-	
+	}	
+        FilterStudyType filterStudyType = static_cast<FilterStudyType>(
+            filterCatalog->studyTypeComboBox_->currentItem());
+        tableListView_->applyFilter(filterStudyType, lastNameRegExp,
+            firstNameRegExp, mrnRegExp, studyConfigRegExp, 
+            studyNumberRegExp, studyFileRegExp, 
+            anyDate, startDate, endDate);
 	filterLabel_->setText(tr(" Filtered "));
 	statusBar()->update();	
         filterStudiesAct_->setEnabled(false);
@@ -570,6 +609,7 @@ void Navigator::filterStudies() {
 
 void Navigator::unfilterStudies() {
     // do the unfiltering here
+    tableListView_->removeFilter();
     filterLabel_->setText(tr(" Unfiltered "));
     statusBar()->update();
     removeStudiesFilterAct_->setEnabled(false);

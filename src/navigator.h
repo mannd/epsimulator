@@ -28,16 +28,17 @@
 #include "options.h"
 #include "study.h"
 
+#include <qdatetime.h>
 #include <qfile.h>
 #include <qlistview.h>
 #include <qmainwindow.h>
+#include <qregexp.h>
 
 class Options;
 class QAction;
 class QFrame;
 class QGridLayout;
 class QLabel;
-class QListView;
 class QPopupMenu;
 class QPushButton;
 class QSpacerItem;
@@ -53,6 +54,9 @@ class Navigator : public QMainWindow {
 public:
     Navigator(QWidget* parent = 0, const char *name = "navigator");
     ~Navigator();
+    enum FilterStudyType {AnyStudyType = 0, 
+                          StudyType = 1,
+                          PreregisterType = 2};
 
 protected:
     void closeEvent(QCloseEvent * event);
@@ -74,6 +78,7 @@ private slots:
 
 private:
 
+ 
     class TableListView : public QListView {
 
     public:
@@ -83,6 +88,17 @@ private:
         bool load(const QString& fileName);
         bool save(const QString& fileName);
         void addStudy(const Study& study);
+        void applyFilter(FilterStudyType filterStudyType,
+                         QRegExp lastName,
+                         QRegExp firstName,
+                         QRegExp mrn,
+                         QRegExp studyConfig,
+                         QRegExp studyNumber,
+                         QRegExp studyFile,
+                         bool anyDate,
+                         QDate startDate,
+                         QDate endDate);
+        void removeFilter();
 
     private:
         enum {MagicNumber = 0x99c798f2};
