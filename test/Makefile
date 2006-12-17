@@ -9,7 +9,11 @@ OBJECTS := 	$(OBJ_DIR)/study.o \
 		$(OBJ_DIR)/patientdialog.o \
 		$(OBJ_DIR)/moc_patientdialog.o \
 		$(OBJ_DIR)/moc_patientdialogbase.o \
-		$(OBJ_DIR)/patientdialogbase.o
+		$(OBJ_DIR)/patientdialogbase.o \
+		$(OBJ_DIR)/filtercatalog.o \
+		$(OBJ_DIR)/moc_filtercatalog.o \
+		$(OBJ_DIR)/moc_filtercatalogbase.o \
+		$(OBJ_DIR)/filtercatalogbase.o
 
 vpath %.cpp ../src
 vpath %.h ../src

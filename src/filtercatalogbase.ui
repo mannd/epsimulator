@@ -202,44 +202,6 @@
             <property name="title">
                 <string>Study Date</string>
             </property>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>thisWeeksStudiesRadioButton_</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>97</y>
-                        <width>200</width>
-                        <height>28</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>This Week's Studies</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-            </widget>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>datesBetweenRadioButton_</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>132</y>
-                        <width>200</width>
-                        <height>28</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Dates &amp;Between</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+B</string>
-                </property>
-            </widget>
             <widget class="QLabel">
                 <property name="name">
                     <cstring>textLabel9</cstring>
@@ -257,47 +219,6 @@
                 </property>
                 <property name="alignment">
                     <set>AlignCenter</set>
-                </property>
-            </widget>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>todaysStudiesRadioButton_</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>63</y>
-                        <width>200</width>
-                        <height>28</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Today's Studies</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-            </widget>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>anyDateRadioButton_</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>29</y>
-                        <width>200</width>
-                        <height>28</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>An&amp;y Date</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+Y</string>
-                </property>
-                <property name="checked">
-                    <bool>true</bool>
                 </property>
             </widget>
             <widget class="QLabel">
@@ -362,6 +283,97 @@
                         <width>123</width>
                         <height>30</height>
                     </rect>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>anyDateRadioButton_</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>29</y>
+                        <width>200</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>An&amp;y Date</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+Y</string>
+                </property>
+                <property name="checked">
+                    <bool>true</bool>
+                </property>
+                <property name="buttonGroupId">
+                    <number>0</number>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>todaysStudiesRadioButton_</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>63</y>
+                        <width>200</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Today's Studies</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+                <property name="buttonGroupId">
+                    <number>1</number>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>thisWeeksStudiesRadioButton_</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>97</y>
+                        <width>200</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>This Week's Studies</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+                <property name="buttonGroupId">
+                    <number>2</number>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>datesBetweenRadioButton_</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>132</y>
+                        <width>200</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Dates &amp;Between</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+B</string>
+                </property>
+                <property name="buttonGroupId">
+                    <number>3</number>
                 </property>
             </widget>
         </widget>

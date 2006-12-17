@@ -20,13 +20,19 @@
 
 // MyTestSuite.h
 #include <cxxtest/TestSuite.h>
+#include "filtercatalog.h"
 #include "study.h"
 #include "heart.h"
 #include "options.h"
 #include "patientdialog.h"
 
+#include <qbuttongroup.h>
+#include <qdatetimeedit.h>
+#include <qlineedit.h>
 #include <qstring.h>
 #include <qdatetime.h>
+#include <qregexp.h>
+
 
 #include <iostream>
 #include <math.h>
@@ -172,7 +178,56 @@ public:
         TS_ASSERT_DELTA(s.bsa(), bsa, delta);
         delete p;
     }
-         
+
+    void testFilterCatalog() {
+        FilterCatalog* filterCatalog = new FilterCatalog;
+      	QRegExp lastNameRegExp(filterCatalog->lastNameLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->lastNameLineEdit_->text(), false, true);
+	QRegExp firstNameRegExp(filterCatalog->firstNameLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->firstNameLineEdit_->text(), false, true);
+	QRegExp mrnRegExp(filterCatalog->mrnLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->mrnLineEdit_->text(), false, true);
+	QRegExp studyConfigRegExp(
+            filterCatalog->studyConfigLineEdit_->text().isEmpty()
+            ? "*" :filterCatalog->studyConfigLineEdit_->text(), false, true);
+	QRegExp studyNumberRegExp(
+            filterCatalog->studyNumberLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->studyNumberLineEdit_->text(), false, true);
+	QRegExp studyFileRegExp(filterCatalog->studyFileLineEdit_->text().isEmpty()
+            ? "*" : filterCatalog->studyFileLineEdit_->text(), false, true);
+	// date stuff next
+	QDate today = QDate::currentDate();
+	QDate startDate = today, endDate = today;
+	bool anyDate = false;
+	switch (filterCatalog->studyDateButtonGroup_->selectedId()) {
+	    case 0 : 
+		anyDate = true;
+		break;
+
+	    case 1 : // today, default settings are true
+		break;
+
+	    case 2 : 
+		startDate = endDate.addDays(-7);
+		break; // i.e. last week's studies
+
+	    case 3 :   // specific dates selected
+		startDate = filterCatalog->beginDateEdit_->date();
+		endDate = filterCatalog->endDateEdit_->date();
+		break;
+	}
+        TS_ASSERT(lastNameRegExp.pattern() == "*");
+        TS_ASSERT(firstNameRegExp.pattern() == "*");
+        TS_ASSERT(mrnRegExp.pattern() == "*");
+        TS_ASSERT(studyConfigRegExp.pattern() == "*");
+        TS_ASSERT(studyNumberRegExp.pattern() == "*");
+        TS_ASSERT(studyFileRegExp.pattern() == "*");
+        TS_ASSERT(anyDate);
+        TS_ASSERT(startDate == endDate);
+        TS_ASSERT(startDate == QDate::currentDate());
+        cout << "Selected ID = " << filterCatalog->studyDateButtonGroup_->selectedId() << std::endl;
+        delete filterCatalog;
+}
 
 //    void testGetSetPatientDialogDefaultStudies() {
 //        PatientDialog pd;

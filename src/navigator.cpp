@@ -566,6 +566,7 @@ bool Navigator::getStudyInformation() {
     return false;
 }
 
+
 void Navigator::filterStudies() {
     FilterCatalog* filterCatalog = new FilterCatalog(this);
     if (filterCatalog->exec()) {
