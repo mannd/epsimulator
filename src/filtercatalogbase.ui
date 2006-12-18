@@ -32,7 +32,7 @@
         </widget>
         <widget class="QLineEdit" row="1" column="1">
             <property name="name">
-                <cstring>lastNameLineEdit_</cstring>
+                <cstring>lastNameLineEdit</cstring>
             </property>
         </widget>
         <widget class="QLabel" row="4" column="0">
@@ -59,7 +59,7 @@
         </widget>
         <widget class="QLineEdit" row="6" column="1">
             <property name="name">
-                <cstring>studyFileLineEdit_</cstring>
+                <cstring>studyFileLineEdit</cstring>
             </property>
         </widget>
         <widget class="QLabel" row="6" column="0">
@@ -75,12 +75,12 @@
         </widget>
         <widget class="QLineEdit" row="5" column="1">
             <property name="name">
-                <cstring>studyNumberLineEdit_</cstring>
+                <cstring>studyNumberLineEdit</cstring>
             </property>
         </widget>
         <widget class="QLineEdit" row="3" column="1">
             <property name="name">
-                <cstring>mrnLineEdit_</cstring>
+                <cstring>mrnLineEdit</cstring>
             </property>
         </widget>
         <widget class="QLabel" row="0" column="0">
@@ -96,7 +96,7 @@
         </widget>
         <widget class="QLineEdit" row="2" column="1">
             <property name="name">
-                <cstring>firstNameLineEdit_</cstring>
+                <cstring>firstNameLineEdit</cstring>
             </property>
         </widget>
         <widget class="QLabel" row="5" column="0">
@@ -112,7 +112,7 @@
         </widget>
         <widget class="QLineEdit" row="4" column="1">
             <property name="name">
-                <cstring>studyConfigLineEdit_</cstring>
+                <cstring>studyConfigLineEdit</cstring>
             </property>
         </widget>
         <widget class="QLabel" row="2" column="0">
@@ -143,7 +143,7 @@
                 </property>
             </item>
             <property name="name">
-                <cstring>studyTypeComboBox_</cstring>
+                <cstring>studyTypeComboBox</cstring>
             </property>
         </widget>
         <widget class="QLayoutWidget" row="8" column="0" rowspan="1" colspan="2">
@@ -173,7 +173,7 @@
                 </spacer>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>OkButton_</cstring>
+                        <cstring>OkButton</cstring>
                     </property>
                     <property name="text">
                         <string>&amp;OK</string>
@@ -197,7 +197,7 @@
         </widget>
         <widget class="QButtonGroup" row="7" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>studyDateButtonGroup_</cstring>
+                <cstring>studyDateButtonGroup</cstring>
             </property>
             <property name="title">
                 <string>Study Date</string>
@@ -221,73 +221,9 @@
                     <set>AlignCenter</set>
                 </property>
             </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>thisWeekLabel_</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>217</x>
-                        <y>97</y>
-                        <width>340</width>
-                        <height>28</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>this week</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>todayLabel_</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>217</x>
-                        <y>63</y>
-                        <width>222</width>
-                        <height>28</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>today</string>
-                </property>
-            </widget>
-            <widget class="QDateEdit">
-                <property name="name">
-                    <cstring>beginDateEdit_</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>false</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>217</x>
-                        <y>131</y>
-                        <width>123</width>
-                        <height>30</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QDateEdit">
-                <property name="name">
-                    <cstring>endDateEdit_</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>false</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>445</x>
-                        <y>131</y>
-                        <width>123</width>
-                        <height>30</height>
-                    </rect>
-                </property>
-            </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>anyDateRadioButton_</cstring>
+                    <cstring>anyDateRadioButton</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -312,7 +248,7 @@
             </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>todaysStudiesRadioButton_</cstring>
+                    <cstring>todaysStudiesRadioButton</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -332,9 +268,25 @@
                     <number>1</number>
                 </property>
             </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>todayLabel</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>217</x>
+                        <y>63</y>
+                        <width>222</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>today</string>
+                </property>
+            </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>thisWeeksStudiesRadioButton_</cstring>
+                    <cstring>thisWeeksStudiesRadioButton</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -354,9 +306,25 @@
                     <number>2</number>
                 </property>
             </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>thisWeekLabel</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>217</x>
+                        <y>97</y>
+                        <width>340</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>this week</string>
+                </property>
+            </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>datesBetweenRadioButton_</cstring>
+                    <cstring>datesBetweenRadioButton</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
@@ -376,12 +344,44 @@
                     <number>3</number>
                 </property>
             </widget>
+            <widget class="QDateEdit">
+                <property name="name">
+                    <cstring>beginDateEdit</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>false</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>217</x>
+                        <y>131</y>
+                        <width>123</width>
+                        <height>30</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QDateEdit">
+                <property name="name">
+                    <cstring>endDateEdit</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>false</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>445</x>
+                        <y>131</y>
+                        <width>123</width>
+                        <height>30</height>
+                    </rect>
+                </property>
+            </widget>
         </widget>
     </grid>
 </widget>
 <connections>
     <connection>
-        <sender>OkButton_</sender>
+        <sender>OkButton</sender>
         <signal>clicked()</signal>
         <receiver>FilterCatalogBase</receiver>
         <slot>accept()</slot>
@@ -393,24 +393,24 @@
         <slot>reject()</slot>
     </connection>
     <connection>
-        <sender>datesBetweenRadioButton_</sender>
+        <sender>datesBetweenRadioButton</sender>
         <signal>toggled(bool)</signal>
         <receiver>FilterCatalogBase</receiver>
         <slot>enableDateRange()</slot>
     </connection>
 </connections>
 <tabstops>
-    <tabstop>studyTypeComboBox_</tabstop>
-    <tabstop>lastNameLineEdit_</tabstop>
-    <tabstop>firstNameLineEdit_</tabstop>
-    <tabstop>mrnLineEdit_</tabstop>
-    <tabstop>studyConfigLineEdit_</tabstop>
-    <tabstop>studyNumberLineEdit_</tabstop>
-    <tabstop>studyFileLineEdit_</tabstop>
-    <tabstop>anyDateRadioButton_</tabstop>
-    <tabstop>beginDateEdit_</tabstop>
-    <tabstop>endDateEdit_</tabstop>
-    <tabstop>OkButton_</tabstop>
+    <tabstop>studyTypeComboBox</tabstop>
+    <tabstop>lastNameLineEdit</tabstop>
+    <tabstop>firstNameLineEdit</tabstop>
+    <tabstop>mrnLineEdit</tabstop>
+    <tabstop>studyConfigLineEdit</tabstop>
+    <tabstop>studyNumberLineEdit</tabstop>
+    <tabstop>studyFileLineEdit</tabstop>
+    <tabstop>anyDateRadioButton</tabstop>
+    <tabstop>beginDateEdit</tabstop>
+    <tabstop>endDateEdit</tabstop>
+    <tabstop>OkButton</tabstop>
     <tabstop>cancelButton</tabstop>
 </tabstops>
 <slots>

@@ -202,8 +202,18 @@ void Navigator::TableListView::applyFilter( FilterStudyType filterStudyType,
             studyConfig.exactMatch(item->study().config()) &&
             studyNumber.exactMatch(item->study().number()) &&
             studyFile.exactMatch(item->study().file()) &&
-            (anyDate ? true : (startDate <= studyDate &&
-            studyDate >= endDate));
+            (anyDate ? true : (startDate <= studyDate) &&
+            (studyDate <= endDate));
+        switch (filterStudyType) {
+            case AnyStudyType :
+                break;
+            case StudyType :
+                show = show && !item->study().isPreregisterStudy();
+                break;
+            case PreregisterType :
+                show = show && item->study().isPreregisterStudy();
+                break;
+        }
         item->setVisible(show);
         ++it;
     }
@@ -561,6 +571,8 @@ bool Navigator::getStudyInformation() {
         study_ = newStudy;
         study_.setPath(options_->studyPath());
         tableListView_->addStudy(study_);
+        // write the study to the catalog now in case user decides to refresh later
+        tableListView_->save(options_->studyPath() + "studies.eps");
         return true;
     }
     return false;
@@ -571,25 +583,25 @@ void Navigator::filterStudies() {
     FilterCatalog* filterCatalog = new FilterCatalog(this);
     if (filterCatalog->exec()) {
         // if the LineEdit is blank, it matches anything, so make it "*"
-       	QRegExp lastNameRegExp(filterCatalog->lastNameLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->lastNameLineEdit_->text(), false, true);
-	QRegExp firstNameRegExp(filterCatalog->firstNameLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->firstNameLineEdit_->text(), false, true);
-	QRegExp mrnRegExp(filterCatalog->mrnLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->mrnLineEdit_->text(), false, true);
+       	QRegExp lastNameRegExp(filterCatalog->lastNameLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->lastNameLineEdit->text(), false, true);
+	QRegExp firstNameRegExp(filterCatalog->firstNameLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->firstNameLineEdit->text(), false, true);
+	QRegExp mrnRegExp(filterCatalog->mrnLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->mrnLineEdit->text(), false, true);
 	QRegExp studyConfigRegExp(
-            filterCatalog->studyConfigLineEdit_->text().isEmpty()
-            ? "*" :filterCatalog->studyConfigLineEdit_->text(), false, true);
+            filterCatalog->studyConfigLineEdit->text().isEmpty()
+            ? "*" :filterCatalog->studyConfigLineEdit->text(), false, true);
 	QRegExp studyNumberRegExp(
-            filterCatalog->studyNumberLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->studyNumberLineEdit_->text(), false, true);
-	QRegExp studyFileRegExp(filterCatalog->studyFileLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->studyFileLineEdit_->text(), false, true);
+            filterCatalog->studyNumberLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->studyNumberLineEdit->text(), false, true);
+	QRegExp studyFileRegExp(filterCatalog->studyFileLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->studyFileLineEdit->text(), false, true);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;
 	bool anyDate = false;
-	switch (filterCatalog->studyDateButtonGroup_->selectedId()) {
+	switch (filterCatalog->studyDateButtonGroup->selectedId()) {
 	    case 0 : 
 		anyDate = true;
 		break;
@@ -602,12 +614,12 @@ void Navigator::filterStudies() {
 		break; // i.e. last week's studies
 
 	    case 3 :   // specific dates selected
-		startDate = filterCatalog->beginDateEdit_->date();
-		endDate = filterCatalog->endDateEdit_->date();
+		startDate = filterCatalog->beginDateEdit->date();
+		endDate = filterCatalog->endDateEdit->date();
 		break;
 	}	
         FilterStudyType filterStudyType = static_cast<FilterStudyType>(
-            filterCatalog->studyTypeComboBox_->currentItem());
+            filterCatalog->studyTypeComboBox->currentItem());
         tableListView_->applyFilter(filterStudyType, lastNameRegExp,
             firstNameRegExp, mrnRegExp, studyConfigRegExp, 
             studyNumberRegExp, studyFileRegExp, 
@@ -616,6 +628,9 @@ void Navigator::filterStudies() {
 	statusBar()->update();	
         filterStudiesAct_->setEnabled(false);
         removeStudiesFilterAct_->setEnabled(true);
+        // also disallow refreshing while filtered
+        refreshViewAct_->setEnabled(false);
+        regenerateAct_->setEnabled(false);
 	// rest of processing here   
     }
 }
@@ -627,6 +642,8 @@ void Navigator::unfilterStudies() {
     statusBar()->update();
     removeStudiesFilterAct_->setEnabled(false);
     filterStudiesAct_->setEnabled(true);
+    refreshViewAct_->setEnabled(true);
+    regenerateAct_->setEnabled(true);
 }
 
 void Navigator::newStudy() {

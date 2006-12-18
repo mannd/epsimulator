@@ -60,3 +60,6 @@ map key.
 FIX FOR CXXTEST PROBLEM
 
 Merely including ALL the *.o files needed all Qt-specific tests to compile.  That is, to test PatientDialog, must include in linked files patientdialog.o, moc_patientdialog.o, patientdialogbase.o and moc_patientdialog.o.  (Actually maybe the non-moc ones are needed -- will test: no all the above mentioned files are needed.)
+
+MORE FORMATTING WOES
+    Objects in .ui files are actually public data members; therefore should not end in _.  Menu items, etc. are private and should end in _.

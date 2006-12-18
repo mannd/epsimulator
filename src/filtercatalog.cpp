@@ -27,19 +27,19 @@
 
 FilterCatalog::FilterCatalog(QWidget *parent, const char *name)
     : FilterCatalogBase(parent, name) {
-    todayLabel_->setText(QDate::currentDate().toString());
-    thisWeekLabel_->setText(tr("%1 to %2")
+    todayLabel->setText(QDate::currentDate().toString());
+    thisWeekLabel->setText(tr("%1 to %2")
 			    .arg(QDate::currentDate()
 				 .addDays(-7).toString())
 			    .arg(QDate::currentDate().toString()));
     // Set default begin and end dates to a "month" (30 days).
-    beginDateEdit_->setDate(QDate::currentDate().addDays(-30));
-    endDateEdit_->setDate(QDate::currentDate());
+    beginDateEdit->setDate(QDate::currentDate().addDays(-30));
+    endDateEdit->setDate(QDate::currentDate());
     
 }
 
 void FilterCatalog::enableDateRange() {
-    bool checked = datesBetweenRadioButton_->isChecked();
-    beginDateEdit_->setEnabled(checked);
-    endDateEdit_->setEnabled(checked);
+    bool checked = datesBetweenRadioButton->isChecked();
+    beginDateEdit->setEnabled(checked);
+    endDateEdit->setEnabled(checked);
 }
