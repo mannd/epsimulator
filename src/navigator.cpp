@@ -491,6 +491,11 @@ void Navigator::createActions() {
 
 void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator"), this);
+    catalogComboBox_ = new QComboBox(navigatorToolBar_, "catalogComboBox");
+    catalogComboBox_->insertItem(tr("System"));
+    catalogComboBox_->insertItem(tr("Local"));
+    catalogComboBox_->insertItem(tr("Network"));
+    navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
     removeStudiesFilterAct_->addTo(navigatorToolBar_);
     navigatorToolBar_->addSeparator();

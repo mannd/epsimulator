@@ -18,40 +18,122 @@
     <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
-    <vbox>
+    <widget class="QLayoutWidget">
         <property name="name">
-            <cstring>unnamed</cstring>
+            <cstring>Layout1</cstring>
         </property>
-        <property name="margin">
-            <number>11</number>
+        <property name="geometry">
+            <rect>
+                <x>11</x>
+                <y>376</y>
+                <width>787</width>
+                <height>34</height>
+            </rect>
         </property>
-        <property name="spacing">
-            <number>6</number>
-        </property>
-        <widget class="QTabWidget">
+        <hbox>
             <property name="name">
-                <cstring>filePathsTabWidget</cstring>
+                <cstring>unnamed</cstring>
             </property>
-            <widget class="QWidget">
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="spacing">
+                <number>6</number>
+            </property>
+            <spacer>
                 <property name="name">
-                    <cstring>Widget8</cstring>
+                    <cstring>Horizontal Spacing2</cstring>
                 </property>
-                <attribute name="title">
-                    <string>File Paths</string>
-                </attribute>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>buttonOk</cstring>
+                </property>
+                <property name="text">
+                    <string>&amp;OK</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+                <property name="autoDefault">
+                    <bool>true</bool>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>buttonCancel</cstring>
+                </property>
+                <property name="text">
+                    <string>C&amp;ancel</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+A</string>
+                </property>
+                <property name="autoDefault">
+                    <bool>true</bool>
+                </property>
+            </widget>
+        </hbox>
+    </widget>
+    <widget class="QTabWidget">
+        <property name="name">
+            <cstring>filePathsTabWidget</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>11</x>
+                <y>11</y>
+                <width>787</width>
+                <height>359</height>
+            </rect>
+        </property>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>Widget8</cstring>
+            </property>
+            <attribute name="title">
+                <string>File Paths</string>
+            </attribute>
+            <widget class="QLayoutWidget">
+                <property name="name">
+                    <cstring>layout2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>18</y>
+                        <width>760</width>
+                        <height>280</height>
+                    </rect>
+                </property>
                 <grid>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QLabel" row="1" column="0">
+                    <widget class="QPushButton" row="2" column="2">
                         <property name="name">
-                            <cstring>textLabel2</cstring>
+                            <cstring>networkBrowsePushButton</cstring>
                         </property>
                         <property name="text">
-                            <string>Local Stud&amp;y Path</string>
+                            <string>&amp;Browse...</string>
                         </property>
-                        <property name="buddy" stdset="0">
-                            <cstring>localStudyPathLineEdit</cstring>
+                        <property name="accel">
+                            <string>Alt+B</string>
                         </property>
                     </widget>
                     <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
@@ -64,15 +146,29 @@
                         <property name="accel">
                             <string>Alt+Q</string>
                         </property>
+                        <property name="checked">
+                            <bool>true</bool>
+                        </property>
                     </widget>
-                    <widget class="QLineEdit" row="1" column="1">
+                    <widget class="QLineEdit" row="2" column="1">
                         <property name="name">
+                            <cstring>networkStudyPathLineEdit</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="2" column="0">
+                        <property name="name">
+                            <cstring>textLabel2_3</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Network Study Path</string>
+                        </property>
+                        <property name="buddy" stdset="0">
                             <cstring>localStudyPathLineEdit</cstring>
                         </property>
                     </widget>
                     <widget class="QPushButton" row="1" column="2">
                         <property name="name">
-                            <cstring>browsePushButton</cstring>
+                            <cstring>localBrowsePushButton</cstring>
                         </property>
                         <property name="text">
                             <string>&amp;Browse...</string>
@@ -81,119 +177,71 @@
                             <string>Alt+B</string>
                         </property>
                     </widget>
-                </grid>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>Widget9</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Dis&amp;k Information</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLineEdit" row="0" column="1">
+                    <widget class="QLineEdit" row="1" column="1">
                         <property name="name">
-                            <cstring>studyPathLineEdit</cstring>
+                            <cstring>localStudyPathLineEdit</cstring>
                         </property>
                     </widget>
                     <widget class="QLabel" row="1" column="0">
                         <property name="name">
-                            <cstring>textLabel4</cstring>
+                            <cstring>textLabel2</cstring>
                         </property>
                         <property name="text">
-                            <string>Local Storage Disk La&amp;bel</string>
+                            <string>Local Stud&amp;y Path</string>
                         </property>
                         <property name="buddy" stdset="0">
-                            <cstring>diskLabelLineEdit</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLineEdit" row="1" column="1">
-                        <property name="name">
-                            <cstring>diskLabelLineEdit</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="0" column="0">
-                        <property name="name">
-                            <cstring>textLabel3</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Study Path</string>
-                        </property>
-                        <property name="buddy" stdset="0">
-                            <cstring>studyPathLineEdit</cstring>
+                            <cstring>localStudyPathLineEdit</cstring>
                         </property>
                     </widget>
                 </grid>
             </widget>
         </widget>
-        <widget class="QLayoutWidget">
+        <widget class="QWidget">
             <property name="name">
-                <cstring>Layout1</cstring>
+                <cstring>Widget9</cstring>
             </property>
-            <hbox>
+            <attribute name="title">
+                <string>Dis&amp;k Information</string>
+            </attribute>
+            <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <spacer>
+                <widget class="QLineEdit" row="0" column="1">
                     <property name="name">
-                        <cstring>Horizontal Spacing2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>buttonOk</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;OK</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                    <property name="default">
-                        <bool>true</bool>
+                        <cstring>studyPathLineEdit</cstring>
                     </property>
                 </widget>
-                <widget class="QPushButton">
+                <widget class="QLabel" row="1" column="0">
                     <property name="name">
-                        <cstring>buttonCancel</cstring>
+                        <cstring>textLabel4</cstring>
                     </property>
                     <property name="text">
-                        <string>C&amp;ancel</string>
+                        <string>Local Storage Disk La&amp;bel</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+A</string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
+                    <property name="buddy" stdset="0">
+                        <cstring>diskLabelLineEdit</cstring>
                     </property>
                 </widget>
-            </hbox>
+                <widget class="QLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>diskLabelLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Study Path</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>studyPathLineEdit</cstring>
+                    </property>
+                </widget>
+            </grid>
         </widget>
-    </vbox>
+    </widget>
 </widget>
 <connections>
     <connection>
@@ -209,14 +257,27 @@
         <slot>reject()</slot>
     </connection>
     <connection>
-        <sender>browsePushButton</sender>
+        <sender>localBrowsePushButton</sender>
         <signal>clicked()</signal>
         <receiver>SystemDialogBase</receiver>
-        <slot>browseFilePaths()</slot>
+        <slot>localStudyPathBrowse()</slot>
+    </connection>
+    <connection>
+        <sender>networkBrowsePushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SystemDialogBase</receiver>
+        <slot>networkStudyPathBrowse()</slot>
+    </connection>
+    <connection>
+        <sender>filePathsTabWidget</sender>
+        <signal>&lt;No Signal&gt;</signal>
+        <receiver>filePathsTabWidget</receiver>
+        <slot>&lt;No)</slot>
     </connection>
 </connections>
 <slots>
-    <slot>browseFilePaths()</slot>
+    <slot>localStudyPathBrowse()</slot>
+    <slot>networkStudyPathBrowse()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

@@ -181,25 +181,25 @@ public:
 
     void testFilterCatalog() {
         FilterCatalog* filterCatalog = new FilterCatalog;
-      	QRegExp lastNameRegExp(filterCatalog->lastNameLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->lastNameLineEdit_->text(), false, true);
-	QRegExp firstNameRegExp(filterCatalog->firstNameLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->firstNameLineEdit_->text(), false, true);
-	QRegExp mrnRegExp(filterCatalog->mrnLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->mrnLineEdit_->text(), false, true);
+      	QRegExp lastNameRegExp(filterCatalog->lastNameLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->lastNameLineEdit->text(), false, true);
+	QRegExp firstNameRegExp(filterCatalog->firstNameLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->firstNameLineEdit->text(), false, true);
+	QRegExp mrnRegExp(filterCatalog->mrnLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->mrnLineEdit->text(), false, true);
 	QRegExp studyConfigRegExp(
-            filterCatalog->studyConfigLineEdit_->text().isEmpty()
-            ? "*" :filterCatalog->studyConfigLineEdit_->text(), false, true);
+            filterCatalog->studyConfigLineEdit->text().isEmpty()
+            ? "*" :filterCatalog->studyConfigLineEdit->text(), false, true);
 	QRegExp studyNumberRegExp(
-            filterCatalog->studyNumberLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->studyNumberLineEdit_->text(), false, true);
-	QRegExp studyFileRegExp(filterCatalog->studyFileLineEdit_->text().isEmpty()
-            ? "*" : filterCatalog->studyFileLineEdit_->text(), false, true);
+            filterCatalog->studyNumberLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->studyNumberLineEdit->text(), false, true);
+	QRegExp studyFileRegExp(filterCatalog->studyFileLineEdit->text().isEmpty()
+            ? "*" : filterCatalog->studyFileLineEdit->text(), false, true);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;
 	bool anyDate = false;
-	switch (filterCatalog->studyDateButtonGroup_->selectedId()) {
+	switch (filterCatalog->studyDateButtonGroup->selectedId()) {
 	    case 0 : 
 		anyDate = true;
 		break;
@@ -212,8 +212,8 @@ public:
 		break; // i.e. last week's studies
 
 	    case 3 :   // specific dates selected
-		startDate = filterCatalog->beginDateEdit_->date();
-		endDate = filterCatalog->endDateEdit_->date();
+		startDate = filterCatalog->beginDateEdit->date();
+		endDate = filterCatalog->endDateEdit->date();
 		break;
 	}
         TS_ASSERT(lastNameRegExp.pattern() == "*");
@@ -225,7 +225,7 @@ public:
         TS_ASSERT(anyDate);
         TS_ASSERT(startDate == endDate);
         TS_ASSERT(startDate == QDate::currentDate());
-        cout << "Selected ID = " << filterCatalog->studyDateButtonGroup_->selectedId() << std::endl;
+        cout << "Selected ID = " << filterCatalog->studyDateButtonGroup->selectedId() << std::endl;
         delete filterCatalog;
 }
 

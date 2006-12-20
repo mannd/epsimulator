@@ -31,12 +31,17 @@ class SystemDialog : public SystemDialogBase {
 public:
     SystemDialog(QWidget *parent = 0, const char *name = 0);
     QString studyPath() const {return localStudyPathLineEdit->text();}
+    QString networkStudyPath() const {return networkStudyPathLineEdit->text();}
 
     void setStudyPath(QString path);
     ~SystemDialog();
 
 public slots:
-    virtual void browseFilePaths();
+    virtual void localStudyPathBrowse();
+    virtual void networkStudyPathBrowse();
+
+private:
+    void browseFilePaths(QLineEdit*);
 };
 
 #endif

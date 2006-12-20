@@ -36,6 +36,7 @@
 
 class Options;
 class QAction;
+class QComboBox;
 class QFrame;
 class QGridLayout;
 class QLabel;
@@ -164,6 +165,7 @@ private:
     QLabel* sourceLabel_;
     QLabel* filterLabel_;
 
+
     // central widget stuff
     QSplitter* horizontalSplitter;
     QFrame* buttonFrame;
@@ -232,6 +234,8 @@ private:
 
     // toolbars
     QToolBar* navigatorToolBar_;
+    QComboBox* catalogComboBox_;
+
 };
 
 #endif

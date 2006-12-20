@@ -26,12 +26,20 @@ SystemDialog::SystemDialog(QWidget *parent, const char *name)
     // set up dialog here, from system settings on disk
 }
 
-void SystemDialog::browseFilePaths() {
+void SystemDialog::localStudyPathBrowse() {
+    browseFilePaths(localStudyPathLineEdit);
+}
+
+void SystemDialog::networkStudyPathBrowse() {
+    browseFilePaths(networkStudyPathLineEdit);
+}
+
+void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {
     QFileDialog *fd = new QFileDialog(this, 0, true);
     fd->setMode(QFileDialog::Directory);
-    fd->setDir(localStudyPathLineEdit->text());
+    fd->setDir(lineEdit->text());
     if (fd->exec() == QDialog::Accepted) {
-        localStudyPathLineEdit->setText(fd->selectedFile());
+        lineEdit->setText(fd->selectedFile());
     }
 }
 
