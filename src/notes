@@ -44,7 +44,7 @@ Use QString QDateTime::toString(const QString& format) const to generate the
 date time of the study.  This format string should work:
 
 
-dd.MM.yyyy.hh.mm.ss
+dd.MM.yyyy.hh.mm.ss // This has been changed to ddMMyyyyhhmmss, without the dots in between.
 
 ? add millisecs: zzz
 
@@ -63,3 +63,19 @@ Merely including ALL the *.o files needed all Qt-specific tests to compile.  Tha
 
 MORE FORMATTING WOES
     Objects in .ui files are actually public data members; therefore should not end in _.  Menu items, etc. are private and should end in _.
+
+How the Catalog Works
+    There is only one catalog.  This resides in the program subdirectory system:  i.e.  epsimulator/system.  This catalog contains all study info.  Studies can be in the following places:
+        Local       This is by default the epsimulator/studies directory, but can be changed in the systemdialog.
+        Optical     This is by default whereever the optical drive is.  We need some sophisticated programming to get this right on program installation.
+                        Will set it to /dev/cdrom for now.  Obviously not right for Windows.
+        Other       This will by default equal the Local directory, but can be changed to another directory with a file dialog.
+        Network     This is a network directory.  This will be by default be blank.  Any blank directory will get an error message that the directory needs to be setup.
+
+    When the catalogComboBox is set to System, all known studies will be displayed.  When set to any of the others, only the studies in that particular directory will be displayed.  When Other is selected, a file dialog will always come up, set to the last Other location, to allow changing on the fly.  Again, an empty path will display and error message, except with Other, when a file dialog will come up.  Other than Other, the paths need to be set with the systemdialog, and this can be an administrator function, password protected.  Also consider disabling the Other option via the systemdialog.  
+
+    The StatusBar will display the current source: epsimulator/system for System, local path for others, consider (Optical) for Optical.    Refresh rereads the studies.eps file.  Regenerate needs to go through each path, make sure each study in each path has a catalog entry, and generate one if not.  The TableList is filtered based on the catalogComboBox.  Any filter on top of that is done separately.  Refresh can be done on a filtered list (by rereading the catalog and reapplying the filter).  Regenerate needs an unfiltered list.  Note that Regenerate when applied to anything other than System will just look at that particular path (E.g. the Local path).
+
+Some problems:
+    There is no easy way to find the application directory in Linux.  Data files should go to standard Linux File System locations.  These might depend on where the application is installed (to /usr/local/bin or to ~/bin???).  If the system and data directories don't exist they must be created initially.  This is not hard to do, but does need to be done.  Qt doesn't use the ./configure --path=whatever so no easy way to determine where the app was installed.  Hmmm.........
+

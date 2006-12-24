@@ -98,8 +98,8 @@
             <rect>
                 <x>11</x>
                 <y>11</y>
-                <width>787</width>
-                <height>359</height>
+                <width>780</width>
+                <height>360</height>
             </rect>
         </property>
         <widget class="QWidget">
@@ -109,92 +109,106 @@
             <attribute name="title">
                 <string>File Paths</string>
             </attribute>
-            <widget class="QLayoutWidget">
+            <grid>
                 <property name="name">
-                    <cstring>layout2</cstring>
+                    <cstring>unnamed</cstring>
                 </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>18</y>
-                        <width>760</width>
-                        <height>280</height>
-                    </rect>
-                </property>
-                <grid>
+                <widget class="QPushButton" row="3" column="2">
                     <property name="name">
-                        <cstring>unnamed</cstring>
+                        <cstring>networkBrowsePushButton</cstring>
                     </property>
-                    <widget class="QPushButton" row="2" column="2">
-                        <property name="name">
-                            <cstring>networkBrowsePushButton</cstring>
-                        </property>
-                        <property name="text">
-                            <string>&amp;Browse...</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+B</string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>checkBox6</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Enable Ac&amp;quisition</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+Q</string>
-                        </property>
-                        <property name="checked">
-                            <bool>true</bool>
-                        </property>
-                    </widget>
-                    <widget class="QLineEdit" row="2" column="1">
-                        <property name="name">
-                            <cstring>networkStudyPathLineEdit</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="2" column="0">
-                        <property name="name">
-                            <cstring>textLabel2_3</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Network Study Path</string>
-                        </property>
-                        <property name="buddy" stdset="0">
-                            <cstring>localStudyPathLineEdit</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="1" column="2">
-                        <property name="name">
-                            <cstring>localBrowsePushButton</cstring>
-                        </property>
-                        <property name="text">
-                            <string>&amp;Browse...</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+B</string>
-                        </property>
-                    </widget>
-                    <widget class="QLineEdit" row="1" column="1">
-                        <property name="name">
-                            <cstring>localStudyPathLineEdit</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="1" column="0">
-                        <property name="name">
-                            <cstring>textLabel2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Local Stud&amp;y Path</string>
-                        </property>
-                        <property name="buddy" stdset="0">
-                            <cstring>localStudyPathLineEdit</cstring>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
+                    <property name="text">
+                        <string>&amp;Browse...</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+B</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>checkBox6</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Enable Ac&amp;quisition</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+Q</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="3" column="1">
+                    <property name="name">
+                        <cstring>networkStudyPathLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="3" column="0">
+                    <property name="name">
+                        <cstring>textLabel2_3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Network Study Path</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>localStudyPathLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="1" column="2">
+                    <property name="name">
+                        <cstring>localBrowsePushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Browse...</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+B</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="2" column="2">
+                    <property name="name">
+                        <cstring>localBrowsePushButton_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Browse...</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+B</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>textLabel2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Optical Study Path</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>localStudyPathLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Local Stud&amp;y Path</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>localStudyPathLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>localStudyPathLineEdit</cstring>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="2" column="1">
+                    <property name="name">
+                        <cstring>opticalStudyPathLineEdit</cstring>
+                    </property>
+                </widget>
+            </grid>
         </widget>
         <widget class="QWidget">
             <property name="name">
@@ -275,6 +289,20 @@
         <slot>&lt;No)</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+    <tabstop>filePathsTabWidget</tabstop>
+    <tabstop>checkBox6</tabstop>
+    <tabstop>localStudyPathLineEdit</tabstop>
+    <tabstop>localBrowsePushButton</tabstop>
+    <tabstop>opticalStudyPathLineEdit</tabstop>
+    <tabstop>localBrowsePushButton_2</tabstop>
+    <tabstop>networkStudyPathLineEdit</tabstop>
+    <tabstop>networkBrowsePushButton</tabstop>
+    <tabstop>studyPathLineEdit</tabstop>
+    <tabstop>diskLabelLineEdit</tabstop>
+</tabstops>
 <slots>
     <slot>localStudyPathBrowse()</slot>
     <slot>networkStudyPathBrowse()</slot>

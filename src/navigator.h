@@ -29,6 +29,7 @@
 #include "study.h"
 
 #include <qdatetime.h>
+#include <qdir.h>
 #include <qfile.h>
 #include <qlistview.h>
 #include <qmainwindow.h>
@@ -55,10 +56,7 @@ class Navigator : public QMainWindow {
 public:
     Navigator(QWidget* parent = 0, const char *name = "navigator");
     ~Navigator();
-    enum FilterStudyType {AnyStudyType = 0, 
-                          StudyType = 1,
-                          PreregisterType = 2};
-
+  
 protected:
     void closeEvent(QCloseEvent * event);
     //    void contextMenuEvent(QContextMenuEvent * event);
@@ -81,7 +79,9 @@ private:
 
     static const int buttonSize = 70;   // size of square buttons in blue panel
 
- 
+    enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
+    enum CatalogSource {System, Local, Optical, Other, Network};
+
     class TableListView : public QListView {
 
     public:
@@ -110,6 +110,9 @@ private:
         void writeToStream(QDataStream& out);
         void error(const QFile& file, const QString& message);
         void ioError(const QFile& file, const QString& message);
+        
+        bool filtered_;
+        CatalogSource catalogSource_;
     };
 
     class TableListViewItem : public QListViewItem {
@@ -130,6 +133,8 @@ private:
 
     private:
         Study study_;
+        bool filteredOut_;
+        CatalogSource catalogSource_;
     };
 
     void createButtonFrame();
@@ -148,6 +153,8 @@ private:
     bool getStudyInformation();
     void saveSettings();
     void readSettings();
+
+    QString systemPath() {return QDir::current().path() + "/system";}
 
     bool studySelected();
     void prepareStudy();    // clears study_ if no study selected

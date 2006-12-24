@@ -30,14 +30,18 @@ class SystemDialog : public SystemDialogBase {
 
 public:
     SystemDialog(QWidget *parent = 0, const char *name = 0);
-    QString studyPath() const {return localStudyPathLineEdit->text();}
+    QString localStudyPath() const {return localStudyPathLineEdit->text();}
+    QString opticalStudyPath() const {return opticalStudyPathLineEdit->text();}
     QString networkStudyPath() const {return networkStudyPathLineEdit->text();}
 
-    void setStudyPath(QString path);
+    void setLocalStudyPath(QString path);
+    void setOpticalStudyPath(QString path);
+    void setNetworkStudyPath(QString path);
     ~SystemDialog();
 
 public slots:
     virtual void localStudyPathBrowse();
+    virtual void opticalStudyPathBrowse();
     virtual void networkStudyPathBrowse();
 
 private:

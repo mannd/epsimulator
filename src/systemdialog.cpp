@@ -30,6 +30,10 @@ void SystemDialog::localStudyPathBrowse() {
     browseFilePaths(localStudyPathLineEdit);
 }
 
+void SystemDialog::opticalStudyPathBrowse() {
+    browseFilePaths(opticalStudyPathLineEdit);
+}
+
 void SystemDialog::networkStudyPathBrowse() {
     browseFilePaths(networkStudyPathLineEdit);
 }
@@ -43,8 +47,16 @@ void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {
     }
 }
 
-void SystemDialog::setStudyPath(QString path) {
+void SystemDialog::setLocalStudyPath(QString path) {
     localStudyPathLineEdit->setText(path);
+}
+
+void SystemDialog::setOpticalStudyPath(QString path) {
+    opticalStudyPathLineEdit->setText(path);
+}
+
+void SystemDialog::setNetworkStudyPath(QString path) {
+    networkStudyPathLineEdit->setText(path);
 }
 
 SystemDialog::~SystemDialog() {

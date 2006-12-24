@@ -44,11 +44,18 @@ void Options::readSettings() {
     QSettings settings;
     settings.setPath("EPStudios", "EPSimulator");
     settings.beginGroup("/EPSimulator");
-    studyPath_ = settings.readEntry("/studyPath");
-    // Provide default directory, but maybe should be isNull()?
-    if (studyPath_.isEmpty())
-        studyPath_ = QDir::homeDirPath() + "/";
-
+    localStudyPath_ = settings.readEntry("/localStudyPath");
+    opticalStudyPath_ = settings.readEntry("/opticalStudyPath");
+    otherStudyPath_ = settings.readEntry("/otherStudyPath");
+    networkStudyPath_ = settings.readEntry("/networkStudyPath");
+    // note that readEntry returns QString::null if nothing found
+    if (localStudyPath_.isNull())
+        localStudyPath_ = "./studies";
+    if (opticalStudyPath_.isNull())
+        opticalStudyPath_ = "/dev/cdrom";   /// TODO fix this for Windows, etc.
+    if (otherStudyPath_.isNull())
+        otherStudyPath_ = localStudyPath_;
+    // allow networkStudyPath_ to be null
     settings.endGroup();
 }
 
@@ -59,8 +66,10 @@ void Options::writeSettings() {
     QSettings settings;
     settings.setPath("EPStudios", "EPSimulator");
     settings.beginGroup("/EPSimulator");
-    settings.writeEntry("/studyPath", studyPath_);
-
+    settings.writeEntry("/localStudyPath", localStudyPath_);
+    settings.writeEntry("/opticalStudyPath", opticalStudyPath_);
+    settings.writeEntry("/otherStudyPath", otherStudyPath_);
+    settings.writeEntry("/networkStudyPath", networkStudyPath_);
     settings.endGroup();
 }
 

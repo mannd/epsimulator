@@ -177,6 +177,7 @@ Study& Study::operator =(const Study& rhs) {
    
 }
 
+
 void Study::setEf(int ef) {
     ef_ = ef > MAX_EF ? MAX_EF : ef;
     ef_ = ef < MIN_EF ? MIN_EF : ef;

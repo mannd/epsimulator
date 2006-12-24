@@ -75,14 +75,17 @@ Navigator::TableListViewItem::TableListViewItem(TableListView* parent, const Stu
     QString label4, QString label5, QString label6, 
     QString label7, QString label8 ) 
     : QListViewItem(parent, label1, label2, label3, 
-      label4, label5, label6, label7, label8), study_(study) {
+      label4, label5, label6, label7, label8), study_(study),
+    filteredOut_(false) {
+/// TODO Figure out if item is a Local, Optical
+//        if (study_.path() == 
 }
 
 Navigator::TableListViewItem::~TableListViewItem() {
 }
 
 Navigator::TableListView::TableListView(QWidget* parent) 
-    : QListView(parent) {
+    : QListView(parent), filtered_(false), catalogSource_(System) {
     connect(this, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), 
         parent->parent(), SLOT(newStudy()));
 }
@@ -255,7 +258,7 @@ void Navigator::createStatusBar() {
     userLabel_->setAlignment(AlignHCenter);
     userLabel_->setMinimumSize(userLabel_->sizeHint());
 
-    sourceLabel_ = new QLabel(tr(" Source: %1 ").arg(options_->studyPath()), this);
+    sourceLabel_ = new QLabel(tr(" Source: %1 ").arg(systemPath()), this);
     sourceLabel_->setAlignment(AlignHCenter);
     sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
 
@@ -365,7 +368,7 @@ void Navigator::createCentralWidget() {
 }
 
 void Navigator::refreshCatalog() {
-    tableListView_->load(options_->studyPath() + "studies.eps");
+    tableListView_->load(systemPath() + "/studies.eps");
 }
 
 void Navigator::regenerateCatalog() {
@@ -494,6 +497,8 @@ void Navigator::createToolBars() {
     catalogComboBox_ = new QComboBox(navigatorToolBar_, "catalogComboBox");
     catalogComboBox_->insertItem(tr("System"));
     catalogComboBox_->insertItem(tr("Local"));
+    catalogComboBox_->insertItem(tr("Optical"));
+    catalogComboBox_->insertItem(tr("Other"));
     catalogComboBox_->insertItem(tr("Network"));
     navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
@@ -574,11 +579,12 @@ bool Navigator::getStudyInformation() {
     if (patientDialog->exec()) {
         patientDialog->getFields(newStudy);
         study_ = newStudy;
-        study_.setPath(options_->studyPath());
+        /// FIXME this depends on the catalogComboBox
+        study_.setPath(options_->localStudyPath());
         study_.setFile(study_.fileName());
         tableListView_->addStudy(study_);
         // write the study to the catalog now in case user decides to refresh later
-        tableListView_->save(options_->studyPath() + "studies.eps");
+        tableListView_->save(systemPath() + "/studies.eps");
         return true;
     }
     return false;
@@ -725,12 +731,19 @@ void Navigator::startStudy() {
 /// relative path to the executable, or in the executable directory, e.g.  Must fix this soon.
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
-    systemDialog->setStudyPath(options_->studyPath());
+    systemDialog->setLocalStudyPath(options_->localStudyPath());
+    systemDialog->setOpticalStudyPath(options_->opticalStudyPath());
+    systemDialog->setNetworkStudyPath(options_->networkStudyPath());
     if (systemDialog->exec()) {
-        options_->setStudyPath(systemDialog->studyPath());
+        options_->setLocalStudyPath(systemDialog->localStudyPath());
+        options_->setOpticalStudyPath(systemDialog->opticalStudyPath());
+        // yes below is correct: other study path starts out same as local study path
+        options_->setOtherStudyPath(systemDialog->localStudyPath());
+        options_->setNetworkStudyPath(systemDialog->networkStudyPath());
         options_->writeSettings();
         // status bar and catalog might be changed 
-        sourceLabel_->setText(tr(" Source: %1 ").arg(options_->studyPath()));
+        /// FIXME below depends on catalogComboBox
+        sourceLabel_->setText(tr(" Source: %1 ").arg(systemPath()));
         sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
         statusBar()->update();
         refreshCatalog();
@@ -763,6 +776,6 @@ void Navigator::closeEvent(QCloseEvent *event) {
 
 Navigator::~Navigator() {
     saveSettings();
-    tableListView_->save(options_->studyPath() + "studies.eps");
+    tableListView_->save(systemPath() + "/studies.eps");
     delete options_;
 }

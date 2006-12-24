@@ -31,9 +31,15 @@ class Options{
 public:
     static Options* instance();
 
-    QString studyPath() const {return studyPath_;}
+    void setLocalStudyPath(const QString& localStudyPath) {localStudyPath_ = localStudyPath;}
+    void setOpticalStudyPath(const QString& opticalStudyPath) {opticalStudyPath_ = opticalStudyPath;}
+    void setOtherStudyPath(const QString& otherStudyPath) {otherStudyPath_ = otherStudyPath;}
+    void setNetworkStudyPath(const QString& networkStudyPath) {networkStudyPath_ = networkStudyPath;}
 
-    void setStudyPath(QString studyPath) {studyPath_ = studyPath;}
+    QString localStudyPath() const {return localStudyPath_;}
+    QString opticalStudyPath() const {return opticalStudyPath_;}
+    QString otherStudyPath() const {return otherStudyPath_;}
+    QString networkStudyPath() const {return networkStudyPath_;}
 
     void readSettings();
     void writeSettings();
@@ -45,8 +51,10 @@ protected:
     static Options* instance_;
 
 private:
-
-    QString studyPath_;
+    QString localStudyPath_;
+    QString opticalStudyPath_;
+    QString networkStudyPath_;
+    QString otherStudyPath_;
 
 };
 

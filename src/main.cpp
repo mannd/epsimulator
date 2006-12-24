@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     }
     Options* options = Options::instance();
     if (! path.isEmpty())
-        options->setStudyPath(path);
+        options->setLocalStudyPath(path);
     Navigator *mainWin = new Navigator();
     app.setMainWidget(mainWin);
     mainWin->showMaximized();
