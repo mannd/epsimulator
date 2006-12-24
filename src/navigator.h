@@ -59,7 +59,7 @@ public:
   
 protected:
     void closeEvent(QCloseEvent * event);
-    //    void contextMenuEvent(QContextMenuEvent * event);
+    //    void contextMenuEvQDir::current().path() + "/system"ent(QContextMenuEvent * event);
 
 private slots:
     void newStudy();
@@ -154,7 +154,7 @@ private:
     void saveSettings();
     void readSettings();
 
-    QString systemPath() {return QDir::current().path() + "/system";}
+    QString systemPath() {return QDir::homeDirPath();}
 
     bool studySelected();
     void prepareStudy();    // clears study_ if no study selected

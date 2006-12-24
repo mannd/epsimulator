@@ -50,7 +50,7 @@ void Options::readSettings() {
     networkStudyPath_ = settings.readEntry("/networkStudyPath");
     // note that readEntry returns QString::null if nothing found
     if (localStudyPath_.isNull())
-        localStudyPath_ = "./studies";
+        localStudyPath_ = QDir::homeDirPath() + "/MyStudies";
     if (opticalStudyPath_.isNull())
         opticalStudyPath_ = "/dev/cdrom";   /// TODO fix this for Windows, etc.
     if (otherStudyPath_.isNull())
