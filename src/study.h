@@ -73,12 +73,12 @@ public:
     QString number() const {return number_;}
     QString path() const {return path_;}
     QString file() const {return file_;}
+    QString fileName() const;   // generates data file name
     QString filePath();     // Returns full path of study, 
                             // fixes path if doesn't end in '/'.
     QString config() const {return config_;}
     QString key() const;    // Generates key based on name and datetime
                             // to identify study uniquely.
-    QString dataFile() const;     // returns data file name for current study without path
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
@@ -103,6 +103,7 @@ public:
     void setPath(QString path) {path_ = path;}
     void setFile(QString file) {file_ = file;}
     void setConfig(QString config) {config_ = config;}
+
 
     Study& operator=(const Study& rhs);
 

@@ -150,6 +150,7 @@ private:
     void readSettings();
 
     bool studySelected();
+    void prepareStudy();    // clears study_ if no study selected
 
     void deleteDataFile();      // delete data file associated with current study
     void createDataFile();      // create a data file for a new study

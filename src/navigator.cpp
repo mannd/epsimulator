@@ -147,7 +147,7 @@ void Navigator::TableListView::addStudy(const Study& study) {
             study.number(),
             //study.path(),
             ///FIXME below is temporary
-            study.dataFile(),
+            study.file(),
             study.key());
 }
 
@@ -575,6 +575,7 @@ bool Navigator::getStudyInformation() {
         patientDialog->getFields(newStudy);
         study_ = newStudy;
         study_.setPath(options_->studyPath());
+        study_.setFile(study_.fileName());
         tableListView_->addStudy(study_);
         // write the study to the catalog now in case user decides to refresh later
         tableListView_->save(options_->studyPath() + "studies.eps");
@@ -651,14 +652,17 @@ void Navigator::unfilterStudies() {
     regenerateAct_->setEnabled(true);
 }
 
-void Navigator::newStudy() {
-///TODO study_ must be "blank" unless a study is selected in the catalog.
-/// Same thing for preregister and continue study
+void Navigator::prepareStudy() {
     if (!studySelected()) {
-        ///TODO is this really the best way to do this???
         Study newStudy;
         study_ = newStudy;
     }
+}
+
+void Navigator::newStudy() {
+///TODO study_ must be "blank" unless a study is selected in the catalog.
+/// Same thing for preregister and continue study
+    prepareStudy();
     StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
     if (studyConfigDialog->exec()) {
 ///TODO StudyConfigDialog should probably be SelectConfigDialog and 
@@ -671,6 +675,8 @@ void Navigator::newStudy() {
 }
 
 void Navigator::preregisterPatient() {
+    prepareStudy();
+    study_.setConfig("");   // preregistered study has no config info
     getStudyInformation();
 }
 
