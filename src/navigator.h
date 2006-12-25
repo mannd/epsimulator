@@ -102,6 +102,7 @@ private:
                          const QDate& startDate,
                          const QDate& endDate);
         void removeFilter();
+        void showTable();    // shows table, depending on catalogSource and filter
 
     private:
         enum {MagicNumber = 0x99c798f2};    // first bytes of EP Simulator binary files
@@ -129,7 +130,10 @@ private:
                           QString label8 = QString::null );
         ~TableListViewItem();
 
+        void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
+
         Study study() {return study_;}
+        bool filteredOut() const {return filteredOut_;}
 
     private:
         Study study_;

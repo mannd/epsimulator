@@ -78,8 +78,10 @@ Navigator::TableListViewItem::TableListViewItem(TableListView* parent, const Stu
       label4, label5, label6, label7, label8), study_(study),
     filteredOut_(false) {
 /// TODO Figure out if item is a Local, Optical
-//        if (study_.path() == 
+//        if (study_.path() == options->localStudyPath())
+             
 }
+
 
 Navigator::TableListViewItem::~TableListViewItem() {
 }
@@ -91,6 +93,17 @@ Navigator::TableListView::TableListView(QWidget* parent)
 }
 
 Navigator::TableListView::~TableListView() {
+}
+
+void Navigator::TableListView::showTable() {
+    QListViewItemIterator it(this);
+    while (it.current()) {
+        TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it);
+        /// TODO add logic here re catalogComboBox
+        bool show = !filtered_ || !item->filteredOut();
+        item->setVisible(show);
+        ++it;
+    }
 }
 
 /**
@@ -180,8 +193,6 @@ void Navigator::TableListView::ioError(const QFile& file, const QString& message
     error(file, message + ": " + file.errorString());
 }
 
-///FIXME this doesn't work yet.  Need to fix the date filter and add
-/// the studyType filter
 void Navigator::TableListView::applyFilter( FilterStudyType filterStudyType,
                                             QRegExp lastName,
                                             QRegExp firstName,
@@ -217,9 +228,11 @@ void Navigator::TableListView::applyFilter( FilterStudyType filterStudyType,
                 show = show && item->study().isPreregisterStudy();
                 break;
         }
-        item->setVisible(show);
+        item->setFilteredOut(!show);
         ++it;
     }
+    filtered_ = true;
+    showTable();
 
 }
 
@@ -227,9 +240,11 @@ void Navigator::TableListView::removeFilter() {
     QListViewItemIterator it(this);
     while (it.current()) {
         QListViewItem* item = *it;
-        dynamic_cast<TableListViewItem*>(item)->setVisible(true);
+        dynamic_cast<TableListViewItem*>(item)->setFilteredOut(false);
         ++it;
     }
+    filtered_ = false;
+    showTable();
 }
 
 /**
@@ -368,11 +383,16 @@ void Navigator::createCentralWidget() {
 }
 
 void Navigator::refreshCatalog() {
+    /// TODO How to ensure that the filter setting is respected here??
+    /// Does the filter need to be saved as a struct and reapplied?
     tableListView_->load(systemPath() + "/studies.eps");
+    // reapply filter here
+    // tableListView->showTable();  // showTable() respects filter setting
 }
 
 void Navigator::regenerateCatalog() {
     ///TODO this will read through the studies in the directory and recreate the catalog
+    /// filter has to be cleared for this to work.
 }
 
 
