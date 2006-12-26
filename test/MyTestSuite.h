@@ -131,10 +131,10 @@ public:
     
     void testOptions() {
         Options* options = Options::instance();
-        cout << options->studyPath() << '\n';
-        QString s = options->studyPath();
-        options->setStudyPath(s);
-        TS_ASSERT(s == options->studyPath());
+        cout << options->localStudyPath() << '\n';
+        QString s = options->localStudyPath();
+        options->setLocalStudyPath(s);
+        TS_ASSERT(s == options->localStudyPath());
         delete options;
     }
 
