@@ -82,6 +82,7 @@ private:
     enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
     enum CatalogSource {System, Local, Optical, Other, Network};
 
+
     class TableListView : public QListView {
 
     public:
@@ -101,6 +102,7 @@ private:
                          bool anyDate,
                          const QDate& startDate,
                          const QDate& endDate);
+/*        void applyFilter();*/
         void removeFilter();
         void showTable();    // shows table, depending on catalogSource and filter
 
@@ -114,6 +116,7 @@ private:
         
         bool filtered_;
         CatalogSource catalogSource_;
+/*        Filter filter_;*/
     };
 
     class TableListViewItem : public QListViewItem {

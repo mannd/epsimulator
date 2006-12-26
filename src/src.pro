@@ -19,11 +19,12 @@ IMAGES += images/hi16-app-epsimulator.png \
           images/hi32-filterstudies.png \
           images/hi32-refreshcatalog.png \
           images/hi32-removefilter.png \
+          images/hi32-exportstudy.png \
           images/hi64-newstudy.png \
           images/hi64-continuestudy.png \
           images/hi64-preregister.png \
           images/hi64-reports.png \
-          images/hi64-reviewstudy.png
+          images/hi64-reviewstudy.png 
 HEADERS += epsimulator.h \
            navigator.h \
            patientdialog.h \

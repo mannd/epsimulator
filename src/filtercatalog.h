@@ -21,11 +21,13 @@
 #define FILTERCATALOG_H
 
 #include "filtercatalogbase.h"
+//#include "filter.h"
 
 class FilterCatalog: public FilterCatalogBase {
 Q_OBJECT
 public:
     FilterCatalog(QWidget *parent = 0, const char *name = 0);
+//    Filter getFilter();
 
 public slots:
     virtual void enableDateRange();

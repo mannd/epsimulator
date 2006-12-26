@@ -38,6 +38,7 @@
 #include <qcombobox.h>
 #include <qdatetimeedit.h>
 #include <qdir.h>
+#include <qframe.h>
 #include <qheader.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -298,6 +299,12 @@ void Navigator::setupButton(QPushButton* button, QString pixmapName,
     button->setPixmap(QPixmap::fromMimeSource(pixmapName));
     static int row = 0;   // allows adding widgets in correct row
     // last parameter centers the buttons and labels horizontally
+    if (row == 0) {
+        // insert blank row at top -- looks better with this!
+        QLabel* topLabel = new QLabel("", buttonFrame);  
+        topLabel->setAlignment(int(QLabel::AlignCenter));
+        buttonFrameLayout->addWidget(topLabel, row++, 0);
+    }
     buttonFrameLayout->addWidget(button, row++, 0, Qt::AlignHCenter);
     // Notice that a SLOT is passed as a function parameter as a const char*.
     if (slotName)
@@ -451,7 +458,7 @@ void Navigator::createActions() {
     deleteAct = new QAction(tr("Delete..."), 0, this);
     setupAction(deleteAct, "Delete study", SLOT(deleteStudy()));
     exportAct_ = new QAction(tr("Export..."), 0, this);
-    setupAction(exportAct_, "Export study", 0);
+    setupAction(exportAct_, "Export study", 0, "hi32-exportstudy.png");
     exitAct = new QAction(tr("E&xit"), tr("Ctrl+Q"), this);
     setupAction(exitAct, "Exit EP Simulator", SLOT(close()));
 
@@ -515,17 +522,20 @@ void Navigator::createActions() {
 void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator"), this);
     catalogComboBox_ = new QComboBox(navigatorToolBar_, "catalogComboBox");
-    catalogComboBox_->insertItem(tr("System"));
-    catalogComboBox_->insertItem(tr("Local"));
+    /// FIXME hack to make combobox wider: pad string.
+    /// Really should do something with size hint.
+    catalogComboBox_->insertItem(tr("System        "));
+//    catalogComboBox_->insertItem(tr("Local"));
     catalogComboBox_->insertItem(tr("Optical"));
-    catalogComboBox_->insertItem(tr("Other"));
+//    catalogComboBox_->insertItem(tr("Other"));
     catalogComboBox_->insertItem(tr("Network"));
     navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
     removeStudiesFilterAct_->addTo(navigatorToolBar_);
     navigatorToolBar_->addSeparator();
     refreshViewAct_->addTo(navigatorToolBar_);
-     
+    navigatorToolBar_->addSeparator();
+    exportAct_->addTo(navigatorToolBar_);
 }
 
 void Navigator::createMenus() {
