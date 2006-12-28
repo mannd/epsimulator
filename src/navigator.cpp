@@ -255,6 +255,7 @@ void Navigator::TableListView::removeFilter() {
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
     options_ = Options::instance();
+    filterCatalog_ = new FilterCatalog(this);
 
     createActions();
     createMenus();
@@ -393,8 +394,9 @@ void Navigator::refreshCatalog() {
     /// TODO How to ensure that the filter setting is respected here??
     /// Does the filter need to be saved as a struct and reapplied?
     tableListView_->load(systemPath() + "/studies.eps");
-    // reapply filter here
-    // tableListView->showTable();  // showTable() respects filter setting
+    // reapply filter if present
+    if (tableListView_->filtered())
+        processFilter();
 }
 
 void Navigator::regenerateCatalog() {
@@ -463,8 +465,19 @@ void Navigator::createActions() {
     setupAction(exitAct, "Exit EP Simulator", SLOT(close()));
 
     // Catalog menu
-    switchAct_ = new QAction(tr("Switch"), 0, this);
-    setupAction(switchAct_, "Switch", 0);
+//    switchAct_ = new QAction(tr("Switch..."), 0, this);
+//    setupAction(switchAct_, "Switch catalogs", 0);
+    // Submenu of Switch...
+    // an action "Achive Server" is skipped here, but is present on Prucka
+    networkSwitchAct_ = new QAction(tr("Network"), 0, this);
+    setupAction(networkSwitchAct_, "Switch to network catalog", 0);
+    systemSwitchAct_ = new QAction(tr("System"), 0, this);
+    setupAction(systemSwitchAct_, "Switch to system catalog", 0);
+    opticalSwitchAct_ = new QAction(tr("Optical"), 0, this);
+    setupAction(opticalSwitchAct_, "Switch to optical catalog", 0);
+    // back to main menu items
+    browseSwitchAct_ = new QAction(tr("Browse..."), 0, this);
+    setupAction(browseSwitchAct_, "Browse for catalog files", 0);
     filterStudiesAct_ = new QAction(tr("Filter Studies..."), 0, this);
     setupAction(filterStudiesAct_, "Filter studies", SLOT(filterStudies()), "hi32-filterstudies.png");
     removeStudiesFilterAct_ = new QAction(tr("Remove Studies Filter"), 0, this);
@@ -524,11 +537,12 @@ void Navigator::createToolBars() {
     catalogComboBox_ = new QComboBox(navigatorToolBar_, "catalogComboBox");
     /// FIXME hack to make combobox wider: pad string.
     /// Really should do something with size hint.
+    // note this is order used in Prucka
+    catalogComboBox_->insertItem(tr("Network"));
     catalogComboBox_->insertItem(tr("System        "));
 //    catalogComboBox_->insertItem(tr("Local"));
     catalogComboBox_->insertItem(tr("Optical"));
 //    catalogComboBox_->insertItem(tr("Other"));
-    catalogComboBox_->insertItem(tr("Network"));
     navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
     removeStudiesFilterAct_->addTo(navigatorToolBar_);
@@ -554,7 +568,13 @@ void Navigator::createMenus() {
     exitAct->addTo(studyMenu);
 
     catalogMenu = new QPopupMenu(this);
-    switchAct_->addTo(catalogMenu);
+    switchSubMenu_ = new QPopupMenu(this);
+ //   switchAct_->addTo(catalogMenu);
+    networkSwitchAct_->addTo(switchSubMenu_);
+    systemSwitchAct_->addTo(switchSubMenu_);
+    opticalSwitchAct_->addTo(switchSubMenu_);
+    browseSwitchAct_->addTo(switchSubMenu_);
+    catalogMenu->insertItem(tr("Switch"), switchSubMenu_);
     filterStudiesAct_->addTo(catalogMenu);
     removeStudiesFilterAct_->addTo(catalogMenu);
     catalogMenu->insertSeparator();
@@ -620,30 +640,27 @@ bool Navigator::getStudyInformation() {
     return false;
 }
 
-
-void Navigator::filterStudies() {
-    FilterCatalog* filterCatalog = new FilterCatalog(this);
-    if (filterCatalog->exec()) {
+void Navigator::processFilter() {
         // if the LineEdit is blank, it matches anything, so make it "*"
-       	QRegExp lastNameRegExp(filterCatalog->lastNameLineEdit->text().isEmpty()
-            ? "*" : filterCatalog->lastNameLineEdit->text(), false, true);
-	QRegExp firstNameRegExp(filterCatalog->firstNameLineEdit->text().isEmpty()
-            ? "*" : filterCatalog->firstNameLineEdit->text(), false, true);
-	QRegExp mrnRegExp(filterCatalog->mrnLineEdit->text().isEmpty()
-            ? "*" : filterCatalog->mrnLineEdit->text(), false, true);
+       	QRegExp lastNameRegExp(filterCatalog_->lastNameLineEdit->text().isEmpty()
+            ? "*" : filterCatalog_->lastNameLineEdit->text(), false, true);
+	QRegExp firstNameRegExp(filterCatalog_->firstNameLineEdit->text().isEmpty()
+            ? "*" : filterCatalog_->firstNameLineEdit->text(), false, true);
+	QRegExp mrnRegExp(filterCatalog_->mrnLineEdit->text().isEmpty()
+            ? "*" : filterCatalog_->mrnLineEdit->text(), false, true);
 	QRegExp studyConfigRegExp(
-            filterCatalog->studyConfigLineEdit->text().isEmpty()
-            ? "*" :filterCatalog->studyConfigLineEdit->text(), false, true);
+            filterCatalog_->studyConfigLineEdit->text().isEmpty()
+            ? "*" :filterCatalog_->studyConfigLineEdit->text(), false, true);
 	QRegExp studyNumberRegExp(
-            filterCatalog->studyNumberLineEdit->text().isEmpty()
-            ? "*" : filterCatalog->studyNumberLineEdit->text(), false, true);
-	QRegExp studyFileRegExp(filterCatalog->studyFileLineEdit->text().isEmpty()
-            ? "*" : filterCatalog->studyFileLineEdit->text(), false, true);
+            filterCatalog_->studyNumberLineEdit->text().isEmpty()
+            ? "*" : filterCatalog_->studyNumberLineEdit->text(), false, true);
+	QRegExp studyFileRegExp(filterCatalog_->studyFileLineEdit->text().isEmpty()
+            ? "*" : filterCatalog_->studyFileLineEdit->text(), false, true);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;
 	bool anyDate = false;
-	switch (filterCatalog->studyDateButtonGroup->selectedId()) {
+	switch (filterCatalog_->studyDateButtonGroup->selectedId()) {
 	    case 0 : 
 		anyDate = true;
 		break;
@@ -656,12 +673,12 @@ void Navigator::filterStudies() {
 		break; // i.e. last week's studies
 
 	    case 3 :   // specific dates selected
-		startDate = filterCatalog->beginDateEdit->date();
-		endDate = filterCatalog->endDateEdit->date();
+		startDate = filterCatalog_->beginDateEdit->date();
+		endDate = filterCatalog_->endDateEdit->date();
 		break;
 	}	
         FilterStudyType filterStudyType = static_cast<FilterStudyType>(
-            filterCatalog->studyTypeComboBox->currentItem());
+            filterCatalog_->studyTypeComboBox->currentItem());
         tableListView_->applyFilter(filterStudyType, lastNameRegExp,
             firstNameRegExp, mrnRegExp, studyConfigRegExp, 
             studyNumberRegExp, studyFileRegExp, 
@@ -671,9 +688,15 @@ void Navigator::filterStudies() {
         filterStudiesAct_->setEnabled(false);
         removeStudiesFilterAct_->setEnabled(true);
         // also disallow refreshing while filtered
-        refreshViewAct_->setEnabled(false);
+//        refreshViewAct_->setEnabled(false);
+// only disallow regenerating when catalog is filtered
         regenerateAct_->setEnabled(false);
-	// rest of processing here   
+}
+
+void Navigator::filterStudies() {
+//    FilterCatalog* filterCatalog = new FilterCatalog(this);
+    if (filterCatalog_->exec()) {
+        processFilter();
     }
 }
 
@@ -684,7 +707,7 @@ void Navigator::unfilterStudies() {
     statusBar()->update();
     removeStudiesFilterAct_->setEnabled(false);
     filterStudiesAct_->setEnabled(true);
-    refreshViewAct_->setEnabled(true);
+//    refreshViewAct_->setEnabled(true);
     regenerateAct_->setEnabled(true);
 }
 

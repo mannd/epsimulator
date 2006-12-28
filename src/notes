@@ -85,3 +85,32 @@ More on Catalog
 
     Need to check into data streaming for R/W CD-roms.  Should I have an optical drive in the system, which could be set to a hard drive path if desired?  Then each disk would have a label, stored in a file on the disk, which would appear in the location column of catalog: e.g. D:/(Optical)/Disk23.  In Linux would be /media/cdrom0/Disk23.  Each disk would have a study catalog, and System and the disk catalog would be updated simultaneously.  Refreshing should just reread the catalog, regenerating only applies to single disks and rebuilds the catalog(s) from the studies on disk.  The network has its own catalog and studies are exported to the network.  The System catalog keeps track of what it has exported to the network, but the network catalog contains all the networked items.  This is a major reworking, but similar to the functionality of the Prucka system.
 
+How Prucka does it.
+    Prucka maintains a "maximum of 3 catalogs."  These are, in order Network,
+    System, and Optical.  In addition the Switch menu adds an Archive Server
+    item (presumably allowing retrieval of archived studies) and a
+    Browse... item, allowing the opening of any catalog file.  The catalog
+    files are all called study.dat, and there is one on each optical disk, one
+    in the System submenu of the Prucka directory, and one on the network.
+    When a study is added, ALL 3 of the catalog files are updated.  The
+    Location column in the catalog actually just contains disk labels.
+    Presumably the reason for the 3 catalogs is to have a way to identify
+    studies on each particular disk (that is the only catalog that can be
+    regenerated), to track studies on a specific machine, and to have a
+    central catalog on network in labs with multiple machines.  This
+    architecture is worth preserving, particularly if the program is used in a
+    teaching environment.  The problem is with the optical disks.  I'm not
+    sure this will work with CDROMS.  Would like to use hard drive directories
+    to emulate optical disks.  The Optical "drive" would be a path,
+    e.g. ~/optical.  Each disk would be a subdirectory of the optical
+    directory.  E.g. disk 23A would be ~/optical/Disk23A.  Labeling and
+    Relabeling the disk would be renaming the directory.  Each "disk" would
+    have a studies.eps catalog file.  The network catalog is optional and can
+    be a mounted directory on Linux.  Would like to have an option (set true
+    and not enabled for now) for "optical drive emulation."  Need a separate
+    Simulator menu item for this sort of thing.
+
+    The Export menu item exports a *.txt file of the catalog.
+
+    Also, see the EPMed system for a software stimulator.  
+

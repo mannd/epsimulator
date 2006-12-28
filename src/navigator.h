@@ -36,6 +36,8 @@
 #include <qregexp.h>
 
 class Options;
+class FilterCatalog;
+
 class QAction;
 class QComboBox;
 class QFrame;
@@ -88,6 +90,8 @@ private:
     public:
         TableListView(QWidget* parent);
         ~TableListView();
+
+        bool filtered() const {return filtered_;}
 
         bool load(const QString& fileName);
         bool save(const QString& fileName);
@@ -161,6 +165,8 @@ private:
     void saveSettings();
     void readSettings();
 
+    void processFilter();
+
     QString systemPath() {return QDir::homeDirPath();}
 
     bool studySelected();
@@ -172,6 +178,8 @@ private:
 
     Study study_;           // current study
     Options* options_;
+    FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
+
 //    QString studiesPath_;   // path to studies
 
     // StatusBar labels
@@ -210,7 +218,11 @@ private:
     QAction *exitAct;
 
     // Catalog menu
-    QAction* switchAct_;
+//    QAction* switchAct_;
+    QAction* networkSwitchAct_;
+    QAction* systemSwitchAct_;
+    QAction* opticalSwitchAct_;
+    QAction* browseSwitchAct_;
     QAction* filterStudiesAct_;
     QAction* removeStudiesFilterAct_;
     QAction* refreshViewAct_;
@@ -242,6 +254,7 @@ private:
     // menus
     QPopupMenu *studyMenu;
     QPopupMenu *catalogMenu;
+    QPopupMenu* switchSubMenu_;
     QPopupMenu *utilitiesMenu;
     QPopupMenu *administrationMenu;
     QPopupMenu *securitySubMenu;

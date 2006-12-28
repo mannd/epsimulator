@@ -31,6 +31,10 @@ public:
 
 public slots:
     virtual void enableDateRange();
+    virtual void clearForm();
+
+private:
+    void setDefaultDates();
 };
 
 #endif

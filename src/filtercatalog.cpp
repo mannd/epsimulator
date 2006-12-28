@@ -19,6 +19,9 @@
  ***************************************************************************/
 #include "filtercatalog.h"
 
+#include <qcombobox.h>
+#include <qbuttongroup.h>
+#include <qlineedit.h>
 #include <qdatetime.h>
 #include <qdatetimeedit.h>
 #include <qlabel.h>
@@ -27,17 +30,25 @@
 
 FilterCatalog::FilterCatalog(QWidget *parent, const char *name)
     : FilterCatalogBase(parent, name) {
-    todayLabel->setText(QDate::currentDate().toString());
-    thisWeekLabel->setText(tr("%1 to %2")
-			    .arg(QDate::currentDate()
-				 .addDays(-7).toString())
-			    .arg(QDate::currentDate().toString()));
-    // Set default begin and end dates to a "month" (30 days).
-    beginDateEdit->setDate(QDate::currentDate().addDays(-30));
-    endDateEdit->setDate(QDate::currentDate());
-    
+    setDefaultDates();
 }
 
+
+
+/**
+ * Clears out form, back to its default appearance
+ */
+void FilterCatalog::clearForm() {
+    studyTypeComboBox->setCurrentItem(0);
+    lastNameLineEdit->clear();
+    firstNameLineEdit->clear();
+    mrnLineEdit->clear();
+    studyConfigLineEdit->clear();
+    studyNumberLineEdit->clear();
+    studyFileLineEdit->clear();
+    studyDateButtonGroup->setButton(0);
+    setDefaultDates();
+}
 
 /**
  * 
@@ -51,4 +62,15 @@ void FilterCatalog::enableDateRange() {
     bool checked = datesBetweenRadioButton->isChecked();
     beginDateEdit->setEnabled(checked);
     endDateEdit->setEnabled(checked);
+}
+
+void FilterCatalog::setDefaultDates() {
+    todayLabel->setText(QDate::currentDate().toString());
+    thisWeekLabel->setText(tr("%1 to %2")
+			    .arg(QDate::currentDate()
+				 .addDays(-7).toString())
+			    .arg(QDate::currentDate().toString()));
+    // Set default begin and end dates to a "month" (30 days).
+    beginDateEdit->setDate(QDate::currentDate().addDays(-30));
+    endDateEdit->setDate(QDate::currentDate());
 }
