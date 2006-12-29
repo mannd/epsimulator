@@ -71,6 +71,7 @@ private slots:
     void unfilterStudies();
     void refreshCatalog();
     void regenerateCatalog();
+    void changeCatalog();
 
     void systemSettings();
 
@@ -82,7 +83,7 @@ private:
     static const int buttonSize = 70;   // size of square buttons in blue panel
 
     enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
-    enum CatalogSource {System, Local, Optical, Other, Network};
+    enum CatalogSource {Network, System, Optical, Other};
 
 
     class TableListView : public QListView {
@@ -120,7 +121,6 @@ private:
         
         bool filtered_;
         CatalogSource catalogSource_;
-/*        Filter filter_;*/
     };
 
     class TableListViewItem : public QListViewItem {
@@ -148,6 +148,7 @@ private:
         CatalogSource catalogSource_;
     };
 
+    // Functions to set up the Navigator main window.
     void createButtonFrame();
     void createTableListView();
     void createCentralWidget();
@@ -160,6 +161,8 @@ private:
     void setupAction(QAction* action, QString statusTip,
                      const char* slotName, const char* iconName = 0);
 
+    void setCatalog(CatalogSource);
+
     void startStudy();
     bool getStudyInformation();
     void saveSettings();
@@ -168,6 +171,7 @@ private:
     void processFilter();
 
     QString systemPath() {return QDir::homeDirPath();}
+    QString currentCatalogPath();   // holds path of currently displayed catalog
 
     bool studySelected();
     void prepareStudy();    // clears study_ if no study selected
@@ -177,6 +181,15 @@ private:
     void openDataFile();        // open a previous data file for review or appending data
 
     Study study_;           // current study
+
+    // These are the paths to the 3 catalogs maintained, plus an optional path to 
+    // another catalog you can browse to. 
+    QString networkPath_;
+    QString systemPath_;
+    QString opticalPath_;
+    QString otherPath_; 
+    bool emulateOpticalDrive_;  // emulate optical drive on hard drive using subdirectories
+    
     Options* options_;
     FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
 
@@ -190,7 +203,7 @@ private:
 
 
     // central widget stuff
-    QSplitter* horizontalSplitter;
+    QSplitter* horizontalSplitter_;
     QFrame* buttonFrame;
     QGridLayout* buttonFrameLayout;
     TableListView* tableListView_;

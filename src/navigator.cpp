@@ -204,14 +204,12 @@ void Navigator::TableListView::applyFilter( FilterStudyType filterStudyType,
                                             bool anyDate,
                                             const QDate& startDate,
                                             const QDate& endDate) {
-    // fake first test
-    bool show = false;
-//    bool studyTypeMatch
+    bool match = false;
     QListViewItemIterator it(this);
     while (it.current()) {
         TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it);
         QDate studyDate = item->study().dateTime().date();
-        show = lastName.exactMatch(item->study().name().last) &&
+        match = lastName.exactMatch(item->study().name().last) &&
             firstName.exactMatch(item->study().name().first) &&
             mrn.exactMatch(item->study().mrn()) &&
             studyConfig.exactMatch(item->study().config()) &&
@@ -223,13 +221,13 @@ void Navigator::TableListView::applyFilter( FilterStudyType filterStudyType,
             case AnyStudyType :
                 break;
             case StudyType :
-                show = show && !item->study().isPreregisterStudy();
+                match = match && !item->study().isPreregisterStudy();
                 break;
             case PreregisterType :
-                show = show && item->study().isPreregisterStudy();
+                match = match && item->study().isPreregisterStudy();
                 break;
         }
-        item->setFilteredOut(!show);
+        item->setFilteredOut(!match);
         ++it;
     }
     filtered_ = true;
@@ -255,7 +253,7 @@ void Navigator::TableListView::removeFilter() {
 Navigator::Navigator(QWidget* parent, const char* name)
  : QMainWindow( parent, name, WDestructiveClose ) {
     options_ = Options::instance();
-    filterCatalog_ = new FilterCatalog(this);
+    filterCatalog_ = new FilterCatalog(this);   // omnipresent, holding last filter
 
     createActions();
     createMenus();
@@ -323,10 +321,10 @@ void Navigator::setupButton(QPushButton* button, QString pixmapName,
 }
 
 void Navigator::createButtonFrame() {
-    horizontalSplitter = new QSplitter(Horizontal, this);
-    setCentralWidget(horizontalSplitter);
+    horizontalSplitter_ = new QSplitter(Horizontal, this);
+    setCentralWidget(horizontalSplitter_);
 
-    buttonFrame = new QFrame(horizontalSplitter);
+    buttonFrame = new QFrame(horizontalSplitter_);
     buttonFrame->setSizePolicy(QSizePolicy( (QSizePolicy::SizeType)1, 
                               (QSizePolicy::SizeType)5, 0, 0,
                                buttonFrame->sizePolicy().hasHeightForWidth() ) );
@@ -360,7 +358,7 @@ void Navigator::createButtonFrame() {
 }
 
 void Navigator::createTableListView() {
-    tableListView_ = new TableListView(horizontalSplitter);
+    tableListView_ = new TableListView(horizontalSplitter_);
     tableListView_->addColumn(tr("Study Type"));         // col 0
     tableListView_->addColumn(tr("Patient"));            // col 1
     tableListView_->addColumn(tr("MRN"));                // col 2
@@ -368,6 +366,7 @@ void Navigator::createTableListView() {
     tableListView_->addColumn(tr("Study Config"));       // col 4
     tableListView_->addColumn(tr("Study Number"));       // col 5
     tableListView_->addColumn(tr("Location of Study"));  // col 6
+    /// FIXME Below can be eliminated, but must also eliminate keycolumn
     tableListView_->addColumn(tr("Hidden key"));         // col 7
 
     tableListView_->setAllColumnsShowFocus(true);
@@ -404,6 +403,14 @@ void Navigator::regenerateCatalog() {
     /// filter has to be cleared for this to work.
 }
 
+void Navigator::changeCatalog() {
+    setCatalog(static_cast<CatalogSource>(catalogComboBox_->currentItem()));
+}
+
+void Navigator::setCatalog(CatalogSource source) {
+}
+
+
 
 void Navigator::saveSettings() {
     QSettings settings;
@@ -412,8 +419,8 @@ void Navigator::saveSettings() {
 
     QString str;
     QTextOStream out(&str);
-    out << *horizontalSplitter;
-    settings.writeEntry("/horizontalSplitter", str);
+    out << *horizontalSplitter_;
+    settings.writeEntry("/horizontalSplitter_", str);
     settings.endGroup();
 }
 
@@ -422,9 +429,9 @@ void Navigator::readSettings() {
     settings.setPath("EPStudios", "EPSimulator");
     settings.beginGroup("/EPSimulator");
     
-    QString str = settings.readEntry("/horizontalSplitter");
+    QString str = settings.readEntry("/horizontalSplitter_");
     QTextIStream in(&str);
-    in >> *horizontalSplitter;
+    in >> *horizontalSplitter_;
     settings.endGroup();
 }
 
@@ -543,6 +550,8 @@ void Navigator::createToolBars() {
 //    catalogComboBox_->insertItem(tr("Local"));
     catalogComboBox_->insertItem(tr("Optical"));
 //    catalogComboBox_->insertItem(tr("Other"));
+    connect(catalogComboBox_, SIGNAL(activated(const QString&)),
+        this, SLOT(changeCatalog()));
     navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
     removeStudiesFilterAct_->addTo(navigatorToolBar_);
