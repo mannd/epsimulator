@@ -18,6 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+/**
+ *  \file study.h
+ *  Declares struct Name and class Study.
+ */
+
 #ifndef STUDY_H
 #define STUDY_H
 
@@ -27,10 +32,21 @@
 
 class Heart;
 
+/**
+ *  Name has public data members to treat a full name as a unit.
+ */
+
 struct Name {
     QString first;
     QString last;
     QString middle;
+    /**
+     * Generates a full name in various formats.
+     * @param lastFirst Format is Last, First (Middle).
+     * Defaults to false, i.e. First (Middle) Last.
+     * @param useMiddleName Show middle name?  Defaults to false.
+     * @return formatted full name.
+     */
     QString fullName(bool lastFirst = false,
                      bool useMiddleName = false) const;
     friend QDataStream& operator<<(QDataStream&, const Name&);

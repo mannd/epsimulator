@@ -79,6 +79,9 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
     return in;
 }
 
+/**
+ *  Study ctor.  New Study is initialized to certain defaults.  
+ */
 Study::Study() : dateTime_(QDateTime::currentDateTime()),
     dateOfBirth_(DEFAULT_BIRTH_DATE),
     sex_(Male), height_(0), weight_(0), 

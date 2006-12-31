@@ -18,13 +18,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+/** \file epsim.h
+ *  Defines language and app name and version.
+*/
+
 #ifndef EPSIM_H
 #define EPSIM_H
 
 // APP_NAME is internal program name.  PROGRAM_NAME is the polished program name
 /// TODO Consider using epsim instead of epsimulator as APP_NAME
 #define APP_NAME "epsimulator"  
-/// TODO might change this to QObject::tr() and avoid needing to include qapplication.h
 #define PROGRAM_NAME qApp->translate("Global", "EP Simulator")
 #define VERSION qApp->translate("Global", "0.1")
 

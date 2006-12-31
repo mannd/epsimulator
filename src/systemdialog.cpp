@@ -26,16 +26,16 @@ SystemDialog::SystemDialog(QWidget *parent, const char *name)
     // set up dialog here, from system settings on disk
 }
 
-void SystemDialog::localStudyPathBrowse() {
-    browseFilePaths(localStudyPathLineEdit);
-}
-
 void SystemDialog::opticalStudyPathBrowse() {
     browseFilePaths(opticalStudyPathLineEdit);
 }
 
 void SystemDialog::networkStudyPathBrowse() {
     browseFilePaths(networkStudyPathLineEdit);
+}
+
+void SystemDialog::exportFilePathBrowse() {
+    browseFilePaths(exportFilePathLineEdit);
 }
 
 void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {
@@ -47,10 +47,6 @@ void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {
     }
 }
 
-void SystemDialog::setLocalStudyPath(QString path) {
-    localStudyPathLineEdit->setText(path);
-}
-
 void SystemDialog::setOpticalStudyPath(QString path) {
     opticalStudyPathLineEdit->setText(path);
 }
@@ -58,8 +54,9 @@ void SystemDialog::setOpticalStudyPath(QString path) {
 void SystemDialog::setNetworkStudyPath(QString path) {
     networkStudyPathLineEdit->setText(path);
 }
+void SystemDialog::setExportFilePath(QString path) {
+    exportFilePathLineEdit->setText(path);
+}
 
 SystemDialog::~SystemDialog() {
 }
-
-

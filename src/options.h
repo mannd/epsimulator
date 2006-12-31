@@ -31,15 +31,26 @@ class Options{
 public:
     static Options* instance();
 
-    void setLocalStudyPath(const QString& localStudyPath) {localStudyPath_ = localStudyPath;}
+//    void setSystemStudyPath(const QString& systemStudyPath) {systemStudyPath_ = systemStudyPath;}
     void setOpticalStudyPath(const QString& opticalStudyPath) {opticalStudyPath_ = opticalStudyPath;}
-    void setOtherStudyPath(const QString& otherStudyPath) {otherStudyPath_ = otherStudyPath;}
+//    void setOtherStudyPath(const QString& otherStudyPath) {otherStudyPath_ = otherStudyPath;}
     void setNetworkStudyPath(const QString& networkStudyPath) {networkStudyPath_ = networkStudyPath;}
+    void setExportFilePath(const QString& exportFilePath) {exportFilePath_ = exportFilePath;}
+    void setTempStudyPath(const QString& tempStudyPath) {tempStudyPath_ = tempStudyPath;}
 
-    QString localStudyPath() const {return localStudyPath_;}
+    void setEnableAcquisition(bool enable) {enableAcquisition_ = enable;}
+    void setEmulateOpticalDrive(bool emulate) {emulateOpticalDrive_ = emulate;}
+
+
+//    QString systemStudyPath() const {return systemStudyPath_;}
     QString opticalStudyPath() const {return opticalStudyPath_;}
-    QString otherStudyPath() const {return otherStudyPath_;}
+//    QString otherStudyPath() const {return otherStudyPath_;}
     QString networkStudyPath() const {return networkStudyPath_;}
+    QString exportFilePath() const {return exportFilePath_;}
+    QString tempStudyPath() const {return tempStudyPath_;}
+
+    bool enableAcquisition() const {return enableAcquisition_;}
+    bool emulateOpticalDrive() const {return emulateOpticalDrive_;}
 
     void readSettings();
     void writeSettings();
@@ -51,10 +62,15 @@ protected:
     static Options* instance_;
 
 private:
-    QString localStudyPath_;
+//    QString systemStudyPath_;
     QString opticalStudyPath_;
     QString networkStudyPath_;
-    QString otherStudyPath_;
+    QString tempStudyPath_;
+    QString exportFilePath_;
+//    QString otherStudyPath_;
+//  otherStudyPath just defaults to systemStudyPath for now.
+    bool emulateOpticalDrive_;
+    bool enableAcquisition_;
 
 };
 

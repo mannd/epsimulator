@@ -17,6 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+/**
+ *  \file systemdialog.h
+ *  Sets file paths, etc.
+ */
+
 #ifndef SYSTEMSETTINGS_H
 #define SYSTEMSETTINGS_H
 
@@ -30,19 +36,19 @@ class SystemDialog : public SystemDialogBase {
 
 public:
     SystemDialog(QWidget *parent = 0, const char *name = 0);
-    QString localStudyPath() const {return localStudyPathLineEdit->text();}
     QString opticalStudyPath() const {return opticalStudyPathLineEdit->text();}
     QString networkStudyPath() const {return networkStudyPathLineEdit->text();}
+    QString exportFilePath() const {return exportFilePathLineEdit->text();}
 
-    void setLocalStudyPath(QString path);
     void setOpticalStudyPath(QString path);
     void setNetworkStudyPath(QString path);
+    void setExportFilePath(QString path);
     ~SystemDialog();
 
 public slots:
-    virtual void localStudyPathBrowse();
     virtual void opticalStudyPathBrowse();
     virtual void networkStudyPathBrowse();
+    virtual void exportFilePathBrowse();
 
 private:
     void browseFilePaths(QLineEdit*);

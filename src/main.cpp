@@ -18,6 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+/** 
+ *  \file main.cpp
+ *  Main program file for EP Simulator.
+ */
+
+/**
+ *  \mainpage
+ *  EP Simulator simulates an electrophysiology laboratory.  In particular it simulates
+ *  the recording system, the stimulator, catheter placement, and arrhythmias.
+ */
+
 #include "epsim.h"
 // Note that below is Froglogics GetOpt class, but header file is
 // renamed from getopt.h to getopts.h because of conflict with 
@@ -74,7 +85,7 @@ int main(int argc, char **argv)
     }
     Options* options = Options::instance();
     if (! path.isEmpty())
-        options->setLocalStudyPath(path);
+        options->setTempStudyPath(path);
     Navigator *mainWin = new Navigator();
     app.setMainWidget(mainWin);
     mainWin->showMaximized();
