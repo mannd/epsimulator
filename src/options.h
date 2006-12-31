@@ -48,6 +48,7 @@ public:
     QString networkStudyPath() const {return networkStudyPath_;}
     QString exportFilePath() const {return exportFilePath_;}
     QString tempStudyPath() const {return tempStudyPath_;}
+    QString systemCatalogPath() const;
 
     bool enableAcquisition() const {return enableAcquisition_;}
     bool emulateOpticalDrive() const {return emulateOpticalDrive_;}

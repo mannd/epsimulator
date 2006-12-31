@@ -21,8 +21,8 @@
 
 #include "options.h"
 
-//#include <qapplication.h>
-//#include <qdir.h>
+#include <qapplication.h>
+#include <qdir.h>
 #include <qsettings.h>
 
 Options::Options() {
@@ -79,6 +79,15 @@ void Options::writeSettings() {
     settings.writeEntry("/enableAcquisition", enableAcquisition_);
     settings.writeEntry("/emulateOpticalDrive", emulateOpticalDrive_);
     settings.endGroup();
+}
+
+QString Options::systemCatalogPath() const {
+    QString path;
+    if (!tempStudyPath_.isNull())
+        path = tempStudyPath_;
+    else
+        path = QDir::cleanDirPath(qApp->applicationDirPath() + "/../System");
+    return path;
 }
 
 

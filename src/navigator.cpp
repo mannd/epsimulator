@@ -639,11 +639,11 @@ bool Navigator::getStudyInformation() {
         patientDialog->getFields(newStudy);
         study_ = newStudy;
         /// FIXME this depends on the catalogComboBox
-        study_.setPath(options_->localStudyPath());
+        study_.setPath(options_->opticalStudyPath());
         study_.setFile(study_.fileName());
         tableListView_->addStudy(study_);
         // write the study to the catalog now in case user decides to refresh later
-        tableListView_->save(systemPath() + "/studies.eps");
+        tableListView_->save(options_->systemCatalogPath() + "/studies.eps");
         return true;
     }
     return false;
@@ -793,19 +793,22 @@ void Navigator::startStudy() {
 /// relative path to the executable, or in the executable directory, e.g.  Must fix this soon.
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
-    systemDialog->setLocalStudyPath(options_->localStudyPath());
+//    systemDialog->setStudyPath(options_->localStudyPath());
     systemDialog->setOpticalStudyPath(options_->opticalStudyPath());
     systemDialog->setNetworkStudyPath(options_->networkStudyPath());
+    systemDialog->setExportFilePath(options_->exportFilePath());
     if (systemDialog->exec()) {
-        options_->setLocalStudyPath(systemDialog->localStudyPath());
+//        options_->setLocalStudyPath(systemDialog->localStudyPath());
+        /// FIXME These can just be data members, e.g. opticalStudyLineEdit->text()
         options_->setOpticalStudyPath(systemDialog->opticalStudyPath());
         // yes below is correct: other study path starts out same as local study path
-        options_->setOtherStudyPath(systemDialog->localStudyPath());
+//        options_->setOtherStudyPath(systemDialog->localStudyPath());
         options_->setNetworkStudyPath(systemDialog->networkStudyPath());
+        options_->setExportFilePath(systemDialog->exportFilePath());
         options_->writeSettings();
         // status bar and catalog might be changed 
         /// FIXME below depends on catalogComboBox
-        sourceLabel_->setText(tr(" Source: %1 ").arg(systemPath()));
+        sourceLabel_->setText(tr(" Source: %1 ").arg(options_->systemCatalogPath()));
         sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
         statusBar()->update();
         refreshCatalog();
