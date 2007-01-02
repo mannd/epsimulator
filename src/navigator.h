@@ -28,6 +28,7 @@
 
 #include "options.h"
 #include "study.h"
+//#include "catalog.h"
 
 #include <qdatetime.h>
 #include <qdir.h>

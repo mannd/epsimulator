@@ -49,6 +49,8 @@ public slots:
     virtual void opticalStudyPathBrowse();
     virtual void networkStudyPathBrowse();
     virtual void exportFilePathBrowse();
+    void enableExportFilePathLineEdit();
+    void enableNetworkFilePathLineEdit();
 
 private:
     void browseFilePaths(QLineEdit*);

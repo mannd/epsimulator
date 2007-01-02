@@ -25,7 +25,8 @@
 #include <qdir.h>
 #include <qsettings.h>
 
-Options::Options() {
+Options::Options() : tempStudyPath_(""),
+    systemCatalogPath_(QDir::cleanDirPath(qApp->applicationDirPath() + "/../System")) {
     readSettings();
 }
 
@@ -44,23 +45,15 @@ void Options::readSettings() {
     QSettings settings;
     settings.setPath("EPStudios", "EPSimulator");
     settings.beginGroup("/EPSimulator");
-//    systemStudyPath_ = settings.readEntry("/systemStudyPath");
-    opticalStudyPath_ = settings.readEntry("/opticalStudyPath");
-//    otherStudyPath_ = settings.readEntry("/otherStudyPath");
-    networkStudyPath_ = settings.readEntry("/networkStudyPath");
-    exportFilePath_ = settings.readEntry("/exportFilePath");
-    // note that readEntry returns QString::null if nothing found
-//     if (systemStudyPath_.isNull())
-// //        localStudyPath_ = QDir::homeDirPath() + "/MyStudies";
-//         // system catalog will be in epsimulator/System directory.
-//         systemStudyPath_ = QApplication::applicationDirPath() + "/../System";
-    if (opticalStudyPath_.isNull())
-        opticalStudyPath_ = "/dev/cdrom";   /// TODO fix this for Windows, etc.
-//    if (otherStudyPath_.isNull())
-//        otherStudyPath_ = localStudyPath_;
-    // allow networkStudyPath_ to be null
     enableAcquisition_ = settings.readBoolEntry("/enableAcquisition", true);
     emulateOpticalDrive_ = settings.readBoolEntry("/emulateOpticalDrive", true);
+    enableFileExport_ = settings.readBoolEntry("/enableFileExport", false);
+    QString defaultOpticalPath = 
+        emulateOpticalDrive_ ? QDir::homeDirPath() + "/MyStudies" : "";   
+    opticalStudyPath_ = settings.readEntry("/opticalStudyPath", defaultOpticalPath);
+    networkStudyPath_ = settings.readEntry("/networkStudyPath", "");
+    exportFilePath_ = settings.readEntry("/exportFilePath", "");
+    /// TODO other options here...
     settings.endGroup();
 }
 
@@ -71,25 +64,15 @@ void Options::writeSettings() {
     QSettings settings;
     settings.setPath("EPStudios", "EPSimulator");
     settings.beginGroup("/EPSimulator");
-//    settings.writeEntry("/systemStudyPath", systemStudyPath_);
-    settings.writeEntry("/opticalStudyPath", opticalStudyPath_);
-//    settings.writeEntry("/otherStudyPath", otherStudyPath_);
-    settings.writeEntry("/networkStudyPath", networkStudyPath_);
-    settings.writeEntry("/exportFilePath", exportFilePath_);
     settings.writeEntry("/enableAcquisition", enableAcquisition_);
     settings.writeEntry("/emulateOpticalDrive", emulateOpticalDrive_);
+    settings.writeEntry("/enableFileExport", enableFileExport_);
+    settings.writeEntry("/opticalStudyPath", opticalStudyPath_);
+    settings.writeEntry("/networkStudyPath", networkStudyPath_);
+    settings.writeEntry("/exportFilePath", exportFilePath_);
+    /// TODO add other options here...
     settings.endGroup();
 }
-
-QString Options::systemCatalogPath() const {
-    QString path;
-    if (!tempStudyPath_.isNull())
-        path = tempStudyPath_;
-    else
-        path = QDir::cleanDirPath(qApp->applicationDirPath() + "/../System");
-    return path;
-}
-
 
 Options::~Options() {
 }

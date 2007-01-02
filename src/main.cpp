@@ -84,10 +84,12 @@ int main(int argc, char **argv)
         return 1;
     }
     Options* options = Options::instance();
-    if (! path.isEmpty())
+    if (! path.isEmpty()) 
         options->setTempStudyPath(path);
     Navigator *mainWin = new Navigator();
     app.setMainWidget(mainWin);
     mainWin->showMaximized();
     return app.exec();
+    // deletes the options instance -- can only be used at end of program!
+    options->destroy();
 }

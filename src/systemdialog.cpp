@@ -20,9 +20,13 @@
 #include "systemdialog.h"
 
 #include <qfiledialog.h>
+#include <qlineedit.h>
+#include <qcheckbox.h>
 
 SystemDialog::SystemDialog(QWidget *parent, const char *name)
     :SystemDialogBase(parent, name) {
+    enableExportFilePathLineEdit();
+    enableNetworkFilePathLineEdit();
     // set up dialog here, from system settings on disk
 }
 
@@ -36,6 +40,14 @@ void SystemDialog::networkStudyPathBrowse() {
 
 void SystemDialog::exportFilePathBrowse() {
     browseFilePaths(exportFilePathLineEdit);
+}
+
+void SystemDialog::enableExportFilePathLineEdit() {
+    exportFilePathLineEdit->setEnabled(enableFileExportCheckBox->isChecked());
+}
+
+void SystemDialog::enableNetworkFilePathLineEdit() {
+    networkStudyPathLineEdit->setEnabled(enableNetworkStorageCheckBox->isChecked());
 }
 
 void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {

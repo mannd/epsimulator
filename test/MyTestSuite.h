@@ -38,6 +38,7 @@
 #include <math.h>
 
 using std::cout;
+using std::endl;
 
 class MyTestSuite : public CxxTest::TestSuite {
 public:
@@ -131,11 +132,15 @@ public:
     
     void testOptions() {
         Options* options = Options::instance();
-        cout << options->localStudyPath() << '\n';
-        QString s = options->localStudyPath();
-        options->setLocalStudyPath(s);
-        TS_ASSERT(s == options->localStudyPath());
-        delete options;
+        cout << options->opticalStudyPath() << endl
+            << options->systemCatalogPath() << endl
+            << options->networkStudyPath() << endl
+            << options->tempStudyPath() << endl;
+        QString s = options->opticalStudyPath();
+        options->setOpticalStudyPath(s);
+        TS_ASSERT(s == options->opticalStudyPath());
+        TS_WARN("Add more tests here");
+        options->destroy();
     }
 
     void testPatientDialog() {

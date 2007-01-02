@@ -797,6 +797,10 @@ void Navigator::systemSettings() {
     systemDialog->setOpticalStudyPath(options_->opticalStudyPath());
     systemDialog->setNetworkStudyPath(options_->networkStudyPath());
     systemDialog->setExportFilePath(options_->exportFilePath());
+/// TODO add the other systemDialog options here
+/// You can set the fields directly as they are all public data members.
+/// You should eliminate the functions above as unnecessary.
+//    systemDialog->enable
     if (systemDialog->exec()) {
 //        options_->setLocalStudyPath(systemDialog->localStudyPath());
         /// FIXME These can just be data members, e.g. opticalStudyLineEdit->text()
@@ -842,5 +846,4 @@ void Navigator::closeEvent(QCloseEvent *event) {
 Navigator::~Navigator() {
     saveSettings();
     tableListView_->save(systemPath() + "/studies.eps");
-    delete options_;
 }
