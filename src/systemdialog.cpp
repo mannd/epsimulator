@@ -19,14 +19,15 @@
  ***************************************************************************/
 #include "systemdialog.h"
 
+#include <qcheckbox.h>
 #include <qfiledialog.h>
 #include <qlineedit.h>
-#include <qcheckbox.h>
+#include <qpushbutton.h>
 
 SystemDialog::SystemDialog(QWidget *parent, const char *name)
     :SystemDialogBase(parent, name) {
     enableExportFilePathLineEdit();
-    enableNetworkFilePathLineEdit();
+    enableNetworkStudyPathLineEdit();
     // set up dialog here, from system settings on disk
 }
 
@@ -44,11 +45,14 @@ void SystemDialog::exportFilePathBrowse() {
 
 void SystemDialog::enableExportFilePathLineEdit() {
     exportFilePathLineEdit->setEnabled(enableFileExportCheckBox->isChecked());
+    exportPathBrowsePushButton->setEnabled(enableFileExportCheckBox->isChecked());
 }
 
-void SystemDialog::enableNetworkFilePathLineEdit() {
+void SystemDialog::enableNetworkStudyPathLineEdit() {
     networkStudyPathLineEdit->setEnabled(enableNetworkStorageCheckBox->isChecked());
+    networkPathBrowsePushButton->setEnabled(enableNetworkStorageCheckBox->isChecked());
 }
+
 
 void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {
     QFileDialog *fd = new QFileDialog(this, 0, true);
@@ -57,17 +61,6 @@ void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {
     if (fd->exec() == QDialog::Accepted) {
         lineEdit->setText(fd->selectedFile());
     }
-}
-
-void SystemDialog::setOpticalStudyPath(QString path) {
-    opticalStudyPathLineEdit->setText(path);
-}
-
-void SystemDialog::setNetworkStudyPath(QString path) {
-    networkStudyPathLineEdit->setText(path);
-}
-void SystemDialog::setExportFilePath(QString path) {
-    exportFilePathLineEdit->setText(path);
 }
 
 SystemDialog::~SystemDialog() {

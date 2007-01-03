@@ -36,12 +36,14 @@
 #include <qapplication.h>
 #include <qbuttongroup.h>
 #include <qcombobox.h>
+#include <qcheckbox.h>
 #include <qdatetimeedit.h>
 #include <qdir.h>
 #include <qframe.h>
 #include <qheader.h>
 #include <qlabel.h>
 #include <qlayout.h>
+#include <qlineedit.h>
 #include <qlistbox.h>
 #include <qlistview.h>
 #include <qmainwindow.h>
@@ -793,22 +795,22 @@ void Navigator::startStudy() {
 /// relative path to the executable, or in the executable directory, e.g.  Must fix this soon.
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
-//    systemDialog->setStudyPath(options_->localStudyPath());
-    systemDialog->setOpticalStudyPath(options_->opticalStudyPath());
-    systemDialog->setNetworkStudyPath(options_->networkStudyPath());
-    systemDialog->setExportFilePath(options_->exportFilePath());
-/// TODO add the other systemDialog options here
-/// You can set the fields directly as they are all public data members.
-/// You should eliminate the functions above as unnecessary.
-//    systemDialog->enable
+    systemDialog->opticalStudyPathLineEdit->setText(options_->opticalStudyPath());
+    systemDialog->networkStudyPathLineEdit->setText(options_->networkStudyPath());
+    systemDialog->exportFilePathLineEdit->setText(options_->exportFilePath());
+    systemDialog->enableAcquisitionCheckBox->setChecked(options_->enableAcquisition());
+    systemDialog->emulateOpticalDriveCheckBox->setChecked(options_->emulateOpticalDrive());
+    systemDialog->enableFileExportCheckBox->setChecked(options_->enableFileExport());
+    systemDialog->enableNetworkStorageCheckBox->setChecked(options_->enableNetworkStorage());
     if (systemDialog->exec()) {
-//        options_->setLocalStudyPath(systemDialog->localStudyPath());
         /// FIXME These can just be data members, e.g. opticalStudyLineEdit->text()
-        options_->setOpticalStudyPath(systemDialog->opticalStudyPath());
-        // yes below is correct: other study path starts out same as local study path
-//        options_->setOtherStudyPath(systemDialog->localStudyPath());
-        options_->setNetworkStudyPath(systemDialog->networkStudyPath());
-        options_->setExportFilePath(systemDialog->exportFilePath());
+        options_->setOpticalStudyPath(systemDialog->opticalStudyPathLineEdit->text());
+        options_->setNetworkStudyPath(systemDialog->networkStudyPathLineEdit->text());
+        options_->setExportFilePath(systemDialog->exportFilePathLineEdit->text());
+        options_->setEnableAcquisition(systemDialog->enableAcquisitionCheckBox->isChecked());
+        options_->setEmulateOpticalDrive(systemDialog->emulateOpticalDriveCheckBox->isChecked());
+        options_->setEnableFileExport(systemDialog->enableFileExportCheckBox->isChecked());
+        options_->setEnableNetworkStorage(systemDialog->enableNetworkStorageCheckBox->isChecked()); 
         options_->writeSettings();
         // status bar and catalog might be changed 
         /// FIXME below depends on catalogComboBox

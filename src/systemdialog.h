@@ -36,13 +36,17 @@ class SystemDialog : public SystemDialogBase {
 
 public:
     SystemDialog(QWidget *parent = 0, const char *name = 0);
-    QString opticalStudyPath() const {return opticalStudyPathLineEdit->text();}
-    QString networkStudyPath() const {return networkStudyPathLineEdit->text();}
-    QString exportFilePath() const {return exportFilePathLineEdit->text();}
+//     QString opticalStudyPath() const {return opticalStudyPathLineEdit->text();}
+//     QString networkStudyPath() const {return networkStudyPathLineEdit->text();}
+//     QString exportFilePath() const {return exportFilePathLineEdit->text();}
+// 
+//     void setOpticalStudyPath(QString path);
+//     void setNetworkStudyPath(QString path);
+//     void setExportFilePath(QString path);
+    
+/// TODO make the set check boxes functions, so that the line edits and
+/// browse buttons will be enabled correctly
 
-    void setOpticalStudyPath(QString path);
-    void setNetworkStudyPath(QString path);
-    void setExportFilePath(QString path);
     ~SystemDialog();
 
 public slots:
@@ -50,7 +54,7 @@ public slots:
     virtual void networkStudyPathBrowse();
     virtual void exportFilePathBrowse();
     void enableExportFilePathLineEdit();
-    void enableNetworkFilePathLineEdit();
+    void enableNetworkStudyPathLineEdit();
 
 private:
     void browseFilePaths(QLineEdit*);

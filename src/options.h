@@ -60,6 +60,7 @@ public:
     void setEnableAcquisition(bool enable) {enableAcquisition_ = enable;}
     void setEmulateOpticalDrive(bool emulate) {emulateOpticalDrive_ = emulate;}
     void setEnableFileExport(bool enable) {enableFileExport_ = enable;}
+    void setEnableNetworkStorage(bool enable) { enableNetworkStorage_ = enable;}
 
 
     QString opticalStudyPath() const {return opticalStudyPath_;}
@@ -71,6 +72,7 @@ public:
     bool enableAcquisition() const {return enableAcquisition_;}
     bool emulateOpticalDrive() const {return emulateOpticalDrive_;}
     bool enableFileExport() const {return enableFileExport_;}
+    bool enableNetworkStorage() const {return enableNetworkStorage_;}
 
     void readSettings();
     void writeSettings();
@@ -94,6 +96,7 @@ private:
     bool emulateOpticalDrive_;
     bool enableAcquisition_;
     bool enableFileExport_;
+    bool enableNetworkStorage_;
 
 };
 
