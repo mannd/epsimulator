@@ -48,6 +48,7 @@ void Options::readSettings() {
     enableAcquisition_ = settings.readBoolEntry("/enableAcquisition", true);
     emulateOpticalDrive_ = settings.readBoolEntry("/emulateOpticalDrive", true);
     enableFileExport_ = settings.readBoolEntry("/enableFileExport", false);
+    enableNetworkStorage_ = settings.readBoolEntry("/enableNetworkStorage", false);
     QString defaultOpticalPath = 
         emulateOpticalDrive_ ? QDir::homeDirPath() + "/MyStudies" : "";   
     opticalStudyPath_ = settings.readEntry("/opticalStudyPath", defaultOpticalPath);
@@ -67,6 +68,7 @@ void Options::writeSettings() {
     settings.writeEntry("/enableAcquisition", enableAcquisition_);
     settings.writeEntry("/emulateOpticalDrive", emulateOpticalDrive_);
     settings.writeEntry("/enableFileExport", enableFileExport_);
+    settings.writeEntry("/enableNetworkStorage", enableNetworkStorage_);
     settings.writeEntry("/opticalStudyPath", opticalStudyPath_);
     settings.writeEntry("/networkStudyPath", networkStudyPath_);
     settings.writeEntry("/exportFilePath", exportFilePath_);

@@ -800,8 +800,8 @@ void Navigator::systemSettings() {
     systemDialog->exportFilePathLineEdit->setText(options_->exportFilePath());
     systemDialog->enableAcquisitionCheckBox->setChecked(options_->enableAcquisition());
     systemDialog->emulateOpticalDriveCheckBox->setChecked(options_->emulateOpticalDrive());
-    systemDialog->enableFileExportCheckBox->setChecked(options_->enableFileExport());
-    systemDialog->enableNetworkStorageCheckBox->setChecked(options_->enableNetworkStorage());
+    systemDialog->setEnableFileExportCheckBox(options_->enableFileExport());
+    systemDialog->setEnableNetworkStorageCheckBox(options_->enableNetworkStorage());
     if (systemDialog->exec()) {
         /// FIXME These can just be data members, e.g. opticalStudyLineEdit->text()
         options_->setOpticalStudyPath(systemDialog->opticalStudyPathLineEdit->text());

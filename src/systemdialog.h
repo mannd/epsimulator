@@ -46,6 +46,8 @@ public:
     
 /// TODO make the set check boxes functions, so that the line edits and
 /// browse buttons will be enabled correctly
+    void setEnableNetworkStorageCheckBox(bool checked);
+    void setEnableFileExportCheckBox(bool checked);
 
     ~SystemDialog();
 

@@ -53,6 +53,15 @@ void SystemDialog::enableNetworkStudyPathLineEdit() {
     networkPathBrowsePushButton->setEnabled(enableNetworkStorageCheckBox->isChecked());
 }
 
+void SystemDialog::setEnableNetworkStorageCheckBox(bool checked) {
+    enableNetworkStorageCheckBox->setChecked(checked);
+    enableNetworkStudyPathLineEdit();
+}
+
+void SystemDialog::setEnableFileExportCheckBox(bool checked) {
+    enableFileExportCheckBox->setChecked(checked);
+    enableExportFilePathLineEdit();
+}
 
 void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {
     QFileDialog *fd = new QFileDialog(this, 0, true);
