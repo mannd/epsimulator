@@ -30,8 +30,8 @@ public:
 //    Filter getFilter();
 
 public slots:
-    virtual void enableDateRange();
-    virtual void clearForm();
+    void enableDateRange();
+    void clearForm();
 
 private:
     void setDefaultDates();

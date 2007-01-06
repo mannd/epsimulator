@@ -26,6 +26,7 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
+#include "epsim.h"  // for CatalogSource
 #include "options.h"
 #include "study.h"
 //#include "catalog.h"
@@ -37,11 +38,11 @@
 #include <qmainwindow.h>
 #include <qregexp.h>
 
-class Options;
+class CatalogComboBox;
 class FilterCatalog;
+class Options;
 
 class QAction;
-class QComboBox;
 class QFrame;
 class QGridLayout;
 class QLabel;
@@ -54,6 +55,9 @@ class QToolBar;
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
 */
+
+using namespace epsim;  /// FIXME for now has CatalogSource enum
+
 class Navigator : public QMainWindow {
     Q_OBJECT
 
@@ -71,7 +75,8 @@ private slots:
     void deleteStudy();
     void filterStudies();
     void unfilterStudies();
-    void refreshCatalog();
+    void refreshCatalog();        
+
     void regenerateCatalog();
     void changeCatalog();
 
@@ -88,10 +93,9 @@ private:
 
 
     class TableListView : public QListView {
-        friend class Navigator; // allows use of Navigator data members
+//        friend class Navigator; // allows use of Navigator data members
 
     public:
-        enum CatalogSource {Network, System, Optical, Other};
 
         TableListView(QWidget* parent, Options* options);
         ~TableListView();
@@ -168,46 +172,44 @@ private:
     void setupAction(QAction* action, QString statusTip,
                      const char* slotName, const char* iconName = 0);
 
-//    void setCatalog(CatalogSource);
-
-    void startStudy();
-    bool getStudyInformation();
     void saveSettings();
     void readSettings();
 
+    // Filtering
     void processFilter();
 
-    QString systemPath() {return QDir::homeDirPath();}
-    QString currentCatalogPath();   // holds path of currently displayed catalog
-
+    // Study related
+    void startStudy();
+    bool getStudyInformation();
     bool studySelected();
     void prepareStudy();    // clears study_ if no study selected
-
     void deleteDataFile();      // delete data file associated with current study
     void createDataFile();      // create a data file for a new study
     void openDataFile();        // open a previous data file for review or appending data
 
-    Study study_;           // current study
-
+    // Deprecated?
+//    void setCatalog(CatalogSource);
+//    QString currentCatalogPath();   // holds path of currently displayed catalog
+    QString systemPath() {return QDir::homeDirPath();}
     // These are the paths to the 3 catalogs maintained, plus an optional path to 
     // another catalog you can browse to. 
-    QString networkPath_;
-    QString systemPath_;
-    QString opticalPath_;
-    QString otherPath_; 
-    bool emulateOpticalDrive_;  // emulate optical drive on hard drive using subdirectories
-    
+//     QString networkPath_;
+//     QString systemPath_;
+//     QString opticalPath_;
+//     QString otherPath_; 
+//     bool emulateOpticalDrive_;  // emulate optical drive on hard drive using subdirectories
+//    QString studiesPath_;   // path to studies
+
+    // Data members
+    Study study_;           // current study
     Options* options_;
     FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
-
-//    QString studiesPath_;   // path to studies
 
     // StatusBar labels
     QLabel* messageLabel_;
     QLabel* userLabel_;
     QLabel* sourceLabel_;
     QLabel* filterLabel_;
-
 
     // central widget stuff
     QSplitter* horizontalSplitter_;
@@ -282,7 +284,7 @@ private:
 
     // toolbars
     QToolBar* navigatorToolBar_;
-    QComboBox* catalogComboBox_;
+    CatalogComboBox* catalogComboBox_;
 
 };
 

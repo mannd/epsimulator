@@ -37,4 +37,9 @@
 //#define FRENCH
 #define ENGLISH
 
+namespace epsim {
+    enum CatalogSource {Network, System, Optical, Other};
+}
+
+
 #endif

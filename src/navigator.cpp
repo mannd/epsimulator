@@ -24,6 +24,7 @@
     and the central widget
 */
 
+#include "catalogcombobox.h"
 #include "epsim.h"
 #include "epsimulator.h"
 #include "filtercatalog.h"
@@ -549,14 +550,7 @@ void Navigator::createActions() {
 
 void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator"), this);
-    catalogComboBox_ = new QComboBox(navigatorToolBar_, "catalogComboBox");
-    /// FIXME hack to make combobox wider: pad string.
-    /// Really should do something with size hint.
-    // note this is order used in Prucka
-    if (options_->enableNetworkStorage())
-        catalogComboBox_->insertItem(tr("Network"));
-    catalogComboBox_->insertItem(tr("System        "));
-    catalogComboBox_->insertItem(tr("Optical"));
+    catalogComboBox_ = new CatalogComboBox(navigatorToolBar_, "catalogComboBox");
     connect(catalogComboBox_, SIGNAL(activated(const QString&)),
         this, SLOT(tableListView_->changeCatalog()));
     navigatorToolBar_->addSeparator();

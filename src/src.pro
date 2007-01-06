@@ -35,7 +35,8 @@ HEADERS += epsimulator.h \
            options.h \
            getopts.h \
            epsim.h \
-           filtercatalog.h 
+           filtercatalog.h \
+           catalogcombobox.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -46,7 +47,8 @@ SOURCES += epsimulator.cpp \
            studyconfigdialog.cpp \
            options.cpp \
            getopts.cpp \
-           filtercatalog.cpp 
+           filtercatalog.cpp \
+           catalogcombobox.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

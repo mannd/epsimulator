@@ -52,9 +52,9 @@ public:
     ~SystemDialog();
 
 public slots:
-    virtual void opticalStudyPathBrowse();
-    virtual void networkStudyPathBrowse();
-    virtual void exportFilePathBrowse();
+    void opticalStudyPathBrowse();
+    void networkStudyPathBrowse();
+    void exportFilePathBrowse();
     void enableExportFilePathLineEdit();
     void enableNetworkStudyPathLineEdit();
 
