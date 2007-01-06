@@ -95,7 +95,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src</activedir>
+      <activedir>test</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -169,4 +169,28 @@
     <customArguments/>
     <customTagfilePath/>
   </ctagspart>
+  <dist>
+    <custom>false</custom>
+    <bzip>false</bzip>
+    <archname/>
+    <appname>epsimulator</appname>
+    <version>$VERSION$</version>
+    <release>alpha</release>
+    <vendor>EP Studios, Inc.</vendor>
+    <licence>GPL v2</licence>
+    <summary/>
+    <group/>
+    <packager/>
+    <description>EP Simulator simulates a complete electrophysiologic recording system.</description>
+    <changelog/>
+    <devpackage>false</devpackage>
+    <docspackage>false</docspackage>
+    <appicon>false</appicon>
+    <arch>0</arch>
+    <genHTML>false</genHTML>
+    <useRPM>false</useRPM>
+    <ftpkde>false</ftpkde>
+    <appskde>false</appskde>
+    <url/>
+  </dist>
 </kdevelop>
