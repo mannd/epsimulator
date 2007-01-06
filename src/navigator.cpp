@@ -18,9 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-// Basically the navigator window is the main window.  When switching to
-// the epsimulator window, we will actually just be changing the menus
-// and the central widget
+/** \file
+    Basically the navigator window is the main window.  When switching to
+    the epsimulator window, we will actually just be changing the menus
+    and the central widget
+*/
 
 #include "epsim.h"
 #include "epsimulator.h"
@@ -89,10 +91,12 @@ Navigator::TableListViewItem::TableListViewItem(TableListView* parent, const Stu
 Navigator::TableListViewItem::~TableListViewItem() {
 }
 
-Navigator::TableListView::TableListView(QWidget* parent) 
-    : QListView(parent), filtered_(false), catalogSource_(System) {
+Navigator::TableListView::TableListView(QWidget* parent, Options* options) 
+    : QListView(parent), filtered_(false), options_(options) {
     connect(this, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), 
         parent->parent(), SLOT(newStudy()));
+    catalogSource_ = options->enableNetworkStorage() 
+        ? Network : System;
 }
 
 Navigator::TableListView::~TableListView() {
@@ -102,7 +106,6 @@ void Navigator::TableListView::showTable() {
     QListViewItemIterator it(this);
     while (it.current()) {
         TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it);
-        /// TODO add logic here re catalogComboBox
         bool show = !filtered_ || !item->filteredOut();
         item->setVisible(show);
         ++it;
@@ -248,6 +251,9 @@ void Navigator::TableListView::removeFilter() {
     showTable();
 }
 
+void Navigator::TableListView::setCatalog(int catalogComboBoxSelectedId) {
+}
+
 /**
  * Navigator constructor
  */
@@ -360,7 +366,7 @@ void Navigator::createButtonFrame() {
 }
 
 void Navigator::createTableListView() {
-    tableListView_ = new TableListView(horizontalSplitter_);
+    tableListView_ = new TableListView(horizontalSplitter_, options_);
     tableListView_->addColumn(tr("Study Type"));         // col 0
     tableListView_->addColumn(tr("Patient"));            // col 1
     tableListView_->addColumn(tr("MRN"));                // col 2
@@ -405,12 +411,12 @@ void Navigator::regenerateCatalog() {
     /// filter has to be cleared for this to work.
 }
 
-void Navigator::changeCatalog() {
-    setCatalog(static_cast<CatalogSource>(catalogComboBox_->currentItem()));
+ void Navigator::changeCatalog() {
+    tableListView_->setCatalog(catalogComboBox_->currentItem());
 }
 
-void Navigator::setCatalog(CatalogSource source) {
-}
+// void Navigator::setCatalog(CatalogSource source) {
+// }
 
 
 
@@ -422,7 +428,7 @@ void Navigator::saveSettings() {
     QString str;
     QTextOStream out(&str);
     out << *horizontalSplitter_;
-    settings.writeEntry("/horizontalSplitter_", str);
+    settings.writeEntry("/horizontalSplitter", str);
     settings.endGroup();
 }
 
@@ -431,7 +437,7 @@ void Navigator::readSettings() {
     settings.setPath("EPStudios", "EPSimulator");
     settings.beginGroup("/EPSimulator");
     
-    QString str = settings.readEntry("/horizontalSplitter_");
+    QString str = settings.readEntry("/horizontalSplitter");
     QTextIStream in(&str);
     in >> *horizontalSplitter_;
     settings.endGroup();
@@ -547,13 +553,12 @@ void Navigator::createToolBars() {
     /// FIXME hack to make combobox wider: pad string.
     /// Really should do something with size hint.
     // note this is order used in Prucka
-    catalogComboBox_->insertItem(tr("Network"));
+    if (options_->enableNetworkStorage())
+        catalogComboBox_->insertItem(tr("Network"));
     catalogComboBox_->insertItem(tr("System        "));
-//    catalogComboBox_->insertItem(tr("Local"));
     catalogComboBox_->insertItem(tr("Optical"));
-//    catalogComboBox_->insertItem(tr("Other"));
     connect(catalogComboBox_, SIGNAL(activated(const QString&)),
-        this, SLOT(changeCatalog()));
+        this, SLOT(tableListView_->changeCatalog()));
     navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
     removeStudiesFilterAct_->addTo(navigatorToolBar_);

@@ -85,13 +85,15 @@ private:
     static const int buttonSize = 70;   // size of square buttons in blue panel
 
     enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
-    enum CatalogSource {Network, System, Optical, Other};
 
 
     class TableListView : public QListView {
+        friend class Navigator; // allows use of Navigator data members
 
     public:
-        TableListView(QWidget* parent);
+        enum CatalogSource {Network, System, Optical, Other};
+
+        TableListView(QWidget* parent, Options* options);
         ~TableListView();
 
         bool filtered() const {return filtered_;}
@@ -112,7 +114,8 @@ private:
 /*        void applyFilter();*/
         void removeFilter();
         void showTable();    // shows table, depending on catalogSource and filter
-
+        void setCatalog(int catalogComboBoxSelectedId);
+    
     private:
         enum {MagicNumber = 0x99c798f2};    // first bytes of EP Simulator binary files
 
@@ -122,8 +125,10 @@ private:
         void ioError(const QFile& file, const QString& message);
         
         bool filtered_;
+        Options* options_;  // copy of Navigator options_
+        // for dependency, options_ must be declared before catalogSource_
         CatalogSource catalogSource_;
-    };
+    }; // TableListView
 
     class TableListViewItem : public QListViewItem {
 
@@ -147,8 +152,8 @@ private:
     private:
         Study study_;
         bool filteredOut_;
-        CatalogSource catalogSource_;
-    };
+ //       CatalogSource catalogSource_;
+    }; // TableListViewItem
 
     // Functions to set up the Navigator main window.
     void createButtonFrame();
@@ -163,7 +168,7 @@ private:
     void setupAction(QAction* action, QString statusTip,
                      const char* slotName, const char* iconName = 0);
 
-    void setCatalog(CatalogSource);
+//    void setCatalog(CatalogSource);
 
     void startStudy();
     bool getStudyInformation();
