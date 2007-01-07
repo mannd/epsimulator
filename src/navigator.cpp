@@ -551,6 +551,7 @@ void Navigator::createActions() {
 void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator"), this);
     catalogComboBox_ = new CatalogComboBox(navigatorToolBar_, "catalogComboBox");
+    catalogComboBox_->setSource(Optical);
     connect(catalogComboBox_, SIGNAL(activated(const QString&)),
         this, SLOT(tableListView_->changeCatalog()));
     navigatorToolBar_->addSeparator();
