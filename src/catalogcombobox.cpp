@@ -27,14 +27,35 @@ CatalogComboBox::CatalogComboBox(QWidget *parent, const char *name)
  : QComboBox(parent, name), browse_(false), network_(false) {
     options_ = Options::instance();
     setup();
+    connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));
+    setCurrentItem(0);
+}
+
+void CatalogComboBox::resetOther() {
+    if (source() != Other && browse_) {
+        CatalogSource newSource = source();
+        setBrowse(false);
+        setSource(newSource);
+    }
 }
 
 void CatalogComboBox::setSource(CatalogSource source) {
-    // Add the blank Other field to the combobox if not already there
-    setBrowse(source == Other && !browse_);
+    // Add the blank Other field to the combobox if not already there;
+    // also take away the blank field if not browsing, and set browse_ correctly.
+    if (source == Other && !browse_)
+        setBrowse(true);
+    if (source != Other && browse_)
+        setBrowse(false);
     if (source == Network && !network_) 
         setup();  // this will only work if options_->enableNetworkStorage enabled
     setCurrentItem(sourceMap_[source]);
+}
+
+/// used after system options changed
+void CatalogComboBox::refresh() {
+    CatalogSource oldSource = source();
+    setup();
+    setSource(oldSource);
 }
 
 void CatalogComboBox::setBrowse(bool browse) {
@@ -74,8 +95,9 @@ void CatalogComboBox::setup() {
         insertItem("");
         sourceMap_[Other] = ++index;
     }
-    setCurrentItem(0);
+ 
 }
+
 
 CatalogComboBox::~CatalogComboBox()
 {

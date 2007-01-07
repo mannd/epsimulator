@@ -41,9 +41,14 @@ public:
     CatalogComboBox(QWidget *parent = 0, const char *name = 0);
     
     void setSource(CatalogSource source);  // set ComboBox to source
+    void refresh();
+
     CatalogSource source(); // return CatalogSource ComboBox is pointing to
 
     ~CatalogComboBox();
+
+private slots:
+    void resetOther();
 
 private:
     void setup();

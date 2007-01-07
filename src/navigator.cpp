@@ -174,6 +174,10 @@ void Navigator::TableListView::addStudy(const Study& study) {
             study.key());
 }
 
+void Navigator::TableListView::changeCatalog(int) {
+        ///TODO convert item to source for catalog
+}
+
 void Navigator::TableListView::readFromStream(QDataStream& in) {
     clear();
     while (!in.atEnd()) {
@@ -252,8 +256,8 @@ void Navigator::TableListView::removeFilter() {
     showTable();
 }
 
-void Navigator::TableListView::setCatalog(int catalogComboBoxSelectedId) {
-}
+// void Navigator::TableListView::setCatalog(int catalogComboBoxSelectedId) {
+// }
 
 /**
  * Navigator constructor
@@ -401,6 +405,7 @@ void Navigator::createCentralWidget() {
 void Navigator::refreshCatalog() {
     /// TODO How to ensure that the filter setting is respected here??
     /// Does the filter need to be saved as a struct and reapplied?
+    catalogComboBox_->refresh();
     tableListView_->load(systemPath() + "/studies.eps");
     // reapply filter if present
     if (tableListView_->filtered())
@@ -412,14 +417,33 @@ void Navigator::regenerateCatalog() {
     /// filter has to be cleared for this to work.
 }
 
- void Navigator::changeCatalog() {
-    tableListView_->setCatalog(catalogComboBox_->currentItem());
-}
+//  void Navigator::changeCatalog() {
+//     tableListView_->setCatalog(catalogComboBox_->currentItem());
+// }
 
 // void Navigator::setCatalog(CatalogSource source) {
 // }
 
+// void Navigator::changeCatalog(CatalogSource source) {
+//     catalogComboBox_->setSource(source);
+//     // tableListView_->setSource(source);
+// }
 
+void Navigator::setCatalogNetwork() {
+    catalogComboBox_->setSource(Network);
+}
+
+void Navigator::setCatalogSystem() {
+    catalogComboBox_->setSource(System);
+}
+
+void Navigator::setCatalogOptical() {
+    catalogComboBox_->setSource(Optical);
+}
+
+void Navigator::setCatalogOther() {
+    catalogComboBox_->setSource(Other);
+}
 
 void Navigator::saveSettings() {
     QSettings settings;
@@ -486,23 +510,29 @@ void Navigator::createActions() {
     // Submenu of Switch...
     // an action "Achive Server" is skipped here, but is present on Prucka
     networkSwitchAct_ = new QAction(tr("Network"), 0, this);
-    setupAction(networkSwitchAct_, "Switch to network catalog", 0);
+    setupAction(networkSwitchAct_, "Switch to network catalog", 
+        SLOT(setCatalogNetwork()));
     systemSwitchAct_ = new QAction(tr("System"), 0, this);
-    setupAction(systemSwitchAct_, "Switch to system catalog", 0);
+    setupAction(systemSwitchAct_, "Switch to system catalog", 
+        SLOT(setCatalogSystem()));
     opticalSwitchAct_ = new QAction(tr("Optical"), 0, this);
-    setupAction(opticalSwitchAct_, "Switch to optical catalog", 0);
+    setupAction(opticalSwitchAct_, "Switch to optical catalog", 
+        SLOT(setCatalogOptical()));
     // back to main menu items
     browseSwitchAct_ = new QAction(tr("Browse..."), 0, this);
-    setupAction(browseSwitchAct_, "Browse for catalog files", 0);
+    setupAction(browseSwitchAct_, "Browse for catalog files", 
+        SLOT(setCatalogOther()));
     filterStudiesAct_ = new QAction(tr("Filter Studies..."), 0, this);
-    setupAction(filterStudiesAct_, "Filter studies", SLOT(filterStudies()), "hi32-filterstudies.png");
+    setupAction(filterStudiesAct_, "Filter studies", 
+        SLOT(filterStudies()), "hi32-filterstudies.png");
     removeStudiesFilterAct_ = new QAction(tr("Remove Studies Filter"), 0, this);
     setupAction(removeStudiesFilterAct_, "Remove studies filter",
 	SLOT(unfilterStudies()), "hi32-removefilter.png");
     // inactivate removeStudiesFilterAct_ by default
     removeStudiesFilterAct_->setEnabled(false);
     refreshViewAct_ = new QAction(tr("Refresh"), 0, this);
-    setupAction(refreshViewAct_, "Refresh the catalog", SLOT(refreshCatalog()), "hi32-refreshcatalog.png");
+    setupAction(refreshViewAct_, "Refresh the catalog", 
+        SLOT(refreshCatalog()), "hi32-refreshcatalog.png");
     regenerateAct_ = new QAction(tr("Regenerate"), 0, this);
     setupAction(regenerateAct_, "Regenerate the catalog",
 	SLOT(regenerateCatalog()));
@@ -552,8 +582,8 @@ void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator"), this);
     catalogComboBox_ = new CatalogComboBox(navigatorToolBar_, "catalogComboBox");
     catalogComboBox_->setSource(Optical);
-    connect(catalogComboBox_, SIGNAL(activated(const QString&)),
-        this, SLOT(tableListView_->changeCatalog()));
+    connect(catalogComboBox_, SIGNAL(activated(int)),
+        this, SLOT(tableListView_->changeCatalog(int)));
     navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
     removeStudiesFilterAct_->addTo(navigatorToolBar_);
