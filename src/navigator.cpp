@@ -512,6 +512,8 @@ void Navigator::createActions() {
     networkSwitchAct_ = new QAction(tr("Network"), 0, this);
     setupAction(networkSwitchAct_, "Switch to network catalog", 
         SLOT(setCatalogNetwork()));
+    // networkSwitchAct_ only enabled if set in options
+    networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
     systemSwitchAct_ = new QAction(tr("System"), 0, this);
     setupAction(systemSwitchAct_, "Switch to system catalog", 
         SLOT(setCatalogSystem()));
@@ -842,6 +844,8 @@ void Navigator::systemSettings() {
         options_->setEnableFileExport(systemDialog->enableFileExportCheckBox->isChecked());
         options_->setEnableNetworkStorage(systemDialog->enableNetworkStorageCheckBox->isChecked()); 
         options_->writeSettings();
+        // menu is changed
+        networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
         // status bar and catalog might be changed 
         /// FIXME below depends on catalogComboBox
         sourceLabel_->setText(tr(" Source: %1 ").arg(options_->systemCatalogPath()));

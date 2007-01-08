@@ -28,7 +28,7 @@ CatalogComboBox::CatalogComboBox(QWidget *parent, const char *name)
     options_ = Options::instance();
     setup();
     connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));
-    setCurrentItem(0);
+    setCurrentItem(0);  // will be Network or System depending on options
 }
 
 void CatalogComboBox::resetOther() {
@@ -47,7 +47,8 @@ void CatalogComboBox::setSource(CatalogSource source) {
     if (source != Other && browse_)
         setBrowse(false);
     if (source == Network && !network_) 
-        setup();  // this will only work if options_->enableNetworkStorage enabled
+        source = System;  // setSource assumes sourceMap has been setup 
+                          // correctly and this assignment is wrong
     setCurrentItem(sourceMap_[source]);
 }
 
@@ -55,7 +56,11 @@ void CatalogComboBox::setSource(CatalogSource source) {
 void CatalogComboBox::refresh() {
     CatalogSource oldSource = source();
     setup();
-    setSource(oldSource);
+    // must account for Network disappearing
+    if (source() == Network && !network_)
+        setSource(System);
+    else
+        setSource(oldSource);
 }
 
 void CatalogComboBox::setBrowse(bool browse) {
@@ -82,10 +87,10 @@ void CatalogComboBox::setup() {
     clear();
     sourceMap_.clear();
     int index = 0;
-    if (options_->enableNetworkStorage()) {
+    network_ = options_->enableNetworkStorage();
+    if (network_) {
         insertItem(tr("Network"));
         sourceMap_[Network] = index++;
-        network_ = true;
     }
     insertItem(tr("System        "));
     sourceMap_[System] = index++;
@@ -95,7 +100,6 @@ void CatalogComboBox::setup() {
         insertItem("");
         sourceMap_[Other] = ++index;
     }
- 
 }
 
 

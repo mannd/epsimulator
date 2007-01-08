@@ -20,11 +20,13 @@
 
 // MyTestSuite.h
 #include <cxxtest/TestSuite.h>
+#include "epsim.h"
 #include "filtercatalog.h"
 #include "study.h"
 #include "heart.h"
 #include "options.h"
 #include "patientdialog.h"
+#include "catalogcombobox.h"
 
 #include <qbuttongroup.h>
 #include <qdatetimeedit.h>
@@ -36,6 +38,8 @@
 
 #include <iostream>
 #include <math.h>
+        
+using namespace epsim;
 
 using std::cout;
 using std::endl;
@@ -139,8 +143,6 @@ public:
         QString s = options->opticalStudyPath();
         options->setOpticalStudyPath(s);
         TS_ASSERT(s == options->opticalStudyPath());
-        TS_WARN("Add more tests here");
-        options->destroy();
     }
 
     void testPatientDialog() {
@@ -243,6 +245,37 @@ public:
 //        pd.getFields(s2);
 //        testStudiesEqual(s1, s2);
 //    }
+
+
+        void testCatalogComboBox() {
+            CatalogComboBox* c = new CatalogComboBox;
+            Options* o = Options::instance();
+            bool originalEnableNetwork = o->enableNetworkStorage();
+            o->setEnableNetworkStorage(false);
+            // must refresh catalogcombobox after system options changed!
+            c->refresh();
+            TS_ASSERT(c->source() == System);
+            TS_ASSERT(c->currentItem() == 0);   // there should be no Network
+            c->setSource(Network);  // should not work because of above
+            TS_ASSERT(!o->enableNetworkStorage());
+            TS_ASSERT(c->currentItem() == 0);
+            TS_ASSERT(c->source() != Network);
+            // should be System
+            o->setEnableNetworkStorage(true);
+            c->refresh();
+            TS_ASSERT(c->source() == System);
+            c->setSource(Network);
+            TS_ASSERT(c->source() == Network);
+            c->setSource(Optical);
+            TS_ASSERT(c->source() == Optical);
+            c->setSource(Other);
+            TS_ASSERT(c->source() == Other);
+            c->setSource(System);
+            TS_ASSERT(c->source() == System);
+            // reset options
+            o->setEnableNetworkStorage(originalEnableNetwork);
+            delete c;
+        }
 
 private:
     void testStudyDefaults(Study& study) {
