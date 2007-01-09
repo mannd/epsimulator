@@ -41,7 +41,8 @@ disk label.  Example: ($HOME)/EPStudies/Disk32A/.  In each of these subdirectori
 is a catalog.eps file, and the actual data files for each study.  Emulation will ensure that
 each directory is limited in size, to emulate switching disks.  The systemCatalogPath is
 fixed at ($EPSIMULATOR)/System/.  It cannot be changed.  This path just contains a
-catalog.eps file, but no data files.  The networkStudyPath is a path to a server directory.
+catalog.eps file, but no data files.  (Note that the real Prucka uses studies.dat 
+files for this purpose.  The networkStudyPath is a path to a server directory.
 This directory can hold a catalog.eps file, and optionally studies that are exported to it.
 Export can be manual, or automatic when the study is closed.  Finally there is a tempCatalogPath,
 which can be provided on the command line, or can be browsed to.  If not specified on 
@@ -68,6 +69,7 @@ public:
     QString exportFilePath() const {return exportFilePath_;}
     QString tempStudyPath() const {return tempStudyPath_;}
     QString systemCatalogPath() const {return systemCatalogPath_;}
+    QString catalogFileName() const {return catalogFileName_;}
 
     bool enableAcquisition() const {return enableAcquisition_;}
     bool emulateOpticalDrive() const {return emulateOpticalDrive_;}
@@ -88,6 +90,8 @@ protected:
     static Options* instance_;
 
 private:
+    // name of catalog files is hardwired, and defined in options.cpp
+    static const char* catalogFileName_;
     QString opticalStudyPath_;
     QString networkStudyPath_;
     QString tempStudyPath_;

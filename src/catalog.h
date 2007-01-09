@@ -27,10 +27,13 @@
 #ifndef CATALOG_H
 #define CATALOG_H
 
+#include "epsim.h"
 #include "study.h"
 
 #include <qstring.h>
 #include <qfile.h>
+
+using namespace epsim;  // for CatalogSource enum
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -38,19 +41,20 @@
 */
 class Catalog {
 public:
-    enum CatalogSource {Network, System, Optical, Other};
+//  Might want to use the enum below instead of in epsim.h?
+//    enum CatalogSource {Network, System, Optical, Other};
     Catalog();
     
 
     virtual void refresh();
     virtual void regenerate();
 
-    void addStudy(Study&) {};
-    void deleteStudy(Study&) {};
+    virtual void addStudy(Study&) {};
+    virtual void deleteStudy(Study&) {};
 
-    QString path() const {return path_;}
+    virtual QString path() const {return path_;}
 
-    void setPath(const QString& path) {path_ = path;}
+    virtual void setPath(const QString& path) {path_ = path;}
 
     virtual ~Catalog() {}
 

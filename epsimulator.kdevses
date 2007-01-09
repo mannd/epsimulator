@@ -17,7 +17,7 @@
   <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
    <View0 Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
    <View0 line="164" Type="Source" />
   </Doc5>
   <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.cpp" >
@@ -29,6 +29,18 @@
   <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
    <View0 line="282" Type="Source" />
   </Doc8>
+  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalogcombobox.h" >
+   <View0 line="41" Type="Source" />
+  </Doc13>
+  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalogcombobox.cpp" >
+   <View0 line="30" Type="Source" />
+  </Doc14>
+  <Doc15 NumberOfViews="1" URL="file:///usr/share/qt3/doc/html/qcombobox.html#clear" >
+   <View0 Type="Documentation" />
+  </Doc15>
+  <Doc16 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsim.h" >
+   <View0 line="41" Type="Source" />
+  </Doc16>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

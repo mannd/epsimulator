@@ -25,10 +25,9 @@
 #include <qdir.h>
 #include <qsettings.h>
 
-Options::Options() : tempStudyPath_(""),
-    systemCatalogPath_(QDir::cleanDirPath(qApp->applicationDirPath() + "/../System")) {
-    readSettings();
-}
+const char* Options::catalogFileName_ = "catalog.eps";
+
+
 
 Options* Options::instance_ = 0;
 
@@ -36,6 +35,11 @@ Options* Options::instance() {
     if (instance_ == 0)
         instance_ = new Options;
     return instance_;
+}
+
+Options::Options() : tempStudyPath_(""),
+    systemCatalogPath_(QDir::cleanDirPath(qApp->applicationDirPath() + "/../System")) {
+    readSettings();
 }
 
 /**
