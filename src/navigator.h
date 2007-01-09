@@ -78,6 +78,8 @@ private slots:
     void refreshCatalog();        
 
     void regenerateCatalog();
+    void changeCatalog();
+
     
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
@@ -126,8 +128,6 @@ private:
         void showTable();    // shows table, depending on catalogSource and filter
 //        void setCatalog(int catalogComboBoxSelectedId);
     
-    public slots:
-        void changeCatalog(int);
 
     private:
         enum {MagicNumber = 0x99c798f2};    // first bytes of EP Simulator binary files

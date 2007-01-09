@@ -23,6 +23,11 @@
 
 using namespace std;
 
+/** Ctor.  Gets the options_ instance, sets up the combobox.  Default item is 1st, which
+is either System or Network depending on options.  Other selection is not present unless Browse...
+is selected from the menu, and goes away as soon as possible.  Default is no Network
+*/
+
 CatalogComboBox::CatalogComboBox(QWidget *parent, const char *name)
  : QComboBox(parent, name), browse_(false), network_(false) {
     options_ = Options::instance();

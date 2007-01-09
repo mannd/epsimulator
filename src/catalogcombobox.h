@@ -17,6 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+/** \file
+    Contains class CatalogComboBox.  Mimics the behavior of the Navigator "System" ComboBox
+*/
+
 #ifndef CATALOGCOMBOBOX_H
 #define CATALOGCOMBOBOX_H
 

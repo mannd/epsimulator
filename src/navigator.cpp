@@ -174,9 +174,7 @@ void Navigator::TableListView::addStudy(const Study& study) {
             study.key());
 }
 
-void Navigator::TableListView::changeCatalog(int) {
-        ///TODO convert item to source for catalog
-}
+
 
 void Navigator::TableListView::readFromStream(QDataStream& in) {
     clear();
@@ -392,6 +390,9 @@ void Navigator::createTableListView() {
     tableListView_->header()->setResizeEnabled(false, keyColumn);
     //tableListView_->setResizeMode(QListView::AllColumns);
     // above messes up the hidden column
+    connect(catalogComboBox_, SIGNAL(activated(int)),
+        this, SLOT(changeCatalog()));
+
 
 }
 
@@ -417,6 +418,27 @@ void Navigator::regenerateCatalog() {
     /// filter has to be cleared for this to work.
 }
 
+void Navigator::changeCatalog() {
+    switch (catalogComboBox_->source()) {
+        case Network:
+            /// TODO load network catalog
+            break;
+        case System:
+            /// TODO load system catalog
+            break;
+        case Optical:
+            /// TODO load optical catalog
+            break;
+        case Other:
+            /// TODO load other catalog
+            break;
+        default:
+            // is always there, a safe default
+            break;
+    }
+}
+
+
 //  void Navigator::changeCatalog() {
 //     tableListView_->setCatalog(catalogComboBox_->currentItem());
 // }
@@ -431,18 +453,22 @@ void Navigator::regenerateCatalog() {
 
 void Navigator::setCatalogNetwork() {
     catalogComboBox_->setSource(Network);
+    changeCatalog();
 }
 
 void Navigator::setCatalogSystem() {
     catalogComboBox_->setSource(System);
+    changeCatalog();
 }
 
 void Navigator::setCatalogOptical() {
     catalogComboBox_->setSource(Optical);
+    changeCatalog();
 }
 
 void Navigator::setCatalogOther() {
     catalogComboBox_->setSource(Other);
+    changeCatalog();
 }
 
 void Navigator::saveSettings() {
@@ -583,9 +609,6 @@ void Navigator::createActions() {
 void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator"), this);
     catalogComboBox_ = new CatalogComboBox(navigatorToolBar_, "catalogComboBox");
-    catalogComboBox_->setSource(Optical);
-    connect(catalogComboBox_, SIGNAL(activated(int)),
-        this, SLOT(tableListView_->changeCatalog(int)));
     navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
     removeStudiesFilterAct_->addTo(navigatorToolBar_);
