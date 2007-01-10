@@ -24,6 +24,7 @@
 #include <qdatetime.h>
 #include <qfile.h>
 #include <qmessagebox.h>
+#include <qregexp.h>
 #include <qstring.h>
 
 /**
@@ -46,8 +47,6 @@ TableListViewItem::TableListViewItem(TableListView* parent,
     : QListViewItem(parent, label1, label2, label3, label4, 
 		    label5, label6, label7, label8), study_(study), 
                     filteredOut_(false) {
-/// TODO Figure out if item is a Local, Optical
-//        if (study_.path() == options->localStudyPath())
 }
 
 
@@ -58,14 +57,9 @@ TableListView::TableListView(QWidget* parent, Options* options)
     : QListView(parent), filtered_(false), options_(options) {
     connect(this, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), 
 	    parent->parent(), SLOT(newStudy()));
-/// FIXME non of the below is needed
-//    catalogSource_ = options->enableNetworkStorage() 
-//	? Network : System;
-//    catalogs_ = new Catalogs(catalogSource_);
 }
 
 TableListView::~TableListView() {
-//    delete catalogs_;
 }
 
 void TableListView::showTable() {
@@ -168,12 +162,12 @@ void TableListView::ioError(const QFile& file, const QString& message) {
 }
 
 void TableListView::applyFilter( FilterStudyType filterStudyType,
-                                            QRegExp lastName,
-                                            QRegExp firstName,
-                                            QRegExp mrn,
-                                            QRegExp studyConfig,
-                                            QRegExp studyNumber,
-                                            QRegExp studyFile,
+                                            const QRegExp& lastName,
+                                            const QRegExp& firstName,
+                                            const QRegExp& mrn,
+                                            const QRegExp& studyConfig,
+                                            const QRegExp& studyNumber,
+                                            const QRegExp& studyFile,
                                             bool anyDate,
                                             const QDate& startDate,
                                             const QDate& endDate) {

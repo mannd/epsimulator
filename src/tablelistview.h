@@ -30,12 +30,13 @@
 
 #include <qlistview.h>
 #include <qstring.h>
-#include <qregexp.h>
+//#include <qregexp.h>
 
 class Options;
 class QDataStream;
 class QDate;
 class QFile;
+class QRegExp;
 
 using namespace epsim;  // for enums CatalogSource and FilterStudyType
 
@@ -54,12 +55,12 @@ using namespace epsim;  // for enums CatalogSource and FilterStudyType
         bool save(const QString& fileName);
         void addStudy(const Study& study);
         void applyFilter(FilterStudyType filterStudyType,
-                         QRegExp lastName,
-                         QRegExp firstName,
-                         QRegExp mrn,
-                         QRegExp studyConfig,
-                         QRegExp studyNumber,
-                         QRegExp studyFile,
+                         const QRegExp& lastName,
+                         const QRegExp& firstName,
+                         const QRegExp& mrn,
+                         const QRegExp& studyConfig,
+                         const QRegExp& studyNumber,
+                         const QRegExp& studyFile,
                          bool anyDate,
                          const QDate& startDate,
                          const QDate& endDate);
@@ -96,7 +97,8 @@ using namespace epsim;  // for enums CatalogSource and FilterStudyType
 
         void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
 
-        Study& study() {return study_;}
+        // below can't return reference
+        Study study() {return study_;}
         bool filteredOut() const {return filteredOut_;}
 
     private:
