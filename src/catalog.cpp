@@ -22,6 +22,7 @@
 #include "options.h"
 
 #include <qdir.h>
+//#include <qstringlist.h>
 
 Catalog::Catalog(const QString& path, 
                  const QString& fileName) : path_(path), fileName_(fileName) {
@@ -53,7 +54,20 @@ Catalogs::Catalogs(Options* options) : options_(options) {
         currentCatalog_ = networkCatalog_;
     else
         currentCatalog_ = systemCatalog_;
+//    filePaths_ = new QStringList();
+    if (options_->enableNetworkStorage())
+        appendFilePath(networkCatalog_->filePath());
+    appendFilePath(systemCatalog_->filePath());
+    appendFilePath(opticalCatalog_->filePath());
+    appendFilePath(otherCatalog_->filePath());
 }
+
+void Catalogs::appendFilePath(const QString& path) {
+    if (!path.isEmpty()) 
+        filePaths_.append(path);
+}
+
+/// TODO need an update Catalogs function to be called after systemDialog execs
 
 void Catalogs::setCurrentCatalog(CatalogSource catalog) {
     switch (catalog) {

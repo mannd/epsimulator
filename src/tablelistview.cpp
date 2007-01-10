@@ -25,7 +25,7 @@
 #include <qfile.h>
 #include <qmessagebox.h>
 #include <qregexp.h>
-#include <qstring.h>
+#include <qstringlist.h>
 
 /**
  * Constructor for TableListViewItem subclass of Navigator
@@ -78,6 +78,8 @@ void TableListView::showTable() {
  * @return false if catalog file can't be loaded for any reason
  */
 bool TableListView::load(const QString& fileName) {
+    // must clear list first
+    clear();
     QFile file(fileName);
     // create a studies file if it doesn't exist already
     if (!file.exists()) 
@@ -117,6 +119,14 @@ bool TableListView::save(const QString& fileName) {
         return false;
     }
     return true;
+}
+
+bool TableListView::save(const QStringList& fileNames) {
+    bool success = true;
+    for (QStringList::ConstIterator it = fileNames.begin(); it != fileNames.end(); ++it ) {
+        success = success && save(*it);
+    }
+    return success;
 }
 
 void TableListView::addStudy(const Study& study) {

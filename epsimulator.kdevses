@@ -1,62 +1,58 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="10" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalogcombobox.h" >
-   <View0 line="23" Type="Source" />
+ <DocsAndViews NumberOfDocuments="14" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
+   <View0 line="92" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalogcombobox.cpp" >
-   <View0 line="29" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 line="229" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="393" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.cpp" >
+   <View0 line="28" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/lineedits-example.html#x170" >
-   <View0 Type="Documentation" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
+   <View0 line="723" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 line="80" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.h" >
+   <View0 line="126" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
-   <View0 Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.cpp" >
+   <View0 line="37" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.cpp" >
-   <View0 Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.h" >
+   <View0 line="109" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
-   <View0 Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
+   <View0 line="214" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
-   <View0 line="282" Type="Source" />
-  </Doc8>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalogcombobox.h" >
-   <View0 line="41" Type="Source" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalogcombobox.cpp" >
-   <View0 line="30" Type="Source" />
-  </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:///usr/share/qt3/doc/html/qcombobox.html#clear" >
+  <Doc8 NumberOfViews="1" URL="file:///usr/share/qt3/doc/html/qlistview-h.html" >
    <View0 Type="Documentation" />
-  </Doc15>
-  <Doc16 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsim.h" >
-   <View0 line="41" Type="Source" />
-  </Doc16>
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///usr/share/qt3/doc/html/qdir.html#path" >
+   <View0 Type="Documentation" />
+  </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+   <View0 line="22" Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.h" >
+   <View0 line="0" Type="Source" />
+  </Doc11>
+  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/epsimulator.pro" >
+   <View0 line="0" Type="Source" />
+  </Doc12>
+  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/src.pro" >
+   <View0 line="0" Type="Source" />
+  </Doc13>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
-   <breakpointList>
-    <breakpoint0 location="/home/mannd/dev/epsimulator/src/options.cpp:33" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint0>
-   </breakpointList>
+   <breakpointList/>
   </kdevdebugger>
   <kdevbookmarks>
    <bookmarks>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
-     <mark line="870" />
-     <mark line="486" />
-     <mark line="420" />
-     <mark line="117" />
+     <mark line="235" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/study.cpp" >
      <mark line="135" />

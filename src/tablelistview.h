@@ -37,6 +37,7 @@ class QDataStream;
 class QDate;
 class QFile;
 class QRegExp;
+class QStringList;
 
 using namespace epsim;  // for enums CatalogSource and FilterStudyType
 
@@ -53,6 +54,7 @@ using namespace epsim;  // for enums CatalogSource and FilterStudyType
 
         bool load(const QString& fileName);
         bool save(const QString& fileName);
+        bool save(const QStringList& fileNames);
         void addStudy(const Study& study);
         void applyFilter(FilterStudyType filterStudyType,
                          const QRegExp& lastName,

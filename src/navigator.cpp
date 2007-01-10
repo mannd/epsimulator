@@ -220,9 +220,7 @@ void Navigator::createCentralWidget() {
 
 void Navigator::refreshCatalog() {
     catalogComboBox_->refresh();
-    /// TODO below is correct!!!!
-//    tableListView_->load(catalogs_->currentCatalog()->path());
-    tableListView_->load(systemPath() + "/studies.eps");
+    tableListView_->load(catalogs_->currentCatalog()->filePath());
     // reapply filter if present
     if (tableListView_->filtered())
         processFilter();
@@ -235,6 +233,10 @@ void Navigator::regenerateCatalog() {
 
 void Navigator::changeCatalog() {
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
+    tableListView_->load(catalogs_->currentCatalog()->filePath());
+    // reapply filter if present
+    if (tableListView_->filtered())
+        processFilter();
     /// FIXME refactor this out to separate method, as there is code duplication
     sourceLabel_->setText(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()));
     sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
@@ -502,7 +504,7 @@ bool Navigator::getStudyInformation() {
         study_.setFile(study_.fileName());
         tableListView_->addStudy(study_);
         // write the study to the catalog now in case user decides to refresh later
-        tableListView_->save(options_->systemCatalogPath() + "/studies.eps");
+        tableListView_->save(catalogs_->filePaths());
         return true;
     }
     return false;
@@ -705,6 +707,6 @@ void Navigator::closeEvent(QCloseEvent *event) {
 
 Navigator::~Navigator() {
     saveSettings();
-    tableListView_->save(systemPath() + "/studies.eps");
+    tableListView_->save(catalogs_->filePaths());
     delete catalogs_;
 }

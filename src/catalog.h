@@ -30,10 +30,12 @@
 #include "epsimdefs.h"
 #include "study.h"
 
-#include <qstring.h>
 #include <qfile.h>
+#include <qstring.h>
+#include <qstringlist.h>
 
 class Options;
+class QStringList;
 
 using namespace epsim;  // for CatalogSource enum
 
@@ -106,8 +108,6 @@ private:
 
 };
 
-/// TODO should this be a singleton class, and don't allow instantiation of 
-/// any particular Catalog??
 // N.B. Catalogs owns the catalog pointers and will delete them.
 class Catalogs {
 public:
@@ -116,6 +116,7 @@ public:
     void refresh();
     void regenerate();
     Catalog* currentCatalog() const {return currentCatalog_;}
+    QStringList filePaths() const {return filePaths_;}
 
     void setCurrentCatalog(CatalogSource catalog);
 
@@ -126,12 +127,15 @@ protected:
     Catalogs(Catalogs&);
 
 private:
+    void appendFilePath(const QString& path);
+
     Options* options_;
     Catalog* currentCatalog_;
     OpticalCatalog* opticalCatalog_;
     SystemCatalog* systemCatalog_;
     NetworkCatalog* networkCatalog_;
     Catalog* otherCatalog_;
+    QStringList filePaths_;
 };
 
 

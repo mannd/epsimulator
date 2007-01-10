@@ -20,7 +20,7 @@
 
 // MyTestSuite.h
 #include <cxxtest/TestSuite.h>
-#include "epsim.h"
+#include "epsimdefs.h"
 #include "filtercatalog.h"
 #include "study.h"
 #include "heart.h"
