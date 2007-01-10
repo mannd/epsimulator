@@ -39,6 +39,7 @@
 
 namespace epsim {
     enum CatalogSource {Network, System, Optical, Other};
+    enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
 }
 
 
