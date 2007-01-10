@@ -37,21 +37,24 @@ using namespace epsim;  // for CatalogSource enum
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
-        Base class for NetworkCatalog, OpticalCatalog, and SystemCatalog.
+        Base class for NetworkCatalog, 
+	OpticalCatalog, and SystemCatalog.
 */
 class Catalog {
+
 public:
 //  Might want to use the enum below instead of in epsim.h?
 //    enum CatalogSource {Network, System, Optical, Other};
     Catalog();
     
 
-    virtual void refresh();
-    virtual void regenerate();
+    virtual void refresh() {}
+    virtual void regenerate() {}
 
     virtual void addStudy(Study&) {};
     virtual void deleteStudy(Study&) {};
 
+    virtual CatalogSource type() const {return Other;}
     virtual QString path() const {return path_;}
 
     virtual void setPath(const QString& path) {path_ = path;}
@@ -67,6 +70,8 @@ private:
 class OpticalCatalog : public Catalog {
 public:
     OpticalCatalog();
+
+    virtual CatalogSource type() const {return Optical;}
     virtual ~OpticalCatalog() {}
 
 private:
@@ -76,6 +81,8 @@ private:
 class SystemCatalog : public Catalog {
 public:
     SystemCatalog();
+    
+    virtual CatalogSource type() const {return System;}
     virtual ~SystemCatalog() {}
 private:
 };
@@ -83,6 +90,8 @@ private:
 class NetworkCatalog : public Catalog {
 public:
     NetworkCatalog();
+
+    virtual CatalogSource type() const {return Network;}
     virtual ~NetworkCatalog() {}
 
 private:
@@ -91,22 +100,23 @@ private:
 
 /// TODO should this be a singleton class, and don't allow instantiation of 
 /// any particular Catalog??
+// N.B. Catalogs owns the catalog pointers and will delete them.
 class Catalogs {
 public:
-    Catalogs();
+    Catalogs(CatalogSource defaultCatalog);
     
     void refresh();
     void regenerate();
     Catalog* currentCatalog() {return currentCatalog_;}
 
-    void setCurrentCatalog(Catalog* catalog) {currentCatalog_ = catalog;}
+    void setCurrentCatalog(CatalogSource catalog);
 
     ~Catalogs();
 private:
     Catalog* currentCatalog_;
-    Catalog* opticalCatalog_;
-    Catalog* systemCatalog_;
-    Catalog* networkCatalog_;
+    OpticalCatalog* opticalCatalog_;
+    SystemCatalog* systemCatalog_;
+    NetworkCatalog* networkCatalog_;
     Catalog* otherCatalog_;
 };
 

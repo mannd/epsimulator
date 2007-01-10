@@ -19,7 +19,8 @@
  ***************************************************************************/
 
 /** \file
-    Contains class CatalogComboBox.  Mimics the behavior of the Navigator "System" ComboBox
+    Contains class CatalogComboBox.  Mimics the behavior of the 
+Navigator "System" ComboBox.
 */
 
 #ifndef CATALOGCOMBOBOX_H
@@ -39,9 +40,8 @@ Encapsulates specific behavior of the catalog combo box in Navigator.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */
-class CatalogComboBox : public QComboBox
-{
-Q_OBJECT
+class CatalogComboBox : public QComboBox {
+    Q_OBJECT
 public:
     CatalogComboBox(QWidget *parent = 0, const char *name = 0);
     

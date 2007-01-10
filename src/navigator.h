@@ -38,6 +38,8 @@
 #include <qmainwindow.h>
 #include <qregexp.h>
 
+class Catalog;
+class Catalogs;
 class CatalogComboBox;
 class FilterCatalog;
 class Options;
@@ -76,10 +78,8 @@ private slots:
     void filterStudies();
     void unfilterStudies();
     void refreshCatalog();        
-
     void regenerateCatalog();
     void changeCatalog();
-
     
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
@@ -99,12 +99,11 @@ private:
 
     enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
 
-
     class TableListView : public QListView {
-//        friend class Navigator; // allows use of Navigator data members
-
+	// TableListView needs to peek at some of Navigator's
+	// private members ;)
+	friend class Navigator;
     public:
-
         TableListView(QWidget* parent, Options* options);
         ~TableListView();
 
@@ -125,12 +124,12 @@ private:
                          const QDate& endDate);
 /*        void applyFilter();*/
         void removeFilter();
-        void showTable();    // shows table, depending on catalogSource and filter
+        void showTable();    
 //        void setCatalog(int catalogComboBoxSelectedId);
     
-
     private:
-        enum {MagicNumber = 0x99c798f2};    // first bytes of EP Simulator binary files
+        // first bytes of EP Simulator binary files
+        enum {MagicNumber = 0x99c798f2};    
 
         void readFromStream(QDataStream& in);
         void writeToStream(QDataStream& out);
@@ -140,7 +139,9 @@ private:
         bool filtered_;
         Options* options_;  // copy of Navigator options_
         // for dependency, options_ must be declared before catalogSource_
-        CatalogSource catalogSource_;
+//        CatalogSource catalogSource_;
+//	Catalogs* catalogs_;
+
     }; // TableListView
 
     class TableListViewItem : public QListViewItem {
@@ -177,10 +178,10 @@ private:
     void createToolBars();
     void createStatusBar();
     void setupButton(QPushButton* button, QString pixmapName, 
-                      QLabel* label, const char* slotName, bool lastButton = false);
+                     QLabel* label, const char* slotName, 
+		     bool lastButton = false);
     void setupAction(QAction* action, QString statusTip,
                      const char* slotName, const char* iconName = 0);
-
     void saveSettings();
     void readSettings();
 
@@ -192,9 +193,9 @@ private:
     bool getStudyInformation();
     bool studySelected();
     void prepareStudy();    // clears study_ if no study selected
-    void deleteDataFile();      // delete data file associated with current study
-    void createDataFile();      // create a data file for a new study
-    void openDataFile();        // open a previous data file for review or appending data
+    void deleteDataFile();  // delete data file associated with current study
+    void createDataFile();  // create a data file for a new study
+    void openDataFile();    // open a  data file for review or appending data
 
     // Deprecated?
 //    void setCatalog(CatalogSource);
@@ -213,6 +214,7 @@ private:
     Study study_;           // current study
     Options* options_;
     FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
+    Catalogs* catalogs_;
 
     // StatusBar labels
     QLabel* messageLabel_;
@@ -221,6 +223,7 @@ private:
     QLabel* filterLabel_;
 
     // central widget stuff
+    /// TODO Make all these end in underscore
     QSplitter* horizontalSplitter_;
     QFrame* buttonFrame;
     QGridLayout* buttonFrameLayout;

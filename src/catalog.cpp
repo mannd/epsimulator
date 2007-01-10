@@ -34,11 +34,31 @@ SystemCatalog::SystemCatalog() {
 NetworkCatalog::NetworkCatalog() {
 }
 
-Catalogs::Catalogs() : otherCatalog_(0) {
-    /// TODO set up the 3 catalogs, make the default current 
-    /// catalog (network or system) the currentCatalog
-    /// otherCatalog_ starts out null??
+Catalogs::Catalogs(CatalogSource defaultCatalog) {
+    networkCatalog_ = new NetworkCatalog;
+    systemCatalog_ = new SystemCatalog;
+    opticalCatalog_ = new OpticalCatalog;
+    otherCatalog_ = new Catalog;
+    switch (defaultCatalog) {
+	case Network:
+	    currentCatalog_ = networkCatalog_;
+	    break;
+	case System:
+	    currentCatalog_ = systemCatalog_;
+	    break;
+	case Optical:
+	    currentCatalog_ = opticalCatalog_;
+	    break;
+	case Other:
+	    currentCatalog_ = otherCatalog_;
+	    break;
+	default:
+	    // good old systemCatalog...
+	    currentCatalog_ = systemCatalog_;
+    }
 }
+
+
 
 void Catalogs::refresh() {
 }
@@ -47,7 +67,8 @@ void Catalogs::regenerate() {
 }
 
 Catalogs::~ Catalogs() {
-    delete currentCatalog_;
+    // don't delete currentCatalog_ it is just a copy of
+    // one of the below!
     delete opticalCatalog_;
     delete systemCatalog_;
     delete networkCatalog_;

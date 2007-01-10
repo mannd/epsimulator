@@ -24,6 +24,7 @@
     and the central widget
 */
 
+#include "catalog.h"
 #include "catalogcombobox.h"
 #include "epsim.h"
 #include "epsimulator.h"
@@ -76,16 +77,21 @@
  * @param label1  etc.
  */
 
-Navigator::TableListViewItem::TableListViewItem(TableListView* parent, const Study& study,
-    QString label1, QString label2, QString label3, 
-    QString label4, QString label5, QString label6, 
-    QString label7, QString label8 ) 
-    : QListViewItem(parent, label1, label2, label3, 
-      label4, label5, label6, label7, label8), study_(study),
-    filteredOut_(false) {
+Navigator::TableListViewItem::TableListViewItem(TableListView* parent, 
+						const Study& study,
+						QString label1, 
+						QString label2, 
+						QString label3,
+						QString label4, 
+						QString label5, 
+						QString label6, 
+						QString label7, 
+						QString label8 ) 
+    : QListViewItem(parent, label1, label2, label3, label4, 
+		    label5, label6, label7, label8), study_(study), 
+                    filteredOut_(false) {
 /// TODO Figure out if item is a Local, Optical
 //        if (study_.path() == options->localStudyPath())
-             
 }
 
 
@@ -95,12 +101,15 @@ Navigator::TableListViewItem::~TableListViewItem() {
 Navigator::TableListView::TableListView(QWidget* parent, Options* options) 
     : QListView(parent), filtered_(false), options_(options) {
     connect(this, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), 
-        parent->parent(), SLOT(newStudy()));
-    catalogSource_ = options->enableNetworkStorage() 
-        ? Network : System;
+	    parent->parent(), SLOT(newStudy()));
+/// FIXME non of the below is needed
+//    catalogSource_ = options->enableNetworkStorage() 
+//	? Network : System;
+//    catalogs_ = new Catalogs(catalogSource_);
 }
 
 Navigator::TableListView::~TableListView() {
+//    delete catalogs_;
 }
 
 void Navigator::TableListView::showTable() {
@@ -262,9 +271,10 @@ void Navigator::TableListView::removeFilter() {
  */
 
 Navigator::Navigator(QWidget* parent, const char* name)
- : QMainWindow( parent, name, WDestructiveClose ) {
-    options_ = Options::instance();
-    filterCatalog_ = new FilterCatalog(this);   // omnipresent, holding last filter
+ : QMainWindow( parent, name, WDestructiveClose ) ,
+   options_(Options::instance()), catalogs_(0) {
+    // omnipresent, holding last filter
+    filterCatalog_ = new FilterCatalog(this);   
 
     createActions();
     createMenus();
@@ -404,9 +414,9 @@ void Navigator::createCentralWidget() {
 }
 
 void Navigator::refreshCatalog() {
-    /// TODO How to ensure that the filter setting is respected here??
-    /// Does the filter need to be saved as a struct and reapplied?
     catalogComboBox_->refresh();
+    /// TODO below is correct!!!!
+//    tableListView_->load(catalogs_->currentCatalog()->path());
     tableListView_->load(systemPath() + "/studies.eps");
     // reapply filter if present
     if (tableListView_->filtered())
@@ -905,4 +915,5 @@ void Navigator::closeEvent(QCloseEvent *event) {
 Navigator::~Navigator() {
     saveSettings();
     tableListView_->save(systemPath() + "/studies.eps");
+    delete catalogs_;
 }
