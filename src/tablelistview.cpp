@@ -20,8 +20,11 @@
 #include "tablelistview.h"
 #include "options.h"
 
+#include <qdatastream.h>
+#include <qdatetime.h>
 #include <qfile.h>
 #include <qmessagebox.h>
+#include <qstring.h>
 
 /**
  * Constructor for TableListViewItem subclass of Navigator

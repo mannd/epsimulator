@@ -26,17 +26,15 @@
 #define TABLELISTVIEW_H
 
 #include "epsim.h"
-//#include "options.h"
 #include "study.h"
 
-#include <qdatastream.h>
-#include <qdatetime.h>
-//#include <qfile.h>
 #include <qlistview.h>
 #include <qstring.h>
 #include <qregexp.h>
 
 class Options;
+class QDataStream;
+class QDate;
 class QFile;
 
 using namespace epsim;  // for enums CatalogSource and FilterStudyType
@@ -98,7 +96,7 @@ using namespace epsim;  // for enums CatalogSource and FilterStudyType
 
         void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
 
-        Study study() {return study_;}
+        Study& study() {return study_;}
         bool filteredOut() const {return filteredOut_;}
 
     private:

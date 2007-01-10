@@ -26,17 +26,14 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include "epsim.h"  // for CatalogSource
+#include "epsim.h"  // for CatalogSource, FilterStudyType
 #include "options.h"
 #include "study.h"
 //#include "catalog.h"
 
-#include <qdatetime.h>
+/// FIXME get rid of below when systemPath goes
 #include <qdir.h>
-#include <qfile.h>
-#include <qlistview.h>
 #include <qmainwindow.h>
-#include <qregexp.h>
 
 class Catalog;
 class Catalogs;
@@ -97,78 +94,6 @@ private slots:
 private:
 
     static const int buttonSize = 70;   // size of square buttons in blue panel
-
-//     enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
-
-//     class TableListView : public QListView {
-// 	// TableListView needs to peek at some of Navigator's
-// 	// private members ;)
-// //	friend class Navigator;
-//     public:
-//         TableListView(QWidget* parent, Options* options);
-//         ~TableListView();
-// 
-//         bool filtered() const {return filtered_;}
-// 
-//         bool load(const QString& fileName);
-//         bool save(const QString& fileName);
-//         void addStudy(const Study& study);
-//         void applyFilter(FilterStudyType filterStudyType,
-//                          QRegExp lastName,
-//                          QRegExp firstName,
-//                          QRegExp mrn,
-//                          QRegExp studyConfig,
-//                          QRegExp studyNumber,
-//                          QRegExp studyFile,
-//                          bool anyDate,
-//                          const QDate& startDate,
-//                          const QDate& endDate);
-// /*        void applyFilter();*/
-//         void removeFilter();
-//         void showTable();    
-// //        void setCatalog(int catalogComboBoxSelectedId);
-//     
-//     private:
-//         // first bytes of EP Simulator binary files
-//         enum {MagicNumber = 0x99c798f2};    
-// 
-//         void readFromStream(QDataStream& in);
-//         void writeToStream(QDataStream& out);
-//         void error(const QFile& file, const QString& message);
-//         void ioError(const QFile& file, const QString& message);
-//         
-//         bool filtered_;
-//         Options* options_;  // copy of Navigator options_
-//         // for dependency, options_ must be declared before catalogSource_
-// //        CatalogSource catalogSource_;
-// //	Catalogs* catalogs_;
-// 
-//     }; // TableListView
-// 
-//     class TableListViewItem : public QListViewItem {
-// 
-//     public:
-//         TableListViewItem(TableListView* parent, const Study& study,
-//                           QString label1, 
-//                           QString label2 = QString::null, 
-//                           QString label3 = QString::null, 
-//                           QString label4 = QString::null, 
-//                           QString label5 = QString::null, 
-//                           QString label6 = QString::null, 
-//                           QString label7 = QString::null, 
-//                           QString label8 = QString::null );
-//         ~TableListViewItem();
-// 
-//         void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
-// 
-//         Study study() {return study_;}
-//         bool filteredOut() const {return filteredOut_;}
-// 
-//     private:
-//         Study study_;
-//         bool filteredOut_;
-//  //       CatalogSource catalogSource_;
-//     }; // TableListViewItem
 
     // Functions to set up the Navigator main window.
     void createButtonFrame();
