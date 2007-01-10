@@ -26,7 +26,7 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include "epsim.h"  // for CatalogSource, FilterStudyType
+#include "epsimdefs.h"  // for CatalogSource, FilterStudyType
 #include "options.h"
 #include "study.h"
 //#include "catalog.h"

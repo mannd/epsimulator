@@ -34,7 +34,7 @@ HEADERS += epsimulator.h \
            studyconfigdialog.h \
            options.h \
            getopts.h \
-           epsim.h \
+           epsimdefs.h \
            filtercatalog.h \
            catalogcombobox.h \
            catalog.h \

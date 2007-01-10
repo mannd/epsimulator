@@ -26,7 +26,7 @@
 
 #include "catalog.h"
 #include "catalogcombobox.h"
-#include "epsim.h"
+#include "epsimdefs.h"
 #include "epsimulator.h"
 #include "filtercatalog.h"
 #include "options.h"
@@ -75,10 +75,11 @@
  */
 
 Navigator::Navigator(QWidget* parent, const char* name)
- : QMainWindow( parent, name, WDestructiveClose ) ,
-   options_(Options::instance()), catalogs_(0) {
-    // omnipresent, holding last filter
-    filterCatalog_ = new FilterCatalog(this);   
+    : QMainWindow( parent, name, WDestructiveClose ) ,
+    options_(Options::instance()) {
+    // filterCatalog_ persists, holding last filter
+    filterCatalog_ = new FilterCatalog(this);
+    catalogs_ = new Catalogs(options_);
 
     createActions();
     createMenus();
@@ -98,7 +99,7 @@ void Navigator::createStatusBar() {
     userLabel_->setAlignment(AlignHCenter);
     userLabel_->setMinimumSize(userLabel_->sizeHint());
 
-    sourceLabel_ = new QLabel(tr(" Source: %1 ").arg(systemPath()), this);
+    sourceLabel_ = new QLabel(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()), this);
     sourceLabel_->setAlignment(AlignHCenter);
     sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
 
@@ -233,23 +234,12 @@ void Navigator::regenerateCatalog() {
 }
 
 void Navigator::changeCatalog() {
-    switch (catalogComboBox_->source()) {
-        case Network:
-            /// TODO load network catalog
-            break;
-        case System:
-            /// TODO load system catalog
-            break;
-        case Optical:
-            /// TODO load optical catalog
-            break;
-        case Other:
-            /// TODO load other catalog
-            break;
-        default:
-            // is always there, a safe default
-            break;
-    }
+    catalogs_->setCurrentCatalog(catalogComboBox_->source());
+    /// FIXME refactor this out to separate method, as there is code duplication
+    sourceLabel_->setText(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()));
+    sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
+    statusBar()->update();
+
 }
 
 
@@ -345,8 +335,6 @@ void Navigator::createActions() {
     setupAction(exitAct, "Exit EP Simulator", SLOT(close()));
 
     // Catalog menu
-//    switchAct_ = new QAction(tr("Switch..."), 0, this);
-//    setupAction(switchAct_, "Switch catalogs", 0);
     // Submenu of Switch...
     // an action "Achive Server" is skipped here, but is present on Prucka
     networkSwitchAct_ = new QAction(tr("Network"), 0, this);
@@ -684,8 +672,7 @@ void Navigator::systemSettings() {
         // menu is changed
         networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
         // status bar and catalog might be changed 
-        /// FIXME below depends on catalogComboBox
-        sourceLabel_->setText(tr(" Source: %1 ").arg(options_->systemCatalogPath()));
+        sourceLabel_->setText(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()));
         sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
         statusBar()->update();
         refreshCatalog();

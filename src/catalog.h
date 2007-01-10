@@ -27,11 +27,13 @@
 #ifndef CATALOG_H
 #define CATALOG_H
 
-#include "epsim.h"
+#include "epsimdefs.h"
 #include "study.h"
 
 #include <qstring.h>
 #include <qfile.h>
+
+class Options;
 
 using namespace epsim;  // for CatalogSource enum
 
@@ -43,10 +45,9 @@ using namespace epsim;  // for CatalogSource enum
 class Catalog {
 
 public:
-//  Might want to use the enum below instead of in epsim.h?
+//  Might want to use the enum below instead of in epsimdefs.h?
 //    enum CatalogSource {Network, System, Optical, Other};
-    Catalog();
-    
+    Catalog(const QString& path, const QString& fileName);
 
     virtual void refresh() {}
     virtual void regenerate() {}
@@ -56,20 +57,27 @@ public:
 
     virtual CatalogSource type() const {return Other;}
     virtual QString path() const {return path_;}
+    virtual QString filePath() const;  // full path including fileName
+    virtual QString fileName() const {return fileName_;}
 
     virtual void setPath(const QString& path) {path_ = path;}
 
     virtual ~Catalog() {}
 
+protected:
+    // don't allow copying or default constructor
+    Catalog() {}
+    Catalog(const Catalog&) {}
 
 private:
-    QString path_;  // complete path, including file name
+    QString path_;  // path to catalog file, excluding file name
+    QString fileName_; // file name of catalog
 
 };
 
 class OpticalCatalog : public Catalog {
 public:
-    OpticalCatalog();
+    OpticalCatalog(const QString& path, const QString& fileName);
 
     virtual CatalogSource type() const {return Optical;}
     virtual ~OpticalCatalog() {}
@@ -80,7 +88,7 @@ private:
 
 class SystemCatalog : public Catalog {
 public:
-    SystemCatalog();
+    SystemCatalog(const QString& path, const QString& fileName);
     
     virtual CatalogSource type() const {return System;}
     virtual ~SystemCatalog() {}
@@ -89,7 +97,7 @@ private:
 
 class NetworkCatalog : public Catalog {
 public:
-    NetworkCatalog();
+    NetworkCatalog(const QString& path, const QString& fileName);
 
     virtual CatalogSource type() const {return Network;}
     virtual ~NetworkCatalog() {}
@@ -103,16 +111,22 @@ private:
 // N.B. Catalogs owns the catalog pointers and will delete them.
 class Catalogs {
 public:
-    Catalogs(CatalogSource defaultCatalog);
+    Catalogs(Options* options);
     
     void refresh();
     void regenerate();
-    Catalog* currentCatalog() {return currentCatalog_;}
+    Catalog* currentCatalog() const {return currentCatalog_;}
 
     void setCurrentCatalog(CatalogSource catalog);
 
     ~Catalogs();
+
+protected:
+    Catalogs();
+    Catalogs(Catalogs&);
+
 private:
+    Options* options_;
     Catalog* currentCatalog_;
     OpticalCatalog* opticalCatalog_;
     SystemCatalog* systemCatalog_;

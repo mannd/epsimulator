@@ -27,8 +27,6 @@
 
 const char* Options::catalogFileName_ = "catalog.eps";
 
-
-
 Options* Options::instance_ = 0;
 
 Options* Options::instance() {

@@ -25,7 +25,7 @@
 #ifndef TABLELISTVIEW_H
 #define TABLELISTVIEW_H
 
-#include "epsim.h"
+#include "epsimdefs.h"
 #include "study.h"
 
 #include <qlistview.h>

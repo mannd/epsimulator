@@ -21,40 +21,56 @@
 #include "catalog.h"
 #include "options.h"
 
-Catalog::Catalog()
-{
+#include <qdir.h>
+
+Catalog::Catalog(const QString& path, 
+                 const QString& fileName) : path_(path), fileName_(fileName) {
 }
 
-OpticalCatalog::OpticalCatalog() {
+QString Catalog::filePath() const {
+    return QDir::cleanDirPath(path_ + "/" + fileName_);
 }
 
-SystemCatalog::SystemCatalog() {
+OpticalCatalog::OpticalCatalog(const QString& path, 
+                 const QString& fileName) : Catalog(path, fileName) {
 }
 
-NetworkCatalog::NetworkCatalog() {
+SystemCatalog::SystemCatalog(const QString& path, 
+                 const QString& fileName) : Catalog(path, fileName) {
 }
 
-Catalogs::Catalogs(CatalogSource defaultCatalog) {
-    networkCatalog_ = new NetworkCatalog;
-    systemCatalog_ = new SystemCatalog;
-    opticalCatalog_ = new OpticalCatalog;
-    otherCatalog_ = new Catalog;
-    switch (defaultCatalog) {
-	case Network:
-	    currentCatalog_ = networkCatalog_;
-	    break;
-	case System:
-	    currentCatalog_ = systemCatalog_;
-	    break;
-	case Optical:
-	    currentCatalog_ = opticalCatalog_;
-	    break;
-	case Other:
-	    currentCatalog_ = otherCatalog_;
-	    break;
-	default:
-	    // good old systemCatalog...
-	    currentCatalog_ = systemCatalog_;
+NetworkCatalog::NetworkCatalog(const QString& path, 
+                 const QString& fileName) : Catalog(path, fileName){
+}
+
+Catalogs::Catalogs(Options* options) : options_(options) {
+    QString fileName = options_->catalogFileName();
+    networkCatalog_ = new NetworkCatalog(options_->networkStudyPath(), fileName);
+    systemCatalog_ = new SystemCatalog(options_->systemCatalogPath(), fileName);
+    opticalCatalog_ = new OpticalCatalog(options_->opticalStudyPath(), fileName);
+    otherCatalog_ = new Catalog(options_->systemCatalogPath(), fileName);
+    if (options_->enableNetworkStorage())
+        currentCatalog_ = networkCatalog_;
+    else
+        currentCatalog_ = systemCatalog_;
+}
+
+void Catalogs::setCurrentCatalog(CatalogSource catalog) {
+    switch (catalog) {
+        case Network:
+            currentCatalog_ = networkCatalog_;
+            break;
+        case System:
+            currentCatalog_ = systemCatalog_;
+            break;
+        case Optical:
+            currentCatalog_ = opticalCatalog_;
+            break;
+        case Other:
+            currentCatalog_ = otherCatalog_;
+            break;
+        default:
+            currentCatalog_ = systemCatalog_;
     }
 }
 
