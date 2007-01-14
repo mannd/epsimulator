@@ -21,6 +21,7 @@
 // MyTestSuite.h
 #include <cxxtest/TestSuite.h>
 #include "epsimdefs.h"
+#include "catalog.h"
 #include "filtercatalog.h"
 #include "study.h"
 #include "heart.h"
@@ -276,6 +277,22 @@ public:
             o->setEnableNetworkStorage(originalEnableNetwork);
             delete c;
         }
+
+void testCatalog() {
+    Catalog c("/testpath", "catalog.eps");
+    TS_ASSERT(c.filePath() == "/testpath/catalog.eps");
+    c.setPath("/testpath/");
+    // make sure no duplicate backslashes
+    TS_ASSERT(c.filePath() == "/testpath/catalog.eps");
+    TS_ASSERT(c.type() == Other);
+    // test Catalog subclasses
+    Catalog* cp = new OpticalCatalog("/testpath", "catalog.eps");
+    TS_ASSERT(cp->type() == Optical);
+    cout << "catalog filepath" << cp->filePath() << std::endl;
+    delete cp;
+}
+
+
 
 private:
     void testStudyDefaults(Study& study) {
