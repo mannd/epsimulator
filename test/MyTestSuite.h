@@ -290,6 +290,12 @@ void testCatalog() {
     TS_ASSERT(cp->type() == Optical);
     cout << "catalog filepath" << cp->filePath() << std::endl;
     delete cp;
+    cp = new NetworkCatalog("","");
+    TS_ASSERT(cp->type() == Network);
+    delete cp;
+    cp = new SystemCatalog("","");
+    TS_ASSERT(cp->type() == System);
+    delete cp;
 }
 
 
@@ -352,6 +358,8 @@ private:
         TS_ASSERT_EQUALS(s1.dateTime(), s2.dateTime());  
         TS_ASSERT_EQUALS(s1.number(), s2.number());
         TS_ASSERT_EQUALS(s1.file(), s2.file());
+        TS_ASSERT_EQUALS(s1.path(), s2.path());
+        TS_ASSERT_EQUALS(s1.fileName(), s2.fileName());
     }
 
     void showFullNameOutput(const Study& s) {

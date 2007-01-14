@@ -56,6 +56,10 @@ void Options::readSettings() {
     opticalStudyPath_ = settings.readEntry("/opticalStudyPath", defaultOpticalPath);
     networkStudyPath_ = settings.readEntry("/networkStudyPath", "");
     exportFilePath_ = settings.readEntry("/exportFilePath", "");
+    emulateDualSidedDisks_ = 
+        settings.readBoolEntry("/emulateDualSidedDisks", true);
+    emulatedOpticalDriveCapacity_ 
+        =settings.readNumEntry("/emulatedOpticalDriveCapacity", 0);
     /// TODO other options here...
     settings.endGroup();
 }

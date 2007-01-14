@@ -76,7 +76,7 @@
 
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ) ,
-    options_(Options::instance()) {
+    options_(Options::instance()), currentDiskLabel_(QString::null) {
     // filterCatalog_ persists, holding last filter
     filterCatalog_ = new FilterCatalog(this);
     catalogs_ = new Catalogs(options_);
@@ -191,6 +191,7 @@ void Navigator::createTableListView() {
     tableListView_->addColumn(tr("Study Date/Time"));    // col 3
     tableListView_->addColumn(tr("Study Config"));       // col 4
     tableListView_->addColumn(tr("Study Number"));       // col 5
+    /// FIXME this needs to be disk label/network location
     tableListView_->addColumn(tr("Location of Study"));  // col 6
     /// FIXME Below can be eliminated, but must also eliminate keycolumn
     tableListView_->addColumn(tr("Hidden key"));         // col 7
@@ -649,9 +650,6 @@ void Navigator::startStudy() {
     eps->showMaximized();
 }
 
-///TODO The studies.eps file cannot change with the studyPath, as it must contain the different 
-/// paths for all the studies in the catalog.  studies.eps must be in a fixed place, probably a
-/// relative path to the executable, or in the executable directory, e.g.  Must fix this soon.
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
     systemDialog->opticalStudyPathLineEdit->setText(options_->opticalStudyPath());
@@ -662,7 +660,6 @@ void Navigator::systemSettings() {
     systemDialog->setEnableFileExportCheckBox(options_->enableFileExport());
     systemDialog->setEnableNetworkStorageCheckBox(options_->enableNetworkStorage());
     if (systemDialog->exec()) {
-        /// FIXME These can just be data members, e.g. opticalStudyLineEdit->text()
         options_->setOpticalStudyPath(systemDialog->opticalStudyPathLineEdit->text());
         options_->setNetworkStudyPath(systemDialog->networkStudyPathLineEdit->text());
         options_->setExportFilePath(systemDialog->exportFilePathLineEdit->text());

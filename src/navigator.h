@@ -137,10 +137,13 @@ private:
 //    QString studiesPath_;   // path to studies
 
     // Data members
+    // TODO study_ should be Study*
     Study study_;           // current study
     Options* options_;
     FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
     Catalogs* catalogs_;
+    // Label of current disk, or emulated disk label
+    QString currentDiskLabel_;
 
     // StatusBar labels
     QLabel* messageLabel_;

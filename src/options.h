@@ -62,6 +62,9 @@ public:
     void setEmulateOpticalDrive(bool emulate) {emulateOpticalDrive_ = emulate;}
     void setEnableFileExport(bool enable) {enableFileExport_ = enable;}
     void setEnableNetworkStorage(bool enable) { enableNetworkStorage_ = enable;}
+    void setEmulateDualSidedDisks(bool emulate) {emulateDualSidedDisks_ = emulate;}
+    void setEmulatedOpticalDriveCapacity(int capacity) {
+        emulatedOpticalDriveCapacity_ = capacity;}
 
 
     QString opticalStudyPath() const {return opticalStudyPath_;}
@@ -75,6 +78,9 @@ public:
     bool emulateOpticalDrive() const {return emulateOpticalDrive_;}
     bool enableFileExport() const {return enableFileExport_;}
     bool enableNetworkStorage() const {return enableNetworkStorage_;}
+    bool emulateDualSidedDisks() const {return emulateDualSidedDisks_;}
+    int emulatedOpticalDriveCapacity() const {
+        return emulatedOpticalDriveCapacity_;} 
 
     void readSettings();
     void writeSettings();
@@ -101,7 +107,13 @@ private:
     bool enableAcquisition_;
     bool enableFileExport_;
     bool enableNetworkStorage_;
-
+    
+    // some simulator specific options
+    // related to Optical drive emulation
+    bool emulateDualSidedDisks_;
+    // emulated optical drive capacity (per side) in megabytes
+    // if = 0 then no limit.  Default is 0 (unlimited)
+    int emulatedOpticalDriveCapacity_;
 };
 
 #endif
