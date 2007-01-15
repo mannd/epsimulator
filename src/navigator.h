@@ -36,6 +36,7 @@ class Catalog;
 class Catalogs;
 class CatalogComboBox;
 class FilterCatalog;
+class OpticalDisk;
 class Options;
 class TableListView;
 
@@ -125,7 +126,10 @@ private:
     FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
     Catalogs* catalogs_;
     // Label of current disk, or emulated disk label
+    /// FIXME below probably needs to be replaced by OpticalDisk class
     QString currentDiskLabel_;
+    
+    OpticalDisk* currentDisk_;
 
     // StatusBar labels
     QLabel* messageLabel_;

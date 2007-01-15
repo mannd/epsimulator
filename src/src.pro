@@ -38,7 +38,8 @@ HEADERS += epsimulator.h \
            filtercatalog.h \
            catalogcombobox.h \
            catalog.h \
-           tablelistview.h 
+           tablelistview.h \
+           opticaldisk.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -52,7 +53,8 @@ SOURCES += epsimulator.cpp \
            filtercatalog.cpp \
            catalogcombobox.cpp \
            catalog.cpp \
-           tablelistview.cpp 
+           tablelistview.cpp \
+           opticaldisk.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
