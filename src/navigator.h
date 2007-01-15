@@ -29,10 +29,7 @@
 #include "epsimdefs.h"  // for CatalogSource, FilterStudyType
 #include "options.h"
 #include "study.h"
-//#include "catalog.h"
 
-/// FIXME get rid of below when systemPath goes
-#include <qdir.h>
 #include <qmainwindow.h>
 
 class Catalog;
@@ -48,7 +45,6 @@ class QGridLayout;
 class QLabel;
 class QPopupMenu;
 class QPushButton;
-class QSpacerItem;
 class QSplitter;
 class QToolBar;
 
@@ -67,7 +63,6 @@ public:
   
 protected:
     void closeEvent(QCloseEvent * event);
-    //    void contextMenuEvQDir::current().path() + "/system"ent(QContextMenuEvent * event);
 
 private slots:
     void newStudy();
@@ -123,19 +118,6 @@ private:
     void createDataFile();  // create a data file for a new study
     void openDataFile();    // open a  data file for review or appending data
 
-    // Deprecated?
-//    void setCatalog(CatalogSource);
-//    QString currentCatalogPath();   // holds path of currently displayed catalog
-    QString systemPath() {return QDir::homeDirPath();}
-    // These are the paths to the 3 catalogs maintained, plus an optional path to 
-    // another catalog you can browse to. 
-//     QString networkPath_;
-//     QString systemPath_;
-//     QString opticalPath_;
-//     QString otherPath_; 
-//     bool emulateOpticalDrive_;  // emulate optical drive on hard drive using subdirectories
-//    QString studiesPath_;   // path to studies
-
     // Data members
     // TODO study_ should be Study*
     Study study_;           // current study
@@ -157,17 +139,6 @@ private:
     QFrame* buttonFrame;
     QGridLayout* buttonFrameLayout;
     TableListView* tableListView_;
-    QPushButton* newStudyButton;
-    QPushButton* continueStudyButton;
-    QPushButton* reviewStudyButton;
-    QPushButton* preregisterPatientButton;
-    QPushButton* reportsButton; 
-    QLabel* newStudyLabel;
-    QLabel* continueStudyLabel;
-    QLabel* reviewStudyLabel;
-    QLabel* preregisterPatientLabel;
-    QLabel* reportsLabel;
-    QSpacerItem* spacer;
 
     // Study menu
     QAction *newAct;

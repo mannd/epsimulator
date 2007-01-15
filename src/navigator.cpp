@@ -141,7 +141,7 @@ void Navigator::setupButton(QPushButton* button, QString pixmapName,
     spaceLabel->setAlignment(int(QLabel::AlignCenter));
     buttonFrameLayout->addWidget(spaceLabel, row++, 0);
     if (lastButton) {
-        spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
+        QSpacerItem* spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
         buttonFrameLayout->addItem( spacer, row, 0 );
     }
 }
@@ -159,28 +159,26 @@ void Navigator::createButtonFrame() {
     buttonFrame->setMaximumWidth(200);
     buttonFrameLayout = new QGridLayout(buttonFrame, 1, 1, 11, 6, "");
 
-    newStudyButton = new QPushButton(buttonFrame);
-    newStudyLabel = new QLabel(tr("New Study"), buttonFrame);
+    QPushButton* newStudyButton = new QPushButton(buttonFrame);
+    QLabel* newStudyLabel = new QLabel(tr("New Study"), buttonFrame);
     setupButton(newStudyButton, "hi64-newstudy.png", newStudyLabel, SLOT(newStudy()));
 
-    continueStudyButton = new QPushButton(buttonFrame);
-    continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame);
+    QPushButton* continueStudyButton = new QPushButton(buttonFrame);
+    QLabel* continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame);
     setupButton(continueStudyButton, "hi64-continuestudy.png", continueStudyLabel, 0 /* slot */);
-
     
-    reviewStudyButton = new QPushButton(buttonFrame);
-    reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame);
+    QPushButton* reviewStudyButton = new QPushButton(buttonFrame);
+    QLabel* reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame);
     setupButton(reviewStudyButton, "hi64-reviewstudy.png", reviewStudyLabel, 0 /* slot */);
 
-    preregisterPatientButton = new QPushButton(buttonFrame);
-    preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame);
+    QPushButton* preregisterPatientButton = new QPushButton(buttonFrame);
+    QLabel* preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame);
     setupButton(preregisterPatientButton, "hi64-preregister.png", preregisterPatientLabel, 
         SLOT(preregisterPatient()));
 
-    reportsButton = new QPushButton(buttonFrame);
-    reportsLabel = new QLabel(tr("Reports"), buttonFrame);
+    QPushButton* reportsButton = new QPushButton(buttonFrame);
+    QLabel* reportsLabel = new QLabel(tr("Reports"), buttonFrame);
     setupButton(reportsButton, "hi64-reports.png", reportsLabel, 0 /* slot */, true);
-
 }
 
 void Navigator::createTableListView() {

@@ -121,6 +121,22 @@ bool TableListView::save(const QString& fileName) {
     return true;
 }
 
+/// FIXME This is naive.  What happens when the catalog is saved?  Reading is easy:
+/// whatever Catalog is being viewed, just load that catalog.eps file.  What happens
+/// when a study is added, or edited?  The different catalog.eps files must be updated
+/// immediately, or else you could change catalog source and not have it work right.
+/// You can't just write the whole TableListView to each catalog.eps, as the catalogs
+/// are different.  So, we have these situations:
+///     System and Optical only:
+///         Study added/moved/deleted: Optical and System always updated; however
+///             it is necessary to "insert" optical disk if not already inserted
+///             when studies, moved or deleted.
+///     Network:
+///         Network is a super System catalog.  When study added or exported to Network,
+///             Network is updated.  Also deletions, moving recorded in Network.  Exported
+///             study data to a network folder overrides the Optical data.  Thus, system
+///             and Network can be out of sync.
+/// TODO fix above after fixing changing Study to pointer
 bool TableListView::save(const QStringList& fileNames) {
     bool success = true;
     for (QStringList::ConstIterator it = fileNames.begin(); it != fileNames.end(); ++it ) {
