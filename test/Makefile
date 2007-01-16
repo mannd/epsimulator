@@ -16,7 +16,8 @@ OBJECTS := 	$(OBJ_DIR)/study.o \
 		$(OBJ_DIR)/filtercatalogbase.o \
 		$(OBJ_DIR)/catalogcombobox.o \
 		$(OBJ_DIR)/moc_catalogcombobox.o \
-		$(OBJ_DIR)/catalog.o
+		$(OBJ_DIR)/catalog.o \
+		$(OBJ_DIR)/opticaldiskdrive.o
 
 vpath %.cpp ../src
 vpath %.h ../src

@@ -18,14 +18,24 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "opticaldisk.h"
+#include "options.h"
 
-OpticalDisk::OpticalDisk()
-{
+#include <qsettings.h>
+
+OpticalDisk::OpticalDisk() : label_(QString::null), 
+                             twoSided_(true), side_("A") {
+    /// TODO check if disk is present
 }
 
 
-OpticalDisk::~OpticalDisk()
-{
+OpticalDisk::~OpticalDisk() {
+}
+
+EmulatedOpticalDisk::EmulatedOpticalDisk() {
+    
+}
+
+EmulatedOpticalDisk::~ EmulatedOpticalDisk() {
 }
 
 

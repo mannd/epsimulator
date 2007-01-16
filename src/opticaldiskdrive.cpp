@@ -17,50 +17,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef OPTICALDISK_H
-#define OPTICALDISK_H
+#include "opticaldiskdrive.h"
 
-#include <qstring.h>
+#include <qfileinfo.h>
 
-/**
-Base class for real optical disk and optical disk emulation.
+OpticalDiskDrive::OpticalDiskDrive(const QString& path) : path_(path) {
+}
 
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class OpticalDisk{
-public:
-    OpticalDisk();
-
-    virtual void eject() {}
-    virtual void relabel() {}
-    virtual QString side() const {return side_;}
-
-    virtual void setLabel(const QString& label) {label_ = label;}
-    virtual void setSide(QString& side) {side_ = side;}
-
-    virtual QString label() const {return label_;}
-
-    virtual ~OpticalDisk();
-
-protected:
-    QString label_;
-    bool twoSided_;
-    QString side_;  // A or B
-    
-    
-
-};
-
-class EmulatedOpticalDisk : public OpticalDisk {
-public:
-    EmulatedOpticalDisk();
-
-    virtual void eject() {}
-    virtual void relabel() {}
-
-    virtual ~EmulatedOpticalDisk();
-
-};
+bool OpticalDiskDrive::checkDrive() {
+    QFileInfo fileInfo(path_);
+    return fileInfo.exists() && fileInfo.isReadable()
+        && fileInfo.isWritable() && fileInfo.isDir();
+}
 
 
-#endif
+OpticalDiskDrive::~OpticalDiskDrive()
+{
+}
+
+
