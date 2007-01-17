@@ -35,4 +35,10 @@ OpticalDiskDrive::~OpticalDiskDrive()
 {
 }
 
+EmulatedOpticalDiskDrive::EmulatedOpticalDiskDrive(const QString& path) :
+    OpticalDiskDrive(path) {
+}
+
+EmulatedOpticalDiskDrive::~EmulatedOpticalDiskDrive() {
+}
 

@@ -37,6 +37,7 @@ class Catalogs;
 class CatalogComboBox;
 class FilterCatalog;
 class OpticalDisk;
+class OpticalDiskDrive;
 class Options;
 class TableListView;
 
@@ -130,6 +131,7 @@ private:
     QString currentDiskLabel_;
     
     OpticalDisk* currentDisk_;
+    OpticalDiskDrive* opticalDiskDrive_;
 
     // StatusBar labels
     QLabel* messageLabel_;

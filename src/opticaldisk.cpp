@@ -22,6 +22,8 @@
 
 #include <qsettings.h>
 
+const char* OpticalDisk::labelFileName_ = "label.eps";
+
 OpticalDisk::OpticalDisk() : label_(QString::null), 
                              twoSided_(true), side_("A") {
     /// TODO check if disk is present

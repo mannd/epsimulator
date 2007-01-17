@@ -46,7 +46,7 @@ protected:
     QString label_;
     bool twoSided_;
     QString side_;  // A or B
-    
+    static const char* labelFileName_;    
     
 
 };

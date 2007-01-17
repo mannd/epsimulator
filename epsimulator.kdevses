@@ -3,10 +3,10 @@
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="13" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/test/MyTestSuite.h" >
-   <View0 line="315" Type="Source" />
+   <View0 Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/study.h" >
-   <View0 line="0" Type="Source" />
+   <View0 Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/options.h" >
    <View0 Type="Source" />
@@ -24,16 +24,16 @@
    <View0 Type="Source" />
   </Doc6>
   <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/opticaldisk.h" >
-   <View0 line="60" Type="Source" />
+   <View0 Type="Source" />
   </Doc7>
   <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/opticaldisk.cpp" >
-   <View0 line="37" Type="Source" />
+   <View0 Type="Source" />
   </Doc8>
   <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/opticaldiskdrive.h" >
-   <View0 line="46" Type="Source" />
+   <View0 Type="Source" />
   </Doc9>
   <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/opticaldiskdrive.cpp" >
-   <View0 line="29" Type="Source" />
+   <View0 Type="Source" />
   </Doc10>
   <Doc11 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qfileinfo.html#filePath" >
    <View0 Type="Documentation" />

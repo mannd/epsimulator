@@ -42,7 +42,7 @@ protected:
 
 class EmulatedOpticalDiskDrive : public OpticalDiskDrive {
 public:
-    EmulatedOpticalDiskDrive();
+    EmulatedOpticalDiskDrive(const QString& path);
 
     virtual bool checkDrive() {return true;}
 

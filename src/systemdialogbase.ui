@@ -305,12 +305,25 @@
                                 <bool>true</bool>
                             </property>
                         </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>opticalStudyPathLineEdit</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>202</x>
+                                    <y>88</y>
+                                    <width>400</width>
+                                    <height>30</height>
+                                </rect>
+                            </property>
+                        </widget>
                         <widget class="QCheckBox">
                             <property name="name">
                                 <cstring>emulateOpticalDriveCheckBox</cstring>
                             </property>
                             <property name="enabled">
-                                <bool>false</bool>
+                                <bool>true</bool>
                             </property>
                             <property name="geometry">
                                 <rect>
@@ -325,19 +338,6 @@
                             </property>
                             <property name="checked">
                                 <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="QLineEdit">
-                            <property name="name">
-                                <cstring>opticalStudyPathLineEdit</cstring>
-                            </property>
-                            <property name="geometry">
-                                <rect>
-                                    <x>202</x>
-                                    <y>88</y>
-                                    <width>400</width>
-                                    <height>30</height>
-                                </rect>
                             </property>
                         </widget>
                     </widget>

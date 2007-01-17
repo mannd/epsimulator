@@ -29,6 +29,8 @@
 #include "epsimdefs.h"
 #include "epsimulator.h"
 #include "filtercatalog.h"
+#include "opticaldisk.h"
+#include "opticaldiskdrive.h"
 #include "options.h"
 #include "navigator.h"
 #include "patientdialog.h"
@@ -76,7 +78,8 @@
 
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ) ,
-    options_(Options::instance()), currentDiskLabel_(QString::null) {
+    options_(Options::instance()), currentDiskLabel_(QString::null),
+    currentDisk_(0) {
     // filterCatalog_ persists, holding last filter
     filterCatalog_ = new FilterCatalog(this);
     catalogs_ = new Catalogs(options_);
@@ -219,6 +222,20 @@ void Navigator::createCentralWidget() {
 
 void Navigator::refreshCatalog() {
     catalogComboBox_->refresh();
+
+    // insert optical disk handling here
+    
+    if (options_->emulateOpticalDrive())
+        opticalDiskDrive_ = new 
+            EmulatedOpticalDiskDrive(options_->opticalStudyPath());
+    else 
+        opticalDiskDrive_ = new 
+            OpticalDiskDrive(options_->opticalStudyPath());
+    if (!opticalDiskDrive_->checkDrive()) {
+    /// TODO add messages to insert disk, label disk etc.
+        QMessageBox::information( this, PROGRAM_NAME,
+            tr("No optical disk inserted"));
+    }    
     tableListView_->load(catalogs_->currentCatalog()->filePath());
     // reapply filter if present
     if (tableListView_->filtered())
@@ -689,11 +706,10 @@ void Navigator::about() {
 void Navigator::closeEvent(QCloseEvent *event) {
     int ret = QMessageBox::question(
             this,
-            tr("Really quit?"),
             tr("Quit %1").arg(PROGRAM_NAME),
+            tr("Really quit %1?").arg(PROGRAM_NAME),
             QMessageBox::Yes | QMessageBox::Default,
-            QMessageBox::No,
-            QMessageBox::Cancel | QMessageBox::Escape);
+            QMessageBox::No | QMessageBox::Escape);
     if (ret == QMessageBox::Yes)
         event->accept();
     else
@@ -704,4 +720,6 @@ Navigator::~Navigator() {
     saveSettings();
     tableListView_->save(catalogs_->filePaths());
     delete catalogs_;
+    delete opticalDiskDrive_;
+    delete currentDisk_;
 }
