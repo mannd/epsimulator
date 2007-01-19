@@ -24,7 +24,7 @@
 OpticalDiskDrive::OpticalDiskDrive(const QString& path) : path_(path) {
 }
 
-bool OpticalDiskDrive::checkDrive() {
+bool OpticalDiskDrive::testDrive() {
     QFileInfo fileInfo(path_);
     return fileInfo.exists() && fileInfo.isReadable()
         && fileInfo.isWritable() && fileInfo.isDir();
@@ -37,6 +37,13 @@ OpticalDiskDrive::~OpticalDiskDrive()
 
 EmulatedOpticalDiskDrive::EmulatedOpticalDiskDrive(const QString& path) :
     OpticalDiskDrive(path) {
+}
+
+bool EmulatedOpticalDiskDrive::checkDrive() {
+    bool driveOk = OpticalDiskDrive::testDrive();
+    // need to see if specific dir (e.g. MyStudies has been set up,
+    // otherwise configureDiskDrive().
+    return driveOk;
 }
 
 EmulatedOpticalDiskDrive::~EmulatedOpticalDiskDrive() {

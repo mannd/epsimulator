@@ -24,6 +24,13 @@
 
 /**
 Base class for real optical disk and optical disk emulation.
+TODO At this point (and probably never) we don't want to try to replicate the
+streaming data storage to an actual optical disk, a la Prucka.  It is
+not clear if it can even work with traditional optical media (as opposed to
+what the Prucka system uses, proprietary disks I suppose.  However, we
+do want to have an OpticalDisk base class, whose functions can, if we
+wish, someday be fleshed out to provide true optical disk storage.
+Similar comments obviously apply to the OpticalDiskDrive class too.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */

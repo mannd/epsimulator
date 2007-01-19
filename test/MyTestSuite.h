@@ -304,17 +304,17 @@ void testCatalog() {
 
 void testOpticalDiskDrive() {
     // should qualify as disk drive
-    OpticalDiskDrive disk1(QDir::homeDirPath());
+    EmulatedOpticalDiskDrive disk1(QDir::homeDirPath());
     TS_ASSERT(disk1.checkDrive());
     // nonsense path
     // shouldn't check out
-    OpticalDiskDrive disk2("3kdk22kdk2/");
+    EmulatedOpticalDiskDrive disk2("3kdk22kdk2/");
     TS_ASSERT(!disk2.checkDrive());
     // below shouldn't work because it is
     // file and not dir
     QString s = QDir::homeDirPath() +
         "/.qt/epsimulatorrc";
-    OpticalDiskDrive disk3(s);
+    EmulatedOpticalDiskDrive disk3(s);
     TS_ASSERT(!disk3.checkDrive());
     cout << "disk3 path is " << s << endl;
 }

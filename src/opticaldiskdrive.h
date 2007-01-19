@@ -23,7 +23,11 @@
 #include <qstring.h>
 
 /**
-Contains OpticalDiskDrive and EmulatedOpticalDiskDrive.
+Contains OpticalDiskDrive and EmulatedOpticalDiskDrive.  See comments
+in class OpticalDisk re the advisability of actually implementing
+Optical disk storage.  Although not an ABC, the OpticalDiskDrive
+base class will not be used for now.  It will provide the interfaces
+we need to emulate in the EmulateOpticalDiskDrive class.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */
@@ -31,7 +35,10 @@ class OpticalDiskDrive{
 public:
     OpticalDiskDrive(const QString& path);
 
-    virtual bool checkDrive();
+    // checkDrive will be false until we actually create
+    // methods to use a real optical disk drive.
+    virtual bool checkDrive() {return false;}
+    virtual bool testDrive();
 
     virtual ~OpticalDiskDrive();
 
@@ -44,7 +51,7 @@ class EmulatedOpticalDiskDrive : public OpticalDiskDrive {
 public:
     EmulatedOpticalDiskDrive(const QString& path);
 
-    virtual bool checkDrive() {return true;}
+    virtual bool checkDrive();
 
     virtual ~EmulatedOpticalDiskDrive();
 

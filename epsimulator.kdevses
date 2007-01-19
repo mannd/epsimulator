@@ -1,4 +1,4 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="13" >
@@ -14,8 +14,8 @@
   <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/options.cpp" >
    <View0 Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qsettings.html#readNumEntry" >
-   <View0 Type="Documentation" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldisk.h" >
+   <View0 line="40" Type="Source" />
   </Doc4>
   <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator.h" >
    <View0 Type="Source" />
@@ -49,7 +49,7 @@
   <kdevbookmarks>
    <bookmarks>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
-     <mark line="235" />
+     <mark line="233" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/study.cpp" >
      <mark line="135" />
