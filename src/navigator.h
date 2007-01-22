@@ -69,6 +69,7 @@ protected:
 private slots:
     void newStudy();
     void preregisterPatient();
+    void continueStudy();
     void deleteStudy();
     void filterStudies();
     void unfilterStudies();
@@ -100,6 +101,7 @@ private:
     void createMenus();
     void createToolBars();
     void createStatusBar();
+    void updateSourceLabel();
     void setupButton(QPushButton* button, QString pixmapName, 
                      QLabel* label, const char* slotName, 
 		     bool lastButton = false);

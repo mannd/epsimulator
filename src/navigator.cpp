@@ -97,7 +97,7 @@ Navigator::Navigator(QWidget* parent, const char* name)
 void Navigator::createStatusBar() {
     messageLabel_ = new QLabel(tr("For Help, press F1"), this);
 
-    ///TODO make sure getenv works for Windows too
+    /// Apparently getenv works in Windows too.
     userLabel_ = new QLabel(tr(" User: %1 ").arg(std::getenv("USER")), this);
     userLabel_->setAlignment(AlignHCenter);
     userLabel_->setMinimumSize(userLabel_->sizeHint());
@@ -168,7 +168,8 @@ void Navigator::createButtonFrame() {
 
     QPushButton* continueStudyButton = new QPushButton(buttonFrame);
     QLabel* continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame);
-    setupButton(continueStudyButton, "hi64-continuestudy.png", continueStudyLabel, 0 /* slot */);
+    setupButton(continueStudyButton, "hi64-continuestudy.png", continueStudyLabel, 
+        0, SLOT(continueStudy()));
     
     QPushButton* reviewStudyButton = new QPushButton(buttonFrame);
     QLabel* reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame);
@@ -253,11 +254,7 @@ void Navigator::changeCatalog() {
     // reapply filter if present
     if (tableListView_->filtered())
         processFilter();
-    /// FIXME refactor this out to separate method, as there is code duplication
-    sourceLabel_->setText(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()));
-    sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
-    statusBar()->update();
-
+    updateSourceLabel();
 }
 
 
@@ -619,6 +616,11 @@ void Navigator::newStudy() {
     }
 }
 
+void Navigator::continueStudy() {
+    prepareStudy();
+    /// TODO Rest of processing 
+}
+
 void Navigator::preregisterPatient() {
     prepareStudy();
     study_.setConfig("");   // preregistered study has no config info
@@ -665,6 +667,13 @@ void Navigator::startStudy() {
     eps->showMaximized();
 }
 
+/// Updates status bar to show source of current catalog.
+void Navigator::updateSourceLabel() {
+        sourceLabel_->setText(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()));
+        sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
+        statusBar()->update();
+}
+
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
     systemDialog->opticalStudyPathLineEdit->setText(options_->opticalStudyPath());
@@ -686,9 +695,7 @@ void Navigator::systemSettings() {
         // menu is changed
         networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
         // status bar and catalog might be changed 
-        sourceLabel_->setText(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()));
-        sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
-        statusBar()->update();
+        updateSourceLabel();
         refreshCatalog();
     }
 }
@@ -706,8 +713,8 @@ void Navigator::about() {
 void Navigator::closeEvent(QCloseEvent *event) {
     int ret = QMessageBox::question(
             this,
-            tr("Quit %1").arg(PROGRAM_NAME),
-            tr("Really quit %1?").arg(PROGRAM_NAME),
+            PROGRAM_NAME,
+            tr("Quit %1?").arg(PROGRAM_NAME),
             QMessageBox::Yes | QMessageBox::Default,
             QMessageBox::No | QMessageBox::Escape);
     if (ret == QMessageBox::Yes)
