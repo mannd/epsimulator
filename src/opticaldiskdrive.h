@@ -39,6 +39,7 @@ public:
     // methods to use a real optical disk drive.
     virtual bool checkDrive() {return false;}
     virtual bool testDrive();
+    virtual bool setupDrive() {return true;}
 
     virtual ~OpticalDiskDrive();
 
@@ -52,6 +53,7 @@ public:
     EmulatedOpticalDiskDrive(const QString& path);
 
     virtual bool checkDrive();
+    virtual bool setupDrive() {return true;}
 
     virtual ~EmulatedOpticalDiskDrive();
 

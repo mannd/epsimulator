@@ -76,6 +76,7 @@ private slots:
     void refreshCatalog();        
     void regenerateCatalog();
     void changeCatalog();
+    void ejectDisk();
     
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.

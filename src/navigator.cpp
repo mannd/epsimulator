@@ -396,7 +396,7 @@ void Navigator::createActions() {
     importReportFormatsAct_ = new QAction(tr("Import Report Formats..."), 0, this);
     setupAction(importReportFormatsAct_, "Import report formats", 0);
     ejectOpticalDiskAct_ = new QAction(tr("Eject Optical Disk"), 0, this);
-    setupAction(ejectOpticalDiskAct_, "Eject optical disk", 0);
+    setupAction(ejectOpticalDiskAct_, "Eject optical disk", SLOT(ejectDisk()));
 
     // Administration menu
     loginAct = new QAction(tr("Login..."), 0, this);
@@ -698,6 +698,17 @@ void Navigator::systemSettings() {
         updateSourceLabel();
         refreshCatalog();
     }
+}
+
+void Navigator::ejectDisk() {
+/// TODO something like below
+/*
+    if (opticalDiskDrive_->setup()) {
+        if (opticalDiskDrive_->diskLoaded()) 
+            opticalDiskDrive_->eject(currentDisk_);
+        else
+            currentDisk_ = opticalDiskDrive_->load();
+*/
 }
 
 void Navigator::help() {
