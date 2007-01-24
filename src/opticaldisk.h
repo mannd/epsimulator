@@ -36,7 +36,7 @@ Similar comments obviously apply to the OpticalDiskDrive class too.
 	@author David Mann <mannd@epstudiossoftware.com>
 */
 class OpticalDisk {
-//    Q_OBJECT
+    Q_OBJECT
 public:
     OpticalDisk();
 

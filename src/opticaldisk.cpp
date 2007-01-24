@@ -30,14 +30,14 @@ OpticalDisk::OpticalDisk() : label_(QString::null),
 }
 
 void OpticalDisk::setSide(const QString& side) {
-//     if (!twoSided_)
-//         side_ = QString::null;
-//     else if (side == tr("A") || side == tr("a"))
-//         side_ = "A";
-//     else if (side == tr("B") || side == tr("b"))
-//         side_ = "B";
-//     else
-//         side_ = QString::null;
+    if (!twoSided_)
+        side_ = QString::null;
+    else if (side == tr("A") || side == tr("a"))
+        side_ = "A";
+    else if (side == tr("B") || side == tr("b"))
+        side_ = "B";
+    else
+        side_ = QString::null;
 }
 
 OpticalDisk::~OpticalDisk() {

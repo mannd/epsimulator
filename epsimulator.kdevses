@@ -1,31 +1,34 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="8" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldisk.h" >
-   <View0 line="32" Type="Source" />
+ <DocsAndViews NumberOfDocuments="9" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
+   <View0 line="703" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldiskdrive.h" >
-   <View0 line="40" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 line="78" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldiskdrive.cpp" >
-   <View0 line="45" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.h" >
+   <View0 line="0" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="0" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/notes" >
+   <View0 line="129" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 line="127" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldisk.h" >
+   <View0 line="74" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/getopts.cpp" >
-   <View0 line="0" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldisk.cpp" >
+   <View0 line="45" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/getopts.h" >
-   <View0 line="115" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qapplication.html#translate" >
+   <View0 Type="Documentation" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-   <View0 line="316" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldiskdrive.h" >
+   <View0 line="43" Type="Source" />
+  </Doc8>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -34,7 +37,7 @@
   <kdevbookmarks>
    <bookmarks>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
-     <mark line="233" />
+     <mark line="234" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/study.cpp" >
      <mark line="135" />

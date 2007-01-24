@@ -18,10 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "opticaldiskdrive.h"
+#include "opticaldisk.h"
 
 #include <qfileinfo.h>
 
-OpticalDiskDrive::OpticalDiskDrive(const QString& path) : path_(path) {
+OpticalDiskDrive::OpticalDiskDrive(const QString& path) : path_(path),
+    disk_(0) {
 }
 
 bool OpticalDiskDrive::testDrive() {
@@ -31,8 +33,8 @@ bool OpticalDiskDrive::testDrive() {
 }
 
 
-OpticalDiskDrive::~OpticalDiskDrive()
-{
+OpticalDiskDrive::~OpticalDiskDrive() {
+    delete disk_;
 }
 
 EmulatedOpticalDiskDrive::EmulatedOpticalDiskDrive(const QString& path) :

@@ -31,6 +31,9 @@ we need to emulate in the EmulateOpticalDiskDrive class.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */
+
+class OpticalDisk;
+
 class OpticalDiskDrive{
 public:
     OpticalDiskDrive(const QString& path);
@@ -45,6 +48,7 @@ public:
 
 protected:
     QString path_;
+    OpticalDisk* disk_;  // disk in drive
 
 };
 
