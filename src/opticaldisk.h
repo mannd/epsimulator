@@ -36,7 +36,7 @@ Similar comments obviously apply to the OpticalDiskDrive class too.
 	@author David Mann <mannd@epstudiossoftware.com>
 */
 class OpticalDisk {
-    Q_OBJECT
+//    Q_OBJECT
 public:
     OpticalDisk();
 
@@ -45,7 +45,7 @@ public:
     virtual QString side() const {return side_;}
 
     virtual void setLabel(const QString& label) {label_ = label;}
-    virtual void setSide(const QString& side);
+//    virtual void setSide(const QString& side);
 
     virtual QString label() const {return label_;}
 
@@ -64,15 +64,15 @@ class EmulatedOpticalDisk : public OpticalDisk {
 public:
     EmulatedOpticalDisk();
 
-    virtual void eject() {}
-    virtual void relabel() {}
-// 
-    virtual QString side() const {}
-// 
-    virtual void setLabel(const QString& label) {}
-//     virtual void setSide() {}
-// 
-    virtual QString label() const {}
+//     virtual void eject() {}
+//     virtual void relabel() {}
+// // 
+// //    virtual QString side() const {}
+// // 
+// //    virtual void setLabel(const QString& label) {}
+// //     virtual void setSide() {}
+// // 
+// //    virtual QString label() const {}
 
 
     virtual ~EmulatedOpticalDisk();

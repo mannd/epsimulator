@@ -169,7 +169,7 @@ void Navigator::createButtonFrame() {
     QPushButton* continueStudyButton = new QPushButton(buttonFrame);
     QLabel* continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame);
     setupButton(continueStudyButton, "hi64-continuestudy.png", continueStudyLabel, 
-        0, SLOT(continueStudy()));
+        0);  ///FIXME adding slot here messed up the button layout!!!????
     
     QPushButton* reviewStudyButton = new QPushButton(buttonFrame);
     QLabel* reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame);
