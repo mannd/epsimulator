@@ -20,7 +20,6 @@
 #ifndef OPTICALDISK_H
 #define OPTICALDISK_H
 
-#include <qobject.h>
 #include <qstring.h>
 
 /**
@@ -36,18 +35,19 @@ Similar comments obviously apply to the OpticalDiskDrive class too.
 	@author David Mann <mannd@epstudiossoftware.com>
 */
 class OpticalDisk {
-//    Q_OBJECT
 public:
     OpticalDisk();
 
     virtual void eject() {}
     virtual void relabel() {}
-    virtual QString side() const {return side_;}
 
     virtual void setLabel(const QString& label) {label_ = label;}
-//    virtual void setSide(const QString& side);
+    virtual void setSide(const QString& side);
+    virtual void setTwoSided(bool twoSided) {twoSided_ = twoSided;}
 
     virtual QString label() const {return label_;}
+    virtual bool twoSided() const {return twoSided_;}
+    virtual QString side() const {return side_;}
 
     virtual ~OpticalDisk();
 
@@ -55,7 +55,7 @@ protected:
     QString label_;
     bool twoSided_;
     QString side_;  // A or B
-    static const char* labelFileName_;    
+    static QString labelFileName_;    
     
 
 };

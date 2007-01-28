@@ -122,7 +122,8 @@ void Navigator::createStatusBar() {
  * @param  
  */
 void Navigator::setupButton(QPushButton* button, QString pixmapName,
-                             QLabel* label, const char* slotName, bool lastButton) {
+                            QLabel* label, const char* slotName, 
+                            bool lastButton) {
     button->setFixedSize(buttonSize, buttonSize);
     button->setPixmap(QPixmap::fromMimeSource(pixmapName));
     static int row = 0;   // allows adding widgets in correct row
@@ -140,11 +141,13 @@ void Navigator::setupButton(QPushButton* button, QString pixmapName,
     label->setPaletteForegroundColor("white");
     label->setAlignment(int(QLabel::AlignCenter));
     buttonFrameLayout->addWidget(label, row++, 0, Qt::AlignHCenter);
-    QLabel* spaceLabel = new QLabel("", buttonFrame);   // insert line between button/label groups
+   // insert line between button/label groups
+    QLabel* spaceLabel = new QLabel("", buttonFrame);
     spaceLabel->setAlignment(int(QLabel::AlignCenter));
     buttonFrameLayout->addWidget(spaceLabel, row++, 0);
     if (lastButton) {
-        QSpacerItem* spacer = new QSpacerItem( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
+        QSpacerItem* spacer = new QSpacerItem( 20, 40, 
+            QSizePolicy::Minimum, QSizePolicy::Expanding );
         buttonFrameLayout->addItem( spacer, row, 0 );
     }
 }
@@ -164,25 +167,28 @@ void Navigator::createButtonFrame() {
 
     QPushButton* newStudyButton = new QPushButton(buttonFrame);
     QLabel* newStudyLabel = new QLabel(tr("New Study"), buttonFrame);
-    setupButton(newStudyButton, "hi64-newstudy.png", newStudyLabel, SLOT(newStudy()));
+    setupButton(newStudyButton, "hi64-newstudy.png", 
+                newStudyLabel, SLOT(newStudy()));
 
     QPushButton* continueStudyButton = new QPushButton(buttonFrame);
     QLabel* continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame);
-    setupButton(continueStudyButton, "hi64-continuestudy.png", continueStudyLabel, 
-        0);  ///FIXME adding slot here messed up the button layout!!!????
+    setupButton(continueStudyButton, "hi64-continuestudy.png", 
+                continueStudyLabel, SLOT(continueStudy()));
     
     QPushButton* reviewStudyButton = new QPushButton(buttonFrame);
     QLabel* reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame);
-    setupButton(reviewStudyButton, "hi64-reviewstudy.png", reviewStudyLabel, 0 /* slot */);
+    setupButton(reviewStudyButton, "hi64-reviewstudy.png", 
+                reviewStudyLabel, 0 /* slot */);
 
     QPushButton* preregisterPatientButton = new QPushButton(buttonFrame);
     QLabel* preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame);
-    setupButton(preregisterPatientButton, "hi64-preregister.png", preregisterPatientLabel, 
-        SLOT(preregisterPatient()));
+    setupButton(preregisterPatientButton, "hi64-preregister.png",
+                preregisterPatientLabel, SLOT(preregisterPatient()));
 
     QPushButton* reportsButton = new QPushButton(buttonFrame);
     QLabel* reportsLabel = new QLabel(tr("Reports"), buttonFrame);
-    setupButton(reportsButton, "hi64-reports.png", reportsLabel, 0 /* slot */, true);
+    setupButton(reportsButton, "hi64-reports.png", 
+                reportsLabel, 0 /* slot */, true);
 }
 
 void Navigator::createTableListView() {
@@ -223,8 +229,6 @@ void Navigator::createCentralWidget() {
 
 void Navigator::refreshCatalog() {
     catalogComboBox_->refresh();
-
-    // insert optical disk handling here
     
     if (options_->emulateOpticalDrive())
         opticalDiskDrive_ = new 
@@ -256,19 +260,6 @@ void Navigator::changeCatalog() {
         processFilter();
     updateSourceLabel();
 }
-
-
-//  void Navigator::changeCatalog() {
-//     tableListView_->setCatalog(catalogComboBox_->currentItem());
-// }
-
-// void Navigator::setCatalog(CatalogSource source) {
-// }
-
-// void Navigator::changeCatalog(CatalogSource source) {
-//     catalogComboBox_->setSource(source);
-//     // tableListView_->setSource(source);
-// }
 
 void Navigator::setCatalogNetwork() {
     catalogComboBox_->setSource(Network);
@@ -414,7 +405,8 @@ void Navigator::createActions() {
     studyConfigurationsAct = new QAction(tr("Study Configurations"), 0, this);
     setupAction(studyConfigurationsAct, "Study configurations", 0);
     systemSettingsAct = new QAction(tr("System Settings"), 0, this);
-    setupAction(systemSettingsAct, "Change system settings", SLOT(systemSettings()));
+    setupAction(systemSettingsAct, "Change system settings",
+                SLOT(systemSettings()));
 
     // Help menu
     epsimulatorHelpAct_ = new QAction(tr("EP Simulator Help..."), tr("F1"), this);
@@ -452,7 +444,6 @@ void Navigator::createMenus() {
 
     catalogMenu = new QPopupMenu(this);
     switchSubMenu_ = new QPopupMenu(this);
- //   switchAct_->addTo(catalogMenu);
     networkSwitchAct_->addTo(switchSubMenu_);
     systemSwitchAct_->addTo(switchSubMenu_);
     opticalSwitchAct_->addTo(switchSubMenu_);
@@ -679,18 +670,28 @@ void Navigator::systemSettings() {
     systemDialog->opticalStudyPathLineEdit->setText(options_->opticalStudyPath());
     systemDialog->networkStudyPathLineEdit->setText(options_->networkStudyPath());
     systemDialog->exportFilePathLineEdit->setText(options_->exportFilePath());
-    systemDialog->enableAcquisitionCheckBox->setChecked(options_->enableAcquisition());
-    systemDialog->emulateOpticalDriveCheckBox->setChecked(options_->emulateOpticalDrive());
+    systemDialog->enableAcquisitionCheckBox->setChecked(
+        options_->enableAcquisition());
+    systemDialog->emulateOpticalDriveCheckBox->setChecked(
+        options_->emulateOpticalDrive());
     systemDialog->setEnableFileExportCheckBox(options_->enableFileExport());
-    systemDialog->setEnableNetworkStorageCheckBox(options_->enableNetworkStorage());
+    systemDialog->setEnableNetworkStorageCheckBox(
+        options_->enableNetworkStorage());
     if (systemDialog->exec()) {
-        options_->setOpticalStudyPath(systemDialog->opticalStudyPathLineEdit->text());
-        options_->setNetworkStudyPath(systemDialog->networkStudyPathLineEdit->text());
-        options_->setExportFilePath(systemDialog->exportFilePathLineEdit->text());
-        options_->setEnableAcquisition(systemDialog->enableAcquisitionCheckBox->isChecked());
-        options_->setEmulateOpticalDrive(systemDialog->emulateOpticalDriveCheckBox->isChecked());
-        options_->setEnableFileExport(systemDialog->enableFileExportCheckBox->isChecked());
-        options_->setEnableNetworkStorage(systemDialog->enableNetworkStorageCheckBox->isChecked()); 
+        options_->setOpticalStudyPath(
+            systemDialog->opticalStudyPathLineEdit->text());
+        options_->setNetworkStudyPath(
+            systemDialog->networkStudyPathLineEdit->text());
+        options_->setExportFilePath(
+            systemDialog->exportFilePathLineEdit->text());
+        options_->setEnableAcquisition(
+            systemDialog->enableAcquisitionCheckBox->isChecked());
+        options_->setEmulateOpticalDrive(
+            systemDialog->emulateOpticalDriveCheckBox->isChecked());
+        options_->setEnableFileExport(
+            systemDialog->enableFileExportCheckBox->isChecked());
+        options_->setEnableNetworkStorage(
+            systemDialog->enableNetworkStorageCheckBox->isChecked()); 
         options_->writeSettings();
         // menu is changed
         networkSwitchAct_->setEnabled(options_->enableNetworkStorage());

@@ -20,30 +20,33 @@
 #include "opticaldisk.h"
 #include "options.h"
 
+#include <qobject.h>
 #include <qsettings.h>
 
-const char* OpticalDisk::labelFileName_ = "label.eps";
+QString OpticalDisk::labelFileName_ = "label.eps";
 
 OpticalDisk::OpticalDisk() : label_(QString::null), 
                              twoSided_(true), side_("A") {
     /// TODO check if disk is present
+    
 }
 
-// void OpticalDisk::setSide(const QString& side) {
-//     if (!twoSided_)
-//         side_ = QString::null;
-//     else if (side == tr("A") || side == tr("a"))
-//         side_ = "A";
-//     else if (side == tr("B") || side == tr("b"))
-//         side_ = "B";
-//     else
-//         side_ = QString::null;
-// }
+void OpticalDisk::setSide(const QString& side) {
+    if (!twoSided_)
+        side_ = QString::null;
+    else if (side == QObject::tr("A") || side == QObject::tr("a"))
+        side_ = "A";
+    else if (side == QObject::tr("B") || side == QObject::tr("b"))
+        side_ = "B";
+    else
+        side_ = QString::null;
+}
 
 OpticalDisk::~OpticalDisk() {
 }
 
 EmulatedOpticalDisk::EmulatedOpticalDisk() : OpticalDisk() {
+    
     
 }
 
