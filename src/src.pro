@@ -40,7 +40,8 @@ HEADERS += epsimulator.h \
            catalog.h \
            tablelistview.h \
            opticaldisk.h \
-           opticaldiskdrive.h 
+           opticaldiskdrive.h \
+           settings.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -56,7 +57,8 @@ SOURCES += epsimulator.cpp \
            catalog.cpp \
            tablelistview.cpp \
            opticaldisk.cpp \
-           opticaldiskdrive.cpp 
+           opticaldiskdrive.cpp \
+           settings.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

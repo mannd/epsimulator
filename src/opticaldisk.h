@@ -22,6 +22,8 @@
 
 #include <qstring.h>
 
+class Options;
+
 /**
 Base class for real optical disk and optical disk emulation.
 TODO At this point (and probably never) we don't want to try to replicate the
@@ -55,7 +57,9 @@ protected:
     QString label_;
     bool twoSided_;
     QString side_;  // A or B
-    static QString labelFileName_;    
+    static QString labelFileName_;
+    Options* options_;
+    
     
 
 };

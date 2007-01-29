@@ -20,10 +20,10 @@
 
 
 #include "options.h"
+#include "settings.h"
 
 #include <qapplication.h>
 #include <qdir.h>
-#include <qsettings.h>
 
 const char* Options::catalogFileName_ = "catalog.eps";
 
@@ -44,9 +44,7 @@ Options::Options() : tempStudyPath_(""),
  * Reads options from QSetting (platform-dependent location).
  */
 void Options::readSettings() {
-    QSettings settings;
-    settings.setPath("EPStudios", "EPSimulator");
-    settings.beginGroup("/EPSimulator");
+    Settings settings;
     enableAcquisition_ = settings.readBoolEntry("/enableAcquisition", true);
     emulateOpticalDrive_ = settings.readBoolEntry("/emulateOpticalDrive", true);
     enableFileExport_ = settings.readBoolEntry("/enableFileExport", false);
@@ -61,16 +59,13 @@ void Options::readSettings() {
     emulatedOpticalDriveCapacity_ 
         =settings.readNumEntry("/emulatedOpticalDriveCapacity", 0);
     /// TODO other options here...
-    settings.endGroup();
 }
 
 /**
  * Writes options to QSetting (platform-dependent location).
  */
 void Options::writeSettings() {
-    QSettings settings;
-    settings.setPath("EPStudios", "EPSimulator");
-    settings.beginGroup("/EPSimulator");
+    Settings settings;
     settings.writeEntry("/enableAcquisition", enableAcquisition_);
     settings.writeEntry("/emulateOpticalDrive", emulateOpticalDrive_);
     settings.writeEntry("/enableFileExport", enableFileExport_);
@@ -79,7 +74,6 @@ void Options::writeSettings() {
     settings.writeEntry("/networkStudyPath", networkStudyPath_);
     settings.writeEntry("/exportFilePath", exportFilePath_);
     /// TODO add other options here...
-    settings.endGroup();
 }
 
 Options::~Options() {

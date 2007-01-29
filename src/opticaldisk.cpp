@@ -19,33 +19,41 @@
  ***************************************************************************/
 #include "opticaldisk.h"
 #include "options.h"
+#include "settings.h"
 
 #include <qobject.h>
-#include <qsettings.h>
 
 QString OpticalDisk::labelFileName_ = "label.eps";
 
-OpticalDisk::OpticalDisk() : label_(QString::null), 
-                             twoSided_(true), side_("A") {
+OpticalDisk::OpticalDisk() : twoSided_(true) {
+    // read last disk label and side
+    Settings settings;
+    label_ = settings.readEntry("/lastDiskLabel", QObject::tr("1"));
+    side_ = settings.readEntry("/lastDiskSide", QObject::tr("A")); 
     /// TODO check if disk is present
     
 }
 
 void OpticalDisk::setSide(const QString& side) {
     if (!twoSided_)
-        side_ = QString::null;
+        side_ = QObject::tr("A");
     else if (side == QObject::tr("A") || side == QObject::tr("a"))
-        side_ = "A";
+        side_ = QObject::tr("A");
     else if (side == QObject::tr("B") || side == QObject::tr("b"))
-        side_ = "B";
+        side_ = QObject::tr("B");
     else
-        side_ = QString::null;
+        side_ = QObject::tr("A");
 }
 
 OpticalDisk::~OpticalDisk() {
+    Settings settings;
+    settings.writeEntry("/lastDiskLabel", label_);
+    settings.writeEntry("/lastDiskSide", side_);
 }
 
 EmulatedOpticalDisk::EmulatedOpticalDisk() : OpticalDisk() {
+    // Need some housekeeping to setup fake optical disk.
+    
     
     
 }

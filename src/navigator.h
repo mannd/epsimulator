@@ -141,7 +141,7 @@ private:
     // central widget stuff
     /// TODO Make all these end in underscore
     QSplitter* horizontalSplitter_;
-    QFrame* buttonFrame;
+    QFrame* buttonFrame_;
     QGridLayout* buttonFrameLayout;
     TableListView* tableListView_;
 
