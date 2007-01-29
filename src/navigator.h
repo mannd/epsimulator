@@ -19,14 +19,13 @@
  ***************************************************************************/
 
 /** 
- *  \file header file for the Navigator classs,
+ *  @file header file for the Navigator classs,
  *  which is the main window for the program.
  */
 
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include "epsimdefs.h"  // for CatalogSource, FilterStudyType
 #include "options.h"
 #include "study.h"
 
@@ -51,11 +50,8 @@ class QSplitter;
 class QToolBar;
 
 /**
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-
-using namespace epsim;  /// FIXME for now has CatalogSource enum
-
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
 class Navigator : public QMainWindow {
     Q_OBJECT
 

@@ -25,12 +25,10 @@
 #ifndef TABLELISTVIEW_H
 #define TABLELISTVIEW_H
 
-#include "epsimdefs.h"
 #include "study.h"
 
 #include <qlistview.h>
 #include <qstring.h>
-//#include <qregexp.h>
 
 class Options;
 class QDataStream;
@@ -39,14 +37,14 @@ class QFile;
 class QRegExp;
 class QStringList;
 
-using namespace epsim;  // for enums CatalogSource and FilterStudyType
-
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
         TableListView lists studies from the catalogs in Navigator.
 */
     class TableListView : public QListView {
     public:
+        enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
+
         TableListView(QWidget* parent, Options* options);
         ~TableListView();
 

@@ -98,6 +98,7 @@ void Navigator::createStatusBar() {
     messageLabel_ = new QLabel(tr("For Help, press F1"), this);
 
     /// Apparently getenv works in Windows too.
+    /// TODO If logged in as administrator, show this on status bar
     userLabel_ = new QLabel(tr(" User: %1 ").arg(std::getenv("USER")), this);
     userLabel_->setAlignment(AlignHCenter);
     userLabel_->setMinimumSize(userLabel_->sizeHint());
@@ -118,8 +119,11 @@ void Navigator::createStatusBar() {
 
 /**
  * Sets up each square button along the side of the Navigator window.
- * @param frame 
- * @param  
+ * @param button The button to be set up.
+ * @param pixmapName The pixmap on the button.
+ * @param label Label under each button
+ * @param slotName The slot associated with the button.
+ * @param lastButton The last button is handled differently. 
  */
 void Navigator::setupButton(QPushButton* button, QString pixmapName,
                             QLabel* label, const char* slotName, 
@@ -152,6 +156,12 @@ void Navigator::setupButton(QPushButton* button, QString pixmapName,
     }
 }
 
+/**
+ * Create the "blue bar" to the side of the Navigator window.  Uses
+ * setupButton to make each button.  The parent of the buttonFrame is
+ * the horizontalSplitter_.  This is also the parent of the 
+ * tableListView_.
+ */
 void Navigator::createButtonFrame() {
     horizontalSplitter_ = new QSplitter(Horizontal, this);
     setCentralWidget(horizontalSplitter_);
@@ -191,6 +201,11 @@ void Navigator::createButtonFrame() {
                 reportsLabel, 0 /* slot */, true);
 }
 
+/** \brief Creates the TableListView object.
+ *
+ * The tableListView_ contains the list of studies, and reflects whatever
+ * source is current in the catalogComboBox_.
+ */
 void Navigator::createTableListView() {
     tableListView_ = new TableListView(horizontalSplitter_, options_);
     tableListView_->addColumn(tr("Study Type"));         // col 0
@@ -262,22 +277,22 @@ void Navigator::changeCatalog() {
 }
 
 void Navigator::setCatalogNetwork() {
-    catalogComboBox_->setSource(Network);
+    catalogComboBox_->setSource(Catalog::Network);
     changeCatalog();
 }
 
 void Navigator::setCatalogSystem() {
-    catalogComboBox_->setSource(System);
+    catalogComboBox_->setSource(Catalog::System);
     changeCatalog();
 }
 
 void Navigator::setCatalogOptical() {
-    catalogComboBox_->setSource(Optical);
+    catalogComboBox_->setSource(Catalog::Optical);
     changeCatalog();
 }
 
 void Navigator::setCatalogOther() {
-    catalogComboBox_->setSource(Other);
+    catalogComboBox_->setSource(Catalog::Other);
     changeCatalog();
 }
 
@@ -293,14 +308,19 @@ void Navigator::saveSettings() {
     settings.endGroup();
 }
 
+/**
+ * Read the current settings, including location of the horizontalSplitter_.
+ * This will also read the last "disk" used if optical disk emulation is
+ * on.
+ */
 void Navigator::readSettings() {
     QSettings settings;
     settings.setPath("EPStudios", "EPSimulator");
     settings.beginGroup("/EPSimulator");
-    
     QString str = settings.readEntry("/horizontalSplitter");
     QTextIStream in(&str);
     in >> *horizontalSplitter_;
+    
     settings.endGroup();
 }
 
@@ -551,7 +571,8 @@ void Navigator::processFilter() {
 		endDate = filterCatalog_->endDateEdit->date();
 		break;
 	}	
-        FilterStudyType filterStudyType = static_cast<FilterStudyType>(
+        TableListView::FilterStudyType filterStudyType =
+            static_cast<TableListView::FilterStudyType>(
             filterCatalog_->studyTypeComboBox->currentItem());
         tableListView_->applyFilter(filterStudyType, lastNameRegExp,
             firstNameRegExp, mrnRegExp, studyConfigRegExp, 

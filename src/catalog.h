@@ -19,15 +19,15 @@
  ***************************************************************************/
 
 /**
-    \file catalog.h
-    Contains all catalog related classes, including Catalog (base class), SystemCatalog,
-    OpticalCatalog, NetworkCatalog, and the group of catalogs: Catalogs
+  * @file catalog.h
+  * Contains all catalog related classes, including 
+  * Catalog (base class), SystemCatalog,
+  * OpticalCatalog, NetworkCatalog, and the group of catalogs: Catalogs.
 */
 
 #ifndef CATALOG_H
 #define CATALOG_H
 
-#include "epsimdefs.h"
 #include "study.h"
 
 #include <qfile.h>
@@ -35,20 +35,16 @@
 #include <qstringlist.h>
 
 class Options;
-class QStringList;
-
-using namespace epsim;  // for CatalogSource enum
 
 /**
-	@author David Mann <mannd@epstudiossoftware.com>
-        Base class for NetworkCatalog, 
-	OpticalCatalog, and SystemCatalog.
-*/
+ * @author David Mann <mannd@epstudiossoftware.com>
+ * Base class for NetworkCatalog, OpticalCatalog, and SystemCatalog.
+ */
 class Catalog {
 
 public:
 //  Might want to use the enum below instead of in epsimdefs.h?
-//    enum CatalogSource {Network, System, Optical, Other};
+    enum Source {Network, System, Optical, Other};
     Catalog(const QString& path, const QString& fileName);
 
     virtual void refresh() {}
@@ -57,7 +53,7 @@ public:
     virtual void addStudy(Study&) {};
     virtual void deleteStudy(Study&) {};
 
-    virtual CatalogSource type() const {return Other;}
+    virtual Source type() const {return Other;}
     virtual QString path() const {return path_;}
     virtual QString filePath() const;  // full path including fileName
     virtual QString fileName() const {return fileName_;}
@@ -81,7 +77,7 @@ class OpticalCatalog : public Catalog {
 public:
     OpticalCatalog(const QString& path, const QString& fileName);
 
-    virtual CatalogSource type() const {return Optical;}
+    virtual Source type() const {return Optical;}
     virtual ~OpticalCatalog() {}
 
 private:
@@ -92,7 +88,7 @@ class SystemCatalog : public Catalog {
 public:
     SystemCatalog(const QString& path, const QString& fileName);
     
-    virtual CatalogSource type() const {return System;}
+    virtual Source type() const {return System;}
     virtual ~SystemCatalog() {}
 private:
 };
@@ -101,7 +97,7 @@ class NetworkCatalog : public Catalog {
 public:
     NetworkCatalog(const QString& path, const QString& fileName);
 
-    virtual CatalogSource type() const {return Network;}
+    virtual Source type() const {return Network;}
     virtual ~NetworkCatalog() {}
 
 private:
@@ -118,7 +114,7 @@ public:
     Catalog* currentCatalog() const {return currentCatalog_;}
     QStringList filePaths() const {return filePaths_;}
 
-    void setCurrentCatalog(CatalogSource catalog);
+    void setCurrentCatalog(Catalog::Source catalog);
 
     ~Catalogs();
 

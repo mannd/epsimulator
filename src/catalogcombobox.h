@@ -26,14 +26,12 @@ Navigator "System" ComboBox.
 #ifndef CATALOGCOMBOBOX_H
 #define CATALOGCOMBOBOX_H
 
-#include "epsimdefs.h"
+#include "catalog.h"
 #include "options.h"
 
 #include <qcombobox.h>
 
 #include <map>
-
-using namespace epsim;  // for enum CatalogSource
 
 /**
 Encapsulates specific behavior of the catalog combo box in Navigator.
@@ -45,10 +43,11 @@ class CatalogComboBox : public QComboBox {
 public:
     CatalogComboBox(QWidget *parent = 0, const char *name = 0);
     
-    void setSource(CatalogSource source);  // set ComboBox to source
+    void setSource(Catalog::Source source); 
     void refresh();
 
-    CatalogSource source(); // return CatalogSource ComboBox is pointing to
+    /// return catalog ComboBox is pointing too
+    Catalog::Source source(); 
 
     ~CatalogComboBox();
 
@@ -60,9 +59,9 @@ private:
     void setBrowse(bool browse);
 
     bool browse_;   // puts in blank line in combobox if true
-    bool network_;  // if network enabled...
+    bool includeNetwork_;  // if network enabled...
     Options* options_;
-    typedef std::map<CatalogSource, int> CatalogMap;
+    typedef std::map<Catalog::Source, int> CatalogMap;
     CatalogMap sourceMap_;
 
 };

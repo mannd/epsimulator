@@ -23,51 +23,74 @@
 
 using namespace std;
 
-/** Ctor.  Gets the options_ instance, sets up the combobox.  Default item is 1st, which
-is either System or Network depending on options.  Other selection is not present unless Browse...
-is selected from the menu, and goes away as soon as possible.  Default is no Network
+/** 
+ * Ctor.  Gets the options_ instance, sets up the combobox.  
+ * Default item is 1st, which is either System or Network depending on options.
+ * Other selection is not present unless Browse...
+ * is selected from the menu, and goes away as soon as possible.  
+ * Default is no Network
 */
-
 CatalogComboBox::CatalogComboBox(QWidget *parent, const char *name)
- : QComboBox(parent, name), browse_(false), network_(false) {
+ : QComboBox(parent, name), browse_(false), includeNetwork_(false) {
     options_ = Options::instance();
     setup();
     connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));
     setCurrentItem(0);  // will be Network or System depending on options
 }
 
+/**
+ * When the combobox changes, this slot is called.  
+ * It will eliminate the the blank browse row if
+ * it is not selected.
+ */
 void CatalogComboBox::resetOther() {
-    if (source() != Other && browse_) {
-        CatalogSource newSource = source();
+    if (source() != Catalog::Other && browse_) {
+        Catalog::Source newSource = source();
         setBrowse(false);
         setSource(newSource);
     }
 }
 
-void CatalogComboBox::setSource(CatalogSource source) {
+/**
+ * Sets the combobox to the selected source.
+ * Handles situations when browsing the "Other" catalog
+ * and if Network is inappropriately selected, though this
+ * last should also be handled by the menu system by 
+ * inactivating the Network menu item.
+ * @param source 
+ */
+void CatalogComboBox::setSource(Catalog::Source source) {
     // Add the blank Other field to the combobox if not already there;
     // also take away the blank field if not browsing, and set browse_ correctly.
-    if (source == Other && !browse_)
+    if (source == Catalog::Other && !browse_)
         setBrowse(true);
-    if (source != Other && browse_)
+    if (source != Catalog::Other && browse_)
         setBrowse(false);
-    if (source == Network && !network_) 
-        source = System;  // setSource assumes sourceMap has been setup 
+    if (source == Catalog::Network && !includeNetwork_) 
+        source = Catalog::System;  // setSource assumes sourceMap has been setup 
                           // correctly and this assignment is wrong
     setCurrentItem(sourceMap_[source]);
 }
 
-/// used after system options changed
+/**
+ * Used after system options changed.
+ * Sets source back to first item, either Network or System.
+ */
 void CatalogComboBox::refresh() {
-    CatalogSource oldSource = source();
+    Catalog::Source oldSource = source();
     setup();
     // must account for Network disappearing
-    if (source() == Network && !network_)
-        setSource(System);
+    if (source() == Catalog::Network && !includeNetwork_)
+        setSource(Catalog::System);
     else
         setSource(oldSource);
 }
 
+/**
+ * Will change the browse status if it has changed and
+ * reconstruct the combobox.
+ * @param browse whether or not browsing is enabled.
+ */
 void CatalogComboBox::setBrowse(bool browse) {
     // Don't bother changing setup if browse unchanged.
     if (browse != browse_) {
@@ -76,7 +99,7 @@ void CatalogComboBox::setBrowse(bool browse) {
     }
 }
 
-CatalogSource CatalogComboBox::source() {
+Catalog::Source CatalogComboBox::source() {
     int item = currentItem();
     CatalogMap::iterator pos;
     for (pos = sourceMap_.begin(); pos != sourceMap_.end(); ++pos) {
@@ -84,26 +107,31 @@ CatalogSource CatalogComboBox::source() {
             return pos->first;
     }
     // If above doesn't produce (it should), return safe default.
-    setSource(System);
-    return System;  // safe default
+    setSource(Catalog::System);
+    return Catalog::System;  // safe default
 }
         
+/**
+ * Constructs combobox depending on whether network storage is 
+ * enabled.  Also if browse_ is true, inserts the funny blank
+ * choice corresponding with browsing to a foreign catalog.
+ */
 void CatalogComboBox::setup() {
     clear();
     sourceMap_.clear();
     int index = 0;
-    network_ = options_->enableNetworkStorage();
-    if (network_) {
+    includeNetwork_ = options_->enableNetworkStorage();
+    if (includeNetwork_) {
         insertItem(tr("Network"));
-        sourceMap_[Network] = index++;
+        sourceMap_[Catalog::Network] = index++;
     }
     insertItem(tr("System        "));
-    sourceMap_[System] = index++;
+    sourceMap_[Catalog::System] = index++;
     insertItem(tr("Optical"));
-    sourceMap_[Optical] = index;
+    sourceMap_[Catalog::Optical] = index;
     if (browse_) {
         insertItem("");
-        sourceMap_[Other] = ++index;
+        sourceMap_[Catalog::Other] = ++index;
     }
 }
 

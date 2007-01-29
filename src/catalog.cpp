@@ -22,7 +22,6 @@
 #include "options.h"
 
 #include <qdir.h>
-//#include <qstringlist.h>
 
 Catalog::Catalog(const QString& path, 
                  const QString& fileName) : path_(path), fileName_(fileName) {
@@ -69,18 +68,18 @@ void Catalogs::appendFilePath(const QString& path) {
 
 /// TODO need an update Catalogs function to be called after systemDialog execs
 
-void Catalogs::setCurrentCatalog(CatalogSource catalog) {
+void Catalogs::setCurrentCatalog(Catalog::Source catalog) {
     switch (catalog) {
-        case Network:
+        case Catalog::Network:
             currentCatalog_ = networkCatalog_;
             break;
-        case System:
+        case Catalog::System:
             currentCatalog_ = systemCatalog_;
             break;
-        case Optical:
+        case Catalog::Optical:
             currentCatalog_ = opticalCatalog_;
             break;
-        case Other:
+        case Catalog::Other:
             currentCatalog_ = otherCatalog_;
             break;
         default:
