@@ -17,13 +17,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+#include "epsimdefs.h"
 #include "opticaldiskdrive.h"
 #include "opticaldisk.h"
+#include "settings.h"
 
 #include <qfileinfo.h>
+#include <qmessagebox.h>
+#include <qobject.h>
 
 OpticalDiskDrive::OpticalDiskDrive(const QString& path) : path_(path),
     disk_(0) {
+}
+
+
+bool OpticalDiskDrive::changeDisk() {
+    int ret = QMessageBox::warning(0, PROGRAM_NAME,
+                QObject::tr("Change optical Disk.  Click OK when it is done!"),
+                QMessageBox::Ok | QMessageBox::Default,
+                QMessageBox::Cancel | QMessageBox::Escape);
+    if (ret == QMessageBox::Ok)
+        return true;
+    else
+        return false;   
 }
 
 bool OpticalDiskDrive::testDrive() {
@@ -39,6 +56,13 @@ OpticalDiskDrive::~OpticalDiskDrive() {
 
 EmulatedOpticalDiskDrive::EmulatedOpticalDiskDrive(const QString& path) :
     OpticalDiskDrive(path) {
+    Settings settings;
+    
+    
+}
+
+bool EmulatedOpticalDiskDrive::changeDisk() {
+    // display disk change dialog
 }
 
 bool EmulatedOpticalDiskDrive::checkDrive() {

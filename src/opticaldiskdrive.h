@@ -38,6 +38,9 @@ class OpticalDiskDrive{
 public:
     OpticalDiskDrive(const QString& path);
 
+    virtual bool changeDisk();
+
+    virtual OpticalDisk* loadedDisk() {return disk_;}
     // checkDrive will be false until we actually create
     // methods to use a real optical disk drive.
     virtual bool checkDrive() {return false;}
@@ -56,6 +59,8 @@ class EmulatedOpticalDiskDrive : public OpticalDiskDrive {
 public:
     EmulatedOpticalDiskDrive(const QString& path);
 
+    virtual bool changeDisk();
+//    virtual OpticalDisk* loadedDisk();
     virtual bool checkDrive();
     virtual bool setupDrive() {return true;}
 

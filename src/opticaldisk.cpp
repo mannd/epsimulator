@@ -25,17 +25,29 @@
 
 QString OpticalDisk::labelFileName_ = "label.eps";
 
-OpticalDisk::OpticalDisk() : twoSided_(true) {
+OpticalDisk::OpticalDisk() : isTwoSided_(false) {
     // read last disk label and side
     Settings settings;
     label_ = settings.readEntry("/lastDiskLabel", QObject::tr("1"));
     side_ = settings.readEntry("/lastDiskSide", QObject::tr("A")); 
+    options_ = Options::instance();
+    path_ = options_->opticalStudyPath();
     /// TODO check if disk is present
     
 }
 
+void OpticalDisk::eject() {
+    // pseudocode:
+    // if a disk is loaded
+    //      eject it
+    //      prompt to insert a new disk
+    //      detect disk by hardware
+    //      if a disk is loaded read it else 
+    //          diskLoaded = false
+}
+
 void OpticalDisk::setSide(const QString& side) {
-    if (!twoSided_)
+    if (!isTwoSided_)
         side_ = QObject::tr("A");
     else if (side == QObject::tr("A") || side == QObject::tr("a"))
         side_ = QObject::tr("A");

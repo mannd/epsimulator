@@ -22,6 +22,8 @@
  *  Defines language and app name and version.
 */
 
+#include <qapplication.h>
+
 #ifndef EPSIM_H
 #define EPSIM_H
 

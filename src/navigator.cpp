@@ -18,11 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/** \file
-    Basically the navigator window is the main window.  When switching to
-    the epsimulator window, we will actually just be changing the menus
-    and the central widget
-*/
+/** @file
+ * Basically the navigator window is the main window.  When switching to
+ * the epsimulator window, we will actually just be changing the menus
+ * and the central widget
+ */
 
 #include "catalog.h"
 #include "catalogcombobox.h"
@@ -34,6 +34,7 @@
 #include "options.h"
 #include "navigator.h"
 #include "patientdialog.h"
+#include "settings.h"
 #include "study.h"
 #include "studyconfigdialog.h"
 #include "systemdialog.h"
@@ -59,7 +60,6 @@
 #include <qpopupmenu.h>
 #include <qpushbutton.h>
 #include <qregexp.h>
-#include <qsettings.h>
 #include <qsizepolicy.h>
 #include <qsplitter.h>
 #include <qstatusbar.h>
@@ -77,7 +77,7 @@
  */
 
 Navigator::Navigator(QWidget* parent, const char* name)
-    : QMainWindow( parent, name, WDestructiveClose ) ,
+    : QMainWindow( parent, name, WDestructiveClose ),
     options_(Options::instance()), currentDiskLabel_(QString::null),
     currentDisk_(0) {
     // filterCatalog_ persists, holding last filter
@@ -297,15 +297,11 @@ void Navigator::setCatalogOther() {
 }
 
 void Navigator::saveSettings() {
-    QSettings settings;
-    settings.setPath("EPStudios", "EPSimulator");
-    settings.beginGroup("/EPSimulator");
-
+    Settings settings;
     QString str;
     QTextOStream out(&str);
     out << *horizontalSplitter_;
     settings.writeEntry("/horizontalSplitter", str);
-    settings.endGroup();
 }
 
 /**
@@ -314,14 +310,10 @@ void Navigator::saveSettings() {
  * on.
  */
 void Navigator::readSettings() {
-    QSettings settings;
-    settings.setPath("EPStudios", "EPSimulator");
-    settings.beginGroup("/EPSimulator");
+    Settings settings;
     QString str = settings.readEntry("/horizontalSplitter");
     QTextIStream in(&str);
     in >> *horizontalSplitter_;
-    
-    settings.endGroup();
 }
 
 
@@ -724,6 +716,9 @@ void Navigator::systemSettings() {
 
 void Navigator::ejectDisk() {
 /// TODO something like below
+    if (opticalDiskDrive_->changeDisk()) {
+        //currentDisk_ = opticalDiskDrive_->loadedDisk();
+}
 /*
     if (opticalDiskDrive_->setup()) {
         if (opticalDiskDrive_->diskLoaded()) 

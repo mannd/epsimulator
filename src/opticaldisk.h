@@ -34,31 +34,45 @@ do want to have an OpticalDisk base class, whose functions can, if we
 wish, someday be fleshed out to provide true optical disk storage.
 Similar comments obviously apply to the OpticalDiskDrive class too.
 
+Probably should eliminate OpticalDiskDrive class -- we are either modeling something
+that already exists as hardware, or something that can be easily assimilated into
+the OpticalDisk class, e.g. whether a disk is present, ejecting a disk, relabeling
+a disk -- these are all actions on the disk, and the optical drive itself is
+not that important.
+
 	@author David Mann <mannd@epstudiossoftware.com>
 */
 class OpticalDisk {
 public:
     OpticalDisk();
 
-    virtual void eject() {}
-    virtual void relabel() {}
+    /// Change the disk.  This is a dialog box for a real optical disk, and the
+    /// changing is implemented through hardware.  
+    virtual void eject();
+    /// 
+    virtual void relabel(QString& newLabel) {}
 
     virtual void setLabel(const QString& label) {label_ = label;}
+    virtual void writeLabel(const QString& label) {}
     virtual void setSide(const QString& side);
-    virtual void setTwoSided(bool twoSided) {twoSided_ = twoSided;}
+    virtual void setIsTwoSided(bool isTwoSided) {isTwoSided_ = isTwoSided;}
 
+    virtual bool isPresent() {return false;}
     virtual QString label() const {return label_;}
-    virtual bool twoSided() const {return twoSided_;}
+    virtual bool isTwoSided() const {return isTwoSided_;}
     virtual QString side() const {return side_;}
+    virtual QString path() const {return path_;}
 
     virtual ~OpticalDisk();
 
 protected:
     QString label_;
-    bool twoSided_;
+    bool isTwoSided_;
     QString side_;  // A or B
+    // This is the name of the file specifying the disk label.
     static QString labelFileName_;
     Options* options_;
+    QString path_;  // optical drive path, all the way to study dir
     
     
 
