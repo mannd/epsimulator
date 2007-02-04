@@ -52,6 +52,7 @@ public:
     /// 
     virtual void relabel(QString& newLabel) {}
 
+    virtual QString getLabel();
     virtual void setLabel(const QString& label) {label_ = label;}
     virtual void writeLabel(const QString& label) {}
     virtual void setSide(const QString& side);
@@ -70,7 +71,7 @@ protected:
     bool isTwoSided_;
     QString side_;  // A or B
     // This is the name of the file specifying the disk label.
-    static QString labelFileName_;
+    static const QString labelFileName_;
     Options* options_;
     QString path_;  // optical drive path, all the way to study dir
     

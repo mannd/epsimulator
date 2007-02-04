@@ -64,8 +64,10 @@ protected:
 
 private slots:
     void newStudy();
-    void preregisterPatient();
     void continueStudy();
+    void reviewStudy();
+    void preregisterPatient();
+    void reports();
     void deleteStudy();
     void filterStudies();
     void unfilterStudies();
@@ -73,6 +75,7 @@ private slots:
     void regenerateCatalog();
     void changeCatalog();
     void ejectDisk();
+    void relabelDisk();
     
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
@@ -91,19 +94,19 @@ private:
     static const int buttonSize = 70;   // size of square buttons in blue panel
 
     // Functions to set up the Navigator main window.
-    void createButtonFrame();
-    void createTableListView();
     void createCentralWidget();
-    void createActions();
-    void createMenus();
-    void createToolBars();
-    void createStatusBar();
-    void updateSourceLabel();
+    void createButtonFrame();
     void setupButton(QPushButton* button, QString pixmapName, 
                      QLabel* label, const char* slotName, 
 		     bool lastButton = false);
+    void createTableListView();
+    void createStatusBar();
+    void updateSourceLabel();
     void setupAction(QAction* action, QString statusTip,
                      const char* slotName, const char* iconName = 0);
+    void createActions();
+    void createMenus();
+    void createToolBars();
     void saveSettings();
     void readSettings();
 
@@ -120,14 +123,11 @@ private:
     void openDataFile();    // open a  data file for review or appending data
 
     // Data members
-    // TODO study_ should be Study*
+    /// TODO study_ should be Study*
     Study study_;           // current study
     Options* options_;
     FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
     Catalogs* catalogs_;
-    // Label of current disk, or emulated disk label
-    /// FIXME below probably needs to be replaced by OpticalDisk class
-    QString currentDiskLabel_;
     
     OpticalDisk* currentDisk_;
     OpticalDiskDrive* opticalDiskDrive_;
@@ -142,7 +142,7 @@ private:
     /// TODO Make all these end in underscore
     QSplitter* horizontalSplitter_;
     QFrame* buttonFrame_;
-    QGridLayout* buttonFrameLayout;
+    QGridLayout* buttonFrameLayout_;
     TableListView* tableListView_;
 
     // Study menu

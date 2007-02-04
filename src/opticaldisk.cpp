@@ -17,13 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+#include "disklabeldialog.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "settings.h"
 
 #include <qobject.h>
 
-QString OpticalDisk::labelFileName_ = "label.eps";
+const QString OpticalDisk::labelFileName_ = "label.eps";
 
 OpticalDisk::OpticalDisk() : isTwoSided_(false) {
     // read last disk label and side
@@ -33,6 +35,15 @@ OpticalDisk::OpticalDisk() : isTwoSided_(false) {
     options_ = Options::instance();
     path_ = options_->opticalStudyPath();
     /// TODO check if disk is present
+    
+}
+
+QString OpticalDisk::getLabel() {
+    DiskLabelDialog* diskLabelDialog = new DiskLabelDialog;
+    if (diskLabelDialog->exec())
+        //
+        ;
+    delete diskLabelDialog;
     
 }
 

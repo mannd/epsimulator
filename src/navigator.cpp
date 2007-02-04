@@ -75,11 +75,10 @@
 /**
  * Navigator constructor
  */
-
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
-    options_(Options::instance()), currentDiskLabel_(QString::null),
-    currentDisk_(0) {
+    options_(Options::instance()) {
+
     // filterCatalog_ persists, holding last filter
     filterCatalog_ = new FilterCatalog(this);
     catalogs_ = new Catalogs(options_);
@@ -94,152 +93,95 @@ Navigator::Navigator(QWidget* parent, const char* name)
     setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
 }
 
-void Navigator::createStatusBar() {
-    messageLabel_ = new QLabel(tr("For Help, press F1"), this);
+// protected
 
-    /// Apparently getenv works in Windows too.
-    /// TODO If logged in as administrator, show this on status bar
-    userLabel_ = new QLabel(tr(" User: %1 ").arg(std::getenv("USER")), this);
-    userLabel_->setAlignment(AlignHCenter);
-    userLabel_->setMinimumSize(userLabel_->sizeHint());
-
-    sourceLabel_ = new QLabel(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()), this);
-    sourceLabel_->setAlignment(AlignHCenter);
-    sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
-
-    filterLabel_ = new QLabel(tr(" Unfiltered "), this);
-    filterLabel_->setAlignment(AlignHCenter);
-    filterLabel_->setMinimumSize(filterLabel_->sizeHint());
-
-    statusBar()->addWidget(messageLabel_, 1);
-    statusBar()->addWidget(userLabel_);
-    statusBar()->addWidget(sourceLabel_);
-    statusBar()->addWidget(filterLabel_);
+/// TODO This is not needed here, but something similar should be in the epsimulator
+/// window when a study is being closed.  The Navigator window should just shut down
+/// without any complaints.
+void Navigator::closeEvent(QCloseEvent *event) {
+    int ret = QMessageBox::question(
+            this,
+            PROGRAM_NAME,
+            tr("Quit %1?").arg(PROGRAM_NAME),
+            QMessageBox::Yes | QMessageBox::Default,
+            QMessageBox::No | QMessageBox::Escape);
+    if (ret == QMessageBox::Yes)
+        event->accept();
+    else
+        event->ignore();
 }
 
-/**
- * Sets up each square button along the side of the Navigator window.
- * @param button The button to be set up.
- * @param pixmapName The pixmap on the button.
- * @param label Label under each button
- * @param slotName The slot associated with the button.
- * @param lastButton The last button is handled differently. 
- */
-void Navigator::setupButton(QPushButton* button, QString pixmapName,
-                            QLabel* label, const char* slotName, 
-                            bool lastButton) {
-    button->setFixedSize(buttonSize, buttonSize);
-    button->setPixmap(QPixmap::fromMimeSource(pixmapName));
-    static int row = 0;   // allows adding widgets in correct row
-    // last parameter centers the buttons and labels horizontally
-    if (row == 0) {
-        // insert blank row at top -- looks better with this!
-        QLabel* topLabel = new QLabel("", buttonFrame_);  
-        topLabel->setAlignment(int(QLabel::AlignCenter));
-        buttonFrameLayout->addWidget(topLabel, row++, 0);
-    }
-    buttonFrameLayout->addWidget(button, row++, 0, Qt::AlignHCenter);
-    // Notice that a SLOT is passed as a function parameter as a const char*.
-    if (slotName)
-        connect(button, SIGNAL(clicked()), this, slotName); 
-    label->setPaletteForegroundColor("white");
-    label->setAlignment(int(QLabel::AlignCenter));
-    buttonFrameLayout->addWidget(label, row++, 0, Qt::AlignHCenter);
-   // insert line between button/label groups
-    QLabel* spaceLabel = new QLabel("", buttonFrame_);
-    spaceLabel->setAlignment(int(QLabel::AlignCenter));
-    buttonFrameLayout->addWidget(spaceLabel, row++, 0);
-    if (lastButton) {
-        QSpacerItem* spacer = new QSpacerItem( 20, 40, 
-            QSizePolicy::Minimum, QSizePolicy::Expanding );
-        buttonFrameLayout->addItem( spacer, row, 0 );
+// private slots
+
+void Navigator::newStudy() {
+///TODO study_ must be "blank" unless a study is selected in the catalog.
+/// Same thing for preregister and continue study
+    prepareStudy();
+    StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
+    if (studyConfigDialog->exec()) {
+///TODO StudyConfigDialog should probably be SelectConfigDialog and 
+/// need to fix below
+        study_.setConfig(studyConfigDialog->configListBox->currentText());
+        if (getStudyInformation()) {
+            startStudy();
+        }
     }
 }
 
-/**
- * Create the "blue bar" to the side of the Navigator window.  Uses
- * setupButton to make each button.  The parent of the buttonFrame_ is
- * the horizontalSplitter_.  This is also the parent of the 
- * tableListView_.
- */
-void Navigator::createButtonFrame() {
-    horizontalSplitter_ = new QSplitter(Horizontal, this);
-    setCentralWidget(horizontalSplitter_);
-
-    buttonFrame_ = new QFrame(horizontalSplitter_);
-    buttonFrame_->setSizePolicy(QSizePolicy( (QSizePolicy::SizeType)1, 
-                              (QSizePolicy::SizeType)5, 0, 0,
-                               buttonFrame_->sizePolicy().hasHeightForWidth() ) );
-    buttonFrame_->setFrameShape(QFrame::StyledPanel);
-    buttonFrame_->setPaletteBackgroundColor("blue");
-    buttonFrame_->setMaximumWidth(200);
-    buttonFrameLayout = new QGridLayout(buttonFrame_, 1, 1, 11, 6, "");
-
-    QPushButton* newStudyButton = new QPushButton(buttonFrame_);
-    QLabel* newStudyLabel = new QLabel(tr("New Study"), buttonFrame_);
-    setupButton(newStudyButton, "hi64-newstudy.png", 
-                newStudyLabel, SLOT(newStudy()));
-
-    QPushButton* continueStudyButton = new QPushButton(buttonFrame_);
-    QLabel* continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame_);
-    setupButton(continueStudyButton, "hi64-continuestudy.png", 
-                continueStudyLabel, SLOT(continueStudy()));
-    
-    QPushButton* reviewStudyButton = new QPushButton(buttonFrame_);
-    QLabel* reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame_);
-    setupButton(reviewStudyButton, "hi64-reviewstudy.png", 
-                reviewStudyLabel, 0 /* slot */);
-
-    QPushButton* preregisterPatientButton = new QPushButton(buttonFrame_);
-    QLabel* preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame_);
-    setupButton(preregisterPatientButton, "hi64-preregister.png",
-                preregisterPatientLabel, SLOT(preregisterPatient()));
-
-    QPushButton* reportsButton = new QPushButton(buttonFrame_);
-    QLabel* reportsLabel = new QLabel(tr("Reports"), buttonFrame_);
-    setupButton(reportsButton, "hi64-reports.png", 
-                reportsLabel, 0 /* slot */, true);
+void Navigator::continueStudy() {
+    prepareStudy();
+    /// TODO Rest of processing 
 }
 
-/** \brief Creates the TableListView object.
- *
- * The tableListView_ contains the list of studies, and reflects whatever
- * source is current in the catalogComboBox_.
- */
-void Navigator::createTableListView() {
-    tableListView_ = new TableListView(horizontalSplitter_, options_);
-    tableListView_->addColumn(tr("Study Type"));         // col 0
-    tableListView_->addColumn(tr("Patient"));            // col 1
-    tableListView_->addColumn(tr("MRN"));                // col 2
-    tableListView_->addColumn(tr("Study Date/Time"));    // col 3
-    tableListView_->addColumn(tr("Study Config"));       // col 4
-    tableListView_->addColumn(tr("Study Number"));       // col 5
-    /// FIXME this needs to be disk label/network location
-    tableListView_->addColumn(tr("Location of Study"));  // col 6
-    /// FIXME Below can be eliminated, but must also eliminate keycolumn
-    tableListView_->addColumn(tr("Hidden key"));         // col 7
-
-    tableListView_->setAllColumnsShowFocus(true);
-    tableListView_->setShowSortIndicator(true);
-    tableListView_->setSortColumn(3);    // default sort is date/time
-    // hide the hidden key column: make sure it is defined correctly in keyColumn
-    int keyColumn = 7;
-    tableListView_->setColumnWidthMode(keyColumn, QListView::Manual);
-    tableListView_->hideColumn(keyColumn);
-    tableListView_->header()->setResizeEnabled(false, keyColumn);
-    //tableListView_->setResizeMode(QListView::AllColumns);
-    // above messes up the hidden column
-    connect(catalogComboBox_, SIGNAL(activated(int)),
-        this, SLOT(changeCatalog()));
-
-
+void Navigator::reviewStudy() {
 }
 
-void Navigator::createCentralWidget() {
-    createButtonFrame();
-    createTableListView();
-    readSettings(); 
-    refreshCatalog();
+void Navigator::preregisterPatient() {
+    prepareStudy();
+    study_.setConfig("");   // preregistered study has no config info
+    getStudyInformation();
+}
+
+void Navigator::reports() {
+}
+
+void Navigator::deleteStudy() {
+    if (QListViewItem* item = tableListView_->selectedItem()) {
+        int ret = QMessageBox::warning(
+            this, tr("Delete Study?"),
+            tr("The selected study will be permanently "
+               "deleted.  Do you wish to continue?"),
+            QMessageBox::Yes ,
+            QMessageBox::No | QMessageBox::Default, // default is NO!
+            QMessageBox::Cancel | QMessageBox::Escape);
+        if (ret == QMessageBox::Yes) {
+            delete item;
+            deleteDataFile();
+        }
+    } 
+    else {
+        QMessageBox::information(this, tr("No Study Selected"),
+            tr("You must first select a study to delete it."),
+            QMessageBox::Ok);
+    }
+}
+
+void Navigator::filterStudies() {
+//    FilterCatalog* filterCatalog = new FilterCatalog(this);
+    if (filterCatalog_->exec()) {
+        processFilter();
+    }
+}
+
+void Navigator::unfilterStudies() {
+    // do the unfiltering here
+    tableListView_->removeFilter();
+    filterLabel_->setText(tr(" Unfiltered "));
+    statusBar()->update();
+    removeStudiesFilterAct_->setEnabled(false);
+    filterStudiesAct_->setEnabled(true);
+//    refreshViewAct_->setEnabled(true);
+    regenerateAct_->setEnabled(true);
 }
 
 void Navigator::refreshCatalog() {
@@ -276,6 +218,26 @@ void Navigator::changeCatalog() {
     updateSourceLabel();
 }
 
+void Navigator::ejectDisk() {
+/// TODO something like below
+    if (opticalDiskDrive_->changeDisk()) {
+        //currentDisk_ = opticalDiskDrive_->loadedDisk();
+}
+/*
+    if (opticalDiskDrive_->setup()) {
+        if (opticalDiskDrive_->diskLoaded()) 
+            opticalDiskDrive_->eject(currentDisk_);
+        else
+            currentDisk_ = opticalDiskDrive_->load();
+*/
+}
+
+void Navigator::relabelDisk() {
+    if (currentDisk_)
+        currentDisk_->getLabel();
+
+}
+
 void Navigator::setCatalogNetwork() {
     catalogComboBox_->setSource(Catalog::Network);
     changeCatalog();
@@ -296,26 +258,209 @@ void Navigator::setCatalogOther() {
     changeCatalog();
 }
 
-void Navigator::saveSettings() {
-    Settings settings;
-    QString str;
-    QTextOStream out(&str);
-    out << *horizontalSplitter_;
-    settings.writeEntry("/horizontalSplitter", str);
+void Navigator::systemSettings() {
+    SystemDialog* systemDialog = new SystemDialog(this);
+    systemDialog->opticalStudyPathLineEdit->setText(options_->opticalStudyPath());
+    systemDialog->networkStudyPathLineEdit->setText(options_->networkStudyPath());
+    systemDialog->exportFilePathLineEdit->setText(options_->exportFilePath());
+    systemDialog->enableAcquisitionCheckBox->setChecked(
+        options_->enableAcquisition());
+    systemDialog->emulateOpticalDriveCheckBox->setChecked(
+        options_->emulateOpticalDrive());
+    systemDialog->setEnableFileExportCheckBox(options_->enableFileExport());
+    systemDialog->setEnableNetworkStorageCheckBox(
+        options_->enableNetworkStorage());
+    if (systemDialog->exec()) {
+        options_->setOpticalStudyPath(
+            systemDialog->opticalStudyPathLineEdit->text());
+        options_->setNetworkStudyPath(
+            systemDialog->networkStudyPathLineEdit->text());
+        options_->setExportFilePath(
+            systemDialog->exportFilePathLineEdit->text());
+        options_->setEnableAcquisition(
+            systemDialog->enableAcquisitionCheckBox->isChecked());
+        options_->setEmulateOpticalDrive(
+            systemDialog->emulateOpticalDriveCheckBox->isChecked());
+        options_->setEnableFileExport(
+            systemDialog->enableFileExportCheckBox->isChecked());
+        options_->setEnableNetworkStorage(
+            systemDialog->enableNetworkStorageCheckBox->isChecked()); 
+        options_->writeSettings();
+        // menu is changed
+        networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
+        // status bar and catalog might be changed 
+        updateSourceLabel();
+        refreshCatalog();
+    }
+}
+
+void Navigator::help() {
+    QMessageBox::information(this, tr("%1 Help").arg(PROGRAM_NAME),
+        tr("Help is available from www.epstudiossoftware.com"),
+        QMessageBox::Ok);
+}
+
+void Navigator::about() {
+    Epsimulator::about(this);
+}
+
+// private
+
+void Navigator::createCentralWidget() {
+    createButtonFrame();
+    createTableListView();
+    readSettings(); 
+    refreshCatalog();
 }
 
 /**
- * Read the current settings, including location of the horizontalSplitter_.
- * This will also read the last "disk" used if optical disk emulation is
- * on.
+ * Create the "blue bar" to the side of the Navigator window.  Uses
+ * setupButton to make each button.  The parent of the buttonFrame_ is
+ * the horizontalSplitter_.  This is also the parent of the 
+ * tableListView_.
  */
-void Navigator::readSettings() {
-    Settings settings;
-    QString str = settings.readEntry("/horizontalSplitter");
-    QTextIStream in(&str);
-    in >> *horizontalSplitter_;
+void Navigator::createButtonFrame() {
+    horizontalSplitter_ = new QSplitter(Horizontal, this);
+    setCentralWidget(horizontalSplitter_);
+
+    buttonFrame_ = new QFrame(horizontalSplitter_);
+    buttonFrame_->setSizePolicy(QSizePolicy( (QSizePolicy::SizeType)1, 
+                              (QSizePolicy::SizeType)5, 0, 0,
+                               buttonFrame_->sizePolicy().hasHeightForWidth() ) );
+    buttonFrame_->setFrameShape(QFrame::StyledPanel);
+    buttonFrame_->setPaletteBackgroundColor("blue");
+    buttonFrame_->setMaximumWidth(200);
+    buttonFrameLayout_ = new QGridLayout(buttonFrame_, 1, 1, 11, 6, "");
+
+    QPushButton* newStudyButton = new QPushButton(buttonFrame_);
+    QLabel* newStudyLabel = new QLabel(tr("New Study"), buttonFrame_);
+    setupButton(newStudyButton, "hi64-newstudy.png", 
+                newStudyLabel, SLOT(newStudy()));
+
+    QPushButton* continueStudyButton = new QPushButton(buttonFrame_);
+    QLabel* continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame_);
+    setupButton(continueStudyButton, "hi64-continuestudy.png", 
+                continueStudyLabel, SLOT(continueStudy()));
+    
+    QPushButton* reviewStudyButton = new QPushButton(buttonFrame_);
+    QLabel* reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame_);
+    setupButton(reviewStudyButton, "hi64-reviewstudy.png", 
+                reviewStudyLabel, 0 /* slot */);
+
+    QPushButton* preregisterPatientButton = new QPushButton(buttonFrame_);
+    QLabel* preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame_);
+    setupButton(preregisterPatientButton, "hi64-preregister.png",
+                preregisterPatientLabel, SLOT(preregisterPatient()));
+
+    QPushButton* reportsButton = new QPushButton(buttonFrame_);
+    QLabel* reportsLabel = new QLabel(tr("Reports"), buttonFrame_);
+    setupButton(reportsButton, "hi64-reports.png", 
+                reportsLabel, 0 /* slot */, true);
 }
 
+/**
+ * Sets up each square button along the side of the Navigator window.
+ * @param button The button to be set up.
+ * @param pixmapName The pixmap on the button.
+ * @param label Label under each button
+ * @param slotName The slot associated with the button.
+ * @param lastButton The last button is handled differently. 
+ */
+void Navigator::setupButton(QPushButton* button, QString pixmapName,
+                            QLabel* label, const char* slotName, 
+                            bool lastButton) {
+    button->setFixedSize(buttonSize, buttonSize);
+    button->setPixmap(QPixmap::fromMimeSource(pixmapName));
+    static int row = 0;   // allows adding widgets in correct row
+    // last parameter centers the buttons and labels horizontally
+    if (row == 0) {
+        // insert blank row at top -- looks better with this!
+        QLabel* topLabel = new QLabel("", buttonFrame_);  
+        topLabel->setAlignment(int(QLabel::AlignCenter));
+        buttonFrameLayout_->addWidget(topLabel, row++, 0);
+    }
+    buttonFrameLayout_->addWidget(button, row++, 0, Qt::AlignHCenter);
+    // Notice that a SLOT is passed as a function parameter as a const char*.
+    if (slotName)
+        connect(button, SIGNAL(clicked()), this, slotName); 
+    label->setPaletteForegroundColor("white");
+    label->setAlignment(int(QLabel::AlignCenter));
+    buttonFrameLayout_->addWidget(label, row++, 0, Qt::AlignHCenter);
+   // insert line between button/label groups
+    QLabel* spaceLabel = new QLabel("", buttonFrame_);
+    spaceLabel->setAlignment(int(QLabel::AlignCenter));
+    buttonFrameLayout_->addWidget(spaceLabel, row++, 0);
+    if (lastButton) {
+        QSpacerItem* spacer = new QSpacerItem( 20, 40, 
+            QSizePolicy::Minimum, QSizePolicy::Expanding );
+        buttonFrameLayout_->addItem( spacer, row, 0 );
+    }
+}
+
+/** @brief Creates the TableListView object.
+ *
+ * The tableListView_ contains the list of studies, and reflects whatever
+ * source is current in the catalogComboBox_.
+ */
+void Navigator::createTableListView() {
+    tableListView_ = new TableListView(horizontalSplitter_, options_);
+    tableListView_->addColumn(tr("Study Type"));         // col 0
+    tableListView_->addColumn(tr("Patient"));            // col 1
+    tableListView_->addColumn(tr("MRN"));                // col 2
+    tableListView_->addColumn(tr("Study Date/Time"));    // col 3
+    tableListView_->addColumn(tr("Study Config"));       // col 4
+    tableListView_->addColumn(tr("Study Number"));       // col 5
+    /// FIXME this needs to be disk label/network location
+    tableListView_->addColumn(tr("Location of Study"));  // col 6
+    /// FIXME Below can be eliminated, but must also eliminate keycolumn
+    tableListView_->addColumn(tr("Hidden key"));         // col 7
+
+    tableListView_->setAllColumnsShowFocus(true);
+    tableListView_->setShowSortIndicator(true);
+    tableListView_->setSortColumn(3);    // default sort is date/time
+    // hide the hidden key column: make sure it is defined correctly in keyColumn
+    int keyColumn = 7;
+    tableListView_->setColumnWidthMode(keyColumn, QListView::Manual);
+    tableListView_->hideColumn(keyColumn);
+    tableListView_->header()->setResizeEnabled(false, keyColumn);
+    //tableListView_->setResizeMode(QListView::AllColumns);
+    // above messes up the hidden column
+    connect(catalogComboBox_, SIGNAL(activated(int)),
+        this, SLOT(changeCatalog()));
+
+
+}
+
+void Navigator::createStatusBar() {
+    messageLabel_ = new QLabel(tr("For Help, press F1"), this);
+
+    /// Apparently getenv works in Windows too.
+    /// TODO If logged in as administrator, show this on status bar
+    /// Difference from Prucka: Only shows "cluser" for general user or "administrator"
+    userLabel_ = new QLabel(tr(" User: %1 ").arg(std::getenv("USER")), this);
+    userLabel_->setAlignment(AlignHCenter);
+    userLabel_->setMinimumSize(userLabel_->sizeHint());
+
+    sourceLabel_ = new QLabel(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()), this);
+    sourceLabel_->setAlignment(AlignHCenter);
+    sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
+
+    filterLabel_ = new QLabel(tr(" Unfiltered "), this);
+    filterLabel_->setAlignment(AlignHCenter);
+    filterLabel_->setMinimumSize(filterLabel_->sizeHint());
+
+    statusBar()->addWidget(messageLabel_, 1);
+    statusBar()->addWidget(userLabel_);
+    statusBar()->addWidget(sourceLabel_);
+    statusBar()->addWidget(filterLabel_);
+}
+
+/// Updates status bar to show source of current catalog.
+void Navigator::updateSourceLabel() {
+        sourceLabel_->setText(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()));
+        sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
+        statusBar()->update();
+}
 
 /**
  * Sets up icon, status tip, and slot for an action.
@@ -328,7 +473,6 @@ void Navigator::setupAction(QAction* action, QString statusTip,
     if (slotName)
         connect(action, SIGNAL(activated()), this, slotName);
 } 
-
 
 void Navigator::createActions() {
     // Study menu
@@ -385,7 +529,7 @@ void Navigator::createActions() {
     setupAction(regenerateAct_, "Regenerate the catalog",
 	SLOT(regenerateCatalog()));
     relabelDiskAct_ = new QAction(tr("Re-Label Disk..."), 0 ,this);
-    setupAction(relabelDiskAct_, "Re-label the optical disk", 0);
+    setupAction(relabelDiskAct_, "Re-label the optical disk", SLOT(relabelDisk()));
     mergeStudiesAct_ = new QAction(tr("Merge Studies..."), 0, this);
     setupAction(mergeStudiesAct_, "Merge studies together", 0);
 
@@ -506,24 +650,24 @@ void Navigator::createMenus() {
 
 }
 
-// returns true if PatientDialog is saved, false if cancelled
-bool Navigator::getStudyInformation() {
-    Study newStudy(study_);
-    newStudy.setDateTime(QDateTime::currentDateTime());
-    PatientDialog* patientDialog = new PatientDialog(this);
-    patientDialog->setFields(newStudy);
-    if (patientDialog->exec()) {
-        patientDialog->getFields(newStudy);
-        study_ = newStudy;
-        /// FIXME this depends on the catalogComboBox
-        study_.setPath(options_->opticalStudyPath());
-        study_.setFile(study_.fileName());
-        tableListView_->addStudy(study_);
-        // write the study to the catalog now in case user decides to refresh later
-        tableListView_->save(catalogs_->filePaths());
-        return true;
-    }
-    return false;
+void Navigator::saveSettings() {
+    Settings settings;
+    QString str;
+    QTextOStream out(&str);
+    out << *horizontalSplitter_;
+    settings.writeEntry("/horizontalSplitter", str);
+}
+
+/**
+ * Read the current settings, including location of the horizontalSplitter_.
+ * This will also read the last "disk" used if optical disk emulation is
+ * on.
+ */
+void Navigator::readSettings() {
+    Settings settings;
+    QString str = settings.readEntry("/horizontalSplitter");
+    QTextIStream in(&str);
+    in >> *horizontalSplitter_;
 }
 
 void Navigator::processFilter() {
@@ -580,76 +724,30 @@ void Navigator::processFilter() {
         regenerateAct_->setEnabled(false);
 }
 
-void Navigator::filterStudies() {
-//    FilterCatalog* filterCatalog = new FilterCatalog(this);
-    if (filterCatalog_->exec()) {
-        processFilter();
-    }
+void Navigator::startStudy() {
+    ///TODO need to pass study_ to eps
+    Epsimulator* eps = new Epsimulator(this);
+    eps->showMaximized();
 }
 
-void Navigator::unfilterStudies() {
-    // do the unfiltering here
-    tableListView_->removeFilter();
-    filterLabel_->setText(tr(" Unfiltered "));
-    statusBar()->update();
-    removeStudiesFilterAct_->setEnabled(false);
-    filterStudiesAct_->setEnabled(true);
-//    refreshViewAct_->setEnabled(true);
-    regenerateAct_->setEnabled(true);
-}
-
-void Navigator::prepareStudy() {
-    if (!studySelected()) {
-        Study newStudy;
+// returns true if PatientDialog is saved, false if cancelled
+bool Navigator::getStudyInformation() {
+    Study newStudy(study_);
+    newStudy.setDateTime(QDateTime::currentDateTime());
+    PatientDialog* patientDialog = new PatientDialog(this);
+    patientDialog->setFields(newStudy);
+    if (patientDialog->exec()) {
+        patientDialog->getFields(newStudy);
         study_ = newStudy;
+        /// FIXME this depends on the catalogComboBox
+        study_.setPath(options_->opticalStudyPath());
+        study_.setFile(study_.fileName());
+        tableListView_->addStudy(study_);
+        // write the study to the catalog now in case user decides to refresh later
+        tableListView_->save(catalogs_->filePaths());
+        return true;
     }
-}
-
-void Navigator::newStudy() {
-///TODO study_ must be "blank" unless a study is selected in the catalog.
-/// Same thing for preregister and continue study
-    prepareStudy();
-    StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
-    if (studyConfigDialog->exec()) {
-///TODO StudyConfigDialog should probably be SelectConfigDialog and 
-/// need to fix below
-        study_.setConfig(studyConfigDialog->configListBox->currentText());
-        if (getStudyInformation()) {
-            startStudy();
-        }
-    }
-}
-
-void Navigator::continueStudy() {
-    prepareStudy();
-    /// TODO Rest of processing 
-}
-
-void Navigator::preregisterPatient() {
-    prepareStudy();
-    study_.setConfig("");   // preregistered study has no config info
-    getStudyInformation();
-}
-
-void Navigator::deleteStudy() {
-    if (QListViewItem* item = tableListView_->selectedItem()) {
-        int ret = QMessageBox::warning(
-            this, tr("Delete Study?"),
-            tr("The selected study will be permanently "
-               "deleted.  Do you wish to continue?"),
-            QMessageBox::Yes ,
-            QMessageBox::No | QMessageBox::Default, // default is NO!
-            QMessageBox::Cancel | QMessageBox::Escape);
-        if (ret == QMessageBox::Yes) {
-            delete item;
-            deleteDataFile();
-        }
-    } 
-    else {
-        QMessageBox::information(this, tr("No Study Selected"),
-            tr("You must first select a study to delete it."),
-            QMessageBox::Ok);
-    }
+    return false;
 }
 
 /// returns true and switches to study highlighted in the catalog; otherwise returns /// false if no study highlighted and leaves study_ unchanged
@@ -662,93 +760,14 @@ bool Navigator::studySelected() {
     return false;
 }
 
-void Navigator::deleteDataFile() {
-}
-
-void Navigator::startStudy() {
-    ///TODO need to pass study_ to eps
-    Epsimulator* eps = new Epsimulator(this);
-    eps->showMaximized();
-}
-
-/// Updates status bar to show source of current catalog.
-void Navigator::updateSourceLabel() {
-        sourceLabel_->setText(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()));
-        sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
-        statusBar()->update();
-}
-
-void Navigator::systemSettings() {
-    SystemDialog* systemDialog = new SystemDialog(this);
-    systemDialog->opticalStudyPathLineEdit->setText(options_->opticalStudyPath());
-    systemDialog->networkStudyPathLineEdit->setText(options_->networkStudyPath());
-    systemDialog->exportFilePathLineEdit->setText(options_->exportFilePath());
-    systemDialog->enableAcquisitionCheckBox->setChecked(
-        options_->enableAcquisition());
-    systemDialog->emulateOpticalDriveCheckBox->setChecked(
-        options_->emulateOpticalDrive());
-    systemDialog->setEnableFileExportCheckBox(options_->enableFileExport());
-    systemDialog->setEnableNetworkStorageCheckBox(
-        options_->enableNetworkStorage());
-    if (systemDialog->exec()) {
-        options_->setOpticalStudyPath(
-            systemDialog->opticalStudyPathLineEdit->text());
-        options_->setNetworkStudyPath(
-            systemDialog->networkStudyPathLineEdit->text());
-        options_->setExportFilePath(
-            systemDialog->exportFilePathLineEdit->text());
-        options_->setEnableAcquisition(
-            systemDialog->enableAcquisitionCheckBox->isChecked());
-        options_->setEmulateOpticalDrive(
-            systemDialog->emulateOpticalDriveCheckBox->isChecked());
-        options_->setEnableFileExport(
-            systemDialog->enableFileExportCheckBox->isChecked());
-        options_->setEnableNetworkStorage(
-            systemDialog->enableNetworkStorageCheckBox->isChecked()); 
-        options_->writeSettings();
-        // menu is changed
-        networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
-        // status bar and catalog might be changed 
-        updateSourceLabel();
-        refreshCatalog();
+void Navigator::prepareStudy() {
+    if (!studySelected()) {
+        Study newStudy;
+        study_ = newStudy;
     }
 }
 
-void Navigator::ejectDisk() {
-/// TODO something like below
-    if (opticalDiskDrive_->changeDisk()) {
-        //currentDisk_ = opticalDiskDrive_->loadedDisk();
-}
-/*
-    if (opticalDiskDrive_->setup()) {
-        if (opticalDiskDrive_->diskLoaded()) 
-            opticalDiskDrive_->eject(currentDisk_);
-        else
-            currentDisk_ = opticalDiskDrive_->load();
-*/
-}
-
-void Navigator::help() {
-    QMessageBox::information(this, tr("%1 Help").arg(PROGRAM_NAME),
-        tr("Help is available from www.epstudiossoftware.com"),
-        QMessageBox::Ok);
-}
-
-void Navigator::about() {
-    Epsimulator::about(this);
-}
-
-void Navigator::closeEvent(QCloseEvent *event) {
-    int ret = QMessageBox::question(
-            this,
-            PROGRAM_NAME,
-            tr("Quit %1?").arg(PROGRAM_NAME),
-            QMessageBox::Yes | QMessageBox::Default,
-            QMessageBox::No | QMessageBox::Escape);
-    if (ret == QMessageBox::Yes)
-        event->accept();
-    else
-        event->ignore();
+void Navigator::deleteDataFile() {
 }
 
 Navigator::~Navigator() {

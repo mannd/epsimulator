@@ -6,7 +6,8 @@
 FORMS += patientdialogbase.ui \
          systemdialogbase.ui \
          studyconfigdialogbase.ui \
-         filtercatalogbase.ui 
+         filtercatalogbase.ui \
+         disklabeldialogbase.ui 
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 IMAGES += images/hi16-app-epsimulator.png \
@@ -41,7 +42,8 @@ HEADERS += epsimulator.h \
            tablelistview.h \
            opticaldisk.h \
            opticaldiskdrive.h \
-           settings.h 
+           settings.h \
+           disklabeldialog.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -58,7 +60,8 @@ SOURCES += epsimulator.cpp \
            tablelistview.cpp \
            opticaldisk.cpp \
            opticaldiskdrive.cpp \
-           settings.cpp 
+           settings.cpp \
+           disklabeldialog.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
