@@ -130,7 +130,7 @@ private:
     Catalogs* catalogs_;
     
     OpticalDisk* currentDisk_;
-    OpticalDiskDrive* opticalDiskDrive_;
+//    OpticalDiskDrive* opticalDiskDrive_;
 
     // StatusBar labels
     QLabel* messageLabel_;

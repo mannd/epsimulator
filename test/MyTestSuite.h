@@ -28,7 +28,6 @@
 #include "options.h"
 #include "patientdialog.h"
 #include "catalogcombobox.h"
-#include "opticaldiskdrive.h"
 
 #include <qbuttongroup.h>
 #include <qdatetimeedit.h>
@@ -42,9 +41,7 @@
 #include <iostream>
 #include <math.h>
         
-using namespace epsim;
 
-using namespace epsim;
 using std::cout;
 using std::endl;
 
@@ -259,24 +256,24 @@ public:
             o->setEnableNetworkStorage(false);
             // must refresh catalogcombobox after system options changed!
             c->refresh();
-            TS_ASSERT(c->source() == System);
+            TS_ASSERT(c->source() == Catalog::System);
             TS_ASSERT(c->currentItem() == 0);   // there should be no Network
-            c->setSource(Network);  // should not work because of above
+            c->setSource(Catalog::Network);  // should not work because of above
             TS_ASSERT(!o->enableNetworkStorage());
             TS_ASSERT(c->currentItem() == 0);
-            TS_ASSERT(c->source() != Network);
+            TS_ASSERT(c->source() != Catalog::Network);
             // should be System
             o->setEnableNetworkStorage(true);
             c->refresh();
-            TS_ASSERT(c->source() == System);
-            c->setSource(Network);
-            TS_ASSERT(c->source() == Network);
-            c->setSource(Optical);
-            TS_ASSERT(c->source() == Optical);
-            c->setSource(Other);
-            TS_ASSERT(c->source() == Other);
-            c->setSource(System);
-            TS_ASSERT(c->source() == System);
+            TS_ASSERT(c->source() == Catalog::System);
+            c->setSource(Catalog::Network);
+            TS_ASSERT(c->source() == Catalog::Network);
+            c->setSource(Catalog::Optical);
+            TS_ASSERT(c->source() == Catalog::Optical);
+            c->setSource(Catalog::Other);
+            TS_ASSERT(c->source() == Catalog::Other);
+            c->setSource(Catalog::System);
+            TS_ASSERT(c->source() == Catalog::System);
             // reset options
             o->setEnableNetworkStorage(originalEnableNetwork);
             delete c;
@@ -288,35 +285,18 @@ void testCatalog() {
     c.setPath("/testpath/");
     // make sure no duplicate backslashes
     TS_ASSERT(c.filePath() == "/testpath/catalog.eps");
-    TS_ASSERT(c.type() == Other);
+    TS_ASSERT(c.type() == Catalog::Other);
     // test Catalog subclasses
     Catalog* cp = new OpticalCatalog("/testpath", "catalog.eps");
-    TS_ASSERT(cp->type() == Optical);
+    TS_ASSERT(cp->type() == Catalog::Optical);
     cout << "catalog filepath" << cp->filePath() << std::endl;
     delete cp;
     cp = new NetworkCatalog("","");
-    TS_ASSERT(cp->type() == Network);
+    TS_ASSERT(cp->type() == Catalog::Network);
     delete cp;
     cp = new SystemCatalog("","");
-    TS_ASSERT(cp->type() == System);
+    TS_ASSERT(cp->type() == Catalog::System);
     delete cp;
-}
-
-void testOpticalDiskDrive() {
-    // should qualify as disk drive
-    EmulatedOpticalDiskDrive disk1(QDir::homeDirPath());
-    TS_ASSERT(disk1.checkDrive());
-    // nonsense path
-    // shouldn't check out
-    EmulatedOpticalDiskDrive disk2("3kdk22kdk2/");
-    TS_ASSERT(!disk2.checkDrive());
-    // below shouldn't work because it is
-    // file and not dir
-    QString s = QDir::homeDirPath() +
-        "/.qt/epsimulatorrc";
-    EmulatedOpticalDiskDrive disk3(s);
-    TS_ASSERT(!disk3.checkDrive());
-    cout << "disk3 path is " << s << endl;
 }
 
 

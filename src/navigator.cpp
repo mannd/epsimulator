@@ -77,7 +77,7 @@
  */
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
-    options_(Options::instance()), opticalDiskDrive_(0),
+    options_(Options::instance()), 
     currentDisk_(0) {
 
     // filterCatalog_ persists, holding last filter
@@ -187,7 +187,7 @@ void Navigator::unfilterStudies() {
 
 void Navigator::refreshCatalog() {
     catalogComboBox_->refresh();
-    
+/*    
     if (options_->emulateOpticalDrive())
         opticalDiskDrive_ = new 
             EmulatedOpticalDiskDrive(options_->opticalStudyPath());
@@ -198,7 +198,7 @@ void Navigator::refreshCatalog() {
     /// TODO add messages to insert disk, label disk etc.
         QMessageBox::information( this, PROGRAM_NAME,
             tr("No optical disk inserted"));
-    }    
+    }    */
     tableListView_->load(catalogs_->currentCatalog()->filePath());
     // reapply filter if present
     if (tableListView_->filtered())
@@ -221,8 +221,8 @@ void Navigator::changeCatalog() {
 
 void Navigator::ejectDisk() {
 /// TODO something like below
-    if (opticalDiskDrive_->changeDisk()) {
-        //currentDisk_ = opticalDiskDrive_->loadedDisk();
+//     if (opticalDiskDrive_->changeDisk()) {
+//         //currentDisk_ = opticalDiskDrive_->loadedDisk();
 }
 /*
     if (opticalDiskDrive_->setup()) {
@@ -231,7 +231,6 @@ void Navigator::ejectDisk() {
         else
             currentDisk_ = opticalDiskDrive_->load();
 */
-}
 
 void Navigator::relabelDisk() {
     if (currentDisk_)
@@ -292,6 +291,7 @@ void Navigator::systemSettings() {
         // status bar and catalog might be changed 
         updateSourceLabel();
         refreshCatalog();
+        /// TODO reset optical disk??
     }
 }
 
@@ -775,6 +775,6 @@ Navigator::~Navigator() {
     saveSettings();
     tableListView_->save(catalogs_->filePaths());
     delete catalogs_;
-    delete opticalDiskDrive_;
+//    delete opticalDiskDrive_;
     delete currentDisk_;
 }

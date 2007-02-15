@@ -43,7 +43,6 @@ class Options;
 class Catalog {
 
 public:
-//  Might want to use the enum below instead of in epsimdefs.h?
     enum Source {Network, System, Optical, Other};
     Catalog(const QString& path, const QString& fileName);
 

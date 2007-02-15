@@ -41,7 +41,6 @@ HEADERS += epsimulator.h \
            catalog.h \
            tablelistview.h \
            opticaldisk.h \
-           opticaldiskdrive.h \
            settings.h \
            disklabeldialog.h 
 SOURCES += epsimulator.cpp \
@@ -59,7 +58,6 @@ SOURCES += epsimulator.cpp \
            catalog.cpp \
            tablelistview.cpp \
            opticaldisk.cpp \
-           opticaldiskdrive.cpp \
            settings.cpp \
            disklabeldialog.cpp 
 TEMPLATE += app

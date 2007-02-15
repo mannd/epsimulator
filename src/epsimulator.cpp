@@ -54,6 +54,19 @@ Epsimulator::~Epsimulator()
 {
 }
 
+void Epsimulator::closeEvent(QCloseEvent *event) {
+    int ret = QMessageBox::question(
+            this,
+            PROGRAM_NAME,
+            tr("Close Study?"),
+            QMessageBox::Yes | QMessageBox::Default,
+            QMessageBox::No | QMessageBox::Escape);
+    if (ret == QMessageBox::Yes)
+        event->accept();
+    else
+        event->ignore();
+}
+
 
 void Epsimulator::closeStudy()
 {

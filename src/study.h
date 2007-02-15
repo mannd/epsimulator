@@ -98,6 +98,7 @@ public:
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
+    QString location() const {return location_;}
 
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
@@ -119,6 +120,7 @@ public:
     void setPath(QString path) {path_ = path;}
     void setFile(QString file) {file_ = file;}
     void setConfig(QString config) {config_ = config;}
+    void setLocation(const QString& location) {location_ = location;}
 
 
     Study& operator=(const Study& rhs);
@@ -152,6 +154,8 @@ private:
     QString config_;    // this will eventually be a class probably
     QString path_;  // location (path) of this study
     QString file_;  //  name of study file
+    QString location_;  // location = disk label which is really a directory name if optical
+                        // disk emulation on.
     Heart *heart_;
 };
 
