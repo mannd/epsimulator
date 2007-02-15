@@ -32,6 +32,8 @@ public:
   ~DiskLabelDialog();
   /*$PUBLIC_FUNCTIONS$*/
 
+    void test();
+
 public slots:
   /*$PUBLIC_SLOTS$*/
 

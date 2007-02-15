@@ -98,5 +98,13 @@ public:
 
 };
 
+class OpticalDiskFactory {
+public:
+    static OpticalDisk* instance();
+private:
+    OpticalDiskFactory();
+    OpticalDiskFactory(OpticalDiskFactory&);
+};
+
 
 #endif

@@ -26,6 +26,10 @@ DiskLabelDialog::DiskLabelDialog(QWidget* parent, const char* name, bool modal, 
 {
 }
 
+void DiskLabelDialog::test() {
+// comment
+}
+
 DiskLabelDialog::~DiskLabelDialog()
 {
 }

@@ -84,4 +84,10 @@ EmulatedOpticalDisk::EmulatedOpticalDisk() : OpticalDisk() {
 EmulatedOpticalDisk::~EmulatedOpticalDisk() {
 }
 
-
+OpticalDisk* OpticalDiskFactory::instance() {
+    Options* options = Options::instance();
+    if (options->emulateOpticalDrive())
+        return new EmulatedOpticalDisk;
+    else
+        return new OpticalDisk;
+}

@@ -77,7 +77,8 @@
  */
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
-    options_(Options::instance()) {
+    options_(Options::instance()), opticalDiskDrive_(0),
+    currentDisk_(0) {
 
     // filterCatalog_ persists, holding last filter
     filterCatalog_ = new FilterCatalog(this);
