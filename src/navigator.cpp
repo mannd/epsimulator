@@ -30,7 +30,6 @@
 #include "epsimulator.h"
 #include "filtercatalog.h"
 #include "opticaldisk.h"
-#include "opticaldiskdrive.h"
 #include "options.h"
 #include "navigator.h"
 #include "patientdialog.h"
@@ -43,15 +42,12 @@
 #include <qaction.h>
 #include <qapplication.h>
 #include <qbuttongroup.h>
-#include <qcombobox.h>
 #include <qcheckbox.h>
 #include <qdatetimeedit.h>
-#include <qdir.h>
 #include <qframe.h>
 #include <qheader.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qlineedit.h>
 #include <qlistbox.h>
 #include <qlistview.h>
 #include <qmainwindow.h>
@@ -84,6 +80,8 @@ Navigator::Navigator(QWidget* parent, const char* name)
     filterCatalog_ = new FilterCatalog(this);
     catalogs_ = new Catalogs(options_);
 
+    currentDisk_ = new OpticalDisk;
+
     createActions();
     createMenus();
     createToolBars();
@@ -96,21 +94,6 @@ Navigator::Navigator(QWidget* parent, const char* name)
 
 // protected
 
-/// TODO This is not needed here, but something similar should be in the epsimulator
-/// window when a study is being closed.  The Navigator window should just shut down
-/// without any complaints.
-void Navigator::closeEvent(QCloseEvent *event) {
-    int ret = QMessageBox::question(
-            this,
-            PROGRAM_NAME,
-            tr("Quit %1?").arg(PROGRAM_NAME),
-            QMessageBox::Yes | QMessageBox::Default,
-            QMessageBox::No | QMessageBox::Escape);
-    if (ret == QMessageBox::Yes)
-        event->accept();
-    else
-        event->ignore();
-}
 
 // private slots
 
@@ -187,6 +170,7 @@ void Navigator::unfilterStudies() {
 
 void Navigator::refreshCatalog() {
     catalogComboBox_->refresh();
+    catalogs_->setCurrentCatalog(catalogComboBox_->source());
 /*    
     if (options_->emulateOpticalDrive())
         opticalDiskDrive_ = new 
@@ -289,9 +273,10 @@ void Navigator::systemSettings() {
         // menu is changed
         networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
         // status bar and catalog might be changed 
-        updateSourceLabel();
+        delete catalogs_;
+        catalogs_ = new Catalogs(options_);
         refreshCatalog();
-        /// TODO reset optical disk??
+        updateSourceLabel();
     }
 }
 

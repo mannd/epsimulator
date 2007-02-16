@@ -59,9 +59,6 @@ public:
     Navigator(QWidget* parent = 0, const char *name = "navigator");
     ~Navigator();
   
-protected:
-    void closeEvent(QCloseEvent * event);
-
 private slots:
     void newStudy();
     void continueStudy();

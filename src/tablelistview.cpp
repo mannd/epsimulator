@@ -155,7 +155,7 @@ void TableListView::addStudy(const Study& study) {
             study.number(),
             //study.path(),
             ///FIXME below is temporary
-            study.file(),
+            study.location(),
             study.key());
 }
 

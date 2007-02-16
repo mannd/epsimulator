@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "catalog.h"
+#include "opticaldisk.h"
 #include "options.h"
 
 #include <qdir.h>

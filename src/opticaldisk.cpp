@@ -23,28 +23,97 @@
 #include "options.h"
 #include "settings.h"
 
+#include <qfile.h>
+#include <qlineedit.h>
+#include <qmessagebox.h>
 #include <qobject.h>
+#include <qradiobutton.h>
 
 const QString OpticalDisk::labelFileName_ = "label.eps";
 
 OpticalDisk::OpticalDisk() : isTwoSided_(false) {
     // read last disk label and side
     Settings settings;
-    label_ = settings.readEntry("/lastDiskLabel", QObject::tr("1"));
-    side_ = settings.readEntry("/lastDiskSide", QObject::tr("A")); 
+    label_ = settings.readEntry("/lastDiskLabel", QObject::QObject::tr("1"));
+    side_ = settings.readEntry("/lastDiskSide", QObject::QObject::tr("A")); 
     options_ = Options::instance();
     path_ = options_->opticalStudyPath();
     /// TODO check if disk is present
     
 }
 
+
+bool OpticalDisk::load(const QString& fileName) {
+    QFile file(fileName);
+    // create a studies file if it doesn't exist already
+    if (!file.exists()) 
+        save(fileName);
+    if (!file.open(IO_ReadOnly)) {
+        ioError(file, QObject::tr("Cannot open file %1 for reading"));
+        return false;
+    }
+    QDataStream in(&file);
+    in.setVersion(5);
+    Q_UINT32 magic;
+    in >> magic;
+    if (magic != MagicNumber) {
+        error(file, QObject::tr("File %1 is not a EP Simulator file"));
+        return false;
+    }
+    in >> label_;
+    if (file.status() != IO_Ok) {
+        ioError(file, QObject::tr("Error reading from file %1"));
+        return false;
+    }
+    return true;
+}
+
+bool OpticalDisk::save(const QString& fileName) {
+    QFile file(fileName);
+    if (!file.open(IO_WriteOnly)) {
+        ioError(file, QObject::tr("Cannot open file %1 for writing"));
+        return false;
+    }
+    QDataStream out(&file);
+    out.setVersion(5);
+    out << (Q_UINT32)MagicNumber;
+    out << label_;
+    if (file.status() != IO_Ok) {
+        ioError(file, QObject::tr("Error writing to file %1"));
+        return false;
+    }
+    return true;
+}
+
+void OpticalDisk::error(const QFile& file, const QString& message) {
+    QMessageBox::warning(0, QObject::tr("EP Simulator"), message.arg(file.name()));
+}
+
+void OpticalDisk::ioError(const QFile& file, const QString& message) {
+    error(file, message + ": " + file.errorString());
+}
+
+
 QString OpticalDisk::getLabel() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog;
-    if (diskLabelDialog->exec())
-        //
-        ;
+    if (diskLabelDialog->exec()) {
+        label_ = diskLabelDialog->diskLabelLineEdit->text();
+        side_ = diskLabelDialog->sideAButton->isChecked() ? 
+            QObject::tr("A") : QObject::tr("B");
+    }
     delete diskLabelDialog;
     
+}
+
+void OpticalDisk::setLabel(const QString& label) {
+    // write label to disk first   
+    label_ = label;
+    save(path() + "/" + labelFileName_);
+}
+
+QString OpticalDisk::label() {
+    load(path() + "/" + labelFileName_);
+    return label_;
 }
 
 void OpticalDisk::eject() {
@@ -59,13 +128,13 @@ void OpticalDisk::eject() {
 
 void OpticalDisk::setSide(const QString& side) {
     if (!isTwoSided_)
-        side_ = QObject::tr("A");
-    else if (side == QObject::tr("A") || side == QObject::tr("a"))
-        side_ = QObject::tr("A");
-    else if (side == QObject::tr("B") || side == QObject::tr("b"))
-        side_ = QObject::tr("B");
+        side_ = QObject::QObject::tr("A");
+    else if (side == QObject::QObject::tr("A") || side == QObject::QObject::tr("a"))
+        side_ = QObject::QObject::tr("A");
+    else if (side == QObject::QObject::tr("B") || side == QObject::QObject::tr("b"))
+        side_ = QObject::QObject::tr("B");
     else
-        side_ = QObject::tr("A");
+        side_ = QObject::QObject::tr("A");
 }
 
 OpticalDisk::~OpticalDisk() {

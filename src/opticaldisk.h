@@ -23,25 +23,12 @@
 #include <qstring.h>
 
 class Options;
+class QFile;
 
 /**
-Base class for real optical disk and optical disk emulation.
-TODO At this point (and probably never) we don't want to try to replicate the
-streaming data storage to an actual optical disk, a la Prucka.  It is
-not clear if it can even work with traditional optical media (as opposed to
-what the Prucka system uses, proprietary disks I suppose.  However, we
-do want to have an OpticalDisk base class, whose functions can, if we
-wish, someday be fleshed out to provide true optical disk storage.
-Similar comments obviously apply to the OpticalDiskDrive class too.
-
-Probably should eliminate OpticalDiskDrive class -- we are either modeling something
-that already exists as hardware, or something that can be easily assimilated into
-the OpticalDisk class, e.g. whether a disk is present, ejecting a disk, relabeling
-a disk -- these are all actions on the disk, and the optical drive itself is
-not that important.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
+ * Base class for real optical disk and optical disk emulation.
+ *	@author David Mann <mannd@epstudiossoftware.com>
+ */
 class OpticalDisk {
 public:
     OpticalDisk();
@@ -53,13 +40,13 @@ public:
     virtual void relabel(QString& newLabel) {}
 
     virtual QString getLabel();
-    virtual void setLabel(const QString& label) {label_ = label;}
-    virtual void writeLabel(const QString& label) {}
+    virtual void setLabel(const QString& label);
+//    virtual void writeLabel(const QString& label);
     virtual void setSide(const QString& side);
     virtual void setIsTwoSided(bool isTwoSided) {isTwoSided_ = isTwoSided;}
 
     virtual bool isPresent() {return false;}
-    virtual QString label() const {return label_;}
+    virtual QString label();
     virtual bool isTwoSided() const {return isTwoSided_;}
     virtual QString side() const {return side_;}
     virtual QString path() const {return path_;}
@@ -67,6 +54,15 @@ public:
     virtual ~OpticalDisk();
 
 protected:
+    // first bytes of label file
+    enum {MagicNumber = 0x99c798f3};    
+
+    bool load(const QString& fileName);
+    bool save(const QString& fileName);
+
+    void error(const QFile& file, const QString& message);
+    void ioError(const QFile& file, const QString& message);
+
     QString label_;
     bool isTwoSided_;
     QString side_;  // A or B
