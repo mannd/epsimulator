@@ -23,6 +23,7 @@
 #include "options.h"
 #include "settings.h"
 
+#include <qbuttongroup.h>
 #include <qfile.h>
 #include <qlineedit.h>
 #include <qmessagebox.h>
@@ -94,15 +95,23 @@ void OpticalDisk::ioError(const QFile& file, const QString& message) {
 }
 
 
-QString OpticalDisk::getLabel() {
+void OpticalDisk::getLabel() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog;
+    diskLabelDialog->diskLabelLineEdit->setText(label_);
+    diskLabelDialog->diskSideButtonGroup->setEnabled(isTwoSided_);
+    if (isTwoSided_) {
+        if (side_ == QObject::tr("A"))
+            diskLabelDialog->sideAButton->setChecked(true);
+        else
+            diskLabelDialog->sideBButton->setChecked(true);
+    }
     if (diskLabelDialog->exec()) {
         label_ = diskLabelDialog->diskLabelLineEdit->text();
-        side_ = diskLabelDialog->sideAButton->isChecked() ? 
-            QObject::tr("A") : QObject::tr("B");
+        if (isTwoSided_)
+            side_ = diskLabelDialog->sideAButton->isChecked() ? 
+                QObject::tr("A") : QObject::tr("B");
     }
     delete diskLabelDialog;
-    
 }
 
 void OpticalDisk::setLabel(const QString& label) {

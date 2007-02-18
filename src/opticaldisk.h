@@ -39,7 +39,7 @@ public:
     /// 
     virtual void relabel(QString& newLabel) {}
 
-    virtual QString getLabel();
+    virtual void getLabel();
     virtual void setLabel(const QString& label);
 //    virtual void writeLabel(const QString& label);
     virtual void setSide(const QString& side);
