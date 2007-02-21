@@ -124,7 +124,6 @@ protected:
 private:
     void appendFilePath(const QString& path);
 
-    Options* options_;
     Catalog* currentCatalog_;
     OpticalCatalog* opticalCatalog_;
     SystemCatalog* systemCatalog_;

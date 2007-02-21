@@ -44,18 +44,18 @@ NetworkCatalog::NetworkCatalog(const QString& path,
                  const QString& fileName) : Catalog(path, fileName){
 }
 
-Catalogs::Catalogs(Options* options) : options_(options) {
-    QString fileName = options_->catalogFileName();
-    networkCatalog_ = new NetworkCatalog(options_->networkStudyPath(), fileName);
-    systemCatalog_ = new SystemCatalog(options_->systemCatalogPath(), fileName);
-    opticalCatalog_ = new OpticalCatalog(options_->opticalStudyPath(), fileName);
-    otherCatalog_ = new Catalog(options_->systemCatalogPath(), fileName);
-    if (options_->enableNetworkStorage())
+Catalogs::Catalogs(Options* options) {
+    QString fileName = options->catalogFileName();
+    networkCatalog_ = new NetworkCatalog(options->networkStudyPath(), fileName);
+    systemCatalog_ = new SystemCatalog(options->systemCatalogPath(), fileName);
+    opticalCatalog_ = new OpticalCatalog(options->opticalStudyPath(), fileName);
+    otherCatalog_ = new Catalog(options->systemCatalogPath(), fileName);
+    if (options->enableNetworkStorage())
         currentCatalog_ = networkCatalog_;
     else
         currentCatalog_ = systemCatalog_;
 //    filePaths_ = new QStringList();
-    if (options_->enableNetworkStorage())
+    if (options->enableNetworkStorage())
         appendFilePath(networkCatalog_->filePath());
     appendFilePath(systemCatalog_->filePath());
     appendFilePath(opticalCatalog_->filePath());
