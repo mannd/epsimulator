@@ -20,7 +20,6 @@
 
 #include "disklabeldialog.h"
 #include "opticaldisk.h"
-#include "options.h"
 #include "settings.h"
 
 #include <qbuttongroup.h>
@@ -32,17 +31,16 @@
 
 const QString OpticalDisk::labelFileName_ = "label.eps";
 
-OpticalDisk::OpticalDisk() : isTwoSided_(false) {
-    // read last disk label and side
+OpticalDisk::OpticalDisk(const QString& path, bool isTwoSided) 
+    : isTwoSided_(isTwoSided), path_(path) {
+    readSettings();
+}
+
+void OpticalDisk::readSettings() {
     Settings settings;
     label_ = settings.readEntry("/lastDiskLabel", QObject::QObject::tr("1"));
     side_ = settings.readEntry("/lastDiskSide", QObject::QObject::tr("A")); 
-    options_ = Options::instance();
-    path_ = options_->opticalStudyPath();
-    /// TODO check if disk is present
-    
-}
-
+}    
 
 bool OpticalDisk::load(const QString& fileName) {
     QFile file(fileName);
@@ -152,7 +150,8 @@ OpticalDisk::~OpticalDisk() {
     settings.writeEntry("/lastDiskSide", side_);
 }
 
-EmulatedOpticalDisk::EmulatedOpticalDisk() : OpticalDisk() {
+EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
+    bool isTwoSided) : OpticalDisk(path, isTwoSided) {
     // Need some housekeeping to setup fake optical disk.
     
     
@@ -160,12 +159,4 @@ EmulatedOpticalDisk::EmulatedOpticalDisk() : OpticalDisk() {
 }
 
 EmulatedOpticalDisk::~EmulatedOpticalDisk() {
-}
-
-OpticalDisk* OpticalDiskFactory::instance() {
-    Options* options = Options::instance();
-    if (options->emulateOpticalDrive())
-        return new EmulatedOpticalDisk;
-    else
-        return new OpticalDisk;
 }

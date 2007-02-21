@@ -22,7 +22,6 @@
 
 #include <qstring.h>
 
-class Options;
 class QFile;
 
 /**
@@ -31,13 +30,13 @@ class QFile;
  */
 class OpticalDisk {
 public:
-    OpticalDisk();
+    OpticalDisk(const QString& path, bool isTwoSided = false);
 
     /// Change the disk.  This is a dialog box for a real optical disk, and the
     /// changing is implemented through hardware.  
     virtual void eject();
     /// 
-    virtual void relabel(QString& newLabel) {}
+    virtual void relabel(QString& newLabel) {setLabel(newLabel);}
 
     virtual void getLabel();
     virtual void setLabel(const QString& label);
@@ -63,12 +62,13 @@ protected:
     void error(const QFile& file, const QString& message);
     void ioError(const QFile& file, const QString& message);
 
+    void readSettings();
+
     QString label_;
     bool isTwoSided_;
     QString side_;  // A or B
     // This is the name of the file specifying the disk label.
     static const QString labelFileName_;
-    Options* options_;
     QString path_;  // optical drive path, all the way to study dir
     
     
@@ -77,7 +77,7 @@ protected:
 
 class EmulatedOpticalDisk : public OpticalDisk {
 public:
-    EmulatedOpticalDisk();
+    EmulatedOpticalDisk(const QString& path, bool isTwoSided = false);
 
 //     virtual void eject() {}
 //     virtual void relabel() {}
@@ -93,14 +93,5 @@ public:
     virtual ~EmulatedOpticalDisk();
 
 };
-
-class OpticalDiskFactory {
-public:
-    static OpticalDisk* instance();
-private:
-    OpticalDiskFactory();
-    OpticalDiskFactory(OpticalDiskFactory&);
-};
-
 
 #endif

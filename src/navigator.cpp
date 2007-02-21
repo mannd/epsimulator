@@ -73,14 +73,13 @@
  */
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
-    options_(Options::instance()), 
-    currentDisk_(0) {
+    options_(Options::instance()) {
 
     // filterCatalog_ persists, holding last filter
     filterCatalog_ = new FilterCatalog(this);
     catalogs_ = new Catalogs(options_);
 
-    currentDisk_ = new OpticalDisk;
+    currentDisk_ = new OpticalDisk(options_->opticalStudyPath());
 
     createActions();
     createMenus();
