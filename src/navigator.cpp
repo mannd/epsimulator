@@ -25,6 +25,7 @@
  */
 
 #include "catalog.h"
+#include "disklabeldialog.h"
 #include "catalogcombobox.h"
 #include "epsimdefs.h"
 #include "epsimulator.h"
@@ -73,10 +74,8 @@
  */
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
-    options_(Options::instance()) {
+    options_(Options::instance()), filterCatalog_(0) {
 
-    // filterCatalog_ persists, holding last filter
-    filterCatalog_ = new FilterCatalog(this);
     catalogs_ = new Catalogs(options_);
 
     currentDisk_ = new OpticalDisk(options_->opticalStudyPath());
@@ -150,10 +149,10 @@ void Navigator::deleteStudy() {
 }
 
 void Navigator::filterStudies() {
-//    FilterCatalog* filterCatalog = new FilterCatalog(this);
-    if (filterCatalog_->exec()) {
+    if (!filterCatalog_)
+        filterCatalog_ = new FilterCatalog(this);
+    if (filterCatalog_->exec()) 
         processFilter();
-    }
 }
 
 void Navigator::unfilterStudies() {
@@ -216,9 +215,17 @@ void Navigator::ejectDisk() {
 */
 
 void Navigator::relabelDisk() {
-    if (currentDisk_)
-        currentDisk_->getLabel();
-
+    DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
+    diskLabelDialog->setLabel(currentDisk_->label());
+    diskLabelDialog->diskSideButtonGroup->setEnabled(currentDisk_->isTwoSided());
+    if (currentDisk_->isTwoSided()) 
+        diskLabelDialog->setSide(currentDisk_->side(), tr("A"));
+    if (diskLabelDialog->exec()) {
+        currentDisk_->setLabel(diskLabelDialog->label());
+        if (currentDisk_->isTwoSided())
+            currentDisk_->setSide(tr(diskLabelDialog->side()));
+    }
+    delete diskLabelDialog;
 }
 
 void Navigator::setCatalogNetwork() {
@@ -277,6 +284,7 @@ void Navigator::systemSettings() {
         refreshCatalog();
         updateSourceLabel();
     }
+    delete systemDialog;
 }
 
 void Navigator::help() {

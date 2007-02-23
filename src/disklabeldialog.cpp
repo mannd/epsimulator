@@ -21,13 +21,31 @@
 
 #include "disklabeldialog.h"
 
+#include <qlineedit.h>
+#include <qradiobutton.h>
+
 DiskLabelDialog::DiskLabelDialog(QWidget* parent, const char* name, bool modal, WFlags fl)
 : DiskLabelDialogBase(parent,name, modal,fl)
 {
 }
 
-void DiskLabelDialog::test() {
-// comment
+QString DiskLabelDialog::label() const {
+    return diskLabelLineEdit->text();
+}
+
+QString DiskLabelDialog::side() const {
+    return sideAButton->isChecked() ? "A" : "B";
+}
+
+void DiskLabelDialog::setLabel(const QString& label) {
+    diskLabelLineEdit->setText(label);
+}
+
+void DiskLabelDialog::setSide(const QString& side, const QString& sideA) {
+    if (side == sideA)
+        sideAButton->setChecked(true);
+    else
+        sideBButton->setChecked(true);
 }
 
 DiskLabelDialog::~DiskLabelDialog()

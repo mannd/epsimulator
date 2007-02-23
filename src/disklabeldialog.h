@@ -23,16 +23,23 @@
 
 #include "disklabeldialogbase.h"
 
+#include <qstring.h>
+
 class DiskLabelDialog : public DiskLabelDialogBase
 {
   Q_OBJECT
 
 public:
-  DiskLabelDialog(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
-  ~DiskLabelDialog();
-  /*$PUBLIC_FUNCTIONS$*/
+    DiskLabelDialog(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
 
-    void test();
+    QString label() const;
+    QString side() const;
+
+    void setLabel(const QString& label);
+    // sideA is the local translation for side A of the disk.
+    void setSide(const QString& side, const QString& sideA);
+
+    ~DiskLabelDialog();
 
 public slots:
   /*$PUBLIC_SLOTS$*/

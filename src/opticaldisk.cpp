@@ -18,16 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "disklabeldialog.h"
 #include "opticaldisk.h"
 #include "settings.h"
 
-#include <qbuttongroup.h>
 #include <qfile.h>
-#include <qlineedit.h>
 #include <qmessagebox.h>
 #include <qobject.h>
-#include <qradiobutton.h>
 
 const QString OpticalDisk::labelFileName_ = "label.eps";
 
@@ -38,8 +34,8 @@ OpticalDisk::OpticalDisk(const QString& path, bool isTwoSided)
 
 void OpticalDisk::readSettings() {
     Settings settings;
-    label_ = settings.readEntry("/lastDiskLabel", QObject::QObject::tr("1"));
-    side_ = settings.readEntry("/lastDiskSide", QObject::QObject::tr("A")); 
+    label_ = settings.readEntry("/lastDiskLabel", QObject::tr("1"));
+    side_ = settings.readEntry("/lastDiskSide", QObject::tr("A")); 
 }    
 
 bool OpticalDisk::load(const QString& fileName) {
@@ -92,25 +88,6 @@ void OpticalDisk::ioError(const QFile& file, const QString& message) {
     error(file, message + ": " + file.errorString());
 }
 
-
-void OpticalDisk::getLabel() {
-    DiskLabelDialog* diskLabelDialog = new DiskLabelDialog;
-    diskLabelDialog->diskLabelLineEdit->setText(label_);
-    diskLabelDialog->diskSideButtonGroup->setEnabled(isTwoSided_);
-    if (isTwoSided_) {
-        if (side_ == QObject::tr("A"))
-            diskLabelDialog->sideAButton->setChecked(true);
-        else
-            diskLabelDialog->sideBButton->setChecked(true);
-    }
-    if (diskLabelDialog->exec()) {
-        label_ = diskLabelDialog->diskLabelLineEdit->text();
-        if (isTwoSided_)
-            side_ = diskLabelDialog->sideAButton->isChecked() ? 
-                QObject::tr("A") : QObject::tr("B");
-    }
-    delete diskLabelDialog;
-}
 
 void OpticalDisk::setLabel(const QString& label) {
     // write label to disk first   

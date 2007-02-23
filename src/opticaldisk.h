@@ -36,9 +36,8 @@ public:
     /// changing is implemented through hardware.  
     virtual void eject();
     /// 
-    virtual void relabel(QString& newLabel) {setLabel(newLabel);}
+//    virtual void relabel(QString& newLabel) {setLabel(newLabel);}
 
-    virtual void getLabel();
     virtual void setLabel(const QString& label);
 //    virtual void writeLabel(const QString& label);
     virtual void setSide(const QString& side);
