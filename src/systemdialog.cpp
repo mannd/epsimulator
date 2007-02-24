@@ -53,13 +53,13 @@ void SystemDialog::enableNetworkStudyPathLineEdit() {
     networkPathBrowsePushButton->setEnabled(enableNetworkStorageCheckBox->isChecked());
 }
 
-void SystemDialog::setEnableNetworkStorageCheckBox(bool checked) {
-    enableNetworkStorageCheckBox->setChecked(checked);
+void SystemDialog::setEnableNetworkStorage(bool enabled) {
+    enableNetworkStorageCheckBox->setChecked(enabled);
     enableNetworkStudyPathLineEdit();
 }
 
-void SystemDialog::setEnableFileExportCheckBox(bool checked) {
-    enableFileExportCheckBox->setChecked(checked);
+void SystemDialog::setEnableFileExport(bool enabled) {
+    enableFileExportCheckBox->setChecked(enabled);
     enableExportFilePathLineEdit();
 }
 

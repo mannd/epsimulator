@@ -21,6 +21,7 @@
 
 #include "disklabeldialog.h"
 
+#include <qbuttongroup.h>
 #include <qlineedit.h>
 #include <qradiobutton.h>
 
@@ -46,6 +47,10 @@ void DiskLabelDialog::setSide(const QString& side, const QString& sideA) {
         sideAButton->setChecked(true);
     else
         sideBButton->setChecked(true);
+}
+
+void DiskLabelDialog::enableSideButtons(bool enable) {
+    diskSideButtonGroup->setEnabled(enable);
 }
 
 DiskLabelDialog::~DiskLabelDialog()

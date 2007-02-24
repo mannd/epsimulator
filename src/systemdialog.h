@@ -28,6 +28,7 @@
 
 #include "systemdialogbase.h"
 
+#include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qstring.h>
 
@@ -36,18 +37,35 @@ class SystemDialog : public SystemDialogBase {
 
 public:
     SystemDialog(QWidget *parent = 0, const char *name = 0);
-//     QString opticalStudyPath() const {return opticalStudyPathLineEdit->text();}
-//     QString networkStudyPath() const {return networkStudyPathLineEdit->text();}
-//     QString exportFilePath() const {return exportFilePathLineEdit->text();}
-// 
-//     void setOpticalStudyPath(QString path);
-//     void setNetworkStudyPath(QString path);
-//     void setExportFilePath(QString path);
+    QString opticalStudyPath() const {return opticalStudyPathLineEdit->text();}
+    QString networkStudyPath() const {return networkStudyPathLineEdit->text();}
+    QString exportFilePath() const {return exportFilePathLineEdit->text();}
+    bool enableAcquisition() const {
+	return enableAcquisitionCheckBox->isChecked();}
+    bool emulateOpticalDrive() const {
+	return emulateOpticalDriveCheckBox->isChecked();}
+    bool enableFileExport() const {
+	return enableFileExportCheckBox->isChecked();}
+    bool enableNetworkStorage() const {
+	return enableNetworkStorageCheckBox->isChecked();}	
+
+
+    void setOpticalStudyPath(const QString& path) {
+	opticalStudyPathLineEdit->setText(path);}
+    void setNetworkStudyPath(const QString& path) {
+	networkStudyPathLineEdit->setText(path);}
+    void setExportFilePath(const QString& path) {
+	exportFilePathLineEdit->setText(path);}
+    void setEnableAcquisition(bool enable) {
+	enableAcquisitionCheckBox->setChecked(enable);}
+    void setEmulateOpticalDrive(bool emulate) {
+	emulateOpticalDriveCheckBox->setChecked(emulate); }
+    void setEnableNetworkStorage(bool enable);
+    void setEnableFileExport(bool enable);
+
     
 /// TODO make the set check boxes functions, so that the line edits and
 /// browse buttons will be enabled correctly
-    void setEnableNetworkStorageCheckBox(bool checked);
-    void setEnableFileExportCheckBox(bool checked);
 
     ~SystemDialog();
 

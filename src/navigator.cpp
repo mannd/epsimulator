@@ -43,7 +43,7 @@
 #include <qaction.h>
 #include <qapplication.h>
 #include <qbuttongroup.h>
-#include <qcheckbox.h>
+//#include <qcheckbox.h>
 #include <qdatetimeedit.h>
 #include <qframe.h>
 #include <qheader.h>
@@ -217,7 +217,7 @@ void Navigator::ejectDisk() {
 void Navigator::relabelDisk() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     diskLabelDialog->setLabel(currentDisk_->label());
-    diskLabelDialog->diskSideButtonGroup->setEnabled(currentDisk_->isTwoSided());
+    diskLabelDialog->enableSideButtons(currentDisk_->isTwoSided());
     if (currentDisk_->isTwoSided()) 
         diskLabelDialog->setSide(currentDisk_->side(), tr("A"));
     if (diskLabelDialog->exec()) {
@@ -250,31 +250,28 @@ void Navigator::setCatalogOther() {
 
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
-    systemDialog->opticalStudyPathLineEdit->setText(options_->opticalStudyPath());
-    systemDialog->networkStudyPathLineEdit->setText(options_->networkStudyPath());
-    systemDialog->exportFilePathLineEdit->setText(options_->exportFilePath());
-    systemDialog->enableAcquisitionCheckBox->setChecked(
-        options_->enableAcquisition());
-    systemDialog->emulateOpticalDriveCheckBox->setChecked(
-        options_->emulateOpticalDrive());
-    systemDialog->setEnableFileExportCheckBox(options_->enableFileExport());
-    systemDialog->setEnableNetworkStorageCheckBox(
-        options_->enableNetworkStorage());
+    systemDialog->setOpticalStudyPath(options_->opticalStudyPath());
+    systemDialog->setNetworkStudyPath(options_->networkStudyPath());
+    systemDialog->setExportFilePath(options_->exportFilePath());
+    systemDialog->setEnableAcquisition(options_->enableAcquisition());
+    systemDialog->setEmulateOpticalDrive(options_->emulateOpticalDrive());
+    systemDialog->setEnableFileExport(options_->enableFileExport());
+    systemDialog->setEnableNetworkStorage(options_->enableNetworkStorage());
     if (systemDialog->exec()) {
         options_->setOpticalStudyPath(
-            systemDialog->opticalStudyPathLineEdit->text());
+            systemDialog->opticalStudyPath());
         options_->setNetworkStudyPath(
-            systemDialog->networkStudyPathLineEdit->text());
+            systemDialog->networkStudyPath());
         options_->setExportFilePath(
-            systemDialog->exportFilePathLineEdit->text());
+            systemDialog->exportFilePath());
         options_->setEnableAcquisition(
-            systemDialog->enableAcquisitionCheckBox->isChecked());
+            systemDialog->enableAcquisition());
         options_->setEmulateOpticalDrive(
-            systemDialog->emulateOpticalDriveCheckBox->isChecked());
+            systemDialog->emulateOpticalDrive());
         options_->setEnableFileExport(
-            systemDialog->enableFileExportCheckBox->isChecked());
+            systemDialog->enableFileExport());
         options_->setEnableNetworkStorage(
-            systemDialog->enableNetworkStorageCheckBox->isChecked()); 
+            systemDialog->enableNetworkStorage()); 
         options_->writeSettings();
         // menu is changed
         networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
