@@ -93,9 +93,6 @@ private:
     // Functions to set up the Navigator main window.
     void createCentralWidget();
     void createButtonFrame();
-    void setupButton(QPushButton* button, QString pixmapName, 
-                     QLabel* label, const char* slotName, 
-		     bool lastButton = false);
     void createTableListView();
     void createStatusBar();
     void updateSourceLabel();
@@ -138,8 +135,6 @@ private:
     // central widget stuff
     /// TODO Make all these end in underscore
     QSplitter* horizontalSplitter_;
-    QFrame* buttonFrame_;
-    QGridLayout* buttonFrameLayout_;
     TableListView* tableListView_;
 
     // Study menu

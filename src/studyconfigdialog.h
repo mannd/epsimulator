@@ -22,10 +22,16 @@
 
 #include "studyconfigdialogbase.h"
 
+#include <qlistbox.h>
+#include <qstring.h>
+
 class StudyConfigDialog: public StudyConfigDialogBase {
     Q_OBJECT
 public:
     StudyConfigDialog(QWidget *parent = 0, const char *name = 0);
+
+    QString config() const {return configListBox->currentText();}
+
     ~StudyConfigDialog();
 
 private slots:

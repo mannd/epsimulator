@@ -24,6 +24,7 @@
  * and the central widget
  */
 
+#include "buttonframe.h"
 #include "catalog.h"
 #include "disklabeldialog.h"
 #include "catalogcombobox.h"
@@ -42,14 +43,10 @@
 
 #include <qaction.h>
 #include <qapplication.h>
-#include <qbuttongroup.h>
-//#include <qcheckbox.h>
 #include <qdatetimeedit.h>
-#include <qframe.h>
 #include <qheader.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qlistbox.h>
 #include <qlistview.h>
 #include <qmainwindow.h>
 #include <qmenubar.h>
@@ -103,11 +100,12 @@ void Navigator::newStudy() {
     if (studyConfigDialog->exec()) {
 ///TODO StudyConfigDialog should probably be SelectConfigDialog and 
 /// need to fix below
-        study_.setConfig(studyConfigDialog->configListBox->currentText());
+        study_.setConfig(studyConfigDialog->config());
         if (getStudyInformation()) {
             startStudy();
         }
     }
+    delete studyConfigDialog;
 }
 
 void Navigator::continueStudy() {
@@ -305,7 +303,7 @@ void Navigator::createCentralWidget() {
 
 /**
  * Create the "blue bar" to the side of the Navigator window.  Uses
- * setupButton to make each button.  The parent of the buttonFrame_ is
+ * setupButton to make each button.  The parent of the buttonFrame is
  * the horizontalSplitter_.  This is also the parent of the 
  * tableListView_.
  */
@@ -313,78 +311,14 @@ void Navigator::createButtonFrame() {
     horizontalSplitter_ = new QSplitter(Horizontal, this);
     setCentralWidget(horizontalSplitter_);
 
-    buttonFrame_ = new QFrame(horizontalSplitter_);
-    buttonFrame_->setSizePolicy(QSizePolicy( (QSizePolicy::SizeType)1, 
-                              (QSizePolicy::SizeType)5, 0, 0,
-                               buttonFrame_->sizePolicy().hasHeightForWidth() ) );
-    buttonFrame_->setFrameShape(QFrame::StyledPanel);
-    buttonFrame_->setPaletteBackgroundColor("blue");
-    buttonFrame_->setMaximumWidth(200);
-    buttonFrameLayout_ = new QGridLayout(buttonFrame_, 1, 1, 11, 6, "");
+//    buttonFrame_ = new QFrame(horizontalSplitter_);
+    ButtonFrame* buttonFrame = new ButtonFrame(horizontalSplitter_);
 
-    QPushButton* newStudyButton = new QPushButton(buttonFrame_);
-    QLabel* newStudyLabel = new QLabel(tr("New Study"), buttonFrame_);
-    setupButton(newStudyButton, "hi64-newstudy.png", 
-                newStudyLabel, SLOT(newStudy()));
-
-    QPushButton* continueStudyButton = new QPushButton(buttonFrame_);
-    QLabel* continueStudyLabel = new QLabel(tr("Continue Study"), buttonFrame_);
-    setupButton(continueStudyButton, "hi64-continuestudy.png", 
-                continueStudyLabel, SLOT(continueStudy()));
-    
-    QPushButton* reviewStudyButton = new QPushButton(buttonFrame_);
-    QLabel* reviewStudyLabel = new QLabel(tr("Review Study"), buttonFrame_);
-    setupButton(reviewStudyButton, "hi64-reviewstudy.png", 
-                reviewStudyLabel, 0 /* slot */);
-
-    QPushButton* preregisterPatientButton = new QPushButton(buttonFrame_);
-    QLabel* preregisterPatientLabel = new QLabel(tr("Pre-Register"), buttonFrame_);
-    setupButton(preregisterPatientButton, "hi64-preregister.png",
-                preregisterPatientLabel, SLOT(preregisterPatient()));
-
-    QPushButton* reportsButton = new QPushButton(buttonFrame_);
-    QLabel* reportsLabel = new QLabel(tr("Reports"), buttonFrame_);
-    setupButton(reportsButton, "hi64-reports.png", 
-                reportsLabel, 0 /* slot */, true);
-}
-
-/**
- * Sets up each square button along the side of the Navigator window.
- * @param button The button to be set up.
- * @param pixmapName The pixmap on the button.
- * @param label Label under each button
- * @param slotName The slot associated with the button.
- * @param lastButton The last button is handled differently. 
- */
-void Navigator::setupButton(QPushButton* button, QString pixmapName,
-                            QLabel* label, const char* slotName, 
-                            bool lastButton) {
-    button->setFixedSize(buttonSize, buttonSize);
-    button->setPixmap(QPixmap::fromMimeSource(pixmapName));
-    static int row = 0;   // allows adding widgets in correct row
-    // last parameter centers the buttons and labels horizontally
-    if (row == 0) {
-        // insert blank row at top -- looks better with this!
-        QLabel* topLabel = new QLabel("", buttonFrame_);  
-        topLabel->setAlignment(int(QLabel::AlignCenter));
-        buttonFrameLayout_->addWidget(topLabel, row++, 0);
-    }
-    buttonFrameLayout_->addWidget(button, row++, 0, Qt::AlignHCenter);
-    // Notice that a SLOT is passed as a function parameter as a const char*.
-    if (slotName)
-        connect(button, SIGNAL(clicked()), this, slotName); 
-    label->setPaletteForegroundColor("white");
-    label->setAlignment(int(QLabel::AlignCenter));
-    buttonFrameLayout_->addWidget(label, row++, 0, Qt::AlignHCenter);
-   // insert line between button/label groups
-    QLabel* spaceLabel = new QLabel("", buttonFrame_);
-    spaceLabel->setAlignment(int(QLabel::AlignCenter));
-    buttonFrameLayout_->addWidget(spaceLabel, row++, 0);
-    if (lastButton) {
-        QSpacerItem* spacer = new QSpacerItem( 20, 40, 
-            QSizePolicy::Minimum, QSizePolicy::Expanding );
-        buttonFrameLayout_->addItem( spacer, row, 0 );
-    }
+    buttonFrame->addButton("New Study", "hi64-newstudy.png", SLOT(newStudy()));
+    buttonFrame->addButton("Continue Study", "hi64-continuestudy.png", SLOT(continueStudy()));
+    buttonFrame->addButton("Review Study", "hi64-reviewstudy.png", 0);
+    buttonFrame->addButton("Pre-Register", "hi64-preregister.png", SLOT(preregisterPatient()));
+    buttonFrame->addButton("Reports", "hi64-reports.png", 0, true); 
 }
 
 /** @brief Creates the TableListView object.
@@ -661,45 +595,35 @@ void Navigator::readSettings() {
 }
 
 void Navigator::processFilter() {
-        // if the LineEdit is blank, it matches anything, so make it "*"
-       	QRegExp lastNameRegExp(filterCatalog_->lastNameLineEdit->text().isEmpty()
-            ? "*" : filterCatalog_->lastNameLineEdit->text(), false, true);
-	QRegExp firstNameRegExp(filterCatalog_->firstNameLineEdit->text().isEmpty()
-            ? "*" : filterCatalog_->firstNameLineEdit->text(), false, true);
-	QRegExp mrnRegExp(filterCatalog_->mrnLineEdit->text().isEmpty()
-            ? "*" : filterCatalog_->mrnLineEdit->text(), false, true);
-	QRegExp studyConfigRegExp(
-            filterCatalog_->studyConfigLineEdit->text().isEmpty()
-            ? "*" :filterCatalog_->studyConfigLineEdit->text(), false, true);
-	QRegExp studyNumberRegExp(
-            filterCatalog_->studyNumberLineEdit->text().isEmpty()
-            ? "*" : filterCatalog_->studyNumberLineEdit->text(), false, true);
-	QRegExp studyFileRegExp(filterCatalog_->studyFileLineEdit->text().isEmpty()
-            ? "*" : filterCatalog_->studyFileLineEdit->text(), false, true);
+        QRegExp lastNameRegExp(filterCatalog_->lastNameFilter(), false, true);
+	QRegExp firstNameRegExp(filterCatalog_->firstNameFilter(), false, true);
+	QRegExp mrnRegExp(filterCatalog_->mrnFilter(), false, true);
+	QRegExp studyConfigRegExp(filterCatalog_->studyConfigFilter(), false, true);
+	QRegExp studyNumberRegExp(filterCatalog_->studyNumberFilter(), false, true);
+	QRegExp studyFileRegExp(filterCatalog_->studyFileFilter(), false, true);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;
 	bool anyDate = false;
-	switch (filterCatalog_->studyDateButtonGroup->selectedId()) {
-	    case 0 : 
+	switch (filterCatalog_->dateFilter()) {
+	    case FilterCatalog::AnyDate : 
 		anyDate = true;
 		break;
 
-	    case 1 : // today, default settings are true
+	    case FilterCatalog::Today : // today, default settings are true
 		break;
 
-	    case 2 : 
+	    case FilterCatalog::LastWeek : 
 		startDate = endDate.addDays(-7);
 		break; // i.e. last week's studies
 
-	    case 3 :   // specific dates selected
+	    case FilterCatalog::SpecificDates :   // specific dates selected
 		startDate = filterCatalog_->beginDateEdit->date();
 		endDate = filterCatalog_->endDateEdit->date();
 		break;
 	}	
-        TableListView::FilterStudyType filterStudyType =
-            static_cast<TableListView::FilterStudyType>(
-            filterCatalog_->studyTypeComboBox->currentItem());
+        TableListView::FilterStudyType filterStudyType = filterCatalog_->filterStudyType();
+ 
         tableListView_->applyFilter(filterStudyType, lastNameRegExp,
             firstNameRegExp, mrnRegExp, studyConfigRegExp, 
             studyNumberRegExp, studyFileRegExp, 

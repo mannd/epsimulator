@@ -17,42 +17,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FILTERCATALOG_H
-#define FILTERCATALOG_H
+#ifndef BUTTONFRAME_H
+#define BUTTONFRAME_H
 
-#include "filtercatalogbase.h"
-#include "tablelistview.h"  // for FilterStudyType
+#include <qframe.h>
+//#include <qstring.h>
 
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qbuttongroup.h>
-#include <qstring.h>
+class QGridLayout;
+class QLabel;
+class QPushButton;
+class QString;
 
-class FilterCatalog: public FilterCatalogBase {
-Q_OBJECT
+/**
+This is the vertical blue button bar on the left of the navigator window.
+
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+class ButtonFrame : public QFrame
+{
 public:
-    enum DateRange {AnyDate, Today, LastWeek, SpecificDates};
-    FilterCatalog(QWidget *parent = 0, const char *name = 0);
+    ButtonFrame(QWidget* parent = 0);
 
-    // Functions below return text or * if no text in field
-    QString lastNameFilter() const {return makeFilter(lastNameLineEdit->text());}
-    QString firstNameFilter() const {return makeFilter(firstNameLineEdit->text());}
-    QString mrnFilter() const {return makeFilter(mrnLineEdit->text());}
-    QString studyConfigFilter() const {return makeFilter(studyConfigLineEdit->text());}
-    QString studyNumberFilter() const {return makeFilter(studyNumberLineEdit->text());}
-    QString studyFileFilter() const {return makeFilter(studyFileLineEdit->text());}
-    DateRange dateFilter() const {return static_cast<DateRange>(studyDateButtonGroup->selectedId());}
-    TableListView::FilterStudyType filterStudyType() const {
-        return static_cast<TableListView::FilterStudyType>(studyTypeComboBox->currentItem());}
 
-    ~FilterCatalog() {}
-public slots:
-    void enableDateRange();
-    void clearForm();
+/**
+ * Create the "blue bar" to the side of the Navigator window.  Uses
+ * setupButton to make each button.  The parent of the buttonFrame_ is
+ * the horizontalSplitter_.  This is also the parent of the 
+ * tableListView_.
+ */
+
+    void addButton(const QString& name, const QString& pixmap, 
+                   const char* slotName, bool lastButton = false);
+
+    ~ButtonFrame();
 
 private:
-    void setDefaultDates();
-    QString makeFilter(QString text) const {return text.isEmpty() ? "*" : text;}
+    static const int buttonSize = 70;   // size of square buttons in blue panel
+
+    void setupButton(QPushButton* button, const QString& pixmapName,
+                             QLabel* label, const char* slotName, 
+                             bool lastButton);
+
+    QWidget* parent_;
+    QGridLayout* buttonFrameLayout_;
+
 };
 
 #endif
