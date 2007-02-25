@@ -122,10 +122,10 @@ bool TableListView::save(const QString& fileName) {
 }
 
 /// FIXME This is naive.  What happens when the catalog is saved?  Reading is easy:
-/// whatever Catalog is being viewed, just load that catalog.eps file.  What happens
-/// when a study is added, or edited?  The different catalog.eps files must be updated
+/// whatever Catalog is being viewed, just load that catalog.dat file.  What happens
+/// when a study is added, or edited?  The different catalog.dat files must be updated
 /// immediately, or else you could change catalog source and not have it work right.
-/// You can't just write the whole TableListView to each catalog.eps, as the catalogs
+/// You can't just write the whole TableListView to each catalog.dat, as the catalogs
 /// are different.  So, we have these situations:
 ///     System and Optical only:
 ///         Study added/moved/deleted: Optical and System always updated; however

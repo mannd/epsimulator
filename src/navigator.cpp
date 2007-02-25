@@ -43,18 +43,16 @@
 
 #include <qaction.h>
 #include <qapplication.h>
-#include <qdatetimeedit.h>
+#include <qdatetime.h>
+#include <qfiledialog.h>
 #include <qheader.h>
 #include <qlabel.h>
-#include <qlayout.h>
 #include <qlistview.h>
 #include <qmainwindow.h>
 #include <qmenubar.h>
 #include <qmessagebox.h>
 #include <qpopupmenu.h>
-#include <qpushbutton.h>
 #include <qregexp.h>
-#include <qsizepolicy.h>
 #include <qsplitter.h>
 #include <qstatusbar.h>
 #include <qtoolbar.h>
@@ -247,8 +245,13 @@ void Navigator::setCatalogOptical() {
 }
 
 void Navigator::setCatalogOther() {
-    catalogComboBox_->setSource(Catalog::Other);
-    changeCatalog();
+    QFileDialog *fd = new QFileDialog(options_->systemCatalogPath(), 
+                                      options_->catalogFileName(), this, 0, true);
+    if (fd->exec() == QDialog::Accepted) {
+        catalogs_->setCatalogPath(Catalog::Other, fd->dirPath());
+        catalogComboBox_->setSource(Catalog::Other);
+        changeCatalog();
+    }
 }
 
 void Navigator::systemSettings() {
@@ -623,8 +626,8 @@ void Navigator::processFilter() {
 		break; // i.e. last week's studies
 
 	    case FilterCatalog::SpecificDates :   // specific dates selected
-		startDate = filterCatalog_->beginDateEdit->date();
-		endDate = filterCatalog_->endDateEdit->date();
+		startDate = filterCatalog_->beginDate();
+		endDate = filterCatalog_->endDate();
 		break;
 	}	
         TableListView::FilterStudyType filterStudyType = filterCatalog_->filterStudyType();

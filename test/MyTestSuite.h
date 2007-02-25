@@ -280,14 +280,16 @@ public:
         }
 
 void testCatalog() {
-    Catalog c("/testpath", "catalog.eps");
-    TS_ASSERT(c.filePath() == "/testpath/catalog.eps");
+    Options* o = Options::instance();
+    TS_ASSERT(o->catalogFileName() == "catalog.dat");
+    Catalog c("/testpath", "catalog.dat");
+    TS_ASSERT(c.filePath() == "/testpath/catalog.dat");
     c.setPath("/testpath/");
     // make sure no duplicate backslashes
-    TS_ASSERT(c.filePath() == "/testpath/catalog.eps");
+    TS_ASSERT(c.filePath() == "/testpath/catalog.dat");
     TS_ASSERT(c.type() == Catalog::Other);
     // test Catalog subclasses
-    Catalog* cp = new OpticalCatalog("/testpath", "catalog.eps");
+    Catalog* cp = new OpticalCatalog("/testpath", "catalog.dat");
     TS_ASSERT(cp->type() == Catalog::Optical);
     cout << "catalog filepath" << cp->filePath() << std::endl;
     delete cp;
@@ -299,6 +301,24 @@ void testCatalog() {
     delete cp;
 }
 
+void testCatalogs() {
+    Options* o = Options::instance();
+    Catalogs* c = new Catalogs(o);
+    c->setCurrentCatalog(Catalog::Optical);
+    TS_ASSERT(c->currentCatalog()->name() == "OpticalCatalog");
+    c->setCurrentCatalog(Catalog::System);
+    TS_ASSERT(c->currentCatalog()->name() == "SystemCatalog");
+    c->setCurrentCatalog(Catalog::Network);
+    TS_ASSERT(c->currentCatalog()->name() == "NetworkCatalog");
+    c->setCurrentCatalog(Catalog::Other);
+    TS_ASSERT(c->currentCatalog()->name() == "Catalog");
+    delete c;
+    Catalogs* c1 = new Catalogs(o);
+    c1->setCatalogPath(Catalog::Other, "/tmp/test");
+    c1->setCurrentCatalog(Catalog::Other);
+    TS_ASSERT(c1->currentCatalog()->path() == "/tmp/test");
+    delete c1;
+}
 
 private:
     void testStudyDefaults(Study& study) {
@@ -339,6 +359,7 @@ private:
         // studies 
         TS_ASSERT_EQUALS(s1.number(), s2.number());
         TS_ASSERT_EQUALS(s1.file(), s2.file());
+        TS_ASSERT_EQUALS(s1.location(), s2.location());
     }
     void testStudiesEqual(Study& s1, Study& s2) {
         TS_ASSERT_EQUALS(s1.name().first, s2.name().first);
@@ -360,6 +381,7 @@ private:
         TS_ASSERT_EQUALS(s1.file(), s2.file());
         TS_ASSERT_EQUALS(s1.path(), s2.path());
         TS_ASSERT_EQUALS(s1.fileName(), s2.fileName());
+        TS_ASSERT_EQUALS(s1.location(), s2.location());
     }
 
     void showFullNameOutput(const Study& s) {

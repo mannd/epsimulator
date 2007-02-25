@@ -50,6 +50,10 @@ Catalogs::Catalogs(Options* options) {
     systemCatalog_ = new SystemCatalog(options->systemCatalogPath(), fileName);
     opticalCatalog_ = new OpticalCatalog(options->opticalStudyPath(), fileName);
     otherCatalog_ = new Catalog(options->systemCatalogPath(), fileName);
+    catalogs_[Catalog::Network] = networkCatalog_;
+    catalogs_[Catalog::System] = systemCatalog_;
+    catalogs_[Catalog::Optical] = opticalCatalog_;
+    catalogs_[Catalog::Other] = otherCatalog_;
     if (options->enableNetworkStorage())
         currentCatalog_ = networkCatalog_;
     else
@@ -67,9 +71,31 @@ void Catalogs::appendFilePath(const QString& path) {
         filePaths_.append(path);
 }
 
+void Catalogs::setCatalogPath(Catalog::Source catalog, const QString& path) {
+    catalogs_[catalog]->setPath(path);
+//     switch (catalog) {
+//         case Catalog::Network:
+//             currentCatalog_ = networkCatalog_;
+//             break;
+//         case Catalog::System:
+//             currentCatalog_ = systemCatalog_;
+//             break;
+//         case Catalog::Optical:
+//             currentCatalog_ = opticalCatalog_;
+//             break;
+//         case Catalog::Other:
+//             currentCatalog_ = otherCatalog_;
+//             break;
+//         default:
+//             currentCatalog_ = systemCatalog_;
+}
+
+
 /// TODO need an update Catalogs function to be called after systemDialog execs
 
 void Catalogs::setCurrentCatalog(Catalog::Source catalog) {
+    currentCatalog_ = catalogs_[catalog];
+/*
     switch (catalog) {
         case Catalog::Network:
             currentCatalog_ = networkCatalog_;
@@ -84,8 +110,8 @@ void Catalogs::setCurrentCatalog(Catalog::Source catalog) {
             currentCatalog_ = otherCatalog_;
             break;
         default:
-            currentCatalog_ = systemCatalog_;
-    }
+            currentCatalog_ = systemCatalog_;*/
+ //   }
 }
 
 

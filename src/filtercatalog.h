@@ -23,6 +23,8 @@
 #include "filtercatalogbase.h"
 #include "tablelistview.h"  // for FilterStudyType
 
+#include <qdatetime.h>
+#include <qdatetimeedit.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qbuttongroup.h>
@@ -42,6 +44,8 @@ public:
     QString studyNumberFilter() const {return makeFilter(studyNumberLineEdit->text());}
     QString studyFileFilter() const {return makeFilter(studyFileLineEdit->text());}
     DateRange dateFilter() const {return static_cast<DateRange>(studyDateButtonGroup->selectedId());}
+    QDate beginDate() const {return beginDateEdit->date();}
+    QDate endDate() const {return endDateEdit->date();}
     TableListView::FilterStudyType filterStudyType() const {
         return static_cast<TableListView::FilterStudyType>(studyTypeComboBox->currentItem());}
 

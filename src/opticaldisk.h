@@ -44,7 +44,7 @@ public:
     virtual void setIsTwoSided(bool isTwoSided) {isTwoSided_ = isTwoSided;}
 
     virtual bool hasLabel() const {return false;}
-    virtual bool isPresent() {return false;}
+    virtual bool isPresent() const {return false;}
     virtual QString label();
     virtual bool isTwoSided() const {return isTwoSided_;}
     virtual QString side() const {return side_;}

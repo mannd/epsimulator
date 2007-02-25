@@ -34,6 +34,10 @@
 #include <qstring.h>
 #include <qstringlist.h>
 
+#include <map>
+
+
+
 class Options;
 
 /**
@@ -56,6 +60,7 @@ public:
     virtual QString path() const {return path_;}
     virtual QString filePath() const;  // full path including fileName
     virtual QString fileName() const {return fileName_;}
+    virtual QString name() const {return "Catalog";}
 
     virtual void setPath(const QString& path) {path_ = path;}
 
@@ -76,6 +81,7 @@ class OpticalCatalog : public Catalog {
 public:
     OpticalCatalog(const QString& path, const QString& fileName);
 
+    virtual QString name() const {return "OpticalCatalog";}
     virtual Source type() const {return Optical;}
     virtual ~OpticalCatalog() {}
 
@@ -86,7 +92,8 @@ private:
 class SystemCatalog : public Catalog {
 public:
     SystemCatalog(const QString& path, const QString& fileName);
-    
+
+    virtual QString name() const {return "SystemCatalog";}
     virtual Source type() const {return System;}
     virtual ~SystemCatalog() {}
 private:
@@ -96,12 +103,15 @@ class NetworkCatalog : public Catalog {
 public:
     NetworkCatalog(const QString& path, const QString& fileName);
 
+    virtual QString name() const {return "NetworkCatalog";}
     virtual Source type() const {return Network;}
     virtual ~NetworkCatalog() {}
 
 private:
 
 };
+
+using std::map;
 
 // N.B. Catalogs owns the catalog pointers and will delete them.
 class Catalogs {
@@ -114,6 +124,8 @@ public:
     QStringList filePaths() const {return filePaths_;}
 
     void setCurrentCatalog(Catalog::Source catalog);
+    void setCatalogPath(Catalog::Source catalog, const QString& path);
+        
 
     ~Catalogs();
 
@@ -129,7 +141,12 @@ private:
     SystemCatalog* systemCatalog_;
     NetworkCatalog* networkCatalog_;
     Catalog* otherCatalog_;
+    /// FIXME the whole filePaths_ thing is broken:
+    ///     it does not reflect the actual paths,
+    ///     it does not reflect what happens when catalogs are saved.
     QStringList filePaths_;
+
+    map<Catalog::Source, Catalog*> catalogs_;
 };
 
 

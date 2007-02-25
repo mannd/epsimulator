@@ -38,12 +38,12 @@ Singleton class providing one-stop shopping for all program options.
 true, this is a directory on the hard drive, by default ($HOME)/EPStudies.  The
 actual disks are emulated as subdirectories in this directory, each one named for the
 disk label.  Example: ($HOME)/EPStudies/Disk32A/.  In each of these subdirectories there
-is a catalog.eps file, and the actual data files for each study.  Emulation will ensure that
+is a catalog.dat file, and the actual data files for each study.  Emulation will ensure that
 each directory is limited in size, to emulate switching disks.  The systemCatalogPath is
 fixed at ($EPSIMULATOR)/System/.  It cannot be changed.  This path just contains a
-catalog.eps file, but no data files.  (Note that the real Prucka uses studies.dat 
+catalog.dat file, but no data files.  (Note that the real Prucka uses studies.dat 
 files for this purpose.  The networkStudyPath is a path to a server directory.
-This directory can hold a catalog.eps file, and optionally studies that are exported to it.
+This directory can hold a catalog.dat file, and optionally studies that are exported to it.
 Export can be manual, or automatic when the study is closed.  Finally there is a tempCatalogPath,
 which can be provided on the command line, or can be browsed to.  If not specified on 
 the command line, it defaults to the systemCatalogPath.
