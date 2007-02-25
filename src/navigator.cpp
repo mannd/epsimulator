@@ -200,6 +200,11 @@ void Navigator::changeCatalog() {
 }
 
 void Navigator::ejectDisk() {
+    QMessageBox::information( this, tr("Eject Disk"),
+    "Change Disk and select OK when done." );
+    if (!currentDisk_->hasLabel())
+        relabelDisk();
+    
 /// TODO something like below
 //     if (opticalDiskDrive_->changeDisk()) {
 //         //currentDisk_ = opticalDiskDrive_->loadedDisk();
@@ -688,6 +693,5 @@ Navigator::~Navigator() {
     saveSettings();
     tableListView_->save(catalogs_->filePaths());
     delete catalogs_;
-//    delete opticalDiskDrive_;
     delete currentDisk_;
 }
