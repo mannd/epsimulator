@@ -35,7 +35,7 @@ OpticalDisk::OpticalDisk(const QString& path, bool isTwoSided)
 void OpticalDisk::readSettings() {
     Settings settings;
     label_ = settings.readEntry("/lastDiskLabel", QObject::tr("1"));
-    side_ = settings.readEntry("/lastDiskSide", QObject::tr("A")); 
+    side_ = settings.readEntry("/lastDiskSide", QObject::QObject::tr("A")); 
 }    
 
 bool OpticalDisk::load(const QString& fileName) {

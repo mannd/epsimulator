@@ -7,7 +7,7 @@ PROJECT_NAME           = "EP Simulator"
 PROJECT_NUMBER         = 0.1
 OUTPUT_DIRECTORY       = 
 CREATE_SUBDIRS         = NO
-OUTPUT_LANGUAGE        = Dutch
+OUTPUT_LANGUAGE        = English
 USE_WINDOWS_ENCODING   = NO
 BRIEF_MEMBER_DESC      = YES
 REPEAT_BRIEF           = YES
@@ -129,9 +129,10 @@ FILE_PATTERNS          = *.c \
                          *.xpm \
                          *.dox
 RECURSIVE              = YES
-EXCLUDE                = 
+EXCLUDE                = test/*
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       = moc_*
+EXCLUDE_PATTERNS       = moc_* \
+                         *base*
 EXAMPLE_PATH           = 
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = NO
