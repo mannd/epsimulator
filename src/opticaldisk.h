@@ -32,9 +32,9 @@ class OpticalDisk {
 public:
     OpticalDisk(const QString& path, bool isTwoSided = false);
 
-    /// Change the disk.  This is a dialog box for a real optical disk, and the
-    /// changing is implemented through hardware.  
-    virtual void eject();
+    /// This mechanically ejects the disk, but I don't know how to do that yet.
+    /// Errors are ignored, and this does nothing for emulated optical disks.
+    virtual void eject() {/** TODO make this work. */}
     /// 
 //    virtual void relabel(QString& newLabel) {setLabel(newLabel);}
 

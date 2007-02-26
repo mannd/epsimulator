@@ -198,6 +198,8 @@ void Navigator::changeCatalog() {
 }
 
 void Navigator::ejectDisk() {
+    currentDisk_->eject();  // Currently does nothing, 
+                            // is supposed to mechanically eject the disk.
     QMessageBox::information( this, tr("Eject Disk"),
     "Change Disk and select OK when done." );
     if (!currentDisk_->hasLabel())
@@ -252,6 +254,9 @@ void Navigator::setCatalogOther() {
         catalogComboBox_->setSource(Catalog::Other);
         changeCatalog();
     }
+}
+
+void Navigator::exportCatalog() {
 }
 
 void Navigator::systemSettings() {
@@ -424,7 +429,7 @@ void Navigator::createActions() {
     deleteAct = new QAction(tr("Delete..."), 0, this);
     setupAction(deleteAct, "Delete study", SLOT(deleteStudy()));
     exportAct_ = new QAction(tr("Export..."), 0, this);
-    setupAction(exportAct_, "Export study", 0, "hi32-exportstudy.png");
+    setupAction(exportAct_, "Export study", SLOT(exportCatalog()), "hi32-exportstudy.png");
     exitAct = new QAction(tr("E&xit"), tr("Ctrl+Q"), this);
     setupAction(exitAct, "Exit EP Simulator", SLOT(close()));
 

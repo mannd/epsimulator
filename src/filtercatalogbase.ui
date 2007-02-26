@@ -154,31 +154,6 @@
             </widget>
             <widget class="QRadioButton">
                 <property name="name">
-                    <cstring>anyDateRadioButton</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>29</y>
-                        <width>200</width>
-                        <height>28</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>An&amp;y Date</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+Y</string>
-                </property>
-                <property name="checked">
-                    <bool>true</bool>
-                </property>
-                <property name="buttonGroupId">
-                    <number>0</number>
-                </property>
-            </widget>
-            <widget class="QRadioButton">
-                <property name="name">
                     <cstring>todaysStudiesRadioButton</cstring>
                 </property>
                 <property name="geometry">
@@ -253,28 +228,6 @@
                     <string>this week</string>
                 </property>
             </widget>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>datesBetweenRadioButton</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>11</x>
-                        <y>132</y>
-                        <width>200</width>
-                        <height>28</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Dates &amp;Between</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+B</string>
-                </property>
-                <property name="buttonGroupId">
-                    <number>3</number>
-                </property>
-            </widget>
             <widget class="QDateEdit">
                 <property name="name">
                     <cstring>beginDateEdit</cstring>
@@ -307,6 +260,53 @@
                     </rect>
                 </property>
             </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>anyDateRadioButton</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>29</y>
+                        <width>200</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>An&amp;y Date</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+Y</string>
+                </property>
+                <property name="checked">
+                    <bool>true</bool>
+                </property>
+                <property name="buttonGroupId">
+                    <number>0</number>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>datesBetweenRadioButton</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>132</y>
+                        <width>200</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Dates Between</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+                <property name="buttonGroupId">
+                    <number>3</number>
+                </property>
+            </widget>
         </widget>
         <widget class="QLayoutWidget" row="8" column="0" rowspan="1" colspan="2">
             <property name="name">
@@ -321,7 +321,10 @@
                         <cstring>clearFormButton</cstring>
                     </property>
                     <property name="text">
-                        <string>Clear Form</string>
+                        <string>&amp;Clear Form</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
                     </property>
                 </widget>
                 <spacer>
@@ -351,16 +354,19 @@
                     <property name="accel">
                         <string>Alt+O</string>
                     </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
                 </widget>
                 <widget class="QPushButton">
                     <property name="name">
                         <cstring>cancelButton</cstring>
                     </property>
                     <property name="text">
-                        <string>Cancel</string>
+                        <string>Ca&amp;ncel</string>
                     </property>
                     <property name="accel">
-                        <string>Esc</string>
+                        <string>Alt+N</string>
                     </property>
                 </widget>
             </hbox>
@@ -414,6 +420,8 @@
     </connection>
 </connections>
 <tabstops>
+    <tabstop>OkButton</tabstop>
+    <tabstop>cancelButton</tabstop>
     <tabstop>studyTypeComboBox</tabstop>
     <tabstop>lastNameLineEdit</tabstop>
     <tabstop>firstNameLineEdit</tabstop>
@@ -424,8 +432,7 @@
     <tabstop>anyDateRadioButton</tabstop>
     <tabstop>beginDateEdit</tabstop>
     <tabstop>endDateEdit</tabstop>
-    <tabstop>OkButton</tabstop>
-    <tabstop>cancelButton</tabstop>
+    <tabstop>clearFormButton</tabstop>
 </tabstops>
 <slots>
     <slot>enableDateRange()</slot>

@@ -65,7 +65,8 @@ class QStringList;
                          const QDate& startDate,
                          const QDate& endDate);
         void removeFilter();
-        void showTable();    
+        void showTable();
+        void exportCSV(const QString& fileName);
     
     private:
         // first bytes of EP Simulator binary files

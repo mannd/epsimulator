@@ -178,6 +178,24 @@ void TableListView::writeToStream(QDataStream& out) {
     ++it;
   }
 }
+
+void TableListView::exportCSV(const QString& fileName) {
+    QFile file(fileName);
+    if (!file.open(IO_WriteOnly)) {
+        ioError(file, tr("Cannot open file %1 for writing"));
+        return;
+    }
+    QTextStream out(&file);
+    QListViewItemIterator it(this);
+    while (it.current()) {
+        QListViewItem* item = *it;
+        out << item->text(0) << ',' << item->text(1) << '\n';
+    }
+    if (file.status() != IO_Ok) {
+        ioError(file, tr("Error writing to file %1"));
+        return;
+    }
+}
     
 void TableListView::error(const QFile& file, const QString& message) {
     QMessageBox::warning(0, tr("EP Simulator"), message.arg(file.name()));

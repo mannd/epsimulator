@@ -49,7 +49,10 @@
                         <cstring>OkButton</cstring>
                     </property>
                     <property name="text">
-                        <string>OK</string>
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+O</string>
                     </property>
                     <property name="default">
                         <bool>true</bool>
@@ -134,7 +137,10 @@
                         <cstring>sideAButton</cstring>
                     </property>
                     <property name="text">
-                        <string>Side A</string>
+                        <string>Side &amp;A</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+A</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>

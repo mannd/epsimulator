@@ -143,20 +143,23 @@
                                 <string>&lt;b&gt;Export Study Files&lt;/b&gt;</string>
                             </property>
                         </widget>
-                        <widget class="QCheckBox">
+                        <widget class="QPushButton">
                             <property name="name">
-                                <cstring>enableFileExportCheckBox</cstring>
+                                <cstring>exportPathBrowsePushButton</cstring>
                             </property>
                             <property name="geometry">
                                 <rect>
-                                    <x>11</x>
-                                    <y>53</y>
-                                    <width>598</width>
-                                    <height>28</height>
+                                    <x>619</x>
+                                    <y>87</y>
+                                    <width>110</width>
+                                    <height>32</height>
                                 </rect>
                             </property>
                             <property name="text">
-                                <string>Enable File Export On Study Close</string>
+                                <string>Browse...</string>
+                            </property>
+                            <property name="accel">
+                                <string></string>
                             </property>
                         </widget>
                         <widget class="QLineEdit">
@@ -172,23 +175,20 @@
                                 </rect>
                             </property>
                         </widget>
-                        <widget class="QPushButton">
+                        <widget class="QCheckBox">
                             <property name="name">
-                                <cstring>exportPathBrowsePushButton</cstring>
+                                <cstring>enableFileExportCheckBox</cstring>
                             </property>
                             <property name="geometry">
                                 <rect>
-                                    <x>619</x>
-                                    <y>87</y>
-                                    <width>110</width>
-                                    <height>32</height>
+                                    <x>11</x>
+                                    <y>53</y>
+                                    <width>598</width>
+                                    <height>28</height>
                                 </rect>
                             </property>
                             <property name="text">
-                                <string>&amp;Browse...</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+B</string>
+                                <string>Enable File Export On Study Close</string>
                             </property>
                         </widget>
                         <widget class="QLabel">
@@ -231,25 +231,6 @@
                         </property>
                         <widget class="QLabel">
                             <property name="name">
-                                <cstring>textLabel2</cstring>
-                            </property>
-                            <property name="geometry">
-                                <rect>
-                                    <x>11</x>
-                                    <y>87</y>
-                                    <width>175</width>
-                                    <height>32</height>
-                                </rect>
-                            </property>
-                            <property name="text">
-                                <string>Optical Study Path</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>localStudyPathLineEdit</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QLabel">
-                            <property name="name">
                                 <cstring>textLabel1</cstring>
                             </property>
                             <property name="geometry">
@@ -262,41 +243,6 @@
                             </property>
                             <property name="text">
                                 <string>&lt;b&gt;Local Storage Area&lt;/b&gt;</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>enableAcquisitionCheckBox</cstring>
-                            </property>
-                            <property name="geometry">
-                                <rect>
-                                    <x>11</x>
-                                    <y>53</y>
-                                    <width>356</width>
-                                    <height>28</height>
-                                </rect>
-                            </property>
-                            <property name="text">
-                                <string>Enable Ac&amp;quisition</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+Q</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="QLineEdit">
-                            <property name="name">
-                                <cstring>opticalStudyPathLineEdit</cstring>
-                            </property>
-                            <property name="geometry">
-                                <rect>
-                                    <x>202</x>
-                                    <y>88</y>
-                                    <width>400</width>
-                                    <height>30</height>
-                                </rect>
                             </property>
                         </widget>
                         <widget class="QPushButton">
@@ -340,6 +286,60 @@
                                 <bool>false</bool>
                             </property>
                         </widget>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>enableAcquisitionCheckBox</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>11</x>
+                                    <y>53</y>
+                                    <width>356</width>
+                                    <height>28</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>Enable Acquisition</string>
+                            </property>
+                            <property name="accel">
+                                <string></string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>opticalStudyPathLineEdit</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>202</x>
+                                    <y>88</y>
+                                    <width>400</width>
+                                    <height>30</height>
+                                </rect>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel2</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>11</x>
+                                    <y>87</y>
+                                    <width>175</width>
+                                    <height>32</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>Optical Stud&amp;y Path</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>opticalStudyPathLineEdit</cstring>
+                            </property>
+                        </widget>
                     </widget>
                     <widget class="QFrame">
                         <property name="name">
@@ -359,41 +359,6 @@
                         <property name="frameShadow">
                             <enum>Raised</enum>
                         </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel2_3</cstring>
-                            </property>
-                            <property name="geometry">
-                                <rect>
-                                    <x>11</x>
-                                    <y>87</y>
-                                    <width>172</width>
-                                    <height>32</height>
-                                </rect>
-                            </property>
-                            <property name="text">
-                                <string>Network Study Path</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>networkStudyPathLineEdit</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel2_4</cstring>
-                            </property>
-                            <property name="geometry">
-                                <rect>
-                                    <x>11</x>
-                                    <y>11</y>
-                                    <width>718</width>
-                                    <height>36</height>
-                                </rect>
-                            </property>
-                            <property name="text">
-                                <string>&lt;b&gt;Network Storage Area&lt;/b&gt;</string>
-                            </property>
-                        </widget>
                         <widget class="QCheckBox">
                             <property name="name">
                                 <cstring>enableNetworkStorageCheckBox</cstring>
@@ -408,19 +373,6 @@
                             </property>
                             <property name="text">
                                 <string>Enable Network Storage</string>
-                            </property>
-                        </widget>
-                        <widget class="QLineEdit">
-                            <property name="name">
-                                <cstring>networkStudyPathLineEdit</cstring>
-                            </property>
-                            <property name="geometry">
-                                <rect>
-                                    <x>199</x>
-                                    <y>88</y>
-                                    <width>400</width>
-                                    <height>30</height>
-                                </rect>
                             </property>
                         </widget>
                         <widget class="QPushButton">
@@ -440,6 +392,54 @@
                             </property>
                             <property name="accel">
                                 <string></string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel2_4</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>11</x>
+                                    <y>11</y>
+                                    <width>718</width>
+                                    <height>36</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>&lt;b&gt;Network Storage Area&lt;/b&gt;</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel2_3</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>11</x>
+                                    <y>87</y>
+                                    <width>172</width>
+                                    <height>32</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>Network Study Path</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>networkStudyPathLineEdit</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>networkStudyPathLineEdit</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>199</x>
+                                    <y>88</y>
+                                    <width>400</width>
+                                    <height>30</height>
+                                </rect>
                             </property>
                         </widget>
                     </widget>

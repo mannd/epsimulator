@@ -100,16 +100,6 @@ QString OpticalDisk::label() {
     return label_;
 }
 
-void OpticalDisk::eject() {
-    // pseudocode:
-    // if a disk is loaded
-    //      eject it
-    //      prompt to insert a new disk
-    //      detect disk by hardware
-    //      if a disk is loaded read it else 
-    //          diskLoaded = false
-}
-
 void OpticalDisk::setSide(const QString& side) {
     if (!isTwoSided_)
         side_ = QObject::QObject::tr("A");

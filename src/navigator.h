@@ -73,6 +73,7 @@ private slots:
     void changeCatalog();
     void ejectDisk();
     void relabelDisk();
+    void exportCatalog();
     
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
