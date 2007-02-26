@@ -254,9 +254,15 @@ void Navigator::setCatalogOther() {
         catalogComboBox_->setSource(Catalog::Other);
         changeCatalog();
     }
+    delete fd;
 }
 
 void Navigator::exportCatalog() {
+    QFileDialog *fd = new QFileDialog("~", "Comma-delimited (*.csv)", this, 0, true);
+    fd->setMode(QFileDialog::AnyFile);
+    if (fd->exec() == QDialog::Accepted)
+        tableListView_->exportCSV(fd->selectedFile());
+    delete fd;
 }
 
 void Navigator::systemSettings() {

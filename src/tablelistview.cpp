@@ -181,15 +181,24 @@ void TableListView::writeToStream(QDataStream& out) {
 
 void TableListView::exportCSV(const QString& fileName) {
     QFile file(fileName);
+    if (!file.exists()) 
+        save(fileName);
     if (!file.open(IO_WriteOnly)) {
         ioError(file, tr("Cannot open file %1 for writing"));
         return;
     }
     QTextStream out(&file);
+    for (int i = 0; i < columns(); ++i) {
+        out << '"' << columnText(i) << '"' << ',';
+    }
+    out << '\n';
     QListViewItemIterator it(this);
     while (it.current()) {
         QListViewItem* item = *it;
-        out << item->text(0) << ',' << item->text(1) << '\n';
+        for (int i = 0; i < columns(); ++i) 
+            out << '"' << item->text(i) << '"' << ',';
+        out << '\n';
+        ++it;
     }
     if (file.status() != IO_Ok) {
         ioError(file, tr("Error writing to file %1"));
