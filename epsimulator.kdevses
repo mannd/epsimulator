@@ -1,46 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="13" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldisk.h" >
-   <View0 Type="Source" />
+ <DocsAndViews NumberOfDocuments="3" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
+   <View0 line="260" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldisk.cpp" >
-   <View0 Type="Source" />
-  </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="252" Type="Source" />
-  </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///usr/share/qt3/doc/html/qvaluelist.html#find" >
+  <Doc1 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qfiledialog.html" >
    <View0 Type="Documentation" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
-   <View0 line="80" Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.cpp" >
-   <View0 line="27" Type="Source" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/filtercatalog.h" >
-   <View0 line="25" Type="Source" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 line="0" Type="Source" />
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.h" >
-   <View0 line="151" Type="Source" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.cpp" >
-   <View0 line="73" Type="Source" />
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.h" >
-   <View0 line="0" Type="Source" />
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
-   <View0 line="0" Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-   <View0 line="317" Type="Source" />
-  </Doc12>
+  </Doc1>
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
+   <View0 line="191" Type="Source" />
+  </Doc2>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -54,6 +24,9 @@
     <breakpoint2 location="/home/mannd/dev/epsimulator/src/opticaldisk.cpp:109" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint2>
+    <breakpoint3 location="/home/mannd/dev/epsimulator/src/tablelistview.cpp:183" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint3>
    </breakpointList>
   </kdevdebugger>
   <kdevbookmarks>

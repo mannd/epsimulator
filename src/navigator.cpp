@@ -258,10 +258,23 @@ void Navigator::setCatalogOther() {
 }
 
 void Navigator::exportCatalog() {
-    QFileDialog *fd = new QFileDialog("~", "Comma-delimited (*.csv)", this, 0, true);
+    QFileDialog *fd = new QFileDialog(QDir::homeDirPath(), "Comma-delimited (*.csv)", this, 0, true);
     fd->setMode(QFileDialog::AnyFile);
-    if (fd->exec() == QDialog::Accepted)
-        tableListView_->exportCSV(fd->selectedFile());
+    if (fd->exec() == QDialog::Accepted) {
+        QString fileName = fd->selectedFile();
+        if (!fileName.isEmpty()) {
+            int ret = 0;
+            if (QFile::exists(fileName))
+                ret = QMessageBox::warning(this,
+                                           tr("Overwrite File"),
+                                           tr("Overwrite\n\'%1\'?").
+                                                arg(fileName),
+                                           tr("&Yes"), tr("&No"),
+                                           QString::null, 1, 1);
+            if (ret == 0)
+                tableListView_->exportCSV(fd->selectedFile());
+        }
+    }
     delete fd;
 }
 
