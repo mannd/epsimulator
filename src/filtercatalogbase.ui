@@ -59,7 +59,7 @@
         </widget>
         <widget class="QLineEdit" row="6" column="1">
             <property name="name">
-                <cstring>studyFileLineEdit</cstring>
+                <cstring>studyLocationLineEdit</cstring>
             </property>
         </widget>
         <widget class="QLabel" row="6" column="0">
@@ -67,7 +67,7 @@
                 <cstring>textLabel7</cstring>
             </property>
             <property name="text">
-                <string>Study File</string>
+                <string>Study Location</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>lineEdit6</cstring>
@@ -203,10 +203,10 @@
                     </rect>
                 </property>
                 <property name="text">
-                    <string>This Week's Studies</string>
+                    <string>This Wee&amp;k's Studies</string>
                 </property>
                 <property name="accel">
-                    <string></string>
+                    <string>Alt+K</string>
                 </property>
                 <property name="buttonGroupId">
                     <number>2</number>
@@ -298,10 +298,10 @@
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Dates Between</string>
+                    <string>Dates &amp;Between</string>
                 </property>
                 <property name="accel">
-                    <string></string>
+                    <string>Alt+B</string>
                 </property>
                 <property name="buttonGroupId">
                     <number>3</number>
@@ -321,10 +321,10 @@
                         <cstring>clearFormButton</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Clear Form</string>
+                        <string>Clear For&amp;m</string>
                     </property>
                     <property name="accel">
-                        <string>Alt+C</string>
+                        <string>Alt+M</string>
                     </property>
                 </widget>
                 <spacer>
@@ -428,7 +428,7 @@
     <tabstop>mrnLineEdit</tabstop>
     <tabstop>studyConfigLineEdit</tabstop>
     <tabstop>studyNumberLineEdit</tabstop>
-    <tabstop>studyFileLineEdit</tabstop>
+    <tabstop>studyLocationLineEdit</tabstop>
     <tabstop>anyDateRadioButton</tabstop>
     <tabstop>beginDateEdit</tabstop>
     <tabstop>endDateEdit</tabstop>

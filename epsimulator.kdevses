@@ -3,9 +3,9 @@
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="3" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="260" Type="Source" />
+   <View0 Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qfiledialog.html" >
+  <Doc1 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qdir.html#currentDirPath" >
    <View0 Type="Documentation" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >

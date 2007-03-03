@@ -91,19 +91,25 @@ Navigator::Navigator(QWidget* parent, const char* name)
 // private slots
 
 void Navigator::newStudy() {
-///TODO study_ must be "blank" unless a study is selected in the catalog.
-/// Same thing for preregister and continue study
-    prepareStudy();
-    StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
-    if (studyConfigDialog->exec()) {
-///TODO StudyConfigDialog should probably be SelectConfigDialog and 
-/// need to fix below
-        study_.setConfig(studyConfigDialog->config());
-        if (getStudyInformation()) {
-            startStudy();
+    // Must have an optical disk ready to go.
+    if (!currentDisk_) 
+        QMessageBox::warning(this, tr("No Optical Disk"),
+                             tr("Insert an optical disk and try again."));
+    else {
+    ///TODO study_ must be "blank" unless a study is selected in the catalog.
+    /// Same thing for preregister and continue study
+        prepareStudy();
+        StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
+        if (studyConfigDialog->exec()) {
+    ///TODO StudyConfigDialog should probably be SelectConfigDialog and 
+    /// need to fix below
+            study_.setConfig(studyConfigDialog->config());
+            if (getStudyInformation()) {
+                startStudy();
+            }
         }
+        delete studyConfigDialog;
     }
-    delete studyConfigDialog;
 }
 
 void Navigator::continueStudy() {
@@ -632,7 +638,7 @@ void Navigator::processFilter() {
 	QRegExp mrnRegExp(filterCatalog_->mrnFilter(), false, true);
 	QRegExp studyConfigRegExp(filterCatalog_->studyConfigFilter(), false, true);
 	QRegExp studyNumberRegExp(filterCatalog_->studyNumberFilter(), false, true);
-	QRegExp studyFileRegExp(filterCatalog_->studyFileFilter(), false, true);
+	QRegExp studyLocationRegExp(filterCatalog_->studyLocationFilter(), false, true);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;
@@ -658,7 +664,7 @@ void Navigator::processFilter() {
  
         tableListView_->applyFilter(filterStudyType, lastNameRegExp,
             firstNameRegExp, mrnRegExp, studyConfigRegExp, 
-            studyNumberRegExp, studyFileRegExp, 
+            studyNumberRegExp, studyLocationRegExp, 
             anyDate, startDate, endDate);
 	filterLabel_->setText(tr(" Filtered "));
 	statusBar()->update();	
@@ -672,8 +678,9 @@ void Navigator::processFilter() {
 
 void Navigator::startStudy() {
     ///TODO need to pass study_ to eps
+ /*   
     Epsimulator* eps = new Epsimulator(this);
-    eps->showMaximized();
+    eps->showMaximized();*/
 }
 
 // returns true if PatientDialog is saved, false if cancelled
@@ -686,8 +693,10 @@ bool Navigator::getStudyInformation() {
         patientDialog->getFields(newStudy);
         study_ = newStudy;
         /// FIXME this depends on the catalogComboBox
-        study_.setPath(options_->opticalStudyPath());
-        study_.setFile(study_.fileName());
+        //study_.setPath(options_->opticalStudyPath());
+        //study_.setFile(study_.fileName());
+        if (!study_.isPreregisterStudy()) 
+            study_.setLocation(currentDisk_->label());
         tableListView_->addStudy(study_);
         // write the study to the catalog now in case user decides to refresh later
         tableListView_->save(catalogs_->filePaths());

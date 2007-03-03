@@ -51,7 +51,7 @@ void FilterCatalog::clearForm() {
     mrnLineEdit->clear();
     studyConfigLineEdit->clear();
     studyNumberLineEdit->clear();
-    studyFileLineEdit->clear();
+    studyLocationLineEdit->clear();
     studyDateButtonGroup->setButton(0);
     setDefaultDates();
 }

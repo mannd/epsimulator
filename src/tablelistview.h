@@ -60,7 +60,7 @@ class QStringList;
                          const QRegExp& mrn,
                          const QRegExp& studyConfig,
                          const QRegExp& studyNumber,
-                         const QRegExp& studyFile,
+                         const QRegExp& studyLocation,
                          bool anyDate,
                          const QDate& startDate,
                          const QDate& endDate);

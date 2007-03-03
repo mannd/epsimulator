@@ -36,7 +36,7 @@ class Catalogs;
 class CatalogComboBox;
 class FilterCatalog;
 class OpticalDisk;
-class OpticalDiskDrive;
+//class OpticalDiskDrive;
 class Options;
 class TableListView;
 

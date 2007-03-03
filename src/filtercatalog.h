@@ -42,7 +42,7 @@ public:
     QString mrnFilter() const {return makeFilter(mrnLineEdit->text());}
     QString studyConfigFilter() const {return makeFilter(studyConfigLineEdit->text());}
     QString studyNumberFilter() const {return makeFilter(studyNumberLineEdit->text());}
-    QString studyFileFilter() const {return makeFilter(studyFileLineEdit->text());}
+    QString studyLocationFilter() const {return makeFilter(studyLocationLineEdit->text());}
     DateRange dateFilter() const {return static_cast<DateRange>(studyDateButtonGroup->selectedId());}
     QDate beginDate() const {return beginDateEdit->date();}
     QDate endDate() const {return endDateEdit->date();}

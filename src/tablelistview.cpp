@@ -220,7 +220,7 @@ void TableListView::applyFilter( FilterStudyType filterStudyType,
                                             const QRegExp& mrn,
                                             const QRegExp& studyConfig,
                                             const QRegExp& studyNumber,
-                                            const QRegExp& studyFile,
+                                            const QRegExp& studyLocation,
                                             bool anyDate,
                                             const QDate& startDate,
                                             const QDate& endDate) {
@@ -234,7 +234,7 @@ void TableListView::applyFilter( FilterStudyType filterStudyType,
             mrn.exactMatch(item->study().mrn()) &&
             studyConfig.exactMatch(item->study().config()) &&
             studyNumber.exactMatch(item->study().number()) &&
-            studyFile.exactMatch(item->study().file()) &&
+            studyLocation.exactMatch(item->study().location()) &&
             (anyDate ? true : (startDate <= studyDate) &&
             (studyDate <= endDate));
         switch (filterStudyType) {
