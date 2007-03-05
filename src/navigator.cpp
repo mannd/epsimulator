@@ -99,13 +99,13 @@ void Navigator::newStudy() {
         QMessageBox::warning(this, tr("No Optical Disk"),
                              tr("Insert an optical disk and try again."));
     else {
-    ///TODO study_ must be "blank" unless a study is selected in the catalog.
-    /// Same thing for preregister and continue study
+        // study_ must be "blank" unless a study is selected in the catalog.
+        // Same thing for preregister and continue study.
         prepareStudy();
+        // We will leave this dialog with this name, even though it
+        // probably should have been called StudyConfigSelectDialog.
         StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
         if (studyConfigDialog->exec()) {
-    ///TODO StudyConfigDialog should probably be SelectConfigDialog and 
-    /// need to fix below
             study_.setConfig(studyConfigDialog->config());
             if (getStudyInformation()) {
                 startStudy();
@@ -174,18 +174,6 @@ void Navigator::unfilterStudies() {
 void Navigator::refreshCatalog() {
     catalogComboBox_->refresh();
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
-/*    
-    if (options_->emulateOpticalDrive())
-        opticalDiskDrive_ = new 
-            EmulatedOpticalDiskDrive(options_->opticalStudyPath());
-    else 
-        opticalDiskDrive_ = new 
-            OpticalDiskDrive(options_->opticalStudyPath());
-    if (!opticalDiskDrive_->checkDrive()) {
-    /// TODO add messages to insert disk, label disk etc.
-        QMessageBox::information( this, PROGRAM_NAME,
-            tr("No optical disk inserted"));
-    }    */
     tableListView_->load(catalogs_->currentCatalog()->filePath());
     // reapply filter if present
     if (tableListView_->filtered())
@@ -193,8 +181,9 @@ void Navigator::refreshCatalog() {
 }
 
 void Navigator::regenerateCatalog() {
-    ///TODO this will read through the studies in the directory and recreate the catalog
-    /// filter has to be cleared for this to work.
+    ///TODO this will read through the studies in the directory 
+    /// and recreate the catalog.
+    /// ? filter has to be cleared for this to work.
 }
 
 void Navigator::changeCatalog() {
@@ -402,7 +391,8 @@ void Navigator::createStatusBar() {
 
 /// Updates status bar to show source of current catalog.
 void Navigator::updateSourceLabel() {
-        sourceLabel_->setText(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()));
+        sourceLabel_->setText(tr(" Source: %1 ")
+            .arg(catalogs_->currentCatalog()->path()));
         sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
         statusBar()->update();
 }
@@ -508,6 +498,8 @@ void Navigator::createActions() {
     systemSettingsAct = new QAction(tr("System Settings"), 0, this);
     setupAction(systemSettingsAct, "Change system settings",
                 SLOT(systemSettings()));
+    simulatorOptionsAct_ = new QAction(tr("*Simulator Settings*"), 0, this);
+    setupAction(simulatorOptionsAct_, "Change simulator settings", 0);
 
     // Help menu
     epsimulatorHelpAct_ = new QAction(tr("EP Simulator Help..."), tr("F1"), this);
@@ -581,6 +573,7 @@ void Navigator::createMenus() {
     studyConfigurationsAct->addTo(administrationMenu);
     administrationMenu->insertSeparator();
     systemSettingsAct->addTo(administrationMenu);
+    simulatorOptionsAct_->addTo(administrationMenu);
     // insert reports submenu here
 
     helpMenu = new QPopupMenu(this);

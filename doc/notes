@@ -136,3 +136,15 @@ Simplified version of above.
         
 
 Note on vtable errors: after adding classes, or editing the src.pro file, you must rerun qmake, or your class doesn't get run through moc, or the moc_version of your class is not linked.  This causes those unable to find vtable errors by linker.
+
+
+Certain options are Simulator options.  There is a special Menu Item,
+"Simulator" where all the simulator options are set.  These include options to
+make the interface closer to the actual Prucka system.  For example, The
+navigator table can have columns for last name and first name, like the Prucka
+does, as clunky as this is.  Emulate optical drive is also a simulator
+specific item. 
+
+The Simulator options dialog is a large tabbed dialog, with tabs for different
+sections of the simulator.  Perhaps we can subclass menuitem and allow
+different color menu item for the simulator menu item.

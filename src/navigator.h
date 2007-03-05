@@ -178,6 +178,10 @@ private:
     QAction *protocolsAct;
     QAction *studyConfigurationsAct;
     QAction *systemSettingsAct;
+    
+    // Not part of the Prucka menu system!
+    // Simulator options are set here.
+    QAction* simulatorOptionsAct_;
 
     // Help menu
     QAction* epsimulatorHelpAct_;
