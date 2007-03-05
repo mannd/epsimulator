@@ -23,6 +23,7 @@
 #include <qdatastream.h>
 #include <qdatetime.h>
 #include <qfile.h>
+#include <qheader.h>
 #include <qmessagebox.h>
 #include <qregexp.h>
 #include <qstringlist.h>
@@ -55,11 +56,35 @@ TableListViewItem::~TableListViewItem() {
 
 TableListView::TableListView(QWidget* parent, Options* options) 
     : QListView(parent), filtered_(false), options_(options) {
-    connect(this, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), 
-	    parent->parent(), SLOT(newStudy()));
+
+    addColumn(tr("Study Type"));         // col 0
+    addColumn(tr("Patient"));            // col 1
+    addColumn(tr("MRN"));                // col 2
+    addColumn(tr("Study Date/Time"));    // col 3
+    addColumn(tr("Study Config"));       // col 4
+    addColumn(tr("Study Number"));       // col 5
+    /// FIXME this needs to be disk label/network location
+    addColumn(tr("Location of Study"));  // col 6
+    /// FIXME Below can be eliminated, but must also eliminate keycolumn
+    addColumn(tr("Hidden key"));         // col 7
+
+    setAllColumnsShowFocus(true);
+    setShowSortIndicator(true);
+    setSortColumn(3);    // default sort is date/time
+    // hide the hidden key column: make sure it is defined correctly in keyColumn
+    int keyColumn = 7;
+    setColumnWidthMode(keyColumn, QListView::Manual);
+    hideColumn(keyColumn);
+    header()->setResizeEnabled(false, keyColumn);
+    //setResizeMode(QListView::AllColumns);
+    // above messes up the hidden column
+//    connect(this, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), 
+//	    parent->parent(), SLOT(newStudy()));
 }
 
 TableListView::~TableListView() {
+
+  
 }
 
 void TableListView::showTable() {

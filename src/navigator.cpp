@@ -45,9 +45,7 @@
 #include <qapplication.h>
 #include <qdatetime.h>
 #include <qfiledialog.h>
-#include <qheader.h>
 #include <qlabel.h>
-#include <qlistview.h>
 #include <qmainwindow.h>
 #include <qmenubar.h>
 #include <qmessagebox.h>
@@ -63,6 +61,8 @@
 #ifndef NDEBUG
 #include <iostream> // for debugging
 #endif
+
+class QListViewItem;
 
 /**
  * Navigator constructor
@@ -80,6 +80,9 @@ Navigator::Navigator(QWidget* parent, const char* name)
     createToolBars();
     createStatusBar();
     createCentralWidget();
+
+    connect(catalogComboBox_, SIGNAL(activated(int)),
+        this, SLOT(changeCatalog()));
 
     setCaption(tr("%1 Navigator").arg(PROGRAM_NAME));
     setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
@@ -366,29 +369,8 @@ void Navigator::createButtonFrame() {
  */
 void Navigator::createTableListView() {
     tableListView_ = new TableListView(horizontalSplitter_, options_);
-    tableListView_->addColumn(tr("Study Type"));         // col 0
-    tableListView_->addColumn(tr("Patient"));            // col 1
-    tableListView_->addColumn(tr("MRN"));                // col 2
-    tableListView_->addColumn(tr("Study Date/Time"));    // col 3
-    tableListView_->addColumn(tr("Study Config"));       // col 4
-    tableListView_->addColumn(tr("Study Number"));       // col 5
-    /// FIXME this needs to be disk label/network location
-    tableListView_->addColumn(tr("Location of Study"));  // col 6
-    /// FIXME Below can be eliminated, but must also eliminate keycolumn
-    tableListView_->addColumn(tr("Hidden key"));         // col 7
-
-    tableListView_->setAllColumnsShowFocus(true);
-    tableListView_->setShowSortIndicator(true);
-    tableListView_->setSortColumn(3);    // default sort is date/time
-    // hide the hidden key column: make sure it is defined correctly in keyColumn
-    int keyColumn = 7;
-    tableListView_->setColumnWidthMode(keyColumn, QListView::Manual);
-    tableListView_->hideColumn(keyColumn);
-    tableListView_->header()->setResizeEnabled(false, keyColumn);
-    //tableListView_->setResizeMode(QListView::AllColumns);
-    // above messes up the hidden column
-    connect(catalogComboBox_, SIGNAL(activated(int)),
-        this, SLOT(changeCatalog()));
+    connect(tableListView_, SIGNAL(doubleClicked(QListViewItem*, 
+        const QPoint&, int)), this, SLOT(newStudy()));
 
 
 }
@@ -403,7 +385,8 @@ void Navigator::createStatusBar() {
     userLabel_->setAlignment(AlignHCenter);
     userLabel_->setMinimumSize(userLabel_->sizeHint());
 
-    sourceLabel_ = new QLabel(tr(" Source: %1 ").arg(catalogs_->currentCatalog()->path()), this);
+    sourceLabel_ = new QLabel(tr(" Source: %1 ")
+        .arg(catalogs_->currentCatalog()->path()), this);
     sourceLabel_->setAlignment(AlignHCenter);
     sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
 
