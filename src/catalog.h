@@ -28,17 +28,14 @@
 #ifndef CATALOG_H
 #define CATALOG_H
 
-#include "study.h"
-
 #include <qfile.h>
 #include <qstring.h>
 #include <qstringlist.h>
 
 #include <map>
 
-
-
 class Options;
+class Study;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>

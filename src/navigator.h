@@ -113,9 +113,14 @@ private:
     bool getStudyInformation();
     bool studySelected();
     void prepareStudy();    // clears study_ if no study selected
-    void deleteDataFile();  // delete data file associated with current study
-    void createDataFile();  // create a data file for a new study
-    void openDataFile();    // open a  data file for review or appending data
+    void addStudyToCatalogs();  // add study to appropriate catalogs
+    void removeStudyFromCatalogs(); // remove study from catalogs 
+    void createDataFiles(); // make study data files on disk
+    void deleteDataFiles(); // delete all study data on disk
+    /// FIXME below are not needed, delete
+//     void deleteDataFile();  // delete data file associated with current study
+//     void createDataFile();  // create a data file for a new study
+//     void openDataFile();    // open a  data file for review or appending data
 
     // Data members
     /// TODO study_ should be Study*

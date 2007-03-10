@@ -127,6 +127,7 @@ void Navigator::preregisterPatient() {
     prepareStudy();
     study_.setConfig("");   // preregistered study has no config info
     getStudyInformation();
+    // write study to catalogs -- also called from newStudy
 }
 
 void Navigator::reports() {
@@ -142,8 +143,9 @@ void Navigator::deleteStudy() {
             QMessageBox::No | QMessageBox::Default, // default is NO!
             QMessageBox::Cancel | QMessageBox::Escape);
         if (ret == QMessageBox::Yes) {
-            delete item;
-            deleteDataFile();
+            removeStudyFromCatalogs();
+            // delete item;
+            deleteDataFiles();
         }
     } 
     else {
@@ -151,6 +153,9 @@ void Navigator::deleteStudy() {
             tr("You must first select a study to delete it."),
             QMessageBox::Ok);
     }
+}
+
+void Navigator::removeStudyFromCatalogs() {
 }
 
 void Navigator::filterStudies() {
@@ -653,6 +658,9 @@ void Navigator::processFilter() {
 }
 
 void Navigator::startStudy() {
+    // write study to catalog
+    // write study files
+    // load study window
     ///TODO need to pass study_ to eps
  /*   
     Epsimulator* eps = new Epsimulator(this);
@@ -673,9 +681,10 @@ bool Navigator::getStudyInformation() {
         //study_.setFile(study_.fileName());
         if (!study_.isPreregisterStudy()) 
             study_.setLocation(currentDisk_->label());
-        tableListView_->addStudy(study_);
+        /// FIXME this doesn't below here:
+/*        tableListView_->addStudy(study_);
         // write the study to the catalog now in case user decides to refresh later
-        tableListView_->save(catalogs_->filePaths());
+        tableListView_->save(catalogs_->filePaths());*/
         return true;
     }
     return false;
@@ -698,7 +707,7 @@ void Navigator::prepareStudy() {
     }
 }
 
-void Navigator::deleteDataFile() {
+void Navigator::deleteDataFiles() {
 }
 
 Navigator::~Navigator() {

@@ -21,6 +21,7 @@
 #include "catalog.h"
 #include "opticaldisk.h"
 #include "options.h"
+#include "study.h"
 
 #include <qdir.h>
 
@@ -58,7 +59,6 @@ Catalogs::Catalogs(Options* options) {
         currentCatalog_ = networkCatalog_;
     else
         currentCatalog_ = systemCatalog_;
-//    filePaths_ = new QStringList();
     if (options->enableNetworkStorage())
         appendFilePath(networkCatalog_->filePath());
     appendFilePath(systemCatalog_->filePath());
@@ -73,21 +73,6 @@ void Catalogs::appendFilePath(const QString& path) {
 
 void Catalogs::setCatalogPath(Catalog::Source catalog, const QString& path) {
     catalogs_[catalog]->setPath(path);
-//     switch (catalog) {
-//         case Catalog::Network:
-//             currentCatalog_ = networkCatalog_;
-//             break;
-//         case Catalog::System:
-//             currentCatalog_ = systemCatalog_;
-//             break;
-//         case Catalog::Optical:
-//             currentCatalog_ = opticalCatalog_;
-//             break;
-//         case Catalog::Other:
-//             currentCatalog_ = otherCatalog_;
-//             break;
-//         default:
-//             currentCatalog_ = systemCatalog_;
 }
 
 
@@ -95,23 +80,6 @@ void Catalogs::setCatalogPath(Catalog::Source catalog, const QString& path) {
 
 void Catalogs::setCurrentCatalog(Catalog::Source catalog) {
     currentCatalog_ = catalogs_[catalog];
-/*
-    switch (catalog) {
-        case Catalog::Network:
-            currentCatalog_ = networkCatalog_;
-            break;
-        case Catalog::System:
-            currentCatalog_ = systemCatalog_;
-            break;
-        case Catalog::Optical:
-            currentCatalog_ = opticalCatalog_;
-            break;
-        case Catalog::Other:
-            currentCatalog_ = otherCatalog_;
-            break;
-        default:
-            currentCatalog_ = systemCatalog_;*/
- //   }
 }
 
 

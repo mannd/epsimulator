@@ -203,8 +203,9 @@ public:
 	QRegExp studyNumberRegExp(
             filterCatalog->studyNumberLineEdit->text().isEmpty()
             ? "*" : filterCatalog->studyNumberLineEdit->text(), false, true);
-	QRegExp studyFileRegExp(filterCatalog->studyFileLineEdit->text().isEmpty()
-            ? "*" : filterCatalog->studyFileLineEdit->text(), false, true);
+	QRegExp studyFileRegExp(filterCatalog->studyLocationLineEdit->
+            text().isEmpty() ? "*" : filterCatalog->
+            studyLocationLineEdit->text(), false, true);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;
