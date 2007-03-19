@@ -43,7 +43,8 @@ HEADERS += epsimulator.h \
            opticaldisk.h \
            settings.h \
            disklabeldialog.h \
-           buttonframe.h 
+           buttonframe.h \
+           statusbar.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -61,7 +62,8 @@ SOURCES += epsimulator.cpp \
            opticaldisk.cpp \
            settings.cpp \
            disklabeldialog.cpp \
-           buttonframe.cpp 
+           buttonframe.cpp \
+           statusbar.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

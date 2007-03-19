@@ -36,6 +36,7 @@
 #include "navigator.h"
 #include "patientdialog.h"
 #include "settings.h"
+#include "statusbar.h"
 #include "study.h"
 #include "studyconfigdialog.h"
 #include "systemdialog.h"
@@ -52,7 +53,6 @@
 #include <qpopupmenu.h>
 #include <qregexp.h>
 #include <qsplitter.h>
-#include <qstatusbar.h>
 #include <qtoolbar.h>
 
 #include <algorithm>
@@ -168,8 +168,7 @@ void Navigator::filterStudies() {
 void Navigator::unfilterStudies() {
     // do the unfiltering here
     tableListView_->removeFilter();
-    filterLabel_->setText(tr(" Unfiltered "));
-    statusBar()->update();
+    statusBar_->updateFilterLabel(false);
     removeStudiesFilterAct_->setEnabled(false);
     filterStudiesAct_->setEnabled(true);
 //    refreshViewAct_->setEnabled(true);
@@ -197,7 +196,7 @@ void Navigator::changeCatalog() {
     // reapply filter if present
     if (tableListView_->filtered())
         processFilter();
-    updateSourceLabel();
+    statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
 void Navigator::ejectDisk() {
@@ -312,7 +311,7 @@ void Navigator::systemSettings() {
         delete catalogs_;
         catalogs_ = new Catalogs(options_);
         refreshCatalog();
-        updateSourceLabel();
+        statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
     }
     delete systemDialog;
 }
@@ -370,36 +369,7 @@ void Navigator::createTableListView() {
 }
 
 void Navigator::createStatusBar() {
-    messageLabel_ = new QLabel(tr("For Help, press F1"), this);
-
-    /// Apparently getenv works in Windows too.
-    /// TODO If logged in as administrator, show this on status bar
-    /// Difference from Prucka: Only shows "cluser" for general user or "administrator"
-    userLabel_ = new QLabel(tr(" User: %1 ").arg(std::getenv("USER")), this);
-    userLabel_->setAlignment(AlignHCenter);
-    userLabel_->setMinimumSize(userLabel_->sizeHint());
-
-    sourceLabel_ = new QLabel(tr(" Source: %1 ")
-        .arg(catalogs_->currentCatalog()->path()), this);
-    sourceLabel_->setAlignment(AlignHCenter);
-    sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
-
-    filterLabel_ = new QLabel(tr(" Unfiltered "), this);
-    filterLabel_->setAlignment(AlignHCenter);
-    filterLabel_->setMinimumSize(filterLabel_->sizeHint());
-
-    statusBar()->addWidget(messageLabel_, 1);
-    statusBar()->addWidget(userLabel_);
-    statusBar()->addWidget(sourceLabel_);
-    statusBar()->addWidget(filterLabel_);
-}
-
-/// Updates status bar to show source of current catalog.
-void Navigator::updateSourceLabel() {
-        sourceLabel_->setText(tr(" Source: %1 ")
-            .arg(catalogs_->currentCatalog()->path()));
-        sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
-        statusBar()->update();
+    statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this, "StatusBar");
 }
 
 /**
@@ -647,8 +617,7 @@ void Navigator::processFilter() {
             firstNameRegExp, mrnRegExp, studyConfigRegExp, 
             studyNumberRegExp, studyLocationRegExp, 
             anyDate, startDate, endDate);
-	filterLabel_->setText(tr(" Filtered "));
-	statusBar()->update();	
+        statusBar_->updateFilterLabel(true);
         filterStudiesAct_->setEnabled(false);
         removeStudiesFilterAct_->setEnabled(true);
         // also disallow refreshing while filtered

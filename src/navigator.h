@@ -38,6 +38,7 @@ class FilterCatalog;
 class OpticalDisk;
 //class OpticalDiskDrive;
 class Options;
+class StatusBar;
 class TableListView;
 
 class QAction;
@@ -96,7 +97,6 @@ private:
     void createButtonFrame();
     void createTableListView();
     void createStatusBar();
-    void updateSourceLabel();
     void setupAction(QAction* action, QString statusTip,
                      const char* slotName, const char* iconName = 0);
     void createActions();
@@ -128,15 +128,9 @@ private:
     Options* options_;
     FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
     Catalogs* catalogs_;
-    
+    StatusBar* statusBar_;
     OpticalDisk* currentDisk_;
 //    OpticalDiskDrive* opticalDiskDrive_;
-
-    // StatusBar labels
-    QLabel* messageLabel_;
-    QLabel* userLabel_;
-    QLabel* sourceLabel_;
-    QLabel* filterLabel_;
 
     // central widget stuff
     /// TODO Make all these end in underscore
