@@ -156,10 +156,10 @@
                                 </rect>
                             </property>
                             <property name="text">
-                                <string>Browse...</string>
+                                <string>&amp;Browse...</string>
                             </property>
                             <property name="accel">
-                                <string></string>
+                                <string>Alt+B</string>
                             </property>
                         </widget>
                         <widget class="QLineEdit">
@@ -266,28 +266,6 @@
                         </widget>
                         <widget class="QCheckBox">
                             <property name="name">
-                                <cstring>emulateOpticalDriveCheckBox</cstring>
-                            </property>
-                            <property name="enabled">
-                                <bool>true</bool>
-                            </property>
-                            <property name="geometry">
-                                <rect>
-                                    <x>373</x>
-                                    <y>53</y>
-                                    <width>356</width>
-                                    <height>28</height>
-                                </rect>
-                            </property>
-                            <property name="text">
-                                <string>Emulate Optical Drive</string>
-                            </property>
-                            <property name="checked">
-                                <bool>false</bool>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox">
-                            <property name="name">
                                 <cstring>enableAcquisitionCheckBox</cstring>
                             </property>
                             <property name="geometry">
@@ -299,10 +277,10 @@
                                 </rect>
                             </property>
                             <property name="text">
-                                <string>Enable Acquisition</string>
+                                <string>Enable Ac&amp;quisition</string>
                             </property>
                             <property name="accel">
-                                <string></string>
+                                <string>Alt+Q</string>
                             </property>
                             <property name="checked">
                                 <bool>true</bool>
@@ -550,7 +528,6 @@
     <tabstop>buttonCancel</tabstop>
     <tabstop>filePathsTabWidget</tabstop>
     <tabstop>enableAcquisitionCheckBox</tabstop>
-    <tabstop>emulateOpticalDriveCheckBox</tabstop>
     <tabstop>opticalStudyPathLineEdit</tabstop>
     <tabstop>opticalPathBrowsePushButton</tabstop>
     <tabstop>enableNetworkStorageCheckBox</tabstop>

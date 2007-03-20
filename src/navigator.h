@@ -84,6 +84,7 @@ private slots:
     void setCatalogOther();
 
     void systemSettings();
+    void simulatorSettings();
 
     void help();
     void about();

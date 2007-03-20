@@ -54,8 +54,8 @@ void Options::readSettings() {
     networkStudyPath_ = settings.readEntry("/networkStudyPath", "");
     exportFilePath_ = settings.readEntry("/exportFilePath", "");
     emulateOpticalDrive_ = settings.readBoolEntry("/emulateOpticalDrive", true);
-    emulateDualSidedDisks_ = 
-        settings.readBoolEntry("/emulateDualSidedDisks", true);
+    emulateDualSidedDrive_ = 
+        settings.readBoolEntry("/emulateDualSidedDrive", true);
     emulatedOpticalDriveCapacity_ 
         =settings.readNumEntry("/emulatedOpticalDriveCapacity", 0);
     oldStyleNavigator_ = settings.readBoolEntry("/oldStyleNavigator", false);
@@ -74,7 +74,7 @@ void Options::writeSettings() {
     settings.writeEntry("/networkStudyPath", networkStudyPath_);
     settings.writeEntry("/exportFilePath", exportFilePath_);
     settings.writeEntry("/emulateOpticalDrive", emulateOpticalDrive_);
-    settings.writeEntry("/emulateDualSidedDisks", emulateDualSidedDisks_);
+    settings.writeEntry("/emulateDualSidedDrive", emulateDualSidedDrive_);
     settings.writeEntry("/emulatedOpticalDriveCapacity", emulatedOpticalDriveCapacity_);
     settings.writeEntry("/oldStyleNavigator", oldStyleNavigator_);
     /// TODO add other options here...

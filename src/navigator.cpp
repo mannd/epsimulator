@@ -35,6 +35,7 @@
 #include "options.h"
 #include "navigator.h"
 #include "patientdialog.h"
+#include "simulatorsettingsdialog.h"
 #include "settings.h"
 #include "statusbar.h"
 #include "study.h"
@@ -280,13 +281,30 @@ void Navigator::exportCatalog() {
     delete fd;
 }
 
+void Navigator::simulatorSettings() {
+    SimulatorSettingsDialog* simDialog = new SimulatorSettingsDialog(this);
+    simDialog->setEmulateOpticalDrive(options_->emulateOpticalDrive());
+    simDialog->setEmulateDualSidedDrive(options_->emulateDualSidedDrive());
+    simDialog->setEmulatedOpticalDriveCapacity(
+        options_->emulatedOpticalDriveCapacity());
+    simDialog->setOldStyleNavigator(options_->oldStyleNavigator());
+    if (simDialog->exec()) { 
+        options_->setEmulateOpticalDrive(simDialog->emulateOpticalDrive());
+        options_->setEmulateDualSidedDrive(simDialog->emulateDualSidedDrive());
+        options_->setEmulatedOpticalDriveCapacity(
+            simDialog->emulatedOpticalDriveCapacity()); 
+        options_->setOldStyleNavigator(simDialog->oldStyleNavigator());
+        options_->writeSettings();
+    }
+}
+
 void Navigator::systemSettings() {
     SystemDialog* systemDialog = new SystemDialog(this);
     systemDialog->setOpticalStudyPath(options_->opticalStudyPath());
     systemDialog->setNetworkStudyPath(options_->networkStudyPath());
     systemDialog->setExportFilePath(options_->exportFilePath());
     systemDialog->setEnableAcquisition(options_->enableAcquisition());
-    systemDialog->setEmulateOpticalDrive(options_->emulateOpticalDrive());
+//    systemDialog->setEmulateOpticalDrive(options_->emulateOpticalDrive());
     systemDialog->setEnableFileExport(options_->enableFileExport());
     systemDialog->setEnableNetworkStorage(options_->enableNetworkStorage());
     if (systemDialog->exec()) {
@@ -298,8 +316,8 @@ void Navigator::systemSettings() {
             systemDialog->exportFilePath());
         options_->setEnableAcquisition(
             systemDialog->enableAcquisition());
-        options_->setEmulateOpticalDrive(
-            systemDialog->emulateOpticalDrive());
+//         options_->setEmulateOpticalDrive(
+//             systemDialog->emulateOpticalDrive());
         options_->setEnableFileExport(
             systemDialog->enableFileExport());
         options_->setEnableNetworkStorage(
@@ -369,7 +387,8 @@ void Navigator::createTableListView() {
 }
 
 void Navigator::createStatusBar() {
-    statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this, "StatusBar");
+    statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this, 
+        options_->oldStyleNavigator(), "StatusBar");
 }
 
 /**
@@ -474,7 +493,8 @@ void Navigator::createActions() {
     setupAction(systemSettingsAct, "Change system settings",
                 SLOT(systemSettings()));
     simulatorOptionsAct_ = new QAction(tr("*Simulator Settings*"), 0, this);
-    setupAction(simulatorOptionsAct_, "Change simulator settings", 0);
+    setupAction(simulatorOptionsAct_, "Change simulator settings", 
+                SLOT(simulatorSettings()));
 
     // Help menu
     epsimulatorHelpAct_ = new QAction(tr("EP Simulator Help..."), tr("F1"), this);

@@ -42,8 +42,8 @@ public:
     QString exportFilePath() const {return exportFilePathLineEdit->text();}
     bool enableAcquisition() const {
 	return enableAcquisitionCheckBox->isChecked();}
-    bool emulateOpticalDrive() const {
-	return emulateOpticalDriveCheckBox->isChecked();}
+//     bool emulateOpticalDrive() const {
+// 	return emulateOpticalDriveCheckBox->isChecked();}
     bool enableFileExport() const {
 	return enableFileExportCheckBox->isChecked();}
     bool enableNetworkStorage() const {
@@ -58,8 +58,8 @@ public:
 	exportFilePathLineEdit->setText(path);}
     void setEnableAcquisition(bool enable) {
 	enableAcquisitionCheckBox->setChecked(enable);}
-    void setEmulateOpticalDrive(bool emulate) {
-	emulateOpticalDriveCheckBox->setChecked(emulate); }
+//     void setEmulateOpticalDrive(bool emulate) {
+// 	emulateOpticalDriveCheckBox->setChecked(emulate); }
     void setEnableNetworkStorage(bool enable);
     void setEnableFileExport(bool enable);
 

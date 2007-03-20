@@ -45,7 +45,8 @@ HEADERS += epsimulator.h \
            settings.h \
            disklabeldialog.h \
            buttonframe.h \
-           statusbar.h 
+           statusbar.h \
+           simulatorsettingsdialog.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -64,7 +65,8 @@ SOURCES += epsimulator.cpp \
            settings.cpp \
            disklabeldialog.cpp \
            buttonframe.cpp \
-           statusbar.cpp 
+           statusbar.cpp \
+           simulatorsettingsdialog.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

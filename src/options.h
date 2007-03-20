@@ -62,7 +62,7 @@ public:
     void setEnableFileExport(bool enable) {enableFileExport_ = enable;}
     void setEnableNetworkStorage(bool enable) { enableNetworkStorage_ = enable;}
     void setEmulateOpticalDrive(bool emulate) {emulateOpticalDrive_ = emulate;}
-    void setEmulateDualSidedDisks(bool emulate) {emulateDualSidedDisks_ = emulate;}
+    void setEmulateDualSidedDrive(bool emulate) {emulateDualSidedDrive_ = emulate;}
     void setEmulatedOpticalDriveCapacity(int capacity) {
         emulatedOpticalDriveCapacity_ = capacity;}
     void setOldStyleNavigator(bool isOldStyle) {oldStyleNavigator_ = isOldStyle;}
@@ -79,7 +79,7 @@ public:
     bool enableFileExport() const {return enableFileExport_;}
     bool enableNetworkStorage() const {return enableNetworkStorage_;}
     bool emulateOpticalDrive() const {return emulateOpticalDrive_;}
-    bool emulateDualSidedDisks() const {return emulateDualSidedDisks_;}
+    bool emulateDualSidedDrive() const {return emulateDualSidedDrive_;}
     int emulatedOpticalDriveCapacity() const {
         return emulatedOpticalDriveCapacity_;} 
     bool oldStyleNavigator() const {return oldStyleNavigator_;}
@@ -112,7 +112,7 @@ private:
     // some simulator specific options
     // related to Optical drive emulation
     bool emulateOpticalDrive_;
-    bool emulateDualSidedDisks_;
+    bool emulateDualSidedDrive_;
     // emulated optical drive capacity (per side) in megabytes
     // if = 0 then no limit.  Default is 0 (unlimited)
     int emulatedOpticalDriveCapacity_;
