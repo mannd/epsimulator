@@ -46,7 +46,6 @@ Options::Options() : tempStudyPath_(""),
 void Options::readSettings() {
     Settings settings;
     enableAcquisition_ = settings.readBoolEntry("/enableAcquisition", true);
-    emulateOpticalDrive_ = settings.readBoolEntry("/emulateOpticalDrive", true);
     enableFileExport_ = settings.readBoolEntry("/enableFileExport", false);
     enableNetworkStorage_ = settings.readBoolEntry("/enableNetworkStorage", false);
     QString defaultOpticalPath = 
@@ -54,10 +53,12 @@ void Options::readSettings() {
     opticalStudyPath_ = settings.readEntry("/opticalStudyPath", defaultOpticalPath);
     networkStudyPath_ = settings.readEntry("/networkStudyPath", "");
     exportFilePath_ = settings.readEntry("/exportFilePath", "");
+    emulateOpticalDrive_ = settings.readBoolEntry("/emulateOpticalDrive", true);
     emulateDualSidedDisks_ = 
         settings.readBoolEntry("/emulateDualSidedDisks", true);
     emulatedOpticalDriveCapacity_ 
         =settings.readNumEntry("/emulatedOpticalDriveCapacity", 0);
+    oldStyleNavigator_ = settings.readBoolEntry("/oldStyleNavigator", false);
     /// TODO other options here...
 }
 
@@ -67,12 +68,15 @@ void Options::readSettings() {
 void Options::writeSettings() {
     Settings settings;
     settings.writeEntry("/enableAcquisition", enableAcquisition_);
-    settings.writeEntry("/emulateOpticalDrive", emulateOpticalDrive_);
     settings.writeEntry("/enableFileExport", enableFileExport_);
     settings.writeEntry("/enableNetworkStorage", enableNetworkStorage_);
     settings.writeEntry("/opticalStudyPath", opticalStudyPath_);
     settings.writeEntry("/networkStudyPath", networkStudyPath_);
     settings.writeEntry("/exportFilePath", exportFilePath_);
+    settings.writeEntry("/emulateOpticalDrive", emulateOpticalDrive_);
+    settings.writeEntry("/emulateDualSidedDisks", emulateDualSidedDisks_);
+    settings.writeEntry("/emulatedOpticalDriveCapacity", emulatedOpticalDriveCapacity_);
+    settings.writeEntry("/oldStyleNavigator", oldStyleNavigator_);
     /// TODO add other options here...
 }
 

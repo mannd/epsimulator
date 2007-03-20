@@ -59,12 +59,13 @@ public:
     void setTempStudyPath(const QString& tempStudyPath) {tempStudyPath_ = tempStudyPath;}
 
     void setEnableAcquisition(bool enable) {enableAcquisition_ = enable;}
-    void setEmulateOpticalDrive(bool emulate) {emulateOpticalDrive_ = emulate;}
     void setEnableFileExport(bool enable) {enableFileExport_ = enable;}
     void setEnableNetworkStorage(bool enable) { enableNetworkStorage_ = enable;}
+    void setEmulateOpticalDrive(bool emulate) {emulateOpticalDrive_ = emulate;}
     void setEmulateDualSidedDisks(bool emulate) {emulateDualSidedDisks_ = emulate;}
     void setEmulatedOpticalDriveCapacity(int capacity) {
         emulatedOpticalDriveCapacity_ = capacity;}
+    void setOldStyleNavigator(bool isOldStyle) {oldStyleNavigator_ = isOldStyle;}
 
 
     QString opticalStudyPath() const {return opticalStudyPath_;}
@@ -75,12 +76,13 @@ public:
     QString catalogFileName() const {return catalogFileName_;}
 
     bool enableAcquisition() const {return enableAcquisition_;}
-    bool emulateOpticalDrive() const {return emulateOpticalDrive_;}
     bool enableFileExport() const {return enableFileExport_;}
     bool enableNetworkStorage() const {return enableNetworkStorage_;}
+    bool emulateOpticalDrive() const {return emulateOpticalDrive_;}
     bool emulateDualSidedDisks() const {return emulateDualSidedDisks_;}
     int emulatedOpticalDriveCapacity() const {
         return emulatedOpticalDriveCapacity_;} 
+    bool oldStyleNavigator() const {return oldStyleNavigator_;}
 
     void readSettings();
     void writeSettings();
@@ -103,17 +105,19 @@ private:
     QString tempStudyPath_;
     QString exportFilePath_;
     QString systemCatalogPath_;
-    bool emulateOpticalDrive_;
     bool enableAcquisition_;
     bool enableFileExport_;
     bool enableNetworkStorage_;
     
     // some simulator specific options
     // related to Optical drive emulation
+    bool emulateOpticalDrive_;
     bool emulateDualSidedDisks_;
     // emulated optical drive capacity (per side) in megabytes
     // if = 0 then no limit.  Default is 0 (unlimited)
     int emulatedOpticalDriveCapacity_;
+    // determines if last name and first name are displayed separately
+    bool oldStyleNavigator_;
 };
 
 #endif

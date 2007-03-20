@@ -7,7 +7,8 @@ FORMS += patientdialogbase.ui \
          systemdialogbase.ui \
          studyconfigdialogbase.ui \
          filtercatalogbase.ui \
-         disklabeldialogbase.ui 
+         disklabeldialogbase.ui \
+         simulatorsettingsdialogbase.ui 
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 IMAGES += images/hi16-app-epsimulator.png \
