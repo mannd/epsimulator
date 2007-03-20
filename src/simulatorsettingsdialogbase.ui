@@ -1,0 +1,97 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>SimulatorSettingsDialogBase</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>SimulatorSettingsDialogBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Simulator Settings</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QTabWidget" row="0" column="0">
+            <property name="name">
+                <cstring>tabCategories</cstring>
+            </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tabNavigator</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Navigator</string>
+                </attribute>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>37</x>
+                            <y>374</y>
+                            <width>450</width>
+                            <height>23</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>* Indicates restart necessary to change setting</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>checkBox3</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>57</x>
+                            <y>64</y>
+                            <width>350</width>
+                            <height>28</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Emulate Optical Drive</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>checkBox4</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>47</x>
+                            <y>114</y>
+                            <width>280</width>
+                            <height>28</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Emulate Dual Sided Drive</string>
+                    </property>
+                </widget>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Tab &amp;2</string>
+                </attribute>
+            </widget>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
