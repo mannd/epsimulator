@@ -19,16 +19,37 @@
  ***************************************************************************/
 #include "systemdialog.h"
 
+#include "options.h"
+
 #include <qcheckbox.h>
 #include <qfiledialog.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
 
-SystemDialog::SystemDialog(QWidget *parent, const char *name)
-    :SystemDialogBase(parent, name) {
+SystemDialog::SystemDialog(Options* options, 
+                           QWidget *parent, const char *name)
+                           : SystemDialogBase(parent, name),
+                           options_(options) {
     enableExportFilePathLineEdit();
     enableNetworkStudyPathLineEdit();
     // set up dialog here, from system settings on disk
+    opticalStudyPathLineEdit->setText(options_->opticalStudyPath());
+    networkStudyPathLineEdit->setText(options_->networkStudyPath());
+    exportFilePathLineEdit->setText(options_->exportFilePath());
+    enableAcquisitionCheckBox->setChecked(options_->enableAcquisition());
+    setEnableFileExport(options_->enableFileExport());
+    setEnableNetworkStorage(options_->enableNetworkStorage());
+}
+
+void SystemDialog::setOptions() {
+    options_->setOpticalStudyPath(opticalStudyPathLineEdit->text());
+    options_->setNetworkStudyPath(networkStudyPathLineEdit->text());
+    options_->setExportFilePath(exportFilePathLineEdit->text());
+    options_->setEnableAcquisition(enableAcquisitionCheckBox->isChecked());
+    options_->setEnableFileExport(enableFileExportCheckBox->isChecked());
+    options_->setEnableNetworkStorage(
+	enableNetworkStorageCheckBox->isChecked()); 
+    options_->writeSettings();
 }
 
 void SystemDialog::opticalStudyPathBrowse() {

@@ -21,7 +21,7 @@
 #ifndef PASSWORDDIALOG_H
 #define PASSWORDDIALOG_H
 
-#include "logindialogbase.h"
+#include "passworddialogbase.h"
 
 class PasswordDialog : public PasswordDialogBase
 {

@@ -52,7 +52,7 @@ public:
     ~ButtonFrame();
 
 private:
-    static const int buttonSize = 70;   // size of square buttons in blue panel
+    static const int buttonSize = 65;   // size of square buttons in blue panel
 
     void setupButton(QPushButton* button, const QString& pixmapName,
                              QLabel* label, const char* slotName, 

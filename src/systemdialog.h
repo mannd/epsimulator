@@ -32,36 +32,22 @@
 #include <qlineedit.h>
 #include <qstring.h>
 
-class SystemDialog : public SystemDialogBase {
+class Options;
+
+// Note private inheritance, to hide all those nasty public data members
+// that Qt Designer makes.  Just need to override exec() to make it work.
+class SystemDialog : private SystemDialogBase {
     Q_OBJECT
 
 public:
-    SystemDialog(QWidget *parent = 0, const char *name = 0);
-    QString opticalStudyPath() const {return opticalStudyPathLineEdit->text();}
-    QString networkStudyPath() const {return networkStudyPathLineEdit->text();}
-    QString exportFilePath() const {return exportFilePathLineEdit->text();}
-    bool enableAcquisition() const {
-	return enableAcquisitionCheckBox->isChecked();}
-//     bool emulateOpticalDrive() const {
-// 	return emulateOpticalDriveCheckBox->isChecked();}
-    bool enableFileExport() const {
-	return enableFileExportCheckBox->isChecked();}
-    bool enableNetworkStorage() const {
-	return enableNetworkStorageCheckBox->isChecked();}	
+    SystemDialog(Options* options, QWidget *parent = 0, const char *name = 0);
 
+    void setOptions();
 
-    void setOpticalStudyPath(const QString& path) {
-	opticalStudyPathLineEdit->setText(path);}
-    void setNetworkStudyPath(const QString& path) {
-	networkStudyPathLineEdit->setText(path);}
-    void setExportFilePath(const QString& path) {
-	exportFilePathLineEdit->setText(path);}
-    void setEnableAcquisition(bool enable) {
-	enableAcquisitionCheckBox->setChecked(enable);}
-//     void setEmulateOpticalDrive(bool emulate) {
-// 	emulateOpticalDriveCheckBox->setChecked(emulate); }
-    void setEnableNetworkStorage(bool enable);
-    void setEnableFileExport(bool enable);
+    virtual bool exec() {return SystemDialogBase::exec();}
+
+    
+
 
     
 /// TODO make the set check boxes functions, so that the line edits and
@@ -77,7 +63,12 @@ public slots:
     void enableNetworkStudyPathLineEdit();
 
 private:
+    void setEnableNetworkStorage(bool enable);
+    void setEnableFileExport(bool enable);
+
     void browseFilePaths(QLineEdit*);
+
+    Options* options_;
 };
 
 #endif

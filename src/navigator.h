@@ -75,6 +75,7 @@ private slots:
     void ejectDisk();
     void relabelDisk();
     void exportCatalog();
+    void login();
     
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
@@ -90,9 +91,6 @@ private slots:
     void about();
 
 private:
-
-    static const int buttonSize = 70;   // size of square buttons in blue panel
-
     // Functions to set up the Navigator main window.
     void createCentralWidget();
     void createButtonFrame();

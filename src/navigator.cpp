@@ -35,6 +35,7 @@
 #include "options.h"
 #include "navigator.h"
 #include "patientdialog.h"
+#include "passworddialog.h"
 #include "simulatorsettingsdialog.h"
 #include "settings.h"
 #include "statusbar.h"
@@ -135,7 +136,8 @@ void Navigator::reports() {
 }
 
 void Navigator::deleteStudy() {
-    if (QListViewItem* item = tableListView_->selectedItem()) {
+    if (tableListView_->selectedItem()) {
+    //if (QListViewItem* item = tableListView_->selectedItem()) {
         int ret = QMessageBox::warning(
             this, tr("Delete Study?"),
             tr("The selected study will be permanently "
@@ -234,6 +236,14 @@ void Navigator::relabelDisk() {
     delete diskLabelDialog;
 }
 
+void Navigator::login() {
+    PasswordDialog* pwDialog = new PasswordDialog(this);
+    if (pwDialog->exec())
+        // do something
+        ;
+    delete pwDialog;
+}
+
 void Navigator::setCatalogNetwork() {
     catalogComboBox_->setSource(Catalog::Network);
     changeCatalog();
@@ -299,30 +309,9 @@ void Navigator::simulatorSettings() {
 }
 
 void Navigator::systemSettings() {
-    SystemDialog* systemDialog = new SystemDialog(this);
-    systemDialog->setOpticalStudyPath(options_->opticalStudyPath());
-    systemDialog->setNetworkStudyPath(options_->networkStudyPath());
-    systemDialog->setExportFilePath(options_->exportFilePath());
-    systemDialog->setEnableAcquisition(options_->enableAcquisition());
-//    systemDialog->setEmulateOpticalDrive(options_->emulateOpticalDrive());
-    systemDialog->setEnableFileExport(options_->enableFileExport());
-    systemDialog->setEnableNetworkStorage(options_->enableNetworkStorage());
+    SystemDialog* systemDialog = new SystemDialog(options_, this);
     if (systemDialog->exec()) {
-        options_->setOpticalStudyPath(
-            systemDialog->opticalStudyPath());
-        options_->setNetworkStudyPath(
-            systemDialog->networkStudyPath());
-        options_->setExportFilePath(
-            systemDialog->exportFilePath());
-        options_->setEnableAcquisition(
-            systemDialog->enableAcquisition());
-//         options_->setEmulateOpticalDrive(
-//             systemDialog->emulateOpticalDrive());
-        options_->setEnableFileExport(
-            systemDialog->enableFileExport());
-        options_->setEnableNetworkStorage(
-            systemDialog->enableNetworkStorage()); 
-        options_->writeSettings();
+        systemDialog->setOptions();
         // menu is changed
         networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
         // status bar and catalog might be changed 
@@ -476,7 +465,7 @@ void Navigator::createActions() {
 
     // Administration menu
     loginAct = new QAction(tr("Login..."), 0, this);
-    setupAction(loginAct, "Login", 0);
+    setupAction(loginAct, "Login", SLOT(login()));
     logoutAct = new QAction(tr("Logout"), 0, this);
     setupAction(logoutAct, "Logout", 0);
     changePasswordAct = new QAction(tr("Change Password..."), 0, this);
