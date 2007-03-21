@@ -22,6 +22,7 @@
 
 #include "studyconfigdialogbase.h"
 
+
 #include <qlistbox.h>
 #include <qstring.h>
 
@@ -36,6 +37,7 @@ public:
 
 private slots:
     void enableOkButton();
+
 };
 
 #endif

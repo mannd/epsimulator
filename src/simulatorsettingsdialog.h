@@ -23,27 +23,37 @@
 
 #include "simulatorsettingsdialogbase.h"
 
-class SimulatorSettingsDialog : public SimulatorSettingsDialogBase
+class Options;
+
+class SimulatorSettingsDialog : private SimulatorSettingsDialogBase
 {
     Q_OBJECT
 
 public:
-    SimulatorSettingsDialog(QWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
+    SimulatorSettingsDialog(Options* options, QWidget* parent = 0, 
+                            const char* name = 0, WFlags fl = 0 );
 
-    bool emulateOpticalDrive() const;
-    bool emulateDualSidedDrive() const;
-    int emulatedOpticalDriveCapacity() const;
-    bool oldStyleNavigator() const;
+    void setOptions();
 
-    void setEmulateOpticalDrive(bool);
-    void setEmulateDualSidedDrive(bool);
-    void setEmulatedOpticalDriveCapacity(int);
-    void setOldStyleNavigator(bool);
+    virtual bool exec() {return SimulatorSettingsDialogBase::exec();}
+
+ 
 
     ~SimulatorSettingsDialog();
     
 public slots:
     virtual void enableDriveEmulation();
+
+private:
+    inline bool emulateOpticalDrive() const;
+    bool emulateDualSidedDrive() const;
+    int emulatedOpticalDriveCapacity() const;
+
+    void setEmulateOpticalDrive(bool);
+    void setEmulateDualSidedDrive(bool);
+    void setEmulatedOpticalDriveCapacity(int);
+
+    Options* options_;
 
 };
 

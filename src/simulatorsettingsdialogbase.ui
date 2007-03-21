@@ -31,6 +31,66 @@
             <string>* Indicates restart necessary to change setting</string>
         </property>
     </widget>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>layout9</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>540</y>
+                <width>570</width>
+                <height>50</height>
+            </rect>
+        </property>
+        <hbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <spacer>
+                <property name="name">
+                    <cstring>spacer3</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>414</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>okButton</cstring>
+                </property>
+                <property name="text">
+                    <string>O&amp;K</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+K</string>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>cancelButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Cancel</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+            </widget>
+        </hbox>
+    </widget>
     <widget class="QTabWidget">
         <property name="name">
             <cstring>tabCategories</cstring>
@@ -58,8 +118,8 @@
                     <rect>
                         <x>10</x>
                         <y>30</y>
-                        <width>419</width>
-                        <height>98</height>
+                        <width>460</width>
+                        <height>140</height>
                     </rect>
                 </property>
                 <grid>
@@ -212,66 +272,6 @@
             </widget>
         </widget>
     </widget>
-    <widget class="QLayoutWidget">
-        <property name="name">
-            <cstring>layout9</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>20</x>
-                <y>540</y>
-                <width>570</width>
-                <height>50</height>
-            </rect>
-        </property>
-        <hbox>
-            <property name="name">
-                <cstring>unnamed</cstring>
-            </property>
-            <spacer>
-                <property name="name">
-                    <cstring>spacer3</cstring>
-                </property>
-                <property name="orientation">
-                    <enum>Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>414</width>
-                        <height>20</height>
-                    </size>
-                </property>
-            </spacer>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>okButton</cstring>
-                </property>
-                <property name="text">
-                    <string>O&amp;K</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+K</string>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>cancelButton</cstring>
-                </property>
-                <property name="text">
-                    <string>Cancel</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-            </widget>
-        </hbox>
-    </widget>
 </widget>
 <connections>
     <connection>
@@ -285,6 +285,12 @@
         <signal>clicked()</signal>
         <receiver>SimulatorSettingsDialogBase</receiver>
         <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>emulateOpticalDriveCheckBox</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>SimulatorSettingsDialogBase</receiver>
+        <slot>enableDriveEmulation()</slot>
     </connection>
 </connections>
 <tabstops>

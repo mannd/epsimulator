@@ -76,6 +76,7 @@ private slots:
     void relabelDisk();
     void exportCatalog();
     void login();
+    void logout();
     
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
@@ -129,6 +130,7 @@ private:
     Catalogs* catalogs_;
     StatusBar* statusBar_;
     OpticalDisk* currentDisk_;
+    bool userIsAdministrator_;
 //    OpticalDiskDrive* opticalDiskDrive_;
 
     // central widget stuff

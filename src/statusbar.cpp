@@ -23,44 +23,56 @@
 #include <qstring.h>
 
 StatusBar::StatusBar(const QString& catalogPath, QWidget *parent, 
-    bool oldStyle,const char *name) : QStatusBar(parent, name) {
+    bool oldStyle, const char *name) : QStatusBar(parent, name), oldStyle_(oldStyle) {
     messageLabel_ = new QLabel(tr("For Help, press F1"), this);
 
     /// Apparently getenv works in Windows too.
     /// TODO If logged in as administrator, show this on status bar
     /// Difference from Prucka: Only shows "cluser" for general user or "administrator"
-    QString user = oldStyle ? tr(" User: eplabuser ") :
-        tr(" User: %1 ").arg(std::getenv("USER"));
-    userLabel_ = new QLabel(user, this);
-    userLabel_->setAlignment(AlignHCenter);
-    userLabel_->setMinimumSize(userLabel_->sizeHint());
+//     QString user = oldStyle ? tr(" User: eplabuser ") :
+//         tr(" User: %1 ").arg(std::getenv("USER"));
+    userLabel_ = new QLabel(this);
+//    userLabel_->setAlignment(AlignHCenter);
+    updateUserLabel(false);
 
-    sourceLabel_ = new QLabel(tr(" Source: %1 ")
-        .arg(catalogPath), this);
-    sourceLabel_->setAlignment(AlignHCenter);
-    sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
+    sourceLabel_ = new QLabel(this);
+//    sourceLabel_->setAlignment(AlignHCenter);
+    updateSourceLabel(catalogPath);
 
-    filterLabel_ = new QLabel(tr(" Unfiltered "), this);
-    filterLabel_->setAlignment(AlignHCenter);
-    filterLabel_->setMinimumSize(filterLabel_->sizeHint());
+    filterLabel_ = new QLabel(this);
+//    filterLabel_->setAlignment(AlignHCenter);
+    updateFilterLabel(false);   // filter always off at start of program
 
+    // 1 or 0 determine how much space the label takes up.  0 minimizes space.
+    // true or false (default) determine if label is permanently displayed, or covered by
+    // messages.
     addWidget(messageLabel_, 1);
-    addWidget(userLabel_);
-    addWidget(sourceLabel_);
-    addWidget(filterLabel_);
+    addWidget(userLabel_, 0, true);
+    addWidget(sourceLabel_, 0, true);
+    addWidget(filterLabel_, 0, true);
 }
 
 /// Updates status bar to show source of current catalog.
 void StatusBar::updateSourceLabel(const QString& label) {
-        sourceLabel_->setText(tr(" Source: %1 ")
-            .arg(label));
-        sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
-        update();
+    sourceLabel_->setText(tr(" Source: %1 ")
+        .arg(label));
+//    sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
+    update();
 }
 
 void StatusBar::updateFilterLabel(bool filtered) {
     filterLabel_->setText(filtered ? tr(" Filtered ") : tr(" Unfiltered "));
+//    filterLabel_->setMinimumSize(filterLabel_->sizeHint());
     update();
+}
+
+void StatusBar::updateUserLabel(bool userIsAdministrator) {
+    QString user = oldStyle_ ? "epsimuser" : std::getenv("USER");
+    user = userIsAdministrator ? "Administrator" : user;
+    userLabel_->setText(tr(" User: %1 ").arg(user));
+//    userLabel_->setMinimumSize(userLabel_->sizeHint());
+    update();
+
 }
 
 StatusBar::~StatusBar()

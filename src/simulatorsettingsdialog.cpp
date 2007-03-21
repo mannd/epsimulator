@@ -21,13 +21,34 @@
 
 #include "simulatorsettingsdialog.h"
 
+#include "options.h"
+
 #include <qcheckbox.h>
 #include <qspinbox.h>
 
-SimulatorSettingsDialog::SimulatorSettingsDialog(QWidget* parent, const char* name, WFlags fl)
-: SimulatorSettingsDialogBase(parent,name,fl) {
+SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options, 
+                                                 QWidget* parent, const char* name, 
+                                                 WFlags fl)
+                                                 : SimulatorSettingsDialogBase(
+                                                   parent,name,fl),
+                                                   options_(options) {
+    setEmulateOpticalDrive(options_->emulateOpticalDrive());
+    setEmulateDualSidedDrive(options_->emulateDualSidedDrive());
+    setEmulatedOpticalDriveCapacity(options_->emulatedOpticalDriveCapacity());
+    oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator());
 }
 
+void SimulatorSettingsDialog::setOptions() {
+        options_->setEmulateOpticalDrive(emulateOpticalDrive());
+        options_->setEmulateDualSidedDrive(emulateDualSidedDrive());
+        options_->setEmulatedOpticalDriveCapacity((
+            emulatedOpticalDriveCapacity() / 16) * 16); 
+        options_->setOldStyleNavigator(oldStyleNavigatorCheckBox->isChecked());
+        options_->writeSettings();
+}
+
+// Keep this function, rather than directly accessing data member.  
+// It is used multiple times.  It is inline.
 bool SimulatorSettingsDialog::emulateOpticalDrive() const {
     return emulateOpticalDriveCheckBox->isChecked();
 }
@@ -42,10 +63,6 @@ int SimulatorSettingsDialog::emulatedOpticalDriveCapacity() const {
         return emulatedOpticalDriveCapacitySpinBox->value();
     else
 	return 0;
-}
-
-bool SimulatorSettingsDialog::oldStyleNavigator() const {
-    return oldStyleNavigatorCheckBox->isChecked();
 }
 
 void SimulatorSettingsDialog::setEmulateOpticalDrive(bool emulate) {
@@ -63,10 +80,6 @@ void SimulatorSettingsDialog::setEmulatedOpticalDriveCapacity(int capacity) {
         emulatedOpticalDriveCapacitySpinBox->setValue(capacity);
 }
 
-void SimulatorSettingsDialog::setOldStyleNavigator(bool useOldStyle) {
-    oldStyleNavigatorCheckBox->setChecked(useOldStyle);
-}
-
 void SimulatorSettingsDialog::enableDriveEmulation()
 {
     bool driveEmulation = emulateOpticalDriveCheckBox->isChecked();
@@ -77,8 +90,5 @@ void SimulatorSettingsDialog::enableDriveEmulation()
 SimulatorSettingsDialog::~SimulatorSettingsDialog() {
 }
 
-
-
-/*$SPECIALIZATION$*/
 
 

@@ -71,7 +71,8 @@ class QListViewItem;
  */
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
-    options_(Options::instance()), filterCatalog_(0) {
+    options_(Options::instance()), filterCatalog_(0),
+    userIsAdministrator_(false) {
 
     catalogs_ = new Catalogs(options_);
 
@@ -238,10 +239,18 @@ void Navigator::relabelDisk() {
 
 void Navigator::login() {
     PasswordDialog* pwDialog = new PasswordDialog(this);
-    if (pwDialog->exec())
+    if (pwDialog->exec()) {
         // do something
+        userIsAdministrator_ = true;
+        statusBar_->updateUserLabel(userIsAdministrator_);
         ;
+    }
     delete pwDialog;
+}
+
+void Navigator::logout() {
+    userIsAdministrator_ = false;
+    statusBar_->updateUserLabel(userIsAdministrator_);
 }
 
 void Navigator::setCatalogNetwork() {
@@ -292,20 +301,11 @@ void Navigator::exportCatalog() {
 }
 
 void Navigator::simulatorSettings() {
-    SimulatorSettingsDialog* simDialog = new SimulatorSettingsDialog(this);
-    simDialog->setEmulateOpticalDrive(options_->emulateOpticalDrive());
-    simDialog->setEmulateDualSidedDrive(options_->emulateDualSidedDrive());
-    simDialog->setEmulatedOpticalDriveCapacity(
-        options_->emulatedOpticalDriveCapacity());
-    simDialog->setOldStyleNavigator(options_->oldStyleNavigator());
-    if (simDialog->exec()) { 
-        options_->setEmulateOpticalDrive(simDialog->emulateOpticalDrive());
-        options_->setEmulateDualSidedDrive(simDialog->emulateDualSidedDrive());
-        options_->setEmulatedOpticalDriveCapacity(
-            simDialog->emulatedOpticalDriveCapacity()); 
-        options_->setOldStyleNavigator(simDialog->oldStyleNavigator());
-        options_->writeSettings();
-    }
+    SimulatorSettingsDialog* simDialog = 
+        new SimulatorSettingsDialog(options_, this);
+    if (simDialog->exec()) 
+        simDialog->setOptions();
+    delete simDialog;
 }
 
 void Navigator::systemSettings() {
@@ -467,7 +467,7 @@ void Navigator::createActions() {
     loginAct = new QAction(tr("Login..."), 0, this);
     setupAction(loginAct, "Login", SLOT(login()));
     logoutAct = new QAction(tr("Logout"), 0, this);
-    setupAction(logoutAct, "Logout", 0);
+    setupAction(logoutAct, "Logout", SLOT(logout()));
     changePasswordAct = new QAction(tr("Change Password..."), 0, this);
     setupAction(changePasswordAct, "Change administrator password", 0);
     intervalsAct = new QAction(tr("Intervals"), 0, this);

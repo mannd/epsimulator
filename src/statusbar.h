@@ -38,10 +38,13 @@ public:
     
     void updateSourceLabel(const QString&);
     void updateFilterLabel(bool filtered);
+    void updateUserLabel(bool userIsAdministrator);
 
     ~StatusBar();
 
 private:
+    bool oldStyle_;         // old style Navigator user label
+
     QLabel* messageLabel_;
     QLabel* userLabel_;
     QLabel* sourceLabel_;
