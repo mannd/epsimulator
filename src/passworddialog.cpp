@@ -21,13 +21,31 @@
 
 #include "passworddialog.h"
 
-PasswordDialog::PasswordDialog(QWidget* parent, const char* name, bool modal, WFlags fl)
-: PasswordDialogBase(parent,name, modal,fl)
-{
+#include "GeneralHashFunctions.h"
+#include "options.h"
+
+#include <qlineedit.h>
+
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+PasswordDialog::PasswordDialog(Options* options, QWidget* parent, const char* name)
+    : PasswordDialogBase(parent,name, true), options_(options) {
+    // must set default password of blank
+    passwordLineEdit->setText("");
 }
 
-PasswordDialog::~PasswordDialog()
-{
+bool PasswordDialog::testPassword() {
+    const char* pw = passwordLineEdit->text();
+    cout << pw << endl;
+    unsigned int hash = RSHash(pw);
+    cout << hash << endl;
+    return hash == options_->passwordHash();
+}
+
+PasswordDialog::~PasswordDialog() {
 }
 
 /*$SPECIALIZATION$*/

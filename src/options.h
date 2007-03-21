@@ -67,6 +67,8 @@ public:
         emulatedOpticalDriveCapacity_ = capacity;}
     void setOldStyleNavigator(bool isOldStyle) {oldStyleNavigator_ = isOldStyle;}
 
+    void setPasswordHash(unsigned int hash) {passwordHash_ = hash;}
+
 
     QString opticalStudyPath() const {return opticalStudyPath_;}
     QString networkStudyPath() const {return networkStudyPath_;}
@@ -83,6 +85,8 @@ public:
     int emulatedOpticalDriveCapacity() const {
         return emulatedOpticalDriveCapacity_;} 
     bool oldStyleNavigator() const {return oldStyleNavigator_;}
+    
+    unsigned int passwordHash() const {return passwordHash_;}
 
     void readSettings();
     void writeSettings();
@@ -118,6 +122,9 @@ private:
     int emulatedOpticalDriveCapacity_;
     // determines if last name and first name are displayed separately
     bool oldStyleNavigator_;
+    
+    // not a real option, but convenient to have the password hash here
+    unsigned int passwordHash_;
 };
 
 #endif

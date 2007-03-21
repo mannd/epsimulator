@@ -27,6 +27,7 @@
 #include "heart.h"
 #include "options.h"
 #include "patientdialog.h"
+#include "passworddialog.h"
 #include "catalogcombobox.h"
 
 #include <qbuttongroup.h>
@@ -319,6 +320,28 @@ void testCatalogs() {
     c1->setCurrentCatalog(Catalog::Other);
     TS_ASSERT(c1->currentCatalog()->path() == "/tmp/test");
     delete c1;
+}
+
+void testPasswordDialog() {
+    Options* o = Options::instance();
+    PasswordDialog* d = new PasswordDialog(o);
+    // test consistency, will fail if line edit is giving gibberish
+    bool result1 = d->testPassword();
+    delete d;
+    PasswordDialog* d1 = new PasswordDialog(o);
+    bool result2 = d1->testPassword();
+    TS_ASSERT(result1 == result2);
+    // another consistency test
+    QString pw = "abcdefghi";
+    d1->passwordLineEdit->setText(pw);
+    TS_ASSERT(!d1->testPassword());
+    unsigned int hash = o->passwordHash();
+    // different password
+    d1->passwordLineEdit->setText("nonsense");
+    TS_ASSERT(!d1->testPassword());
+    // need way to set password to do more testing
+    
+    delete d1;
 }
 
 private:

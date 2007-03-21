@@ -59,6 +59,7 @@ void Options::readSettings() {
     emulatedOpticalDriveCapacity_ 
         =settings.readNumEntry("/emulatedOpticalDriveCapacity", 0);
     oldStyleNavigator_ = settings.readBoolEntry("/oldStyleNavigator", false);
+    passwordHash_ = settings.readNumEntry("/passwordHash", 0);
     /// TODO other options here...
 }
 
@@ -77,6 +78,7 @@ void Options::writeSettings() {
     settings.writeEntry("/emulateDualSidedDrive", emulateDualSidedDrive_);
     settings.writeEntry("/emulatedOpticalDriveCapacity", emulatedOpticalDriveCapacity_);
     settings.writeEntry("/oldStyleNavigator", oldStyleNavigator_);
+    settings.writeEntry("/passwordHash", static_cast<int>(passwordHash_));
     /// TODO add other options here...
 }
 

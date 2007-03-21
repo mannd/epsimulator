@@ -48,7 +48,8 @@ HEADERS += epsimulator.h \
            buttonframe.h \
            statusbar.h \
            simulatorsettingsdialog.h \
-           passworddialog.h 
+           passworddialog.h \
+           GeneralHashFunctions.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -69,7 +70,8 @@ SOURCES += epsimulator.cpp \
            buttonframe.cpp \
            statusbar.cpp \
            simulatorsettingsdialog.cpp \
-           passworddialog.cpp 
+           passworddialog.cpp \
+           GeneralHashFunctions.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

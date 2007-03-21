@@ -238,12 +238,17 @@ void Navigator::relabelDisk() {
 }
 
 void Navigator::login() {
-    PasswordDialog* pwDialog = new PasswordDialog(this);
+    PasswordDialog* pwDialog = new PasswordDialog(options_,this);
     if (pwDialog->exec()) {
         // do something
-        userIsAdministrator_ = true;
-        statusBar_->updateUserLabel(userIsAdministrator_);
-        ;
+        if (!pwDialog->testPassword()) {
+            QMessageBox::warning(this, tr("Wrong Password"),
+                                 tr("Please retry your password."));
+        }
+        else {
+            userIsAdministrator_ = true;
+            statusBar_->updateUserLabel(userIsAdministrator_);
+        }
     }
     delete pwDialog;
 }

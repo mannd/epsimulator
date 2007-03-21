@@ -17,7 +17,12 @@ OBJECTS := 	$(OBJ_DIR)/study.o \
 		$(OBJ_DIR)/catalogcombobox.o \
 		$(OBJ_DIR)/moc_catalogcombobox.o \
 		$(OBJ_DIR)/catalog.o \
-		$(OBJ_DIR)/settings.o
+		$(OBJ_DIR)/settings.o \
+		$(OBJ_DIR)/passworddialogbase.o \
+		$(OBJ_DIR)/passworddialog.o \
+		$(OBJ_DIR)/moc_passworddialogbase.o \
+		$(OBJ_DIR)/moc_passworddialog.o \
+		$(OBJ_DIR)/GeneralHashFunctions.o
 
 vpath %.cpp ../src
 vpath %.h ../src

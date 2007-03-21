@@ -23,14 +23,18 @@
 
 #include "passworddialogbase.h"
 
+class Options;
+
 class PasswordDialog : public PasswordDialogBase
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  PasswordDialog(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
-  ~PasswordDialog();
-  /*$PUBLIC_FUNCTIONS$*/
+    PasswordDialog(Options* options, QWidget* parent = 0, const char* name = 0);
+
+    bool testPassword();
+
+    ~PasswordDialog();
 
 public slots:
   /*$PUBLIC_SLOTS$*/
@@ -40,6 +44,9 @@ protected:
 
 protected slots:
   /*$PROTECTED_SLOTS$*/
+
+private:
+    Options* options_;
 
 };
 
