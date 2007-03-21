@@ -36,6 +36,7 @@
 #include "getopts.h"
 #include "options.h"
 #include "navigator.h"
+#include "passworddialog.h"
 
 #include <qapplication.h>
 #include <qstring.h>
@@ -86,10 +87,14 @@ int main(int argc, char **argv)
     Options* options = Options::instance();
     if (! path.isEmpty()) 
         options->setTempStudyPath(path);
-    Navigator *mainWin = new Navigator();
-    app.setMainWidget(mainWin);
-    mainWin->showMaximized();
-    return app.exec();
+    PasswordDialog* pwDialog = new PasswordDialog;
+    if (pwDialog->exec()) {
+        Navigator *mainWin = new Navigator();
+        app.setMainWidget(mainWin);
+        mainWin->showMaximized();
+        return app.exec();
+    }
+    else return 0;
     // deletes the options instance -- can only be used at end of program!
     options->destroy();
 }

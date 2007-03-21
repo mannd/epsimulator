@@ -9,48 +9,123 @@
             <x>0</x>
             <y>0</y>
             <width>600</width>
-            <height>528</height>
+            <height>604</height>
         </rect>
     </property>
     <property name="caption">
         <string>Simulator Settings</string>
     </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1_3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>490</y>
+                <width>552</width>
+                <height>40</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>* Indicates restart necessary to change setting</string>
+        </property>
+    </widget>
     <widget class="QTabWidget">
         <property name="name">
             <cstring>tabCategories</cstring>
         </property>
         <property name="geometry">
             <rect>
-                <x>11</x>
-                <y>11</y>
-                <width>578</width>
-                <height>458</height>
+                <x>10</x>
+                <y>20</y>
+                <width>580</width>
+                <height>450</height>
             </rect>
         </property>
         <widget class="QWidget">
             <property name="name">
-                <cstring>tabNavigator</cstring>
+                <cstring>tabGeneral</cstring>
             </property>
             <attribute name="title">
-                <string>Navi&amp;gator</string>
+                <string>General</string>
             </attribute>
             <widget class="QLayoutWidget">
                 <property name="name">
-                    <cstring>layout1</cstring>
+                    <cstring>layout14</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
                         <x>10</x>
-                        <y>11</y>
-                        <width>550</width>
-                        <height>140</height>
+                        <y>30</y>
+                        <width>419</width>
+                        <height>98</height>
                     </rect>
                 </property>
                 <grid>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
+                    <widget class="QCheckBox" row="1" column="0">
+                        <property name="name">
+                            <cstring>checkBox21</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Administer Account Required</string>
+                        </property>
+                        <property name="accel">
+                            <string></string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="0" column="0">
+                        <property name="name">
+                            <cstring>checkBox20</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Password Re&amp;quired At Startup</string>
+                        </property>
+                        <property name="accel">
+                            <string>Alt+Q</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="2" column="0">
+                        <property name="name">
+                            <cstring>checkBox22</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Hide Simulator Settings Menu Item From Users</string>
+                        </property>
+                        <property name="accel">
+                            <string></string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tabNavigator</cstring>
+            </property>
+            <attribute name="title">
+                <string>Navigator</string>
+            </attribute>
+            <widget class="QLayoutWidget">
+                <property name="name">
+                    <cstring>layout13</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>20</y>
+                        <width>560</width>
+                        <height>190</height>
+                    </rect>
+                </property>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QCheckBox" row="3" column="0">
                         <property name="name">
                             <cstring>oldStyleNavigatorCheckBox</cstring>
                         </property>
@@ -61,7 +136,7 @@
                             <string>Alt+Y</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+                    <widget class="QCheckBox" row="1" column="0">
                         <property name="name">
                             <cstring>emulateDualSidedDriveCheckBox</cstring>
                         </property>
@@ -72,7 +147,57 @@
                             <string>Alt+M</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
+                    <widget class="QLayoutWidget" row="2" column="0">
+                        <property name="name">
+                            <cstring>layout12</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QSpinBox">
+                                <property name="name">
+                                    <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
+                                </property>
+                                <property name="maxValue">
+                                    <number>1028</number>
+                                </property>
+                                <property name="lineStep">
+                                    <number>16</number>
+                                </property>
+                            </widget>
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>textLabel1_2_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Emulated Optical Drive Capacity 
+(MB, &amp;0 = unlimited)</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer4</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>40</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
+                    <widget class="QCheckBox" row="0" column="0">
                         <property name="name">
                             <cstring>emulateOpticalDriveCheckBox</cstring>
                         </property>
@@ -83,96 +208,69 @@
                             <string>Alt+O</string>
                         </property>
                     </widget>
-                    <widget class="QSpinBox" row="2" column="0">
-                        <property name="name">
-                            <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
-                        </property>
-                        <property name="maxValue">
-                            <number>1028</number>
-                        </property>
-                        <property name="lineStep">
-                            <number>16</number>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="2" column="1">
-                        <property name="name">
-                            <cstring>textLabel1_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Emulated Optical Drive Capacity (MB, &amp;0 = unlimited)</string>
-                        </property>
-                        <property name="buddy" stdset="0">
-                            <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
-                        </property>
-                    </widget>
                 </grid>
             </widget>
-            <widget class="QLabel">
+        </widget>
+    </widget>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>layout9</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>540</y>
+                <width>570</width>
+                <height>50</height>
+            </rect>
+        </property>
+        <hbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <spacer>
                 <property name="name">
-                    <cstring>textLabel1</cstring>
+                    <cstring>spacer3</cstring>
                 </property>
-                <property name="geometry">
-                    <rect>
-                        <x>10</x>
-                        <y>360</y>
-                        <width>552</width>
-                        <height>50</height>
-                    </rect>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>414</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>okButton</cstring>
                 </property>
                 <property name="text">
-                    <string>* Indicates restart necessary to change setting</string>
+                    <string>O&amp;K</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+K</string>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
                 </property>
             </widget>
-        </widget>
-        <widget class="QWidget">
-            <property name="name">
-                <cstring>tab</cstring>
-            </property>
-            <attribute name="title">
-                <string>Tab &amp;2</string>
-            </attribute>
-        </widget>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>cancelButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>440</x>
-                <y>480</y>
-                <width>135</width>
-                <height>32</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Cancel</string>
-        </property>
-        <property name="accel">
-            <string></string>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>okButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>270</x>
-                <y>480</y>
-                <width>135</width>
-                <height>32</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>O&amp;K</string>
-        </property>
-        <property name="accel">
-            <string>Alt+K</string>
-        </property>
-        <property name="default">
-            <bool>true</bool>
-        </property>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>cancelButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Cancel</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+            </widget>
+        </hbox>
     </widget>
 </widget>
 <connections>
@@ -188,14 +286,13 @@
         <receiver>SimulatorSettingsDialogBase</receiver>
         <slot>reject()</slot>
     </connection>
-    <connection>
-        <sender>emulateOpticalDriveCheckBox</sender>
-        <signal>stateChanged(int)</signal>
-        <receiver>SimulatorSettingsDialogBase</receiver>
-        <slot>enableDriveEmulation()</slot>
-    </connection>
 </connections>
 <tabstops>
+    <tabstop>okButton</tabstop>
+    <tabstop>cancelButton</tabstop>
+    <tabstop>checkBox20</tabstop>
+    <tabstop>checkBox21</tabstop>
+    <tabstop>checkBox22</tabstop>
     <tabstop>emulateOpticalDriveCheckBox</tabstop>
     <tabstop>emulateDualSidedDriveCheckBox</tabstop>
     <tabstop>emulatedOpticalDriveCapacitySpinBox</tabstop>

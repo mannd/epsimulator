@@ -8,7 +8,8 @@ FORMS += patientdialogbase.ui \
          studyconfigdialogbase.ui \
          filtercatalogbase.ui \
          disklabeldialogbase.ui \
-         simulatorsettingsdialogbase.ui 
+         simulatorsettingsdialogbase.ui \
+         passworddialogbase.ui 
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 IMAGES += images/hi16-app-epsimulator.png \
@@ -46,7 +47,8 @@ HEADERS += epsimulator.h \
            disklabeldialog.h \
            buttonframe.h \
            statusbar.h \
-           simulatorsettingsdialog.h 
+           simulatorsettingsdialog.h \
+           passworddialog.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -66,7 +68,8 @@ SOURCES += epsimulator.cpp \
            disklabeldialog.cpp \
            buttonframe.cpp \
            statusbar.cpp \
-           simulatorsettingsdialog.cpp 
+           simulatorsettingsdialog.cpp \
+           passworddialog.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

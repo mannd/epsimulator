@@ -1,52 +1,40 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="15" >
+ <DocsAndViews NumberOfDocuments="11" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
    <View0 Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qmessagebox.html#information" >
+  <Doc1 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qlistviewitemiterator.html#QListViewItemIterator-2" >
    <View0 Type="Documentation" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/statusbar.h" >
    <View0 Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/statusbar.cpp" >
    <View0 Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldisk.h" >
-   <View0 Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 line="113" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/filtercatalog.h" >
-   <View0 Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.cpp" >
+   <View0 line="46" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/filtercatalog.cpp" >
-   <View0 Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
+   <View0 line="67" Type="Source" />
   </Doc6>
   <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.h" >
-   <View0 Type="Source" />
+   <View0 line="0" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
-   <View0 Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
+   <View0 line="83" Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/doc/notes" >
-   <View0 Type="Source" />
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/passworddialog.h" >
+   <View0 line="0" Type="Source" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qlistviewitemiterator.html#QListViewItemIterator-2" >
-   <View0 Type="Documentation" />
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/main.cpp" >
+   <View0 line="90" Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-   <View0 Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimulator.h" >
-   <View0 Type="Source" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.h" >
-   <View0 Type="Source" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.cpp" >
-   <View0 line="65" Type="Source" />
-  </Doc14>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -65,7 +53,8 @@
   <kdevbookmarks>
    <bookmarks>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
-     <mark line="249" />
+     <mark line="313" />
+     <mark line="248" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/study.cpp" >
      <mark line="135" />
