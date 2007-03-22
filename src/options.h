@@ -66,6 +66,9 @@ public:
     void setEmulatedOpticalDriveCapacity(int capacity) {
         emulatedOpticalDriveCapacity_ = capacity;}
     void setOldStyleNavigator(bool isOldStyle) {oldStyleNavigator_ = isOldStyle;}
+    void setAdministratorAccountRequired(bool isRequired) {
+        administratorAccountRequired_ = isRequired;}
+    void setHideSimulatorMenu(bool hideMenu) {hideSimulatorMenu_ = hideMenu;}
 
     void setPasswordHash(unsigned int hash) {passwordHash_ = hash;}
 
@@ -85,6 +88,8 @@ public:
     int emulatedOpticalDriveCapacity() const {
         return emulatedOpticalDriveCapacity_;} 
     bool oldStyleNavigator() const {return oldStyleNavigator_;}
+    bool administratorAccountRequired() const {return administratorAccountRequired_;}
+    bool hideSimulatorMenu() const {return hideSimulatorMenu_;}
     
     unsigned int passwordHash() const {return passwordHash_;}
 
@@ -122,6 +127,9 @@ private:
     int emulatedOpticalDriveCapacity_;
     // determines if last name and first name are displayed separately
     bool oldStyleNavigator_;
+
+    bool administratorAccountRequired_;
+    bool hideSimulatorMenu_;
     
     // not a real option, but convenient to have the password hash here
     unsigned int passwordHash_;

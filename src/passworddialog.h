@@ -37,6 +37,7 @@ public:
     ~PasswordDialog();
 
 public slots:
+    virtual void accept();
   /*$PUBLIC_SLOTS$*/
 
 protected:

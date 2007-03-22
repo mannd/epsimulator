@@ -25,11 +25,7 @@
 #include "options.h"
 
 #include <qlineedit.h>
-
-#include <iostream>
-
-using std::cout;
-using std::endl;
+#include <qmessagebox.h>
 
 PasswordDialog::PasswordDialog(Options* options, QWidget* parent, const char* name)
     : PasswordDialogBase(parent,name, true), options_(options) {
@@ -39,10 +35,16 @@ PasswordDialog::PasswordDialog(Options* options, QWidget* parent, const char* na
 
 bool PasswordDialog::testPassword() {
     const char* pw = passwordLineEdit->text();
-    cout << pw << endl;
     unsigned int hash = RSHash(pw);
-    cout << hash << endl;
     return hash == options_->passwordHash();
+}
+
+void PasswordDialog::accept() {
+    if (testPassword())    
+        PasswordDialogBase::accept();
+    else
+        QMessageBox::warning(this, tr("Wrong Password"),
+                             tr("Please retry your password."));
 }
 
 PasswordDialog::~PasswordDialog() {

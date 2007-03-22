@@ -32,6 +32,10 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
                                                  : SimulatorSettingsDialogBase(
                                                    parent,name,fl),
                                                    options_(options) {
+    administratorAccountRequiredCheckBox->setChecked(
+        options_->administratorAccountRequired());
+    hideSimulatorMenuCheckBox->setChecked(
+        options_->hideSimulatorMenu());
     setEmulateOpticalDrive(options_->emulateOpticalDrive());
     setEmulateDualSidedDrive(options_->emulateDualSidedDrive());
     setEmulatedOpticalDriveCapacity(options_->emulatedOpticalDriveCapacity());
@@ -39,8 +43,14 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
 }
 
 void SimulatorSettingsDialog::setOptions() {
+        options_->setAdministratorAccountRequired(
+            administratorAccountRequiredCheckBox->isChecked());
+        options_->setHideSimulatorMenu(
+            hideSimulatorMenuCheckBox->isChecked());
         options_->setEmulateOpticalDrive(emulateOpticalDrive());
         options_->setEmulateDualSidedDrive(emulateDualSidedDrive());
+        // we will force the drive capacity to be a multiple of 16,
+        // it's more computery that way.
         options_->setEmulatedOpticalDriveCapacity((
             emulatedOpticalDriveCapacity() / 16) * 16); 
         options_->setOldStyleNavigator(oldStyleNavigatorCheckBox->isChecked());

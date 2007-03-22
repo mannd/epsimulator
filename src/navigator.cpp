@@ -238,19 +238,14 @@ void Navigator::relabelDisk() {
 }
 
 void Navigator::login() {
-    PasswordDialog* pwDialog = new PasswordDialog(options_,this);
-    if (pwDialog->exec()) {
-        // do something
-        if (!pwDialog->testPassword()) {
-            QMessageBox::warning(this, tr("Wrong Password"),
-                                 tr("Please retry your password."));
-        }
-        else {
+    if (!userIsAdministrator_) {
+        PasswordDialog* pwDialog = new PasswordDialog(options_,this);
+        if (pwDialog->exec()) {
             userIsAdministrator_ = true;
             statusBar_->updateUserLabel(userIsAdministrator_);
         }
+        delete pwDialog;
     }
-    delete pwDialog;
 }
 
 void Navigator::logout() {
@@ -470,8 +465,8 @@ void Navigator::createActions() {
 
     // Administration menu
     loginAct = new QAction(tr("Login..."), 0, this);
-    setupAction(loginAct, "Login", SLOT(login()));
-    logoutAct = new QAction(tr("Logout"), 0, this);
+    setupAction(loginAct, "Login as administrator", SLOT(login()));
+    logoutAct = new QAction(tr("Logout from administrator"), 0, this);
     setupAction(logoutAct, "Logout", SLOT(logout()));
     changePasswordAct = new QAction(tr("Change Password..."), 0, this);
     setupAction(changePasswordAct, "Change administrator password", 0);

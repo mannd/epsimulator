@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>600</width>
-            <height>604</height>
+            <height>613</height>
         </rect>
     </property>
     <property name="caption">
@@ -21,75 +21,15 @@
         </property>
         <property name="geometry">
             <rect>
-                <x>20</x>
-                <y>490</y>
-                <width>552</width>
-                <height>40</height>
+                <x>11</x>
+                <y>530</y>
+                <width>578</width>
+                <height>23</height>
             </rect>
         </property>
         <property name="text">
             <string>* Indicates restart necessary to change setting</string>
         </property>
-    </widget>
-    <widget class="QLayoutWidget">
-        <property name="name">
-            <cstring>layout9</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>20</x>
-                <y>540</y>
-                <width>570</width>
-                <height>50</height>
-            </rect>
-        </property>
-        <hbox>
-            <property name="name">
-                <cstring>unnamed</cstring>
-            </property>
-            <spacer>
-                <property name="name">
-                    <cstring>spacer3</cstring>
-                </property>
-                <property name="orientation">
-                    <enum>Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>414</width>
-                        <height>20</height>
-                    </size>
-                </property>
-            </spacer>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>okButton</cstring>
-                </property>
-                <property name="text">
-                    <string>O&amp;K</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+K</string>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>cancelButton</cstring>
-                </property>
-                <property name="text">
-                    <string>Cancel</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-            </widget>
-        </hbox>
     </widget>
     <widget class="QTabWidget">
         <property name="name">
@@ -97,10 +37,10 @@
         </property>
         <property name="geometry">
             <rect>
-                <x>10</x>
-                <y>20</y>
-                <width>580</width>
-                <height>450</height>
+                <x>11</x>
+                <y>11</y>
+                <width>578</width>
+                <height>513</height>
             </rect>
         </property>
         <widget class="QWidget">
@@ -110,56 +50,43 @@
             <attribute name="title">
                 <string>General</string>
             </attribute>
-            <widget class="QLayoutWidget">
+            <widget class="QCheckBox">
                 <property name="name">
-                    <cstring>layout14</cstring>
+                    <cstring>administratorAccountRequiredCheckBox</cstring>
                 </property>
                 <property name="geometry">
                     <rect>
                         <x>10</x>
-                        <y>30</y>
-                        <width>460</width>
-                        <height>140</height>
+                        <y>60</y>
+                        <width>458</width>
+                        <height>28</height>
                     </rect>
                 </property>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QCheckBox" row="1" column="0">
-                        <property name="name">
-                            <cstring>checkBox21</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Administer Account Required</string>
-                        </property>
-                        <property name="accel">
-                            <string></string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="0" column="0">
-                        <property name="name">
-                            <cstring>checkBox20</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Password Re&amp;quired At Startup</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+Q</string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="2" column="0">
-                        <property name="name">
-                            <cstring>checkBox22</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Hide Simulator Settings Menu Item From Users</string>
-                        </property>
-                        <property name="accel">
-                            <string></string>
-                        </property>
-                    </widget>
-                </grid>
+                <property name="text">
+                    <string>Administer Account Re&amp;quired</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+Q</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>hideSimulatorMenuCheckBox</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>141</y>
+                        <width>458</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Hide Simulator Settings Menu Item From Users</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
             </widget>
         </widget>
         <widget class="QWidget">
@@ -178,7 +105,7 @@
                         <x>10</x>
                         <y>20</y>
                         <width>560</width>
-                        <height>190</height>
+                        <height>230</height>
                     </rect>
                 </property>
                 <grid>
@@ -272,6 +199,72 @@
             </widget>
         </widget>
     </widget>
+    <spacer>
+        <property name="name">
+            <cstring>spacer3</cstring>
+        </property>
+        <property name="orientation">
+            <enum>Horizontal</enum>
+        </property>
+        <property name="sizeType">
+            <enum>Expanding</enum>
+        </property>
+        <property name="sizeHint">
+            <size>
+                <width>422</width>
+                <height>20</height>
+            </size>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>12</x>
+                <y>566</y>
+                <width>422</width>
+                <height>20</height>
+            </rect>
+        </property>
+    </spacer>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>okButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>440</x>
+                <y>560</y>
+                <width>54</width>
+                <height>32</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>O&amp;K</string>
+        </property>
+        <property name="accel">
+            <string>Alt+K</string>
+        </property>
+        <property name="default">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>cancelButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>500</x>
+                <y>560</y>
+                <width>88</width>
+                <height>32</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Cancel</string>
+        </property>
+        <property name="accel">
+            <string></string>
+        </property>
+    </widget>
 </widget>
 <connections>
     <connection>
@@ -296,9 +289,8 @@
 <tabstops>
     <tabstop>okButton</tabstop>
     <tabstop>cancelButton</tabstop>
-    <tabstop>checkBox20</tabstop>
-    <tabstop>checkBox21</tabstop>
-    <tabstop>checkBox22</tabstop>
+    <tabstop>administratorAccountRequiredCheckBox</tabstop>
+    <tabstop>hideSimulatorMenuCheckBox</tabstop>
     <tabstop>emulateOpticalDriveCheckBox</tabstop>
     <tabstop>emulateDualSidedDriveCheckBox</tabstop>
     <tabstop>emulatedOpticalDriveCapacitySpinBox</tabstop>
