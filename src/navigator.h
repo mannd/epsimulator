@@ -77,6 +77,7 @@ private slots:
     void exportCatalog();
     void login();
     void logout();
+    void changePassword();
     
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.

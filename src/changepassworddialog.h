@@ -17,44 +17,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef CHANGEPASSWORDDIALOG_H
+#define CHANGEPASSWORDDIALOG_H
 
+#include "changepassworddialogbase.h"
 
-#include "passworddialog.h"
+class Options;
 
-#include "GeneralHashFunctions.h"
-#include "options.h"
+class ChangePasswordDialog: public ChangePasswordDialogBase {
+Q_OBJECT
+public:
+    ChangePasswordDialog(Options* options, QWidget *parent = 0, const char *name = 0);
 
-#include <qlineedit.h>
-#include <qmessagebox.h>
+    virtual bool exec() {return ChangePasswordDialogBase::exec();}
 
-PasswordDialog::PasswordDialog(Options* options, QWidget* parent, const char* name)
-    : PasswordDialogBase(parent,name, true), options_(options) {
-    // must set default password of blank
-    passwordLineEdit->setText("");
-}
+    ~ChangePasswordDialog() {}
 
-/**
- * Hashes password and compares with stored hash.   
- */
-/// FIXME Could use a stronger (crypto) hash here, but hardly seems
-/// worth it.
-bool PasswordDialog::testPassword() {
-    const char* pw = passwordLineEdit->text();
-    unsigned int hash = RSHash(pw);
-    return hash == options_->passwordHash();
-}
+private:
+    Options* options_;
+};
 
-void PasswordDialog::accept() {
-    if (testPassword())    
-        PasswordDialogBase::accept();
-    else
-        QMessageBox::warning(this, tr("Wrong Password"),
-                             tr("Please retry your password."));
-}
-
-PasswordDialog::~PasswordDialog() {
-}
-
-/*$SPECIALIZATION$*/
-
-
+#endif

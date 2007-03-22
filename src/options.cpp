@@ -63,6 +63,12 @@ void Options::readSettings() {
         settings.readBoolEntry("/administratorAccountRequired", false);
     hideSimulatorMenu_ = 
         settings.readBoolEntry("/hideSimulatorMenu", false);
+    /// FIXME This should probably be deviously named, like "/signalFrameCountOffset",
+    /// so that the password can't be set back to blank by putting 0 in here.  Other
+    /// things that could be done would be to store this in a config file not in the user
+    /// directory that the user can't access, or store settings in binary, or encrypt the
+    /// settings file, etc.  One problem is all this seems like overkill to prevent users
+    /// from having access to some minor setup functions.
     passwordHash_ = settings.readNumEntry("/passwordHash", 0);
     /// TODO other options here...
 }

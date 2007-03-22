@@ -26,6 +26,7 @@
 
 #include "buttonframe.h"
 #include "catalog.h"
+#include "changepassworddialog.h"
 #include "disklabeldialog.h"
 #include "catalogcombobox.h"
 #include "epsimdefs.h"
@@ -253,6 +254,14 @@ void Navigator::logout() {
     statusBar_->updateUserLabel(userIsAdministrator_);
 }
 
+void Navigator::changePassword() {
+    ChangePasswordDialog* cpDialog = new ChangePasswordDialog(options_, this);
+    if (cpDialog->exec()) {
+        // process password here
+    }
+    delete cpDialog;   
+}
+
 void Navigator::setCatalogNetwork() {
     catalogComboBox_->setSource(Catalog::Network);
     changeCatalog();
@@ -469,7 +478,7 @@ void Navigator::createActions() {
     logoutAct = new QAction(tr("Logout from administrator"), 0, this);
     setupAction(logoutAct, "Logout", SLOT(logout()));
     changePasswordAct = new QAction(tr("Change Password..."), 0, this);
-    setupAction(changePasswordAct, "Change administrator password", 0);
+    setupAction(changePasswordAct, "Change administrator password", SLOT(changePassword()));
     intervalsAct = new QAction(tr("Intervals"), 0, this);
     setupAction(intervalsAct, "Intervals", 0);
     columnFormatsAct = new QAction(tr("Column Formats"), 0, this);

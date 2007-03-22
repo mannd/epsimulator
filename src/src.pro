@@ -9,7 +9,8 @@ FORMS += patientdialogbase.ui \
          filtercatalogbase.ui \
          disklabeldialogbase.ui \
          simulatorsettingsdialogbase.ui \
-         passworddialogbase.ui 
+         passworddialogbase.ui \
+         changepassworddialogbase.ui 
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 IMAGES += images/hi16-app-epsimulator.png \
@@ -49,7 +50,8 @@ HEADERS += epsimulator.h \
            statusbar.h \
            simulatorsettingsdialog.h \
            passworddialog.h \
-           GeneralHashFunctions.h 
+           GeneralHashFunctions.h \
+           changepassworddialog.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -71,7 +73,8 @@ SOURCES += epsimulator.cpp \
            statusbar.cpp \
            simulatorsettingsdialog.cpp \
            passworddialog.cpp \
-           GeneralHashFunctions.cpp 
+           GeneralHashFunctions.cpp \
+           changepassworddialog.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
