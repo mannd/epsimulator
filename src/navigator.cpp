@@ -257,7 +257,7 @@ void Navigator::logout() {
 void Navigator::changePassword() {
     ChangePasswordDialog* cpDialog = new ChangePasswordDialog(options_, this);
     if (cpDialog->exec()) {
-        // process password here
+        cpDialog->changePassword();
     }
     delete cpDialog;   
 }
@@ -475,8 +475,8 @@ void Navigator::createActions() {
     // Administration menu
     loginAct = new QAction(tr("Login..."), 0, this);
     setupAction(loginAct, "Login as administrator", SLOT(login()));
-    logoutAct = new QAction(tr("Logout from administrator"), 0, this);
-    setupAction(logoutAct, "Logout", SLOT(logout()));
+    logoutAct = new QAction(tr("Logout"), 0, this);
+    setupAction(logoutAct, "Logout from administrator", SLOT(logout()));
     changePasswordAct = new QAction(tr("Change Password..."), 0, this);
     setupAction(changePasswordAct, "Change administrator password", SLOT(changePassword()));
     intervalsAct = new QAction(tr("Intervals"), 0, this);

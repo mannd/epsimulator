@@ -19,9 +19,47 @@
  ***************************************************************************/
 #include "changepassworddialog.h"
 
+#include "hashfuns.h"
 #include "options.h"
+
+#include <qlineedit.h>
+#include <qmessagebox.h>
 
 ChangePasswordDialog::ChangePasswordDialog(Options* options, QWidget *parent, 
     const char *name): ChangePasswordDialogBase(parent, name), 
     options_(options) {
+}
+
+bool ChangePasswordDialog::testPasswordsEqual() const {
+    return newLineEdit->text() == confirmNewLineEdit->text();
+}
+
+void ChangePasswordDialog::clear() {
+    oldLineEdit->clear();    
+    newLineEdit->clear();
+    confirmNewLineEdit->clear();
+    oldLineEdit->setFocus();
+}
+    
+
+void ChangePasswordDialog::accept() {
+     if (testPasswordsEqual())    
+        ChangePasswordDialogBase::accept();
+     else {
+        QMessageBox::warning(this, tr("Passwords Don't Match"),
+                             tr("Please try again."));
+        clear();       
+    }
+}
+
+
+using epsim::hash;
+
+void ChangePasswordDialog::changePassword() const {
+    const char* pw = newLineEdit->text();
+    // Don't change this without changing the same function in passworddialog!
+    QString h;
+    h.setNum(hash(pw));
+    options_->setPasswordHash(h);
+    options_->writeSettings();
 }

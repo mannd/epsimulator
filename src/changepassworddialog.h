@@ -24,16 +24,22 @@
 
 class Options;
 
-class ChangePasswordDialog: public ChangePasswordDialogBase {
+class ChangePasswordDialog: private ChangePasswordDialogBase {
 Q_OBJECT
 public:
     ChangePasswordDialog(Options* options, QWidget *parent = 0, const char *name = 0);
 
     virtual bool exec() {return ChangePasswordDialogBase::exec();}
+    virtual void accept();
+
+    void changePassword() const;
+    void clear();
 
     ~ChangePasswordDialog() {}
 
 private:
+    bool testPasswordsEqual() const;
+
     Options* options_;
 };
 

@@ -51,7 +51,8 @@ HEADERS += epsimulator.h \
            simulatorsettingsdialog.h \
            passworddialog.h \
            GeneralHashFunctions.h \
-           changepassworddialog.h 
+           changepassworddialog.h \
+           hashfuns.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -74,7 +75,8 @@ SOURCES += epsimulator.cpp \
            simulatorsettingsdialog.cpp \
            passworddialog.cpp \
            GeneralHashFunctions.cpp \
-           changepassworddialog.cpp 
+           changepassworddialog.cpp \
+           hashfuns.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

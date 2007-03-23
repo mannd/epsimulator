@@ -69,7 +69,7 @@ void Options::readSettings() {
     /// directory that the user can't access, or store settings in binary, or encrypt the
     /// settings file, etc.  One problem is all this seems like overkill to prevent users
     /// from having access to some minor setup functions.
-    passwordHash_ = settings.readNumEntry("/passwordHash", 0);
+    passwordHash_ = settings.readEntry("/passwordHash", "0");
     /// TODO other options here...
 }
 
@@ -90,7 +90,7 @@ void Options::writeSettings() {
     settings.writeEntry("/oldStyleNavigator", oldStyleNavigator_);
     settings.writeEntry("/administratorAccountRequired", administratorAccountRequired_);
     settings.writeEntry("/hideSimulatorMenu", hideSimulatorMenu_);
-    settings.writeEntry("/passwordHash", static_cast<int>(passwordHash_));
+    settings.writeEntry("/passwordHash", passwordHash_);
     /// TODO add other options here...
 }
 

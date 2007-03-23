@@ -49,7 +49,7 @@ which can be provided on the command line, or can be browsed to.  If not specifi
 the command line, it defaults to the systemCatalogPath.
     opticalStudyPath and networkStudyPath can be specified in the systemDialog.  Export
 */
-class Options{
+class Options {
 public:
     static Options* instance();
 
@@ -70,7 +70,7 @@ public:
         administratorAccountRequired_ = isRequired;}
     void setHideSimulatorMenu(bool hideMenu) {hideSimulatorMenu_ = hideMenu;}
 
-    void setPasswordHash(unsigned int hash) {passwordHash_ = hash;}
+    void setPasswordHash(QString hash) {passwordHash_ = hash;}
 
 
     QString opticalStudyPath() const {return opticalStudyPath_;}
@@ -91,7 +91,7 @@ public:
     bool administratorAccountRequired() const {return administratorAccountRequired_;}
     bool hideSimulatorMenu() const {return hideSimulatorMenu_;}
     
-    unsigned int passwordHash() const {return passwordHash_;}
+    QString passwordHash() const {return passwordHash_;}
 
     void readSettings();
     void writeSettings();
@@ -132,7 +132,7 @@ private:
     bool hideSimulatorMenu_;
     
     // not a real option, but convenient to have the password hash here
-    unsigned int passwordHash_;
+    QString passwordHash_;
 };
 
 #endif
