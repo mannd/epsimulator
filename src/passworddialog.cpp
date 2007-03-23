@@ -36,11 +36,6 @@ PasswordDialog::PasswordDialog(Options* options, QWidget* parent, const char* na
     pwHandler_ = new PasswordHandler(options);
 }
 
-/**
- * Hashes password and compares with stored hash.   
- */
-/// FIXME Could use a stronger (crypto) hash here, but hardly seems
-/// worth it.
 bool PasswordDialog::testPassword() {
     return pwHandler_->testPassword(passwordLineEdit->text());
 }
@@ -48,9 +43,11 @@ bool PasswordDialog::testPassword() {
 void PasswordDialog::accept() {
     if (testPassword())    
         PasswordDialogBase::accept();
-    else
+    else {
         QMessageBox::warning(this, tr("Wrong Password"),
                              tr("Please retry your password."));
+        passwordLineEdit->clear();
+    }
 }
 
 PasswordDialog::~PasswordDialog() {

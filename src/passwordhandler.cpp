@@ -29,8 +29,6 @@ PasswordHandler::PasswordHandler(Options* options) :
 }
 
 void PasswordHandler::setPassword(const QString& pw) {    
-    //const char* pw = newLineEdit->text();
-    // Don't change this without changing the same function in passworddialog!
     QString h;
     h.setNum(hash_(pw));
     options_->setPasswordHash(h);

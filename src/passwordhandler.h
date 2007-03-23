@@ -23,7 +23,6 @@
 #include "GeneralHashFunctions.h"
 
 class Options;
-
 class QString;
 
 

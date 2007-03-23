@@ -26,7 +26,7 @@ class Options;
 class PasswordHandler;
 
 class ChangePasswordDialog: private ChangePasswordDialogBase {
-Q_OBJECT
+    Q_OBJECT
 public:
     ChangePasswordDialog(Options* options, QWidget *parent = 0, const char *name = 0);
 

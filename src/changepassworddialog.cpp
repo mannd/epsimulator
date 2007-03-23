@@ -39,18 +39,24 @@ void ChangePasswordDialog::clear() {
     confirmNewLineEdit->clear();
     oldLineEdit->setFocus();
 }
-    
 
 void ChangePasswordDialog::accept() {
-     if (testPasswordsEqual())    
+    if (!pwHandler_->testPassword(oldLineEdit->text())) {
+        QMessageBox::warning(this, tr("Wrong Password"),
+                             tr("Old password is wrong. "
+                                "Please try again."));
+        clear();
+    }
+    else if (testPasswordsEqual())    
         ChangePasswordDialogBase::accept();
-     else {
+    else {
         QMessageBox::warning(this, tr("Passwords Don't Match"),
-                             tr("Please try again."));
-        clear();       
+                             tr("The new passwords don't match. "
+                                "You may have made a typing error. "
+                                "Please try again."));
+        clear();
     }
 }
-
 
 void ChangePasswordDialog::changePassword() const {
     pwHandler_->setPassword(newLineEdit->text());
