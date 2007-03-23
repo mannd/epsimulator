@@ -17,30 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CHANGEPASSWORDDIALOG_H
-#define CHANGEPASSWORDDIALOG_H
+#include "passwordhandler.h"
 
-#include "changepassworddialogbase.h"
+#include "options.h"
 
-class Options;
-class PasswordHandler;
+#include <qstring.h>
 
-class ChangePasswordDialog: private ChangePasswordDialogBase {
-Q_OBJECT
-public:
-    ChangePasswordDialog(Options* options, QWidget *parent = 0, const char *name = 0);
+PasswordHandler::PasswordHandler(Options* options) :
+    options_(options) {
+    hash_ = RSHash;
+}
 
-    virtual bool exec() {return ChangePasswordDialogBase::exec();}
-    virtual void accept();
+void PasswordHandler::setPassword(const QString& pw) {    
+    //const char* pw = newLineEdit->text();
+    // Don't change this without changing the same function in passworddialog!
+    QString h;
+    h.setNum(hash_(pw));
+    options_->setPasswordHash(h);
+    options_->writeSettings();
+}
 
-    void changePassword() const;
-    void clear();
+bool PasswordHandler::testPassword(const QString& pw) {
+ //   const char* str = pw;
+    unsigned int h = hash_(pw);
+    return h == options_->passwordHash().toUInt();
+}
 
-    ~ChangePasswordDialog();
+PasswordHandler::~PasswordHandler() {
+}
 
-private:
-    bool testPasswordsEqual() const;
-    PasswordHandler* pwHandler_;
-};
 
-#endif

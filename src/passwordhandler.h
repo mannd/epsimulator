@@ -17,30 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CHANGEPASSWORDDIALOG_H
-#define CHANGEPASSWORDDIALOG_H
+#ifndef PASSWORDHANDLER_H
+#define PASSWORDHANDLER_H
 
-#include "changepassworddialogbase.h"
+#include "GeneralHashFunctions.h"
 
 class Options;
-class PasswordHandler;
 
-class ChangePasswordDialog: private ChangePasswordDialogBase {
-Q_OBJECT
+class QString;
+
+
+/**
+Encapsulates password alorithm and processing.
+
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+class PasswordHandler {
 public:
-    ChangePasswordDialog(Options* options, QWidget *parent = 0, const char *name = 0);
+    PasswordHandler(Options* o);
 
-    virtual bool exec() {return ChangePasswordDialogBase::exec();}
-    virtual void accept();
+    void setPassword(const QString& pw);
+    bool testPassword(const QString& pw);
 
-    void changePassword() const;
-    void clear();
-
-    ~ChangePasswordDialog();
+    ~PasswordHandler();
 
 private:
-    bool testPasswordsEqual() const;
-    PasswordHandler* pwHandler_;
+    Options* options_;
+    HashFunction hash_;
+
 };
 
 #endif

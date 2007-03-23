@@ -28,6 +28,7 @@
 #include "options.h"
 #include "patientdialog.h"
 #include "passworddialog.h"
+#include "passwordhandler.h"
 #include "catalogcombobox.h"
 
 #include <qbuttongroup.h>
@@ -335,7 +336,7 @@ void testPasswordDialog() {
     QString pw = "abcdefghi";
     d1->passwordLineEdit->setText(pw);
     TS_ASSERT(!d1->testPassword());
-    unsigned int hash = o->passwordHash();
+    unsigned int hash = o->passwordHash().toUInt();
     // different password
     d1->passwordLineEdit->setText("nonsense");
     TS_ASSERT(!d1->testPassword());
@@ -343,6 +344,19 @@ void testPasswordDialog() {
     
     delete d1;
 }
+
+void testPasswordHandler() {
+    Options* o = Options::instance();
+    PasswordHandler* ph = new PasswordHandler(o);
+    QString s = "password1";
+    ph->setPassword(s);
+    TS_ASSERT(ph->testPassword(s));
+    // restore blank password
+    ph->setPassword("");
+    TS_ASSERT(ph->testPassword(""));
+    delete ph;
+}
+
 
 private:
     void testStudyDefaults(Study& study) {

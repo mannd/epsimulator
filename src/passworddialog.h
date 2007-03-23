@@ -24,6 +24,7 @@
 #include "passworddialogbase.h"
 
 class Options;
+class PasswordHandler;
 
 class PasswordDialog : public PasswordDialogBase
 {
@@ -47,7 +48,7 @@ protected slots:
   /*$PROTECTED_SLOTS$*/
 
 private:
-    Options* options_;
+    PasswordHandler* pwHandler_;
 
 };
 

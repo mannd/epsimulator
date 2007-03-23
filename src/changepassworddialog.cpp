@@ -19,15 +19,14 @@
  ***************************************************************************/
 #include "changepassworddialog.h"
 
-#include "hashfuns.h"
-#include "options.h"
+#include "passwordhandler.h"
 
 #include <qlineedit.h>
 #include <qmessagebox.h>
 
 ChangePasswordDialog::ChangePasswordDialog(Options* options, QWidget *parent, 
-    const char *name): ChangePasswordDialogBase(parent, name), 
-    options_(options) {
+    const char *name): ChangePasswordDialogBase(parent, name) {
+    pwHandler_ = new PasswordHandler(options);
 }
 
 bool ChangePasswordDialog::testPasswordsEqual() const {
@@ -53,13 +52,11 @@ void ChangePasswordDialog::accept() {
 }
 
 
-using epsim::hash;
-
 void ChangePasswordDialog::changePassword() const {
-    const char* pw = newLineEdit->text();
-    // Don't change this without changing the same function in passworddialog!
-    QString h;
-    h.setNum(hash(pw));
-    options_->setPasswordHash(h);
-    options_->writeSettings();
+    pwHandler_->setPassword(newLineEdit->text());
 }
+
+ChangePasswordDialog::~ChangePasswordDialog() {
+    delete pwHandler_;
+}
+

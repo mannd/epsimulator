@@ -20,8 +20,8 @@
 
 
 #include "passworddialog.h"
-#include "hashfuns.h"
-#include "options.h"
+
+#include "passwordhandler.h"
 
 #include <qlineedit.h>
 #include <qmessagebox.h>
@@ -30,12 +30,11 @@
 
 
 PasswordDialog::PasswordDialog(Options* options, QWidget* parent, const char* name)
-    : PasswordDialogBase(parent,name, true), options_(options) {
+    : PasswordDialogBase(parent,name, true) {
     // must set default password of blank
     passwordLineEdit->setText("");
+    pwHandler_ = new PasswordHandler(options);
 }
-
-using epsim::hash;
 
 /**
  * Hashes password and compares with stored hash.   
@@ -43,10 +42,7 @@ using epsim::hash;
 /// FIXME Could use a stronger (crypto) hash here, but hardly seems
 /// worth it.
 bool PasswordDialog::testPassword() {
-    const char* pw = passwordLineEdit->text();
-    // Don't change this without changing the same function in changepassworddialog!
-    unsigned int h = hash(pw);
-    return h == options_->passwordHash().toUInt();
+    return pwHandler_->testPassword(passwordLineEdit->text());
 }
 
 void PasswordDialog::accept() {
@@ -58,6 +54,7 @@ void PasswordDialog::accept() {
 }
 
 PasswordDialog::~PasswordDialog() {
+    delete pwHandler_;
 }
 
 /*$SPECIALIZATION$*/

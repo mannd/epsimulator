@@ -22,7 +22,8 @@ OBJECTS := 	$(OBJ_DIR)/study.o \
 		$(OBJ_DIR)/passworddialog.o \
 		$(OBJ_DIR)/moc_passworddialogbase.o \
 		$(OBJ_DIR)/moc_passworddialog.o \
-		$(OBJ_DIR)/GeneralHashFunctions.o
+		$(OBJ_DIR)/GeneralHashFunctions.o \
+		$(OBJ_DIR)/passwordhandler.o 
 
 vpath %.cpp ../src
 vpath %.h ../src
