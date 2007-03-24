@@ -78,19 +78,23 @@ private slots:
     void login();
     void logout();
     void changePassword();
+    void setIntervals();
+    void setColumnFormats();
+    void setProtocols();
+    void setStudyConfigurations();
     
+    void systemSettings();
+    void simulatorSettings();    
+
+    void help();
+    void about();
+
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
     void setCatalogNetwork();
     void setCatalogSystem();
     void setCatalogOptical();
     void setCatalogOther();
-
-    void systemSettings();
-    void simulatorSettings();
-
-    void help();
-    void about();
 
 private:
     // Functions to set up the Navigator main window.
@@ -122,6 +126,12 @@ private:
 //     void deleteDataFile();  // delete data file associated with current study
 //     void createDataFile();  // create a data file for a new study
 //     void openDataFile();    // open a  data file for review or appending data
+
+    // Administration related
+    bool administrationAllowed();
+
+    // misc
+    void filler();
 
     // Data members
     /// TODO study_ should be Study*

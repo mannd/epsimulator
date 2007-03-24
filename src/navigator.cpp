@@ -262,6 +262,42 @@ void Navigator::changePassword() {
     delete cpDialog;   
 }
 
+/// Checks to see if administrator access if required, if it is,
+/// and not logged in as administrator, will do a login, then
+/// will allow adminstration if user successfully logged in.
+bool Navigator::administrationAllowed() {
+    if (!options_->administratorAccountRequired())
+        return true;
+    login();
+    return userIsAdministrator_;
+}
+
+/// This is not for final production, just during development.
+void Navigator::filler() {
+    QMessageBox::information(this, tr("FYI"),
+                             tr("This function is not implemented yet."));
+}
+
+void Navigator::setIntervals() {
+    if (administrationAllowed())
+        filler();
+}
+
+void Navigator::setColumnFormats() {
+    if (administrationAllowed())
+        filler();
+}
+
+void Navigator::setProtocols() {
+    if (administrationAllowed())
+        filler();
+}
+
+void Navigator::setStudyConfigurations() {
+    if (administrationAllowed())
+        filler();
+}
+
 void Navigator::setCatalogNetwork() {
     catalogComboBox_->setSource(Catalog::Network);
     changeCatalog();
@@ -310,26 +346,30 @@ void Navigator::exportCatalog() {
 }
 
 void Navigator::simulatorSettings() {
-    SimulatorSettingsDialog* simDialog = 
-        new SimulatorSettingsDialog(options_, this);
-    if (simDialog->exec()) 
-        simDialog->setOptions();
-    delete simDialog;
+    if (administrationAllowed()) {
+        SimulatorSettingsDialog* simDialog = 
+            new SimulatorSettingsDialog(options_, this);
+        if (simDialog->exec()) 
+            simDialog->setOptions();
+        delete simDialog;
+    }
 }
 
 void Navigator::systemSettings() {
-    SystemDialog* systemDialog = new SystemDialog(options_, this);
-    if (systemDialog->exec()) {
-        systemDialog->setOptions();
-        // menu is changed
-        networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
-        // status bar and catalog might be changed 
-        delete catalogs_;
-        catalogs_ = new Catalogs(options_);
-        refreshCatalog();
-        statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
+    if (administrationAllowed()) {
+        SystemDialog* systemDialog = new SystemDialog(options_, this);
+        if (systemDialog->exec()) {
+            systemDialog->setOptions();
+            // menu is changed
+            networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
+            // status bar and catalog might be changed 
+            delete catalogs_;
+            catalogs_ = new Catalogs(options_);
+            refreshCatalog();
+            statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
+        }
+        delete systemDialog;
     }
-    delete systemDialog;
 }
 
 void Navigator::help() {
@@ -480,13 +520,13 @@ void Navigator::createActions() {
     changePasswordAct = new QAction(tr("Change Password..."), 0, this);
     setupAction(changePasswordAct, "Change administrator password", SLOT(changePassword()));
     intervalsAct = new QAction(tr("Intervals"), 0, this);
-    setupAction(intervalsAct, "Intervals", 0);
+    setupAction(intervalsAct, "Intervals", SLOT(setIntervals()));
     columnFormatsAct = new QAction(tr("Column Formats"), 0, this);
-    setupAction(columnFormatsAct, "Column formats", 0);
+    setupAction(columnFormatsAct, "Column formats", SLOT(setColumnFormats()));
     protocolsAct = new QAction(tr("Protocols"), 0, this);
-    setupAction(protocolsAct, "Protocols", 0);
+    setupAction(protocolsAct, "Protocols", SLOT(setProtocols()));
     studyConfigurationsAct = new QAction(tr("Study Configurations"), 0, this);
-    setupAction(studyConfigurationsAct, "Study configurations", 0);
+    setupAction(studyConfigurationsAct, "Study configurations", SLOT(setStudyConfigurations()));
     systemSettingsAct = new QAction(tr("System Settings"), 0, this);
     setupAction(systemSettingsAct, "Change system settings",
                 SLOT(systemSettings()));
