@@ -244,6 +244,7 @@ void Navigator::login() {
         if (pwDialog->exec()) {
             userIsAdministrator_ = true;
             statusBar_->updateUserLabel(userIsAdministrator_);
+            updateMenus();
         }
         delete pwDialog;
     }
@@ -252,6 +253,7 @@ void Navigator::login() {
 void Navigator::logout() {
     userIsAdministrator_ = false;
     statusBar_->updateUserLabel(userIsAdministrator_);
+    updateMenus();
 }
 
 void Navigator::changePassword() {
@@ -349,8 +351,10 @@ void Navigator::simulatorSettings() {
     if (administrationAllowed()) {
         SimulatorSettingsDialog* simDialog = 
             new SimulatorSettingsDialog(options_, this);
-        if (simDialog->exec()) 
+        if (simDialog->exec()) {
             simDialog->setOptions();
+            updateMenus();
+        }
         delete simDialog;
     }
 }
@@ -427,6 +431,12 @@ void Navigator::createTableListView() {
 void Navigator::createStatusBar() {
     statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this, 
         options_->oldStyleNavigator(), "StatusBar");
+}
+
+void Navigator::updateMenus() {
+    bool showSimulatorSettings = !options_->hideSimulatorMenu() ||
+        userIsAdministrator_;
+    simulatorOptionsAct_->setVisible(showSimulatorSettings);
 }
 
 /**
@@ -618,6 +628,8 @@ void Navigator::createMenus() {
     menuBar()->insertItem(tr("&Utilities"), utilitiesMenu);
     menuBar()->insertItem(tr("&Administration"), administrationMenu);
     menuBar()->insertItem(tr("&Help"), helpMenu);
+
+    updateMenus();
 
 }
 

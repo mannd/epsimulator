@@ -59,7 +59,7 @@ class Navigator : public QMainWindow {
 public:
     Navigator(QWidget* parent = 0, const char *name = "navigator");
     ~Navigator();
-  
+
 private slots:
     void newStudy();
     void continueStudy();
@@ -95,6 +95,12 @@ private slots:
     void setCatalogSystem();
     void setCatalogOptical();
     void setCatalogOther();
+
+    // This is a slot, but so far I am just using it as a regular function,
+    // as it only affects the simulator settings dialog so far.  
+    // This may change in the future.
+    /// updates menus (hides/disables, etc.) as needed.
+    void updateMenus();
 
 private:
     // Functions to set up the Navigator main window.
