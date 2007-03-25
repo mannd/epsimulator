@@ -74,7 +74,7 @@ void PatientDialog::weightKgLineEdit_lostFocus() {
     setBsaText();
 }
 
-void PatientDialog::setFields(Study& study) {
+void PatientDialog::setFields(const Study& study) {
     Name name = study.name();
     lastNameLineEdit->setText(name.last);
     firstNameLineEdit->setText(name.first);

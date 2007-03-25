@@ -453,25 +453,25 @@ void Navigator::setupAction(QAction* action, QString statusTip,
 
 void Navigator::createActions() {
     // Study menu
-    newAct = new QAction(tr("&New..."), tr("Ctrl+N"), this);
-    setupAction(newAct, "New study", SLOT(newStudy()), "hi32-newstudy.png");
-    continueAct = new QAction(tr("&Continue"), 0, this);
-    setupAction(continueAct, "Continue study", 0, "hi32-continuestudy.png");
-    reviewAct = new QAction(tr("&Review"), 0, this);
-    setupAction(reviewAct, "Review study", 0, "hi32-reviewstudy.png");
-    preregisterAct = new QAction(tr("&Pre-Register"), 0, this);
-    setupAction(preregisterAct, "Pre-register patient", 
+    newAct_ = new QAction(tr("&New..."), tr("Ctrl+N"), this);
+    setupAction(newAct_, "New study", SLOT(newStudy()), "hi32-newstudy.png");
+    continueAct_ = new QAction(tr("&Continue"), 0, this);
+    setupAction(continueAct_, "Continue study", 0, "hi32-continuestudy.png");
+    reviewAct_ = new QAction(tr("&Review"), 0, this);
+    setupAction(reviewAct_, "Review study", 0, "hi32-reviewstudy.png");
+    preregisterAct_= new QAction(tr("&Pre-Register"), 0, this);
+    setupAction(preregisterAct_, "Pre-register patient", 
         SLOT(preregisterPatient()), "hi32-preregister.png");
-    reportsAct = new QAction(tr("R&eports..."), 0, this);
-    setupAction(reportsAct, "Procedure reports", 0, "hi32-reports.png" );
-    copyAct = new QAction(tr("Copy..."), 0, this);
-    setupAction(copyAct, "Copy study", 0);
-    deleteAct = new QAction(tr("Delete..."), 0, this);
-    setupAction(deleteAct, "Delete study", SLOT(deleteStudy()));
+    reportsAct_= new QAction(tr("R&eports..."), 0, this);
+    setupAction(reportsAct_, "Procedure reports", 0, "hi32-reports.png" );
+    copyAct_= new QAction(tr("Copy..."), 0, this);
+    setupAction(copyAct_, "Copy study", 0);
+    deleteAct_= new QAction(tr("Delete..."), 0, this);
+    setupAction(deleteAct_, "Delete study", SLOT(deleteStudy()));
     exportAct_ = new QAction(tr("Export..."), 0, this);
     setupAction(exportAct_, "Export study", SLOT(exportCatalog()), "hi32-exportstudy.png");
-    exitAct = new QAction(tr("E&xit"), tr("Ctrl+Q"), this);
-    setupAction(exitAct, "Exit EP Simulator", SLOT(close()));
+    exitAct_= new QAction(tr("E&xit"), tr("Ctrl+Q"), this);
+    setupAction(exitAct_, "Exit EP Simulator", SLOT(close()));
 
     // Catalog menu
     // Submenu of Switch...
@@ -523,22 +523,22 @@ void Navigator::createActions() {
     setupAction(ejectOpticalDiskAct_, "Eject optical disk", SLOT(ejectDisk()));
 
     // Administration menu
-    loginAct = new QAction(tr("Login..."), 0, this);
-    setupAction(loginAct, "Login as administrator", SLOT(login()));
-    logoutAct = new QAction(tr("Logout"), 0, this);
-    setupAction(logoutAct, "Logout from administrator", SLOT(logout()));
-    changePasswordAct = new QAction(tr("Change Password..."), 0, this);
-    setupAction(changePasswordAct, "Change administrator password", SLOT(changePassword()));
-    intervalsAct = new QAction(tr("Intervals"), 0, this);
-    setupAction(intervalsAct, "Intervals", SLOT(setIntervals()));
-    columnFormatsAct = new QAction(tr("Column Formats"), 0, this);
-    setupAction(columnFormatsAct, "Column formats", SLOT(setColumnFormats()));
-    protocolsAct = new QAction(tr("Protocols"), 0, this);
-    setupAction(protocolsAct, "Protocols", SLOT(setProtocols()));
-    studyConfigurationsAct = new QAction(tr("Study Configurations"), 0, this);
-    setupAction(studyConfigurationsAct, "Study configurations", SLOT(setStudyConfigurations()));
-    systemSettingsAct = new QAction(tr("System Settings"), 0, this);
-    setupAction(systemSettingsAct, "Change system settings",
+    loginAct_= new QAction(tr("Login..."), 0, this);
+    setupAction(loginAct_, "Login as administrator", SLOT(login()));
+    logoutAct_= new QAction(tr("Logout"), 0, this);
+    setupAction(logoutAct_, "Logout from administrator", SLOT(logout()));
+    changePasswordAct_= new QAction(tr("Change Password..."), 0, this);
+    setupAction(changePasswordAct_, "Change administrator password", SLOT(changePassword()));
+    intervalsAct_= new QAction(tr("Intervals"), 0, this);
+    setupAction(intervalsAct_, "Intervals", SLOT(setIntervals()));
+    columnFormatsAct_= new QAction(tr("Column Formats"), 0, this);
+    setupAction(columnFormatsAct_, "Column formats", SLOT(setColumnFormats()));
+    protocolsAct_= new QAction(tr("Protocols"), 0, this);
+    setupAction(protocolsAct_, "Protocols", SLOT(setProtocols()));
+    studyConfigurationsAct_= new QAction(tr("Study Configurations"), 0, this);
+    setupAction(studyConfigurationsAct_, "Study configurations", SLOT(setStudyConfigurations()));
+    systemSettingsAct_= new QAction(tr("System Settings"), 0, this);
+    setupAction(systemSettingsAct_, "Change system settings",
                 SLOT(systemSettings()));
     simulatorOptionsAct_ = new QAction(tr("*Simulator Settings*"), 0, this);
     setupAction(simulatorOptionsAct_, "Change simulator settings", 
@@ -547,8 +547,8 @@ void Navigator::createActions() {
     // Help menu
     epsimulatorHelpAct_ = new QAction(tr("EP Simulator Help..."), tr("F1"), this);
     setupAction(epsimulatorHelpAct_, "Get help for EP Simulator", SLOT(help()));
-    aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
-    setupAction(aboutAct, "About EP Simulator", SLOT(about()));
+    aboutAct_= new QAction(tr("&About EP Simulator"), 0, this);
+    setupAction(aboutAct_, "About EP Simulator", SLOT(about()));
 }
 
 void Navigator::createToolBars() {
@@ -566,17 +566,17 @@ void Navigator::createToolBars() {
 void Navigator::createMenus() {
 
     studyMenu = new QPopupMenu(this);
-    newAct->addTo(studyMenu);
-    continueAct->addTo(studyMenu);
-    reviewAct->addTo(studyMenu);
-    preregisterAct->addTo(studyMenu);
-    reportsAct->addTo(studyMenu);
+    newAct_->addTo(studyMenu);
+    continueAct_->addTo(studyMenu);
+    reviewAct_->addTo(studyMenu);
+    preregisterAct_->addTo(studyMenu);
+    reportsAct_->addTo(studyMenu);
     studyMenu->insertSeparator();
-    copyAct->addTo(studyMenu);
-    deleteAct->addTo(studyMenu);
+    copyAct_->addTo(studyMenu);
+    deleteAct_->addTo(studyMenu);
     exportAct_->addTo(studyMenu);
     studyMenu->insertSeparator();
-    exitAct->addTo(studyMenu);
+    exitAct_->addTo(studyMenu);
 
     catalogMenu = new QPopupMenu(this);
     switchSubMenu_ = new QPopupMenu(this);
@@ -604,24 +604,24 @@ void Navigator::createMenus() {
 
     administrationMenu = new QPopupMenu(this);
     securitySubMenu = new QPopupMenu(this);
-    loginAct->addTo(securitySubMenu);
-    logoutAct->addTo(securitySubMenu);
-    changePasswordAct->addTo(securitySubMenu);
+    loginAct_->addTo(securitySubMenu);
+    logoutAct_->addTo(securitySubMenu);
+    changePasswordAct_->addTo(securitySubMenu);
     administrationMenu->insertItem(tr("Security"), securitySubMenu);
     //insert Lists submenu here
     administrationMenu->insertSeparator();
-    intervalsAct->addTo(administrationMenu);
-    columnFormatsAct->addTo(administrationMenu);
-    protocolsAct->addTo(administrationMenu);
-    studyConfigurationsAct->addTo(administrationMenu);
+    intervalsAct_->addTo(administrationMenu);
+    columnFormatsAct_->addTo(administrationMenu);
+    protocolsAct_->addTo(administrationMenu);
+    studyConfigurationsAct_->addTo(administrationMenu);
     administrationMenu->insertSeparator();
-    systemSettingsAct->addTo(administrationMenu);
+    systemSettingsAct_->addTo(administrationMenu);
     simulatorOptionsAct_->addTo(administrationMenu);
     // insert reports submenu here
 
     helpMenu = new QPopupMenu(this);
     epsimulatorHelpAct_->addTo(helpMenu);
-    aboutAct->addTo(helpMenu);
+    aboutAct_->addTo(helpMenu);
 
     menuBar()->insertItem(tr("&Study"), studyMenu);
     menuBar()->insertItem(tr("&Catalog"), catalogMenu);

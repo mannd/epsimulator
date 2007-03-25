@@ -140,7 +140,8 @@ private:
     void filler();
 
     // Data members
-    /// TODO study_ should be Study*
+    // We will leave study_ on the stack; 
+    // functions that manipulate study_ take it by reference and that's fine.
     Study study_;           // current study
     Options* options_;
     FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
@@ -156,15 +157,15 @@ private:
     TableListView* tableListView_;
 
     // Study menu
-    QAction *newAct;
-    QAction *continueAct;
-    QAction *reviewAct;
-    QAction *preregisterAct;
-    QAction *reportsAct;
-    QAction *copyAct;
-    QAction *deleteAct;
+    QAction* newAct_;
+    QAction* continueAct_;
+    QAction* reviewAct_;
+    QAction* preregisterAct_;
+    QAction* reportsAct_;
+    QAction* copyAct_;
+    QAction* deleteAct_;
     QAction* exportAct_;
-    QAction *exitAct;
+    QAction* exitAct_;
 
     // Catalog menu
 //    QAction* switchAct_;
@@ -187,14 +188,14 @@ private:
     QAction* ejectOpticalDiskAct_;
 
     // Administration menu
-    QAction *loginAct;
-    QAction *logoutAct;
-    QAction *changePasswordAct;
-    QAction *intervalsAct;
-    QAction *columnFormatsAct;
-    QAction *protocolsAct;
-    QAction *studyConfigurationsAct;
-    QAction *systemSettingsAct;
+    QAction* loginAct_;
+    QAction* logoutAct_;
+    QAction* changePasswordAct_;
+    QAction* intervalsAct_;
+    QAction* columnFormatsAct_;
+    QAction* protocolsAct_;
+    QAction* studyConfigurationsAct_;
+    QAction* systemSettingsAct_;
     
     // Not part of the Prucka menu system!
     // Simulator options are set here.
@@ -202,7 +203,7 @@ private:
 
     // Help menu
     QAction* epsimulatorHelpAct_;
-    QAction *aboutAct;
+    QAction* aboutAct_;
 
     // menus
     QPopupMenu *studyMenu;

@@ -29,7 +29,7 @@ class PatientDialog: public PatientDialogBase {
 public:
     PatientDialog(QWidget *parent = 0, 
 		  const char *name = 0);
-    void setFields(Study& study);
+    void setFields(const Study& study);
     void getFields(Study& study);
    
 public slots:
