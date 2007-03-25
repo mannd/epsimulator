@@ -334,11 +334,10 @@ void testPasswordDialog() {
     TS_ASSERT(result1 == result2);
     // another consistency test
     QString pw = "abcdefghi";
-    d1->passwordLineEdit->setText(pw);
+    d1->setPassword(pw);
     TS_ASSERT(!d1->testPassword());
-    unsigned int hash = o->passwordHash().toUInt();
     // different password
-    d1->passwordLineEdit->setText("nonsense");
+    d1->setPassword("nonsense");
     TS_ASSERT(!d1->testPassword());
     // need way to set password to do more testing
     
@@ -351,9 +350,15 @@ void testPasswordHandler() {
     QString s = "password1";
     ph->setPassword(s);
     TS_ASSERT(ph->testPassword(s));
+    // tests for non-zero password hash    
+    unsigned int hash = o->passwordHash().toUInt();
+    TS_ASSERT(hash != 0);
     // restore blank password
     ph->setPassword("");
     TS_ASSERT(ph->testPassword(""));
+    // blank password results in hash of 0
+    hash = o->passwordHash().toUInt();
+    TS_ASSERT(hash == 0);
     delete ph;
 }
 

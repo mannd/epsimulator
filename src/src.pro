@@ -15,6 +15,7 @@ TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 IMAGES += images/hi16-app-epsimulator.png \
           images/hi32-app-epsimulator.png \
+	  images/hi48-app-epsimulator.png \
           images/hi32-newstudy.png \
           images/hi32-continuestudy.png \
           images/hi32-preregister.png \

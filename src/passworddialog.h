@@ -25,15 +25,21 @@
 
 class Options;
 class PasswordHandler;
+class QString;
 
-class PasswordDialog : public PasswordDialogBase
+class PasswordDialog : private PasswordDialogBase
 {
     Q_OBJECT
 
 public:
     PasswordDialog(Options* options, QWidget* parent = 0, const char* name = 0);
 
+    /// public function, just for debugging and testing.
+    void setPassword(const QString&); 
     bool testPassword();
+
+    virtual bool exec() {return PasswordDialogBase::exec();}
+
 
     ~PasswordDialog();
 

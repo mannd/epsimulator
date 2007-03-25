@@ -18,8 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "epsimdefs.h"
 #include "study.h"
+
+#include "epsimdefs.h"
 #include "heart.h"
 
 #include <cassert> 
@@ -52,15 +53,18 @@ QString Name::fullName(bool lastFirst, bool useMiddleName) const {
 QDataStream& operator<<(QDataStream& out, const Study& study) {
     out << study.dateTime_ << study.number_ << study.name_
         << study.mrn_ << study.dateOfBirth_ << study.config_
-        << (Q_INT32)study.sex_ << study.height_ << study.weight_ << study.heightIn_
-        << study.weightLbs_ << study.bsa_ << (Q_INT32)study.bsaManualEdit_
-        << (Q_INT32)study.vagalTone_ << (Q_INT32)study.sympatheticTone_ << (Q_INT32)study.ef_
-        << (Q_INT32)study.ischemia_ << study.path_ << study.file_ << study.location_;
+        << (Q_INT32)study.sex_ << study.height_ << study.weight_ 
+        << study.heightIn_<< study.weightLbs_ << study.bsa_ 
+        << (Q_INT32)study.bsaManualEdit_ << (Q_INT32)study.vagalTone_ 
+        << (Q_INT32)study.sympatheticTone_ << (Q_INT32)study.ef_
+        << (Q_INT32)study.ischemia_ << study.path_ << study.file_ 
+        << study.location_;
     ///TODO need to add heart to this
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Study& study) {
+    // Data below is not natively a 32 bit int.
     Q_INT32 sex, bsaManualEdit, vagalTone, sympatheticTone, ef, ischemia;
     in >> study.dateTime_ >> study.number_ >> study.name_
         >> study.mrn_ >> study.dateOfBirth_ >> study.config_
@@ -83,12 +87,14 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
  *  Study ctor.  New Study is initialized to certain defaults.  
  */
 Study::Study() : dateTime_(QDateTime::currentDateTime()),
-    dateOfBirth_(DEFAULT_BIRTH_DATE),
-    sex_(Male), height_(0), weight_(0), 
-    heightIn_(0), weightLbs_(0), bsa_(0), 
-    bsaManualEdit_(false), vagalTone_(DEFAULT_VAGAL_TONE),
-    sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), ef_(DEFAULT_EF), 
-    ischemia_(false) {
+                 dateOfBirth_(DEFAULT_BIRTH_DATE),
+                 sex_(Male), height_(0), weight_(0), 
+                 heightIn_(0), weightLbs_(0), bsa_(0), 
+                 bsaManualEdit_(false), 
+                 vagalTone_(DEFAULT_VAGAL_TONE),
+                 sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), 
+                 ef_(DEFAULT_EF), 
+                 ischemia_(false) {
     ///TODO need to compute path
     config_ = "";
     file_ = "";
@@ -131,8 +137,9 @@ Study::Study(const Study& study) {
 QString Study::key() const {
     if (name_.last.isNull()) 
         return QString::null;
-    return name_.last.stripWhiteSpace() + "_" + name_.first.stripWhiteSpace()
-         + "_" + dateTime_.toString("ddMMyyyyhhmmss");
+    return name_.last.stripWhiteSpace() + "_" 
+        + name_.first.stripWhiteSpace()
+        + "_" + dateTime_.toString("ddMMyyyyhhmmss");
 }
 
 /**

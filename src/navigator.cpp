@@ -709,7 +709,6 @@ void Navigator::startStudy() {
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation() {
     Study newStudy(study_);
-    newStudy.setDateTime(QDateTime::currentDateTime());
     PatientDialog* patientDialog = new PatientDialog(this);
     patientDialog->setFields(newStudy);
     if (patientDialog->exec()) {

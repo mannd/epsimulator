@@ -148,3 +148,7 @@ specific item.
 The Simulator options dialog is a large tabbed dialog, with tabs for different
 sections of the simulator.  Perhaps we can subclass menuitem and allow
 different color menu item for the simulator menu item.
+
+Formatting for Doxygen
+
+We will prefer the @file, @param format to \file, \param.

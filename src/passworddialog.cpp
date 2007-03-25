@@ -36,6 +36,10 @@ PasswordDialog::PasswordDialog(Options* options, QWidget* parent, const char* na
     pwHandler_ = new PasswordHandler(options);
 }
 
+void PasswordDialog::setPassword(const QString& pw) {
+    passwordLineEdit->setText(pw);
+}
+
 bool PasswordDialog::testPassword() {
     return pwHandler_->testPassword(passwordLineEdit->text());
 }

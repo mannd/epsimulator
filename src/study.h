@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 /**
- *  \file study.h
+ *  @file study.h
  *  Declares struct Name and class Study.
  */
 
@@ -57,7 +57,9 @@ typedef int AutonomicTone;
 
 enum Sex {Male, Female};
 
-///TODO Change these to programmable options
+/// TODO Change these to programmable options
+/// These will be set with the simulator settings dialog
+/// or another dialog specific to physiology
 #define DEFAULT_EF 55
 #define DEFAULT_VAGAL_TONE 70
 #define DEFAULT_SYMPATHETIC_TONE 30
@@ -70,6 +72,7 @@ class Study {
 public:
     Study();
     Study(const Study&);
+    Study& operator=(const Study& rhs);
 
     Name name() const {return name_;};
     QString mrn() const {return mrn_;}
@@ -122,9 +125,6 @@ public:
     void setConfig(QString config) {config_ = config;}
     void setLocation(const QString& location) {location_ = location;}
 
-
-    Study& operator=(const Study& rhs);
-
     ~Study();
 
 private:
@@ -154,7 +154,8 @@ private:
     QString config_;    // this will eventually be a class probably
     QString path_;  // location (path) of this study
     QString file_;  //  name of study file
-    QString location_;  // location = disk label which is really a directory name if optical
+    QString location_;  // location = disk label 
+                        // which is really a directory name if optical
                         // disk emulation on.
     Heart *heart_;
 };

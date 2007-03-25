@@ -28,15 +28,18 @@ class PasswordHandler;
 class ChangePasswordDialog: private ChangePasswordDialogBase {
     Q_OBJECT
 public:
-    ChangePasswordDialog(Options* options, QWidget *parent = 0, const char *name = 0);
+    ChangePasswordDialog(Options* options, QWidget *parent = 0, 
+                         const char *name = 0);
 
     virtual bool exec() {return ChangePasswordDialogBase::exec();}
-    virtual void accept();
 
     void changePassword() const;
     void clear();
 
     ~ChangePasswordDialog();
+
+public slots:
+    virtual void accept();
 
 private:
     bool testPasswordsEqual() const;
