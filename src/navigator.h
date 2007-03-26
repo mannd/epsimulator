@@ -122,8 +122,8 @@ private:
     // Study related
     void startStudy();
     bool getStudyInformation();
-    bool studySelected();
-    void prepareStudy();    // clears study_ if no study selected
+    Study* getSelectedStudy();
+    Study* getNewStudy();   // returns selected study or a new study
     void addStudyToCatalogs();  // add study to appropriate catalogs
     void removeStudyFromCatalogs(); // remove study from catalogs 
     void createDataFiles(); // make study data files on disk
@@ -138,6 +138,7 @@ private:
 
     // misc
     void filler();
+    void noStudySelectedError();
 
     // Data members
     // We will leave study_ on the stack; 
@@ -206,13 +207,13 @@ private:
     QAction* aboutAct_;
 
     // menus
-    QPopupMenu *studyMenu;
-    QPopupMenu *catalogMenu;
+    QPopupMenu *studyMenu_;
+    QPopupMenu *catalogMenu_;
     QPopupMenu* switchSubMenu_;
-    QPopupMenu *utilitiesMenu;
-    QPopupMenu *administrationMenu;
-    QPopupMenu *securitySubMenu;
-    QPopupMenu *helpMenu;
+    QPopupMenu *utilitiesMenu_;
+    QPopupMenu *administrationMenu_;
+    QPopupMenu *securitySubMenu_;
+    QPopupMenu *helpMenu_;
 
     // toolbars
     QToolBar* navigatorToolBar_;

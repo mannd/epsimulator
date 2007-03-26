@@ -124,6 +124,8 @@ public:
     void setFile(QString file) {file_ = file;}
     void setConfig(QString config) {config_ = config;}
     void setLocation(const QString& location) {location_ = location;}
+    void makePreregisterStudy() {config_ = "";}  // preregistered study has no config info
+
 
     ~Study();
 

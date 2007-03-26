@@ -72,11 +72,9 @@ class QListViewItem;
  */
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
-    options_(Options::instance()), filterCatalog_(0),
-    userIsAdministrator_(false) {
-
+                   options_(Options::instance()), filterCatalog_(0),
+                   userIsAdministrator_(false) {
     catalogs_ = new Catalogs(options_);
-
     currentDisk_ = new OpticalDisk(options_->opticalStudyPath());
 
     createActions();
@@ -105,36 +103,60 @@ void Navigator::newStudy() {
     else {
         // study_ must be "blank" unless a study is selected in the catalog.
         // Same thing for preregister and continue study.
-        prepareStudy();
-        // We will leave this dialog with this name, even though it
-        // probably should have been called StudyConfigSelectDialog.
+        Study* study = getNewStudy();
+ //       study_.setDateTime(QDateTime::currentDateTime());
         StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
         if (studyConfigDialog->exec()) {
-            study_.setConfig(studyConfigDialog->config());
-            if (getStudyInformation()) {
-                startStudy();
-            }
+            study->setConfig(studyConfigDialog->config());
+        /// TODO study_ member probably not necessary
+        /// Just create the pointer on the fly and pass it around.
+ //           if (getStudyInformation()) {
+  //              startStudy();
+ //           }
         }
         delete studyConfigDialog;
+        delete study;
     }
 }
 
 void Navigator::continueStudy() {
-    prepareStudy();
-    /// TODO Rest of processing 
+    Study* study = getSelectedStudy();
+    if (study) {
+        /// TODO Rest of processing 
+        ;
+    }
+    else
+        noStudySelectedError();
+    delete study;
 }
 
 void Navigator::reviewStudy() {
+    Study* study = getSelectedStudy();
+    if (study) {
+        /// TODO Rest of processing 
+        ;
+    }
+    else
+        noStudySelectedError();
+    delete study;
 }
 
 void Navigator::preregisterPatient() {
-    prepareStudy();
-    study_.setConfig("");   // preregistered study has no config info
-    getStudyInformation();
+    Study* study = getNewStudy();
+    study->makePreregisterStudy();
+//    getStudyInformation();
     // write study to catalogs -- also called from newStudy
 }
 
-void Navigator::reports() {
+void Navigator::reports()  {
+    Study* study = getSelectedStudy();
+    if (study) {
+        /// TODO Rest of processing 
+        ;
+    }
+    else
+        noStudySelectedError();
+    delete study;
 }
 
 void Navigator::deleteStudy() {
@@ -153,11 +175,8 @@ void Navigator::deleteStudy() {
             deleteDataFiles();
         }
     } 
-    else {
-        QMessageBox::information(this, tr("No Study Selected"),
-            tr("You must first select a study to delete it."),
-            QMessageBox::Ok);
-    }
+    else 
+        noStudySelectedError();
 }
 
 void Navigator::removeStudyFromCatalogs() {
@@ -278,6 +297,11 @@ bool Navigator::administrationAllowed() {
 void Navigator::filler() {
     QMessageBox::information(this, tr("FYI"),
                              tr("This function is not implemented yet."));
+}
+
+void Navigator::noStudySelectedError() {
+    QMessageBox::warning(this, tr("No Study Selected"),
+                         tr("You must select a study first to do this."));
 }
 
 void Navigator::setIntervals() {
@@ -565,69 +589,69 @@ void Navigator::createToolBars() {
 
 void Navigator::createMenus() {
 
-    studyMenu = new QPopupMenu(this);
-    newAct_->addTo(studyMenu);
-    continueAct_->addTo(studyMenu);
-    reviewAct_->addTo(studyMenu);
-    preregisterAct_->addTo(studyMenu);
-    reportsAct_->addTo(studyMenu);
-    studyMenu->insertSeparator();
-    copyAct_->addTo(studyMenu);
-    deleteAct_->addTo(studyMenu);
-    exportAct_->addTo(studyMenu);
-    studyMenu->insertSeparator();
-    exitAct_->addTo(studyMenu);
+    studyMenu_ = new QPopupMenu(this);
+    newAct_->addTo(studyMenu_);
+    continueAct_->addTo(studyMenu_);
+    reviewAct_->addTo(studyMenu_);
+    preregisterAct_->addTo(studyMenu_);
+    reportsAct_->addTo(studyMenu_);
+    studyMenu_->insertSeparator();
+    copyAct_->addTo(studyMenu_);
+    deleteAct_->addTo(studyMenu_);
+    exportAct_->addTo(studyMenu_);
+    studyMenu_->insertSeparator();
+    exitAct_->addTo(studyMenu_);
 
-    catalogMenu = new QPopupMenu(this);
+    catalogMenu_ = new QPopupMenu(this);
     switchSubMenu_ = new QPopupMenu(this);
     networkSwitchAct_->addTo(switchSubMenu_);
     systemSwitchAct_->addTo(switchSubMenu_);
     opticalSwitchAct_->addTo(switchSubMenu_);
     browseSwitchAct_->addTo(switchSubMenu_);
-    catalogMenu->insertItem(tr("Switch"), switchSubMenu_);
-    filterStudiesAct_->addTo(catalogMenu);
-    removeStudiesFilterAct_->addTo(catalogMenu);
-    catalogMenu->insertSeparator();
-    refreshViewAct_->addTo(catalogMenu);
-    regenerateAct_->addTo(catalogMenu);
-    relabelDiskAct_->addTo(catalogMenu);
-    mergeStudiesAct_->addTo(catalogMenu);
+    catalogMenu_->insertItem(tr("Switch"), switchSubMenu_);
+    filterStudiesAct_->addTo(catalogMenu_);
+    removeStudiesFilterAct_->addTo(catalogMenu_);
+    catalogMenu_->insertSeparator();
+    refreshViewAct_->addTo(catalogMenu_);
+    regenerateAct_->addTo(catalogMenu_);
+    relabelDiskAct_->addTo(catalogMenu_);
+    mergeStudiesAct_->addTo(catalogMenu_);
 
-    utilitiesMenu = new QPopupMenu(this);
-    exportListsAct_->addTo(utilitiesMenu);
-    exportReportFormatsAct_->addTo(utilitiesMenu);
-    utilitiesMenu->insertSeparator();
-    importListsAct_->addTo(utilitiesMenu);
-    importReportFormatsAct_->addTo(utilitiesMenu);
-    utilitiesMenu->insertSeparator();
-    ejectOpticalDiskAct_->addTo(utilitiesMenu);
+    utilitiesMenu_ = new QPopupMenu(this);
+    exportListsAct_->addTo(utilitiesMenu_);
+    exportReportFormatsAct_->addTo(utilitiesMenu_);
+    utilitiesMenu_->insertSeparator();
+    importListsAct_->addTo(utilitiesMenu_);
+    importReportFormatsAct_->addTo(utilitiesMenu_);
+    utilitiesMenu_->insertSeparator();
+    ejectOpticalDiskAct_->addTo(utilitiesMenu_);
 
-    administrationMenu = new QPopupMenu(this);
-    securitySubMenu = new QPopupMenu(this);
-    loginAct_->addTo(securitySubMenu);
-    logoutAct_->addTo(securitySubMenu);
-    changePasswordAct_->addTo(securitySubMenu);
-    administrationMenu->insertItem(tr("Security"), securitySubMenu);
+    administrationMenu_ = new QPopupMenu(this);
+    securitySubMenu_ = new QPopupMenu(this);
+    loginAct_->addTo(securitySubMenu_);
+    logoutAct_->addTo(securitySubMenu_);
+    changePasswordAct_->addTo(securitySubMenu_);
+    administrationMenu_->insertItem(tr("Security"), securitySubMenu_);
     //insert Lists submenu here
-    administrationMenu->insertSeparator();
-    intervalsAct_->addTo(administrationMenu);
-    columnFormatsAct_->addTo(administrationMenu);
-    protocolsAct_->addTo(administrationMenu);
-    studyConfigurationsAct_->addTo(administrationMenu);
-    administrationMenu->insertSeparator();
-    systemSettingsAct_->addTo(administrationMenu);
-    simulatorOptionsAct_->addTo(administrationMenu);
+    administrationMenu_->insertSeparator();
+    intervalsAct_->addTo(administrationMenu_);
+    columnFormatsAct_->addTo(administrationMenu_);
+    protocolsAct_->addTo(administrationMenu_);
+    studyConfigurationsAct_->addTo(administrationMenu_);
+    administrationMenu_->insertSeparator();
+    systemSettingsAct_->addTo(administrationMenu_);
+    simulatorOptionsAct_->addTo(administrationMenu_);
     // insert reports submenu here
 
-    helpMenu = new QPopupMenu(this);
-    epsimulatorHelpAct_->addTo(helpMenu);
-    aboutAct_->addTo(helpMenu);
+    helpMenu_ = new QPopupMenu(this);
+    epsimulatorHelpAct_->addTo(helpMenu_);
+    aboutAct_->addTo(helpMenu_);
 
-    menuBar()->insertItem(tr("&Study"), studyMenu);
-    menuBar()->insertItem(tr("&Catalog"), catalogMenu);
-    menuBar()->insertItem(tr("&Utilities"), utilitiesMenu);
-    menuBar()->insertItem(tr("&Administration"), administrationMenu);
-    menuBar()->insertItem(tr("&Help"), helpMenu);
+    menuBar()->insertItem(tr("&Study"), studyMenu_);
+    menuBar()->insertItem(tr("&Catalog"), catalogMenu_);
+    menuBar()->insertItem(tr("&Utilities"), utilitiesMenu_);
+    menuBar()->insertItem(tr("&Administration"), administrationMenu_);
+    menuBar()->insertItem(tr("&Help"), helpMenu_);
 
     updateMenus();
 
@@ -708,12 +732,12 @@ void Navigator::startStudy() {
 
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation() {
-    Study newStudy(study_);
+//    Study newStudy(study_);
     PatientDialog* patientDialog = new PatientDialog(this);
-    patientDialog->setFields(newStudy);
+    patientDialog->setFields(study_);
     if (patientDialog->exec()) {
-        patientDialog->getFields(newStudy);
-        study_ = newStudy;
+        patientDialog->getFields(study_);
+//        study_ = newStudy;
         /// FIXME this depends on the catalogComboBox
         //study_.setPath(options_->opticalStudyPath());
         //study_.setFile(study_.fileName());
@@ -728,21 +752,26 @@ bool Navigator::getStudyInformation() {
     return false;
 }
 
-/// returns true and switches to study highlighted in the catalog; otherwise returns /// false if no study highlighted and leaves study_ unchanged
-bool Navigator::studySelected() {
-    if (QListViewItem* item = tableListView_->selectedItem()) {
-        // must cast item to a TableListViewItem* to get study from it.
-        study_ = dynamic_cast<TableListViewItem*>(item)->study();
-        return true;
-    }
-    return false;
+/// This returns a pointer to a study selected from the catalog, 
+/// returns 0 if no study selected
+Study* Navigator::getSelectedStudy() {
+    Study* study = 0;
+    if (QListViewItem* item = tableListView_->selectedItem()) 
+        study = new Study(dynamic_cast<TableListViewItem*>(item)->study());
+    return study;
 }
 
-void Navigator::prepareStudy() {
-    if (!studySelected()) {
-        Study newStudy;
-        study_ = newStudy;
+/// Returns study selected in the catalog, or, if none selected, a new study.
+Study* Navigator::getNewStudy() {
+    Study* study= getSelectedStudy();
+    if (study) {
+        // A new study must have a current date time.
+        study->setDateTime(QDateTime::currentDateTime());
+        return study;
     }
+    else
+        // Current date time already set with new study.
+        return new Study;
 }
 
 void Navigator::deleteDataFiles() {
