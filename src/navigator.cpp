@@ -101,18 +101,15 @@ void Navigator::newStudy() {
         QMessageBox::warning(this, tr("No Optical Disk"),
                              tr("Insert an optical disk and try again."));
     else {
-        // study_ must be "blank" unless a study is selected in the catalog.
-        // Same thing for preregister and continue study.
         Study* study = getNewStudy();
- //       study_.setDateTime(QDateTime::currentDateTime());
         StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
         if (studyConfigDialog->exec()) {
             study->setConfig(studyConfigDialog->config());
         /// TODO study_ member probably not necessary
         /// Just create the pointer on the fly and pass it around.
- //           if (getStudyInformation()) {
-  //              startStudy();
- //           }
+            if (getStudyInformation(study)) {
+                startStudy();
+            }
         }
         delete studyConfigDialog;
         delete study;
@@ -144,7 +141,7 @@ void Navigator::reviewStudy() {
 void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
     study->makePreregisterStudy();
-//    getStudyInformation();
+    getStudyInformation(study);
     // write study to catalogs -- also called from newStudy
 }
 
@@ -434,9 +431,9 @@ void Navigator::createButtonFrame() {
 
     buttonFrame->addButton("New Study", "hi64-newstudy.png", SLOT(newStudy()));
     buttonFrame->addButton("Continue Study", "hi64-continuestudy.png", SLOT(continueStudy()));
-    buttonFrame->addButton("Review Study", "hi64-reviewstudy.png", 0);
+    buttonFrame->addButton("Review Study", "hi64-reviewstudy.png", SLOT(reviewStudy()));
     buttonFrame->addButton("Pre-Register", "hi64-preregister.png", SLOT(preregisterPatient()));
-    buttonFrame->addButton("Reports", "hi64-reports.png", 0, true); 
+    buttonFrame->addButton("Reports", "hi64-reports.png", SLOT(reports()), true); 
 }
 
 /** @brief Creates the TableListView object.
@@ -480,14 +477,17 @@ void Navigator::createActions() {
     newAct_ = new QAction(tr("&New..."), tr("Ctrl+N"), this);
     setupAction(newAct_, "New study", SLOT(newStudy()), "hi32-newstudy.png");
     continueAct_ = new QAction(tr("&Continue"), 0, this);
-    setupAction(continueAct_, "Continue study", 0, "hi32-continuestudy.png");
+    setupAction(continueAct_, "Continue study", SLOT(continueStudy()), 
+                "hi32-continuestudy.png");
     reviewAct_ = new QAction(tr("&Review"), 0, this);
-    setupAction(reviewAct_, "Review study", 0, "hi32-reviewstudy.png");
+    setupAction(reviewAct_, "Review study", SLOT(reviewStudy()), 
+                "hi32-reviewstudy.png");
     preregisterAct_= new QAction(tr("&Pre-Register"), 0, this);
     setupAction(preregisterAct_, "Pre-register patient", 
         SLOT(preregisterPatient()), "hi32-preregister.png");
     reportsAct_= new QAction(tr("R&eports..."), 0, this);
-    setupAction(reportsAct_, "Procedure reports", 0, "hi32-reports.png" );
+    setupAction(reportsAct_, "Procedure reports", SLOT(reports()), 
+                "hi32-reports.png" );
     copyAct_= new QAction(tr("Copy..."), 0, this);
     setupAction(copyAct_, "Copy study", 0);
     deleteAct_= new QAction(tr("Delete..."), 0, this);
@@ -731,18 +731,18 @@ void Navigator::startStudy() {
 }
 
 // returns true if PatientDialog is saved, false if cancelled
-bool Navigator::getStudyInformation() {
+bool Navigator::getStudyInformation(Study* study) {
 //    Study newStudy(study_);
     PatientDialog* patientDialog = new PatientDialog(this);
-    patientDialog->setFields(study_);
+    patientDialog->setFields(*study);
     if (patientDialog->exec()) {
-        patientDialog->getFields(study_);
+        patientDialog->getFields(*study);
 //        study_ = newStudy;
         /// FIXME this depends on the catalogComboBox
         //study_.setPath(options_->opticalStudyPath());
         //study_.setFile(study_.fileName());
-        if (!study_.isPreregisterStudy()) 
-            study_.setLocation(currentDisk_->label());
+        if (!study->isPreregisterStudy()) 
+            study->setLocation(currentDisk_->label());
         /// FIXME this doesn't below here:
 /*        tableListView_->addStudy(study_);
         // write the study to the catalog now in case user decides to refresh later

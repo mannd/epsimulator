@@ -26,24 +26,19 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include "options.h"
-#include "study.h"
-
-#include <qmainwindow.h>
+ #include <qmainwindow.h>
 
 class Catalog;
 class Catalogs;
 class CatalogComboBox;
 class FilterCatalog;
 class OpticalDisk;
-//class OpticalDiskDrive;
 class Options;
 class StatusBar;
+class Study;
 class TableListView;
 
 class QAction;
-class QFrame;
-class QGridLayout;
 class QLabel;
 class QPopupMenu;
 class QPushButton;
@@ -121,7 +116,7 @@ private:
 
     // Study related
     void startStudy();
-    bool getStudyInformation();
+    bool getStudyInformation(Study*);
     Study* getSelectedStudy();
     Study* getNewStudy();   // returns selected study or a new study
     void addStudyToCatalogs();  // add study to appropriate catalogs
@@ -141,9 +136,6 @@ private:
     void noStudySelectedError();
 
     // Data members
-    // We will leave study_ on the stack; 
-    // functions that manipulate study_ take it by reference and that's fine.
-    Study study_;           // current study
     Options* options_;
     FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
     Catalogs* catalogs_;
