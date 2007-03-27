@@ -108,6 +108,11 @@ void Navigator::newStudy() {
         /// TODO study_ member probably not necessary
         /// Just create the pointer on the fly and pass it around.
             if (getStudyInformation(study)) {
+                // we add the study to the catalog view directly
+                tableListView_->addStudy(*study);
+        // write the study to the catalog now in case user decides to refresh later
+        //tableListView_->save(catalogs_->filePaths());*/
+                /// TODO update catalogs here. 
                 startStudy();
             }
         }
@@ -141,8 +146,13 @@ void Navigator::reviewStudy() {
 void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
     study->makePreregisterStudy();
-    getStudyInformation(study);
-    // write study to catalogs -- also called from newStudy
+    if (getStudyInformation(study)) {
+        tableListView_->addStudy(*study);
+        // write study to catalogs -- also called from newStudy
+        /// FIXME if exception thrown study may not be deleted
+        /// and there may be a memory leak.
+    }
+    delete study;
 }
 
 void Navigator::reports()  {
@@ -734,9 +744,9 @@ void Navigator::startStudy() {
 bool Navigator::getStudyInformation(Study* study) {
 //    Study newStudy(study_);
     PatientDialog* patientDialog = new PatientDialog(this);
-    patientDialog->setFields(*study);
+    patientDialog->setFields(study);
     if (patientDialog->exec()) {
-        patientDialog->getFields(*study);
+        patientDialog->getFields(study);
 //        study_ = newStudy;
         /// FIXME this depends on the catalogComboBox
         //study_.setPath(options_->opticalStudyPath());
@@ -767,6 +777,8 @@ Study* Navigator::getNewStudy() {
     if (study) {
         // A new study must have a current date time.
         study->setDateTime(QDateTime::currentDateTime());
+        // study number will be set to blank also.
+        study->setNumber(QString::null);
         return study;
     }
     else

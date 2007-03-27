@@ -74,51 +74,51 @@ void PatientDialog::weightKgLineEdit_lostFocus() {
     setBsaText();
 }
 
-void PatientDialog::setFields(const Study& study) {
-    Name name = study.name();
+void PatientDialog::setFields(const Study* study) {
+    Name name = study->name();
     lastNameLineEdit->setText(name.last);
     firstNameLineEdit->setText(name.first);
     middleNameLineEdit->setText(name.middle);
-    mrnLineEdit->setText(study.mrn());
-    sexComboBox->setCurrentItem(study.sex());
-    studyDateTimeEdit->setDateTime(study.dateTime());
-    studyNumberLineEdit->setText(study.number());
-    dobDateEdit->setDate(study.dateOfBirth());
-    sexComboBox->setCurrentItem(study.sex());
-    heightInLineEdit->setText(QString::number(study.heightIn()));
-    weightLbsLineEdit->setText(QString::number(study.weightLbs()));
-    heightCmLineEdit->setText(QString::number(study.height()));
-    weightKgLineEdit->setText(QString::number(study.weight()));
-    manualEditBsaCheckBox->setChecked(study.bsaManualEdit());
-    bsaLineEdit->setText(QString::number(study.bsa()));
-    efSpinBox->setValue(study.ef());
-    vagalToneSpinBox->setValue(study.vagalTone());
-    sympatheticToneSpinBox->setValue(study.sympatheticTone());
-    ischemiaCheckBox->setChecked(study.ischemia());
+    mrnLineEdit->setText(study->mrn());
+    sexComboBox->setCurrentItem(study->sex());
+    studyDateTimeEdit->setDateTime(study->dateTime());
+    studyNumberLineEdit->setText(study->number());
+    dobDateEdit->setDate(study->dateOfBirth());
+    sexComboBox->setCurrentItem(study->sex());
+    heightInLineEdit->setText(QString::number(study->heightIn()));
+    weightLbsLineEdit->setText(QString::number(study->weightLbs()));
+    heightCmLineEdit->setText(QString::number(study->height()));
+    weightKgLineEdit->setText(QString::number(study->weight()));
+    manualEditBsaCheckBox->setChecked(study->bsaManualEdit());
+    bsaLineEdit->setText(QString::number(study->bsa()));
+    efSpinBox->setValue(study->ef());
+    vagalToneSpinBox->setValue(study->vagalTone());
+    sympatheticToneSpinBox->setValue(study->sympatheticTone());
+    ischemiaCheckBox->setChecked(study->ischemia());
     // handle heart
 }
 
-void PatientDialog::getFields(Study& study) {
+void PatientDialog::getFields(Study* study) {
     Name name;
     name.last = lastNameLineEdit->text();
     name.first = firstNameLineEdit->text();
     name.middle = middleNameLineEdit->text();
-    study.setName(name);
-    study.setMrn(mrnLineEdit->text());
-    study.setDateTime(studyDateTimeEdit->dateTime());
-    study.setNumber(studyNumberLineEdit->text());
-    study.setDateOfBirth(dobDateEdit->date());
-    study.setSex(getSex());
-    study.setHeight(heightCmLineEdit->text().toDouble());
-    study.setWeight(weightKgLineEdit->text().toDouble()); 
-    study.setHeightIn(heightInLineEdit->text().toDouble());
-    study.setWeightLbs(weightLbsLineEdit->text().toDouble());
-    study.setBsaManualEdit(manualEditBsaCheckBox->isChecked());
-    study.setBsa(bsaLineEdit->text().toDouble());
-    study.setEf(efSpinBox->value());
-    study.setVagalTone(vagalToneSpinBox->value());
-    study.setSympatheticTone(sympatheticToneSpinBox->value());
-    study.setIschemia(ischemiaCheckBox->isChecked());
+    study->setName(name);
+    study->setMrn(mrnLineEdit->text());
+    study->setDateTime(studyDateTimeEdit->dateTime());
+    study->setNumber(studyNumberLineEdit->text());
+    study->setDateOfBirth(dobDateEdit->date());
+    study->setSex(getSex());
+    study->setHeight(heightCmLineEdit->text().toDouble());
+    study->setWeight(weightKgLineEdit->text().toDouble()); 
+    study->setHeightIn(heightInLineEdit->text().toDouble());
+    study->setWeightLbs(weightLbsLineEdit->text().toDouble());
+    study->setBsaManualEdit(manualEditBsaCheckBox->isChecked());
+    study->setBsa(bsaLineEdit->text().toDouble());
+    study->setEf(efSpinBox->value());
+    study->setVagalTone(vagalToneSpinBox->value());
+    study->setSympatheticTone(sympatheticToneSpinBox->value());
+    study->setIschemia(ischemiaCheckBox->isChecked());
     // handle heart here
 }
 
