@@ -54,7 +54,7 @@ void ButtonFrame::addButton(const QString& name, const QString& pixmap,
 void ButtonFrame::setupButton(QPushButton* button, const QString& pixmapName,
                             QLabel* label, const char* slotName, 
                             bool lastButton) {
-    button->setFixedSize(buttonSize, buttonSize);
+    button->setFixedSize(buttonWidth, buttonHeight);
     button->setPixmap(QPixmap::fromMimeSource(pixmapName));
     static int row = 0;   // allows adding widgets in correct row
     // last parameter centers the buttons and labels horizontally

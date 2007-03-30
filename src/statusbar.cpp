@@ -67,8 +67,8 @@ void StatusBar::updateFilterLabel(bool filtered) {
 }
 
 void StatusBar::updateUserLabel(bool userIsAdministrator) {
-    QString user = oldStyle_ ? "epsimuser" : std::getenv("USER");
-    user = userIsAdministrator ? "Administrator" : user;
+    QString user = oldStyle_ ? tr("EPSIMUSER") : std::getenv("USER");
+    user = userIsAdministrator ? tr("ADMINISTRATOR") : user;
     userLabel_->setText(tr(" User: %1 ").arg(user));
 //    userLabel_->setMinimumSize(userLabel_->sizeHint());
     update();
