@@ -31,7 +31,7 @@ ButtonFrame::ButtonFrame(QWidget* parent)
                               (QSizePolicy::SizeType)5, 0, 0,
                               sizePolicy().hasHeightForWidth()));
     setFrameShape(QFrame::StyledPanel);
-    setPaletteBackgroundColor("blue");
+    setPaletteBackgroundColor("darkBlue");
     setMaximumWidth(200);
     buttonFrameLayout_ = new QGridLayout(this, 1, 1, 11, 6, "");
 }
