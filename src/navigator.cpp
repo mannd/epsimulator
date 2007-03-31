@@ -177,6 +177,7 @@ void Navigator::deleteStudy() {
             QMessageBox::No | QMessageBox::Default, // default is NO!
             QMessageBox::Cancel | QMessageBox::Escape);
         if (ret == QMessageBox::Yes) {
+            tableListView_->deleteStudy();
             removeStudyFromCatalogs();
             // delete item;
             deleteDataFiles();

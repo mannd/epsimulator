@@ -54,6 +54,7 @@ class QStringList;
         bool save(const QString& fileName);
         bool save(const QStringList& fileNames);
         void addStudy(const Study* study);
+        void deleteStudy();
         void applyFilter(FilterStudyType filterStudyType,
                          const QRegExp& lastName,
                          const QRegExp& firstName,

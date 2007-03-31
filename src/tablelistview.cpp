@@ -88,8 +88,6 @@ TableListView::TableListView(QWidget* parent, Options* options)
 }
 
 TableListView::~TableListView() {
-
-  
 }
 
 void TableListView::showTable() {
@@ -199,6 +197,12 @@ void TableListView::addStudy(const Study* study) {
             study->number(),
             study->location());
     }
+}
+
+void TableListView::deleteStudy() {
+    QListViewItem* item = selectedItem();
+    delete item;
+    showTable();
 }
 
 
