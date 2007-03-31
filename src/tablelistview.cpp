@@ -175,29 +175,29 @@ bool TableListView::save(const QStringList& fileNames) {
     return success;
 }
 
-void TableListView::addStudy(const Study& study) {
+void TableListView::addStudy(const Study* study) {
     // Need a throwaway variable to do the following if else.
     TableListViewItem* t = 0;
     if (options_->oldStyleNavigator()) {
-        t = new TableListViewItem(this, study,
-            study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
-            study.name().last,
-            study.name().first,
-            study.mrn(),
-            study.dateTime().toString(),
-            study.config(),
-            study.number(),
-            study.location()); 
+        t = new TableListViewItem(this, *study,
+            study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
+            study->name().last,
+            study->name().first,
+            study->mrn(),
+            study->dateTime().toString(),
+            study->config(),
+            study->number(),
+            study->location()); 
     }
     else {
-        t = new TableListViewItem(this, study,
-            study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
-            study.name().fullName(true, true),
-            study.mrn(),
-            study.dateTime().toString(),
-            study.config(),
-            study.number(),
-            study.location());
+        t = new TableListViewItem(this, *study,
+            study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
+            study->name().fullName(true, true),
+            study->mrn(),
+            study->dateTime().toString(),
+            study->config(),
+            study->number(),
+            study->location());
     }
 }
 
@@ -208,7 +208,7 @@ void TableListView::readFromStream(QDataStream& in) {
     while (!in.atEnd()) {
         Study study;
         in >> study;
-        addStudy(study);
+        addStudy(&study);
     }
 }
 

@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/** \file
+/** @file
     Contains TableListView and TableListViewItem classes.
 */
 
@@ -53,7 +53,7 @@ class QStringList;
         bool load(const QString& fileName);
         bool save(const QString& fileName);
         bool save(const QStringList& fileNames);
-        void addStudy(const Study& study);
+        void addStudy(const Study* study);
         void applyFilter(FilterStudyType filterStudyType,
                          const QRegExp& lastName,
                          const QRegExp& firstName,

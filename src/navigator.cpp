@@ -109,7 +109,7 @@ void Navigator::newStudy() {
         /// Just create the pointer on the fly and pass it around.
             if (getStudyInformation(study)) {
                 // we add the study to the catalog view directly
-                tableListView_->addStudy(*study);
+                tableListView_->addStudy(study);
         // write the study to the catalog now in case user decides to refresh later
         //tableListView_->save(catalogs_->filePaths());*/
                 /// TODO update catalogs here. 
@@ -147,7 +147,7 @@ void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
     study->makePreregisterStudy();
     if (getStudyInformation(study)) {
-        tableListView_->addStudy(*study);
+        tableListView_->addStudy(study);
         // write study to catalogs -- also called from newStudy
         /// FIXME if exception thrown study may not be deleted
         /// and there may be a memory leak.
