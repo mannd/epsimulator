@@ -50,8 +50,8 @@ public:
     virtual void refresh() {}
     virtual void regenerate() {}
 
-    virtual void addStudy(Study&) {};
-    virtual void deleteStudy(Study&) {};
+    virtual void addStudy(Study&) {}
+    virtual void deleteStudy(Study&) {}
 
     virtual Source type() const {return Other;}
     virtual QString path() const {return path_;}

@@ -43,8 +43,8 @@ public:
     virtual void setSide(const QString& side);
     virtual void setIsTwoSided(bool isTwoSided) {isTwoSided_ = isTwoSided;}
 
-    virtual bool hasLabel() const {return !label_.isEmpty();}
-    virtual bool isPresent() const {return false;}
+    virtual bool hasLabel();
+//    virtual bool isPresent() const {return hasLabel();}
     virtual QString label();
     virtual bool isTwoSided() const {return isTwoSided_;}
     virtual QString side() const {return side_;}
@@ -62,7 +62,6 @@ protected:
     void error(const QFile& file, const QString& message);
     void ioError(const QFile& file, const QString& message);
 
-    void readSettings();
 
     QString label_;
     bool isTwoSided_;

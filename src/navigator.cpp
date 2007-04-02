@@ -96,11 +96,10 @@ Navigator::Navigator(QWidget* parent, const char* name)
 // private slots
 
 void Navigator::newStudy() {
-    // Must have an optical disk ready to go.
-    if (!currentDisk_) 
-        QMessageBox::warning(this, tr("No Optical Disk"),
-                             tr("Insert an optical disk and try again."));
-    else {
+    if (!currentDisk_->hasLabel()) 
+        relabelDisk();
+    // if after all the above we finally have a label...
+    if (currentDisk_->hasLabel()) {
         Study* study = getNewStudy();
         StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
         if (studyConfigDialog->exec()) {

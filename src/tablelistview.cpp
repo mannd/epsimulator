@@ -111,7 +111,8 @@ bool TableListView::load(const QString& fileName) {
     QFile file(fileName);
     // create a studies file if it doesn't exist already
     if (!file.exists()) 
-        save(fileName);
+        if (!save(fileName))    // if you can't even do this, things are bad
+            return false;
     if (!file.open(IO_ReadOnly)) {
         ioError(file, tr("Cannot open file %1 for reading"));
         return false;
@@ -164,7 +165,6 @@ bool TableListView::save(const QString& fileName) {
 ///             Network is updated.  Also deletions, moving recorded in Network.  Exported
 ///             study data to a network folder overrides the Optical data.  Thus, system
 ///             and Network can be out of sync.
-/// TODO fix above after fixing changing Study to pointer
 bool TableListView::save(const QStringList& fileNames) {
     bool success = true;
     for (QStringList::ConstIterator it = fileNames.begin(); it != fileNames.end(); ++it ) {

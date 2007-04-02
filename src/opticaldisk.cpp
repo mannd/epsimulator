@@ -29,20 +29,20 @@ const QString OpticalDisk::labelFileName_ = "label.eps";
 
 OpticalDisk::OpticalDisk(const QString& path, bool isTwoSided) 
     : isTwoSided_(isTwoSided), path_(path) {
-    readSettings();
 }
 
-void OpticalDisk::readSettings() {
-    Settings settings;
-    label_ = settings.readEntry("/lastDiskLabel", QObject::tr("1"));
-    side_ = settings.readEntry("/lastDiskSide", QObject::QObject::tr("A")); 
-}    
+bool OpticalDisk::hasLabel() {
+    label();
+    return !label_.isEmpty();
+}
+
 
 bool OpticalDisk::load(const QString& fileName) {
     QFile file(fileName);
     // create a studies file if it doesn't exist already
     if (!file.exists()) 
-        save(fileName);
+        if (!save(fileName))
+            return false;
     if (!file.open(IO_ReadOnly)) {
         ioError(file, QObject::tr("Cannot open file %1 for reading"));
         return false;
@@ -112,9 +112,6 @@ void OpticalDisk::setSide(const QString& side) {
 }
 
 OpticalDisk::~OpticalDisk() {
-    Settings settings;
-    settings.writeEntry("/lastDiskLabel", label_);
-    settings.writeEntry("/lastDiskSide", side_);
 }
 
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
