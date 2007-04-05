@@ -57,6 +57,20 @@ TableListViewItem::~TableListViewItem() {
 TableListView::TableListView(QWidget* parent, Options* options) 
     : QListView(parent), filtered_(false), options_(options) {
     bool oldStyle = options_->oldStyleNavigator();
+    adjustColumns(oldStyle);
+    setAllColumnsShowFocus(true);
+    setShowSortIndicator(true);
+    setSortColumn(oldStyle ? 4 : 3);    // default sort is date/time
+}
+
+TableListView::~TableListView() {
+}
+
+void TableListView::adjustColumns(bool oldStyle, bool clearTable) {
+    /// FIXME This doesn't work right.
+    if (clearTable) 
+        for (int i = 0; i < columns(); ++i) 
+            removeColumn(i);
     addColumn(tr("Study Type"));        // col 0
     if (oldStyle) {
         addColumn(tr("Last Name"));     // col 1
@@ -68,26 +82,7 @@ TableListView::TableListView(QWidget* parent, Options* options)
     addColumn(tr("Study Date/Time"));   // col 3 or 4
     addColumn(tr("Study Config"));      // col 4 or 5
     addColumn(tr("Study Number"));      // col 5 or 6
-    /// FIXME this needs to be disk label/network location
     addColumn(tr("Location of Study")); // col 6 or 7
-    /// FIXME Below can be eliminated, but must also eliminate keycolumn
-//    addColumn(tr("Hidden key"));         // col 7
-
-    setAllColumnsShowFocus(true);
-    setShowSortIndicator(true);
-    setSortColumn(oldStyle ? 4 : 3);    // default sort is date/time
-    // hide the hidden key column: make sure it is defined correctly in keyColumn
-//     int keyColumn = 7;
-//     setColumnWidthMode(keyColumn, QListView::Manual);
-//     hideColumn(keyColumn);
-//    header()->setResizeEnabled(false, keyColumn);
-//    setResizeMode(QListView::AllColumns);
-    // above messes up the hidden column
-//    connect(this, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), 
-//	    parent->parent(), SLOT(newStudy()));
-}
-
-TableListView::~TableListView() {
 }
 
 void TableListView::showTable() {
@@ -174,28 +169,26 @@ bool TableListView::save(const QStringList& fileNames) {
 }
 
 void TableListView::addStudy(const Study* study) {
-    // Need a throwaway variable to do the following if else.
-    TableListViewItem* t = 0;
     if (options_->oldStyleNavigator()) {
-        t = new TableListViewItem(this, *study,
-            study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
-            study->name().last,
-            study->name().first,
-            study->mrn(),
-            study->dateTime().toString(),
-            study->config(),
-            study->number(),
-            study->location()); 
+        (void) new TableListViewItem(this, *study,
+        study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
+        study->name().last,
+        study->name().first,
+        study->mrn(),
+        study->dateTime().toString(),
+        study->config(),
+        study->number(),
+        study->location()); 
     }
     else {
-        t = new TableListViewItem(this, *study,
-            study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
-            study->name().fullName(true, true),
-            study->mrn(),
-            study->dateTime().toString(),
-            study->config(),
-            study->number(),
-            study->location());
+        (void) new TableListViewItem(this, *study,
+        study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
+        study->name().fullName(true, true),
+        study->mrn(),
+        study->dateTime().toString(),
+        study->config(),
+        study->number(),
+        study->location());
     }
 }
 

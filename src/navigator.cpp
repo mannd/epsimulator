@@ -385,6 +385,8 @@ void Navigator::simulatorSettings() {
         if (simDialog->exec()) {
             simDialog->setOptions();
             updateMenus();
+            /// FIXME need to make below work
+            // tableListView_->adjustColumns(options_->oldStyleNavigator(), true);
         }
         delete simDialog;
     }

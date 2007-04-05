@@ -152,3 +152,5 @@ different color menu item for the simulator menu item.
 Formatting for Doxygen
 
 We will prefer the @file, @param format to \file, \param.
+
+Note about Navigator problem.  Navigator tablelistview disappeared along with horizontal splitter and part of tool bar.  It was due to corruption of the epsimulatorrc file, a bad pointer was loaded from the file.

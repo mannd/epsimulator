@@ -67,6 +67,7 @@ class QStringList;
                          const QDate& endDate);
         void removeFilter();
         void showTable();
+        void adjustColumns(bool oldStyle, bool clearTable = false);
         void exportCSV(const QString& fileName);
     
     private:
