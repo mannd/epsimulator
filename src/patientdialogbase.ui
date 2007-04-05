@@ -560,8 +560,6 @@
     </connection>
 </connections>
 <tabstops>
-    <tabstop>buttonOk</tabstop>
-    <tabstop>buttonCancel</tabstop>
     <tabstop>lastNameLineEdit</tabstop>
     <tabstop>firstNameLineEdit</tabstop>
     <tabstop>middleNameLineEdit</tabstop>
@@ -578,9 +576,11 @@
     <tabstop>sexComboBox</tabstop>
     <tabstop>heartComboBox</tabstop>
     <tabstop>vagalToneSpinBox</tabstop>
+    <tabstop>sympatheticToneSpinBox</tabstop>
     <tabstop>efSpinBox</tabstop>
     <tabstop>ischemiaCheckBox</tabstop>
-    <tabstop>sympatheticToneSpinBox</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
 </tabstops>
 <slots>
     <slot>heightLineEdit_textChanged(const QString&amp;)</slot>

@@ -67,10 +67,14 @@ TableListView::~TableListView() {
 }
 
 void TableListView::adjustColumns(bool oldStyle, bool clearTable) {
-    /// FIXME This doesn't work right.
-    if (clearTable) 
-        for (int i = 0; i < columns(); ++i) 
+    if (clearTable) {
+        int numCols = columns();
+        for (int i = numCols - 1; i >= 0; --i) 
             removeColumn(i);
+    // Note that after clearing the table, the table has to be reloaded.  This
+    // is entrusted to the calling procedure and not done here.    
+    }
+
     addColumn(tr("Study Type"));        // col 0
     if (oldStyle) {
         addColumn(tr("Last Name"));     // col 1

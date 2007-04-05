@@ -38,7 +38,7 @@ public slots:
     virtual void weightLbsLineEdit_lostFocus();
     virtual void heightCmLineEdit_lostFocus();
     virtual void heightInLineEdit_lostFocus();
-//    virtual void accept();
+    virtual void accept();
 
 private:
     double inchesToCentimeters(double inches);

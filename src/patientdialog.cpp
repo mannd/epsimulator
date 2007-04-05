@@ -24,6 +24,7 @@
 #include <qdatetime.h>
 #include <qdatetimeedit.h>
 #include <qlineedit.h>
+#include <qmessagebox.h>
 #include <qspinbox.h>
 #include <qstring.h>
 
@@ -31,6 +32,17 @@
 
 PatientDialog::PatientDialog(QWidget* parent, const char* name)
     : PatientDialogBase(parent, name) {
+}
+
+void PatientDialog::accept() {
+    if (lastNameLineEdit->text().isEmpty()) {
+        QMessageBox::warning(this, tr("Missing Information"),
+                            tr("Last Name can't be blank.  Please "
+                               "enter it or cancel." ));    
+        lastNameLineEdit->setFocus();  
+    }
+    else 
+        PatientDialogBase::accept();
 }
 
 double PatientDialog::inchesToCentimeters(double inches) {
