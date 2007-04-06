@@ -121,7 +121,7 @@ public:
         name.last = "Doe";
         s.setName(name);
         TS_ASSERT(s.key() == "Doe_John_" + 
-            s.dateTime().toString("ddMMyyyyhhmmss"));
+            s.dateTime().toString("ddMMyyyyhhmmsszzz"));
 }
 
 // make sure white space is removed
@@ -134,7 +134,7 @@ public:
         s.setName(name);
         cout <<  "testKey2 result is " << s.key() << "\n";
         TS_ASSERT(s.key() == "Doe_John_" + 
-            s.dateTime().toString("ddMMyyyyhhmmss"));
+            s.dateTime().toString("ddMMyyyyhhmmsszzz"));
 }
     
     void testOptions() {
@@ -149,46 +149,51 @@ public:
     }
 
     void testPatientDialog() {
-        Study s1, s2;
+        Study* s1 = new Study;
+        Study* s2 = new Study;
         Name n;
         n.last = "Test3";
         n.first = "John";
-        s1.setName(n);
+        s1->setName(n);
         PatientDialog* p = new PatientDialog;
         p->setFields(s1);
         p->getFields(s2);
-        TS_ASSERT(s2.name().last == "Test3");
-        TS_ASSERT(s2.name().first == "John");
+        cout << "In testPatientDialog\n";
+        TS_ASSERT(s2->name().last == "Test3");
+        TS_ASSERT(s2->name().first == "John");
         delete p;
+        delete s1;
+        delete s2;
     }
         
     void testPatientDialogCalculations() {
-        Study s;
+        Study* s = new Study;
         double heightIn = 72, weightLbs = 143;
-        s.setHeightIn(heightIn);
-        s.setWeightLbs(weightLbs);
+        s->setHeightIn(heightIn);
+        s->setWeightLbs(weightLbs);
         PatientDialog* p = new PatientDialog;
         p->setFields(s);
         // Below should do all the calculations by faking
         // tabbing through the fields.
         completePatientDialog(p);
         p->getFields(s);
-        cout << s.bsa();
+        cout << s->bsa();
         double delta = 0.001;
-        TS_ASSERT_DELTA(s.height(), heightIn * 2.54, delta);
-        TS_ASSERT_DELTA(s.weight(), weightLbs * 0.45, delta);
-        TS_ASSERT_DELTA(s.bsa(), 
-                        sqrt(s.height() * s.weight()) / 3600,
+        TS_ASSERT_DELTA(s->height(), heightIn * 2.54, delta);
+        TS_ASSERT_DELTA(s->weight(), weightLbs * 0.45, delta);
+        TS_ASSERT_DELTA(s->bsa(), 
+                        sqrt(s->height() * s->weight()) / 3600,
                         delta);
         // Now test manually setting bsa.
         double bsa = 12345.1;
-        s.setBsa(bsa);
-        s.setBsaManualEdit(true);
+        s->setBsa(bsa);
+        s->setBsaManualEdit(true);
         p->setFields(s);
         completePatientDialog(p);
         p->getFields(s);
-        TS_ASSERT_DELTA(s.bsa(), bsa, delta);
+        TS_ASSERT_DELTA(s->bsa(), bsa, delta);
         delete p;
+        delete s;
     }
 
     void testFilterCatalog() {

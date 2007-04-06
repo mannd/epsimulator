@@ -92,11 +92,11 @@ public:
     QString number() const {return number_;}
     QString path() const {return path_;}
     QString file() const {return file_;}
-    QString fileName() const;   // generates data file name
+    QString fileName();   // generates data file name
     QString filePath();     // Returns full path of study, 
                             // fixes path if doesn't end in '/'.
     QString config() const {return config_;}
-    QString key() const;    // Generates key based on name and datetime
+    QString key();    // Generates key based on name and datetime
                             // to identify study uniquely.
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
@@ -159,6 +159,8 @@ private:
     QString location_;  // location = disk label 
                         // which is really a directory name if optical
                         // disk emulation on.
+
+    QString key_;   // unique key for each study
     Heart *heart_;
 };
 

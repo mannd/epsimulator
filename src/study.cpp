@@ -100,6 +100,7 @@ Study::Study() : dateTime_(QDateTime::currentDateTime()),
     file_ = "";
     path_ = "";
     location_ = "";
+    key_ = "";
     heart_ = new Heart;
     testInvariant();
 }
@@ -125,6 +126,7 @@ void Study::copyStudy(const Study& study) {
     path_ = study.path_;
     file_ = study.file_;
     location_ = study.location_;
+    key_ = study.key_;
     // copy the heart pointer
     heart_ = new Heart(*study.heart_);
 }
@@ -134,12 +136,21 @@ Study::Study(const Study& study) {
     testInvariant();
 }
 
-QString Study::key() const {
-    if (name_.last.isNull()) 
+/**
+ * Generates unique key for each study, to be used for 
+ * searching, etc.  Once generated, will not change,
+ * even if name, study date, etc. change.
+ */
+QString Study::key() {
+    // Under normal circumstances PatientDialog won't allow a 
+    // blank last name, so shouldn't happen.
+    if (name_.last.isNull())
         return QString::null;
-    return name_.last.stripWhiteSpace() + "_" 
+    if (key_.isEmpty())
+        key_ = name_.last.stripWhiteSpace() + "_" 
         + name_.first.stripWhiteSpace()
-        + "_" + dateTime_.toString("ddMMyyyyhhmmss");
+        + "_" + dateTime_.toString("ddMMyyyyhhmmsszzz");
+    return key_;
 }
 
 /**
@@ -153,7 +164,7 @@ QString Study::key() const {
  * @return data file name
  */
 ///TODO allow user to rename study files to more meaningful names?
-QString Study::fileName() const {
+QString Study::fileName() {
     if (!isPreregisterStudy())
         return key() + ".eps";
     else
