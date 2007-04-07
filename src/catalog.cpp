@@ -19,15 +19,79 @@
  ***************************************************************************/
 
 #include "catalog.h"
+#include "error.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "study.h"
 
+#include <qdatastream.h>
 #include <qdir.h>
+#include <qfile.h>
 
 Catalog::Catalog(const QString& path, 
                  const QString& fileName) : path_(path), fileName_(fileName) {
+    // Load catalog file from disk into catalog_.
 }
+
+bool Catalog::load() {
+//     // must clear list first
+//     QFile file(fileName_);
+//     // create a studies file if it doesn't exist already
+//     if (!file.exists()) 
+//         if (!save())    // if you can't even do this, things are bad
+//             return false;
+//     if (!file.open(IO_ReadOnly)) {
+//         ioError(file, ("Cannot open file %1 for reading"));
+//         return false;
+//     }
+//     QDataStream in(&file);
+//     in.setVersion(5);
+//     Q_UINT32 magic;
+//     in >> magic;
+//     if (magic != MagicNumber) {
+//         error(file, ("File %1 is not a EP Study file"));
+//         return false;
+//     }
+//     readFromStream(in);
+//     if (file.status() != IO_Ok) {
+//         ioError(file, ("Error reading from file %1"));
+//         return false;
+//     }
+    return true;
+}
+
+bool Catalog::save() {
+    QFile file(fileName_);
+    if (!file.open(IO_WriteOnly)) 
+        throw Epsim::IoError(file.name(), "Cannot open file %1 for writing");
+    QDataStream out(&file);
+    out.setVersion(5);
+    out << (Q_UINT32)MagicNumber;
+    writeToStream(out);
+    if (file.status() != IO_Ok) 
+        throw Epsim::IoError(file.name(), "Error writing to file %1");
+    return true;
+}
+
+void Catalog::readFromStream(QDataStream& in) {
+//     clear();
+//     while (!in.atEnd()) {
+//         Study study;
+//         in >> study;
+//         addStudy(&study);
+//     }
+}
+
+void Catalog::writeToStream(QDataStream& out) {
+//   QListViewItemIterator it(this);
+//   while (it.current()) {
+//     QListViewItem* item = *it;
+//     out << dynamic_cast<TableListViewItem*>(item)->study();
+//     ++it;
+//   }
+}
+
+
 
 QString Catalog::filePath() const {
     return QDir::cleanDirPath(path_ + "/" + fileName_);

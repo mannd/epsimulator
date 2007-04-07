@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/** \file epsim.h
+/** @file epsim.h
  *  Defines language and app name and version.
 */
 

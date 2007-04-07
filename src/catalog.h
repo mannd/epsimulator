@@ -28,6 +28,8 @@
 #ifndef CATALOG_H
 #define CATALOG_H
 
+#include "study.h"
+
 #include <qfile.h>
 #include <qstring.h>
 #include <qstringlist.h>
@@ -35,7 +37,7 @@
 #include <map>
 
 class Options;
-class Study;
+class QDataStream;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -50,8 +52,9 @@ public:
     virtual void refresh() {}
     virtual void regenerate() {}
 
-    virtual void addStudy(Study&) {}
-    virtual void deleteStudy(Study&) {}
+    virtual void addStudy(const Study&) {}
+    virtual void deleteStudy(const Study&) {}
+    virtual void editStudy(const Study&) {}
 
     virtual Source type() const {return Other;}
     virtual QString path() const {return path_;}
@@ -67,6 +70,17 @@ protected:
     // don't allow copying or default constructor
     Catalog() {}
     Catalog(const Catalog&) {}
+
+    enum {MagicNumber = 0x99c798f2};    
+
+    void readFromStream(QDataStream& in);
+    void writeToStream(QDataStream& out);
+
+
+    bool load();
+    bool save();
+
+    std::map<QString, Study> catalog_;
 
 private:
     QString path_;  // path to catalog file, excluding file name
@@ -108,7 +122,6 @@ private:
 
 };
 
-using std::map;
 
 // N.B. Catalogs owns the catalog pointers and will delete them.
 class Catalogs {
@@ -143,7 +156,7 @@ private:
     ///     it does not reflect what happens when catalogs are saved.
     QStringList filePaths_;
 
-    map<Catalog::Source, Catalog*> catalogs_;
+    std::map<Catalog::Source, Catalog*> catalogs_;
 };
 
 
