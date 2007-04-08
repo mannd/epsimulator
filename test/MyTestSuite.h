@@ -22,6 +22,7 @@
 #include <cxxtest/TestSuite.h>
 #include "epsimdefs.h"
 #include "catalog.h"
+#include "error.h"
 #include "filtercatalog.h"
 #include "study.h"
 #include "heart.h"
@@ -34,6 +35,7 @@
 #include <qbuttongroup.h>
 #include <qdatetimeedit.h>
 #include <qdir.h>
+#include <qfile.h>
 #include <qlineedit.h>
 #include <qstring.h>
 #include <qdatetime.h>
@@ -290,21 +292,21 @@ public:
 void testCatalog() {
     Options* o = Options::instance();
     TS_ASSERT(o->catalogFileName() == "catalog.dat");
-    Catalog c("/testpath", "catalog.dat");
-    TS_ASSERT(c.filePath() == "/testpath/catalog.dat");
+    Catalog c("../System", "catalog.dat");
+    TS_ASSERT(c.filePath() == "../System/catalog.dat");
     c.setPath("/testpath/");
     // make sure no duplicate backslashes
     TS_ASSERT(c.filePath() == "/testpath/catalog.dat");
     TS_ASSERT(c.type() == Catalog::Other);
     // test Catalog subclasses
-    Catalog* cp = new OpticalCatalog("/testpath", "catalog.dat");
+    Catalog* cp = new OpticalCatalog("../System", "catalog.dat");
     TS_ASSERT(cp->type() == Catalog::Optical);
     cout << "catalog filepath" << cp->filePath() << std::endl;
     delete cp;
-    cp = new NetworkCatalog("","");
+    cp = new NetworkCatalog("../System", "catalog.dat");
     TS_ASSERT(cp->type() == Catalog::Network);
     delete cp;
-    cp = new SystemCatalog("","");
+    cp = new SystemCatalog("../System", "catalog.dat");
     TS_ASSERT(cp->type() == Catalog::System);
     delete cp;
 }
@@ -356,7 +358,7 @@ void testPasswordHandler() {
     ph->setPassword(s);
     TS_ASSERT(ph->testPassword(s));
     // tests for non-zero password hash    
-    unsigned int hash = o->passwordHash().toUInt();
+    unsigned int hash = o->passwordHash().toUInt(); 
     TS_ASSERT(hash != 0);
     // restore blank password
     ph->setPassword("");
@@ -365,6 +367,13 @@ void testPasswordHandler() {
     hash = o->passwordHash().toUInt();
     TS_ASSERT(hash == 0);
     delete ph;
+}
+
+void testIoError() {
+    // garbage, nonexistent catalog path and file
+    TS_ASSERT_THROWS(Catalog c("/djdkfdjdkfjdk/ekekeke/", "dkjkfjekjee"), EpSim::IoError);
+    cout << "finished testIoError\n";
+    // should throw exception
 }
 
 

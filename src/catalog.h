@@ -44,10 +44,11 @@ class QDataStream;
  * Base class for NetworkCatalog, OpticalCatalog, and SystemCatalog.
  */
 class Catalog {
-
 public:
     enum Source {Network, System, Optical, Other};
     Catalog(const QString& path, const QString& fileName);
+
+    void testSave(QFile& f) {save(f);}
 
     virtual void refresh() {}
     virtual void regenerate() {}
@@ -64,22 +65,24 @@ public:
 
     virtual void setPath(const QString& path) {path_ = path;}
 
-    virtual ~Catalog() {}
+    virtual ~Catalog(); 
 
 protected:
     // don't allow copying or default constructor
     Catalog() {}
     Catalog(const Catalog&) {}
 
+    // First bytes of EP Simulator catalog files.
     enum {MagicNumber = 0x99c798f2};    
 
     void readFromStream(QDataStream& in);
     void writeToStream(QDataStream& out);
 
 
-    bool load();
-    bool save();
+    void load(QFile& file);
+    void save(QFile& file);
 
+    typedef std::map<QString, Study>::const_iterator CI;
     std::map<QString, Study> catalog_;
 
 private:

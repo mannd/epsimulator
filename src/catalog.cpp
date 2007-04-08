@@ -27,68 +27,64 @@
 #include <qdatastream.h>
 #include <qdir.h>
 #include <qfile.h>
+#include <qmessagebox.h>
+#include <qobject.h>
+
 
 Catalog::Catalog(const QString& path, 
                  const QString& fileName) : path_(path), fileName_(fileName) {
-    // Load catalog file from disk into catalog_.
+        QFile f(filePath());
+        load(f);
 }
 
-bool Catalog::load() {
-//     // must clear list first
-//     QFile file(fileName_);
-//     // create a studies file if it doesn't exist already
-//     if (!file.exists()) 
-//         if (!save())    // if you can't even do this, things are bad
-//             return false;
-//     if (!file.open(IO_ReadOnly)) {
-//         ioError(file, ("Cannot open file %1 for reading"));
-//         return false;
-//     }
-//     QDataStream in(&file);
-//     in.setVersion(5);
-//     Q_UINT32 magic;
-//     in >> magic;
-//     if (magic != MagicNumber) {
-//         error(file, ("File %1 is not a EP Study file"));
-//         return false;
-//     }
-//     readFromStream(in);
-//     if (file.status() != IO_Ok) {
-//         ioError(file, ("Error reading from file %1"));
-//         return false;
-//     }
-    return true;
+Catalog::~Catalog() {
 }
 
-bool Catalog::save() {
-    QFile file(fileName_);
+void Catalog::load(QFile& file) {
+    // create a studies file if it doesn't exist already
+    if (!file.exists()) 
+        save(file);
+    if (!file.open(IO_ReadOnly)) 
+        throw EpSim::IoError(file.name(), 
+              QObject::tr("Cannot open file %1 for reading"));
+    QDataStream in(&file);
+    in.setVersion(5);
+    Q_UINT32 magic;
+    in >> magic;
+    if (magic != MagicNumber) 
+        throw EpSim::IoError(file.name(), 
+              QObject::tr("File %1 is not a EP Study file"));
+    readFromStream(in);
+    if (file.status() != IO_Ok) 
+        throw EpSim::IoError(file.name(), 
+              QObject::tr("Error reading from file %1"));
+}
+
+void Catalog::save(QFile& file) {
     if (!file.open(IO_WriteOnly)) 
-        throw Epsim::IoError(file.name(), "Cannot open file %1 for writing");
+        throw EpSim::IoError(file.name(), 
+              QObject::tr("Cannot open file %1 for writing"));
     QDataStream out(&file);
     out.setVersion(5);
     out << (Q_UINT32)MagicNumber;
     writeToStream(out);
     if (file.status() != IO_Ok) 
-        throw Epsim::IoError(file.name(), "Error writing to file %1");
-    return true;
+        throw EpSim::IoError(file.name(), 
+              QObject::tr("Error writing to file %1"));
 }
 
 void Catalog::readFromStream(QDataStream& in) {
-//     clear();
-//     while (!in.atEnd()) {
-//         Study study;
-//         in >> study;
-//         addStudy(&study);
-//     }
+    catalog_.clear();
+    while (!in.atEnd()) {
+        Study study;
+        in >> study;
+        catalog_[study.key()] = study;
+    }
 }
 
 void Catalog::writeToStream(QDataStream& out) {
-//   QListViewItemIterator it(this);
-//   while (it.current()) {
-//     QListViewItem* item = *it;
-//     out << dynamic_cast<TableListViewItem*>(item)->study();
-//     ++it;
-//   }
+    for (CI p = catalog_.begin(); p != catalog_.end(); ++p)
+        out << p->second;
 }
 
 
