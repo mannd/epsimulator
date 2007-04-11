@@ -40,6 +40,18 @@ Catalog::Catalog(const QString& path,
 Catalog::~Catalog() {
 }
 
+void Catalog::addStudy(Study& study) {
+    catalog_[study.key()] = study;
+}
+
+void Catalog::deleteStudy(Study& study) {
+    catalog_.erase(study.key());
+}
+
+void Catalog::editStudy(Study& study) {
+    addStudy(study);
+}
+
 void Catalog::load(QFile& file) {
     // create a studies file if it doesn't exist already
     if (!file.exists()) 
@@ -83,7 +95,7 @@ void Catalog::readFromStream(QDataStream& in) {
 }
 
 void Catalog::writeToStream(QDataStream& out) {
-    for (CI p = catalog_.begin(); p != catalog_.end(); ++p)
+    for (iterator p = catalog_.begin(); p != catalog_.end(); ++p)
         out << p->second;
 }
 

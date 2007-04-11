@@ -1,55 +1,43 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="16" >
-  <Doc0 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qdatetime.html#toString-2" >
-   <View0 Type="Documentation" />
+ <DocsAndViews NumberOfDocuments="12" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.h" >
+   <View0 line="67" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 line="389" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.cpp" >
+   <View0 line="37" Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
-   <View0 line="105" Type="Source" />
+   <View0 line="228" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.h" >
-   <View0 line="0" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/epsimdefs.h" >
+   <View0 line="20" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
-   <View0 line="94" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/error.h" >
+   <View0 line="21" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
-   <View0 line="141" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.h" >
+   <View0 line="74" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.cpp" >
-   <View0 line="26" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+   <View0 line="447" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/patientdialog.h" >
-   <View0 line="40" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/main.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/passworddialog.h" >
-   <View0 line="46" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qmessagebox.html" >
+   <View0 Type="Documentation" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/passworddialog.cpp" >
-   <View0 line="53" Type="Source" />
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/changepassworddialog.cpp" >
+   <View0 line="46" Type="Source" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/studyconfigdialog.h" >
-   <View0 line="0" Type="Source" />
+  <Doc10 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/bits/stl_tree.h" >
+   <View0 line="408" Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qstring.h" >
-   <View0 line="417" Type="Source" />
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
+   <View0 line="75" Type="Source" />
   </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/Makefile" >
-   <View0 line="0" Type="Source" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-   <View0 line="169" Type="Source" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.h" >
-   <View0 line="36" Type="Source" />
-  </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.cpp" >
-   <View0 line="0" Type="Source" />
-  </Doc15>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

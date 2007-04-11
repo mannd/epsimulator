@@ -42,20 +42,26 @@ class QDataStream;
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
  * Base class for NetworkCatalog, OpticalCatalog, and SystemCatalog.
+ * Note that this is set up like an STL container, with its own
+ * iterator, and an operator[].
  */
 class Catalog {
 public:
     enum Source {Network, System, Optical, Other};
+    typedef std::map<QString, Study>::const_iterator iterator;
+
     Catalog(const QString& path, const QString& fileName);
 
-    void testSave(QFile& f) {save(f);}
+    iterator begin() {return catalog_.begin();}
+    iterator end() {return catalog_.end();}
+    Study& operator[](QString& key) {return catalog_[key];} 
 
     virtual void refresh() {}
     virtual void regenerate() {}
 
-    virtual void addStudy(const Study&) {}
-    virtual void deleteStudy(const Study&) {}
-    virtual void editStudy(const Study&) {}
+    virtual void addStudy(Study&);
+    virtual void deleteStudy(Study&);
+    virtual void editStudy(Study&);
 
     virtual Source type() const {return Other;}
     virtual QString path() const {return path_;}
@@ -78,11 +84,9 @@ protected:
     void readFromStream(QDataStream& in);
     void writeToStream(QDataStream& out);
 
-
     void load(QFile& file);
     void save(QFile& file);
 
-    typedef std::map<QString, Study>::const_iterator CI;
     std::map<QString, Study> catalog_;
 
 private:

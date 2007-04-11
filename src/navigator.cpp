@@ -209,7 +209,8 @@ void Navigator::unfilterStudies() {
 void Navigator::refreshCatalog() {
     catalogComboBox_->refresh();
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
-    tableListView_->load(catalogs_->currentCatalog()->filePath());
+//    tableListView_->load(catalogs_->currentCatalog()->filePath());
+    tableListView_->load(catalogs_->currentCatalog());
     // reapply filter if present
     if (tableListView_->filtered())
         processFilter();
@@ -223,7 +224,8 @@ void Navigator::regenerateCatalog() {
 
 void Navigator::changeCatalog() {
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
-    tableListView_->load(catalogs_->currentCatalog()->filePath());
+    tableListView_->load(catalogs_->currentCatalog());
+//    tableListView_->load(catalogs_->currentCatalog()->filePath());
     // reapply filter if present
     if (tableListView_->filtered())
         processFilter();

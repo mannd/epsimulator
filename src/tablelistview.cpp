@@ -17,7 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "tablelistview.h"
+#include "catalog.h"
 #include "options.h"
 
 #include <qdatastream.h>
@@ -99,37 +101,57 @@ void TableListView::showTable() {
     }
 }
 
+void TableListView::load(Catalog* catalog) {
+    clear();
+    Catalog::iterator it;
+    for (it = catalog->begin(); it != catalog->end(); ++it) {
+        Study study = (*it).second;
+        addStudy(&study);
+    }
+}
+    
 /**
  * Loads studies catalog file
  * @param fileName is name of file to be loaded.
  * @return false if catalog file can't be loaded for any reason
  */
-bool TableListView::load(const QString& fileName) {
-    // must clear list first
-    clear();
-    QFile file(fileName);
-    // create a studies file if it doesn't exist already
-    if (!file.exists()) 
-        if (!save(fileName))    // if you can't even do this, things are bad
-            return false;
-    if (!file.open(IO_ReadOnly)) {
-        ioError(file, tr("Cannot open file %1 for reading"));
-        return false;
+// bool TableListView::load(const QString& fileName) {
+//     // must clear list first
+//     clear();
+//     QFile file(fileName);
+//     // create a studies file if it doesn't exist already
+//     if (!file.exists()) 
+//         if (!save(fileName))    // if you can't even do this, things are bad
+//             return false;
+//     if (!file.open(IO_ReadOnly)) {
+//         ioError(file, tr("Cannot open file %1 for reading"));
+//         return false;
+//     }
+//     QDataStream in(&file);
+//     in.setVersion(5);
+//     Q_UINT32 magic;
+//     in >> magic;
+//     if (magic != MagicNumber) {
+//         error(file, tr("File %1 is not a EP Study file"));
+//         return false;
+//     }
+//     readFromStream(in);
+//     if (file.status() != IO_Ok) {
+//         ioError(file, tr("Error reading from file %1"));
+//         return false;
+//     }
+//     return true;
+// }
+
+void TableListView::save(Catalog* catalog) {
+    QListViewItemIterator it(this);
+    while (it.current()) {
+        QListViewItem* item = *it;
+        Study s = dynamic_cast<TableListViewItem*>(item)->study();
+        QString key = s.key();
+        (*catalog)[key] = s;
+        ++it;
     }
-    QDataStream in(&file);
-    in.setVersion(5);
-    Q_UINT32 magic;
-    in >> magic;
-    if (magic != MagicNumber) {
-        error(file, tr("File %1 is not a EP Study file"));
-        return false;
-    }
-    readFromStream(in);
-    if (file.status() != IO_Ok) {
-        ioError(file, tr("Error reading from file %1"));
-        return false;
-    }
-    return true;
 }
 
 bool TableListView::save(const QString& fileName) {
@@ -204,14 +226,14 @@ void TableListView::deleteStudy() {
 
 
 
-void TableListView::readFromStream(QDataStream& in) {
-    clear();
-    while (!in.atEnd()) {
-        Study study;
-        in >> study;
-        addStudy(&study);
-    }
-}
+// void TableListView::readFromStream(QDataStream& in) {
+//     clear();
+//     while (!in.atEnd()) {
+//         Study study;
+//         in >> study;
+//         addStudy(&study);
+//     }
+// }
 
 void TableListView::writeToStream(QDataStream& out) {
   QListViewItemIterator it(this);

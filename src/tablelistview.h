@@ -30,6 +30,7 @@
 #include <qlistview.h>
 #include <qstring.h>
 
+class Catalog;
 class Options;
 class QDataStream;
 class QDate;
@@ -50,7 +51,10 @@ class QStringList;
 
         bool filtered() const {return filtered_;}
 
-        bool load(const QString& fileName);
+        void load(Catalog*);
+        void save(Catalog*);
+
+ //       bool load(const QString& fileName);
         bool save(const QString& fileName);
         bool save(const QStringList& fileNames);
         void addStudy(const Study* study);
@@ -74,7 +78,7 @@ class QStringList;
         // first bytes of EP Simulator binary files
         enum {MagicNumber = 0x99c798f2};    
 
-        void readFromStream(QDataStream& in);
+//        void readFromStream(QDataStream& in);
         void writeToStream(QDataStream& out);
         void error(const QFile& file, const QString& message);
         void ioError(const QFile& file, const QString& message);
