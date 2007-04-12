@@ -48,20 +48,20 @@ class QDataStream;
 class Catalog {
 public:
     enum Source {Network, System, Optical, Other};
-    typedef std::map<QString, Study>::const_iterator iterator;
+    typedef std::map<QString, Study>::const_iterator Iterator;
 
     Catalog(const QString& path, const QString& fileName);
 
-    iterator begin() {return catalog_.begin();}
-    iterator end() {return catalog_.end();}
+    Iterator begin() {return catalog_.begin();}
+    Iterator end() {return catalog_.end();}
     Study& operator[](QString& key) {return catalog_[key];} 
 
-    virtual void refresh() {}
+    virtual void refresh();
     virtual void regenerate() {}
 
-    virtual void addStudy(Study&);
-    virtual void deleteStudy(Study&);
-    virtual void editStudy(Study&);
+    virtual void addStudy(Study*);
+    virtual void deleteStudy(Study*);
+    virtual void editStudy(Study*);
 
     virtual Source type() const {return Other;}
     virtual QString path() const {return path_;}
@@ -134,6 +134,11 @@ private:
 class Catalogs {
 public:
     Catalogs(Options* options);
+
+    // Functions below work on all active catalogs.
+    void addStudy(Study*);
+    void deleteStudy(Study*);
+    void replaceStudy(Study*);
     
     void refresh();
     void regenerate();
@@ -163,6 +168,7 @@ private:
     ///     it does not reflect what happens when catalogs are saved.
     QStringList filePaths_;
 
+    typedef std::map<Catalog::Source, Catalog*>::const_iterator Iterator;
     std::map<Catalog::Source, Catalog*> catalogs_;
 };
 

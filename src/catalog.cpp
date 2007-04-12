@@ -33,23 +33,29 @@
 
 Catalog::Catalog(const QString& path, 
                  const QString& fileName) : path_(path), fileName_(fileName) {
-        QFile f(filePath());
-        load(f);
+        refresh();
 }
 
 Catalog::~Catalog() {
+    QFile f(filePath());
+    save(f);
 }
 
-void Catalog::addStudy(Study& study) {
-    catalog_[study.key()] = study;
+ void Catalog::addStudy(Study* study) {
+    catalog_[study->key()] = *study;
 }
 
-void Catalog::deleteStudy(Study& study) {
-    catalog_.erase(study.key());
+void Catalog::deleteStudy(Study* study) {
+    catalog_.erase(study->key());
 }
 
-void Catalog::editStudy(Study& study) {
+void Catalog::editStudy(Study* study) {
     addStudy(study);
+}
+
+void Catalog::refresh() {
+    QFile f(filePath());
+    load(f);
 }
 
 void Catalog::load(QFile& file) {
@@ -95,19 +101,25 @@ void Catalog::readFromStream(QDataStream& in) {
 }
 
 void Catalog::writeToStream(QDataStream& out) {
-    for (iterator p = catalog_.begin(); p != catalog_.end(); ++p)
+    for (Iterator p = catalog_.begin(); p != catalog_.end(); ++p)
         out << p->second;
 }
-
-
 
 QString Catalog::filePath() const {
     return QDir::cleanDirPath(path_ + "/" + fileName_);
 }
 
+/// FIXME The Optical catalog doesn't necessarily use the straight options path,
+/// since an emulated optical disk has a different path.  This needs to be
+/// addressed in this ctor.  The path will depend on opticalDisk_ in Navigator.
 OpticalCatalog::OpticalCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
 }
+
+// void OpticalCatalog::addStudy(Study* study) {
+//     
+// 
+// }
 
 SystemCatalog::SystemCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
@@ -117,6 +129,12 @@ NetworkCatalog::NetworkCatalog(const QString& path,
                  const QString& fileName) : Catalog(path, fileName){
 }
 
+
+/**
+ * Catalogs constructor.  Catalogs keeps all the catalogs, keeps track of
+ * the current catalog, and initializes them all from their file paths.
+ * @param options = Pointer to Epsim Options.
+ */
 Catalogs::Catalogs(Options* options) {
     QString fileName = options->catalogFileName();
     networkCatalog_ = new NetworkCatalog(options->networkStudyPath(), fileName);
@@ -154,9 +172,20 @@ void Catalogs::setCurrentCatalog(Catalog::Source catalog) {
     currentCatalog_ = catalogs_[catalog];
 }
 
+void Catalogs::addStudy(Study* study) {
+    for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+        (*it).second->addStudy(study);
+}
+
+void Catalogs::deleteStudy(Study* study) {
+    for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+        (*it).second->deleteStudy(study);
+}
 
 
 void Catalogs::refresh() {
+   for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+        (*it).second->refresh();
 }
 
 void Catalogs::regenerate() {

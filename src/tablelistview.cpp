@@ -32,11 +32,10 @@
 
 /**
  * Constructor for TableListViewItem subclass of Navigator
- * @param parent 
- * @param study 
- * @param label1  etc.
+ * @param parent = TableListView. 
+ * @param study = Study associated with this row of the TableListView.
+ * @param label1  etc. = Study fields, depending on OldStyleNavigator option.
  */
-
 TableListViewItem::TableListViewItem(TableListView* parent, 
 						const Study& study,
 						QString label1, 
@@ -56,6 +55,14 @@ TableListViewItem::TableListViewItem(TableListView* parent,
 TableListViewItem::~TableListViewItem() {
 }
 
+
+/**
+ * Constructor for TableListView.
+ * @param parent = owned by horizontalSplitter_ in Navigator.
+ * @param options = Options Singleton, passed throughout the program.
+ * This sets up the columns according to OldStyleNavigator, 
+ * does not populate the table. 
+*/
 TableListView::TableListView(QWidget* parent, Options* options) 
     : QListView(parent), filtered_(false), options_(options) {
     bool oldStyle = options_->oldStyleNavigator();
@@ -68,6 +75,12 @@ TableListView::TableListView(QWidget* parent, Options* options)
 TableListView::~TableListView() {
 }
 
+/**
+ * Sets up the columns according to oldStyle.
+ * @param oldStyle = options->oldStyleNavigator().
+ * @param clearTable = true if you need to change a prexisting table.
+ *                     This is always true except in the constructor.
+ */
 void TableListView::adjustColumns(bool oldStyle, bool clearTable) {
     if (clearTable) {
         int numCols = columns();
@@ -91,6 +104,10 @@ void TableListView::adjustColumns(bool oldStyle, bool clearTable) {
     addColumn(tr("Location of Study")); // col 6 or 7
 }
 
+/**
+ * Runs through the table and shows or hides each row depending on the 
+ * filtering in place.  Does not reload table from catalog.
+ */
 void TableListView::showTable() {
     QListViewItemIterator it(this);
     while (it.current()) {
@@ -101,48 +118,28 @@ void TableListView::showTable() {
     }
 }
 
+/**
+ * Clears the table and then fills it in with from the catalog.
+ * @param catalog = Catalog to use for this table.
+ */
 void TableListView::load(Catalog* catalog) {
     clear();
-    Catalog::iterator it;
+    Catalog::Iterator it;
     for (it = catalog->begin(); it != catalog->end(); ++it) {
         Study study = (*it).second;
         addStudy(&study);
     }
 }
-    
-/**
- * Loads studies catalog file
- * @param fileName is name of file to be loaded.
- * @return false if catalog file can't be loaded for any reason
- */
-// bool TableListView::load(const QString& fileName) {
-//     // must clear list first
-//     clear();
-//     QFile file(fileName);
-//     // create a studies file if it doesn't exist already
-//     if (!file.exists()) 
-//         if (!save(fileName))    // if you can't even do this, things are bad
-//             return false;
-//     if (!file.open(IO_ReadOnly)) {
-//         ioError(file, tr("Cannot open file %1 for reading"));
-//         return false;
-//     }
-//     QDataStream in(&file);
-//     in.setVersion(5);
-//     Q_UINT32 magic;
-//     in >> magic;
-//     if (magic != MagicNumber) {
-//         error(file, tr("File %1 is not a EP Study file"));
-//         return false;
-//     }
-//     readFromStream(in);
-//     if (file.status() != IO_Ok) {
-//         ioError(file, tr("Error reading from file %1"));
-//         return false;
-//     }
-//     return true;
-// }
 
+/**
+ * Saves the table to the catalog, replacing any items that have been
+ * modified with the modified item, and adding new items.  
+ * NB: does not remove any items.  Removed items from the TableListView
+ * must be specificaly deleted from the catalog, or will show up again.
+ *
+ * This function is called for each catalog when the TableListView is saved.
+ * @param catalog = Catalog to save to.
+ */
 void TableListView::save(Catalog* catalog) {
     QListViewItemIterator it(this);
     while (it.current()) {
@@ -223,17 +220,6 @@ void TableListView::deleteStudy() {
     delete item;
     showTable();
 }
-
-
-
-// void TableListView::readFromStream(QDataStream& in) {
-//     clear();
-//     while (!in.atEnd()) {
-//         Study study;
-//         in >> study;
-//         addStudy(&study);
-//     }
-// }
 
 void TableListView::writeToStream(QDataStream& out) {
   QListViewItemIterator it(this);

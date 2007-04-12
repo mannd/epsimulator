@@ -166,7 +166,8 @@ void Navigator::reports()  {
 }
 
 void Navigator::deleteStudy() {
-    if (tableListView_->selectedItem()) {
+    if (Study* study = getSelectedStudy()) {
+//    if (tableListView_->selectedItem()) {
     //if (QListViewItem* item = tableListView_->selectedItem()) {
         int ret = QMessageBox::warning(
             this, tr("Delete Study?"),
@@ -176,11 +177,13 @@ void Navigator::deleteStudy() {
             QMessageBox::No | QMessageBox::Default, // default is NO!
             QMessageBox::Cancel | QMessageBox::Escape);
         if (ret == QMessageBox::Yes) {
-            tableListView_->deleteStudy();
+            catalogs_->deleteStudy(study);
             removeStudyFromCatalogs();
             // delete item;
             deleteDataFiles();
+            tableListView_->deleteStudy();
         }
+        delete study;
     } 
     else 
         noStudySelectedError();
