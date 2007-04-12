@@ -126,6 +126,8 @@ public:
     void setLocation(const QString& location) {location_ = location;}
     void makePreregisterStudy() {config_ = "";}  // preregistered study has no config info
 
+    void resetKey() {key_ = "";}
+
 
     ~Study();
 

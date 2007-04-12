@@ -105,6 +105,12 @@
         <receiver>StudyConfigDialogBase</receiver>
         <slot>enableOkButton()</slot>
     </connection>
+    <connection>
+        <sender>configListBox</sender>
+        <signal>doubleClicked(QListBoxItem*)</signal>
+        <receiver>StudyConfigDialogBase</receiver>
+        <slot>accept()</slot>
+    </connection>
 </connections>
 <slots>
     <slot access="private">enableOkButton()</slot>

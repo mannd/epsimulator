@@ -104,14 +104,10 @@ void Navigator::newStudy() {
         StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
         if (studyConfigDialog->exec()) {
             study->setConfig(studyConfigDialog->config());
-        /// TODO study_ member probably not necessary
-        /// Just create the pointer on the fly and pass it around.
             if (getStudyInformation(study)) {
                 // we add the study to the catalog view directly
                 tableListView_->addStudy(study);
-        // write the study to the catalog now in case user decides to refresh later
-        //tableListView_->save(catalogs_->filePaths());*/
-                /// TODO update catalogs here. 
+                catalogs_->addStudy(study);
                 startStudy();
             }
         }
@@ -148,6 +144,7 @@ void Navigator::preregisterPatient() {
     if (getStudyInformation(study)) {
         tableListView_->addStudy(study);
         // write study to catalogs -- also called from newStudy
+        catalogs_->addStudy(study);
         /// FIXME if exception thrown study may not be deleted
         /// and there may be a memory leak.
     }
@@ -178,7 +175,6 @@ void Navigator::deleteStudy() {
             QMessageBox::Cancel | QMessageBox::Escape);
         if (ret == QMessageBox::Yes) {
             catalogs_->deleteStudy(study);
-            removeStudyFromCatalogs();
             // delete item;
             deleteDataFiles();
             tableListView_->deleteStudy();
@@ -187,9 +183,6 @@ void Navigator::deleteStudy() {
     } 
     else 
         noStudySelectedError();
-}
-
-void Navigator::removeStudyFromCatalogs() {
 }
 
 void Navigator::filterStudies() {
@@ -787,6 +780,8 @@ Study* Navigator::getNewStudy() {
         study->setDateTime(QDateTime::currentDateTime());
         // study number will be set to blank also.
         study->setNumber(QString::null);
+        // need a new key for a new study.
+        study->resetKey(); 
         return study;
     }
     else

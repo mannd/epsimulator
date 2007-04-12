@@ -37,8 +37,8 @@ Catalog::Catalog(const QString& path,
 }
 
 Catalog::~Catalog() {
-    QFile f(filePath());
-    save(f);
+/*    QFile f(filePath());
+    save(f);*/
 }
 
  void Catalog::addStudy(Study* study) {

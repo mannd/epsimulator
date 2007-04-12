@@ -120,7 +120,6 @@ private:
     Study* getSelectedStudy();
     Study* getNewStudy();   // returns selected study or a new study
     void addStudyToCatalogs();  // add study to appropriate catalogs
-    void removeStudyFromCatalogs(); // remove study from catalogs 
     void createDataFiles(); // make study data files on disk
     void deleteDataFiles(); // delete all study data on disk
     /// FIXME below are not needed, delete
