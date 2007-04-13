@@ -20,6 +20,7 @@
 
 #include "tablelistview.h"
 #include "catalog.h"
+#include "error.h"
 #include "options.h"
 
 #include <qdatastream.h>
@@ -28,7 +29,6 @@
 #include <qheader.h>
 #include <qmessagebox.h>
 #include <qregexp.h>
-#include <qstringlist.h>
 
 /**
  * Constructor for TableListViewItem subclass of Navigator
@@ -151,23 +151,6 @@ void TableListView::save(Catalog* catalog) {
     }
 }
 
-bool TableListView::save(const QString& fileName) {
-    QFile file(fileName);
-    if (!file.open(IO_WriteOnly)) {
-        ioError(file, tr("Cannot open file %1 for writing"));
-        return false;
-    }
-    QDataStream out(&file);
-    out.setVersion(5);
-    out << (Q_UINT32)MagicNumber;
-    writeToStream(out);
-    if (file.status() != IO_Ok) {
-        ioError(file, tr("Error writing to file %1"));
-        return false;
-    }
-    return true;
-}
-
 /// FIXME This is naive.  What happens when the catalog is saved?  Reading is easy:
 /// whatever Catalog is being viewed, just load that catalog.dat file.  What happens
 /// when a study is added, or edited?  The different catalog.dat files must be updated
@@ -183,13 +166,8 @@ bool TableListView::save(const QString& fileName) {
 ///             Network is updated.  Also deletions, moving recorded in Network.  Exported
 ///             study data to a network folder overrides the Optical data.  Thus, system
 ///             and Network can be out of sync.
-bool TableListView::save(const QStringList& fileNames) {
-    bool success = true;
-    for (QStringList::ConstIterator it = fileNames.begin(); it != fileNames.end(); ++it ) {
-        success = success && save(*it);
-    }
-    return success;
-}
+/// NOTE This function has been moved out of tablelistview to catalog.h
+
 
 void TableListView::addStudy(const Study* study) {
     if (options_->oldStyleNavigator()) {
@@ -221,23 +199,11 @@ void TableListView::deleteStudy() {
     showTable();
 }
 
-void TableListView::writeToStream(QDataStream& out) {
-  QListViewItemIterator it(this);
-  while (it.current()) {
-    QListViewItem* item = *it;
-    out << dynamic_cast<TableListViewItem*>(item)->study();
-    ++it;
-  }
-}
-
 void TableListView::exportCSV(const QString& fileName) {
     QFile file(fileName);
-    if (!file.exists()) 
-        save(fileName);
-    if (!file.open(IO_WriteOnly)) {
-        ioError(file, tr("Cannot open file %1 for writing"));
-        return;
-    }
+    if (!file.open(IO_WriteOnly)) 
+        throw EpSim::IoError(file.name(), 
+              tr("Cannot open file %1 for reading"));
     QTextStream out(&file);
     for (int i = 0; i < columns(); ++i) {
         out << '"' << columnText(i) << '"' << ',';
@@ -251,18 +217,9 @@ void TableListView::exportCSV(const QString& fileName) {
         out << '\n';
         ++it;
     }
-    if (file.status() != IO_Ok) {
-        ioError(file, tr("Error writing to file %1"));
-        return;
-    }
-}
-    
-void TableListView::error(const QFile& file, const QString& message) {
-    QMessageBox::warning(0, tr("EP Simulator"), message.arg(file.name()));
-}
-
-void TableListView::ioError(const QFile& file, const QString& message) {
-    error(file, message + ": " + file.errorString());
+    if (file.status() != IO_Ok) 
+        throw EpSim::IoError(file.name(), 
+              tr("Error reading from file %1"));
 }
 
 void TableListView::applyFilter( FilterStudyType filterStudyType,

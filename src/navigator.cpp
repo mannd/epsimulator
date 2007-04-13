@@ -267,7 +267,8 @@ void Navigator::login() {
         PasswordDialog* pwDialog = new PasswordDialog(options_,this);
         if (pwDialog->exec()) {
             userIsAdministrator_ = true;
-            statusBar_->updateUserLabel(userIsAdministrator_);
+            statusBar_->updateUserLabel(userIsAdministrator_,
+                                        options_->oldStyleNavigator());
             updateMenus();
         }
         delete pwDialog;
@@ -276,7 +277,8 @@ void Navigator::login() {
 
 void Navigator::logout() {
     userIsAdministrator_ = false;
-    statusBar_->updateUserLabel(userIsAdministrator_);
+    statusBar_->updateUserLabel(userIsAdministrator_,
+                                options_->oldStyleNavigator());
     updateMenus();
 }
 
@@ -385,6 +387,10 @@ void Navigator::simulatorSettings() {
             updateMenus();
             /// FIXME need to make below work
             tableListView_->adjustColumns(options_->oldStyleNavigator(), true);
+            // Need to do below to make sure user label
+            // matches Navigator style.
+            statusBar_->updateUserLabel(userIsAdministrator_,
+                                        options_->oldStyleNavigator());
             refreshCatalog();   // This repopulates the TableListView.
         }
         delete simDialog;
@@ -794,7 +800,6 @@ void Navigator::deleteDataFiles() {
 
 Navigator::~Navigator() {
     saveSettings();
-    tableListView_->save(catalogs_->filePaths());
     delete catalogs_;
     delete currentDisk_;
 }

@@ -37,8 +37,6 @@ Catalog::Catalog(const QString& path,
 }
 
 Catalog::~Catalog() {
-/*    QFile f(filePath());
-    save(f);*/
 }
 
  void Catalog::addStudy(Study* study) {
@@ -149,16 +147,6 @@ Catalogs::Catalogs(Options* options) {
         currentCatalog_ = networkCatalog_;
     else
         currentCatalog_ = systemCatalog_;
-    if (options->enableNetworkStorage())
-        appendFilePath(networkCatalog_->filePath());
-    appendFilePath(systemCatalog_->filePath());
-    appendFilePath(opticalCatalog_->filePath());
-    appendFilePath(otherCatalog_->filePath());
-}
-
-void Catalogs::appendFilePath(const QString& path) {
-    if (!path.isEmpty()) 
-        filePaths_.append(path);
 }
 
 void Catalogs::setCatalogPath(Catalog::Source catalog, const QString& path) {

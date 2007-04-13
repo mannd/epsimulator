@@ -36,7 +36,6 @@ class QDataStream;
 class QDate;
 class QFile;
 class QRegExp;
-class QStringList;
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -54,9 +53,6 @@ class QStringList;
         void load(Catalog*);
         void save(Catalog*);
 
- //       bool load(const QString& fileName);
-        bool save(const QString& fileName);
-        bool save(const QStringList& fileNames);
         void addStudy(const Study* study);
         void deleteStudy();
         void applyFilter(FilterStudyType filterStudyType,
@@ -72,17 +68,13 @@ class QStringList;
         void removeFilter();
         void showTable();
         void adjustColumns(bool oldStyle, bool clearTable = false);
+
         void exportCSV(const QString& fileName);
     
     private:
         // first bytes of EP Simulator binary files
         enum {MagicNumber = 0x99c798f2};    
 
-//        void readFromStream(QDataStream& in);
-        void writeToStream(QDataStream& out);
-        void error(const QFile& file, const QString& message);
-        void ioError(const QFile& file, const QString& message);
-        
         bool filtered_;
         Options* options_;  // copy of Navigator options_
 

@@ -23,7 +23,7 @@
 #include <qstring.h>
 
 StatusBar::StatusBar(const QString& catalogPath, QWidget *parent, 
-    bool oldStyle, const char *name) : QStatusBar(parent, name), oldStyle_(oldStyle) {
+    bool oldStyle, const char *name) : QStatusBar(parent, name) {
     messageLabel_ = new QLabel(tr("For Help, press F1"), this);
 
     /// Apparently getenv works in Windows too.
@@ -33,7 +33,7 @@ StatusBar::StatusBar(const QString& catalogPath, QWidget *parent,
 //         tr(" User: %1 ").arg(std::getenv("USER"));
     userLabel_ = new QLabel(this);
 //    userLabel_->setAlignment(AlignHCenter);
-    updateUserLabel(false);
+    updateUserLabel(false, oldStyle);
 
     sourceLabel_ = new QLabel(this);
 //    sourceLabel_->setAlignment(AlignHCenter);
@@ -66,8 +66,8 @@ void StatusBar::updateFilterLabel(bool filtered) {
     update();
 }
 
-void StatusBar::updateUserLabel(bool userIsAdministrator) {
-    QString user = oldStyle_ ? tr("EPSIMUSER") : std::getenv("USER");
+void StatusBar::updateUserLabel(bool userIsAdministrator, bool oldStyle) {
+    QString user = oldStyle ? tr("EPSIMUSER") : std::getenv("USER");
     user = userIsAdministrator ? tr("ADMINISTRATOR") : user;
     userLabel_->setText(tr(" User: %1 ").arg(user));
 //    userLabel_->setMinimumSize(userLabel_->sizeHint());

@@ -30,14 +30,13 @@
 
 #include "study.h"
 
-#include <qfile.h>
 #include <qstring.h>
-#include <qstringlist.h>
 
 #include <map>
 
 class Options;
 class QDataStream;
+class QFile;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -143,7 +142,6 @@ public:
     void refresh();
     void regenerate();
     Catalog* currentCatalog() const {return currentCatalog_;}
-    QStringList filePaths() const {return filePaths_;}
 
     void setCurrentCatalog(Catalog::Source catalog);
     void setCatalogPath(Catalog::Source catalog, const QString& path);
@@ -156,17 +154,12 @@ protected:
     Catalogs(Catalogs&);
 
 private:
-    void appendFilePath(const QString& path);
 
     Catalog* currentCatalog_;
     OpticalCatalog* opticalCatalog_;
     SystemCatalog* systemCatalog_;
     NetworkCatalog* networkCatalog_;
     Catalog* otherCatalog_;
-    /// FIXME the whole filePaths_ thing is broken:
-    ///     it does not reflect the actual paths,
-    ///     it does not reflect what happens when catalogs are saved.
-    QStringList filePaths_;
 
     typedef std::map<Catalog::Source, Catalog*>::const_iterator Iterator;
     std::map<Catalog::Source, Catalog*> catalogs_;
