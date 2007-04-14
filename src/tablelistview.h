@@ -41,73 +41,73 @@ class QRegExp;
 	@author David Mann <mannd@epstudiossoftware.com>
         TableListView lists studies from the catalogs in Navigator.
 */
-    class TableListView : public QListView {
-    public:
-        enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
+class TableListView : public QListView {
+public:
+    enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
 
-        TableListView(QWidget* parent, Options* options);
-        ~TableListView();
+    TableListView(QWidget* parent, Options* options);
+    ~TableListView();
 
-        bool filtered() const {return filtered_;}
+    bool filtered() const {return filtered_;}
 
-        void load(Catalog*);
-        void save(Catalog*);
+    void load(Catalog*);
+    void save(Catalog*);
 
-        void addStudy(const Study* study);
-        void deleteStudy();
-        void applyFilter(FilterStudyType filterStudyType,
-                         const QRegExp& lastName,
-                         const QRegExp& firstName,
-                         const QRegExp& mrn,
-                         const QRegExp& studyConfig,
-                         const QRegExp& studyNumber,
-                         const QRegExp& studyLocation,
-                         bool anyDate,
-                         const QDate& startDate,
-                         const QDate& endDate);
-        void removeFilter();
-        void showTable();
-        void adjustColumns(bool oldStyle, bool clearTable = false);
+    void addStudy(const Study* study);
+    void deleteStudy();
+    void applyFilter(FilterStudyType filterStudyType,
+                    const QRegExp& lastName,
+                    const QRegExp& firstName,
+                    const QRegExp& mrn,
+                    const QRegExp& studyConfig,
+                    const QRegExp& studyNumber,
+                    const QRegExp& studyLocation,
+                    bool anyDate,
+                    const QDate& startDate,
+                    const QDate& endDate);
+    void removeFilter();
+    void showTable();
+    void adjustColumns(bool oldStyle, bool clearTable = false);
 
-        void exportCSV(const QString& fileName);
-    
-    private:
-        // first bytes of EP Simulator binary files
-        enum {MagicNumber = 0x99c798f2};    
+    void exportCSV(const QString& fileName);
 
-        bool filtered_;
-        Options* options_;  // copy of Navigator options_
+private:
+    // first bytes of EP Simulator binary files
+    enum {MagicNumber = 0x99c798f2};    
 
-    }; // TableListView
+    bool filtered_;
+    Options* options_;  // copy of Navigator options_
 
-    class TableListViewItem : public QListViewItem {
+}; // TableListView
 
-    public:
-        TableListViewItem(TableListView* parent, const Study& study,
-                          int dateColumn,
-                          QString label1, 
-                          QString label2 = QString::null, 
-                          QString label3 = QString::null, 
-                          QString label4 = QString::null, 
-                          QString label5 = QString::null, 
-                          QString label6 = QString::null, 
-                          QString label7 = QString::null, 
-                          QString label8 = QString::null );
-        ~TableListViewItem();
+class TableListViewItem : public QListViewItem {
 
-       // reimplement compare to handle dates correctly.
-        int compare(QListViewItem* item, int column, bool ascending) const;
+public:
+    TableListViewItem(TableListView* parent, const Study& study,
+                    int dateColumn,
+                    QString label1, 
+                    QString label2 = QString::null, 
+                    QString label3 = QString::null, 
+                    QString label4 = QString::null, 
+                    QString label5 = QString::null, 
+                    QString label6 = QString::null, 
+                    QString label7 = QString::null, 
+                    QString label8 = QString::null );
+    ~TableListViewItem();
 
-        void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
+// reimplement compare to handle dates correctly.
+    int compare(QListViewItem* item, int column, bool ascending) const;
 
-        // below can't return reference
-        Study study() {return study_;}
-        bool filteredOut() const {return filteredOut_;}
+    void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
 
-    private:
-        Study study_;
-        int dateColumn_;    // depends on oldStyleNavigator() option
-        bool filteredOut_;
-    }; // TableListViewItem
+    // below can't return reference
+    Study study() {return study_;}
+    bool filteredOut() const {return filteredOut_;}
+
+private:
+    Study study_;
+    int dateColumn_;    // depends on oldStyleNavigator() option
+    bool filteredOut_;
+}; // TableListViewItem
 
 #endif
