@@ -84,6 +84,7 @@ class QRegExp;
 
     public:
         TableListViewItem(TableListView* parent, const Study& study,
+                          int dateColumn,
                           QString label1, 
                           QString label2 = QString::null, 
                           QString label3 = QString::null, 
@@ -94,6 +95,9 @@ class QRegExp;
                           QString label8 = QString::null );
         ~TableListViewItem();
 
+       // reimplement compare to handle dates correctly.
+        int compare(QListViewItem* item, int column, bool ascending) const;
+
         void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
 
         // below can't return reference
@@ -102,6 +106,7 @@ class QRegExp;
 
     private:
         Study study_;
+        int dateColumn_;    // depends on oldStyleNavigator() option
         bool filteredOut_;
     }; // TableListViewItem
 

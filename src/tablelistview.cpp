@@ -38,6 +38,7 @@
  */
 TableListViewItem::TableListViewItem(TableListView* parent, 
 						const Study& study,
+                                                int dateColumn,
 						QString label1, 
 						QString label2, 
 						QString label3,
@@ -47,8 +48,21 @@ TableListViewItem::TableListViewItem(TableListView* parent,
 						QString label7, 
 						QString label8 ) 
     : QListViewItem(parent, label1, label2, label3, label4, 
-		    label5, label6, label7, label8), study_(study), 
+		    label5, label6, label7, label8), study_(study),
+                    dateColumn_(dateColumn), 
                     filteredOut_(false) {
+}
+
+int TableListViewItem::compare(QListViewItem* item, int column,
+                           bool ascending) const {
+    if (column == dateColumn_) {
+        QDate d = QDate::fromString(text(dateColumn_), Qt::TextDate);
+        QDate e = QDate::fromString(item->text(dateColumn_), Qt::TextDate);
+        return e.daysTo(d);
+    }
+    else {
+        return QListViewItem::compare(item, column, ascending);
+    }
 }
 
 
@@ -69,11 +83,12 @@ TableListView::TableListView(QWidget* parent, Options* options)
     adjustColumns(oldStyle);
     setAllColumnsShowFocus(true);
     setShowSortIndicator(true);
-    setSortColumn(oldStyle ? 4 : 3);    // default sort is date/time
 }
 
 TableListView::~TableListView() {
 }
+
+
 
 /**
  * Sets up the columns according to oldStyle.
@@ -102,6 +117,8 @@ void TableListView::adjustColumns(bool oldStyle, bool clearTable) {
     addColumn(tr("Study Config"));      // col 4 or 5
     addColumn(tr("Study Number"));      // col 5 or 6
     addColumn(tr("Location of Study")); // col 6 or 7
+    setSortColumn(oldStyle ? 4 : 3);    // default sort is date/time
+    setSortOrder(Qt::Descending);       // most recent study first
 }
 
 /**
@@ -171,7 +188,7 @@ void TableListView::save(Catalog* catalog) {
 
 void TableListView::addStudy(const Study* study) {
     if (options_->oldStyleNavigator()) {
-        (void) new TableListViewItem(this, *study,
+        (void) new TableListViewItem(this, *study, 4,
         study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
         study->name().last,
         study->name().first,
@@ -182,7 +199,7 @@ void TableListView::addStudy(const Study* study) {
         study->location()); 
     }
     else {
-        (void) new TableListViewItem(this, *study,
+        (void) new TableListViewItem(this, *study, 3,
         study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
         study->name().fullName(true, true),
         study->mrn(),
