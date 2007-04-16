@@ -205,7 +205,6 @@ void Navigator::unfilterStudies() {
 void Navigator::refreshCatalog() {
     catalogComboBox_->refresh();
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
-//    tableListView_->load(catalogs_->currentCatalog()->filePath());
     tableListView_->load(catalogs_->currentCatalog());
     // reapply filter if present
     if (tableListView_->filtered())
@@ -221,7 +220,6 @@ void Navigator::regenerateCatalog() {
 void Navigator::changeCatalog() {
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
     tableListView_->load(catalogs_->currentCatalog());
-//    tableListView_->load(catalogs_->currentCatalog()->filePath());
     // reapply filter if present
     if (tableListView_->filtered())
         processFilter();
@@ -235,18 +233,7 @@ void Navigator::ejectDisk() {
     "Change Disk and select OK when done." );
     if (!currentDisk_->hasLabel())
         relabelDisk();
-    
-/// TODO something like below
-//     if (opticalDiskDrive_->changeDisk()) {
-//         //currentDisk_ = opticalDiskDrive_->loadedDisk();
 }
-/*
-    if (opticalDiskDrive_->setup()) {
-        if (opticalDiskDrive_->diskLoaded()) 
-            opticalDiskDrive_->eject(currentDisk_);
-        else
-            currentDisk_ = opticalDiskDrive_->load();
-*/
 
 void Navigator::relabelDisk() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
@@ -749,21 +736,12 @@ void Navigator::startStudy() {
 
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation(Study* study) {
-//    Study newStudy(study_);
     PatientDialog* patientDialog = new PatientDialog(this);
     patientDialog->setFields(study);
     if (patientDialog->exec()) {
         patientDialog->getFields(study);
-//        study_ = newStudy;
-        /// FIXME this depends on the catalogComboBox
-        //study_.setPath(options_->opticalStudyPath());
-        //study_.setFile(study_.fileName());
         if (!study->isPreregisterStudy()) 
             study->setLocation(currentDisk_->label());
-        /// FIXME this doesn't below here:
-/*        tableListView_->addStudy(study_);
-        // write the study to the catalog now in case user decides to refresh later
-        tableListView_->save(catalogs_->filePaths());*/
         return true;
     }
     return false;

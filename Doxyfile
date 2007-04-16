@@ -24,7 +24,7 @@ ABBREVIATE_BRIEF       = "The $name class" \
                          the
 ALWAYS_DETAILED_SEC    = NO
 INLINE_INHERITED_MEMB  = NO
-FULL_PATH_NAMES        = YES
+FULL_PATH_NAMES        = NO
 STRIP_FROM_PATH        = /home/mannd/
 STRIP_FROM_INC_PATH    = 
 SHORT_NAMES            = NO
@@ -80,8 +80,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = /home/mannd/dev/epsimulator/src \
-                         /home/mannd/dev/epsimulator/test
+INPUT                  = /home/mannd/dev/epsimulator/src
 FILE_PATTERNS          = *.c \
                          *.cc \
                          *.cxx \
@@ -132,7 +131,8 @@ RECURSIVE              = YES
 EXCLUDE                = test/*
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = moc_* \
-                         *base*
+                         *base* \
+                         qmake*
 EXAMPLE_PATH           = 
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = NO

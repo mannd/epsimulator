@@ -250,132 +250,155 @@ public:
 }
 
 
-//    void testGetSetPatientDialogDefaultStudies() {
-//        PatientDialog pd;
-//        Study s1, s2;
-//        pd.setFields(s1);
-//        pd.getFields(s2);
-//        testStudiesEqual(s1, s2);
-//    }
+   void testGetSetPatientDialogDefaultStudies() {
+        PatientDialog pd;
+        Study *s1 = new Study;
+        Study *s2 = new Study;
+        Name n = {"Doe", "John", "E"};
+        s1->setName(n);
+        pd.setFields(s1);
+        pd.getFields(s2);
+        TS_ASSERT(s1->key() != s2->key());
+        cout << "s1->key()=" << s1->key() << endl << "s2->key()=" << s2->key() << endl;
+        delete s1;
+        delete s2;
+   }
 
 
-        void testCatalogComboBox() {
-            CatalogComboBox* c = new CatalogComboBox;
-            Options* o = Options::instance();
-            bool originalEnableNetwork = o->enableNetworkStorage();
-            o->setEnableNetworkStorage(false);
-            // must refresh catalogcombobox after system options changed!
-            c->refresh();
-            TS_ASSERT(c->source() == Catalog::System);
-            TS_ASSERT(c->currentItem() == 0);   // there should be no Network
-            c->setSource(Catalog::Network);  // should not work because of above
-            TS_ASSERT(!o->enableNetworkStorage());
-            TS_ASSERT(c->currentItem() == 0);
-            TS_ASSERT(c->source() != Catalog::Network);
-            // should be System
-            o->setEnableNetworkStorage(true);
-            c->refresh();
-            TS_ASSERT(c->source() == Catalog::System);
-            c->setSource(Catalog::Network);
-            TS_ASSERT(c->source() == Catalog::Network);
-            c->setSource(Catalog::Optical);
-            TS_ASSERT(c->source() == Catalog::Optical);
-            c->setSource(Catalog::Other);
-            TS_ASSERT(c->source() == Catalog::Other);
-            c->setSource(Catalog::System);
-            TS_ASSERT(c->source() == Catalog::System);
-            // reset options
-            o->setEnableNetworkStorage(originalEnableNetwork);
-            delete c;
-        }
-
-void testCatalog() {
-    Options* o = Options::instance();
-    TS_ASSERT(o->catalogFileName() == "catalog.dat");
-    Catalog c("../System", "catalog.dat");
-    TS_ASSERT(c.filePath() == "../System/catalog.dat");
-    c.setPath("/testpath/");
-    // make sure no duplicate backslashes
-    TS_ASSERT(c.filePath() == "/testpath/catalog.dat");
-    TS_ASSERT(c.type() == Catalog::Other);
-    // test Catalog subclasses
-    Catalog* cp = new OpticalCatalog("../System", "catalog.dat");
-    TS_ASSERT(cp->type() == Catalog::Optical);
-    cout << "catalog filepath" << cp->filePath() << std::endl;
-    delete cp;
-    cp = new NetworkCatalog("../System", "catalog.dat");
-    TS_ASSERT(cp->type() == Catalog::Network);
-    delete cp;
-    cp = new SystemCatalog("../System", "catalog.dat");
-    TS_ASSERT(cp->type() == Catalog::System);
-    delete cp;
-}
-
-void testCatalogs() {
-    Options* o = Options::instance();
-    Catalogs* c = new Catalogs(o);
-    c->setCurrentCatalog(Catalog::Optical);
-    TS_ASSERT(c->currentCatalog()->name() == "OpticalCatalog");
-    c->setCurrentCatalog(Catalog::System);
-    TS_ASSERT(c->currentCatalog()->name() == "SystemCatalog");
-    c->setCurrentCatalog(Catalog::Network);
-    TS_ASSERT(c->currentCatalog()->name() == "NetworkCatalog");
-    c->setCurrentCatalog(Catalog::Other);
-    TS_ASSERT(c->currentCatalog()->name() == "Catalog");
-    delete c;
-    Catalogs* c1 = new Catalogs(o);
-    c1->setCatalogPath(Catalog::Other, "/tmp/test");
-    c1->setCurrentCatalog(Catalog::Other);
-    TS_ASSERT(c1->currentCatalog()->path() == "/tmp/test");
-    delete c1;
-}
-
-void testPasswordDialog() {
-    Options* o = Options::instance();
-    PasswordDialog* d = new PasswordDialog(o);
-    // test consistency, will fail if line edit is giving gibberish
-    bool result1 = d->testPassword();
-    delete d;
-    PasswordDialog* d1 = new PasswordDialog(o);
-    bool result2 = d1->testPassword();
-    TS_ASSERT(result1 == result2);
-    // another consistency test
-    QString pw = "abcdefghi";
-    d1->setPassword(pw);
-    TS_ASSERT(!d1->testPassword());
-    // different password
-    d1->setPassword("nonsense");
-    TS_ASSERT(!d1->testPassword());
-    // need way to set password to do more testing
+    void testCatalogComboBox() {
+        CatalogComboBox* c = new CatalogComboBox;
+        Options* o = Options::instance();
+        bool originalEnableNetwork = o->enableNetworkStorage();
+        o->setEnableNetworkStorage(false);
+        // must refresh catalogcombobox after system options changed!
+        c->refresh();
+        TS_ASSERT(c->source() == Catalog::System);
+        TS_ASSERT(c->currentItem() == 0);   // there should be no Network
+        c->setSource(Catalog::Network);  // should not work because of above
+        TS_ASSERT(!o->enableNetworkStorage());
+        TS_ASSERT(c->currentItem() == 0);
+        TS_ASSERT(c->source() != Catalog::Network);
+        // should be System
+        o->setEnableNetworkStorage(true);
+        c->refresh();
+        TS_ASSERT(c->source() == Catalog::System);
+        c->setSource(Catalog::Network);
+        TS_ASSERT(c->source() == Catalog::Network);
+        c->setSource(Catalog::Optical);
+        TS_ASSERT(c->source() == Catalog::Optical);
+        c->setSource(Catalog::Other);
+        TS_ASSERT(c->source() == Catalog::Other);
+        c->setSource(Catalog::System);
+        TS_ASSERT(c->source() == Catalog::System);
+        // reset options
+        o->setEnableNetworkStorage(originalEnableNetwork);
+        delete c;
+    }
     
-    delete d1;
-}
-
-void testPasswordHandler() {
-    Options* o = Options::instance();
-    PasswordHandler* ph = new PasswordHandler(o);
-    QString s = "password1";
-    ph->setPassword(s);
-    TS_ASSERT(ph->testPassword(s));
-    // tests for non-zero password hash    
-    unsigned int hash = o->passwordHash().toUInt(); 
-    TS_ASSERT(hash != 0);
-    // restore blank password
-    ph->setPassword("");
-    TS_ASSERT(ph->testPassword(""));
-    // blank password results in hash of 0
-    hash = o->passwordHash().toUInt();
-    TS_ASSERT(hash == 0);
-    delete ph;
-}
-
-void testIoError() {
-    // garbage, nonexistent catalog path and file
-    TS_ASSERT_THROWS(Catalog c("/djdkfdjdkfjdk/ekekeke/", "dkjkfjekjee"), EpSim::IoError);
-    cout << "finished testIoError\n";
-    // should throw exception
-}
-
+    void testCatalog() {
+        Options* o = Options::instance();
+        TS_ASSERT(o->catalogFileName() == "catalog.dat");
+        Catalog c("../System", "catalog.dat");
+        TS_ASSERT(c.filePath() == "../System/catalog.dat");
+        c.setPath("/testpath/");
+        // make sure no duplicate backslashes
+        TS_ASSERT(c.filePath() == "/testpath/catalog.dat");
+        TS_ASSERT(c.type() == Catalog::Other);
+        // test Catalog subclasses
+        Catalog* cp = new OpticalCatalog("../System", "catalog.dat");
+        TS_ASSERT(cp->type() == Catalog::Optical);
+        cout << "catalog filepath" << cp->filePath() << std::endl;
+        delete cp;
+        cp = new NetworkCatalog("../System", "catalog.dat");
+        TS_ASSERT(cp->type() == Catalog::Network);
+        delete cp;
+        cp = new SystemCatalog("../System", "catalog.dat");
+        TS_ASSERT(cp->type() == Catalog::System);
+        delete cp;
+    }
+    
+    void testCatalogs() {
+        Options* o = Options::instance();
+        Catalogs* c = new Catalogs(o);
+        c->setCurrentCatalog(Catalog::Optical);
+        TS_ASSERT(c->currentCatalog()->name() == "OpticalCatalog");
+        c->setCurrentCatalog(Catalog::System);
+        TS_ASSERT(c->currentCatalog()->name() == "SystemCatalog");
+        c->setCurrentCatalog(Catalog::Network);
+        TS_ASSERT(c->currentCatalog()->name() == "NetworkCatalog");
+        c->setCurrentCatalog(Catalog::Other);
+        TS_ASSERT(c->currentCatalog()->name() == "Catalog");
+        delete c;
+        Catalogs* c1 = new Catalogs(o);
+        c1->setCatalogPath(Catalog::Other, "/tmp/test");
+        c1->setCurrentCatalog(Catalog::Other);
+        TS_ASSERT(c1->currentCatalog()->path() == "/tmp/test");
+        delete c1;
+    }
+    
+    void testPasswordDialog() {
+        Options* o = Options::instance();
+        PasswordDialog* d = new PasswordDialog(o);
+        // test consistency, will fail if line edit is giving gibberish
+        bool result1 = d->testPassword();
+        delete d;
+        PasswordDialog* d1 = new PasswordDialog(o);
+        bool result2 = d1->testPassword();
+        TS_ASSERT(result1 == result2);
+        // another consistency test
+        QString pw = "abcdefghi";
+        d1->setPassword(pw);
+        TS_ASSERT(!d1->testPassword());
+        // different password
+        d1->setPassword("nonsense");
+        TS_ASSERT(!d1->testPassword());
+        // need way to set password to do more testing
+        
+        delete d1;
+    }
+    
+    void testPasswordHandler() {
+        Options* o = Options::instance();
+        PasswordHandler* ph = new PasswordHandler(o);
+        QString s = "password1";
+        ph->setPassword(s);
+        TS_ASSERT(ph->testPassword(s));
+        // tests for non-zero password hash    
+        unsigned int hash = o->passwordHash().toUInt(); 
+        TS_ASSERT(hash != 0);
+        // restore blank password
+        ph->setPassword("");
+        TS_ASSERT(ph->testPassword(""));
+        // blank password results in hash of 0
+        hash = o->passwordHash().toUInt();
+        TS_ASSERT(hash == 0);
+        delete ph;
+    }
+    
+    void testIoError() {
+        // garbage, nonexistent catalog path and file
+        TS_ASSERT_THROWS(Catalog c("/djdkfdjdkfjdk/ekekeke/", "dkjkfjekjee"), EpSim::IoError);
+        cout << "finished testIoError\n";
+        // should throw exception
+    }
+    
+    void testCatalogAddStudy() {
+        Options* o = Options::instance();
+        Catalogs* cats = new Catalogs(o);
+        Study* s = new Study;
+        Name n = {"Doe", "John", "E"};
+        s->setName(n);
+        // key will be null unless there is a last name
+        QString key = s->key();
+        cout << "s->key()=" << s->key() << endl;
+        cats->addStudy(s);
+        Study s1 = (*cats->currentCatalog())[key];
+        TS_ASSERT(s1.key() == key);
+        cats->deleteStudy(s);
+        delete s;
+        delete cats;
+    }
+        
 
 private:
     void testStudyDefaults(Study& study) {
