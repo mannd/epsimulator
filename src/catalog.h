@@ -83,12 +83,16 @@ protected:
     void readFromStream(QDataStream& in);
     void writeToStream(QDataStream& out);
 
-    void load(QFile& file);
-    void save(QFile& file);
+    virtual void load();
+    virtual void save();
+
 
     std::map<QString, Study> catalog_;
 
-private:
+private:    
+    void loadFile(QFile& file);
+    void saveFile(QFile& file);
+
     QString path_;  // path to catalog file, excluding file name
     QString fileName_; // file name of catalog
 

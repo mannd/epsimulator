@@ -41,10 +41,12 @@ Catalog::~Catalog() {
 
  void Catalog::addStudy(Study* study) {
     catalog_[study->key()] = *study;
+    save();
 }
 
 void Catalog::deleteStudy(Study* study) {
     catalog_.erase(study->key());
+    save();
 }
 
 void Catalog::editStudy(Study* study) {
@@ -52,14 +54,23 @@ void Catalog::editStudy(Study* study) {
 }
 
 void Catalog::refresh() {
-    QFile f(filePath());
-    load(f);
+    load();
 }
 
-void Catalog::load(QFile& file) {
+void Catalog::load() {
+    QFile f(filePath());
+    loadFile(f);
+}
+
+void Catalog::save() {
+    QFile f(filePath());
+    saveFile(f);
+}
+
+void Catalog::loadFile(QFile& file) {
     // create a studies file if it doesn't exist already
     if (!file.exists()) 
-        save(file);
+        saveFile(file);
     if (!file.open(IO_ReadOnly)) 
         throw EpSim::IoError(file.name(), 
               QObject::tr("Cannot open file %1 for reading"));
@@ -76,7 +87,7 @@ void Catalog::load(QFile& file) {
               QObject::tr("Error reading from file %1"));
 }
 
-void Catalog::save(QFile& file) {
+void Catalog::saveFile(QFile& file) {
     if (!file.open(IO_WriteOnly)) 
         throw EpSim::IoError(file.name(), 
               QObject::tr("Cannot open file %1 for writing"));
