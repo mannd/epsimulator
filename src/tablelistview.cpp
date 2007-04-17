@@ -220,7 +220,7 @@ void TableListView::exportCSV(const QString& fileName) {
     QFile file(fileName);
     if (!file.open(IO_WriteOnly)) 
         throw EpSim::IoError(file.name(), 
-              tr("Cannot open file %1 for reading"));
+              tr("Cannot open file %1 for writing"));
     QTextStream out(&file);
     for (int i = 0; i < columns(); ++i) {
         out << '"' << columnText(i) << '"' << ',';
@@ -236,7 +236,7 @@ void TableListView::exportCSV(const QString& fileName) {
     }
     if (file.status() != IO_Ok) 
         throw EpSim::IoError(file.name(), 
-              tr("Error reading from file %1"));
+              tr("Error writing to file %1"));
 }
 
 void TableListView::applyFilter( FilterStudyType filterStudyType,

@@ -56,12 +56,8 @@ protected:
     // first bytes of label file
     enum {MagicNumber = 0x99c798f3};    
 
-    bool load(const QString& fileName);
-    bool save(const QString& fileName);
-
-    void error(const QFile& file, const QString& message);
-    void ioError(const QFile& file, const QString& message);
-
+    void load(const QString& fileName);
+    void save(const QString& fileName);
 
     QString label_;
     bool isTwoSided_;

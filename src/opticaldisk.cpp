@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "opticaldisk.h"
+#include "error.h"
 #include "settings.h"
 
 #include <qfile.h>
@@ -36,58 +37,41 @@ bool OpticalDisk::hasLabel() {
     return !label_.isEmpty();
 }
 
-
-bool OpticalDisk::load(const QString& fileName) {
+void OpticalDisk::load(const QString& fileName) {
     QFile file(fileName);
     // create a studies file if it doesn't exist already
     if (!file.exists()) 
-        if (!save(fileName))
-            return false;
-    if (!file.open(IO_ReadOnly)) {
-        ioError(file, QObject::tr("Cannot open file %1 for reading"));
-        return false;
-    }
+        save(fileName);
+    if (!file.open(IO_ReadOnly))
+        throw EpSim::IoError(file.name(),
+              QObject::tr("Cannot open file %1 for reading"));
     QDataStream in(&file);
     in.setVersion(5);
     Q_UINT32 magic;
     in >> magic;
-    if (magic != MagicNumber) {
-        error(file, QObject::tr("File %1 is not a EP Simulator file"));
-        return false;
-    }
+    if (magic != MagicNumber)
+        throw EpSim::IoError(file.name(),
+              QObject::tr("File %1 is not a EP Simulator file"));
     in >> label_;
-    if (file.status() != IO_Ok) {
-        ioError(file, QObject::tr("Error reading from file %1"));
-        return false;
-    }
-    return true;
+    if (file.status() != IO_Ok)
+        throw EpSim::IoError(file.name(),
+              QObject::tr("Error reading from file %1"));
 }
 
-bool OpticalDisk::save(const QString& fileName) {
+void OpticalDisk::save(const QString& fileName) {
     QFile file(fileName);
-    if (!file.open(IO_WriteOnly)) {
-        ioError(file, QObject::tr("Cannot open file %1 for writing"));
-        return false;
-    }
+    if (!file.open(IO_WriteOnly))
+        throw EpSim::IoError(file.name(),
+              QObject::tr("Cannot open file %1 for writing"));
     QDataStream out(&file);
     out.setVersion(5);
     out << (Q_UINT32)MagicNumber;
     out << label_;
-    if (file.status() != IO_Ok) {
-        ioError(file, QObject::tr("Error writing to file %1"));
-        return false;
-    }
-    return true;
+    if (file.status() != IO_Ok)
+        throw EpSim::IoError(file.name(),
+              QObject::tr("Error writing to file %1"));
+    file.close();
 }
-
-void OpticalDisk::error(const QFile& file, const QString& message) {
-    QMessageBox::warning(0, QObject::tr("EP Simulator"), message.arg(file.name()));
-}
-
-void OpticalDisk::ioError(const QFile& file, const QString& message) {
-    error(file, message + ": " + file.errorString());
-}
-
 
 void OpticalDisk::setLabel(const QString& label) {
     // write label to disk first   

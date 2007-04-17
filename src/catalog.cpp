@@ -87,6 +87,8 @@ void Catalog::save(QFile& file) {
     if (file.status() != IO_Ok) 
         throw EpSim::IoError(file.name(), 
               QObject::tr("Error writing to file %1"));
+    // must close the file so it can be reopened IO_ReadOnly
+    file.close();
 }
 
 void Catalog::readFromStream(QDataStream& in) {
