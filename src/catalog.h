@@ -104,6 +104,7 @@ public:
 
     virtual QString name() const {return "OpticalCatalog";}
     virtual Source type() const {return Optical;}
+    virtual void addStudy(Study*);
     virtual ~OpticalCatalog() {}
 
 private:

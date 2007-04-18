@@ -127,10 +127,11 @@ OpticalCatalog::OpticalCatalog(const QString& path,
                  const QString& fileName) : Catalog(path, fileName) {
 }
 
-// void OpticalCatalog::addStudy(Study* study) {
-//     
-// 
-// }
+void OpticalCatalog::addStudy(Study* study) {
+    // only add real studies to the optical drive
+    if (!study->isPreregisterStudy())
+        Catalog::addStudy(study);
+}
 
 SystemCatalog::SystemCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
