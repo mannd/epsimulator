@@ -154,3 +154,5 @@ Formatting for Doxygen
 We will prefer the @file, @param format to \file, \param.
 
 Note about Navigator problem.  Navigator tablelistview disappeared along with horizontal splitter and part of tool bar.  It was due to corruption of the epsimulatorrc file, a bad pointer was loaded from the file.
+
+BUG: if no network path in settings file, catalog still tries to load the network catalog, even if system options show there is no network storage, and this throws and exception.  Need to check out what is happening with catalogs when there is no network catalog.

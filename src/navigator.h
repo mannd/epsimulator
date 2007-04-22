@@ -119,6 +119,7 @@ private:
     bool getStudyInformation(Study*);
     Study* getSelectedStudy();
     Study* getNewStudy();   // returns selected study or a new study
+    QString studyPath(Study*);    // returns path to that study
     void addStudyToCatalogs();  // add study to appropriate catalogs
     void createDataFiles(); // make study data files on disk
     void deleteDataFiles(); // delete all study data on disk

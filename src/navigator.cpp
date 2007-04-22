@@ -729,9 +729,9 @@ void Navigator::startStudy() {
     // write study files
     // load study window
     ///TODO need to pass study_ to eps
- /*   
+    
     Epsimulator* eps = new Epsimulator(this);
-    eps->showMaximized();*/
+    eps->showMaximized();
 }
 
 // returns true if PatientDialog is saved, false if cancelled
@@ -771,6 +771,12 @@ Study* Navigator::getNewStudy() {
     else
         // Current date time already set with new study.
         return new Study;
+}
+
+QString Navigator::studyPath(Study* study) {
+    QString path = currentDisk_->path() + "/" + study->key();
+    path = QDir::cleanDirPath(path);
+    return path;
 }
 
 void Navigator::deleteDataFiles() {
