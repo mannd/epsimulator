@@ -31,6 +31,7 @@
 #include "catalogcombobox.h"
 #include "epsimdefs.h"
 #include "epsimulator.h"
+#include "error.h"
 #include "filtercatalog.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -358,8 +359,15 @@ void Navigator::exportCatalog() {
                                                 arg(fileName),
                                            tr("&Yes"), tr("&No"),
                                            QString::null, 1, 1);
-            if (ret == 0)
-                tableListView_->exportCSV(fd->selectedFile());
+            if (ret == 0) {
+                try {
+                    tableListView_->exportCSV(fd->selectedFile());
+                }
+                catch (EpSim::IoError ioError) {
+                    QMessageBox::warning(this, tr("Error"),
+                                         ioError.message.arg(ioError.fileName));
+                }
+            }
         }
     }
     delete fd;

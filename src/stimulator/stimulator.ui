@@ -15,49 +15,6 @@
     <property name="caption">
         <string>Stimulator</string>
     </property>
-    <widget class="QButtonGroup">
-        <property name="name">
-            <cstring>buttonGroup1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>30</x>
-                <y>20</y>
-                <width>173</width>
-                <height>84</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string></string>
-        </property>
-        <grid>
-            <property name="name">
-                <cstring>unnamed</cstring>
-            </property>
-            <widget class="QRadioButton" row="1" column="0">
-                <property name="name">
-                    <cstring>radioButton2</cstring>
-                </property>
-                <property name="text">
-                    <string>Sense Internal</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-            </widget>
-            <widget class="QRadioButton" row="0" column="0">
-                <property name="name">
-                    <cstring>radioButton1</cstring>
-                </property>
-                <property name="text">
-                    <string>Sense E&amp;xternal</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+X</string>
-                </property>
-            </widget>
-        </grid>
-    </widget>
     <widget class="QLabel">
         <property name="name">
             <cstring>textLabel5</cstring>
@@ -318,6 +275,65 @@
             </widget>
         </grid>
     </widget>
+    <widget class="QButtonGroup">
+        <property name="name">
+            <cstring>buttonGroup1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>30</x>
+                <y>70</y>
+                <width>173</width>
+                <height>84</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string></string>
+        </property>
+        <grid>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <widget class="QRadioButton" row="1" column="0">
+                <property name="name">
+                    <cstring>radioButton2</cstring>
+                </property>
+                <property name="text">
+                    <string>Sense Internal</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QRadioButton" row="0" column="0">
+                <property name="name">
+                    <cstring>radioButton1</cstring>
+                </property>
+                <property name="text">
+                    <string>Sense E&amp;xternal</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+X</string>
+                </property>
+            </widget>
+        </grid>
+    </widget>
+    <widget class="KLed">
+        <property name="name">
+            <cstring>kLed1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>40</x>
+                <y>20</y>
+                <width>20</width>
+                <height>20</height>
+            </rect>
+        </property>
+    </widget>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kled.h</includehint>
+</includehints>
 </UI>
