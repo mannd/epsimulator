@@ -237,6 +237,7 @@ void TableListView::exportCSV(const QString& fileName) {
     if (file.status() != IO_Ok) 
         throw EpSim::IoError(file.name(), 
               tr("Error writing to file %1"));
+    file.close();
 }
 
 void TableListView::applyFilter( FilterStudyType filterStudyType,

@@ -43,6 +43,7 @@
 #include "statusbar.h"
 #include "study.h"
 #include "studyconfigdialog.h"
+#include "studycopywizard.h"
 #include "systemdialog.h"
 #include "tablelistview.h"
 
@@ -161,6 +162,24 @@ void Navigator::reports()  {
     else
         noStudySelectedError();
     delete study;
+}
+
+void Navigator::copyStudy() {
+    StudyCopyWizard* wizard = new StudyCopyWizard(this);
+    if (wizard->exec())
+        // do something
+        ;
+    delete wizard;
+}
+
+void Navigator::moveStudy() {
+    if (administrationAllowed()) {
+        StudyMoveWizard* wizard = new StudyMoveWizard(this);
+        if (wizard->exec())
+            // do something
+            ;
+        delete wizard;
+    }
 }
 
 void Navigator::deleteStudy() {
@@ -501,7 +520,9 @@ void Navigator::createActions() {
     setupAction(reportsAct_, "Procedure reports", SLOT(reports()), 
                 "hi32-reports.png" );
     copyAct_= new QAction(tr("Copy..."), 0, this);
-    setupAction(copyAct_, "Copy study", 0);
+    setupAction(copyAct_, "Copy study", SLOT(copyStudy()));
+    moveAct_ = new QAction(tr("Move..."), 0, this);
+    setupAction(moveAct_, "Move study", SLOT(moveStudy()));
     deleteAct_= new QAction(tr("Delete..."), 0, this);
     setupAction(deleteAct_, "Delete study", SLOT(deleteStudy()));
     exportAct_ = new QAction(tr("Export..."), 0, this);
@@ -609,6 +630,7 @@ void Navigator::createMenus() {
     reportsAct_->addTo(studyMenu_);
     studyMenu_->insertSeparator();
     copyAct_->addTo(studyMenu_);
+    moveAct_->addTo(studyMenu_);
     deleteAct_->addTo(studyMenu_);
     exportAct_->addTo(studyMenu_);
     studyMenu_->insertSeparator();

@@ -1,0 +1,247 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>StudyCopyWizardBase</class>
+<widget class="QWizard">
+    <property name="name">
+        <cstring>StudyCopyWizardBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>817</width>
+            <height>624</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Study Copy Wizard</string>
+    </property>
+    <widget class="QWidget">
+        <property name="name">
+            <cstring>Page0</cstring>
+        </property>
+        <attribute name="title">
+            <string></string>
+        </attribute>
+        <grid>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <widget class="QLabel" row="0" column="0">
+                <property name="name">
+                    <cstring>textLabel7</cstring>
+                </property>
+                <property name="text">
+                    <string>This wizard will enable you to copy patient studies from one location to another.&lt;br&gt;&lt;br&gt;
+
+
+You will need to provide the location of the source and destination folders to complete the copy.&lt;br&gt;&lt;br&gt;
+
+
+Please click Next to continue.</string>
+                </property>
+            </widget>
+        </grid>
+    </widget>
+    <widget class="QWidget">
+        <property name="name">
+            <cstring>Page1</cstring>
+        </property>
+        <attribute name="title">
+            <string></string>
+        </attribute>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout8</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>10</y>
+                    <width>770</width>
+                    <height>520</height>
+                </rect>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget" row="0" column="0">
+                    <property name="name">
+                        <cstring>layout5</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>1) Select where you would like to copy the studies from</string>
+                            </property>
+                        </widget>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>layout3</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>textLabel2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Source:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>sourceLineEdit</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton">
+                                    <property name="name">
+                                        <cstring>browseSourceButton</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>&amp;Browse...</string>
+                                    </property>
+                                    <property name="accel">
+                                        <string>Alt+B</string>
+                                    </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget" row="1" column="0">
+                    <property name="name">
+                        <cstring>layout7</cstring>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QPushButton" row="1" column="0">
+                            <property name="name">
+                                <cstring>refreshButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Refresh List</string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+R</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                            <property name="name">
+                                <cstring>textLabel3</cstring>
+                            </property>
+                            <property name="text">
+                                <string>2) Click 'Refresh List' and select from the available studies on &lt;br&gt;your source folder</string>
+                            </property>
+                            <property name="alignment">
+                                <set>WordBreak|AlignVCenter</set>
+                            </property>
+                        </widget>
+                        <spacer row="3" column="0">
+                            <property name="name">
+                                <cstring>spacer1</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Vertical</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QListBox" row="1" column="1" rowspan="3" colspan="1">
+                            <item>
+                                <property name="text">
+                                    <string>New Item</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>studiesListBox</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton" row="2" column="0">
+                            <property name="name">
+                                <cstring>selectAllButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Select All</string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+S</string>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QLayoutWidget" row="2" column="0">
+                    <property name="name">
+                        <cstring>layout6</cstring>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLayoutWidget" row="1" column="0">
+                            <property name="name">
+                                <cstring>layout2</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>textLabel6</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Destination:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>destinationLineEdit</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton">
+                                    <property name="name">
+                                        <cstring>browseDestinationButton</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>&amp;Browse...</string>
+                                    </property>
+                                    <property name="accel">
+                                        <string>Alt+B</string>
+                                    </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                        <widget class="QLabel" row="0" column="0">
+                            <property name="name">
+                                <cstring>textLabel5</cstring>
+                            </property>
+                            <property name="text">
+                                <string>3) Select your destination location and Click 'Copy'</string>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+            </grid>
+        </widget>
+    </widget>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

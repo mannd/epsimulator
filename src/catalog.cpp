@@ -85,6 +85,7 @@ void Catalog::loadFile(QFile& file) {
     if (file.status() != IO_Ok) 
         throw EpSim::IoError(file.name(), 
               QObject::tr("Error reading from file %1"));
+    file.close();
 }
 
 void Catalog::saveFile(QFile& file) {

@@ -10,7 +10,8 @@ FORMS += patientdialogbase.ui \
          disklabeldialogbase.ui \
          simulatorsettingsdialogbase.ui \
          passworddialogbase.ui \
-         changepassworddialogbase.ui 
+         changepassworddialogbase.ui \
+         studycopywizardbase.ui 
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 IMAGES += images/hi16-app-epsimulator.png \
@@ -54,7 +55,8 @@ HEADERS += epsimulator.h \
            GeneralHashFunctions.h \
            changepassworddialog.h \
            passwordhandler.h \
-           error.h 
+           error.h \
+           studycopywizard.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -78,7 +80,8 @@ SOURCES += epsimulator.cpp \
            passworddialog.cpp \
            GeneralHashFunctions.cpp \
            changepassworddialog.cpp \
-           passwordhandler.cpp 
+           passwordhandler.cpp \
+           studycopywizard.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

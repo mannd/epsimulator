@@ -61,6 +61,8 @@ private slots:
     void reviewStudy();
     void preregisterPatient();
     void reports();
+    void copyStudy();
+    void moveStudy();
     void deleteStudy();
     void filterStudies();
     void unfilterStudies();
@@ -156,6 +158,7 @@ private:
     QAction* preregisterAct_;
     QAction* reportsAct_;
     QAction* copyAct_;
+    QAction* moveAct_;
     QAction* deleteAct_;
     QAction* exportAct_;
     QAction* exitAct_;
