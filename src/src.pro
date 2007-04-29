@@ -10,8 +10,7 @@ FORMS += patientdialogbase.ui \
          disklabeldialogbase.ui \
          simulatorsettingsdialogbase.ui \
          passworddialogbase.ui \
-         changepassworddialogbase.ui \
-         studycopywizardbase.ui 
+         changepassworddialogbase.ui 
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 IMAGES += images/hi16-app-epsimulator.png \

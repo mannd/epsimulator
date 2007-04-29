@@ -27,6 +27,7 @@ class QGridLayout;
 class QLabel;
 class QPushButton;
 class QString;
+class test;
 
 /**
 This is the vertical blue button bar on the left of the navigator window.
