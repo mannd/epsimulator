@@ -117,7 +117,7 @@ private:
     void processFilter();
 
     // Study related
-    void startStudy();
+    void startStudy(Study*);
     bool getStudyInformation(Study*);
     Study* getSelectedStudy();
     Study* getNewStudy();   // returns selected study or a new study

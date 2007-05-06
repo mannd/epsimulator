@@ -134,6 +134,14 @@ void OpticalCatalog::addStudy(Study* study) {
         Catalog::addStudy(study);
 }
 
+void OpticalCatalog::regenerate() {
+    // open studies directory of the "opticaldisk"
+    // read each study into temp catalog
+    // if no errors replace catalog
+    // save catalog.dat file
+    // else display error, or throw error
+}
+
 SystemCatalog::SystemCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
 }
@@ -192,6 +200,9 @@ void Catalogs::refresh() {
 }
 
 void Catalogs::regenerate() {
+  for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+        (*it).second->regenerate();
+    
 }
 
 Catalogs::~ Catalogs() {

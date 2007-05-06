@@ -110,7 +110,7 @@ void Navigator::newStudy() {
                 // we add the study to the catalog view directly
                 tableListView_->addStudy(study);
                 catalogs_->addStudy(study);
-                startStudy();
+                startStudy(study);
             }
         }
         delete studyConfigDialog;
@@ -232,9 +232,8 @@ void Navigator::refreshCatalog() {
 }
 
 void Navigator::regenerateCatalog() {
-    ///TODO this will read through the studies in the directory 
-    /// and recreate the catalog.
-    /// ? filter has to be cleared for this to work.
+    catalogs_->regenerate();
+    refreshCatalog();
 }
 
 void Navigator::changeCatalog() {
@@ -748,20 +747,29 @@ void Navigator::processFilter() {
         statusBar_->updateFilterLabel(true);
         filterStudiesAct_->setEnabled(false);
         removeStudiesFilterAct_->setEnabled(true);
-        // also disallow refreshing while filtered
-//        refreshViewAct_->setEnabled(false);
-// only disallow regenerating when catalog is filtered
+        // only disallow regenerating when catalog is filtered
+        /// TODO This may not be necessary.  Catalog will be refreshed automatically
+        /// after it is regenerated.
         regenerateAct_->setEnabled(false);
 }
 
-void Navigator::startStudy() {
-    // write study to catalog
+void Navigator::startStudy(Study* s) {
     // write study files
+    QString studiesPath = currentDisk_->path() + "/studies";
+    QDir studiesDir(studiesPath);
+    if (!studiesDir.exists()) {
+        if (!studiesDir.mkdir(studiesPath))
+            throw EpSim::Error(tr("Cannot create Studies path"));
+    }
+    // write study.dat file
+    QFile studyFile(studiesPath + "/" + s->filePath());
+    // open study file
     // load study window
     ///TODO need to pass study_ to eps
     
     Epsimulator* eps = new Epsimulator(this);
     eps->showMaximized();
+    studyFile.close();
 }
 
 // returns true if PatientDialog is saved, false if cancelled

@@ -56,6 +56,8 @@ public:
     Study& operator[](QString& key) {return catalog_[key];} 
 
     virtual void refresh();
+    // be default, only optical catalog regenerates.
+    /// TODO But, might want to update the other catalogs as well...
     virtual void regenerate() {}
 
     virtual void addStudy(Study*);
@@ -105,6 +107,7 @@ public:
     virtual QString name() const {return "OpticalCatalog";}
     virtual Source type() const {return Optical;}
     virtual void addStudy(Study*);
+    virtual void regenerate();
     virtual ~OpticalCatalog() {}
 
 private:

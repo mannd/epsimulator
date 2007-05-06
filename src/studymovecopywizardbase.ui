@@ -1,8 +1,8 @@
 <!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>StudyCopyWizardBase</class>
+<class>StudyMoveCopyWizardBase</class>
 <widget class="QWizard">
     <property name="name">
-        <cstring>StudyCopyWizardBase</cstring>
+        <cstring>StudyMoveCopyWizardBase</cstring>
     </property>
     <property name="geometry">
         <rect>
