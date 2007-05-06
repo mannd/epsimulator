@@ -167,7 +167,12 @@ void Navigator::reports()  {
 void Navigator::copyStudy() {
     StudyCopyWizard* wizard = new StudyCopyWizard(this);
     if (wizard->exec())
-        // do something
+        // for each study in studiesList
+        //		copy study form source folder to destination folder
+        // 		throw something if any copy fails
+        // after successful copying, don't update catalog
+        // make a catalog.dat file in the destination folder
+        // data on source is not erased
         ;
     delete wizard;
 }
@@ -176,7 +181,13 @@ void Navigator::moveStudy() {
     if (administrationAllowed()) {
         StudyMoveWizard* wizard = new StudyMoveWizard(this);
         if (wizard->exec())
-            // do something
+        // for each study in studiesList
+        //		copy study form source folder to destination folder
+        // 		throw something if any copy fails
+        // after successful copying, 
+        // make a catalog.dat file in the destination folder
+        // now update system catalogs
+        // now erase data on source
             ;
         delete wizard;
     }

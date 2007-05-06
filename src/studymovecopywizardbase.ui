@@ -173,6 +173,9 @@ Please click Next to continue.</string>
                             <property name="name">
                                 <cstring>studiesListBox</cstring>
                             </property>
+                            <property name="selectionMode">
+                                <enum>Multi</enum>
+                            </property>
                         </widget>
                         <widget class="QPushButton" row="2" column="0">
                             <property name="name">
