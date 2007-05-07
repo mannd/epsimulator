@@ -48,7 +48,7 @@ public:
     virtual QString label();
     virtual bool isTwoSided() const {return isTwoSided_;}
     virtual QString side() const {return side_;}
-    virtual QString path() const {return path_;}
+    virtual QString path() const {return path_;}  
 
     virtual ~OpticalDisk();
 
@@ -56,10 +56,9 @@ protected:
     // first bytes of label file
     enum {MagicNumber = 0x99c798f3};    
 
-    void load(const QString& fileName);
-    void save(const QString& fileName);
+    QString load(const QString& fileName);
+    void save(const QString& fileName, const QString& label);
 
-    QString label_;
     bool isTwoSided_;
     QString side_;  // A or B
     // This is the name of the file specifying the disk label.
@@ -84,8 +83,13 @@ public:
 // // 
 // //    virtual QString label() const {}
 
+	virtual QString path();
+
 
     virtual ~EmulatedOpticalDisk();
+
+private:
+	QString diskName_;
 
 };
 

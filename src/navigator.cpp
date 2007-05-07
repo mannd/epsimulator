@@ -67,7 +67,7 @@
 #include <iostream> // for debugging
 #endif
 
-class QListViewItem;
+//class QListViewItem;
 
 /**
  * Navigator constructor
@@ -765,6 +765,7 @@ void Navigator::processFilter() {
 }
 
 void Navigator::startStudy(Study* s) {
+	/// TODO This has to be changed.  See doc/notes.
     // write study files
     QString studiesPath = currentDisk_->path() + "/studies";
     QDir studiesDir(studiesPath);
