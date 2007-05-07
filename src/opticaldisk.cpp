@@ -30,7 +30,7 @@
 const QString OpticalDisk::labelFileName_ = "label.dat";
 
 OpticalDisk::OpticalDisk(const QString& path, bool isTwoSided) 
-    : isTwoSided_(isTwoSided), path_(path) {
+    : isTwoSided_(isTwoSided), side_(QObject::tr("A")), path_(path) {
 }
 
 bool OpticalDisk::hasLabel() {
@@ -88,13 +88,13 @@ QString OpticalDisk::label() {
 
 void OpticalDisk::setSide(const QString& side) {
     if (!isTwoSided_)
-        side_ = QObject::QObject::tr("A");
-    else if (side == QObject::QObject::tr("A") || side == QObject::QObject::tr("a"))
-        side_ = QObject::QObject::tr("A");
-    else if (side == QObject::QObject::tr("B") || side == QObject::QObject::tr("b"))
-        side_ = QObject::QObject::tr("B");
+        side_ = QObject::tr("A");
+    else if (side == QObject::tr("A") || side == QObject::tr("a"))
+        side_ = QObject::tr("A");
+    else if (side == QObject::tr("B") || side == QObject::tr("b"))
+        side_ = QObject::tr("B");
     else
-        side_ = QObject::QObject::tr("A");
+        side_ = QObject::tr("A");
 }
 
 OpticalDisk::~OpticalDisk() {
@@ -108,7 +108,7 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
 }
 
 QString EmulatedOpticalDisk::path() {
-	return path_ + "/disks/" + side() + "/";
+	return path_ + "/disks/" + diskName_ + "/" + side();
 }
 
 EmulatedOpticalDisk::~EmulatedOpticalDisk() {

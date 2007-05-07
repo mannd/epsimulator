@@ -84,6 +84,7 @@ public:
 // //    virtual QString label() const {}
 
 	virtual QString path();
+	QString diskName() const {return diskName_;}
 
 
     virtual ~EmulatedOpticalDisk();

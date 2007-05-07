@@ -23,7 +23,8 @@ OBJECTS := 	$(OBJ_DIR)/study.o \
 		$(OBJ_DIR)/moc_passworddialogbase.o \
 		$(OBJ_DIR)/moc_passworddialog.o \
 		$(OBJ_DIR)/GeneralHashFunctions.o \
-		$(OBJ_DIR)/passwordhandler.o 
+		$(OBJ_DIR)/passwordhandler.o \
+		$(OBJ_DIR)/opticaldisk.o 
 
 vpath %.cpp ../src
 vpath %.h ../src

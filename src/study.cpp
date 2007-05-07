@@ -26,6 +26,7 @@
 #include <cassert> 
 #include <qdir.h>
 
+
 QDataStream& operator<<(QDataStream& out, const Name& name) {
     out << name.first << name.middle << name.last;
     return out;
@@ -82,6 +83,8 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
     study.ischemia_ = ischemia;
     return in;
 }
+
+const QString Study::studyFileName_ = "study.dat";
 
 /**
  *  Study ctor.  New Study is initialized to certain defaults.  

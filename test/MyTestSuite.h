@@ -27,6 +27,7 @@
 #include "study.h"
 #include "heart.h"
 #include "options.h"
+#include "opticaldisk.h"
 #include "patientdialog.h"
 #include "passworddialog.h"
 #include "passwordhandler.h"
@@ -398,6 +399,27 @@ public:
         delete s;
         delete cats;
     }
+    
+    void testStudyFileName() {
+    	Study s;
+    	TS_ASSERT(s.studyFileName() == "study.dat");
+    }
+    
+    void testEmulatedOpticalDisk() {
+    	Options* o = Options::instance();
+    	EmulatedOpticalDisk d(o->opticalStudyPath());
+    	cout << d.path();
+    	TS_ASSERT(d.path() == o->opticalStudyPath() + "/disks/"
+    		+ d.diskName() + "/" + d.side());
+    }
+    
+    void testOpticalDisk() {
+    	Options* o = Options::instance();
+    	OpticalDisk* d = new OpticalDisk(o->opticalStudyPath());
+    	TS_ASSERT(d->path() == o->opticalStudyPath());
+    	delete d;
+    }
+    	
         
 
 private:

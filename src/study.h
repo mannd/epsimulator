@@ -102,6 +102,7 @@ public:
                             // Preregistered study has no config
                             // Must disallow empty configs!
     QString location() const {return location_;}
+    QString studyFileName() const {return studyFileName_;}
 
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
@@ -164,6 +165,8 @@ private:
 
     QString key_;   // unique key for each study
     Heart *heart_;
+    
+    static const QString studyFileName_;
 };
 
 #endif
