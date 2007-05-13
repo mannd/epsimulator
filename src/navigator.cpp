@@ -257,12 +257,19 @@ void Navigator::changeCatalog() {
 }
 
 void Navigator::ejectDisk() {
-    currentDisk_->eject();  // Currently does nothing, 
-                            // is supposed to mechanically eject the disk.
-    QMessageBox::information( this, tr("Eject Disk"),
-    "Change Disk and select OK when done." );
-    if (!currentDisk_->hasLabel())
-        relabelDisk();
+    if (!options_->emulateOpticalDrive()) {
+        currentDisk_->eject();  // Currently does nothing, 
+                                // is supposed to mechanically eject the disk.
+        QMessageBox::information( this, tr("Eject Disk"),
+        "Change Disk and select OK when done." );
+        if (!currentDisk_->hasLabel())
+            relabelDisk();
+    }
+    else  { // emulated optical disk
+        // if disks subdirectory
+        
+
+    }
 }
 
 void Navigator::relabelDisk() {
@@ -394,7 +401,7 @@ void Navigator::exportCatalog() {
                 }
                 catch (EpSim::IoError ioError) {
                     QMessageBox::warning(this, tr("Error"),
-                                         ioError.message.arg(ioError.fileName));
+                        tr("Could not export Catalog to %1", ioError.fileName));
                 }
             }
         }
@@ -771,7 +778,7 @@ void Navigator::startStudy(Study* s) {
     QDir studiesDir(studiesPath);
     if (!studiesDir.exists()) {
         if (!studiesDir.mkdir(studiesPath))
-            throw EpSim::Error(tr("Cannot create Studies path"));
+            throw EpSim::Error(EpSim::OtherError);
     }
     // write study.dat file
     QFile studyFile(studiesPath + "/" + s->filePath());

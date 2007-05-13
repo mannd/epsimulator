@@ -22,14 +22,17 @@
 
 namespace EpSim {
 
+enum ErrorType {OpenReadFail, OpenWriteFail, ReadFail, WriteFail, 
+                WrongFileType, OtherError};
+
 struct Error {
-    QString message;
-    Error(QString m) : message(m) {}
+    ErrorType error;
+    Error(ErrorType e) : error(e) {}
 };
 
 struct IoError : public Error {
     QString fileName;
-    IoError(QString f, QString m) : Error(m), fileName(f) {}
+    IoError(QString f, ErrorType e) : Error(e), fileName(f) {}
 };
 
 }

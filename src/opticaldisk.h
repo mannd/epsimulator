@@ -48,7 +48,8 @@ public:
     virtual QString label();
     virtual bool isTwoSided() const {return isTwoSided_;}
     virtual QString side() const {return side_;}
-    virtual QString path() const {return path_;}  
+    virtual QString path() const {return path_;}
+    virtual QString filePath() const;
 
     virtual ~OpticalDisk();
 
@@ -83,8 +84,10 @@ public:
 // // 
 // //    virtual QString label() const {}
 
-	virtual QString path();
-	QString diskName() const {return diskName_;}
+    virtual QString path() const;
+    virtual QString filePath() const;
+
+    QString diskName() const {return diskName_;}
 
 
     virtual ~EmulatedOpticalDisk();

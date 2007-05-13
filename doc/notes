@@ -177,7 +177,22 @@ Study files
 	the same thing as the study label.  The diskName is generated when the
 	disk is first used.  It is disk_XXXXXXXX, where the XXs are the
 	date/time when it is created.  Within this diskName directory is the
-	label.dat, catalog.dat and data files.  
+	label.dat, catalog.dat and data files.  To account for 2 sided disks,
+	There are 1 or 2 directories within the disk_XXXXXXXX directory:
+	A/ or B/.  One-sided disks just use A/ and don't need a B/.  Having A/
+	present in all disks allows the user to change his mind and switch
+	from a one to two-sided emulated optical disk without losing data on
+	the first side.  If B/ is not present, it can be created at that
+	time.  If a user changes from 2 to 1 sided disks, he will be warned
+	that he will lose the 2nd side information (this is only fair).
+	Certainly users should not be changing disk emulation willy-nilly.
+	Thus, example diskpaths:
+
+	~/MyStudies/
+	/media/cdrom/
+	~/MyStudies/disks/disk_XXXXXXX/A/
+	~/MyStudies/disks/disk_XXXXXXX/B/
+	
 	
 	The data directory holds a directory for each study.  This directory
 	is /study_XXXXXXXX, where the X's are the key for the study.  Within
@@ -193,3 +208,10 @@ Study files
 	/(diskpath)/label.dat
 	/(diskpath)/data/
 	/(diskpath)/data/study_XXXXXXX/study.dat 
+
+	Using an emulated two-sided disk:
+
+	~/MyStudies/disks/disk_XXXXXXX/B/catalog.dat
+	~/MyStudies/disks/disk_XXXXXXX/A/data/study_XXXXXXXXXX/study.dat
+
+

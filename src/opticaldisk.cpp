@@ -33,9 +33,14 @@ OpticalDisk::OpticalDisk(const QString& path, bool isTwoSided)
     : isTwoSided_(isTwoSided), side_(QObject::tr("A")), path_(path) {
 }
 
+/// returns full file path of label data file, including file name itself
+QString OpticalDisk::filePath() const {
+    return path() + "/" + labelFileName_;
+}
+
 bool OpticalDisk::hasLabel() {
-    //label();
-    return !label().isEmpty();
+    QFile file(filePath());
+    return file.exists() && !label().isEmpty();
 }
 
 QString OpticalDisk::load(const QString& fileName) {
@@ -44,46 +49,42 @@ QString OpticalDisk::load(const QString& fileName) {
     if (!file.exists()) 
         save(fileName, "");
     if (!file.open(IO_ReadOnly))
-        throw EpSim::IoError(file.name(),
-              QObject::tr("Cannot open file %1 for reading"));
+        throw EpSim::IoError(file.name(), EpSim::OpenReadFail);
     QDataStream in(&file);
     in.setVersion(5);
     Q_UINT32 magic;
     in >> magic;
     if (magic != MagicNumber)
-        throw EpSim::IoError(file.name(),
-              QObject::tr("File %1 is not a EP Simulator file"));
+        throw EpSim::IoError(file.name(), EpSim::WrongFileType);
     QString label;
     in >> label;
     if (file.status() != IO_Ok)
-        throw EpSim::IoError(file.name(),
-              QObject::tr("Error reading from file %1"));
+        throw EpSim::IoError(file.name(), EpSim::ReadFail);
+    file.close();
     return label;
 }
 
 void OpticalDisk::save(const QString& fileName, const QString& label) {
     QFile file(fileName);
     if (!file.open(IO_WriteOnly))
-        throw EpSim::IoError(file.name(),
-              QObject::tr("Cannot open file %1 for writing"));
+        throw EpSim::IoError(file.name(), EpSim::OpenWriteFail);
     QDataStream out(&file);
     out.setVersion(5);
     out << (Q_UINT32)MagicNumber;
     out << label;
     if (file.status() != IO_Ok)
-        throw EpSim::IoError(file.name(),
-              QObject::tr("Error writing to file %1"));
+        throw EpSim::IoError(file.name(), EpSim::WriteFail);
     file.close();
 }
 
 void OpticalDisk::setLabel(const QString& label) {
     // write label to disk first   
     //label_ = label;
-    save(path() + "/" + labelFileName_, label);
+    save(filePath(), label);
 }
 
 QString OpticalDisk::label() {
-    return load(path() + "/" + labelFileName_);
+    return load(filePath());
 }
 
 void OpticalDisk::setSide(const QString& side) {
@@ -107,8 +108,12 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
    		"ddMMyyyyhhmmsszzz");    
 }
 
-QString EmulatedOpticalDisk::path() {
-	return path_ + "/disks/" + diskName_ + "/" + side();
+QString EmulatedOpticalDisk::filePath() const {
+    return path() + "/" + labelFileName_;
+}
+
+QString EmulatedOpticalDisk::path() const {
+    return path_ + "/disks/" + diskName_ + "/" + side();
 }
 
 EmulatedOpticalDisk::~EmulatedOpticalDisk() {

@@ -408,15 +408,20 @@ public:
     void testEmulatedOpticalDisk() {
     	Options* o = Options::instance();
     	EmulatedOpticalDisk d(o->opticalStudyPath());
-    	cout << d.path();
+    	cout << d.path() << endl;
     	TS_ASSERT(d.path() == o->opticalStudyPath() + "/disks/"
     		+ d.diskName() + "/" + d.side());
+        TS_ASSERT(d.filePath() == o->opticalStudyPath() + "/disks/"
+    		+ d.diskName() + "/" + d.side() + "/label.dat");
+        cout << "emulatedOpticalDisk filePath() = " << d.filePath()
+            << endl;
     }
     
     void testOpticalDisk() {
     	Options* o = Options::instance();
     	OpticalDisk* d = new OpticalDisk(o->opticalStudyPath());
     	TS_ASSERT(d->path() == o->opticalStudyPath());
+        TS_ASSERT(d->filePath() == d->path() + "/label.dat");
     	delete d;
     }
     	

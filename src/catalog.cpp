@@ -72,33 +72,28 @@ void Catalog::loadFile(QFile& file) {
     if (!file.exists()) 
         saveFile(file);
     if (!file.open(IO_ReadOnly)) 
-        throw EpSim::IoError(file.name(), 
-              QObject::tr("Cannot open file %1 for reading"));
+        throw EpSim::IoError(file.name(), EpSim::OpenReadFail);
     QDataStream in(&file);
     in.setVersion(5);
     Q_UINT32 magic;
     in >> magic;
     if (magic != MagicNumber) 
-        throw EpSim::IoError(file.name(), 
-              QObject::tr("File %1 is not a EP Study file"));
+        throw EpSim::IoError(file.name(), EpSim::WrongFileType);
     readFromStream(in);
     if (file.status() != IO_Ok) 
-        throw EpSim::IoError(file.name(), 
-              QObject::tr("Error reading from file %1"));
+        throw EpSim::IoError(file.name(), EpSim::ReadFail);
     file.close();
 }
 
 void Catalog::saveFile(QFile& file) {
     if (!file.open(IO_WriteOnly)) 
-        throw EpSim::IoError(file.name(), 
-              QObject::tr("Cannot open file %1 for writing"));
+        throw EpSim::IoError(file.name(), EpSim::OpenWriteFail);
     QDataStream out(&file);
     out.setVersion(5);
     out << (Q_UINT32)MagicNumber;
     writeToStream(out);
     if (file.status() != IO_Ok) 
-        throw EpSim::IoError(file.name(), 
-              QObject::tr("Error writing to file %1"));
+        throw EpSim::IoError(file.name(), EpSim::WriteFail);
     // must close the file so it can be reopened IO_ReadOnly
     file.close();
 }
