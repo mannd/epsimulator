@@ -57,6 +57,15 @@ void Catalog::refresh() {
     load();
 }
 
+void Catalog::relabel(const QString& oldLabel, const QString& newLabel) {
+    for (std::map<QString, Study>::iterator p = catalog_.begin(); 
+        p != catalog_.end(); ++p) {
+        if (p->second.location() == oldLabel)
+            p->second.setLocation(newLabel);
+    }
+    save();
+}
+
 void Catalog::load() {
     QFile f(filePath());
     loadFile(f);
@@ -137,6 +146,14 @@ void OpticalCatalog::regenerate() {
     // else display error, or throw error
 }
 
+void OpticalCatalog::relabel(const QString& oldLabel, const QString& newLabel) {
+    // all labels are set to new label in the optical catalog
+    for (std::map<QString, Study>::iterator p = catalog_.begin(); 
+    p != catalog_.end(); ++p)
+        p->second.setLocation(newLabel);
+    save();
+}
+
 SystemCatalog::SystemCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
 }
@@ -198,6 +215,11 @@ void Catalogs::regenerate() {
   for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->regenerate();
     
+}
+
+void Catalogs::relabel(const QString& oldLabel, const QString& newLabel) {
+      for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+        (*it).second->relabel(oldLabel, newLabel);
 }
 
 Catalogs::~ Catalogs() {

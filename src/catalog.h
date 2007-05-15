@@ -59,6 +59,7 @@ public:
     // be default, only optical catalog regenerates.
     /// TODO But, might want to update the other catalogs as well...
     virtual void regenerate() {}
+    virtual void relabel(const QString& oldLabel, const QString& newLabel);
 
     virtual void addStudy(Study*);
     virtual void deleteStudy(Study*);
@@ -108,6 +109,7 @@ public:
     virtual Source type() const {return Optical;}
     virtual void addStudy(Study*);
     virtual void regenerate();
+    virtual void relabel(const QString& oldLabel, const QString& newLabel);
     virtual ~OpticalCatalog() {}
 
 private:
@@ -149,6 +151,7 @@ public:
     
     void refresh();
     void regenerate();
+    void relabel(const QString& oldLabel, const QString& newLabel);
     Catalog* currentCatalog() const {return currentCatalog_;}
 
     void setCurrentCatalog(Catalog::Source catalog);

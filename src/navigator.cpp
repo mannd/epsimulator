@@ -274,7 +274,8 @@ void Navigator::ejectDisk() {
 
 void Navigator::relabelDisk() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
-    diskLabelDialog->setLabel(currentDisk_->label());
+    QString oldLabel = currentDisk_->label();
+    diskLabelDialog->setLabel(oldLabel);
     diskLabelDialog->enableSideButtons(currentDisk_->isTwoSided());
     if (currentDisk_->isTwoSided()) 
         diskLabelDialog->setSide(currentDisk_->side(), tr("A"));
@@ -282,6 +283,8 @@ void Navigator::relabelDisk() {
         currentDisk_->setLabel(diskLabelDialog->label());
         if (currentDisk_->isTwoSided())
             currentDisk_->setSide(tr(diskLabelDialog->side()));
+        catalogs_->relabel(oldLabel, currentDisk_->label());
+        refreshCatalog();
     }
     delete diskLabelDialog;
 }

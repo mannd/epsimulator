@@ -141,8 +141,8 @@ void TableListView::showTable() {
  */
 void TableListView::load(Catalog* catalog) {
     clear();
-    Catalog::Iterator it;
-    for (it = catalog->begin(); it != catalog->end(); ++it) {
+    for (Catalog::Iterator it = catalog->begin(); 
+        it != catalog->end(); ++it) {
         Study study = (*it).second;
         addStudy(&study);
     }

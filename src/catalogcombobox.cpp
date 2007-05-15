@@ -101,8 +101,8 @@ void CatalogComboBox::setBrowse(bool browse) {
 
 Catalog::Source CatalogComboBox::source() {
     int item = currentItem();
-    CatalogMap::iterator pos;
-    for (pos = sourceMap_.begin(); pos != sourceMap_.end(); ++pos) {
+    for (CatalogMap::const_iterator pos = sourceMap_.begin(); 
+        pos != sourceMap_.end(); ++pos) {
         if (pos->second == item) 
             return pos->first;
     }
