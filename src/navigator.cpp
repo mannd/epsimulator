@@ -77,7 +77,11 @@ Navigator::Navigator(QWidget* parent, const char* name)
                    options_(Options::instance()), filterCatalog_(0),
                    userIsAdministrator_(false) {
     catalogs_ = new Catalogs(options_);
-    currentDisk_ = new OpticalDisk(options_->opticalStudyPath());
+    /// TODO this depends on emulatedOpticalDisk setting...
+    /// Need to make label work with sides.  The location may not
+    /// be correct if a side is named.
+    currentDisk_ = new OpticalDisk(options_->opticalStudyPath(),
+                                   options_->emulateDualSidedDrive());
 
     createActions();
     createMenus();
@@ -261,7 +265,7 @@ void Navigator::ejectDisk() {
         currentDisk_->eject();  // Currently does nothing, 
                                 // is supposed to mechanically eject the disk.
         QMessageBox::information( this, tr("Eject Disk"),
-        "Change Disk and select OK when done." );
+        tr("Change Disk and select OK when done." ));
         if (!currentDisk_->hasLabel())
             relabelDisk();
     }
@@ -801,7 +805,9 @@ bool Navigator::getStudyInformation(Study* study) {
     if (patientDialog->exec()) {
         patientDialog->getFields(study);
         if (!study->isPreregisterStudy()) 
-            study->setLocation(currentDisk_->label());
+            study->setLocation(currentDisk_->label() + 
+                               (currentDisk_->isTwoSided() ?
+                               currentDisk_->side() : ""));
         return true;
     }
     return false;
