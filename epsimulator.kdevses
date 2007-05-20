@@ -1,31 +1,43 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="8" >
+ <DocsAndViews NumberOfDocuments="12" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/error.h" >
-   <View0 Encoding="" Type="Source" />
+   <View0 Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.h" >
-   <View0 Encoding="" line="0" Type="Source" />
+   <View0 Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.h" >
-   <View0 Encoding="" line="111" Type="Source" />
+   <View0 Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.h" >
-   <View0 Encoding="" Type="Source" />
+   <View0 Type="Source" />
   </Doc3>
   <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/options.h" >
-   <View0 Encoding="" Type="Source" />
+   <View0 Type="Source" />
   </Doc4>
   <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.cpp" >
-   <View0 Encoding="" line="154" Type="Source" />
+   <View0 Type="Source" />
   </Doc5>
   <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
-   <View0 Encoding="" line="143" Type="Source" />
+   <View0 Type="Source" />
   </Doc6>
   <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalogcombobox.cpp" >
-   <View0 Encoding="" line="104" Type="Source" />
+   <View0 line="104" Type="Source" />
   </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator.cpp" >
+   <View0 line="810" Type="Source" />
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/disklabeldialog.h" >
+   <View0 line="39" Type="Source" />
+  </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/opticaldisk.h" >
+   <View0 line="42" Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/opticaldisk.cpp" >
+   <View0 line="90" Type="Source" />
+  </Doc11>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -34,19 +46,14 @@
      <tracedExpressions/>
     </breakpoint0>
    </breakpointList>
-   <showInternalCommands value="0" />
   </kdevdebugger>
-  <kdevastyle>
-   <Extensions ext="*.cpp *.h,*.c *.h,*.cxx *.hxx,*.c++ *.h++,*.cc *.hh,*.C *.H,*.diff,*.inl,*.java,*.moc,*.patch,*.tlh,*.xpm" />
-   <AStyle IndentPreprocessors="0" FillCount="4" PadParenthesesOut="1" IndentNamespaces="1" IndentLabels="1" Fill="Tabs" MaxStatement="40" Brackets="Break" MinConditional="-1" IndentBrackets="0" PadParenthesesUn="1" BlockBreak="0" KeepStatements="1" KeepBlocks="1" BlockIfElse="0" IndentSwitches="1" PadOperators="0" FStyle="UserDefined" IndentCases="0" FillEmptyLines="0" BracketsCloseHeaders="0" BlockBreakAll="0" PadParenthesesIn="1" IndentClasses="1" IndentBlocks="0" FillForce="0" />
-  </kdevastyle>
   <kdevbookmarks>
    <bookmarks>
-    <bookmark url="/home/mannd/dev/epsimulator/src/opticaldisk.cpp" >
-     <mark line="110" />
-    </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
      <mark line="429" />
+    </bookmark>
+    <bookmark url="/home/mannd/dev/epsimulator/src/opticaldisk.cpp" >
+     <mark line="110" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/study.cpp" >
      <mark line="88" />
