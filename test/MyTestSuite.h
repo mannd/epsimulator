@@ -102,18 +102,11 @@ public:
     void testFilePath() {
         Study s;
         s.setPath("/home/");
-        s.setFile("/epfiles");
-        TS_ASSERT(s.filePath() == "/home/epfiles");
+        TS_ASSERT(s.filePath() == "/home/study.dat");
         cout << "filePath() = " << s.filePath() << '\n';
-        s.setPath("/home");
-        TS_ASSERT(s.filePath() == "/home/epfiles");
-        s.setFile("epfiles");
-        TS_ASSERT(s.filePath() == "/home/epfiles");
-        s.setPath("home");
-        TS_ASSERT(s.filePath() == "home/epfiles");
         s.setPath("");
-        s.setFile("epfiles");
-        TS_ASSERT(s.filePath() == "/epfiles");
+        TS_ASSERT(s.filePath() == "/study.dat");
+        TS_ASSERT(s.filePath() == "/" + s.studyFileName());
     }
 
     void testKey() {
@@ -403,6 +396,12 @@ public:
     void testStudyFileName() {
     	Study s;
     	TS_ASSERT(s.studyFileName() == "study.dat");
+        s.setPath("garbage");
+        Name n = {"Smith", "John", ""};
+        s.setName(n);
+        cout << "s.filePath() = " << s.filePath() << endl;
+        TS_ASSERT(s.filePath() == "garbage/study.dat");
+        
     }
     
     void testEmulatedOpticalDisk() {

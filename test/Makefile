@@ -29,7 +29,7 @@ OBJECTS := 	$(OBJ_DIR)/study.o \
 vpath %.cpp ../src
 vpath %.h ../src
 
-.PHONY: all test
+.PHONY: all test run
 all: test
 
 $(DEST_DIR)/runner: runner.cpp
@@ -40,6 +40,9 @@ runner.cpp: MyTestSuite.h
 	$(MAKE) ../bin/epsimulator
 	cxxtestgen.pl --gui=QtGui -o $@ $<
 
-test: $(DEST_DIR)/runner
+run: $(DEST_DIR)/runner
 	$(DEST_DIR)/runner -keep
 
+test: run
+	touch ../test/MyTestSuite.h
+	

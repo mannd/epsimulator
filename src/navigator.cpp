@@ -809,7 +809,6 @@ void Navigator::processFilter() {
 }
 
 void Navigator::startStudy(Study* s) {
-	/// TODO This has to be changed.  See doc/notes.
     // write study files
     QString studiesPath = currentDisk_->path() + "/studies";
     QDir studiesDir(studiesPath);
@@ -824,7 +823,8 @@ void Navigator::startStudy(Study* s) {
         if (!studyDir.mkdir(studyPath))
             throw EpSim::Error(EpSim::OtherError);
     }
-    QFile studyFile(studyPath + "/" + s->filePath());
+    s->setPath(studyPath);
+    QFile studyFile(s->filePath());
     //if (!studyFile
     // open study file
     // load study window

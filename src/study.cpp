@@ -220,9 +220,9 @@ inline void Study::testInvariant() const {
 ///TODO make sure this works under windows.  According to Qt documentation 
 /// should.  See QDir::covert()
 QString Study::filePath() {
-    if (! (path_.endsWith("/") || file_.startsWith("/")))
+    if (!(path_.endsWith("/") ))
         path_ += "/";
-    return QDir::cleanDirPath(path_ + file_);
+    return QDir::cleanDirPath(path_ + studyFileName_);
 }
 
 Study::~Study() {
