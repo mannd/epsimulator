@@ -80,8 +80,8 @@ Navigator::Navigator(QWidget* parent, const char* name)
     /// TODO this depends on emulatedOpticalDisk setting...
     /// Need to make label work with sides.  The location may not
     /// be correct if a side is named.
-    currentDisk_ = new OpticalDisk(options_->opticalStudyPath(),
-                                   options_->emulateDualSidedDrive());
+
+    createOpticalDrive();
 
     createActions();
     createMenus();
@@ -125,7 +125,14 @@ void Navigator::newStudy() {
 void Navigator::continueStudy() {
     Study* study = getSelectedStudy();
     if (study) {
-        /// TODO Rest of processing 
+        // if study not on this optical disk change disk and return
+        if (!studyOnDisk(study)) {
+            // need error message here, and then below if desired
+            // ditto for the other study procedures like this
+            ejectDisk();
+            return;
+        }
+        /// TODO Rest of processing
         ;
     }
     else
@@ -136,7 +143,12 @@ void Navigator::continueStudy() {
 void Navigator::reviewStudy() {
     Study* study = getSelectedStudy();
     if (study) {
-        /// TODO Rest of processing 
+        // if study not on this optical disk change disk and return
+        if (!studyOnDisk(study)) {
+            ejectDisk();
+            return;
+        }
+        /// TODO Rest of processing
         ;
     }
     else
@@ -160,7 +172,12 @@ void Navigator::preregisterPatient() {
 void Navigator::reports()  {
     Study* study = getSelectedStudy();
     if (study) {
-        /// TODO Rest of processing 
+        // if study not on this optical disk change disk and return
+        if (!studyOnDisk(study)) {
+            ejectDisk();
+            return;
+        }
+        /// TODO Rest of processing
         ;
     }
     else
@@ -430,6 +447,11 @@ void Navigator::simulatorSettings() {
             statusBar_->updateUserLabel(userIsAdministrator_,
                                         options_->oldStyleNavigator());
             refreshCatalog();   // This repopulates the TableListView.
+            // change type of optical disk if needed
+            delete currentDisk_;
+            createOpticalDrive();
+            /// TODO other effects of changing simulator settings below
+            
         }
         delete simDialog;
     }
@@ -463,6 +485,15 @@ void Navigator::about() {
 }
 
 // private
+
+void Navigator::createOpticalDrive() {
+    if (options_->emulateOpticalDrive())
+        currentDisk_ = new EmulatedOpticalDisk(options_->opticalStudyPath(),
+                                   options_->emulateDualSidedDrive());
+    else
+        currentDisk_ = new OpticalDisk(options_->opticalStudyPath(),
+                                   options_->emulateDualSidedDrive());
+}
 
 void Navigator::createCentralWidget() {
     createButtonFrame();
@@ -787,8 +818,15 @@ void Navigator::startStudy(Study* s) {
         if (!studiesDir.mkdir(studiesPath))
             throw EpSim::Error(EpSim::OtherError);
     }
-    // write study.dat file
-    QFile studyFile(studiesPath + "/" + s->filePath());
+    // create study directory and write study.dat file
+    QString studyPath = studiesPath + "/study_" + s->key();
+    QDir studyDir(studyPath);
+    if (!studyDir.exists()) {
+        if (!studyDir.mkdir(studyPath))
+            throw EpSim::Error(EpSim::OtherError);
+    }
+    QFile studyFile(studyPath + "/" + s->filePath());
+    //if (!studyFile
     // open study file
     // load study window
     ///TODO need to pass study_ to eps
@@ -841,11 +879,15 @@ Study* Navigator::getNewStudy() {
 
 QString Navigator::studyPath(Study* study) {
     QString path = currentDisk_->path() + "/" + study->key();
-    path = QDir::cleanDirPath(path);
-    return path;
+    return QDir::cleanDirPath(path);
 }
 
 void Navigator::deleteDataFiles() {
+}
+
+bool Navigator::studyOnDisk(const Study* s) const {
+    /// TODO this needs to find the studies file on the disk    
+    return false;
 }
 
 Navigator::~Navigator() {

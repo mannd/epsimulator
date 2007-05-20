@@ -424,8 +424,21 @@ public:
         TS_ASSERT(d->filePath() == d->path() + "/label.dat");
     	delete d;
     }
-    	
-        
+    
+    void testTranslatedSided() {
+        Options* o = Options::instance();
+        OpticalDisk* d = new OpticalDisk(o->opticalStudyPath());
+        d->setSide("A");
+        TS_ASSERT(d->translatedSide() == QObject::tr("A"));
+        d->setSide("B");
+        TS_ASSERT(d->translatedSide() == QObject::tr("B"));
+        delete d;
+        d = new EmulatedOpticalDisk(o->opticalStudyPath());
+        // make sure default side is A
+        TS_ASSERT(d->translatedSide() == QObject::tr("A"));
+        delete d;
+    }	
+
 
 private:
     void testStudyDefaults(Study& study) {

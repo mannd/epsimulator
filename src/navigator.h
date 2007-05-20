@@ -101,6 +101,7 @@ private slots:
 
 private:
     // Functions to set up the Navigator main window.
+    void createOpticalDrive();
     void createCentralWidget();
     void createButtonFrame();
     void createTableListView();
@@ -125,6 +126,7 @@ private:
     void addStudyToCatalogs();  // add study to appropriate catalogs
     void createDataFiles(); // make study data files on disk
     void deleteDataFiles(); // delete all study data on disk
+    bool studyOnDisk(const Study*) const; // make sure study is on current disk
     /// FIXME below are not needed, delete
 //     void deleteDataFile();  // delete data file associated with current study
 //     void createDataFile();  // create a data file for a new study

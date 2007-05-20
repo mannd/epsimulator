@@ -23,9 +23,13 @@
 #include "settings.h"
 
 #include <qdatetime.h>
+#include <qdir.h>
 #include <qfile.h>
 #include <qmessagebox.h>
 #include <qobject.h>
+
+// for debug
+#include <iostream>
 
 const QString OpticalDisk::labelFileName_ = "label.dat";
 
@@ -99,14 +103,51 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
     // Need some housekeeping to setup fake optical disk.
     diskName_ = "disk_" + QDateTime::currentDateTime().toString(
    		"ddMMyyyyhhmmsszzz");    
+    /// TODO must override load, save to create the file directory.
 }
 
 QString EmulatedOpticalDisk::filePath() const {
     return path() + "/" + labelFileName_;
 }
 
+/// returns path to /disks directory
+QString EmulatedOpticalDisk::disksPath() const {
+    return path_ + "/disks";
+}
+
+/// returns path to specific emulated disk without the side
+QString EmulatedOpticalDisk::diskPath() const {
+    return disksPath() + "/" + diskName_;
+}
+
+/// returns full path to the disk, including side
 QString EmulatedOpticalDisk::path() const {
-    return path_ + "/disks/" + diskName_ + "/" + side();
+    return diskPath() + "/" + side();
+}
+
+QString EmulatedOpticalDisk::load(const QString& fileName) {
+    // create /disks dir if not already present.  Better to do here than
+    // in constructor as can throw.
+    QDir disksDir(disksPath());
+    if (!disksDir.exists()) {
+        if (!disksDir.mkdir(disksPath()))
+            throw EpSim::Error(EpSim::OtherError);
+    }
+    // each directory must be created separately!
+    QDir diskDir(diskPath());
+    std::cout << "OpticalDisk diskpath = " << diskPath() << std::endl;
+    if (!diskDir.exists()) {
+        if (!diskDir.mkdir(diskPath()))
+            throw EpSim::Error(EpSim::OtherError);
+    }
+    QDir pathDir(path());
+    std::cout << "OpticalDisk path = " << path() << std::endl;
+    if (!pathDir.exists()) {
+        if (!pathDir.mkdir(path()))
+            throw EpSim::Error(EpSim::OtherError);
+    }
+
+    return OpticalDisk::load(fileName);
 }
 
 EmulatedOpticalDisk::~EmulatedOpticalDisk() {
