@@ -215,3 +215,10 @@ Study files
 	~/MyStudies/disks/disk_XXXXXXX/A/data/study_XXXXXXXXXX/study.dat
 
 
+TODO: extract common menu actions and make a concrete base class to hold them.  Derive the navigator, stimulator, recorder actions from this class.  e.g.
+    class Actions {};
+    class NavigatorActions : public Actions {};
+    class EpSimulatorActions : public Actions ();
+    etc.
+Actually it is better just to put the common actions in a struct, with public QAction data members.
+

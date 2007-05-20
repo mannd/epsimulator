@@ -24,6 +24,7 @@
  * and the central widget
  */
 
+#include "actions.h"
 #include "buttonframe.h"
 #include "catalog.h"
 #include "changepassworddialog.h"
@@ -475,13 +476,11 @@ void Navigator::systemSettings() {
 }
 
 void Navigator::help() {
-    QMessageBox::information(this, tr("%1 Help").arg(PROGRAM_NAME),
-        tr("Help is available from www.epstudiossoftware.com"),
-        QMessageBox::Ok);
+    actions_.help(this);
 }
 
 void Navigator::about() {
-    Epsimulator::about(this);
+    actions_.about(this);
 }
 
 // private

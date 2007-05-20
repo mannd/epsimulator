@@ -57,7 +57,8 @@ HEADERS += epsimulator.h \
            changepassworddialog.h \
            passwordhandler.h \
            error.h \
-           studycopywizard.h 
+           studycopywizard.h  \
+           actions.h
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -82,7 +83,8 @@ SOURCES += epsimulator.cpp \
            GeneralHashFunctions.cpp \
            changepassworddialog.cpp \
            passwordhandler.cpp \
-           studycopywizard.cpp 
+           studycopywizard.cpp  \
+           actions.cpp
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

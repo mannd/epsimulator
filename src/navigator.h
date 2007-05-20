@@ -26,7 +26,9 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
- #include <qmainwindow.h>
+#include "actions.h"
+
+#include <qmainwindow.h>
 
 class Catalog;
 class Catalogs;
@@ -153,6 +155,8 @@ private:
     QSplitter* horizontalSplitter_;
     TableListView* tableListView_;
 
+    // Actions
+    Actions actions_;
     // Study menu
     QAction* newAct_;
     QAction* continueAct_;
