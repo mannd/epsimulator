@@ -42,8 +42,8 @@ void DiskLabelDialog::setLabel(const QString& label) {
     diskLabelLineEdit->setText(label);
 }
 
-void DiskLabelDialog::setSide(const QString& side, const QString& sideA) {
-    if (side == sideA)
+void DiskLabelDialog::setSide(const QString& side) {
+    if (side == "A")
         sideAButton->setChecked(true);
     else
         sideBButton->setChecked(true);

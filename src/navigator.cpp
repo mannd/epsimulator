@@ -282,11 +282,11 @@ void Navigator::relabelDisk() {
     diskLabelDialog->setLabel(oldLabel);
     diskLabelDialog->enableSideButtons(currentDisk_->isTwoSided());
     if (currentDisk_->isTwoSided()) 
-        diskLabelDialog->setSide(currentDisk_->side(), tr("A"));
+        diskLabelDialog->setSide(currentDisk_->side());
     if (diskLabelDialog->exec()) {
         currentDisk_->setLabel(diskLabelDialog->label());
         if (currentDisk_->isTwoSided())
-            currentDisk_->setSide(tr(diskLabelDialog->side()));
+            currentDisk_->setSide(diskLabelDialog->side());
         catalogs_->relabel(oldLabel, currentDisk_->label());
         refreshCatalog();
     }
@@ -807,7 +807,7 @@ bool Navigator::getStudyInformation(Study* study) {
         if (!study->isPreregisterStudy()) 
             study->setLocation(currentDisk_->label() + 
                                (currentDisk_->isTwoSided() ?
-                               currentDisk_->side() : ""));
+                               "-" + currentDisk_->translatedSide() : ""));
         return true;
     }
     return false;

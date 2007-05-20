@@ -40,7 +40,7 @@ public:
 
     virtual void setLabel(const QString& label);
 //    virtual void writeLabel(const QString& label);
-    virtual void setSide(const QString& side);
+    virtual void setSide(const QString& side) {side_ = side;}
     virtual void setIsTwoSided(bool isTwoSided) {isTwoSided_ = isTwoSided;}
 
     virtual bool hasLabel();
@@ -48,6 +48,7 @@ public:
     virtual QString label();
     virtual bool isTwoSided() const {return isTwoSided_;}
     virtual QString side() const {return side_;}
+    virtual QString translatedSide() const;
     virtual QString path() const {return path_;}
     virtual QString filePath() const;
 

@@ -87,15 +87,8 @@ QString OpticalDisk::label() {
     return load(filePath());
 }
 
-void OpticalDisk::setSide(const QString& side) {
-    if (!isTwoSided_)
-        side_ = QObject::tr("A");
-    else if (side == QObject::tr("A") || side == QObject::tr("a"))
-        side_ = QObject::tr("A");
-    else if (side == QObject::tr("B") || side == QObject::tr("b"))
-        side_ = QObject::tr("B");
-    else
-        side_ = QObject::tr("A");
+QString OpticalDisk::translatedSide() const {
+    return side_ == "A" ? QObject::tr("A") : QObject::tr("B");
 }
 
 OpticalDisk::~OpticalDisk() {
