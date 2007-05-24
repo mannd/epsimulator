@@ -844,7 +844,7 @@ bool Navigator::getStudyInformation(Study* study) {
         if (!study->isPreregisterStudy()) 
             study->setLocation(currentDisk_->label() + 
                                (currentDisk_->isTwoSided() ?
-                               "-" + currentDisk_->translatedSide() : ""));
+                               " - " + currentDisk_->translatedSide() : ""));
         return true;
     }
     return false;

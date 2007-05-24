@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="12" >
+ <DocsAndViews NumberOfDocuments="4" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/error.h" >
    <View0 Encoding="" Type="Source" />
   </Doc0>
@@ -56,6 +56,9 @@
    <bookmarks>
     <bookmark url="/home/mannd/dev/epsimulator/src/opticaldisk.cpp" >
      <mark line="110" />
+    </bookmark>
+    <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+     <mark line="429" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
      <mark line="429" />
