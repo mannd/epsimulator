@@ -146,8 +146,11 @@ void OpticalCatalog::regenerate() {
     // else display error, or throw error
 }
 
+
+/// FIXME study location includes side.  Side may change.
 void OpticalCatalog::relabel(const QString& oldLabel, const QString& newLabel) {
     // all labels are set to new label in the optical catalog
+    (void) oldLabel;    // get rid of unused variable warning
     for (std::map<QString, Study>::iterator p = catalog_.begin(); 
     p != catalog_.end(); ++p)
         p->second.setLocation(newLabel);

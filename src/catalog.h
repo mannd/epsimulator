@@ -65,11 +65,9 @@ public:
     virtual void deleteStudy(Study*);
     virtual void editStudy(Study*);
 
-    virtual Source type() const {return Other;}
     virtual QString path() const {return path_;}
     virtual QString filePath() const;  // full path including fileName
     virtual QString fileName() const {return fileName_;}
-    virtual QString name() const {return "Catalog";}
 
     virtual void setPath(const QString& path) {path_ = path;}
 
@@ -89,7 +87,6 @@ protected:
     virtual void load();
     virtual void save();
 
-
     std::map<QString, Study> catalog_;
 
 private:    
@@ -105,37 +102,24 @@ class OpticalCatalog : public Catalog {
 public:
     OpticalCatalog(const QString& path, const QString& fileName);
 
-    virtual QString name() const {return "OpticalCatalog";}
-    virtual Source type() const {return Optical;}
-    virtual void addStudy(Study*);
-    virtual void regenerate();
-    virtual void relabel(const QString& oldLabel, const QString& newLabel);
-    virtual ~OpticalCatalog() {}
-
-private:
-
+    void addStudy(Study*);
+    void regenerate();
+    void relabel(const QString& oldLabel, const QString& newLabel);
+    ~OpticalCatalog() {}
 };
 
 class SystemCatalog : public Catalog {
 public:
     SystemCatalog(const QString& path, const QString& fileName);
 
-    virtual QString name() const {return "SystemCatalog";}
-    virtual Source type() const {return System;}
-    virtual ~SystemCatalog() {}
-private:
+    ~SystemCatalog() {}
 };
 
 class NetworkCatalog : public Catalog {
 public:
     NetworkCatalog(const QString& path, const QString& fileName);
 
-    virtual QString name() const {return "NetworkCatalog";}
-    virtual Source type() const {return Network;}
-    virtual ~NetworkCatalog() {}
-
-private:
-
+    ~NetworkCatalog() {}
 };
 
 

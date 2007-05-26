@@ -297,32 +297,14 @@ public:
         c.setPath("/testpath/");
         // make sure no duplicate backslashes
         TS_ASSERT(c.filePath() == "/testpath/catalog.dat");
-        TS_ASSERT(c.type() == Catalog::Other);
         // test Catalog subclasses
         Catalog* cp = new OpticalCatalog("../System", "catalog.dat");
-        TS_ASSERT(cp->type() == Catalog::Optical);
         cout << "catalog filepath" << cp->filePath() << std::endl;
-        delete cp;
-        cp = new NetworkCatalog("../System", "catalog.dat");
-        TS_ASSERT(cp->type() == Catalog::Network);
-        delete cp;
-        cp = new SystemCatalog("../System", "catalog.dat");
-        TS_ASSERT(cp->type() == Catalog::System);
         delete cp;
     }
     
     void testCatalogs() {
         Options* o = Options::instance();
-        Catalogs* c = new Catalogs(o);
-        c->setCurrentCatalog(Catalog::Optical);
-        TS_ASSERT(c->currentCatalog()->name() == "OpticalCatalog");
-        c->setCurrentCatalog(Catalog::System);
-        TS_ASSERT(c->currentCatalog()->name() == "SystemCatalog");
-        c->setCurrentCatalog(Catalog::Network);
-        TS_ASSERT(c->currentCatalog()->name() == "NetworkCatalog");
-        c->setCurrentCatalog(Catalog::Other);
-        TS_ASSERT(c->currentCatalog()->name() == "Catalog");
-        delete c;
         Catalogs* c1 = new Catalogs(o);
         c1->setCatalogPath(Catalog::Other, "/tmp/test");
         c1->setCurrentCatalog(Catalog::Other);

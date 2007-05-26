@@ -297,6 +297,7 @@ void Navigator::ejectDisk() {
 void Navigator::relabelDisk() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     QString oldLabel = currentDisk_->label();
+    QString oldLocation = createLocation();
     diskLabelDialog->setLabel(oldLabel);
     diskLabelDialog->enableSideButtons(currentDisk_->isTwoSided());
     if (currentDisk_->isTwoSided()) 
@@ -305,7 +306,7 @@ void Navigator::relabelDisk() {
         currentDisk_->setLabel(diskLabelDialog->label());
         if (currentDisk_->isTwoSided())
             currentDisk_->setSide(diskLabelDialog->side());
-        catalogs_->relabel(oldLabel, currentDisk_->label());
+        catalogs_->relabel(oldLocation, createLocation());
         refreshCatalog();
     }
     delete diskLabelDialog;
@@ -835,6 +836,12 @@ void Navigator::startStudy(Study* s) {
     studyFile.close();
 }
 
+QString Navigator::createLocation() const {
+    return currentDisk_->label() + 
+           (currentDisk_->isTwoSided() ?
+           " - " + currentDisk_->translatedSide() : "");
+}
+
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation(Study* study) {
     PatientDialog* patientDialog = new PatientDialog(this);
@@ -842,9 +849,7 @@ bool Navigator::getStudyInformation(Study* study) {
     if (patientDialog->exec()) {
         patientDialog->getFields(study);
         if (!study->isPreregisterStudy()) 
-            study->setLocation(currentDisk_->label() + 
-                               (currentDisk_->isTwoSided() ?
-                               " - " + currentDisk_->translatedSide() : ""));
+            study->setLocation(createLocation());
         return true;
     }
     return false;
