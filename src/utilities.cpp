@@ -18,44 +18,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef SIMULATORSETTINGSDIALOG_H
-#define SIMULATORSETTINGSDIALOG_H
+#include "utilities.h"
 
-#include "simulatorsettingsdialogbase.h"
+#include <qmessagebox.h>
 
-class Options;
+namespace EpSim {
+/// This is not for final production, just during development.
+void filler(QWidget* widget) {
+    QMessageBox::information(widget, QObject::tr("FYI"),
+                             QObject::tr("This function is not implemented yet."));
+}
 
-class SimulatorSettingsDialog : private SimulatorSettingsDialogBase
-{
-    Q_OBJECT
-
-public:
-    SimulatorSettingsDialog(Options* options, QWidget* parent = 0, 
-                            const char* name = 0, WFlags fl = 0 );
-
-    void setOptions();
-
-    virtual bool exec() {return SimulatorSettingsDialogBase::exec();}
-
- 
-
-    ~SimulatorSettingsDialog();
-    
-public slots:
-    virtual void enableDriveEmulation();
-
-private:
-    inline bool emulateOpticalDrive() const;
-    bool dualSidedDrive() const;
-    int emulatedOpticalDriveCapacity() const;
-
-    void setEmulateOpticalDrive(bool);
-    void setDualSidedDrive(bool);
-    void setEmulatedOpticalDriveCapacity(int);
-
-    Options* options_;
-
-};
-
-#endif
-
+}

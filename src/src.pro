@@ -11,7 +11,8 @@ FORMS += patientdialogbase.ui \
          simulatorsettingsdialogbase.ui \
          passworddialogbase.ui \
          changepassworddialogbase.ui \
-         studymovecopywizardbase.ui 
+         studymovecopywizardbase.ui  \
+ selectemulateddiskdialogbase.ui
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 IMAGES += images/hi16-app-epsimulator.png \
@@ -58,7 +59,9 @@ HEADERS += epsimulator.h \
            passwordhandler.h \
            error.h \
            studycopywizard.h  \
-           actions.h
+           actions.h \
+ utilities.h \
+ selectemulateddiskdialog.h
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -84,7 +87,9 @@ SOURCES += epsimulator.cpp \
            changepassworddialog.cpp \
            passwordhandler.cpp \
            studycopywizard.cpp  \
-           actions.cpp
+           actions.cpp \
+ utilities.cpp \
+ selectemulateddiskdialog.cpp
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

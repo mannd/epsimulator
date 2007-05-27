@@ -37,7 +37,7 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     hideSimulatorMenuCheckBox->setChecked(
         options_->hideSimulatorMenu());
     setEmulateOpticalDrive(options_->emulateOpticalDrive());
-    setEmulateDualSidedDrive(options_->emulateDualSidedDrive());
+    setDualSidedDrive(options_->dualSidedDrive());
     setEmulatedOpticalDriveCapacity(options_->emulatedOpticalDriveCapacity());
     oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator());
 }
@@ -48,7 +48,7 @@ void SimulatorSettingsDialog::setOptions() {
         options_->setHideSimulatorMenu(
             hideSimulatorMenuCheckBox->isChecked());
         options_->setEmulateOpticalDrive(emulateOpticalDrive());
-        options_->setEmulateDualSidedDrive(emulateDualSidedDrive());
+        options_->setDualSidedDrive(dualSidedDrive());
         // we will force the drive capacity to be a multiple of 16,
         // it's more computery that way.
         options_->setEmulatedOpticalDriveCapacity((
@@ -63,9 +63,9 @@ bool SimulatorSettingsDialog::emulateOpticalDrive() const {
     return emulateOpticalDriveCheckBox->isChecked();
 }
 
-bool SimulatorSettingsDialog::emulateDualSidedDrive() const {
-    return emulateDualSidedDriveCheckBox->isEnabled() && 
-	    emulateDualSidedDriveCheckBox->isChecked();
+bool SimulatorSettingsDialog::dualSidedDrive() const {
+    return dualSidedDriveCheckBox->isEnabled() && 
+	    dualSidedDriveCheckBox->isChecked();
 }
 
 int SimulatorSettingsDialog::emulatedOpticalDriveCapacity() const {
@@ -80,9 +80,9 @@ void SimulatorSettingsDialog::setEmulateOpticalDrive(bool emulate) {
     enableDriveEmulation();
 }
 
-void SimulatorSettingsDialog::setEmulateDualSidedDrive(bool emulate) {
+void SimulatorSettingsDialog::setDualSidedDrive(bool emulate) {
     if (emulateOpticalDrive())
-        emulateDualSidedDriveCheckBox->setChecked(emulate);
+        dualSidedDriveCheckBox->setChecked(emulate);
 }
 
 void SimulatorSettingsDialog::setEmulatedOpticalDriveCapacity(int capacity) {
@@ -93,7 +93,7 @@ void SimulatorSettingsDialog::setEmulatedOpticalDriveCapacity(int capacity) {
 void SimulatorSettingsDialog::enableDriveEmulation()
 {
     bool driveEmulation = emulateOpticalDriveCheckBox->isChecked();
-    emulateDualSidedDriveCheckBox->setEnabled(driveEmulation);
+    dualSidedDriveCheckBox->setEnabled(driveEmulation);
     emulatedOpticalDriveCapacitySpinBox->setEnabled(driveEmulation);
 }
 

@@ -125,7 +125,7 @@
                     </widget>
                     <widget class="QCheckBox" row="1" column="0">
                         <property name="name">
-                            <cstring>emulateDualSidedDriveCheckBox</cstring>
+                            <cstring>dualSidedDriveCheckBox</cstring>
                         </property>
                         <property name="text">
                             <string>E&amp;mulate Dual Sided Drive</string>
@@ -292,7 +292,7 @@
     <tabstop>administratorAccountRequiredCheckBox</tabstop>
     <tabstop>hideSimulatorMenuCheckBox</tabstop>
     <tabstop>emulateOpticalDriveCheckBox</tabstop>
-    <tabstop>emulateDualSidedDriveCheckBox</tabstop>
+    <tabstop>dualSidedDriveCheckBox</tabstop>
     <tabstop>emulatedOpticalDriveCapacitySpinBox</tabstop>
     <tabstop>oldStyleNavigatorCheckBox</tabstop>
     <tabstop>tabCategories</tabstop>

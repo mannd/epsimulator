@@ -39,6 +39,7 @@
 #include "navigator.h"
 #include "patientdialog.h"
 #include "passworddialog.h"
+#include "selectemulateddiskdialog.h"
 #include "simulatorsettingsdialog.h"
 #include "settings.h"
 #include "statusbar.h"
@@ -47,6 +48,7 @@
 #include "studycopywizard.h"
 #include "systemdialog.h"
 #include "tablelistview.h"
+#include "utilities.h"
 
 #include <qaction.h>
 #include <qapplication.h>
@@ -62,7 +64,6 @@
 #include <qtoolbar.h>
 
 #include <algorithm>
-#include <stdlib.h>
 
 #ifndef NDEBUG
 #include <iostream> // for debugging
@@ -350,11 +351,7 @@ bool Navigator::administrationAllowed() {
     return userIsAdministrator_;
 }
 
-/// This is not for final production, just during development.
-void Navigator::filler() {
-    QMessageBox::information(this, tr("FYI"),
-                             tr("This function is not implemented yet."));
-}
+
 
 void Navigator::noStudySelectedError() {
     QMessageBox::warning(this, tr("No Study Selected"),
@@ -363,22 +360,22 @@ void Navigator::noStudySelectedError() {
 
 void Navigator::setIntervals() {
     if (administrationAllowed())
-        filler();
+        EpSim::filler(this);
 }
 
 void Navigator::setColumnFormats() {
     if (administrationAllowed())
-        filler();
+        EpSim::filler(this);
 }
 
 void Navigator::setProtocols() {
     if (administrationAllowed())
-        filler();
+        EpSim::filler(this);
 }
 
 void Navigator::setStudyConfigurations() {
     if (administrationAllowed())
-        filler();
+        EpSim::filler(this);
 }
 
 void Navigator::setCatalogNetwork() {
@@ -487,12 +484,29 @@ void Navigator::about() {
 // private
 
 void Navigator::createOpticalDrive() {
-    if (options_->emulateOpticalDrive())
+    if (options_->emulateOpticalDrive()) {
+        /// FIXME This should automatically load the last emulated disk,
+        /// the EmulatedOpticalDisk class can store this in settings.
+        /// If there is no last disk, open this dialog.  Use this dialog
+        /// when changing emulatedOpticalDisks, or when changing the simulator
+        /// options to emulateOpticalDrive: but first use the last disk 
+        /// if possible.  Also, this should all be in the EmulatedOpticalDisk class.
+        SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(this);
+        if (d->exec())
+            // blah blah
+            ;
+        delete d;
+        /// TODO change this to reflect selected disk
         currentDisk_ = new EmulatedOpticalDisk(options_->opticalStudyPath(),
-                                   options_->emulateDualSidedDrive());
+                                   options_->dualSidedDrive());
+        
+    }
     else
         currentDisk_ = new OpticalDisk(options_->opticalStudyPath(),
-                                   options_->emulateDualSidedDrive());
+                                   options_->dualSidedDrive());
+    // below for debugging
+    std::cout << "currentDisk_->label() = " << currentDisk_->label() << 
+        " currentDisk_->side() = " << currentDisk_-> translatedSide() << std::endl;
 }
 
 void Navigator::createCentralWidget() {

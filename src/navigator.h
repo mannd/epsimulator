@@ -139,7 +139,6 @@ private:
     bool administrationAllowed();
 
     // misc
-    void filler();
     void noStudySelectedError();
 
     // Data members

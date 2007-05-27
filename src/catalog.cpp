@@ -147,7 +147,6 @@ void OpticalCatalog::regenerate() {
 }
 
 
-/// FIXME study location includes side.  Side may change.
 void OpticalCatalog::relabel(const QString& oldLabel, const QString& newLabel) {
     // all labels are set to new label in the optical catalog
     (void) oldLabel;    // get rid of unused variable warning

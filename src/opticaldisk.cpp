@@ -112,7 +112,8 @@ QString EmulatedOpticalDisk::filePath() const {
 
 /// returns path to /disks directory
 QString EmulatedOpticalDisk::disksPath() const {
-    return path_ + "/disks";
+    // have to clean path as it may or may not end in /
+    return QDir::cleanDirPath(path_ + "/disks");
 }
 
 /// returns path to specific emulated disk without the side
