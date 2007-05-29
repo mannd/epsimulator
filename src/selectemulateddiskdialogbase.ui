@@ -82,6 +82,18 @@
         <receiver>SelectEmulatedDiskDialogBase</receiver>
         <slot>reject()</slot>
     </connection>
+    <connection>
+        <sender>selectPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>diskListBox</sender>
+        <signal>doubleClicked(QListBoxItem*)</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>accept()</slot>
+    </connection>
 </connections>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
