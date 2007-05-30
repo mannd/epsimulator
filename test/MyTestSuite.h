@@ -390,11 +390,11 @@ public:
     	Options* o = Options::instance();
     	EmulatedOpticalDisk d(o->opticalStudyPath());
     	cout << d.path() << endl;
-    	TS_ASSERT(d.path() == o->opticalStudyPath() + "disks/"
-    		+ d.diskName() + "/" + d.side());
-        TS_ASSERT(d.filePath() == o->opticalStudyPath() + "disks/"
-    		+ d.diskName() + "/" + d.side() + "/label.dat");
-        cout << "optical disk assertion " << o->opticalStudyPath() + "disks/"
+    	TS_ASSERT(d.path() == QDir::cleanDirPath(o->opticalStudyPath() + "/disks/"
+    		+ d.diskName() + "/" + d.side()));
+        TS_ASSERT(d.filePath() == QDir::cleanDirPath( o->opticalStudyPath() + "//disks/"
+    		+ d.diskName() + "/" + d.side() + "/label.dat"));
+        cout << "optical disk assertion " << o->opticalStudyPath() + "/disks/"
     		+ d.diskName() + "/" + d.side() + "/label.dat" << endl;
         cout << "d.diskName() = " << d.diskName() << endl;
         cout << "emulatedOpticalDisk filePath() = " << d.filePath()

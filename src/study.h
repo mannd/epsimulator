@@ -101,6 +101,7 @@ public:
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
+    /// location is opticalDisk label() & side()
     QString location() const {return location_;}
     QString studyFileName() const {return studyFileName_;}
 
@@ -135,10 +136,13 @@ public:
 private:
     enum {MIN_TONE = 0, MAX_TONE = 100};  // min and max autonomic tone
     enum {MIN_EF = 1, MAX_EF = 99};
+    enum {MagicNumber = 0x99c798f5};  // for study.dat file
 
     void testInvariant() const;
     void copyStudy(const Study& study);
     AutonomicTone adjustTone(AutonomicTone tone);
+
+    /// TODO load and save the study.dat file
 
     Name name_;
     QDateTime dateTime_;
