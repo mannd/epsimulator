@@ -53,17 +53,17 @@ QString OpticalDisk::load(const QString& fileName) {
     if (!file.exists()) 
         save(fileName, "");
     if (!file.open(IO_ReadOnly))
-        throw EpSim::IoError(file.name(), EpSim::OpenReadFail);
+        throw EpSim::OpenReadError(file.name());
     QDataStream in(&file);
     in.setVersion(5);
     Q_UINT32 magic;
     in >> magic;
     if (magic != MagicNumber)
-        throw EpSim::IoError(file.name(), EpSim::WrongFileType);
+        throw EpSim::WrongFileTypeError(file.name());
     QString label;
     in >> label;
     if (file.status() != IO_Ok)
-        throw EpSim::IoError(file.name(), EpSim::ReadFail);
+        throw EpSim::ReadError(file.name());
     file.close();
     return label;
 }
@@ -71,13 +71,13 @@ QString OpticalDisk::load(const QString& fileName) {
 void OpticalDisk::save(const QString& fileName, const QString& label) {
     QFile file(fileName);
     if (!file.open(IO_WriteOnly))
-        throw EpSim::IoError(file.name(), EpSim::OpenWriteFail);
+        throw EpSim::OpenWriteError(file.name());
     QDataStream out(&file);
     out.setVersion(5);
     out << (Q_UINT32)MagicNumber;
     out << label;
     if (file.status() != IO_Ok)
-        throw EpSim::IoError(file.name(), EpSim::WriteFail);
+        throw EpSim::WriteError(file.name());
     file.close();
 }
 
@@ -132,20 +132,20 @@ QString EmulatedOpticalDisk::load(const QString& fileName) {
     QDir disksDir(disksPath());
     if (!disksDir.exists()) {
         if (!disksDir.mkdir(disksPath()))
-            throw EpSim::Error(EpSim::OtherError);
+            throw EpSim::IoError(disksPath());
     }
     // each directory must be created separately!
     QDir diskDir(diskPath());
     std::cout << "OpticalDisk diskpath = " << diskPath() << std::endl;
     if (!diskDir.exists()) {
         if (!diskDir.mkdir(diskPath()))
-            throw EpSim::Error(EpSim::OtherError);
+            throw EpSim::IoError(diskPath());
     }
     QDir pathDir(path());
     std::cout << "OpticalDisk path = " << path() << std::endl;
     if (!pathDir.exists()) {
         if (!pathDir.mkdir(path()))
-            throw EpSim::Error(EpSim::OtherError);
+            throw EpSim::IoError(path());
     }
 
     return OpticalDisk::load(fileName);

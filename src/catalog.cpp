@@ -27,9 +27,6 @@
 #include <qdatastream.h>
 #include <qdir.h>
 #include <qfile.h>
-#include <qmessagebox.h>
-#include <qobject.h>
-
 
 Catalog::Catalog(const QString& path, 
                  const QString& fileName) : path_(path), fileName_(fileName) {
@@ -67,8 +64,13 @@ void Catalog::relabel(const QString& oldLabel, const QString& newLabel) {
 }
 
 void Catalog::load() {
-    QFile f(filePath());
-    loadFile(f);
+    try {
+        QFile f(filePath());
+        loadFile(f);
+    }
+    catch (EpSim::IoError&) {
+        // ignore failure to read, leave catalog empty
+    }
 }
 
 void Catalog::save() {
@@ -81,28 +83,28 @@ void Catalog::loadFile(QFile& file) {
     if (!file.exists()) 
         saveFile(file);
     if (!file.open(IO_ReadOnly)) 
-        throw EpSim::IoError(file.name(), EpSim::OpenReadFail);
+        throw EpSim::OpenReadError(file.name());
     QDataStream in(&file);
     in.setVersion(5);
     Q_UINT32 magic;
     in >> magic;
     if (magic != MagicNumber) 
-        throw EpSim::IoError(file.name(), EpSim::WrongFileType);
+        throw EpSim::WrongFileTypeError(file.name());
     readFromStream(in);
     if (file.status() != IO_Ok) 
-        throw EpSim::IoError(file.name(), EpSim::ReadFail);
+        throw EpSim::ReadError(file.name());
     file.close();
 }
 
 void Catalog::saveFile(QFile& file) {
     if (!file.open(IO_WriteOnly)) 
-        throw EpSim::IoError(file.name(), EpSim::OpenWriteFail);
+        throw EpSim::OpenWriteError(file.name());
     QDataStream out(&file);
     out.setVersion(5);
     out << (Q_UINT32)MagicNumber;
     writeToStream(out);
     if (file.status() != IO_Ok) 
-        throw EpSim::IoError(file.name(), EpSim::WriteFail);
+        throw EpSim::WriteError(file.name());
     // must close the file so it can be reopened IO_ReadOnly
     file.close();
 }

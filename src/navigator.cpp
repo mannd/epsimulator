@@ -422,9 +422,10 @@ void Navigator::exportCatalog() {
                 try {
                     tableListView_->exportCSV(fd->selectedFile());
                 }
-                catch (EpSim::IoError ioError) {
+                catch (EpSim::IoError& e) {
+                    std::cerr << e.what() << std::endl;
                     QMessageBox::warning(this, tr("Error"),
-                        tr("Could not export Catalog to %1", ioError.fileName));
+                        tr("Could not export Catalog to %1").arg(e.fileName()));
                 }
             }
         }
@@ -484,29 +485,37 @@ void Navigator::about() {
 // private
 
 void Navigator::createOpticalDrive() {
-    if (options_->emulateOpticalDrive()) {
-        /// FIXME This should automatically load the last emulated disk,
-        /// the EmulatedOpticalDisk class can store this in settings.
-        /// If there is no last disk, open this dialog.  Use this dialog
-        /// when changing emulatedOpticalDisks, or when changing the simulator
-        /// options to emulateOpticalDrive: but first use the last disk 
-        /// if possible.  Also, this should all be in the EmulatedOpticalDisk class.
-        SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(this);
-        if (d->exec())
-            // blah blah
-            ;
-        delete d;
-        /// TODO change this to reflect selected disk
-        currentDisk_ = new EmulatedOpticalDisk(options_->opticalStudyPath(),
-                                   options_->dualSidedDrive());
-        
+    try {
+        if (options_->emulateOpticalDrive()) {
+            /// FIXME This should automatically load the last emulated disk,
+            /// the EmulatedOpticalDisk class can store this in settings.
+            /// If there is no last disk, open this dialog.  Use this dialog
+            /// when changing emulatedOpticalDisks, or when changing the simulator
+            /// options to emulateOpticalDrive: but first use the last disk 
+            /// if possible.  Also, this should all be in the EmulatedOpticalDisk class.
+            SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(this);
+            if (d->exec())
+                // blah blah
+                ;
+            delete d;
+            /// TODO change this to reflect selected disk
+            currentDisk_ = new EmulatedOpticalDisk(options_->opticalStudyPath(),
+                                    options_->dualSidedDrive());
+        }
+        else
+            currentDisk_ = new OpticalDisk(options_->opticalStudyPath(),
+                                    options_->dualSidedDrive());
+        // below for debugging
+        std::cout << "currentDisk_->label() = " << currentDisk_->label() << 
+            " currentDisk_->side() = " << currentDisk_-> translatedSide() << std::endl;
     }
-    else
-        currentDisk_ = new OpticalDisk(options_->opticalStudyPath(),
-                                   options_->dualSidedDrive());
-    // below for debugging
-    std::cout << "currentDisk_->label() = " << currentDisk_->label() << 
-        " currentDisk_->side() = " << currentDisk_-> translatedSide() << std::endl;
+    catch (EpSim::IoError& e) { 
+        QMessageBox::warning(this, tr("Error"),
+                             tr("Could not find disk %1. "
+                                "Enter the correct path to your "
+                                "optical drive using the System Settings "
+                                "menu item.").arg(e.fileName()));
+    }
 }
 
 void Navigator::createCentralWidget() {
@@ -829,14 +838,14 @@ void Navigator::startStudy(Study* s) {
     QDir studiesDir(studiesPath);
     if (!studiesDir.exists()) {
         if (!studiesDir.mkdir(studiesPath))
-            throw EpSim::Error(EpSim::OtherError);
+            throw EpSim::IoError(studiesPath, "could not create studiesPath");
     }
     // create study directory and write study.dat file
     QString studyPath = studiesPath + "/study_" + s->key();
     QDir studyDir(studyPath);
     if (!studyDir.exists()) {
         if (!studyDir.mkdir(studyPath))
-            throw EpSim::Error(EpSim::OtherError);
+            throw EpSim::IoError(studyPath, "could not create studyPath");
     }
     s->setPath(studyPath);
     QFile studyFile(s->filePath());

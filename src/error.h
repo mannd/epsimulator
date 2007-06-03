@@ -20,19 +20,61 @@
 
 #include <qstring.h>
 
+#include <stdexcept>
+
 namespace EpSim {
 
-enum ErrorType {OpenReadFail, OpenWriteFail, ReadFail, WriteFail, 
-                WrongFileType, OtherError};
-
-struct Error {
-    ErrorType error;
-    Error(ErrorType e) : error(e) {}
+class IoError : public std::runtime_error {
+public:
+    explicit IoError(const QString& fileName, 
+                     const char* msg = "general IOError")
+                     : std::runtime_error(msg), fileName_(fileName) {}
+    virtual ~IoError() throw() {}
+    
+    virtual const char* what() const throw() {return std::runtime_error::what();} 
+    virtual QString fileName() const {return fileName_;}
+private:
+    QString fileName_;
 };
 
-struct IoError : public Error {
-    QString fileName;
-    IoError(QString f, ErrorType e) : Error(e), fileName(f) {}
+class OpenReadError : public IoError {
+public:
+    OpenReadError(const QString& fileName,
+                  const char* msg = "open read error")
+                  : IoError(fileName, msg) {}
 };
+
+class OpenWriteError : public IoError {
+public:
+    OpenWriteError(const QString& fileName,
+                  const char* msg = "open write error")
+                  : IoError(fileName, msg) {}
+};
+
+class ReadError : public IoError {
+public:
+    ReadError(const QString& fileName,
+                  const char* msg = "read error")
+                  : IoError(fileName, msg) {}
+};
+
+class WriteError : public IoError {
+public:
+    WriteError(const QString& fileName,
+                  const char* msg = "write error")
+                  : IoError(fileName, msg) {}
+};
+
+class WrongFileTypeError : public IoError {
+public:
+    WrongFileTypeError(const QString& fileName,
+                  const char* msg = "wrong file type")
+                  : IoError(fileName, msg) {}
+};
+
+//enum ErrorType {OpenReadFail, OpenWriteFail, ReadFail, WriteFail, 
+//                WrongFileType, OtherError};
+
+
 
 }

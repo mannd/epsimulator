@@ -15,6 +15,7 @@
     <ignoreparts/>
     <versioncontrol/>
     <projectname>epsimulator</projectname>
+    <defaultencoding/>
   </general>
   <kdevfileview>
     <groups>
@@ -101,11 +102,16 @@
     <run>
       <directoryradio>executable</directoryradio>
       <customdirectory>/</customdirectory>
-      <mainprogram/>
+      <mainprogram>/home/mannd/dev/epsimulator</mainprogram>
       <programargs/>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars/>
+      <globaldebugarguments/>
+      <globalcwd>/home/mannd/dev/epsimulator</globalcwd>
+      <useglobalprogram>false</useglobalprogram>
+      <autoinstall>false</autoinstall>
+      <autokdesu>false</autokdesu>
       <runarguments>
         <test></test>
       </runarguments>

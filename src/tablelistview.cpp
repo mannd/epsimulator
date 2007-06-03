@@ -219,7 +219,7 @@ void TableListView::deleteStudy() {
 void TableListView::exportCSV(const QString& fileName) {
     QFile file(fileName);
     if (!file.open(IO_WriteOnly)) 
-        throw EpSim::IoError(file.name(), EpSim::OpenWriteFail);
+        throw EpSim::OpenWriteError(file.name());
     QTextStream out(&file);
     for (int i = 0; i < columns(); ++i) {
         out << '"' << columnText(i) << '"' << ',';
@@ -234,10 +234,10 @@ void TableListView::exportCSV(const QString& fileName) {
         ++it;
     }
     if (file.status() != IO_Ok) 
-        throw EpSim::IoError(file.name(), EpSim::WriteFail);
+        throw EpSim::WriteError(file.name());
     file.close();
 }
-
+// 
 void TableListView::applyFilter( FilterStudyType filterStudyType,
                                             const QRegExp& lastName,
                                             const QRegExp& firstName,
