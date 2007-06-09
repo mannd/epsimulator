@@ -20,6 +20,7 @@
 
 #include "opticaldisk.h"
 #include "error.h"
+#include "selectemulateddiskdialog.h"
 #include "settings.h"
 
 #include <qdatetime.h>
@@ -101,8 +102,11 @@ OpticalDisk::~OpticalDisk() {
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
     bool isTwoSided) : OpticalDisk(path, isTwoSided) {
     // Need some housekeeping to setup fake optical disk.
-    diskName_ = "disk_" + QDateTime::currentDateTime().toString(
+    lastDisk();
+    if (diskName_.isEmpty())
+        diskName_ = "disk_" + QDateTime::currentDateTime().toString(
    		"ddMMyyyyhhmmsszzz");    
+    saveLastDisk(); // also do this when disk changes
     /// TODO must override load, save to create the file directory.
 }
 
@@ -149,6 +153,17 @@ QString EmulatedOpticalDisk::load(const QString& fileName) {
     }
 
     return OpticalDisk::load(fileName);
+}
+
+
+void EmulatedOpticalDisk::lastDisk() {
+    Settings settings;
+    diskName_ = settings.readEntry("/lastDisk", "");
+}
+
+void EmulatedOpticalDisk::saveLastDisk() {
+    Settings settings;
+    settings.writeEntry("/lastDisk", diskName_);
 }
 
 EmulatedOpticalDisk::~EmulatedOpticalDisk() {

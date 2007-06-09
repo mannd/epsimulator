@@ -126,7 +126,7 @@ public:
 // N.B. Catalogs owns the catalog pointers and will delete them.
 class Catalogs {
 public:
-    Catalogs(Options* options);
+    Catalogs(Options* options, const QString& opticalDiskPath);
 
     // Functions below work on all active catalogs.
     void addStudy(Study*);

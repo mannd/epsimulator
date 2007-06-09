@@ -47,6 +47,7 @@ public:
 //    virtual bool isPresent() const {return hasLabel();}
     virtual QString label();
     virtual bool isTwoSided() const {return isTwoSided_;}
+    virtual bool allowSideChange() const {return true;} // used to allow relabeling of disk
     virtual QString side() const {return side_;}
     virtual QString translatedSide() const;
     virtual QString path() const {return path_;}
@@ -75,8 +76,15 @@ class EmulatedOpticalDisk : public OpticalDisk {
 public:
     EmulatedOpticalDisk(const QString& path, bool isTwoSided = false);
 
+    virtual void eject() {}
+
     virtual QString path() const;
     virtual QString filePath() const;
+
+    // allowing relabeling of emulated disks will mess up the path to the emulated disk,
+    // so don't allow this...
+    virtual bool allowSideChange() const {return false;} 
+
 
     QString diskName() const {return diskName_;}
 
@@ -89,6 +97,8 @@ private:
 
         QString disksPath() const;
         QString diskPath() const;
+        void lastDisk();      // loads up last diskName
+        void saveLastDisk();   // saves last diskName
 
 	QString diskName_;
 

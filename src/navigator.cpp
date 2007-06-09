@@ -39,7 +39,6 @@
 #include "navigator.h"
 #include "patientdialog.h"
 #include "passworddialog.h"
-#include "selectemulateddiskdialog.h"
 #include "simulatorsettingsdialog.h"
 #include "settings.h"
 #include "statusbar.h"
@@ -76,15 +75,13 @@
  */
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
-                   options_(Options::instance()), filterCatalog_(0),
-                   userIsAdministrator_(false) {
-    catalogs_ = new Catalogs(options_);
+                   options_(Options::instance()), filterCatalog_(0), catalogs_(0), 
+                   currentDisk_(0), userIsAdministrator_(false) {
+    createOpticalDrive();
+    catalogs_ = new Catalogs(options_, currentDisk_->path());
     /// TODO this depends on emulatedOpticalDisk setting...
     /// Need to make label work with sides.  The location may not
     /// be correct if a side is named.
-
-    createOpticalDrive();
-
     createActions();
     createMenus();
     createToolBars();
@@ -280,19 +277,14 @@ void Navigator::changeCatalog() {
 }
 
 void Navigator::ejectDisk() {
-    if (!options_->emulateOpticalDrive()) {
-        currentDisk_->eject();  // Currently does nothing, 
-                                // is supposed to mechanically eject the disk.
-        QMessageBox::information( this, tr("Eject Disk"),
-        tr("Change Disk and select OK when done." ));
-        if (!currentDisk_->hasLabel())
-            relabelDisk();
-    }
-    else  { // emulated optical disk
-        // if disks subdirectory
-        
-
-    }
+    currentDisk_->eject();
+    QMessageBox::information( this, tr("Eject Disk"),
+                              tr("Change Disk and select OK when done." ));
+    createOpticalDrive();
+    delete catalogs_;
+    catalogs_ = new Catalogs(options_, currentDisk_->path());
+    refreshCatalog();
+    statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
 void Navigator::relabelDisk() {
@@ -300,13 +292,15 @@ void Navigator::relabelDisk() {
     QString oldLabel = currentDisk_->label();
     QString oldLocation = createLocation();
     diskLabelDialog->setLabel(oldLabel);
-    diskLabelDialog->enableSideButtons(currentDisk_->isTwoSided());
-    if (currentDisk_->isTwoSided()) 
-        diskLabelDialog->setSide(currentDisk_->side());
+    // don't allow changing sides if emulated disk
+    diskLabelDialog->enableSideButtons(currentDisk_->isTwoSided() 
+                                       && currentDisk_->allowSideChange());
+    // need to do this even if side buttons are disabled because we cannot
+    // change sides during relabeling of emulated disks
+    diskLabelDialog->setSide(currentDisk_->side());
     if (diskLabelDialog->exec()) {
         currentDisk_->setLabel(diskLabelDialog->label());
-        if (currentDisk_->isTwoSided())
-            currentDisk_->setSide(diskLabelDialog->side());
+        currentDisk_->setSide(diskLabelDialog->side());
         catalogs_->relabel(oldLocation, createLocation());
         refreshCatalog();
     }
@@ -440,16 +434,18 @@ void Navigator::simulatorSettings() {
         if (simDialog->exec()) {
             simDialog->setOptions();
             updateMenus();
+            // change type of optical disk if needed
+            createOpticalDrive();
+            delete catalogs_;
+            catalogs_ = new Catalogs(options_, currentDisk_->path());
             /// FIXME need to make below work
             tableListView_->adjustColumns(options_->oldStyleNavigator(), true);
+            refreshCatalog();   // This repopulates the TableListView.
             // Need to do below to make sure user label
             // matches Navigator style.
+            statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
             statusBar_->updateUserLabel(userIsAdministrator_,
                                         options_->oldStyleNavigator());
-            refreshCatalog();   // This repopulates the TableListView.
-            // change type of optical disk if needed
-            delete currentDisk_;
-            createOpticalDrive();
             /// TODO other effects of changing simulator settings below
             
         }
@@ -464,9 +460,11 @@ void Navigator::systemSettings() {
             systemDialog->setOptions();
             // menu is changed
             networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
-            // status bar and catalog might be changed 
+            // optical disk, status bar and catalog might be changed 
+            createOpticalDrive();
             delete catalogs_;
-            catalogs_ = new Catalogs(options_);
+            /// TODO change current disk here
+            catalogs_ = new Catalogs(options_, currentDisk_->path());
             refreshCatalog();
             statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
         }
@@ -486,6 +484,9 @@ void Navigator::about() {
 
 void Navigator::createOpticalDrive() {
     try {
+        // make sure any old disk is deleted
+        if (currentDisk_) 
+            delete currentDisk_;
         if (options_->emulateOpticalDrive()) {
             /// FIXME This should automatically load the last emulated disk,
             /// the EmulatedOpticalDisk class can store this in settings.
@@ -493,11 +494,11 @@ void Navigator::createOpticalDrive() {
             /// when changing emulatedOpticalDisks, or when changing the simulator
             /// options to emulateOpticalDrive: but first use the last disk 
             /// if possible.  Also, this should all be in the EmulatedOpticalDisk class.
-            SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(this);
-            if (d->exec())
-                // blah blah
-                ;
-            delete d;
+//             SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(this);
+//             if (d->exec())
+//                 // blah blah
+//                 ;
+//             delete d;
             /// TODO change this to reflect selected disk
             currentDisk_ = new EmulatedOpticalDisk(options_->opticalStudyPath(),
                                     options_->dualSidedDrive());
@@ -554,8 +555,6 @@ void Navigator::createTableListView() {
     tableListView_ = new TableListView(horizontalSplitter_, options_);
     connect(tableListView_, SIGNAL(doubleClicked(QListViewItem*, 
         const QPoint&, int)), this, SLOT(newStudy()));
-
-
 }
 
 void Navigator::createStatusBar() {

@@ -1,37 +1,31 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="10" >
+ <DocsAndViews NumberOfDocuments="8" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 Encoding="" line="517" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/error.h" >
-   <View0 Encoding="" line="30" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/classes.html" >
    <View0 Type="Documentation" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/exception" >
-   <View0 Encoding="" line="124" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/exception_defines.h" >
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/stdexcept" >
-   <View0 Encoding="" line="0" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldisk.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/catalog.cpp" >
-   <View0 Encoding="" line="98" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
-   <View0 Encoding="" line="221" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/selectemulateddiskdialogbase.ui" >
+   <View0 Type="Other" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/opticaldisk.cpp" >
-   <View0 Encoding="" line="73" Type="Source" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qfile.h" >
-   <View0 Encoding="" line="121" Type="Source" />
-  </Doc9>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -42,9 +36,6 @@
     <breakpoint1 location="/home/mannd/dev/epsimulator/src/navigator.cpp:310" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint1>
-    <breakpoint2 location="/home/mannd/dev/epsimulator/src/catalog.cpp:98" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint2>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -55,7 +46,13 @@
   <kdevbookmarks>
    <bookmarks>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+     <mark line="429" />
+    </bookmark>
+    <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
      <mark line="432" />
+    </bookmark>
+    <bookmark url="/home/mannd/dev/epsimulator/src/opticaldisk.cpp" >
+     <mark line="110" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/study.cpp" >
      <mark line="88" />
@@ -64,7 +61,7 @@
   </kdevbookmarks>
   <kdevvalgrind>
    <executable path="" params="" />
-   <valgrind path="valgrind" params="--tool=memcheck --tool=memcheck --leak-check=yes" />
+   <valgrind path="valgrind" params="--tool=memcheck --tool=memcheck --tool=memcheck --leak-check=yes" />
    <calltree path="" params="" />
    <kcachegrind path="" />
   </kdevvalgrind>

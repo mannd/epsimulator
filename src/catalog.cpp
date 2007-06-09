@@ -172,11 +172,11 @@ NetworkCatalog::NetworkCatalog(const QString& path,
  * the current catalog, and initializes them all from their file paths.
  * @param options = Pointer to Epsim Options.
  */
-Catalogs::Catalogs(Options* options) {
+Catalogs::Catalogs(Options* options, const QString& path) {
     QString fileName = options->catalogFileName();
     networkCatalog_ = new NetworkCatalog(options->networkStudyPath(), fileName);
     systemCatalog_ = new SystemCatalog(options->systemCatalogPath(), fileName);
-    opticalCatalog_ = new OpticalCatalog(options->opticalStudyPath(), fileName);
+    opticalCatalog_ = new OpticalCatalog(path, fileName);
     otherCatalog_ = new Catalog(options->systemCatalogPath(), fileName);
     catalogs_[Catalog::Network] = networkCatalog_;
     catalogs_[Catalog::System] = systemCatalog_;
