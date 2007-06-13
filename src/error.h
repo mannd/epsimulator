@@ -22,6 +22,11 @@
 
 #include <stdexcept>
 
+/**
+   \namespace EpSim
+   \brief Contains nonmember utility functions.
+*/
+
 namespace EpSim {
 
 class IoError : public std::runtime_error {
@@ -71,10 +76,5 @@ public:
                   const char* msg = "wrong file type")
                   : IoError(fileName, msg) {}
 };
-
-//enum ErrorType {OpenReadFail, OpenWriteFail, ReadFail, WriteFail, 
-//                WrongFileType, OtherError};
-
-
 
 }

@@ -23,6 +23,7 @@
 
 #include <qmessagebox.h>
 #include <qobject.h>
+#include <qurl.h>
 
 Actions::Actions() {
 }
@@ -38,6 +39,7 @@ void Actions::about(QWidget* parent) {
 }
 
 void Actions::help(QWidget* parent) {
+    QUrl site("www.epsimulator.com");
     QMessageBox::information(parent, QObject::tr(
         "%1 Help").arg(PROGRAM_NAME),
         QObject::tr(

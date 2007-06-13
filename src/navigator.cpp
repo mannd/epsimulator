@@ -79,9 +79,6 @@ Navigator::Navigator(QWidget* parent, const char* name)
                    currentDisk_(0), userIsAdministrator_(false) {
     createOpticalDrive();
     catalogs_ = new Catalogs(options_, currentDisk_->path());
-    /// TODO this depends on emulatedOpticalDisk setting...
-    /// Need to make label work with sides.  The location may not
-    /// be correct if a side is named.
     createActions();
     createMenus();
     createToolBars();
@@ -438,7 +435,6 @@ void Navigator::simulatorSettings() {
             createOpticalDrive();
             delete catalogs_;
             catalogs_ = new Catalogs(options_, currentDisk_->path());
-            /// FIXME need to make below work
             tableListView_->adjustColumns(options_->oldStyleNavigator(), true);
             refreshCatalog();   // This repopulates the TableListView.
             // Need to do below to make sure user label

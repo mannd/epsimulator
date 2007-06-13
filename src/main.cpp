@@ -19,17 +19,20 @@
  ***************************************************************************/
 
 /** 
- *  \file main.cpp
- *  Main program file for EP Simulator.
- */
+    \file main.cpp
+    Main program file for EP Simulator.
+*/
 
 /**
- *  \mainpage
- *  EP Simulator simulates an electrophysiology laboratory.  In particular it simulates
- *  the recording system, the stimulator, catheter placement, and arrhythmias.
- */
+    \mainpage
+    EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
+    complete with recording equipment, programmable stimulator, and, most importantly, 
+    a heart simulator that can be set up to mimic 
+    normal cardiac electrophysiology and arrhythmias.
+*/
 
 #include "epsimdefs.h"
+#include "error.h"
 // Note that below is Froglogics GetOpt class, but header file is
 // renamed from getopt.h to getopts.h because of conflict with 
 // unix getopt.h.
@@ -38,12 +41,14 @@
 #include "navigator.h"
 
 #include <qapplication.h>
+#include <qmessagebox.h>
 #include <qstring.h>
 
 #ifndef ENGLISH
 #include <qtranslator.h>
 #endif
 
+#include <exception>
 #include <iostream>
 
 using std::endl;
@@ -64,7 +69,7 @@ int main(int argc, char **argv)
 #endif
     app.installTranslator( &translator );
 #endif
-
+   
     GetOpt opts;
     QString path;
     opts.addOption('p', "path", &path);
@@ -83,15 +88,31 @@ int main(int argc, char **argv)
             << endl << endl; 
         return 1;
     }
-    Options* options = Options::instance();
-    if (! path.isEmpty()) 
-        options->setTempStudyPath(path);
-    Navigator *mainWin = new Navigator();
-    app.setMainWidget(mainWin);
-    // Below is a work-around as showMaximized() alone doesn't always work.
-    mainWin->showNormal();
-    mainWin->showMaximized();
-    return app.exec();
-    // deletes the options instance -- can only be used at end of program!
-    options->destroy();
+    try { 
+        Options* options = Options::instance();
+        if (! path.isEmpty()) 
+            options->setTempStudyPath(path);
+        Navigator *mainWin = new Navigator();
+        app.setMainWidget(mainWin);
+        // Below is a work-around as showMaximized() alone doesn't always work.
+        mainWin->showNormal();
+        mainWin->showMaximized();
+        return app.exec();
+        // deletes the options instance -- can only be used at end of program!
+        options->destroy();
+    }
+    catch (EpSim::IoError& e) {
+        QMessageBox::critical( 0, PROGRAM_NAME,
+            QObject::tr("Critical error reading or writing files\n"
+                        "Program will close." ));
+        cerr << e.what() << endl << endl;
+        return 1;
+    }
+    // catch anything else
+    catch (std::exception& e) {
+        QMessageBox::critical( 0, PROGRAM_NAME,
+            QObject::tr("Critical error caught.  Program will close" ));
+        cerr << e.what() << endl << endl;
+        return 1;
+    }
 }

@@ -28,6 +28,19 @@
 #include <qdir.h>
 #include <qfile.h>
 
+/**
+   \file catalog.cpp
+
+   \brief Contains catalog classes and Catalogs class.
+*/
+
+/**
+   \class Catalog
+
+   \brief A catalog contains a group of studies.
+*/
+
+
 Catalog::Catalog(const QString& path, 
                  const QString& fileName) : path_(path), fileName_(fileName) {
         refresh();
@@ -171,6 +184,7 @@ NetworkCatalog::NetworkCatalog(const QString& path,
  * Catalogs constructor.  Catalogs keeps all the catalogs, keeps track of
  * the current catalog, and initializes them all from their file paths.
  * @param options = Pointer to Epsim Options.
+ * @param path = path to optical disk.
  */
 Catalogs::Catalogs(Options* options, const QString& path) {
     QString fileName = options->catalogFileName();
