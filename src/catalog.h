@@ -72,9 +72,8 @@ public:
     virtual void setPath(const QString& path) {path_ = path;}
 
     virtual bool isOptical() {return false;}
-    virtual bool studyPresent(const Study*);  // note this function can't be const
-                                        // since using key() can modify key_ in study.
-                                        /// TODO consider making key_ in Study mutable.
+    bool isEmpty() {return catalog_.empty();}
+    virtual bool studyPresent(const Study*);
 
     virtual ~Catalog(); 
 
@@ -148,7 +147,7 @@ public:
     void setCatalogPath(Catalog::Source catalog, const QString& path);
 
     bool currentCatalogIsOptical() {return currentCatalog_->isOptical();}
-    bool studyPresentOnOpticalDisk(Study*);
+    bool studyPresentOnOpticalDisk(const Study*);
         
 
     ~Catalogs();

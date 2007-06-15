@@ -147,6 +147,7 @@ Study::Study(const Study& study) {
 QString Study::key() const {
     // Under normal circumstances PatientDialog won't allow a 
     // blank last name, so shouldn't happen.
+    assert(!name_.last.isNull());
     if (name_.last.isNull())
         return QString::null;
     if (key_.isEmpty())

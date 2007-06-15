@@ -111,11 +111,14 @@ public:
 
     void testKey() {
         Study s;
-        TS_ASSERT(s.key() == QString::null);
+        // below won't work in debug mode as there is an assert in Study
+        // that intercepts this
+        // TS_ASSERT(s.key() == QString::null);
         Name name;
         name.first = "John";
         name.last = "Doe";
         s.setName(name);
+        cout << "testKey() name.first = " << name.first << endl;
         TS_ASSERT(s.key() == "Doe_John_" + 
             s.dateTime().toString("ddMMyyyyhhmmsszzz"));
 }
@@ -123,7 +126,8 @@ public:
 // make sure white space is removed
     void testKey2() {
         Study s;
-        TS_ASSERT(s.key() == QString::null);
+        // see testKey() above.  This won't work anymore
+        // TS_ASSERT(s.key() == QString::null);
         Name name;
         name.first = "    John  ";
         name.last = "   Doe        ";
@@ -351,16 +355,20 @@ public:
         delete ph;
     }
     
+// Below doesn't throw any more, just leaves catalog empty
     void testIoError() {
         // garbage, nonexistent catalog path and file
-        TS_ASSERT_THROWS(Catalog c("/djdkfdjdkfjdk/ekekeke/", "dkjkfjekjee"), EpSim::IoError);
+        TS_ASSERT_THROWS_NOTHING(Catalog c("/djdkfdjdkfjdk/ekekeke/", "dkjkfjekjee"));
+        Catalog c1("/djdkfdjdkfjdk/ekekeke/", "dkjkfjekjee");
+        // garbage catalog path should give empty catalog
+        TS_ASSERT(c1.isEmpty());
         cout << "finished testIoError\n";
         // should throw exception
     }
-    
+//     
     void testCatalogAddStudy() {
         Options* o = Options::instance();
-        Catalogs* cats = new Catalogs(o, "");
+        Catalogs* cats = new Catalogs(o, o->opticalStudyPath());
         Study* s = new Study;
         Name n = {"Doe", "John", "E"};
         s->setName(n);

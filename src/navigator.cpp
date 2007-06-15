@@ -121,7 +121,7 @@ void Navigator::newStudy() {
 
 void Navigator::continueStudy() {
     Study* study = getSelectedStudy();
-    if (study) {
+    if ((study) && !study->isPreregisterStudy()) {
         // if study not on this optical disk change disk and return
         if (!studyOnDisk(study)) {
             studyNotOnDiskError();
@@ -137,7 +137,7 @@ void Navigator::continueStudy() {
 
 void Navigator::reviewStudy() {
     Study* study = getSelectedStudy();
-    if (study) {
+    if ((study) && !study->isPreregisterStudy()) {
         // if study not on this optical disk change disk and return
         if (!studyOnDisk(study)) {
             studyNotOnDiskError();
@@ -166,7 +166,7 @@ void Navigator::preregisterPatient() {
 
 void Navigator::reports()  {
     Study* study = getSelectedStudy();
-    if (study) {
+    if ((study) && !study->isPreregisterStudy()) {
         // if study not on this optical disk change disk and return
         if (!studyOnDisk(study)) {
             studyNotOnDiskError();
@@ -898,9 +898,8 @@ Study* Navigator::getNewStudy() {
         return new Study;
 }
 
-QString Navigator::studyPath(Study* study) {
-    QString path = currentDisk_->path() + "/" + study->key();
-    return QDir::cleanDirPath(path);
+QString Navigator::studyPath(const Study* study) const {
+    return QDir::cleanDirPath(currentDisk_->path() + "/" + study->key());
 }
 
 void Navigator::deleteDataFiles() {
@@ -910,7 +909,7 @@ void Navigator::deleteDataFiles() {
 /// If something is wrong with the catalog and the study is not physically present
 /// on disk, despite being in the catalog, the actual disk processing should raise
 /// and exception.
-bool Navigator::studyOnDisk(Study* s) const {
+bool Navigator::studyOnDisk(const Study* s) const {
     if (catalogs_->currentCatalogIsOptical())
         return true; // by definition is you are selecting from the optical catalog
                 // the study is there.

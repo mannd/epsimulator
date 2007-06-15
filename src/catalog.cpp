@@ -249,7 +249,7 @@ void Catalogs::relabel(const QString& oldLabel, const QString& newLabel) {
         (*it).second->relabel(oldLabel, newLabel);
 }
 
-bool Catalogs::studyPresentOnOpticalDisk(Study* s) {
+bool Catalogs::studyPresentOnOpticalDisk(const Study* s) {
     return opticalCatalog_->studyPresent(s);
 }
 
