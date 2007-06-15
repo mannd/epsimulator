@@ -71,6 +71,11 @@ public:
 
     virtual void setPath(const QString& path) {path_ = path;}
 
+    virtual bool isOptical() {return false;}
+    virtual bool studyPresent(Study*);  // note this function can't be const
+                                        // since using key() can modify key_ in study.
+                                        /// TODO consider making key_ in Study mutable.
+
     virtual ~Catalog(); 
 
 protected:
@@ -106,6 +111,7 @@ public:
     void regenerate();
     void relabel(const QString& oldLabel, const QString& newLabel);
     ~OpticalCatalog() {}
+    bool isOptical() {return true;}
 };
 
 class SystemCatalog : public Catalog {
@@ -140,6 +146,9 @@ public:
 
     void setCurrentCatalog(Catalog::Source catalog);
     void setCatalogPath(Catalog::Source catalog, const QString& path);
+
+    bool currentCatalogIsOptical() {return currentCatalog_->isOptical();}
+    bool studyPresentOnOpticalDisk(Study*);
         
 
     ~Catalogs();

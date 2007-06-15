@@ -28,7 +28,6 @@
 #define EPSIM_H
 
 // APP_NAME is internal program name.  PROGRAM_NAME is the polished program name
-/// TODO Consider using epsim instead of epsimulator as APP_NAME
 #define APP_NAME "epsimulator"  
 #define SHORT_APP_NAME "epsim"
 #define PROGRAM_NAME qApp->translate("Global", "EP Simulator")

@@ -97,6 +97,7 @@ Navigator::Navigator(QWidget* parent, const char* name)
 
 // private slots
 
+// Blue bar actions
 void Navigator::newStudy() {
     if (!currentDisk_->hasLabel()) 
         relabelDisk();
@@ -123,9 +124,7 @@ void Navigator::continueStudy() {
     if (study) {
         // if study not on this optical disk change disk and return
         if (!studyOnDisk(study)) {
-            // need error message here, and then below if desired
-            // ditto for the other study procedures like this
-            ejectDisk();
+            studyNotOnDiskError();
             return;
         }
         /// TODO Rest of processing
@@ -141,7 +140,7 @@ void Navigator::reviewStudy() {
     if (study) {
         // if study not on this optical disk change disk and return
         if (!studyOnDisk(study)) {
-            ejectDisk();
+            studyNotOnDiskError();
             return;
         }
         /// TODO Rest of processing
@@ -170,7 +169,7 @@ void Navigator::reports()  {
     if (study) {
         // if study not on this optical disk change disk and return
         if (!studyOnDisk(study)) {
-            ejectDisk();
+            studyNotOnDiskError();
             return;
         }
         /// TODO Rest of processing
@@ -907,10 +906,28 @@ QString Navigator::studyPath(Study* study) {
 void Navigator::deleteDataFiles() {
 }
 
-bool Navigator::studyOnDisk(const Study* s) const {
-    /// TODO this needs to find the studies file on the disk    
+/// This checks to make sure the selected study is on the optical disk catalog.
+/// If something is wrong with the catalog and the study is not physically present
+/// on disk, despite being in the catalog, the actual disk processing should raise
+/// and exception.
+bool Navigator::studyOnDisk(Study* s) const {
+    if (catalogs_->currentCatalogIsOptical())
+        return true; // by definition is you are selecting from the optical catalog
+                // the study is there.
+    if (catalogs_->studyPresentOnOpticalDisk(s))
+        return true;
     return false;
 }
+
+// Below reports the error and changes the disk.  Non-const function
+// since disk is changed.
+void Navigator::studyNotOnDiskError() {
+    QMessageBox::information(this, tr("Study Not Found"),
+        tr("Selected study not found on this disk.\n"
+           "Use next dialog to change disks."));
+    ejectDisk();
+}
+
 
 Navigator::~Navigator() {
     saveSettings();

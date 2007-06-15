@@ -76,6 +76,15 @@ void Catalog::relabel(const QString& oldLabel, const QString& newLabel) {
     save();
 }
 
+bool Catalog::studyPresent(Study* s) {
+    for (std::map<QString, Study>::iterator p = catalog_.begin();
+        p != catalog_.end(); ++p) {
+        if (p->second.key() == s->key())
+            return true;
+    }
+    return false;
+}
+
 void Catalog::load() {
     try {
         QFile f(filePath());
@@ -238,6 +247,10 @@ void Catalogs::regenerate() {
 void Catalogs::relabel(const QString& oldLabel, const QString& newLabel) {
       for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->relabel(oldLabel, newLabel);
+}
+
+bool Catalogs::studyPresentOnOpticalDisk(Study* s) {
+    return opticalCatalog_->studyPresent(s);
 }
 
 Catalogs::~ Catalogs() {
