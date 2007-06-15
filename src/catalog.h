@@ -61,8 +61,8 @@ public:
     virtual void regenerate() {}
     virtual void relabel(const QString& oldLabel, const QString& newLabel);
 
-    virtual void addStudy(Study*);
-    virtual void deleteStudy(Study*);
+    virtual void addStudy(const Study*);
+    virtual void deleteStudy(const Study*);
     virtual void editStudy(Study*);
 
     virtual QString path() const {return path_;}
@@ -72,7 +72,7 @@ public:
     virtual void setPath(const QString& path) {path_ = path;}
 
     virtual bool isOptical() {return false;}
-    virtual bool studyPresent(Study*);  // note this function can't be const
+    virtual bool studyPresent(const Study*);  // note this function can't be const
                                         // since using key() can modify key_ in study.
                                         /// TODO consider making key_ in Study mutable.
 

@@ -305,7 +305,7 @@ public:
     
     void testCatalogs() {
         Options* o = Options::instance();
-        Catalogs* c1 = new Catalogs(o);
+        Catalogs* c1 = new Catalogs(o, "");
         c1->setCatalogPath(Catalog::Other, "/tmp/test");
         c1->setCurrentCatalog(Catalog::Other);
         TS_ASSERT(c1->currentCatalog()->path() == "/tmp/test");
@@ -360,7 +360,7 @@ public:
     
     void testCatalogAddStudy() {
         Options* o = Options::instance();
-        Catalogs* cats = new Catalogs(o);
+        Catalogs* cats = new Catalogs(o, "");
         Study* s = new Study;
         Name n = {"Doe", "John", "E"};
         s->setName(n);

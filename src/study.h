@@ -96,7 +96,7 @@ public:
     QString filePath();     // Returns full path of study, 
                             // fixes path if doesn't end in '/'.
     QString config() const {return config_;}
-    QString key();    // Generates key based on name and datetime
+    QString key() const;    // Generates key based on name and datetime
                             // to identify study uniquely.
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
@@ -167,7 +167,7 @@ private:
                         // which is really a directory name if optical
                         // disk emulation on.
 
-    QString key_;   // unique key for each study
+    mutable QString key_;   // unique key for each study
     Heart *heart_;
     
     static const QString studyFileName_;

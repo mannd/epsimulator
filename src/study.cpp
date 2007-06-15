@@ -144,7 +144,7 @@ Study::Study(const Study& study) {
  * searching, etc.  Once generated, will not change,
  * even if name, study date, etc. change.
  */
-QString Study::key() {
+QString Study::key() const {
     // Under normal circumstances PatientDialog won't allow a 
     // blank last name, so shouldn't happen.
     if (name_.last.isNull())

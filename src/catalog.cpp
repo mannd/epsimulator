@@ -49,12 +49,12 @@ Catalog::Catalog(const QString& path,
 Catalog::~Catalog() {
 }
 
- void Catalog::addStudy(Study* study) {
+ void Catalog::addStudy(const Study* study) {
     catalog_[study->key()] = *study;
     save();
 }
 
-void Catalog::deleteStudy(Study* study) {
+void Catalog::deleteStudy(const Study* study) {
     catalog_.erase(study->key());
     save();
 }
@@ -76,7 +76,7 @@ void Catalog::relabel(const QString& oldLabel, const QString& newLabel) {
     save();
 }
 
-bool Catalog::studyPresent(Study* s) {
+bool Catalog::studyPresent(const Study* s) {
     for (std::map<QString, Study>::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) {
         if (p->second.key() == s->key())
