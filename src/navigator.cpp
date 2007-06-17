@@ -310,18 +310,21 @@ void Navigator::login() {
         PasswordDialog* pwDialog = new PasswordDialog(options_,this);
         if (pwDialog->exec()) {
             user_->makeAdministrator(true);
-            statusBar_->updateUserLabel(user_->isAdministrator() ,
-                                        options_->oldStyleNavigator());
+            updateStatusBarUserLabel();
             updateMenus();
         }
         delete pwDialog;
     }
 }
 
+void Navigator::updateStatusBarUserLabel() {
+    statusBar_->updateUserLabel(options_->oldStyleNavigator() ?
+        user_->role() : user_->name());
+}
+
 void Navigator::logout() {
     user_->makeAdministrator(false);
-    statusBar_->updateUserLabel(user_->isAdministrator(),
-                                options_->oldStyleNavigator());
+    updateStatusBarUserLabel();
     updateMenus();
 }
 
@@ -441,8 +444,7 @@ void Navigator::simulatorSettings() {
             // Need to do below to make sure user label
             // matches Navigator style.
             statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
-            statusBar_->updateUserLabel(user_->isAdministrator(),
-                                        options_->oldStyleNavigator());
+            updateStatusBarUserLabel();
             /// TODO other effects of changing simulator settings below
             
         }
@@ -504,8 +506,10 @@ void Navigator::createOpticalDrive() {
             currentDisk_ = new OpticalDisk(options_->opticalStudyPath(),
                                     options_->dualSidedDrive());
         // below for debugging
+#ifndef NDEBUG
         std::cout << "currentDisk_->label() = " << currentDisk_->label() << 
             " currentDisk_->side() = " << currentDisk_-> translatedSide() << std::endl;
+#endif
     }
     catch (EpSim::IoError& e) { 
         QMessageBox::warning(this, tr("Error"),
@@ -556,7 +560,8 @@ void Navigator::createTableListView() {
 
 void Navigator::createStatusBar() {
     statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this, 
-        options_->oldStyleNavigator(), "StatusBar");
+        "StatusBar");
+    updateStatusBarUserLabel();
 }
 
 void Navigator::updateMenus() {

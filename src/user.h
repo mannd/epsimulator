@@ -51,6 +51,7 @@ private:
 
     bool isAdministrator_;
     QString name_;
+    QString machineName_;
 
 };
 

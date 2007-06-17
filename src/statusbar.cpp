@@ -23,14 +23,14 @@
 #include <qstring.h>
 
 StatusBar::StatusBar(const QString& catalogPath, QWidget *parent, 
-    bool oldStyle, const char *name) : QStatusBar(parent, name) {
+    const char *name) : QStatusBar(parent, name) {
     messageLabel_ = new QLabel(tr("For Help, press F1"), this);
 
 //     QString user = oldStyle ? tr(" User: eplabuser ") :
 //         tr(" User: %1 ").arg(std::getenv("USER"));
     userLabel_ = new QLabel(this);
 //    userLabel_->setAlignment(AlignHCenter);
-    updateUserLabel(false, oldStyle);
+//    updateUserLabel(false, oldStyle);
 
     sourceLabel_ = new QLabel(this);
 //    sourceLabel_->setAlignment(AlignHCenter);
@@ -63,13 +63,9 @@ void StatusBar::updateFilterLabel(bool filtered) {
     update();
 }
 
-void StatusBar::updateUserLabel(bool userIsAdministrator, bool oldStyle) {
-    QString user = oldStyle ? tr("EPSIMUSER") : std::getenv("USER");
-    user = userIsAdministrator ? tr("ADMINISTRATOR") : user;
-    userLabel_->setText(tr(" User: %1 ").arg(user));
-//    userLabel_->setMinimumSize(userLabel_->sizeHint());
+void StatusBar::updateUserLabel(const QString& userName) {
+    userLabel_->setText(tr(" User: %1 ").arg(userName));
     update();
-
 }
 
 StatusBar::~StatusBar()

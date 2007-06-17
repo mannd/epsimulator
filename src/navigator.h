@@ -116,6 +116,8 @@ private:
     void createToolBars();
     void saveSettings();
     void readSettings();
+    void updateStatusBarUserLabel();
+
 
     // Filtering
     void processFilter();

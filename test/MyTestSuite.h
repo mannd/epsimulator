@@ -439,6 +439,7 @@ public:
         TS_ASSERT (u->role() == QObject::tr("EPSIMUSER"));
         u->makeAdministrator(true);
         TS_ASSERT(u->role() == QObject::tr("ADMINISTRATOR"));
+        TS_ASSERT(u->name() == QObject::tr("ADMINISTRATOR"));
         u->makeAdministrator(false);
         TS_ASSERT(u->role() == QObject::tr("EPSIMUSER"));
         cerr <<   "User name is " << u->name();
@@ -449,7 +450,6 @@ public:
 private:
     void testStudyDefaults(Study& study) {
         TS_ASSERT(study.sex() == Male);
-        cerr <<   (int)study.sex();;
         TS_ASSERT(study.vagalTone() == DEFAULT_VAGAL_TONE);
         TS_ASSERT(study.sympatheticTone() == DEFAULT_SYMPATHETIC_TONE);
         TS_ASSERT(study.ef() == DEFAULT_EF);

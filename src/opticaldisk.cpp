@@ -30,8 +30,9 @@
 #include <qobject.h>
 
 // for debug
+#ifndef NDEBUG
 #include <iostream>
-
+#endif
 const QString OpticalDisk::labelFileName_ = "label.dat";
 
 OpticalDisk::OpticalDisk(const QString& path, bool isTwoSided) 
@@ -140,13 +141,17 @@ QString EmulatedOpticalDisk::load(const QString& fileName) {
     }
     // each directory must be created separately!
     QDir diskDir(diskPath());
+#ifndef NDEBUG
     std::cout << "OpticalDisk diskpath = " << diskPath() << std::endl;
+#endif
     if (!diskDir.exists()) {
         if (!diskDir.mkdir(diskPath()))
             throw EpSim::IoError(diskPath());
     }
     QDir pathDir(path());
+#ifndef NDEBUG
     std::cout << "OpticalDisk path = " << path() << std::endl;
+#endif
     if (!pathDir.exists()) {
         if (!pathDir.mkdir(path()))
             throw EpSim::IoError(path());

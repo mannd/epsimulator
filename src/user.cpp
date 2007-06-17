@@ -35,21 +35,21 @@ User* User::instance() {
     return instance_;
 }
 
-User::User() : isAdministrator_(false), name_(QString::null) {}
+User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
+    const size_t length = 255;
+    char name[length] = "";
+    machineName_ = gethostname(name, length) == 0 ? QString(name) : QString::null;
+}
 
 User::~User() {}
 
 QString User::machineName() const {
-    const size_t length = 255;
-    char name[length] = "";
-    if (gethostname(name, length) == 0)
-        return QString(name);
-    else
-        return QString::null;
+    return machineName_;
 }
 
 QString User::name() const {
-    return std::getenv("USER");
+    return isAdministrator_ ? QObject::tr("ADMINISTRATOR") 
+        :  name_;
 }
 
 QString User::role() const {

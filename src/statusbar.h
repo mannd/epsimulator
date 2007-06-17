@@ -34,11 +34,11 @@ class StatusBar : public QStatusBar  {
 Q_OBJECT
 public:
     StatusBar(const QString& catalogPath, QWidget *parent = 0, 
-        bool oldStyle = false, const char *name = 0);
+        const char *name = 0);
     
     void updateSourceLabel(const QString&);
     void updateFilterLabel(bool filtered);
-    void updateUserLabel(bool userIsAdministrator, bool oldStyle);
+    void updateUserLabel(const QString&);
 
     ~StatusBar();
 

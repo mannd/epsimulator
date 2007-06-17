@@ -43,5 +43,7 @@ runner.cpp: MyTestSuite.h
 
 run: $(DEST_DIR)/runner
 	$(DEST_DIR)/runner -keep
+	touch MyTestSuite.h
+# this should insure that next go around MyTestSuite will be rebuilt
 
 
