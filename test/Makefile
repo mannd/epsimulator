@@ -24,13 +24,14 @@ OBJECTS := 	$(OBJ_DIR)/study.o \
 		$(OBJ_DIR)/moc_passworddialog.o \
 		$(OBJ_DIR)/GeneralHashFunctions.o \
 		$(OBJ_DIR)/passwordhandler.o \
-		$(OBJ_DIR)/opticaldisk.o 
+		$(OBJ_DIR)/opticaldisk.o \
+		$(OBJ_DIR)/user.o
 
 vpath %.cpp ../src
 vpath %.h ../src
 
 .PHONY: all test run
-all: test
+all: run
 
 $(DEST_DIR)/runner: runner.cpp
 	g++ -o $@ $< $(OBJECTS) $(CXXFLAGS) $(INCPATH) $(LIBS)
@@ -43,6 +44,4 @@ runner.cpp: MyTestSuite.h
 run: $(DEST_DIR)/runner
 	$(DEST_DIR)/runner -keep
 
-test: run
-	touch ../test/MyTestSuite.h
-	
+

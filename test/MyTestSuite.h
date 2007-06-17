@@ -32,6 +32,7 @@
 #include "passworddialog.h"
 #include "passwordhandler.h"
 #include "catalogcombobox.h"
+#include "user.h"
 
 #include <qbuttongroup.h>
 #include <qdatetimeedit.h>
@@ -47,6 +48,7 @@
 #include <math.h>
         
 
+using std::cerr;
 using std::cout;
 using std::endl;
 
@@ -103,7 +105,7 @@ public:
         Study s;
         s.setPath("/home/");
         TS_ASSERT(s.filePath() == "/home/study.dat");
-        cout << "filePath() = " << s.filePath() << '\n';
+        cerr <<  "filePath() = " << s.filePath();
         s.setPath("");
         TS_ASSERT(s.filePath() == "/study.dat");
         TS_ASSERT(s.filePath() == "/" + s.studyFileName());
@@ -118,7 +120,7 @@ public:
         name.first = "John";
         name.last = "Doe";
         s.setName(name);
-        cout << "testKey() name.first = " << name.first << endl;
+        cerr <<  "testKey() name.first = " << name.first;
         TS_ASSERT(s.key() == "Doe_John_" + 
             s.dateTime().toString("ddMMyyyyhhmmsszzz"));
 }
@@ -132,17 +134,17 @@ public:
         name.first = "    John  ";
         name.last = "   Doe        ";
         s.setName(name);
-        cout <<  "testKey2 result is " << s.key() << "\n";
+        cerr <<   "testKey2 result is " << s.key();
         TS_ASSERT(s.key() == "Doe_John_" + 
             s.dateTime().toString("ddMMyyyyhhmmsszzz"));
 }
     
     void testOptions() {
         Options* options = Options::instance();
-        cout << options->opticalStudyPath() << endl
+        cerr <<   options->opticalStudyPath() << endl
             << options->systemCatalogPath() << endl
             << options->networkStudyPath() << endl
-            << options->tempStudyPath() << endl;
+            << options->tempStudyPath();
         QString s = options->opticalStudyPath();
         options->setOpticalStudyPath(s);
         TS_ASSERT(s == options->opticalStudyPath());
@@ -158,7 +160,7 @@ public:
         PatientDialog* p = new PatientDialog;
         p->setFields(s1);
         p->getFields(s2);
-        cout << "In testPatientDialog\n";
+        cerr <<   "In testPatientDialog";
         TS_ASSERT(s2->name().last == "Test3");
         TS_ASSERT(s2->name().first == "John");
         delete p;
@@ -177,7 +179,7 @@ public:
         // tabbing through the fields.
         completePatientDialog(p);
         p->getFields(s);
-        cout << s->bsa();
+        cerr <<   s->bsa();
         double delta = 0.001;
         TS_ASSERT_DELTA(s->height(), heightIn * 2.54, delta);
         TS_ASSERT_DELTA(s->weight(), weightLbs * 0.45, delta);
@@ -243,7 +245,7 @@ public:
         TS_ASSERT(anyDate);
         TS_ASSERT(startDate == endDate);
         TS_ASSERT(startDate == QDate::currentDate());
-        cout << "Selected ID = " << filterCatalog->studyDateButtonGroup->selectedId() << std::endl;
+        cerr <<   "Selected ID = " << filterCatalog->studyDateButtonGroup->selectedId();
         delete filterCatalog;
 }
 
@@ -257,7 +259,7 @@ public:
         pd.setFields(s1);
         pd.getFields(s2);
         TS_ASSERT(s1->key() != s2->key());
-        cout << "s1->key()=" << s1->key() << endl << "s2->key()=" << s2->key() << endl;
+        cerr <<   "s1->key()=" << s1->key() <<  "s2->key()=" << s2->key();
         delete s1;
         delete s2;
    }
@@ -303,7 +305,7 @@ public:
         TS_ASSERT(c.filePath() == "/testpath/catalog.dat");
         // test Catalog subclasses
         Catalog* cp = new OpticalCatalog("../System", "catalog.dat");
-        cout << "catalog filepath" << cp->filePath() << std::endl;
+        cerr <<   "catalog filepath" << cp->filePath();
         delete cp;
     }
     
@@ -362,7 +364,7 @@ public:
         Catalog c1("/djdkfdjdkfjdk/ekekeke/", "dkjkfjekjee");
         // garbage catalog path should give empty catalog
         TS_ASSERT(c1.isEmpty());
-        cout << "finished testIoError\n";
+        cerr <<   "finished testIoError";
         // should throw exception
     }
 //     
@@ -374,7 +376,7 @@ public:
         s->setName(n);
         // key will be null unless there is a last name
         QString key = s->key();
-        cout << "s->key()=" << s->key() << endl;
+        cerr <<   "s->key()=" << s->key();
         cats->addStudy(s);
         Study s1 = (*cats->currentCatalog())[key];
         TS_ASSERT(s1.key() == key);
@@ -389,7 +391,7 @@ public:
         s.setPath("garbage");
         Name n = {"Smith", "John", ""};
         s.setName(n);
-        cout << "s.filePath() = " << s.filePath() << endl;
+        cerr <<   "s.filePath() = " << s.filePath();
         TS_ASSERT(s.filePath() == "garbage/study.dat");
         
     }
@@ -397,16 +399,15 @@ public:
     void testEmulatedOpticalDisk() {
     	Options* o = Options::instance();
     	EmulatedOpticalDisk d(o->opticalStudyPath());
-    	cout << d.path() << endl;
+    	cerr <<   d.path();
     	TS_ASSERT(d.path() == QDir::cleanDirPath(o->opticalStudyPath() + "/disks/"
     		+ d.diskName() + "/" + d.side()));
         TS_ASSERT(d.filePath() == QDir::cleanDirPath( o->opticalStudyPath() + "//disks/"
     		+ d.diskName() + "/" + d.side() + "/label.dat"));
-        cout << "optical disk assertion " << o->opticalStudyPath() + "/disks/"
+        cerr <<   "optical disk assertion " << o->opticalStudyPath() + "/disks/"
     		+ d.diskName() + "/" + d.side() + "/label.dat" << endl;
-        cout << "d.diskName() = " << d.diskName() << endl;
-        cout << "emulatedOpticalDisk filePath() = " << d.filePath()
-            << endl;
+        cerr <<   "d.diskName() = " << d.diskName() << endl;
+        cerr <<   "emulatedOpticalDisk filePath() = " << d.filePath();
     }
     
     void testOpticalDisk() {
@@ -431,11 +432,24 @@ public:
         delete d;
     }	
 
+    void testUser() {
+        User* u = User::instance();
+        cerr <<   "Machine name is " << u->machineName() << endl;
+        TS_ASSERT (!u->machineName().isNull());
+        TS_ASSERT (u->role() == QObject::tr("EPSIMUSER"));
+        u->makeAdministrator(true);
+        TS_ASSERT(u->role() == QObject::tr("ADMINISTRATOR"));
+        u->makeAdministrator(false);
+        TS_ASSERT(u->role() == QObject::tr("EPSIMUSER"));
+        cerr <<   "User name is " << u->name();
+    }
+
+
 
 private:
     void testStudyDefaults(Study& study) {
         TS_ASSERT(study.sex() == Male);
-        cout << (int)study.sex() << '\n';;
+        cerr <<   (int)study.sex();;
         TS_ASSERT(study.vagalTone() == DEFAULT_VAGAL_TONE);
         TS_ASSERT(study.sympatheticTone() == DEFAULT_SYMPATHETIC_TONE);
         TS_ASSERT(study.ef() == DEFAULT_EF);
@@ -497,10 +511,10 @@ private:
     }
 
     void showFullNameOutput(const Study& s) {
-        cout << "fullName() = " << s.name().fullName() << '\n';
-        cout << "fullName(true) = " << s.name().fullName(true) << '\n';
-        cout << "fullName(false, true) = " << s.name().fullName(false, true) << '\n';
-        cout << "fullName(true, true) = " << s.name().fullName(true, true)  << '\n';
+        cerr <<   "fullName() = " << s.name().fullName();
+        cerr <<   "fullName(true) = " << s.name().fullName(true);
+        cerr <<   "fullName(false, true) = " << s.name().fullName(false, true);
+        cerr <<   "fullName(true, true) = " << s.name().fullName(true, true) ;
     }
 
     void completePatientDialog(PatientDialog* p) {

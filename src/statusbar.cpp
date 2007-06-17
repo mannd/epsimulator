@@ -26,9 +26,6 @@ StatusBar::StatusBar(const QString& catalogPath, QWidget *parent,
     bool oldStyle, const char *name) : QStatusBar(parent, name) {
     messageLabel_ = new QLabel(tr("For Help, press F1"), this);
 
-    /// Apparently getenv works in Windows too.
-    /// TODO If logged in as administrator, show this on status bar
-    /// Difference from Prucka: Only shows "cluser" for general user or "administrator"
 //     QString user = oldStyle ? tr(" User: eplabuser ") :
 //         tr(" User: %1 ").arg(std::getenv("USER"));
     userLabel_ = new QLabel(this);

@@ -39,6 +39,7 @@ class Options;
 class StatusBar;
 class Study;
 class TableListView;
+class User;
 
 class QAction;
 class QLabel;
@@ -148,7 +149,8 @@ private:
     Catalogs* catalogs_;
     StatusBar* statusBar_;
     OpticalDisk* currentDisk_;
-    bool userIsAdministrator_;
+    User* user_;
+
 //    OpticalDiskDrive* opticalDiskDrive_;
 
     // central widget stuff

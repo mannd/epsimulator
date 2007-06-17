@@ -156,7 +156,7 @@ OpticalCatalog::OpticalCatalog(const QString& path,
                  const QString& fileName) : Catalog(path, fileName) {
 }
 
-void OpticalCatalog::addStudy(Study* study) {
+void OpticalCatalog::addStudy(const Study* study) {
     // only add real studies to the optical drive
     if (!study->isPreregisterStudy())
         Catalog::addStudy(study);
@@ -222,12 +222,12 @@ void Catalogs::setCurrentCatalog(Catalog::Source catalog) {
     currentCatalog_ = catalogs_[catalog];
 }
 
-void Catalogs::addStudy(Study* study) {
+void Catalogs::addStudy(const Study* study) {
     for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->addStudy(study);
 }
 
-void Catalogs::deleteStudy(Study* study) {
+void Catalogs::deleteStudy(const Study* study) {
     for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->deleteStudy(study);
 }

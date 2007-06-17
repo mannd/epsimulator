@@ -45,11 +45,11 @@ void PatientDialog::accept() {
         PatientDialogBase::accept();
 }
 
-double PatientDialog::inchesToCentimeters(double inches) {
+double PatientDialog::inchesToCentimeters(double inches) const {
     return inches * 2.54;
 }
 
-double PatientDialog::poundsToKilograms(double pounds) {
+double PatientDialog::poundsToKilograms(double pounds) const {
     return pounds * 0.45;
 }
 
@@ -110,7 +110,7 @@ void PatientDialog::setFields(const Study* study) {
     // handle heart
 }
 
-void PatientDialog::getFields(Study* study) {
+void PatientDialog::getFields(Study* study) const {
     Name name;
     name.last = lastNameLineEdit->text();
     name.first = firstNameLineEdit->text();
@@ -134,6 +134,6 @@ void PatientDialog::getFields(Study* study) {
     // handle heart here
 }
 
-Sex PatientDialog::getSex() {
+Sex PatientDialog::getSex() const {
     return sexComboBox->currentItem() == 0 ? Male : Female;
 }

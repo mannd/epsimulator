@@ -17,38 +17,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PATIENTDIALOG_H
-#define PATIENTDIALOG_H
+#ifndef USER_H
+#define USER_H
 
-#include "patientdialogbase.h"
-#include "study.h"
+#include <qstring.h>
 
-/// TODO Consider not allowing any edits of study date and time in PatientDialogBase.ui
-class PatientDialog: public PatientDialogBase {
-    Q_OBJECT
+/**
+Encapsulates info on the program user.  Is singleton class, only 1 user obviously.
+Also, perhaps overambitiously contains host machine info.
+
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+class User {
 public:
-    PatientDialog(QWidget *parent = 0, 
-		  const char *name = 0);
-    void setFields(const Study* study);
-    void getFields(Study* study) const;
-   
-public slots:
-    virtual void manualEditBsaCheckBox_toggled(bool);
-    virtual void weightKgLineEdit_lostFocus();
-    virtual void weightLbsLineEdit_lostFocus();
-    virtual void heightCmLineEdit_lostFocus();
-    virtual void heightInLineEdit_lostFocus();
-    virtual void accept();
+    static User* instance();
+    void setAdministrator(bool isAdministrator) 
+        {isAdministrator_ = isAdministrator;}
+
+    void makeAdministrator(bool isAdministrator) {
+        isAdministrator_ = isAdministrator;}
+
+    bool isAdministrator() const {return isAdministrator_;}
+    QString machineName() const;
+    QString name() const;
+    QString role() const;  // returns EPSIMUSER or ADMINISTRATOR
+
+    void destroy() {delete instance_; instance_ = 0;}
 
 private:
-    double inchesToCentimeters(double inches) const;
-    double poundsToKilograms(double pounds) const;
-    double bsa();
-    void setBsaText();
-    Sex getSex() const;
+    User();
+    ~User();
+    static User* instance_;
 
-    double metricHeight_;
-    double metricWeight_;
+    bool isAdministrator_;
+    QString name_;
+
 };
 
 #endif

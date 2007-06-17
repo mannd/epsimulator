@@ -47,6 +47,7 @@
 #include "studycopywizard.h"
 #include "systemdialog.h"
 #include "tablelistview.h"
+#include "user.h"
 #include "utilities.h"
 
 #include <qaction.h>
@@ -75,8 +76,9 @@
  */
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
-                   options_(Options::instance()), filterCatalog_(0), catalogs_(0), 
-                   currentDisk_(0), userIsAdministrator_(false) {
+                   options_(Options::instance()), filterCatalog_(0),
+                   currentDisk_(0) {
+    user_ = User::instance();
     createOpticalDrive();
     catalogs_ = new Catalogs(options_, currentDisk_->path());
     createActions();
@@ -304,11 +306,11 @@ void Navigator::relabelDisk() {
 }
 
 void Navigator::login() {
-    if (!userIsAdministrator_) {
+    if (!user_->isAdministrator()) {
         PasswordDialog* pwDialog = new PasswordDialog(options_,this);
         if (pwDialog->exec()) {
-            userIsAdministrator_ = true;
-            statusBar_->updateUserLabel(userIsAdministrator_,
+            user_->makeAdministrator(true);
+            statusBar_->updateUserLabel(user_->isAdministrator() ,
                                         options_->oldStyleNavigator());
             updateMenus();
         }
@@ -317,8 +319,8 @@ void Navigator::login() {
 }
 
 void Navigator::logout() {
-    userIsAdministrator_ = false;
-    statusBar_->updateUserLabel(userIsAdministrator_,
+    user_->makeAdministrator(false);
+    statusBar_->updateUserLabel(user_->isAdministrator(),
                                 options_->oldStyleNavigator());
     updateMenus();
 }
@@ -338,7 +340,7 @@ bool Navigator::administrationAllowed() {
     if (!options_->administratorAccountRequired())
         return true;
     login();
-    return userIsAdministrator_;
+    return user_->isAdministrator();
 }
 
 
@@ -439,7 +441,7 @@ void Navigator::simulatorSettings() {
             // Need to do below to make sure user label
             // matches Navigator style.
             statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
-            statusBar_->updateUserLabel(userIsAdministrator_,
+            statusBar_->updateUserLabel(user_->isAdministrator(),
                                         options_->oldStyleNavigator());
             /// TODO other effects of changing simulator settings below
             
@@ -559,7 +561,7 @@ void Navigator::createStatusBar() {
 
 void Navigator::updateMenus() {
     bool showSimulatorSettings = !options_->hideSimulatorMenu() ||
-        userIsAdministrator_;
+        user_->isAdministrator();
     simulatorOptionsAct_->setVisible(showSimulatorSettings);
 }
 
@@ -932,4 +934,5 @@ Navigator::~Navigator() {
     saveSettings();
     delete catalogs_;
     delete currentDisk_;
+    user_->destroy();
 }

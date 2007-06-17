@@ -106,7 +106,7 @@ class OpticalCatalog : public Catalog {
 public:
     OpticalCatalog(const QString& path, const QString& fileName);
 
-    void addStudy(Study*);
+    void addStudy(const Study*);
     void regenerate();
     void relabel(const QString& oldLabel, const QString& newLabel);
     ~OpticalCatalog() {}
@@ -134,9 +134,9 @@ public:
     Catalogs(Options* options, const QString& opticalDiskPath);
 
     // Functions below work on all active catalogs.
-    void addStudy(Study*);
-    void deleteStudy(Study*);
-    void replaceStudy(Study*);
+    void addStudy(const Study*);
+    void deleteStudy(const Study*);
+//    void replaceStudy(Study*);
     
     void refresh();
     void regenerate();

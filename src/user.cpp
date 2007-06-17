@@ -17,38 +17,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PATIENTDIALOG_H
-#define PATIENTDIALOG_H
+#include "user.h"
 
-#include "patientdialogbase.h"
-#include "study.h"
+#include <qobject.h>
 
-/// TODO Consider not allowing any edits of study date and time in PatientDialogBase.ui
-class PatientDialog: public PatientDialogBase {
-    Q_OBJECT
-public:
-    PatientDialog(QWidget *parent = 0, 
-		  const char *name = 0);
-    void setFields(const Study* study);
-    void getFields(Study* study) const;
-   
-public slots:
-    virtual void manualEditBsaCheckBox_toggled(bool);
-    virtual void weightKgLineEdit_lostFocus();
-    virtual void weightLbsLineEdit_lostFocus();
-    virtual void heightCmLineEdit_lostFocus();
-    virtual void heightInLineEdit_lostFocus();
-    virtual void accept();
+#include <cstdlib>
+// NB: this file is operating system dependent and won't compile on an
+// non-unix system.  
+/// TODO When migrating to Windows, will need to modify this file.
+#include <unistd.h>
 
-private:
-    double inchesToCentimeters(double inches) const;
-    double poundsToKilograms(double pounds) const;
-    double bsa();
-    void setBsaText();
-    Sex getSex() const;
+User* User::instance_ = 0;
 
-    double metricHeight_;
-    double metricWeight_;
-};
+User* User::instance() {
+    if (instance_ == 0)
+        instance_ = new User;
+    return instance_;
+}
 
-#endif
+User::User() : isAdministrator_(false), name_(QString::null) {}
+
+User::~User() {}
+
+QString User::machineName() const {
+    const size_t length = 255;
+    char name[length] = "";
+    if (gethostname(name, length) == 0)
+        return QString(name);
+    else
+        return QString::null;
+}
+
+QString User::name() const {
+    return std::getenv("USER");
+}
+
+QString User::role() const {
+    return isAdministrator_ ? QObject::tr("ADMINISTRATOR") 
+        :  QObject::tr("EPSIMUSER");
+}
+
