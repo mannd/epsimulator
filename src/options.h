@@ -80,7 +80,6 @@ public:
     QString exportFilePath() const {return exportFilePath_;}
     QString tempStudyPath() const {return tempStudyPath_;}
     QString systemCatalogPath() const {return systemCatalogPath_;}
-    QString catalogFileName() const {return catalogFileName_;}
 
     QString labName() const {return labName_;}
 
@@ -111,8 +110,6 @@ protected:
     static Options* instance_;
 
 private:
-    // name of catalog files is hardwired, and defined in options.cpp
-    static const char* catalogFileName_;
     QString opticalStudyPath_;
     QString networkStudyPath_;
     QString tempStudyPath_;

@@ -188,6 +188,7 @@ NetworkCatalog::NetworkCatalog(const QString& path,
                  const QString& fileName) : Catalog(path, fileName){
 }
 
+const char* Catalogs::fileName_ = "catalog.dat";
 
 /**
  * Catalogs constructor.  Catalogs keeps all the catalogs, keeps track of
@@ -196,11 +197,10 @@ NetworkCatalog::NetworkCatalog(const QString& path,
  * @param path = path to optical disk.
  */
 Catalogs::Catalogs(Options* options, const QString& path) {
-    QString fileName = options->catalogFileName();
-    networkCatalog_ = new NetworkCatalog(options->networkStudyPath(), fileName);
-    systemCatalog_ = new SystemCatalog(options->systemCatalogPath(), fileName);
-    opticalCatalog_ = new OpticalCatalog(path, fileName);
-    otherCatalog_ = new Catalog(options->systemCatalogPath(), fileName);
+    networkCatalog_ = new NetworkCatalog(options->networkStudyPath(), fileName_);
+    systemCatalog_ = new SystemCatalog(options->systemCatalogPath(), fileName_);
+    opticalCatalog_ = new OpticalCatalog(path, fileName_);
+    otherCatalog_ = new Catalog(options->systemCatalogPath(), fileName_);
     catalogs_[Catalog::Network] = networkCatalog_;
     catalogs_[Catalog::System] = systemCatalog_;
     catalogs_[Catalog::Optical] = opticalCatalog_;
@@ -215,6 +215,9 @@ void Catalogs::setCatalogPath(Catalog::Source catalog, const QString& path) {
     catalogs_[catalog]->setPath(path);
 }
 
+QString Catalogs::fileName() const {
+    return fileName_;
+}
 
 /// TODO need an update Catalogs function to be called after systemDialog execs
 

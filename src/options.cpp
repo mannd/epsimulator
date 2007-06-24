@@ -25,8 +25,6 @@
 #include <qapplication.h>
 #include <qdir.h>
 
-const char* Options::catalogFileName_ = "catalog.dat";
-
 Options* Options::instance_ = 0;
 
 Options* Options::instance() {

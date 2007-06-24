@@ -148,6 +148,8 @@ public:
 
     bool currentCatalogIsOptical() {return currentCatalog_->isOptical();}
     bool studyPresentOnOpticalDisk(const Study*);
+
+    QString fileName() const;   // returns default catalog fileName
         
 
     ~Catalogs();
@@ -157,6 +159,7 @@ protected:
     Catalogs(Catalogs&);
 
 private:
+    static const char* fileName_;
 
     Catalog* currentCatalog_;
     OpticalCatalog* opticalCatalog_;

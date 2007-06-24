@@ -390,7 +390,7 @@ void Navigator::setCatalogOptical() {
 
 void Navigator::setCatalogOther() {
     QFileDialog *fd = new QFileDialog(options_->systemCatalogPath(), 
-                                      options_->catalogFileName(), this, 0, true);
+                                      catalogs_->fileName(), this, 0, true);
     if (fd->exec() == QDialog::Accepted) {
         catalogs_->setCatalogPath(Catalog::Other, fd->dirPath());
         catalogComboBox_->setSource(Catalog::Other);
