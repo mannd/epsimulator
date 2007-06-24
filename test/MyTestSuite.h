@@ -259,7 +259,8 @@ public:
         pd.setFields(s1);
         pd.getFields(s2);
         TS_ASSERT(s1->key() != s2->key());
-        cerr <<   "s1->key()=" << s1->key() <<  "s2->key()=" << s2->key();
+        cerr <<   "s1->key()=" << s1->key() << endl
+            << "s2->key()=" << s2->key();
         delete s1;
         delete s2;
    }
@@ -364,20 +365,20 @@ public:
         Catalog c1("/djdkfdjdkfjdk/ekekeke/", "dkjkfjekjee");
         // garbage catalog path should give empty catalog
         TS_ASSERT(c1.isEmpty());
-        cerr <<   "finished testIoError";
+        cerr <<   "finished testIoError" << endl;
         // should throw exception
     }
 //     
     void testCatalogAddStudy() {
         Options* o = Options::instance();
-        cerr << "o->opticalStudyPath() = " << o->opticalStudyPath();
+        cerr << "o->opticalStudyPath() = " << o->opticalStudyPath() << endl;
         Catalogs* cats = new Catalogs(o, o->opticalStudyPath());
         Study* s = new Study;
         Name n = {"Doe", "John", "E"};
         s->setName(n);
         // key will be null unless there is a last name
         QString key = s->key();
-        cerr <<   "s->key()=" << s->key();
+        cerr <<   "s->key()=" << s->key() << endl;
         cats->addStudy(s);
         Study s1 = (*cats->currentCatalog())[key];
         TS_ASSERT(s1.key() == key);
@@ -408,7 +409,7 @@ public:
         cerr <<   "optical disk assertion " << o->opticalStudyPath() + "/disks/"
     		+ d.diskName() + "/" + d.side() + "/label.dat" << endl;
         cerr <<   "d.diskName() = " << d.diskName() << endl;
-        cerr <<   "emulatedOpticalDisk filePath() = " << d.filePath();
+        cerr <<   "emulatedOpticalDisk filePath() = " << d.filePath() << endl;
     }
     
     void testOpticalDisk() {

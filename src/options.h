@@ -58,6 +58,8 @@ public:
     void setExportFilePath(const QString& exportFilePath) {exportFilePath_ = exportFilePath;}
     void setTempStudyPath(const QString& tempStudyPath) {tempStudyPath_ = tempStudyPath;}
 
+    void setLabName(const QString& labName) {labName_ = labName;}
+
     void setEnableAcquisition(bool enable) {enableAcquisition_ = enable;}
     void setEnableFileExport(bool enable) {enableFileExport_ = enable;}
     void setEnableNetworkStorage(bool enable) { enableNetworkStorage_ = enable;}
@@ -79,6 +81,8 @@ public:
     QString tempStudyPath() const {return tempStudyPath_;}
     QString systemCatalogPath() const {return systemCatalogPath_;}
     QString catalogFileName() const {return catalogFileName_;}
+
+    QString labName() const {return labName_;}
 
     bool enableAcquisition() const {return enableAcquisition_;}
     bool enableFileExport() const {return enableFileExport_;}
@@ -114,6 +118,7 @@ private:
     QString tempStudyPath_;
     QString exportFilePath_;
     QString systemCatalogPath_;
+    QString labName_;   // name of ep lab study for this computer
     bool enableAcquisition_;
     bool enableFileExport_;
     bool enableNetworkStorage_;

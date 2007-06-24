@@ -196,7 +196,7 @@ void TableListView::addStudy(const Study* study) {
         study->dateTime().toString(),
         study->config(),
         study->number(),
-        study->location()); 
+        location(study->location())); 
     }
     else {
         (void) new TableListViewItem(this, *study, 3,
@@ -206,7 +206,7 @@ void TableListView::addStudy(const Study* study) {
         study->dateTime().toString(),
         study->config(),
         study->number(),
-        study->location());
+        location(study->location()));
     }
 }
 
@@ -237,7 +237,8 @@ void TableListView::exportCSV(const QString& fileName) {
         throw EpSim::WriteError(file.name());
     file.close();
 }
-// 
+
+/// BUG: matches location without considering disk side or machine location. 
 void TableListView::applyFilter( FilterStudyType filterStudyType,
                                             const QRegExp& lastName,
                                             const QRegExp& firstName,
@@ -289,3 +290,8 @@ void TableListView::removeFilter() {
     filtered_ = false;
     showTable();
 }
+
+QString TableListView::location(const QString& studyLocation) const {
+    return studyLocation;
+}
+

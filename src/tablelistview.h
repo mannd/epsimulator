@@ -72,6 +72,8 @@ public:
     void exportCSV(const QString& fileName);
 
 private:
+    QString location(const QString& studyLocation) const;
+
     // first bytes of EP Simulator binary files
     enum {MagicNumber = 0x99c798f2};    
 

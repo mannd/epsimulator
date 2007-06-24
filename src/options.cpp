@@ -54,6 +54,7 @@ void Options::readSettings() {
     opticalStudyPath_ = settings.readEntry("/opticalStudyPath", defaultOpticalPath);
     networkStudyPath_ = settings.readEntry("/networkStudyPath", "");
     exportFilePath_ = settings.readEntry("/exportFilePath", "");
+    labName_ = settings.readEntry("/labName", "");
     dualSidedDrive_ = 
         settings.readBoolEntry("/dualSidedDrive", true);
     emulatedOpticalDriveCapacity_ 
@@ -84,6 +85,7 @@ void Options::writeSettings() {
     settings.writeEntry("/opticalStudyPath", opticalStudyPath_);
     settings.writeEntry("/networkStudyPath", networkStudyPath_);
     settings.writeEntry("/exportFilePath", exportFilePath_);
+    settings.writeEntry("/labName", labName_);
     settings.writeEntry("/emulateOpticalDrive", emulateOpticalDrive_);
     settings.writeEntry("/dualSidedDrive", dualSidedDrive_);
     settings.writeEntry("/emulatedOpticalDriveCapacity", emulatedOpticalDriveCapacity_);

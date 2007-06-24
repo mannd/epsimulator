@@ -24,6 +24,7 @@
 #include "options.h"
 
 #include <qcheckbox.h>
+#include <qlineedit.h>
 #include <qspinbox.h>
 
 SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options, 
@@ -40,6 +41,7 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     setDualSidedDrive(options_->dualSidedDrive());
     setEmulatedOpticalDriveCapacity(options_->emulatedOpticalDriveCapacity());
     oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator());
+    labNameLineEdit->setText(options_->labName());
 }
 
 void SimulatorSettingsDialog::setOptions() {
@@ -54,6 +56,7 @@ void SimulatorSettingsDialog::setOptions() {
         options_->setEmulatedOpticalDriveCapacity((
             emulatedOpticalDriveCapacity() / 16) * 16); 
         options_->setOldStyleNavigator(oldStyleNavigatorCheckBox->isChecked());
+        options_->setLabName(labNameLineEdit->text());
         options_->writeSettings();
 }
 

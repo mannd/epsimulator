@@ -1,34 +1,37 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="9" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/main.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+ <DocsAndViews NumberOfDocuments="10" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/tablelistview.cpp" >
+   <View0 Encoding="" line="196" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/tablelistview.cpp" >
-   <View0 Encoding="" line="66" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator.cpp" >
+   <View0 Encoding="" line="549" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/study.cpp" >
-   <View0 Encoding="" line="220" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/tablelistview.h" >
+   <View0 Encoding="" line="74" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/user.h" >
-   <View0 Encoding="" line="37" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/user.h" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/user.cpp" >
-   <View0 Encoding="" line="59" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/study.h" >
+   <View0 Encoding="" line="82" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/statusbar.cpp" >
-   <View0 Encoding="" line="28" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/options.cpp" >
+   <View0 Encoding="" line="87" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/statusbar.h" >
-   <View0 Encoding="" line="40" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/options.h" >
+   <View0 Encoding="" line="84" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.cpp" >
-   <View0 Encoding="" line="287" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/simulatorsettingsdialog.h" >
+   <View0 Encoding="" line="23" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/epsimulator/src/navigator.h" >
-   <View0 Encoding="" line="153" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/simulatorsettingsdialog.cpp" >
+   <View0 Encoding="" line="26" Type="Source" />
   </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/study.cpp" >
+   <View0 Encoding="" line="151" Type="Source" />
+  </Doc9>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -45,6 +48,9 @@
     <breakpoint3 location="/home/mannd/dev/epsimulator/src/navigator.cpp:916" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint3>
+    <breakpoint4 location="/home/mannd/dev/local/epsimulator/src/catalog.cpp:98" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint4>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -54,15 +60,18 @@
   </kdevastyle>
   <kdevbookmarks>
    <bookmarks>
+    <bookmark url="/home/mannd/dev/local/epsimulator/src/navigator.cpp" >
+     <mark line="522" />
+    </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
      <mark line="925" />
      <mark line="915" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="444" />
+     <mark line="437" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="437" />
+     <mark line="444" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/catalog.h" >
      <mark line="152" />

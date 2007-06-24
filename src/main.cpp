@@ -32,7 +32,6 @@
 */
 
 #include "epsimdefs.h"
-#include "error.h"
 // Note that below is Froglogics GetOpt class, but header file is
 // renamed from getopt.h to getopts.h because of conflict with 
 // unix getopt.h.
