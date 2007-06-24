@@ -88,31 +88,15 @@ int main(int argc, char **argv)
             << endl << endl; 
         return 1;
     }
-    try { 
-        Options* options = Options::instance();
-        if (! path.isEmpty()) 
-            options->setTempStudyPath(path);
-        Navigator *mainWin = new Navigator();
-        app.setMainWidget(mainWin);
-        // Below is a work-around as showMaximized() alone doesn't always work.
-        mainWin->showNormal();
-        mainWin->showMaximized();
-        return app.exec();
-        // deletes the options instance -- can only be used at end of program!
-        options->destroy();
-    }
-    catch (EpSim::IoError& e) {
-        QMessageBox::critical( 0, PROGRAM_NAME,
-            QObject::tr("Critical error reading or writing files\n"
-                        "Program will close." ));
-        cerr << e.what() << endl << endl;
-        return 1;
-    }
-    // catch anything else
-    catch (std::exception& e) {
-        QMessageBox::critical( 0, PROGRAM_NAME,
-            QObject::tr("Critical error caught.  Program will close" ));
-        cerr << e.what() << endl << endl;
-        return 1;
-    }
+    Options* options = Options::instance();
+    if (! path.isEmpty()) 
+        options->setTempStudyPath(path);
+    Navigator *mainWin = new Navigator();
+    app.setMainWidget(mainWin);
+    // Below is a work-around as showMaximized() alone doesn't always work.
+    mainWin->showNormal();
+    mainWin->showMaximized();
+    return app.exec();
+    // deletes the options instance -- can only be used at end of program!
+    options->destroy();
 }

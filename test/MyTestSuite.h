@@ -370,6 +370,7 @@ public:
 //     
     void testCatalogAddStudy() {
         Options* o = Options::instance();
+        cerr << "o->opticalStudyPath() = " << o->opticalStudyPath();
         Catalogs* cats = new Catalogs(o, o->opticalStudyPath());
         Study* s = new Study;
         Name n = {"Doe", "John", "E"};
