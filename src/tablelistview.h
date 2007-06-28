@@ -53,8 +53,7 @@ public:
     void load(Catalog*);
     void save(Catalog*);
 
-    void addStudy(const Study* study);
-    void deleteStudy();
+    //void deleteStudy();
     void applyFilter(FilterStudyType filterStudyType,
                     const QRegExp& lastName,
                     const QRegExp& firstName,
@@ -72,6 +71,8 @@ public:
     void exportCSV(const QString& fileName);
 
 private:
+    void addStudy(const Study* study);
+
     QString location(const QString& studyLocation) const;
 
     // first bytes of EP Simulator binary files
@@ -96,9 +97,6 @@ public:
                     QString label7 = QString::null, 
                     QString label8 = QString::null );
     ~TableListViewItem();
-
-// reimplement compare to handle dates correctly.
-    int compare(QListViewItem* item, int column, bool ascending) const;
 
     void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
 

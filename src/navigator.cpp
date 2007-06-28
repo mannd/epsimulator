@@ -110,9 +110,8 @@ void Navigator::newStudy() {
         if (studyConfigDialog->exec()) {
             study->setConfig(studyConfigDialog->config());
             if (getStudyInformation(study)) {
-                // we add the study to the catalog view directly
-                tableListView_->addStudy(study);
                 catalogs_->addStudy(study);
+                refreshCatalogs();
                 startStudy(study);
             }
         }
@@ -157,9 +156,10 @@ void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
     study->makePreregisterStudy();
     if (getStudyInformation(study)) {
-        tableListView_->addStudy(study);
+        //tableListView_->addStudy(study);
         // write study to catalogs -- also called from newStudy
         catalogs_->addStudy(study);
+        refreshCatalogs();
         /// FIXME if exception thrown study may not be deleted
         /// and there may be a memory leak.
     }
@@ -224,9 +224,9 @@ void Navigator::deleteStudy() {
             QMessageBox::Cancel | QMessageBox::Escape);
         if (ret == QMessageBox::Yes) {
             catalogs_->deleteStudy(study);
+            refreshCatalogs();
             // delete item;
             deleteDataFiles();
-            tableListView_->deleteStudy();
         }
         delete study;
     } 
@@ -251,7 +251,7 @@ void Navigator::unfilterStudies() {
     regenerateAct_->setEnabled(true);
 }
 
-void Navigator::refreshCatalog() {
+void Navigator::refreshCatalogs() {
     catalogComboBox_->refresh();
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
     tableListView_->load(catalogs_->currentCatalog());
@@ -260,9 +260,9 @@ void Navigator::refreshCatalog() {
         processFilter();
 }
 
-void Navigator::regenerateCatalog() {
+void Navigator::regenerateCatalogs() {
     catalogs_->regenerate();
-    refreshCatalog();
+    refreshCatalogs();
 }
 
 void Navigator::changeCatalog() {
@@ -281,7 +281,7 @@ void Navigator::ejectDisk() {
     createOpticalDrive();
     delete catalogs_;
     catalogs_ = new Catalogs(options_, currentDisk_->path());
-    refreshCatalog();
+    refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
@@ -300,7 +300,7 @@ void Navigator::relabelDisk() {
         currentDisk_->setLabel(diskLabelDialog->label());
         currentDisk_->setSide(diskLabelDialog->side());
         catalogs_->relabel(oldLocation, createLocation());
-        refreshCatalog();
+        refreshCatalogs();
     }
     delete diskLabelDialog;
 }
@@ -440,7 +440,7 @@ void Navigator::simulatorSettings() {
             delete catalogs_;
             catalogs_ = new Catalogs(options_, currentDisk_->path());
             tableListView_->adjustColumns(options_->oldStyleNavigator(), true);
-            refreshCatalog();   // This repopulates the TableListView.
+            refreshCatalogs();   // This repopulates the TableListView.
             // Need to do below to make sure user label
             // matches Navigator style.
             statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
@@ -464,7 +464,7 @@ void Navigator::systemSettings() {
             delete catalogs_;
             /// TODO change current disk here
             catalogs_ = new Catalogs(options_, currentDisk_->path());
-            refreshCatalog();
+            refreshCatalogs();
             statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
         }
         delete systemDialog;
@@ -524,7 +524,7 @@ void Navigator::createCentralWidget() {
     createButtonFrame();
     createTableListView();
     readSettings(); 
-    refreshCatalog();
+    refreshCatalogs();
 }
 
 /**
@@ -637,10 +637,10 @@ void Navigator::createActions() {
     removeStudiesFilterAct_->setEnabled(false);
     refreshViewAct_ = new QAction(tr("Refresh"), 0, this);
     setupAction(refreshViewAct_, "Refresh the catalog", 
-        SLOT(refreshCatalog()), "hi32-refreshcatalog.png");
+        SLOT(refreshCatalogs()), "hi32-refreshcatalog.png");
     regenerateAct_ = new QAction(tr("Regenerate"), 0, this);
     setupAction(regenerateAct_, "Regenerate the catalog",
-	SLOT(regenerateCatalog()));
+	SLOT(regenerateCatalogs()));
     relabelDiskAct_ = new QAction(tr("Re-Label Disk..."), 0 ,this);
     setupAction(relabelDiskAct_, "Re-label the optical disk", SLOT(relabelDisk()));
     mergeStudiesAct_ = new QAction(tr("Merge Studies..."), 0, this);

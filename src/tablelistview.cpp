@@ -30,6 +30,10 @@
 #include <qmessagebox.h>
 #include <qregexp.h>
 
+#ifndef NDEBUG
+#include <iostream>
+#endif
+
 /**
  * Constructor for TableListViewItem subclass of Navigator
  * @param parent = TableListView. 
@@ -52,19 +56,6 @@ TableListViewItem::TableListViewItem(TableListView* parent,
                     dateColumn_(dateColumn), 
                     filteredOut_(false) {
 }
-
-int TableListViewItem::compare(QListViewItem* item, int column,
-                           bool ascending) const {
-    if (column == dateColumn_) {
-        QDate d = QDate::fromString(text(dateColumn_), Qt::TextDate);
-        QDate e = QDate::fromString(item->text(dateColumn_), Qt::TextDate);
-        return e.daysTo(d);
-    }
-    else {
-        return QListViewItem::compare(item, column, ascending);
-    }
-}
-
 
 TableListViewItem::~TableListViewItem() {
 }
@@ -118,7 +109,7 @@ void TableListView::adjustColumns(bool oldStyle, bool clearTable) {
     addColumn(tr("Study Number"));      // col 5 or 6
     addColumn(tr("Location of Study")); // col 6 or 7
     setSortColumn(oldStyle ? 4 : 3);    // default sort is date/time
-    setSortOrder(Qt::Descending);       // most recent study first
+    setSortOrder(Qt::Ascending);       // most recent study last
 }
 
 /**
@@ -193,7 +184,7 @@ void TableListView::addStudy(const Study* study) {
         study->name().last,
         study->name().first,
         study->mrn(),
-        study->dateTime().toString(),
+        study->dateTime().toString(Qt::LocalDate),
         study->config(),
         study->number(),
         location(study->location())); 
@@ -203,18 +194,18 @@ void TableListView::addStudy(const Study* study) {
         study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
         study->name().fullName(true, true),
         study->mrn(),
-        study->dateTime().toString(),
+        study->dateTime().toString(Qt::LocalDate),
         study->config(),
         study->number(),
         location(study->location()));
     }
 }
 
-void TableListView::deleteStudy() {
-    QListViewItem* item = selectedItem();
-    delete item;
-    showTable();
-}
+// void TableListView::deleteStudy() {
+//     QListViewItem* item = selectedItem();
+//     delete item;
+//     showTable();
+// }
 
 void TableListView::exportCSV(const QString& fileName) {
     QFile file(fileName);

@@ -297,8 +297,6 @@ public:
     }
     
     void testCatalog() {
-        Options* o = Options::instance();
-        TS_ASSERT(o->catalogFileName() == "catalog.dat");
         Catalog c("../System", "catalog.dat");
         TS_ASSERT(c.filePath() == "../System/catalog.dat");
         c.setPath("/testpath/");

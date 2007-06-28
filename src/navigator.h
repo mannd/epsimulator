@@ -69,8 +69,8 @@ private slots:
     void deleteStudy();
     void filterStudies();
     void unfilterStudies();
-    void refreshCatalog();        
-    void regenerateCatalog();
+    void refreshCatalogs();        
+    void regenerateCatalogs();
     void changeCatalog();
     void ejectDisk();
     void relabelDisk();
