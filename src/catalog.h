@@ -53,7 +53,7 @@ public:
 
     Iterator begin() {return catalog_.begin();}
     Iterator end() {return catalog_.end();}
-    Study& operator[](QString& key) {return catalog_[key];} 
+    Study& operator[](const QString& key) {return catalog_[key];} 
 
     virtual void refresh();
     // be default, only optical catalog regenerates.
@@ -71,7 +71,7 @@ public:
 
     virtual void setPath(const QString& path) {path_ = path;}
 
-    virtual bool isOptical() {return false;}
+    virtual bool isOptical() const {return false;}
     bool isEmpty() {return catalog_.empty();}
     virtual bool studyPresent(const Study*);
 
@@ -110,7 +110,7 @@ public:
     void regenerate();
     void relabel(const QString& oldLabel, const QString& newLabel);
     ~OpticalCatalog() {}
-    bool isOptical() {return true;}
+    bool isOptical() const {return true;}
 };
 
 class SystemCatalog : public Catalog {
@@ -146,8 +146,8 @@ public:
     void setCurrentCatalog(Catalog::Source catalog);
     void setCatalogPath(Catalog::Source catalog, const QString& path);
 
-    bool currentCatalogIsOptical() {return currentCatalog_->isOptical();}
-    bool studyPresentOnOpticalDisk(const Study*);
+    bool currentCatalogIsOptical() const {return currentCatalog_->isOptical();}
+    bool studyPresentOnOpticalDisk(const Study*) const;
 
     QString fileName() const;   // returns default catalog fileName
         

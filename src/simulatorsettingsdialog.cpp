@@ -41,6 +41,7 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     setDualSidedDrive(options_->dualSidedDrive());
     setEmulatedOpticalDriveCapacity(options_->emulatedOpticalDriveCapacity());
     oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator());
+    useLabNameCheckBox->setChecked(options_->useLabName());
     labNameLineEdit->setText(options_->labName());
 }
 
@@ -56,6 +57,7 @@ void SimulatorSettingsDialog::setOptions() {
         options_->setEmulatedOpticalDriveCapacity((
             emulatedOpticalDriveCapacity() / 16) * 16); 
         options_->setOldStyleNavigator(oldStyleNavigatorCheckBox->isChecked());
+        options_->setUseLabName(useLabNameCheckBox->isChecked());
         options_->setLabName(labNameLineEdit->text());
         options_->writeSettings();
 }

@@ -103,7 +103,7 @@ public:
     void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
 
     // below can't return reference
-    Study study() {return study_;}
+    Study study() const {return study_;}
     bool filteredOut() const {return filteredOut_;}
 
 private:

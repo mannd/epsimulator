@@ -59,6 +59,7 @@ public:
     void setTempStudyPath(const QString& tempStudyPath) {tempStudyPath_ = tempStudyPath;}
 
     void setLabName(const QString& labName) {labName_ = labName;}
+    void setUseLabName(bool useLabName) {useLabName_ = useLabName;}
 
     void setEnableAcquisition(bool enable) {enableAcquisition_ = enable;}
     void setEnableFileExport(bool enable) {enableFileExport_ = enable;}
@@ -82,6 +83,7 @@ public:
     QString systemCatalogPath() const {return systemCatalogPath_;}
 
     QString labName() const {return labName_;}
+    bool useLabName() const {return useLabName_;}
 
     bool enableAcquisition() const {return enableAcquisition_;}
     bool enableFileExport() const {return enableFileExport_;}
@@ -129,6 +131,10 @@ private:
     int emulatedOpticalDriveCapacity_;
     // determines if last name and first name are displayed separately
     bool oldStyleNavigator_;
+    
+    bool useLabName_;   // use lab name in location column of TableListView 
+                        // for for Network, if false or if lab name is empty,
+                        // use machine name.
 
     bool administratorAccountRequired_;
     bool hideSimulatorMenu_;

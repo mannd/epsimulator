@@ -58,6 +58,7 @@ void Options::readSettings() {
     emulatedOpticalDriveCapacity_ 
         =settings.readNumEntry("/emulatedOpticalDriveCapacity", 0);
     oldStyleNavigator_ = settings.readBoolEntry("/oldStyleNavigator", false);
+    useLabName_ = settings.readBoolEntry("/useLabName", false);
     administratorAccountRequired_ = 
         settings.readBoolEntry("/administratorAccountRequired", false);
     hideSimulatorMenu_ = 
@@ -88,6 +89,7 @@ void Options::writeSettings() {
     settings.writeEntry("/dualSidedDrive", dualSidedDrive_);
     settings.writeEntry("/emulatedOpticalDriveCapacity", emulatedOpticalDriveCapacity_);
     settings.writeEntry("/oldStyleNavigator", oldStyleNavigator_);
+    settings.writeEntry("/useLabName", useLabName_);
     settings.writeEntry("/administratorAccountRequired", administratorAccountRequired_);
     settings.writeEntry("/hideSimulatorMenu", hideSimulatorMenu_);
     settings.writeEntry("/passwordHash", passwordHash_);
