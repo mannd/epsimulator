@@ -61,6 +61,9 @@ public:
     virtual void regenerate() {}
     virtual void relabel(const QString& oldLabel, const QString& newLabel);
 
+    virtual QString location(const Study&); // generates appropriate location format
+                                            // overriden by specific catalog types
+
     virtual void addStudy(const Study*);
     virtual void deleteStudy(const Study*);
     virtual void editStudy(Study*);
@@ -125,6 +128,8 @@ public:
     NetworkCatalog(const QString& path, const QString& fileName);
 
     ~NetworkCatalog() {}
+
+    virtual QString location(const Study&);
 };
 
 

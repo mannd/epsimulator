@@ -59,7 +59,8 @@ QDataStream& operator<<(QDataStream& out, const Study& study) {
         << (Q_INT32)study.bsaManualEdit_ << (Q_INT32)study.vagalTone_ 
         << (Q_INT32)study.sympatheticTone_ << (Q_INT32)study.ef_
         << (Q_INT32)study.ischemia_ << study.path_ << study.file_ 
-        << study.location_ << study.machineName_ << study.labName_;
+        << study.location_ << study.side_ 
+        << study.machineName_ << study.labName_;
     ///TODO need to add heart to this
     return out;
 }
@@ -73,7 +74,7 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
         >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
         >> vagalTone >> sympatheticTone >> ef
         >> ischemia >> study.path_ >> study.file_ >> study.location_
-        >> study.machineName_ >> study.labName_;
+        >> study.side_ >> study.machineName_ >> study.labName_;
     ///TODO need to add heart to this
     ///TODO the below may not work, as it has nothing to do with in
     study.sex_ = (sex != 0) ? Female : Male;
@@ -132,6 +133,7 @@ void Study::copyStudy(const Study& study) {
     path_ = study.path_;
     file_ = study.file_;
     location_ = study.location_;
+    side_ = study.side_;
     machineName_ = study.machineName_;
     labName_ = study.labName_;
     key_ = study.key_;

@@ -85,6 +85,12 @@ bool Catalog::studyPresent(const Study* s) {
     return false;
 }
 
+QString Catalog::location(const Study& s) {
+    if (!s.isPreregisterStudy())
+        return s.location() + " - " + s.side();
+    return QString::null;
+}
+
 void Catalog::load() {
     try {
         QFile f(filePath());
@@ -186,6 +192,16 @@ SystemCatalog::SystemCatalog(const QString& path,
 
 NetworkCatalog::NetworkCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName){
+}
+
+QString NetworkCatalog::location(const Study& s) {
+    if (s.isPreregisterStudy())
+        return QString::null;
+    if (Options::instance()->useLabName()) {
+        if (!s.labName().isEmpty())
+            return s.labName() + " - " + Catalog::location(s);
+    }
+    return s.machineName() + " - " + Catalog::location(s);
 }
 
 const char* Catalogs::fileName_ = "catalog.dat";

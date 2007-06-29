@@ -103,6 +103,7 @@ public:
                             // Must disallow empty configs!
     /// location is opticalDisk label() & side()
     QString location() const {return location_;}
+    QString side() const {return side_;}
     QString machineName() const {return machineName_;}
     QString labName() const {return labName_;}
     QString studyFileName() const {return studyFileName_;}
@@ -128,6 +129,7 @@ public:
     void setFile(QString file) {file_ = file;}
     void setConfig(QString config) {config_ = config;}
     void setLocation(const QString& location) {location_ = location;}
+    void setSide(const QString& side) {side_ = side;}
     void setMachineName(const QString& name) {machineName_ = name;}
     void setLabName(const QString& name) {labName_ = name;}
     void makePreregisterStudy() {config_ = "";}  // preregistered study has no config info

@@ -40,7 +40,7 @@
  * @param study = Study associated with this row of the TableListView.
  * @param label1  etc. = Study fields, depending on OldStyleNavigator option.
  */
-TableListViewItem::TableListViewItem(TableListView* parent, 
+TableListView::TableListViewItem::TableListViewItem(TableListView* parent, 
 						const Study& study,
                                                 int dateColumn,
 						QString label1, 
@@ -57,21 +57,20 @@ TableListViewItem::TableListViewItem(TableListView* parent,
                     filteredOut_(false) {
 }
 
-TableListViewItem::~TableListViewItem() {
+TableListView::TableListViewItem::~TableListViewItem() {
 }
 
 
 /**
  * Constructor for TableListView.
  * @param parent = owned by horizontalSplitter_ in Navigator.
- * @param options = Options Singleton, passed throughout the program.
- * This sets up the columns according to OldStyleNavigator, 
- * does not populate the table. 
+ * @param oldStyle = sets up the columns according to OldStyleNavigator. 
+ * Ctor does not populate the table, each catalog must be loaded with load(). 
 */
-TableListView::TableListView(QWidget* parent, Options* options) 
-    : QListView(parent), filtered_(false), options_(options) {
-    bool oldStyle = options_->oldStyleNavigator();
-    adjustColumns(oldStyle);
+TableListView::TableListView(QWidget* parent, bool oldStyle) 
+    : QListView(parent), 
+      filtered_(false), oldStyle_(oldStyle) {
+    adjustColumns(oldStyle_);
     setAllColumnsShowFocus(true);
     setShowSortIndicator(true);
 }
@@ -83,11 +82,10 @@ TableListView::~TableListView() {
 
 /**
  * Sets up the columns according to oldStyle.
- * @param oldStyle = options->oldStyleNavigator().
  * @param clearTable = true if you need to change a prexisting table.
  *                     This is always true except in the constructor.
  */
-void TableListView::adjustColumns(bool oldStyle, bool clearTable) {
+void TableListView::adjustColumns(bool clearTable) {
     if (clearTable) {
         int numCols = columns();
         for (int i = numCols - 1; i >= 0; --i) 
@@ -97,7 +95,7 @@ void TableListView::adjustColumns(bool oldStyle, bool clearTable) {
     }
 
     addColumn(tr("Study Type"));        // col 0
-    if (oldStyle) {
+    if (oldStyle_) {
         addColumn(tr("Last Name"));     // col 1
         addColumn(tr("First Name"));    // col 2
     }
@@ -108,7 +106,7 @@ void TableListView::adjustColumns(bool oldStyle, bool clearTable) {
     addColumn(tr("Study Config"));      // col 4 or 5
     addColumn(tr("Study Number"));      // col 5 or 6
     addColumn(tr("Location of Study")); // col 6 or 7
-    setSortColumn(oldStyle ? 4 : 3);    // default sort is date/time
+    setSortColumn(oldStyle_ ? 4 : 3);    // default sort is date/time
     setSortOrder(Qt::Ascending);       // most recent study last
 }
 
@@ -120,22 +118,23 @@ void TableListView::showTable() {
     QListViewItemIterator it(this);
     while (it.current()) {
         TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it);
-        bool show = !filtered_ || !item->filteredOut();
-        item->setVisible(show);
+        item->setVisible(!filtered_ || !item->filteredOut());
         ++it;
     }
 }
 
 /**
  * Clears the table and then fills it in with from the catalog.
- * @param catalog = Catalog to use for this table.
+ * @param catalog = Catalog that is the source for the table.
+ * Does not apply filter (use showTable() to do that).
  */
 void TableListView::load(Catalog* catalog) {
     clear();
     for (Catalog::Iterator it = catalog->begin(); 
         it != catalog->end(); ++it) {
         Study study = (*it).second;
-        addStudy(&study);
+        QString location = catalog->location(study);
+        addStudy(study, location);
     }
 }
 
@@ -159,6 +158,14 @@ void TableListView::save(Catalog* catalog) {
     }
 }
 
+Study* TableListView::study() const {
+    Study* study = 0;
+    if (QListViewItem* item = selectedItem()) 
+        study = new Study(dynamic_cast<TableListViewItem*>(item)->study());
+    return study;
+}
+
+
 /// FIXME This is naive.  What happens when the catalog is saved?  Reading is easy:
 /// whatever Catalog is being viewed, just load that catalog.dat file.  What happens
 /// when a study is added, or edited?  The different catalog.dat files must be updated
@@ -177,35 +184,29 @@ void TableListView::save(Catalog* catalog) {
 /// NOTE This function has been moved out of tablelistview to catalog.h
 
 
-void TableListView::addStudy(const Study* study) {
-    if (options_->oldStyleNavigator()) {
-        (void) new TableListViewItem(this, *study, 4,
-        study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
-        study->name().last,
-        study->name().first,
-        study->mrn(),
-        study->dateTime().toString(Qt::LocalDate),
-        study->config(),
-        study->number(),
-        location(study->location())); 
+void TableListView::addStudy(const Study& study, const QString& location) {
+    if (oldStyle_) {
+        (void) new TableListViewItem(this, study, 4,
+        study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
+        study.name().last,
+        study.name().first,
+        study.mrn(),
+        study.dateTime().toString(Qt::LocalDate),
+        study.config(),
+        study.number(),
+        location); 
     }
     else {
-        (void) new TableListViewItem(this, *study, 3,
-        study->isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
-        study->name().fullName(true, true),
-        study->mrn(),
-        study->dateTime().toString(Qt::LocalDate),
-        study->config(),
-        study->number(),
-        location(study->location()));
+        (void) new TableListViewItem(this, study, 3,
+        study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
+        study.name().fullName(true, true),
+        study.mrn(),
+        study.dateTime().toString(Qt::LocalDate),
+        study.config(),
+        study.number(),
+        location);
     }
 }
-
-// void TableListView::deleteStudy() {
-//     QListViewItem* item = selectedItem();
-//     delete item;
-//     showTable();
-// }
 
 void TableListView::exportCSV(const QString& fileName) {
     QFile file(fileName);
@@ -229,7 +230,8 @@ void TableListView::exportCSV(const QString& fileName) {
     file.close();
 }
 
-/// BUG: matches location without considering disk side or machine location. 
+/// BUG or feature? Matches location without considering disk side 
+/// or machine location.  Not sure how Prucka handles this. 
 void TableListView::applyFilter( FilterStudyType filterStudyType,
                                             const QRegExp& lastName,
                                             const QRegExp& firstName,
@@ -281,8 +283,3 @@ void TableListView::removeFilter() {
     filtered_ = false;
     showTable();
 }
-
-QString TableListView::location(const QString& studyLocation) const {
-    return studyLocation;
-}
-

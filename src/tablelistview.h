@@ -45,15 +45,17 @@ class TableListView : public QListView {
 public:
     enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
 
-    TableListView(QWidget* parent, Options* options);
+    TableListView(QWidget* parent, bool oldStyle);
     ~TableListView();
 
+    void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
     bool filtered() const {return filtered_;}
 
     void load(Catalog*);
     void save(Catalog*);
 
-    //void deleteStudy();
+    Study* study() const;     // returns currently selected study or 0 if none selected
+
     void applyFilter(FilterStudyType filterStudyType,
                     const QRegExp& lastName,
                     const QRegExp& firstName,
@@ -66,24 +68,24 @@ public:
                     const QDate& endDate);
     void removeFilter();
     void showTable();
-    void adjustColumns(bool oldStyle, bool clearTable = false);
+    void adjustColumns(bool clearTable = false);
 
     void exportCSV(const QString& fileName);
 
 private:
-    void addStudy(const Study* study);
-
-    QString location(const QString& studyLocation) const;
+    class TableListViewItem;
+    void addStudy(const Study& study, const QString& location);
 
     // first bytes of EP Simulator binary files
     enum {MagicNumber = 0x99c798f2};    
 
     bool filtered_;
-    Options* options_;  // copy of Navigator options_
+    bool oldStyle_;
+//    Options* options_;  // copy of Navigator options_
 
 }; // TableListView
 
-class TableListViewItem : public QListViewItem {
+class TableListView::TableListViewItem : public QListViewItem {
 
 public:
     TableListViewItem(TableListView* parent, const Study& study,

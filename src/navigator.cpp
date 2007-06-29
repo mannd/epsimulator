@@ -439,7 +439,8 @@ void Navigator::simulatorSettings() {
             createOpticalDrive();
             delete catalogs_;
             catalogs_ = new Catalogs(options_, currentDisk_->path());
-            tableListView_->adjustColumns(options_->oldStyleNavigator(), true);
+            tableListView_->setOldStyle(options_->oldStyleNavigator());
+            tableListView_->adjustColumns(true);
             refreshCatalogs();   // This repopulates the TableListView.
             // Need to do below to make sure user label
             // matches Navigator style.
@@ -553,7 +554,7 @@ void Navigator::createButtonFrame() {
  * source is current in the catalogComboBox_.
  */
 void Navigator::createTableListView() {
-    tableListView_ = new TableListView(horizontalSplitter_, options_);
+    tableListView_ = new TableListView(horizontalSplitter_, options_->oldStyleNavigator());
     connect(tableListView_, SIGNAL(doubleClicked(QListViewItem*, 
         const QPoint&, int)), this, SLOT(newStudy()));
 }
@@ -872,8 +873,13 @@ bool Navigator::getStudyInformation(Study* study) {
     patientDialog->setFields(study);
     if (patientDialog->exec()) {
         patientDialog->getFields(study);
-        if (!study->isPreregisterStudy()) 
-            study->setLocation(createLocation());
+        if (!study->isPreregisterStudy()) {
+            study->setLocation(currentDisk_->label());
+            study->setSide(currentDisk_->isTwoSided() ?
+                currentDisk_->translatedSide() : "");
+            study->setLabName(options_->labName());
+            study->setMachineName(user_->machineName());
+        }
         return true;
     }
     return false;
@@ -882,10 +888,7 @@ bool Navigator::getStudyInformation(Study* study) {
 /// This returns a pointer to a study selected from the catalog, 
 /// returns 0 if no study selected
 Study* Navigator::getSelectedStudy() {
-    Study* study = 0;
-    if (QListViewItem* item = tableListView_->selectedItem()) 
-        study = new Study(dynamic_cast<TableListViewItem*>(item)->study());
-    return study;
+    return tableListView_->study();
 }
 
 /// Returns study selected in the catalog, or, if none selected, a new study.
