@@ -285,6 +285,12 @@ void Navigator::ejectDisk() {
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
+
+/// FIXME this should gather up all the study keys on the current disk,
+/// then find those studies on the other 2 catalogs and apply the new label.
+/// This is the only foolproof way to do this.  Note that it is not possible to
+/// change the lab name or machine name in the network catalog.  This must
+/// also change the label in the study.dat files in each study directory.
 void Navigator::relabelDisk() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     QString oldLabel = currentDisk_->label();
@@ -850,15 +856,9 @@ void Navigator::startStudy(Study* s) {
             throw EpSim::IoError(studyPath, "could not create studyPath");
     }
     s->setPath(studyPath);
-    QFile studyFile(s->filePath());
-    //if (!studyFile
-    // open study file
-    // load study window
-    ///TODO need to pass study_ to eps
-    
+    s->save();
     Epsimulator* eps = new Epsimulator(this);
     eps->showMaximized();
-    studyFile.close();
 }
 
 QString Navigator::createLocation() const {

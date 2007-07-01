@@ -148,8 +148,8 @@ public:
     void relabel(const QString& oldLabel, const QString& newLabel);
     Catalog* currentCatalog() const {return currentCatalog_;}
 
-    void setCurrentCatalog(Catalog::Source catalog);
-    void setCatalogPath(Catalog::Source catalog, const QString& path);
+    void setCurrentCatalog(Catalog::Source);
+    void setCatalogPath(Catalog::Source, const QString& path);
 
     bool currentCatalogIsOptical() const {return currentCatalog_->isOptical();}
     bool studyPresentOnOpticalDisk(const Study*) const;

@@ -30,6 +30,8 @@
 #include <qdatetime.h>
 #include <qstring.h>
 
+#include <cassert> 
+
 class Heart;
 
 /**
@@ -90,18 +92,15 @@ public:
     AutonomicTone sympatheticTone() const {return sympatheticTone_;}
     QDateTime dateTime() const {return dateTime_;}
     QString number() const {return number_;}
-    QString path() const {return path_;}
-    QString file() const {return file_;}
-    QString fileName();   // generates data file name
-    QString filePath();     // Returns full path of study, 
-                            // fixes path if doesn't end in '/'.
+    QString path() const {return path_;}    // returns path to specific study directory
+    QString filePath();     // Returns full path of study.dat file, 
     QString config() const {return config_;}
     QString key() const;    // Generates key based on name and datetime
                             // to identify study uniquely.
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
-    /// location is opticalDisk label() & side()
+    /// location is opticalDisk label()
     QString location() const {return location_;}
     QString side() const {return side_;}
     QString machineName() const {return machineName_;}
@@ -126,7 +125,6 @@ public:
     void setVagalTone(AutonomicTone tone);
     void setSympatheticTone(AutonomicTone tone);
     void setPath(QString path) {path_ = path;}
-    void setFile(QString file) {file_ = file;}
     void setConfig(QString config) {config_ = config;}
     void setLocation(const QString& location) {location_ = location;}
     void setSide(const QString& side) {side_ = side;}
@@ -135,6 +133,8 @@ public:
     void makePreregisterStudy() {config_ = "";}  // preregistered study has no config info
 
     void resetKey() {key_ = "";}
+    void load();        // load study.dat file
+    void save();        // save study.dat file
 
 
     ~Study();
@@ -167,11 +167,8 @@ private:
     int ef_;
     bool ischemia_;
     QString config_;    // this will eventually be a class probably
-    QString path_;  // location (path) of this study
-    QString file_;  //  name of study file
+    QString path_;      // full path to study directory
     QString location_;  // location = disk label 
-                        // which is really a directory name if optical
-                        // disk emulation on.
     QString side_;  // side of disk the study is on, can be null for 
                     // single-sided disks
     QString machineName_;   // name of machine study on, for Network catalog
@@ -182,5 +179,13 @@ private:
     
     static const QString studyFileName_;
 };
+
+
+inline void Study::testInvariant() const {
+    assert(vagalTone_ >= MIN_TONE && vagalTone_ <= MAX_TONE);
+    assert(sympatheticTone_ >= MIN_TONE && sympatheticTone_ <= MAX_TONE);
+    assert (sex_ == Male || sex_ == Female);
+    assert (ef_ >= MIN_EF && ef_ <= MAX_EF);
+}
 
 #endif

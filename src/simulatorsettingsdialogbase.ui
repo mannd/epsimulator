@@ -166,10 +166,10 @@
                         <cstring>dualSidedDriveCheckBox</cstring>
                     </property>
                     <property name="text">
-                        <string>E&amp;mulate Dual Sided Drive</string>
+                        <string>Dual Sided Drive</string>
                     </property>
                     <property name="accel">
-                        <string>Alt+M</string>
+                        <string></string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">

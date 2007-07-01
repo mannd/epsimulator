@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 #include "opticaldisk.h"
+
+#include "epfuns.h"
 #include "error.h"
 #include "selectemulateddiskdialog.h"
 #include "settings.h"
@@ -50,37 +52,13 @@ bool OpticalDisk::hasLabel() {
 }
 
 QString OpticalDisk::load(const QString& fileName) {
-    QFile file(fileName);
-    // create a studies file if it doesn't exist already
-    if (!file.exists()) 
-        save(fileName, "");
-    if (!file.open(IO_ReadOnly))
-        throw EpSim::OpenReadError(file.name());
-    QDataStream in(&file);
-    in.setVersion(5);
-    Q_UINT32 magic;
-    in >> magic;
-    if (magic != MagicNumber)
-        throw EpSim::WrongFileTypeError(file.name());
     QString label;
-    in >> label;
-    if (file.status() != IO_Ok)
-        throw EpSim::ReadError(file.name());
-    file.close();
+    EpFuns::loadData(fileName, MagicNumber, label);
     return label;
 }
 
 void OpticalDisk::save(const QString& fileName, const QString& label) {
-    QFile file(fileName);
-    if (!file.open(IO_WriteOnly))
-        throw EpSim::OpenWriteError(file.name());
-    QDataStream out(&file);
-    out.setVersion(5);
-    out << (Q_UINT32)MagicNumber;
-    out << label;
-    if (file.status() != IO_Ok)
-        throw EpSim::WriteError(file.name());
-    file.close();
+    EpFuns::saveData(fileName, MagicNumber, label);
 }
 
 void OpticalDisk::setLabel(const QString& label) {

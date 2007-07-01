@@ -87,7 +87,8 @@ bool Catalog::studyPresent(const Study* s) {
 
 QString Catalog::location(const Study& s) {
     if (!s.isPreregisterStudy())
-        return s.location() + " - " + s.side();
+        return s.location() + 
+            (!s.side().isEmpty() ? " - " + s.side() : QString::null);
     return QString::null;
 }
 
@@ -194,6 +195,11 @@ NetworkCatalog::NetworkCatalog(const QString& path,
                  const QString& fileName) : Catalog(path, fileName){
 }
 
+/**
+ * 
+ * @param s Study 
+ * @return location of study, including machine name or lab name
+ */
 QString NetworkCatalog::location(const Study& s) {
     if (s.isPreregisterStudy())
         return QString::null;
@@ -227,8 +233,8 @@ Catalogs::Catalogs(Options* options, const QString& path) {
         currentCatalog_ = systemCatalog_;
 }
 
-void Catalogs::setCatalogPath(Catalog::Source catalog, const QString& path) {
-    catalogs_[catalog]->setPath(path);
+void Catalogs::setCatalogPath(Catalog::Source source, const QString& path) {
+    catalogs_[source]->setPath(path);
 }
 
 QString Catalogs::fileName() const {
@@ -237,8 +243,8 @@ QString Catalogs::fileName() const {
 
 /// TODO need an update Catalogs function to be called after systemDialog execs
 
-void Catalogs::setCurrentCatalog(Catalog::Source catalog) {
-    currentCatalog_ = catalogs_[catalog];
+void Catalogs::setCurrentCatalog(Catalog::Source source) {
+    currentCatalog_ = catalogs_[source];
 }
 
 void Catalogs::addStudy(const Study* study) {

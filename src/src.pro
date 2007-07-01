@@ -62,7 +62,8 @@ HEADERS += epsimulator.h \
            actions.h \
  utilities.h \
  selectemulateddiskdialog.h \
- user.h
+ user.h \
+ epfuns.h
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -91,7 +92,8 @@ SOURCES += epsimulator.cpp \
            actions.cpp \
  utilities.cpp \
  selectemulateddiskdialog.cpp \
- user.cpp
+ user.cpp \
+ epfuns.cpp
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
