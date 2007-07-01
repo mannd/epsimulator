@@ -27,16 +27,18 @@
 
 #include "study.h"
 
+#include "catalog.h"
+
 #include <qlistview.h>
 #include <qstring.h>
 
-class Catalog;
 class Options;
 class QDataStream;
 class QDate;
 class QFile;
 class QRegExp;
 
+struct StudyData;
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
         TableListView lists studies from the catalogs in Navigator.
@@ -52,7 +54,6 @@ public:
     bool filtered() const {return filtered_;}
 
     void load(Catalog*);
-    void save(Catalog*);
 
     Study* study() const;     // returns currently selected study or 0 if none selected
 
@@ -81,7 +82,6 @@ private:
 
     bool filtered_;
     bool oldStyle_;
-//    Options* options_;  // copy of Navigator options_
 
 }; // TableListView
 

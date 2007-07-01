@@ -38,6 +38,16 @@ class Options;
 class QDataStream;
 class QFile;
 
+struct StudyData {
+    friend QDataStream& operator<<(QDataStream&, const StudyData&);
+    friend QDataStream& operator>>(QDataStream&, StudyData&);
+    Study study;
+    QString location;      // location == disk label
+    QString side;          // disk side, null for single sided disks
+    QString labName;       // name of lab for Network catalog
+    QString machineName;   // name of machine for Network catalog
+};
+
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
  * Base class for NetworkCatalog, OpticalCatalog, and SystemCatalog.
@@ -45,15 +55,17 @@ class QFile;
  * iterator, and an operator[].
  */
 class Catalog {
+
 public:
     enum Source {Network, System, Optical, Other};
-    typedef std::map<QString, Study>::const_iterator Iterator;
+    typedef std::map<QString, StudyData> CatalogMap;
+    typedef CatalogMap::const_iterator Iterator;
 
     Catalog(const QString& path, const QString& fileName);
 
     Iterator begin() {return catalog_.begin();}
     Iterator end() {return catalog_.end();}
-    Study& operator[](const QString& key) {return catalog_[key];} 
+    Study& operator[](const QString& key) {return catalog_[key].study;} 
 
     virtual void refresh();
     // be default, only optical catalog regenerates.
@@ -61,12 +73,13 @@ public:
     virtual void regenerate() {}
     virtual void relabel(const QString& oldLabel, const QString& newLabel);
 
-    virtual QString location(const Study&); // generates appropriate location format
+    virtual QString location(const StudyData&); // generates appropriate location format
                                             // overriden by specific catalog types
-
-    virtual void addStudy(const Study*);
+    virtual void addStudy(const Study* study, const QString& location,
+                        const QString& side, const QString& labName,
+                        const QString& machineName);
     virtual void deleteStudy(const Study*);
-    virtual void editStudy(Study*);
+//    virtual void editStudy(Study*);
 
     virtual QString path() const {return path_;}
     virtual QString filePath() const;  // full path including fileName
@@ -93,8 +106,9 @@ protected:
 
     virtual void load();
     virtual void save();
+ 
+   CatalogMap catalog_;
 
-    std::map<QString, Study> catalog_;
 
 private:    
     void loadFile(QFile& file);
@@ -103,13 +117,17 @@ private:
     QString path_;  // path to catalog file, excluding file name
     QString fileName_; // file name of catalog
 
+    StudyData studyData_;               // study and location data
+
 };
 
 class OpticalCatalog : public Catalog {
 public:
     OpticalCatalog(const QString& path, const QString& fileName);
 
-    void addStudy(const Study*);
+    virtual void addStudy(const Study* study, const QString& location,
+                        const QString& side, const QString& labName,
+                        const QString& machineName);
     void regenerate();
     void relabel(const QString& oldLabel, const QString& newLabel);
     ~OpticalCatalog() {}
@@ -129,7 +147,7 @@ public:
 
     ~NetworkCatalog() {}
 
-    virtual QString location(const Study&);
+    virtual QString location(const StudyData&);
 };
 
 
@@ -139,6 +157,9 @@ public:
     Catalogs(Options* options, const QString& opticalDiskPath);
 
     // Functions below work on all active catalogs.
+    void addStudy(const Study* study, const QString& location,
+                        const QString& side, const QString& labName,
+                        const QString& machineName);
     void addStudy(const Study*);
     void deleteStudy(const Study*);
 //    void replaceStudy(Study*);
@@ -172,8 +193,9 @@ private:
     NetworkCatalog* networkCatalog_;
     Catalog* otherCatalog_;
 
-    typedef std::map<Catalog::Source, Catalog*>::const_iterator Iterator;
-    std::map<Catalog::Source, Catalog*> catalogs_;
+    typedef std::map<Catalog::Source, Catalog*> CatalogsMap;
+    typedef CatalogsMap::const_iterator Iterator;
+    CatalogsMap catalogs_;
 };
 
 

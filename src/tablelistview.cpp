@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "tablelistview.h"
-#include "catalog.h"
+
 #include "error.h"
 #include "options.h"
 
@@ -34,6 +34,8 @@
 #include <iostream>
 #endif
 
+
+/// TODO study is not needed, need to store study key and location.
 /**
  * Constructor for TableListViewItem subclass of Navigator
  * @param parent = TableListView. 
@@ -132,29 +134,9 @@ void TableListView::load(Catalog* catalog) {
     clear();
     for (Catalog::Iterator it = catalog->begin(); 
         it != catalog->end(); ++it) {
-        Study study = (*it).second;
-        QString location = catalog->location(study);
-        addStudy(study, location);
-    }
-}
-
-/**
- * Saves the table to the catalog, replacing any items that have been
- * modified with the modified item, and adding new items.  
- * NB: does not remove any items.  Removed items from the TableListView
- * must be specificaly deleted from the catalog, or will show up again.
- *
- * This function is called for each catalog when the TableListView is saved.
- * @param catalog = Catalog to save to.
- */
-void TableListView::save(Catalog* catalog) {
-    QListViewItemIterator it(this);
-    while (it.current()) {
-        QListViewItem* item = *it;
-        Study s = dynamic_cast<TableListViewItem*>(item)->study();
-        QString key = s.key();
-        (*catalog)[key] = s;
-        ++it;
+        StudyData studyData = (*it).second;
+        QString location = catalog->location(studyData);
+        addStudy(studyData.study, location);
     }
 }
 
@@ -191,7 +173,7 @@ void TableListView::addStudy(const Study& study, const QString& location) {
         study.name().last,
         study.name().first,
         study.mrn(),
-        study.dateTime().toString(Qt::LocalDate),
+        study.dateTime().toString("yyyy/MM/dd hh:mm:ss"),
         study.config(),
         study.number(),
         location); 
@@ -201,7 +183,7 @@ void TableListView::addStudy(const Study& study, const QString& location) {
         study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
         study.name().fullName(true, true),
         study.mrn(),
-        study.dateTime().toString(Qt::LocalDate),
+        study.dateTime().toString("yyyy/MM/dd hh:mm:ss"),
         study.config(),
         study.number(),
         location);
@@ -230,6 +212,9 @@ void TableListView::exportCSV(const QString& fileName) {
     file.close();
 }
 
+
+/// FIXME none of these parameters will come from study anymore, but rather from the
+/// columns themselves.  Need to adjust for oldStyleNavigator then.
 /// BUG or feature? Matches location without considering disk side 
 /// or machine location.  Not sure how Prucka handles this. 
 void TableListView::applyFilter( FilterStudyType filterStudyType,

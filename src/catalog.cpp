@@ -34,6 +34,18 @@
    \brief Contains catalog classes and Catalogs class.
 */
 
+QDataStream& operator<<(QDataStream& out, const StudyData& studyData) {
+    out << studyData.study << studyData.location << studyData.side 
+        << studyData.labName << studyData.machineName;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, StudyData& studyData) {
+    in >> studyData.study >> studyData.location >> studyData.side 
+        >> studyData.labName >> studyData.machineName;
+    return in;
+}
+
 /**
    \class Catalog
 
@@ -49,8 +61,14 @@ Catalog::Catalog(const QString& path,
 Catalog::~Catalog() {
 }
 
- void Catalog::addStudy(const Study* study) {
-    catalog_[study->key()] = *study;
+ void Catalog::addStudy(const Study* study, const QString& location,
+                        const QString& side, const QString& labName,
+                        const QString& machineName) {
+    catalog_[study->key()].study = *study;
+    catalog_[study->key()].location = location;
+    catalog_[study->key()].side = side;
+    catalog_[study->key()].labName = labName;
+    catalog_[study->key()].machineName = machineName;
     save();
 }
 
@@ -59,37 +77,38 @@ void Catalog::deleteStudy(const Study* study) {
     save();
 }
 
-void Catalog::editStudy(Study* study) {
-    addStudy(study);
-}
+// void Catalog::editStudy(Study* study) {
+//     addStudy(study);
+// }
 
 void Catalog::refresh() {
     load();
 }
 
 void Catalog::relabel(const QString& oldLabel, const QString& newLabel) {
-    for (std::map<QString, Study>::iterator p = catalog_.begin(); 
-        p != catalog_.end(); ++p) {
-        if (p->second.location() == oldLabel)
-            p->second.setLocation(newLabel);
-    }
-    save();
+    /// TODO needs rewrite
+//     for (CatalogMap::iterator p = catalog_.begin(); 
+//         p != catalog_.end(); ++p) {
+//         if (p->second.location() == oldLabel)
+//             p->second.setLocation(newLabel);
+//     }
+//     save();
 }
 
 bool Catalog::studyPresent(const Study* s) {
-    for (std::map<QString, Study>::iterator p = catalog_.begin();
+    for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) {
-        if (p->second.key() == s->key())
+        if (p->second.study.key() == s->key())
             return true;
     }
     return false;
 }
 
-QString Catalog::location(const Study& s) {
-    if (!s.isPreregisterStudy())
-        return s.location() + 
-            (!s.side().isEmpty() ? " - " + s.side() : QString::null);
-    return QString::null;
+QString Catalog::location(const StudyData& sd) {
+    if (sd.study.isPreregisterStudy())
+        return QString::null;
+    return sd.location + 
+            (!sd.side.isEmpty() ? " - " + sd.side : QString::null);
 }
 
 void Catalog::load() {
@@ -138,12 +157,15 @@ void Catalog::saveFile(QFile& file) {
     file.close();
 }
 
+
+
+
 void Catalog::readFromStream(QDataStream& in) {
     catalog_.clear();
     while (!in.atEnd()) {
-        Study study;
-        in >> study;
-        catalog_[study.key()] = study;
+        StudyData studyData;
+        in >> studyData;
+        catalog_[studyData.study.key()] = studyData;
     }
 }
 
@@ -163,10 +185,13 @@ OpticalCatalog::OpticalCatalog(const QString& path,
                  const QString& fileName) : Catalog(path, fileName) {
 }
 
-void OpticalCatalog::addStudy(const Study* study) {
+
+void OpticalCatalog::addStudy(const Study* study, const QString& location,
+                      const QString& side, const QString& labName,
+                      const QString& machineName) {
     // only add real studies to the optical drive
     if (!study->isPreregisterStudy())
-        Catalog::addStudy(study);
+        Catalog::addStudy(study, location, side, labName, machineName);
 }
 
 void OpticalCatalog::regenerate() {
@@ -181,9 +206,9 @@ void OpticalCatalog::regenerate() {
 void OpticalCatalog::relabel(const QString& oldLabel, const QString& newLabel) {
     // all labels are set to new label in the optical catalog
     (void) oldLabel;    // get rid of unused variable warning
-    for (std::map<QString, Study>::iterator p = catalog_.begin(); 
+    for (CatalogMap::iterator p = catalog_.begin(); 
     p != catalog_.end(); ++p)
-        p->second.setLocation(newLabel);
+        p->second.location = newLabel;
     save();
 }
 
@@ -200,14 +225,14 @@ NetworkCatalog::NetworkCatalog(const QString& path,
  * @param s Study 
  * @return location of study, including machine name or lab name
  */
-QString NetworkCatalog::location(const Study& s) {
-    if (s.isPreregisterStudy())
+QString NetworkCatalog::location(const StudyData& sd) {
+    if (sd.study.isPreregisterStudy())
         return QString::null;
     if (Options::instance()->useLabName()) {
-        if (!s.labName().isEmpty())
-            return s.labName() + " - " + Catalog::location(s);
+        if (!sd.labName.isEmpty())
+            return sd.labName + " - " + Catalog::location(sd);
     }
-    return s.machineName() + " - " + Catalog::location(s);
+    return sd.machineName + " - " + Catalog::location(sd);
 }
 
 const char* Catalogs::fileName_ = "catalog.dat";
@@ -247,9 +272,15 @@ void Catalogs::setCurrentCatalog(Catalog::Source source) {
     currentCatalog_ = catalogs_[source];
 }
 
-void Catalogs::addStudy(const Study* study) {
+void Catalogs::addStudy(const Study* study, const QString& location,
+                        const QString& side, const QString& labName,
+                        const QString& machineName) {
     for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
-        (*it).second->addStudy(study);
+        (*it).second->addStudy(study, location, side, labName, machineName);
+}
+
+void Catalogs::addStudy(const Study* study) {
+    addStudy(study, QString::null, QString::null, QString::null, QString::null);
 }
 
 void Catalogs::deleteStudy(const Study* study) {

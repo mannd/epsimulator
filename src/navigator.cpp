@@ -110,7 +110,14 @@ void Navigator::newStudy() {
         if (studyConfigDialog->exec()) {
             study->setConfig(studyConfigDialog->config());
             if (getStudyInformation(study)) {
-                catalogs_->addStudy(study);
+//             study->setLocation(currentDisk_->label());
+//             study->setSide(currentDisk_->isTwoSided() ?
+//                 currentDisk_->translatedSide() : "");
+//             study->setLabName(options_->labName());
+//             study->setMachineName(user_->machineName());
+                catalogs_->addStudy(study, currentDisk_->label(),
+                                    (currentDisk_->isTwoSided() ? currentDisk_->translatedSide() : ""),
+                                    options_->labName(), user_->machineName());
                 refreshCatalogs();
                 startStudy(study);
             }
@@ -874,11 +881,11 @@ bool Navigator::getStudyInformation(Study* study) {
     if (patientDialog->exec()) {
         patientDialog->getFields(study);
         if (!study->isPreregisterStudy()) {
-            study->setLocation(currentDisk_->label());
-            study->setSide(currentDisk_->isTwoSided() ?
-                currentDisk_->translatedSide() : "");
-            study->setLabName(options_->labName());
-            study->setMachineName(user_->machineName());
+//             study->setLocation(currentDisk_->label());
+//             study->setSide(currentDisk_->isTwoSided() ?
+//                 currentDisk_->translatedSide() : "");
+//             study->setLabName(options_->labName());
+//             study->setMachineName(user_->machineName());
         }
         return true;
     }
