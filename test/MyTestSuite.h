@@ -460,7 +460,6 @@ private:
             == study.bsa() == 0);
         TS_ASSERT(study.bsaManualEdit() == false);
         TS_ASSERT(study.dateTime().date() == QDateTime::currentDateTime().date());
-        TS_ASSERT(study.file() == "");
 //        TS_ASSERT(study.heart()->name() == DEFAULT_HEART);
     }
     // this won't test date or time
@@ -484,8 +483,6 @@ private:
         //TS_ASSERT_EQUALS(s1.time(), s2.time());  // this will fail for 2 different
         // studies 
         TS_ASSERT_EQUALS(s1.number(), s2.number());
-        TS_ASSERT_EQUALS(s1.file(), s2.file());
-        TS_ASSERT_EQUALS(s1.location(), s2.location());
     }
     void testStudiesEqual(Study& s1, Study& s2) {
         TS_ASSERT_EQUALS(s1.name().first, s2.name().first);
@@ -504,10 +501,7 @@ private:
         TS_ASSERT_EQUALS(s1.sympatheticTone(), s2.sympatheticTone());
         TS_ASSERT_EQUALS(s1.dateTime(), s2.dateTime());  
         TS_ASSERT_EQUALS(s1.number(), s2.number());
-        TS_ASSERT_EQUALS(s1.file(), s2.file());
         TS_ASSERT_EQUALS(s1.path(), s2.path());
-        TS_ASSERT_EQUALS(s1.fileName(), s2.fileName());
-        TS_ASSERT_EQUALS(s1.location(), s2.location());
     }
 
     void showFullNameOutput(const Study& s) {

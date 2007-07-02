@@ -100,11 +100,6 @@ public:
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
-    /// location is opticalDisk label()
-    QString location() const {return location_;}
-    QString side() const {return side_;}
-    QString machineName() const {return machineName_;}
-    QString labName() const {return labName_;}
     QString studyFileName() const {return studyFileName_;}
 
     void setBsa(double bsa) {bsa_ = bsa;}
@@ -126,10 +121,6 @@ public:
     void setSympatheticTone(AutonomicTone tone);
     void setPath(QString path) {path_ = path;}
     void setConfig(QString config) {config_ = config;}
-    void setLocation(const QString& location) {location_ = location;}
-    void setSide(const QString& side) {side_ = side;}
-    void setMachineName(const QString& name) {machineName_ = name;}
-    void setLabName(const QString& name) {labName_ = name;}
     void makePreregisterStudy() {config_ = "";}  // preregistered study has no config info
 
     void resetKey() {key_ = "";}
@@ -168,11 +159,6 @@ private:
     bool ischemia_;
     QString config_;    // this will eventually be a class probably
     QString path_;      // full path to study directory
-    QString location_;  // location = disk label 
-    QString side_;  // side of disk the study is on, can be null for 
-                    // single-sided disks
-    QString machineName_;   // name of machine study on, for Network catalog
-    QString labName_;       // name of lab study done in, for Network catalog
 
     mutable QString key_;   // unique key for each study
     Heart *heart_;

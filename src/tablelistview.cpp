@@ -35,28 +35,16 @@
 #endif
 
 
+
 /// TODO study is not needed, need to store study key and location.
 /**
  * Constructor for TableListViewItem subclass of Navigator
  * @param parent = TableListView. 
  * @param study = Study associated with this row of the TableListView.
- * @param label1  etc. = Study fields, depending on OldStyleNavigator option.
  */
 TableListView::TableListViewItem::TableListViewItem(TableListView* parent, 
-						const Study& study,
-                                                int dateColumn,
-						QString label1, 
-						QString label2, 
-						QString label3,
-						QString label4, 
-						QString label5, 
-						QString label6, 
-						QString label7, 
-						QString label8 ) 
-    : QListViewItem(parent, label1, label2, label3, label4, 
-		    label5, label6, label7, label8), study_(study),
-                    dateColumn_(dateColumn), 
-                    filteredOut_(false) {
+						    const Study& study) 
+    : QListViewItem(parent), study_(study), filteredOut_(false) {
 }
 
 TableListView::TableListViewItem::~TableListViewItem() {
@@ -72,7 +60,7 @@ TableListView::TableListViewItem::~TableListViewItem() {
 TableListView::TableListView(QWidget* parent, bool oldStyle) 
     : QListView(parent), 
       filtered_(false), oldStyle_(oldStyle) {
-    adjustColumns(oldStyle_);
+    adjustColumns(false);
     setAllColumnsShowFocus(true);
     setShowSortIndicator(true);
 }
@@ -95,22 +83,35 @@ void TableListView::adjustColumns(bool clearTable) {
     // Note that after clearing the table, the table has to be reloaded.  This
     // is entrusted to the calling procedure and not done here.    
     }
-
-    addColumn(tr("Study Type"));        // col 0
+    addColumn(tr("Study Type"));       
+    addColumn(tr("Last Name"));     
+    addColumn(tr("First Name"));    
+    addColumn(tr("Patient"));       
+    addColumn(tr("MRN"));               
+    addColumn(tr("Study Date/Time"));   
+    addColumn(tr("Study Config"));      
+    addColumn(tr("Study Number"));      
+    addColumn(tr("Location of Study")); 
+    header()->setResizeEnabled(true);
     if (oldStyle_) {
-        addColumn(tr("Last Name"));     // col 1
-        addColumn(tr("First Name"));    // col 2
+        // must set ColumnWidthMode to Manual, or else it is Maximum and the
+        // column is expanded no matter what and can't be hidden.
+        setColumnWidthMode(FullNameCol, Manual);
+        hideColumn(FullNameCol);
+        header()->setResizeEnabled(false, FullNameCol);
     }
-    else
-        addColumn(tr("Patient"));       // col 1
-    addColumn(tr("MRN"));               // col 2 or 3
-    addColumn(tr("Study Date/Time"));   // col 3 or 4
-    addColumn(tr("Study Config"));      // col 4 or 5
-    addColumn(tr("Study Number"));      // col 5 or 6
-    addColumn(tr("Location of Study")); // col 6 or 7
-    setSortColumn(oldStyle_ ? 4 : 3);    // default sort is date/time
+    else {
+        setColumnWidthMode(LastNameCol, Manual);
+        setColumnWidthMode(FirstNameCol, Manual);
+        hideColumn(LastNameCol);
+        hideColumn(FirstNameCol);
+        header()->setResizeEnabled(false, LastNameCol);
+        header()->setResizeEnabled(false, FirstNameCol);
+    }
+    setSortColumn(DateTimeCol);    // default sort is date/time
     setSortOrder(Qt::Ascending);       // most recent study last
 }
+
 
 /**
  * Runs through the table and shows or hides each row depending on the 
@@ -147,47 +148,17 @@ Study* TableListView::study() const {
     return study;
 }
 
-
-/// FIXME This is naive.  What happens when the catalog is saved?  Reading is easy:
-/// whatever Catalog is being viewed, just load that catalog.dat file.  What happens
-/// when a study is added, or edited?  The different catalog.dat files must be updated
-/// immediately, or else you could change catalog source and not have it work right.
-/// You can't just write the whole TableListView to each catalog.dat, as the catalogs
-/// are different.  So, we have these situations:
-///     System and Optical only:
-///         Study added/moved/deleted: Optical and System always updated; however
-///             it is necessary to "insert" optical disk if not already inserted
-///             when studies, moved or deleted.
-///     Network:
-///         Network is a super System catalog.  When study added or exported to Network,
-///             Network is updated.  Also deletions, moving recorded in Network.  Exported
-///             study data to a network folder overrides the Optical data.  Thus, system
-///             and Network can be out of sync.
-/// NOTE This function has been moved out of tablelistview to catalog.h
-
-
 void TableListView::addStudy(const Study& study, const QString& location) {
-    if (oldStyle_) {
-        (void) new TableListViewItem(this, study, 4,
-        study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
-        study.name().last,
-        study.name().first,
-        study.mrn(),
-        study.dateTime().toString("yyyy/MM/dd hh:mm:ss"),
-        study.config(),
-        study.number(),
-        location); 
-    }
-    else {
-        (void) new TableListViewItem(this, study, 3,
-        study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"),
-        study.name().fullName(true, true),
-        study.mrn(),
-        study.dateTime().toString("yyyy/MM/dd hh:mm:ss"),
-        study.config(),
-        study.number(),
-        location);
-    }
+        TableListViewItem* t = new TableListViewItem(this, study);
+        t->setText(StudyTypeCol, study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"));
+        t->setText(LastNameCol, study.name().last);
+        t->setText(FirstNameCol, study.name().first);
+        t->setText(FullNameCol, study.name().fullName(true, true));
+        t->setText(MRNCol, study.mrn());
+        t->setText(DateTimeCol, study.dateTime().toString("yyyy/MM/dd hh:mm:ss"));
+        t->setText(ConfigCol, study.config());
+        t->setText(NumberCol, study.number());
+        t->setText(LocationCol, location); 
 }
 
 void TableListView::exportCSV(const QString& fileName) {
@@ -195,15 +166,16 @@ void TableListView::exportCSV(const QString& fileName) {
     if (!file.open(IO_WriteOnly)) 
         throw EpSim::OpenWriteError(file.name());
     QTextStream out(&file);
-    for (int i = 0; i < columns(); ++i) {
-        out << '"' << columnText(i) << '"' << ',';
-    }
+    for (int i = 0; i < columns(); ++i) 
+        if (i != FullNameCol)   // don't need 3 name columns
+            out << '"' << columnText(i) << '"' << ',';
     out << '\n';
     QListViewItemIterator it(this);
     while (it.current()) {
         QListViewItem* item = *it;
         for (int i = 0; i < columns(); ++i) 
-            out << '"' << item->text(i) << '"' << ',';
+            if (i != FullNameCol)   // avoid duplicating name columns
+                out << '"' << item->text(i) << '"' << ',';
         out << '\n';
         ++it;
     }
@@ -231,15 +203,16 @@ void TableListView::applyFilter( FilterStudyType filterStudyType,
     QListViewItemIterator it(this);
     while (it.current()) {
         TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it);
+/// FIXME it looks like we have to keep track of key and dateTime from study in this class
         QDate studyDate = item->study().dateTime().date();
-        match = lastName.exactMatch(item->study().name().last) &&
-            firstName.exactMatch(item->study().name().first) &&
-            mrn.exactMatch(item->study().mrn()) &&
-            studyConfig.exactMatch(item->study().config()) &&
-            studyNumber.exactMatch(item->study().number()) &&
-            studyLocation.exactMatch(item->study().location()) &&
-            (anyDate ? true : (startDate <= studyDate) &&
-            (studyDate <= endDate));
+        match = lastName.exactMatch(item->text(LastNameCol)) &&
+            firstName.exactMatch(item->text(FirstNameCol)) &&
+            mrn.exactMatch(item->text(MRNCol)) &&
+            studyConfig.exactMatch(item->text(ConfigCol)) &&
+            studyNumber.exactMatch(item->text(NumberCol)) &&
+            studyLocation.exactMatch(item->text(LocationCol)) &&
+            (anyDate ? true : (startDate <= studyDate)) &&
+            (studyDate <= endDate);
         switch (filterStudyType) {
             case AnyStudyType :
                 break;

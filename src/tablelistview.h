@@ -45,6 +45,8 @@ struct StudyData;
 */
 class TableListView : public QListView {
 public:
+    enum ColumnName {FirstCol = 0, StudyTypeCol = FirstCol, LastNameCol, FirstNameCol, FullNameCol,
+                     MRNCol, DateTimeCol, ConfigCol, NumberCol, LocationCol, LastCol = LocationCol};
     enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
 
     TableListView(QWidget* parent, bool oldStyle);
@@ -77,8 +79,8 @@ private:
     class TableListViewItem;
     void addStudy(const Study& study, const QString& location);
 
-    // first bytes of EP Simulator binary files
-    enum {MagicNumber = 0x99c798f2};    
+//     // first bytes of EP Simulator binary files
+//     enum {MagicNumber = 0x99c798f2};    
 
     bool filtered_;
     bool oldStyle_;
@@ -88,27 +90,16 @@ private:
 class TableListView::TableListViewItem : public QListViewItem {
 
 public:
-    TableListViewItem(TableListView* parent, const Study& study,
-                    int dateColumn,
-                    QString label1, 
-                    QString label2 = QString::null, 
-                    QString label3 = QString::null, 
-                    QString label4 = QString::null, 
-                    QString label5 = QString::null, 
-                    QString label6 = QString::null, 
-                    QString label7 = QString::null, 
-                    QString label8 = QString::null );
+    TableListViewItem(TableListView* parent, const Study& study);
     ~TableListViewItem();
 
     void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
 
-    // below can't return reference
     Study study() const {return study_;}
     bool filteredOut() const {return filteredOut_;}
 
 private:
     Study study_;
-    int dateColumn_;    // depends on oldStyleNavigator() option
     bool filteredOut_;
 }; // TableListViewItem
 

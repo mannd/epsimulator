@@ -64,9 +64,7 @@ QDataStream& operator<<(QDataStream& out, const Study& study) {
         << study.heightIn_<< study.weightLbs_ << study.bsa_ 
         << (Q_INT32)study.bsaManualEdit_ << (Q_INT32)study.vagalTone_ 
         << (Q_INT32)study.sympatheticTone_ << (Q_INT32)study.ef_
-        << (Q_INT32)study.ischemia_ << study.path_ 
-        << study.location_ << study.side_ 
-        << study.machineName_ << study.labName_;
+        << (Q_INT32)study.ischemia_ << study.path_;
     ///TODO need to add heart to this
     return out;
 }
@@ -79,8 +77,7 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
         >> sex >> study.height_ >> study.weight_ >> study.heightIn_
         >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
         >> vagalTone >> sympatheticTone >> ef
-        >> ischemia >> study.path_  >> study.location_
-        >> study.side_ >> study.machineName_ >> study.labName_;
+        >> ischemia >> study.path_;
     ///TODO need to add heart to this
     study.sex_ = (sex != 0) ? Female : Male;
     study.bsaManualEdit_ = bsaManualEdit;
@@ -108,9 +105,6 @@ Study::Study() : dateTime_(QDateTime::currentDateTime()),
     ///TODO need to compute path
     config_ = "";
     path_ = "";
-    location_ = "";
-    labName_ = "";
-    machineName_ = "";
     key_ = "";
     heart_ = new Heart;
     testInvariant();
@@ -135,10 +129,6 @@ void Study::copyStudy(const Study& study) {
     ischemia_ = study.ischemia_;
     config_ = study.config_;
     path_ = study.path_;
-    location_ = study.location_;
-    side_ = study.side_;
-    machineName_ = study.machineName_;
-    labName_ = study.labName_;
     key_ = study.key_;
     // copy the heart pointer
     heart_ = new Heart(*study.heart_);
