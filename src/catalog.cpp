@@ -85,14 +85,16 @@ void Catalog::refresh() {
     load();
 }
 
-void Catalog::relabel(const QString& oldLabel, const QString& newLabel) {
-    /// TODO needs rewrite
-//     for (CatalogMap::iterator p = catalog_.begin(); 
-//         p != catalog_.end(); ++p) {
-//         if (p->second.location() == oldLabel)
-//             p->second.setLocation(newLabel);
-//     }
-//     save();
+void Catalog::relabel(const QString& label, const QString& side, const QString& key) {
+    for (CatalogMap::iterator p = catalog_.begin();
+        p != catalog_.end(); ++p) {
+        // with optical catalog, all studies must be relabeled
+        if (isOptical() || p->second.study.key() == key ) {
+            p->second.location = label;
+            p->second.side = side;
+        }
+    }
+    save();
 }
 
 bool Catalog::studyPresent(const Study* s) {
@@ -202,15 +204,23 @@ void OpticalCatalog::regenerate() {
     // else display error, or throw error
 }
 
-
-void OpticalCatalog::relabel(const QString& oldLabel, const QString& newLabel) {
-    // all labels are set to new label in the optical catalog
-    (void) oldLabel;    // get rid of unused variable warning
-    for (CatalogMap::iterator p = catalog_.begin(); 
-    p != catalog_.end(); ++p)
-        p->second.location = newLabel;
-    save();
+std::vector<QString> OpticalCatalog::getKeys() {
+    std::vector<QString> keys;
+    for (CatalogMap::iterator p = catalog_.begin();
+        p != catalog_.end(); ++p) 
+        keys.push_back(p->second.study.key());
+    return keys;
 }
+
+
+// void OpticalCatalog::relabel(const QString& oldLabel, const QString& newLabel) {
+//     // all labels are set to new label in the optical catalog
+//     (void) oldLabel;    // get rid of unused variable warning
+//     for (CatalogMap::iterator p = catalog_.begin(); 
+//     p != catalog_.end(); ++p)
+//         p->second.location = newLabel;
+//     save();
+// }
 
 SystemCatalog::SystemCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
@@ -300,9 +310,15 @@ void Catalogs::regenerate() {
     
 }
 
-void Catalogs::relabel(const QString& oldLabel, const QString& newLabel) {
-      for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
-        (*it).second->relabel(oldLabel, newLabel);
+void Catalogs::relabel(const QString& label, const QString& side) {
+    // relabel optical catalog first
+    opticalCatalog_->relabel(label, side);
+    std::vector<QString> keys = opticalCatalog_->getKeys();
+     for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it) 
+         if (!(*it).second->isOptical()) 
+            for (std::vector<QString>::iterator p = keys.begin();
+                p != keys.end(); ++p)
+                (*it).second->relabel(label, side, *p);
 }
 
 bool Catalogs::studyPresentOnOpticalDisk(const Study* s) const {

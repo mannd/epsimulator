@@ -220,5 +220,74 @@ TODO: extract common menu actions and make a concrete base class to hold them.  
     class NavigatorActions : public Actions {};
     class EpSimulatorActions : public Actions ();
     etc.
-Actually it is better just to put the common actions in a struct, with public QAction data members.
+Actually it is better just to put the common actions in a struct, with public
+    QAction data members.
+
+
+On labels, sides, locations.
+   We have removed location, side, epLab and machineName from Study and placed
+   in the catalogs, using struct StudyData.  TableListView lists the location
+   in a format that depends on the catalog.  The optical catalog does not list
+   pre-registered studies.  A warning might need to be issued when one is in
+   the optical catalog when entering a pre-register study, or the catalog
+   could automatically (and maybe disconcertingly ) change to System or
+   Network if this is the case, OR, we could leave the preregister studies in
+   the optical catalog, although there will be no actual study on the disk.
+   Need to decide, perhaps see what Prucka does.
+
+   A non-emulated optical disk is just a directory.  If it is removable media,
+   the catalog.dat file will disappear or change when the disk is changed, and
+   if it disappears, the program will prompt for a new label for the new
+   disk.  If you just store all your studies in a hard drive directory
+   (MyStudies), then even if you click on eject disk, the catalog will always
+   be there unchanged, and all the studies will stay in the same directory.
+   Of course you can change the default studies directory, and a new catalog
+   will be written, etc.
+
+   When you label a new disk (non-emulated) you can arbitrarilly add a side (A
+   or B) to the label (stored though separately as StudyData.side).  For
+   removable dual sided media, this makes sense, and it is up to the user to
+   select the appropriate side.  For a hard disk directory, the side doesn't
+   make much sense, but you could add it to your label if you want.
+   Relabeling a removable or a fixed disk would allow you to change or
+   eliminate the side part of the label.  The only thing that changes is the
+   label info stored in the catalogs, nothing in study.dat or the directory
+   tree changes.
+
+   Given this, it makes sense to have 3 options for side in the disk label
+   dialog: None, A, or B.  
+
+   Emulated Disks are trickier.  The Side is part of the directory tree, so
+   once it is picked out, it cannot change.  The label though is not part of
+   the tree, so relabeling is ok.  So,
+
+   New emulated disk: If emulate dual sided disks is checked, then the 2
+   sides, A or B, are options, but None can't be an option.  A or B will
+   determine whether the study data goes into the A or B subdirectories.
+
+   If dual sided disks is unchecked, then only None is an option, or the sides
+   button group is disabled.  However, then all study data goes into the A
+   subdirectory and there is no B subdirectory.
+
+   Relabeling emulated disks:  You can change the label, but not the side!
+   The side button group is greyed out, whether emulate dual sided disks is
+   checked or not.  
+
+   Other circumstances:
+
+   Emulated disks, change from emulated dual sided disks to not emulate dual
+   sided disks: This should probably be disallowed, as B side studies will
+   become inaccessible.  Ordinarily if there is no dual sided disk emulation
+   the disk side will not show up in the catalog, so A and B sides would all
+   appear to be one location.  Note that this is not true for non-emulated
+   disks, as the side option will always be available (including no side).
+   One solution would be to not show the disk sides in the above scenario, but
+   still have the side information stored so the proper disk side (and
+   subdirectory) will be used.  A warning message can be issued.  Returning to
+   emulated dual sides would restore the status quo.
+
+   Emulated disks: change from not emulated dual sides to emulate dual sides:
+   This should be ok.  All studies previously stored will appear on side A,
+   later studies added will be on A or B.
+
 

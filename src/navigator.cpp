@@ -77,8 +77,7 @@
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
                    options_(Options::instance()), filterCatalog_(0),
-                   currentDisk_(0) {
-    user_ = User::instance();
+                   currentDisk_(0), user_(User::instance()) {
     createOpticalDrive();
     catalogs_ = new Catalogs(options_, currentDisk_->path());
     createActions();
@@ -110,11 +109,6 @@ void Navigator::newStudy() {
         if (studyConfigDialog->exec()) {
             study->setConfig(studyConfigDialog->config());
             if (getStudyInformation(study)) {
-//             study->setLocation(currentDisk_->label());
-//             study->setSide(currentDisk_->isTwoSided() ?
-//                 currentDisk_->translatedSide() : "");
-//             study->setLabName(options_->labName());
-//             study->setMachineName(user_->machineName());
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     (currentDisk_->isTwoSided() ? currentDisk_->translatedSide() : ""),
                                     options_->labName(), user_->machineName());
@@ -312,7 +306,7 @@ void Navigator::relabelDisk() {
     if (diskLabelDialog->exec()) {
         currentDisk_->setLabel(diskLabelDialog->label());
         currentDisk_->setSide(diskLabelDialog->side());
-        catalogs_->relabel(oldLocation, createLocation());
+        catalogs_->relabel(diskLabelDialog->label(), diskLabelDialog->side());
         refreshCatalogs();
     }
     delete diskLabelDialog;

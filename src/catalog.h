@@ -33,6 +33,7 @@
 #include <qstring.h>
 
 #include <map>
+#include <vector>
 
 class Options;
 class QDataStream;
@@ -71,7 +72,8 @@ public:
     // be default, only optical catalog regenerates.
     /// TODO But, might want to update the other catalogs as well...
     virtual void regenerate() {}
-    virtual void relabel(const QString& oldLabel, const QString& newLabel);
+    virtual void relabel(const QString& label, const QString& side, 
+        const QString& key = QString::null);
 
     virtual QString location(const StudyData&); // generates appropriate location format
                                             // overriden by specific catalog types
@@ -86,6 +88,8 @@ public:
     virtual QString fileName() const {return fileName_;}
 
     virtual void setPath(const QString& path) {path_ = path;}
+    virtual void setLabel(const QString& label) {studyData_.location = label;}
+    virtual void setSide(const QString& side) {studyData_.side = side;}
 
     virtual bool isOptical() const {return false;}
     bool isEmpty() {return catalog_.empty();}
@@ -129,7 +133,9 @@ public:
                         const QString& side, const QString& labName,
                         const QString& machineName);
     void regenerate();
-    void relabel(const QString& oldLabel, const QString& newLabel);
+//    void relabel(const QString& oldLabel, const QString& newLabel);
+
+    std::vector<QString> getKeys();
     ~OpticalCatalog() {}
     bool isOptical() const {return true;}
 };
@@ -166,7 +172,7 @@ public:
     
     void refresh();
     void regenerate();
-    void relabel(const QString& oldLabel, const QString& newLabel);
+    void relabel(const QString& label, const QString& side);
     Catalog* currentCatalog() const {return currentCatalog_;}
 
     void setCurrentCatalog(Catalog::Source);

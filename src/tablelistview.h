@@ -25,17 +25,14 @@
 #ifndef TABLELISTVIEW_H
 #define TABLELISTVIEW_H
 
-#include "study.h"
-
-#include "catalog.h"
-
+#include <qdatetime.h>
 #include <qlistview.h>
 #include <qstring.h>
 
+class Catalog;
 class Options;
-class QDataStream;
-class QDate;
-class QFile;
+class Study;
+
 class QRegExp;
 
 struct StudyData;
@@ -79,27 +76,32 @@ private:
     class TableListViewItem;
     void addStudy(const Study& study, const QString& location);
 
-//     // first bytes of EP Simulator binary files
-//     enum {MagicNumber = 0x99c798f2};    
-
     bool filtered_;
     bool oldStyle_;
+
+    Catalog* catalog_;      // the catalog underlying this TableListView
 
 }; // TableListView
 
 class TableListView::TableListViewItem : public QListViewItem {
 
 public:
-    TableListViewItem(TableListView* parent, const Study& study);
+    TableListViewItem(TableListView* parent, const QString& key, 
+                      const QDateTime& dateTime, bool isPreregisterStudy);
     ~TableListViewItem();
+
+    QString key() const {return key_;}
+    QDateTime dateTime() const {return dateTime_;}
+    bool isPreregisterStudy() const {return isPreregisterStudy_;}
 
     void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
 
-    Study study() const {return study_;}
     bool filteredOut() const {return filteredOut_;}
 
 private:
-    Study study_;
+    QString key_;
+    QDateTime dateTime_;
+    bool isPreregisterStudy_;
     bool filteredOut_;
 }; // TableListViewItem
 
