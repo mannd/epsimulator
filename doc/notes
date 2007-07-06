@@ -290,4 +290,9 @@ On labels, sides, locations.
    This should be ok.  All studies previously stored will appear on side A,
    later studies added will be on A or B.
 
+Further elaboration:
+    The label.dat file must contain both the actual disk label AND the side.
+    Side can be null for non dual side drives.  Otherwise 2 sides of the same
+    drive will have the same label.
+
 

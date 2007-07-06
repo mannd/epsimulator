@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "catalog.h"
+#include "epfuns.h"
 #include "error.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -27,6 +28,8 @@
 #include <qdatastream.h>
 #include <qdir.h>
 #include <qfile.h>
+
+#include <vector>
 
 /**
    \file catalog.cpp
@@ -128,6 +131,9 @@ void Catalog::save() {
     saveFile(f);
 }
 
+// Can't use EpFuns here, as it can't deal with STL containers.  Could change map to QMap,
+// but syntax is not the same as STL.  Probably should use STL streams instead of QDataStream,
+// but not that important as below works.
 void Catalog::loadFile(QFile& file) {
     // create a studies file if it doesn't exist already
     if (!file.exists()) 
@@ -158,9 +164,6 @@ void Catalog::saveFile(QFile& file) {
     // must close the file so it can be reopened IO_ReadOnly
     file.close();
 }
-
-
-
 
 void Catalog::readFromStream(QDataStream& in) {
     catalog_.clear();
@@ -315,7 +318,7 @@ void Catalogs::relabel(const QString& label, const QString& side) {
     opticalCatalog_->relabel(label, side);
     std::vector<QString> keys = opticalCatalog_->getKeys();
      for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it) 
-         if (!(*it).second->isOptical()) 
+         if (!(*it).second->isOptical()) // already did the optical catalog
             for (std::vector<QString>::iterator p = keys.begin();
                 p != keys.end(); ++p)
                 (*it).second->relabel(label, side, *p);

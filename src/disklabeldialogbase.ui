@@ -128,36 +128,60 @@
             <property name="exclusive">
                 <bool>false</bool>
             </property>
-            <hbox>
+            <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QRadioButton">
+                <widget class="QLayoutWidget" row="0" column="0">
                     <property name="name">
-                        <cstring>sideAButton</cstring>
+                        <cstring>layout2</cstring>
                     </property>
-                    <property name="text">
-                        <string>Side &amp;A</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+A</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>noneButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>None</string>
+                            </property>
+                            <property name="accel">
+                                <string></string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>sideAButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Side &amp;A</string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+A</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>sideBButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Side &amp;B</string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+B</string>
+                            </property>
+                        </widget>
+                    </hbox>
                 </widget>
-                <widget class="QRadioButton">
-                    <property name="name">
-                        <cstring>sideBButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Side &amp;B</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+B</string>
-                    </property>
-                </widget>
-            </hbox>
+            </grid>
         </widget>
     </grid>
 </widget>

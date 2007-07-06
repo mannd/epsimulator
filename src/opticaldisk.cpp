@@ -25,6 +25,7 @@
 #include "selectemulateddiskdialog.h"
 #include "settings.h"
 
+#include <qdatastream.h>
 #include <qdatetime.h>
 #include <qdir.h>
 #include <qfile.h>
@@ -35,14 +36,25 @@
 #ifndef NDEBUG
 #include <iostream>
 #endif
+
 const QString OpticalDisk::labelFileName_ = "label.dat";
 
-OpticalDisk::OpticalDisk(const QString& path, bool isTwoSided) 
-    : isTwoSided_(isTwoSided), side_(QObject::tr("A")), path_(path) {
+QDataStream& operator<<(QDataStream& out, const LabelData& labelData) {
+    out << labelData.label_ << labelData.side_;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, LabelData& labelData) {
+    in >> labelData.label_ >> labelData.side_;
+    return in;
+}
+
+OpticalDisk::OpticalDisk(const QString& path) 
+    : path_(path) {
 }
 
 /// returns full file path of label data file, including file name itself
-QString OpticalDisk::filePath() const {
+QString OpticalDisk::filePath() {
     return path() + "/" + labelFileName_;
 }
 
@@ -51,36 +63,48 @@ bool OpticalDisk::hasLabel() {
     return file.exists() && !label().isEmpty();
 }
 
-QString OpticalDisk::load(const QString& fileName) {
-    QString label;
-    EpFuns::loadData(fileName, MagicNumber, label);
-    return label;
+void OpticalDisk::load(const QString& fileName) {
+    EpFuns::loadData(fileName, MagicNumber, labelData_);
 }
 
-void OpticalDisk::save(const QString& fileName, const QString& label) {
-    EpFuns::saveData(fileName, MagicNumber, label);
+void OpticalDisk::save(const QString& fileName) {
+    EpFuns::saveData(fileName, MagicNumber, labelData_);
 }
 
 void OpticalDisk::setLabel(const QString& label) {
-    // write label to disk first   
-    //label_ = label;
-    save(filePath(), label);
+    labelData_.label_ = label;
+    save(filePath());
+}
+
+void OpticalDisk::setSide(const QString& side) {
+    labelData_.side_ = side;
+    save(filePath());
 }
 
 QString OpticalDisk::label() {
-    return load(filePath());
+    if (labelData_.label_.isNull())
+        load(filePath());
+    return labelData_.label_;
+}
+
+QString OpticalDisk::side() {
+    if (labelData_.side_.isNull())
+        load(filePath());
+    return labelData_.side_;
 }
 
 QString OpticalDisk::translatedSide() const {
-    return side_ == "A" ? QObject::tr("A") : QObject::tr("B");
+    return QObject::tr(labelData_.side_);    
 }
 
 OpticalDisk::~OpticalDisk() {
 }
 
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
-    bool isTwoSided) : OpticalDisk(path, isTwoSided) {
+    bool isTwoSided) : OpticalDisk(path), isTwoSided_(isTwoSided) {
     // Need some housekeeping to setup fake optical disk.
+    labelData_.side_ = "A"; // this is default side, and a side is needed
+                            // to set up the directory tree.
     lastDisk();
     if (diskName_.isEmpty())
         diskName_ = "disk_" + QDateTime::currentDateTime().toString(
@@ -89,7 +113,20 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
     /// TODO must override load, save to create the file directory.
 }
 
-QString EmulatedOpticalDisk::filePath() const {
+// void EmulatedOpticalDisk::setSide(const QString& side) {
+//     // null side not allowed with emulated optical disk?
+//     if (side == "A" || side.isEmpty())
+//         side_ = "A";
+//     else
+//         side_ == "B";
+// }
+// 
+// QString EmulatedOpticalDisk::side() const {
+//     QString side = side == "A" || side.isEmpty() ? "A" : "B";
+//     return side;
+// }
+
+QString EmulatedOpticalDisk::filePath() {
     return path() + "/" + labelFileName_;
 }
 
@@ -105,11 +142,11 @@ QString EmulatedOpticalDisk::diskPath() const {
 }
 
 /// returns full path to the disk, including side
-QString EmulatedOpticalDisk::path() const {
+QString EmulatedOpticalDisk::path() {
     return diskPath() + "/" + side();
 }
 
-QString EmulatedOpticalDisk::load(const QString& fileName) {
+void EmulatedOpticalDisk::load(const QString& fileName) {
     // create /disks dir if not already present.  Better to do here than
     // in constructor as can throw.
     QDir disksDir(disksPath());
@@ -135,7 +172,7 @@ QString EmulatedOpticalDisk::load(const QString& fileName) {
             throw EpSim::IoError(path());
     }
 
-    return OpticalDisk::load(fileName);
+    OpticalDisk::load(fileName);
 }
 
 

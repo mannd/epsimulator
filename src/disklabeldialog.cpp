@@ -35,6 +35,8 @@ QString DiskLabelDialog::label() const {
 }
 
 QString DiskLabelDialog::side() const {
+    if (noneButton->isChecked()) 
+        return QString::null;
     return sideAButton->isChecked() ? "A" : "B";
 }
 
@@ -43,7 +45,9 @@ void DiskLabelDialog::setLabel(const QString& label) {
 }
 
 void DiskLabelDialog::setSide(const QString& side) {
-    if (side == "A")
+    if (side.isEmpty())
+        noneButton->setChecked(true);
+    else if (side == "A")
         sideAButton->setChecked(true);
     else
         sideBButton->setChecked(true);

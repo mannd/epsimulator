@@ -110,7 +110,7 @@ void Navigator::newStudy() {
             study->setConfig(studyConfigDialog->config());
             if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
-                                    (currentDisk_->isTwoSided() ? currentDisk_->translatedSide() : ""),
+                                    currentDisk_->translatedSide(),
                                     options_->labName(), user_->machineName());
                 refreshCatalogs();
                 startStudy(study);
@@ -254,6 +254,7 @@ void Navigator::unfilterStudies() {
 
 void Navigator::refreshCatalogs() {
     catalogComboBox_->refresh();
+    catalogs_->refresh();
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
     tableListView_->load(catalogs_->currentCatalog());
     // reapply filter if present
@@ -267,11 +268,11 @@ void Navigator::regenerateCatalogs() {
 }
 
 void Navigator::changeCatalog() {
-    catalogs_->setCurrentCatalog(catalogComboBox_->source());
-    tableListView_->load(catalogs_->currentCatalog());
-    // reapply filter if present
-    if (tableListView_->filtered())
-        processFilter();
+     catalogs_->setCurrentCatalog(catalogComboBox_->source());
+     tableListView_->load(catalogs_->currentCatalog());
+     // reapply filter if present
+     if (tableListView_->filtered())
+         processFilter();
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
@@ -298,8 +299,8 @@ void Navigator::relabelDisk() {
     QString oldLocation = createLocation();
     diskLabelDialog->setLabel(oldLabel);
     // don't allow changing sides if emulated disk
-    diskLabelDialog->enableSideButtons(currentDisk_->isTwoSided() 
-                                       && currentDisk_->allowSideChange());
+    /// FIXME double check below.
+    diskLabelDialog->enableSideButtons(currentDisk_->allowSideChange());
     // need to do this even if side buttons are disabled because we cannot
     // change sides during relabeling of emulated disks
     diskLabelDialog->setSide(currentDisk_->side());
@@ -400,6 +401,7 @@ void Navigator::setCatalogOther() {
                                       catalogs_->fileName(), this, 0, true);
     if (fd->exec() == QDialog::Accepted) {
         catalogs_->setCatalogPath(Catalog::Other, fd->dirPath());
+        catalogs_->refresh();   // to reload Other catalog
         catalogComboBox_->setSource(Catalog::Other);
         changeCatalog();
     }
@@ -511,8 +513,7 @@ void Navigator::createOpticalDrive() {
                                     options_->dualSidedDrive());
         }
         else
-            currentDisk_ = new OpticalDisk(options_->opticalStudyPath(),
-                                    options_->dualSidedDrive());
+            currentDisk_ = new OpticalDisk(options_->opticalStudyPath());
         // below for debugging
 #ifndef NDEBUG
         std::cout << "currentDisk_->label() = " << currentDisk_->label() << 
@@ -863,11 +864,12 @@ void Navigator::startStudy(Study* s) {
 }
 
 QString Navigator::createLocation() const {
-    return currentDisk_->label() + 
-           (currentDisk_->isTwoSided() ?
+    return currentDisk_->label() + (!currentDisk_->side().isEmpty() ?
            " - " + currentDisk_->translatedSide() : "");
 }
 
+
+/// FIXME check out below!
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation(Study* study) {
     PatientDialog* patientDialog = new PatientDialog(this);
