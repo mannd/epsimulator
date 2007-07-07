@@ -42,7 +42,6 @@ HEADERS += epsimulator.h \
            studyconfigdialog.h \
            options.h \
            getopts.h \
-           epsimdefs.h \
            filtercatalog.h \
            catalogcombobox.h \
            catalog.h \
@@ -63,7 +62,8 @@ HEADERS += epsimulator.h \
  utilities.h \
  selectemulateddiskdialog.h \
  user.h \
- epfuns.h
+ epfuns.h \
+ versioninfo.h
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -93,7 +93,8 @@ SOURCES += epsimulator.cpp \
  utilities.cpp \
  selectemulateddiskdialog.cpp \
  user.cpp \
- epfuns.cpp
+ epfuns.cpp \
+ versioninfo.cpp
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

@@ -18,8 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "epsimdefs.h"
 #include "epsimulator.h"
+
+#include "versioninfo.h"
 
 #include <qlabel.h>
 #include <qmessagebox.h>
@@ -57,7 +58,7 @@ Epsimulator::~Epsimulator()
 void Epsimulator::closeEvent(QCloseEvent *event) {
     int ret = QMessageBox::question(
             this,
-            PROGRAM_NAME,
+            VersionInfo::instance()->programName(),
             tr("Close Study?"),
             QMessageBox::Yes | QMessageBox::Default,
             QMessageBox::No | QMessageBox::Escape);

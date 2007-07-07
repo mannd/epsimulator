@@ -30,7 +30,6 @@
 #include "changepassworddialog.h"
 #include "disklabeldialog.h"
 #include "catalogcombobox.h"
-#include "epsimdefs.h"
 #include "epsimulator.h"
 #include "error.h"
 #include "filtercatalog.h"
@@ -49,6 +48,7 @@
 #include "tablelistview.h"
 #include "user.h"
 #include "utilities.h"
+#include "versioninfo.h"
 
 #include <qaction.h>
 #include <qapplication.h>
@@ -89,7 +89,7 @@ Navigator::Navigator(QWidget* parent, const char* name)
     connect(catalogComboBox_, SIGNAL(activated(int)),
         this, SLOT(changeCatalog()));
 
-    setCaption(tr("%1 Navigator").arg(PROGRAM_NAME));
+    setCaption(tr("%1 Navigator").arg(VersionInfo::instance()->programName()));
     setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
 }
 

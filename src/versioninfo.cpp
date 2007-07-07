@@ -18,25 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/** @file epsim.h
- *  Defines language and app name and version.
-*/
+#include "versioninfo.h"
 
-#include <qapplication.h>
+VersionInfo* VersionInfo::instance_ = 0;
 
-#ifndef EPSIM_H
-#define EPSIM_H
+VersionInfo* VersionInfo::instance() {
+    if (instance_ == 0)
+        instance_ = new VersionInfo;
+    return instance_;
+}
 
-// APP_NAME is internal program name.  PROGRAM_NAME is the polished program name
-#define APP_NAME "epsimulator"  
-#define SHORT_APP_NAME "epsim"
-#define PROGRAM_NAME qApp->translate("Global", "EP Simulator")
-#define VERSION qApp->translate("Global", "0.1")
-
-// Languages
-// Only define 1 of the below
-//#define GERMAN
-//#define FRENCH
-#define ENGLISH
-
-#endif
+VersionInfo::VersionInfo(): appName_("epsimulator"), shortAppName_("epsim"),
+          programName_(qApp->translate("Global", "EP Simulator")), 
+          copyrightYear_("2006"), versionMajor_(0),
+          versionMinor_(1) {}

@@ -30,6 +30,7 @@
 
 #include "study.h"
 
+#include <qmap.h>
 #include <qstring.h>
 
 #include <map>
@@ -59,7 +60,8 @@ class Catalog {
 
 public:
     enum Source {Network, System, Optical, Other};
-    typedef std::map<QString, StudyData> CatalogMap;
+//    typedef std::map<QString, StudyData> CatalogMap;
+    typedef QMap<QString, StudyData> CatalogMap;
     typedef CatalogMap::const_iterator Iterator;
 
     Catalog(const QString& path, const QString& fileName);
@@ -105,9 +107,6 @@ protected:
     // First bytes of EP Simulator catalog files.
     enum {MagicNumber = 0x99c798f2};    
 
-    void readFromStream(QDataStream& in);
-    void writeToStream(QDataStream& out);
-
     virtual void load();
     virtual void save();
  
@@ -115,9 +114,6 @@ protected:
 
 
 private:    
-    void loadFile(QFile& file);
-    void saveFile(QFile& file);
-
     QString path_;  // path to catalog file, excluding file name
     QString fileName_; // file name of catalog
 

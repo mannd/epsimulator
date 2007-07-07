@@ -80,6 +80,12 @@ public:
                   : IoError(fileName, msg) {}
 };
 
+class WrongEpSimVersionError : public IoError {
+public:
+    WrongEpSimVersionError(const char* msg = "wrong EP Simulator version")
+                           : IoError("", msg) {}
+};
+
 }
 
 #endif

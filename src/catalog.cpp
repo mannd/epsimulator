@@ -92,9 +92,9 @@ void Catalog::relabel(const QString& label, const QString& side, const QString& 
     for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) {
         // with optical catalog, all studies must be relabeled
-        if (isOptical() || p->second.study.key() == key ) {
-            p->second.location = label;
-            p->second.side = side;
+        if (isOptical() || p.data().study.key() == key ) {
+            p.data().location = label;
+            p.data().side = side;
         }
     }
     save();
@@ -103,7 +103,7 @@ void Catalog::relabel(const QString& label, const QString& side, const QString& 
 bool Catalog::studyPresent(const Study* s) {
     for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) {
-        if (p->second.study.key() == s->key())
+        if (p.data().study.key() == s->key())
             return true;
     }
     return false;
@@ -118,8 +118,7 @@ QString Catalog::location(const StudyData& sd) {
 
 void Catalog::load() {
     try {
-        QFile f(filePath());
-        loadFile(f);
+        EpFuns::loadData(filePath(), MagicNumber, catalog_);
     }
     catch (EpSim::IoError&) {
         // ignore failure to read, leave catalog empty
@@ -127,56 +126,7 @@ void Catalog::load() {
 }
 
 void Catalog::save() {
-    QFile f(filePath());
-    saveFile(f);
-}
-
-// Can't use EpFuns here, as it can't deal with STL containers.  Could change map to QMap,
-// but syntax is not the same as STL.  Probably should use STL streams instead of QDataStream,
-// but not that important as below works.
-void Catalog::loadFile(QFile& file) {
-    // create a studies file if it doesn't exist already
-    if (!file.exists()) 
-        saveFile(file);
-    if (!file.open(IO_ReadOnly)) 
-        throw EpSim::OpenReadError(file.name());
-    QDataStream in(&file);
-    in.setVersion(5);
-    Q_UINT32 magic;
-    in >> magic;
-    if (magic != MagicNumber) 
-        throw EpSim::WrongFileTypeError(file.name());
-    readFromStream(in);
-    if (file.status() != IO_Ok) 
-        throw EpSim::ReadError(file.name());
-    file.close();
-}
-
-void Catalog::saveFile(QFile& file) {
-    if (!file.open(IO_WriteOnly)) 
-        throw EpSim::OpenWriteError(file.name());
-    QDataStream out(&file);
-    out.setVersion(5);
-    out << (Q_UINT32)MagicNumber;
-    writeToStream(out);
-    if (file.status() != IO_Ok) 
-        throw EpSim::WriteError(file.name());
-    // must close the file so it can be reopened IO_ReadOnly
-    file.close();
-}
-
-void Catalog::readFromStream(QDataStream& in) {
-    catalog_.clear();
-    while (!in.atEnd()) {
-        StudyData studyData;
-        in >> studyData;
-        catalog_[studyData.study.key()] = studyData;
-    }
-}
-
-void Catalog::writeToStream(QDataStream& out) {
-    for (Iterator p = catalog_.begin(); p != catalog_.end(); ++p)
-        out << p->second;
+    EpFuns::saveData(filePath(), MagicNumber, catalog_);
 }
 
 QString Catalog::filePath() const {
@@ -211,19 +161,9 @@ std::vector<QString> OpticalCatalog::getKeys() {
     std::vector<QString> keys;
     for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) 
-        keys.push_back(p->second.study.key());
+        keys.push_back(p.data().study.key());
     return keys;
 }
-
-
-// void OpticalCatalog::relabel(const QString& oldLabel, const QString& newLabel) {
-//     // all labels are set to new label in the optical catalog
-//     (void) oldLabel;    // get rid of unused variable warning
-//     for (CatalogMap::iterator p = catalog_.begin(); 
-//     p != catalog_.end(); ++p)
-//         p->second.location = newLabel;
-//     save();
-// }
 
 SystemCatalog::SystemCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {

@@ -17,40 +17,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "actions.h"
+#ifndef EPSIMVERSIONINFO_H
+#define EPSIMVERSIONINFO_H
 
-#include "versioninfo.h"
+#include <qapplication.h>
+#include <qstring.h>
 
-#include <qmessagebox.h>
-#include <qobject.h>
-#include <qurl.h>
+/**
+Provides version and application information for a program.
 
-Actions::Actions() {
-}
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+class VersionInfo{
+public:
+    static VersionInfo* instance();
 
-void Actions::about(QWidget* parent) {
-    VersionInfo* info = VersionInfo::instance();
-    QMessageBox::about(parent, QObject::tr("About %1").arg(info->programName()),
-		       QObject::tr("<h2>%1 %2</h2>"
-		          "<p>Copyright &copy; %3 EP Studios, Inc."
-			  "<p>EP Simulator simulates an EP recording "
-			  "system."
-                          "<p><a href=http://www.epstudiossoftware.com> http://www.epstudiossoftware.com</a>")
-                          .arg(info->programName()).arg(info->version()).arg(info->copyrightYear()));
-///TODO make this an actual hyperlink that you can click on and go to
-}
+    QString appName() {return appName_;}
+    QString shortAppName() {return shortAppName_;}
+    QString programName() {return programName_;}
+    int versionMajor() {return versionMajor_;}
+    int versionMinor() {return versionMinor_;}
+    QString version() {return QString("%1.%2").arg(versionMajor_)
+                       .arg(versionMinor_);}
+    QString copyrightYear() {return copyrightYear_;}
 
-void Actions::help(QWidget* parent) {
-    QUrl site("www.epsimulator.com");
-    QMessageBox::information(parent, QObject::tr(
-        "%1 Help").arg(VersionInfo::instance()->programName()),
-        QObject::tr(
-        "Help is available from www.epstudiossoftware.com"),
-        QMessageBox::Ok);
-}
+    ~VersionInfo() {}
 
+    void destroy() {delete instance_; instance_ = 0;}
 
-Actions::~Actions() {
-}
+private:
+    static VersionInfo* instance_;
+    VersionInfo(); 
+    QString appName_;
+    QString shortAppName_;
+    QString programName_;
+    QString copyrightYear_;
+    int versionMajor_;
+    int versionMinor_;
+};
 
+#endif
 

@@ -134,13 +134,10 @@ void TableListView::showTable() {
 void TableListView::load(Catalog* catalog) {
     clear();
     catalog_ = catalog;
-    if (!catalog_) return;  // don't know why it would be 0, but just in case
-    for (Catalog::Iterator it = catalog->begin(); 
-        it != catalog->end(); ++it) {
-        StudyData studyData = (*it).second;
-        QString location = catalog->location(studyData);
-        addStudy(studyData.study, location);
-    }
+    if (!catalog_) 
+        return;  // don't know why it would be 0, but just in case
+    for (Catalog::Iterator it = catalog->begin(); it != catalog->end(); ++it)
+        addStudy(it.data().study, catalog->location(it.data()));
 }
 
 /**

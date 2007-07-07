@@ -21,7 +21,6 @@
 #include "study.h"
 
 #include "epfuns.h"
-#include "epsimdefs.h"
 #include "error.h"
 #include "heart.h"
 

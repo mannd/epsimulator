@@ -31,17 +31,23 @@
     normal cardiac electrophysiology and arrhythmias.
 */
 
-#include "epsimdefs.h"
 // Note that below is Froglogics GetOpt class, but header file is
 // renamed from getopt.h to getopts.h because of conflict with 
 // unix getopt.h.
 #include "getopts.h"
 #include "options.h"
 #include "navigator.h"
+#include "versioninfo.h"
 
 #include <qapplication.h>
 #include <qmessagebox.h>
 #include <qstring.h>
+
+// Languages
+// Only define 1 of the below
+//#define GERMAN
+//#define FRENCH
+#define ENGLISH
 
 #ifndef ENGLISH
 #include <qtranslator.h>
@@ -68,21 +74,24 @@ int main(int argc, char **argv)
 #endif
     app.installTranslator( &translator );
 #endif
-   
+
+    VersionInfo* versionInfo = VersionInfo::instance();
     GetOpt opts;
     QString path;
     opts.addOption('p', "path", &path);
     bool help;
     opts.addSwitch("help", &help);
     if (!opts.parse()) {
-        cerr << QObject::tr("Usage:  %1 [--path=filename]").arg(APP_NAME) 
+        cerr << QObject::tr("Usage:  %1 [--path=filename]").arg(versionInfo->appName()) 
             << endl << endl;
         return 1;
     }
     if (help) {
         cerr << 
-            QObject::tr("%1 version %2").arg(PROGRAM_NAME).arg(VERSION)
-            << endl << QObject::tr("Copyright (c) 2006 EP Studios, Inc.")
+            QObject::tr("%1 version %2").arg(versionInfo->programName())
+                     .arg(versionInfo->version())
+            << endl << QObject::tr("Copyright (c) %1 EP Studios, Inc.")
+               .arg(versionInfo->copyrightYear())
             << endl << QObject::tr("See www.epstudiossoftware.com for help.")
             << endl << endl; 
         return 1;
@@ -96,6 +105,7 @@ int main(int argc, char **argv)
     mainWin->showNormal();
     mainWin->showMaximized();
     return app.exec();
-    // deletes the options instance -- can only be used at end of program!
+    // delete the singletons -- only need to do here at end of program!
     options->destroy();
+    versionInfo->destroy();
 }
