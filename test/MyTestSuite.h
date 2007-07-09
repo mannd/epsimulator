@@ -20,8 +20,9 @@
 
 // MyTestSuite.h
 #include <cxxtest/TestSuite.h>
-#include "epsimdefs.h"
+#include "versioninfo.h"
 #include "catalog.h"
+#include "epfuns.h"
 #include "error.h"
 #include "filtercatalog.h"
 #include "study.h"
@@ -247,7 +248,7 @@ public:
         TS_ASSERT(startDate == QDate::currentDate());
         cerr <<   "Selected ID = " << filterCatalog->studyDateButtonGroup->selectedId();
         delete filterCatalog;
-}
+    }
 
 
    void testGetSetPatientDialogDefaultStudies() {
@@ -442,10 +443,21 @@ public:
         TS_ASSERT(u->name() == QObject::tr("ADMINISTRATOR"));
         u->makeAdministrator(false);
         TS_ASSERT(u->role() == QObject::tr("EPSIMUSER"));
-        cerr <<   "User name is " << u->name();
+        cerr <<   "User name is " << u->name() << endl;
     }
 
+    void testVersionInfo() {
+        VersionInfo* v = VersionInfo::instance();
+        TS_ASSERT(v->programName() == QObject::tr("EP Simulator"));
+        TS_ASSERT(v->appName() == "epsimulator");
+        cerr << "Program version is " << v->version() << endl;
+    }
 
+    void testEpFunsVersion() {
+        TS_ASSERT(!EpFuns::versionOk(9999, 9999));
+        VersionInfo* v = VersionInfo::instance();
+        TS_ASSERT(EpFuns::versionOk(v->versionMajor(), v->versionMinor()));
+    }
 
 private:
     void testStudyDefaults(Study& study) {
@@ -519,17 +531,3 @@ private:
     }
 };
 
-
-
-/*date_(QDate::currentDate()),
-    time_(QTime::currentTime()), dateOfBirth_(1950, 1, 1),
-    sex_(FEMALE), height_(0), weight_(0), 
-    heightIn_(0), weightLbs_(0), bsa_(0), 
-    bsaManualEdit_(false), vagalTone_(DEFAULT_VAGAL_TONE),
-    sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), ef_(DEFAULT_EF), 
-    ischemia_(false), heart_(0) {
-    heart_ = new Heart;
-    testInvariant();
-}
-
-*/

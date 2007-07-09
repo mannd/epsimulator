@@ -1,37 +1,31 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="10" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/catalog.h" >
-   <View0 Encoding="" line="70" Type="Source" />
-  </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/catalog.cpp" >
-   <View0 Encoding="" line="284" Type="Source" />
-  </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator.cpp" >
-   <View0 Encoding="" line="256" Type="Source" />
-  </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/catalogcombobox.cpp" >
-   <View0 Encoding="" line="111" Type="Source" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/tablelistview.cpp" >
-   <View0 Encoding="" line="137" Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/bits/stl_tree.h" >
-   <View0 Encoding="" line="1375" Type="Source" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/bits/stl_map.h" >
-   <View0 Encoding="" line="346" Type="Source" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/bits/stl_function.h" >
-   <View0 Encoding="" line="226" Type="Source" />
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qstring.h" >
-   <View0 Encoding="" line="845" Type="Source" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qshared.h" >
+ <DocsAndViews NumberOfDocuments="8" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/versioninfo.h" >
    <View0 Encoding="" line="49" Type="Source" />
-  </Doc9>
+  </Doc0>
+  <Doc1 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qstring.html#arg-6" >
+   <View0 Type="Documentation" />
+  </Doc1>
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/main.cpp" >
+   <View0 Encoding="" line="63" Type="Source" />
+  </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/versioninfo.cpp" >
+   <View0 Encoding="" line="30" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator.cpp" >
+   <View0 Encoding="" line="488" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/actions.cpp" >
+   <View0 Encoding="" line="31" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/options.cpp" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc6>
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/options.h" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc7>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -51,6 +45,9 @@
     <breakpoint4 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:271" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint4>
+    <breakpoint5 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:488" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint5>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -61,9 +58,9 @@
   <kdevbookmarks>
    <bookmarks>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/navigator.cpp" >
-     <mark line="532" />
-     <mark line="226" />
-     <mark line="399" />
+     <mark line="533" />
+     <mark line="227" />
+     <mark line="400" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
      <mark line="925" />
@@ -84,7 +81,7 @@
    </bookmarks>
   </kdevbookmarks>
   <kdevvalgrind>
-   <executable path="" params="" />
+   <executable path="/home/mannd/dev/local/epsimulator/src/../bin/epsimulator" params="" />
    <valgrind path="valgrind" params=" --tool=memcheck --leak-check=yes" />
    <calltree path="valgrind" params="--tool=callgrind" />
    <kcachegrind path="kcachegrind" />

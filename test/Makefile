@@ -26,7 +26,8 @@ OBJECTS := 	$(OBJ_DIR)/study.o \
 		$(OBJ_DIR)/passwordhandler.o \
 		$(OBJ_DIR)/opticaldisk.o \
 		$(OBJ_DIR)/user.o \
-		$(OBJ_DIR)/epfuns.o
+		$(OBJ_DIR)/epfuns.o \
+		$(OBJ_DIR)/versioninfo.o
 
 vpath %.cpp ../src
 vpath %.h ../src
