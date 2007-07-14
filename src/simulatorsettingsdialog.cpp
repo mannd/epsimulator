@@ -43,6 +43,7 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator());
     useLabNameCheckBox->setChecked(options_->useLabName());
     labNameLineEdit->setText(options_->labName());
+    permanentDeleteCheckBox->setChecked(options_->permanentDelete());
 }
 
 void SimulatorSettingsDialog::setOptions() {
@@ -59,6 +60,8 @@ void SimulatorSettingsDialog::setOptions() {
         options_->setOldStyleNavigator(oldStyleNavigatorCheckBox->isChecked());
         options_->setUseLabName(useLabNameCheckBox->isChecked());
         options_->setLabName(labNameLineEdit->text());
+        options_->setPermanentDelete(permanentDeleteCheckBox->isChecked());
+
         options_->writeSettings();
 }
 

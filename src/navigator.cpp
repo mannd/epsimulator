@@ -925,6 +925,8 @@ QString Navigator::studyPath(const Study* study) const {
 }
 
 void Navigator::deleteDataFiles(const QString& path) {
+    std::cerr << "Path is " << path << std::endl;
+    return;
     if (!options_->permanentDelete())
         return;
     try {
