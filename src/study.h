@@ -94,6 +94,7 @@ public:
     QString number() const {return number_;}
     QString path() const {return path_;}    // returns path to specific study directory
     QString filePath();     // Returns full path of study.dat file, 
+    QString studyDirName() {return "/study_" + key();}
     QString config() const {return config_;}
     QString key() const;    // Generates key based on name and datetime
                             // to identify study uniquely.

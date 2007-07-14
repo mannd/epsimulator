@@ -63,7 +63,7 @@ void Options::readSettings() {
         settings.readBoolEntry("/administratorAccountRequired", false);
     hideSimulatorMenu_ = 
         settings.readBoolEntry("/hideSimulatorMenu", false);
-    permanentDelete_ = settings.readBoolEntry("/permanentDelete", true);
+    permanentDelete_ = settings.readBoolEntry("/permanentDelete", false);
     /// FIXME This should probably be deviously named, like "/signalFrameCountOffset",
     /// so that the password can't be set back to blank by putting 0 in here.  Other
     /// things that could be done would be to store this in a config file not in the user

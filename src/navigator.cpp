@@ -215,6 +215,11 @@ void Navigator::moveStudy() {
 void Navigator::deleteStudy() {
     try {
         if (Study* study = getSelectedStudy()) {
+            if (!study->isPreregisterStudy() && !catalogs_->studyPresentOnOpticalDisk(study)) {
+                QMessageBox::information(this, tr("Study Not On Optical Disk"),
+                    tr("Insert the disk containing this study and try again."));
+                return;
+            }
             int ret = QMessageBox::warning(
                 this, tr("Delete Study?"),
                 tr("The selected study will be permanently "
@@ -226,7 +231,8 @@ void Navigator::deleteStudy() {
                 catalogs_->deleteStudy(study);
                 refreshCatalogs();
                 // delete item;
-                deleteDataFiles(study->path());
+                if (!study->isPreregisterStudy())
+                    deleteDataFiles(currentDisk_->studiesPath() + study->studyDirName());
             }
             delete study;
         } 
@@ -853,14 +859,14 @@ void Navigator::processFilter() {
 
 void Navigator::startStudy(Study* s) {
     // write study files
-    QString studiesPath = currentDisk_->path() + "/studies";
+    QString studiesPath = currentDisk_->studiesPath();
     QDir studiesDir(studiesPath);
     if (!studiesDir.exists()) {
         if (!studiesDir.mkdir(studiesPath))
             throw EpSim::IoError(studiesPath, "could not create studiesPath");
     }
     // create study directory and write study.dat file
-    QString studyPath = studiesPath + "/study_" + s->key();
+    QString studyPath = studiesPath + s->studyDirName();
     QDir studyDir(studyPath);
     if (!studyDir.exists()) {
         if (!studyDir.mkdir(studyPath))
@@ -925,10 +931,12 @@ QString Navigator::studyPath(const Study* study) const {
 }
 
 void Navigator::deleteDataFiles(const QString& path) {
-    std::cerr << "Path is " << path << std::endl;
-    return;
-    if (!options_->permanentDelete())
+    if (!options_->permanentDelete()) {
+#ifndef NDEBUG
+        std::cerr << "Path is " << path << std::endl;
+#endif
         return;
+    }
     try {
         QDir d(path);
         if (!d.exists())
