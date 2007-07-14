@@ -379,7 +379,7 @@ public:
         QString key = s->key();
         cerr <<   "s->key()=" << s->key() << endl;
         cats->addStudy(s);
-        Study s1 = (*cats->currentCatalog())[key];
+        Study s1 = (*cats->currentCatalog())[key].study;
         TS_ASSERT(s1.key() == key);
         cats->deleteStudy(s);
         delete s;
@@ -454,7 +454,8 @@ public:
     }
 
     void testEpFunsVersion() {
-        TS_ASSERT(!EpFuns::versionOk(9999, 9999));
+        TS_ASSERT(!EpFuns::versionOk(EpFuns::BadTestVersion, 0));
+        TS_ASSERT(!EpFuns::versionOk(0, EpFuns::BadTestVersion));
         VersionInfo* v = VersionInfo::instance();
         TS_ASSERT(EpFuns::versionOk(v->versionMajor(), v->versionMinor()));
     }

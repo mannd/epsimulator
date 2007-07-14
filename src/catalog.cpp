@@ -21,15 +21,20 @@
 #include "catalog.h"
 #include "epfuns.h"
 #include "error.h"
-#include "opticaldisk.h"
+//#include "opticaldisk.h"
 #include "options.h"
 #include "study.h"
 
 #include <qdatastream.h>
 #include <qdir.h>
 #include <qfile.h>
+#include <qstringlist.h>
 
 #include <vector>
+
+#ifndef NDEBUG
+#include <iostream>
+#endif
 
 /**
    \file catalog.cpp
@@ -86,6 +91,14 @@ void Catalog::deleteStudy(const Study* study) {
 
 void Catalog::refresh() {
     load();
+}
+
+void Catalog::regenerate(Keys& keys, Catalog* c) {
+    for (Keys::iterator p = keys.begin();
+        p != keys.end(); ++p) {
+        catalog_[*p] = (*c)[*p];
+    }
+    save();
 }
 
 void Catalog::relabel(const QString& label, const QString& side, const QString& key) {
@@ -149,16 +162,23 @@ void OpticalCatalog::addStudy(const Study* study, const QString& location,
         Catalog::addStudy(study, location, side, labName, machineName);
 }
 
-void OpticalCatalog::regenerate() {
-    // open studies directory of the "opticaldisk"
-    // read each study into temp catalog
-    // if no errors replace catalog
-    // save catalog.dat file
-    // else display error, or throw error
+void OpticalCatalog::regenerate(const QString& location, const QString& side,
+                    const QString& labName, const QString& machineName) {
+    QDir studiesDir(path() + "/studies");
+    QStringList studyList = studiesDir.entryList("study_*");
+    for (QStringList::Iterator it = studyList.begin(); 
+            it != studyList.end(); ++it) {
+        Study s;
+        s.setPath(studiesDir.path() + "/" + *it);
+        s.load();
+        StudyData sd = {s, location, side, labName, machineName};
+        catalog_[s.key()] = sd; // this should replace or add entries
+    }
+    save();
 }
 
-std::vector<QString> OpticalCatalog::getKeys() {
-    std::vector<QString> keys;
+Catalog::Keys OpticalCatalog::getKeys() {
+    Keys keys;
     for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) 
         keys.push_back(p.data().study.key());
@@ -228,7 +248,7 @@ void Catalogs::setCurrentCatalog(Catalog::Source source) {
 void Catalogs::addStudy(const Study* study, const QString& location,
                         const QString& side, const QString& labName,
                         const QString& machineName) {
-    for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+    for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->addStudy(study, location, side, labName, machineName);
 }
 
@@ -237,27 +257,30 @@ void Catalogs::addStudy(const Study* study) {
 }
 
 void Catalogs::deleteStudy(const Study* study) {
-    for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+    for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->deleteStudy(study);
 }
 
 
 void Catalogs::refresh() {
-   for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+   for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->refresh();
 }
 
-void Catalogs::regenerate() {
-  for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
-        (*it).second->regenerate();
-    
+void Catalogs::regenerate(const QString& location, const QString& side,
+                    const QString& labName, const QString& machineName) {
+    opticalCatalog_->regenerate(location, side, labName, machineName);
+    Catalog::Keys keys = opticalCatalog_->getKeys();
+    for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it) 
+        if (!(*it).second->isOptical())   // already did the optical catalog
+            (*it).second->regenerate(keys, opticalCatalog_);
 }
 
 void Catalogs::relabel(const QString& label, const QString& side) {
     // relabel optical catalog first
     opticalCatalog_->relabel(label, side);
     std::vector<QString> keys = opticalCatalog_->getKeys();
-     for (Iterator it = catalogs_.begin(); it != catalogs_.end(); ++it) 
+     for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it) 
          if (!(*it).second->isOptical()) // already did the optical catalog
             for (std::vector<QString>::iterator p = keys.begin();
                 p != keys.end(); ++p)

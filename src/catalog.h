@@ -60,30 +60,26 @@ class Catalog {
 
 public:
     enum Source {Network, System, Optical, Other};
-//    typedef std::map<QString, StudyData> CatalogMap;
     typedef QMap<QString, StudyData> CatalogMap;
-    typedef CatalogMap::const_iterator Iterator;
+    typedef std::vector<QString> Keys;
 
     Catalog(const QString& path, const QString& fileName);
 
-    Iterator begin() {return catalog_.begin();}
-    Iterator end() {return catalog_.end();}
-    Study& operator[](const QString& key) {return catalog_[key].study;} 
+    CatalogMap::const_iterator begin() {return catalog_.begin();}
+    CatalogMap::const_iterator end() {return catalog_.end();}
+    StudyData& operator[](const QString& key) {return catalog_[key];} 
 
     virtual void refresh();
-    // be default, only optical catalog regenerates.
-    /// TODO But, might want to update the other catalogs as well...
-    virtual void regenerate() {}
+    virtual void regenerate(Keys& keys, Catalog*); 
     virtual void relabel(const QString& label, const QString& side, 
         const QString& key = QString::null);
 
     virtual QString location(const StudyData&); // generates appropriate location format
-                                            // overriden by specific catalog types
+                                                // overriden by specific catalog types
     virtual void addStudy(const Study* study, const QString& location,
                         const QString& side, const QString& labName,
                         const QString& machineName);
     virtual void deleteStudy(const Study*);
-//    virtual void editStudy(Study*);
 
     virtual QString path() const {return path_;}
     virtual QString filePath() const;  // full path including fileName
@@ -128,10 +124,10 @@ public:
     virtual void addStudy(const Study* study, const QString& location,
                         const QString& side, const QString& labName,
                         const QString& machineName);
-    void regenerate();
-//    void relabel(const QString& oldLabel, const QString& newLabel);
+    void regenerate(const QString& location, const QString& side,
+                    const QString& labName, const QString& machineName);
 
-    std::vector<QString> getKeys();
+    Catalog::Keys getKeys();
     ~OpticalCatalog() {}
     bool isOptical() const {return true;}
 };
@@ -164,11 +160,12 @@ public:
                         const QString& machineName);
     void addStudy(const Study*);
     void deleteStudy(const Study*);
-//    void replaceStudy(Study*);
     
     void refresh();
-    void regenerate();
+    void regenerate(const QString& location, const QString& side,
+                    const QString& labName, const QString& machineName);
     void relabel(const QString& label, const QString& side);
+
     Catalog* currentCatalog() const {return currentCatalog_;}
 
     void setCurrentCatalog(Catalog::Source);
@@ -178,7 +175,6 @@ public:
     bool studyPresentOnOpticalDisk(const Study*) const;
 
     QString fileName() const;   // returns default catalog fileName
-        
 
     ~Catalogs();
 
@@ -196,7 +192,6 @@ private:
     Catalog* otherCatalog_;
 
     typedef std::map<Catalog::Source, Catalog*> CatalogsMap;
-    typedef CatalogsMap::const_iterator Iterator;
     CatalogsMap catalogs_;
 };
 

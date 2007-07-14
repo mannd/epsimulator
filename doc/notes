@@ -1,6 +1,9 @@
 Developer notes
 
-Problem with ui.h file.  Adding code to Form::Init() did nothing.  I had to add a new slot to the form called init(), and this was added to the end of the constructor of the Form in the generated Form.cpp file.  I still needed to have the Form::Init() function in the ui.h file.
+Problem with ui.h file.  Adding code to Form::Init() did nothing.  I had to add
+a new slot to the form called init(), and this was added to the end of the
+constructor of the Form in the generated Form.cpp file.  I still needed to have
+the Form::Init() function in the ui.h file.
 
 Ok, in KDevelop, add a public slot called init().  When asked for
 implementation class for the dialog, hit cancel.  This will create the
@@ -32,7 +35,13 @@ defines will be all caps with underscores
 
 
 Unit Testing
-For now will use cxxtest.  Run ./maketests from epsimulator/src to generate the runner program.  Edit maketests to add dependencies, and MyTestSuite.h contains the tests.  The tests HAVE to be in the src directory to compile, and so tests are not a subproject.  Need to make the test suite into a make file, using a different makefile name than Makefile, e.g. maketests and invoke as make -fmaketests, e.g.  Could make a link to this named maketests to keep everything the same.
+For now will use cxxtest.  Run ./maketests from epsimulator/src to generate the
+runner program.  Edit maketests to add dependencies, and MyTestSuite.h contains
+the tests.  The tests HAVE to be in the src directory to compile, and so tests
+are not a subproject.  Need to make the test suite into a make file, using a
+different makefile name than Makefile, e.g. maketests and invoke as make
+-fmaketests, e.g.  Could make a link to this named maketests to keep everything
+the same.
 
 Unique identifier for each study
 A key for each study can be constructed by
@@ -44,14 +53,16 @@ Use QString QDateTime::toString(const QString& format) const to generate the
 date time of the study.  This format string should work:
 
 
-dd.MM.yyyy.hh.mm.ss // This has been changed to ddMMyyyyhhmmss, without the dots in between.
+dd.MM.yyyy.hh.mm.ss // This has been changed to ddMMyyyyhhmmss, without the dots
+in between.
 
 ? add millisecs: zzz
 
 Thus the map could be: QString key: Study study.
 
 I need to be able to generate the key from the QListView (note QListView has
-full name and formatted date time as strings, so not easy to change format back).
+full name and formatted date time as strings, so not easy to change format
+back).
 
 Can use QListView::hideColumn(int column) along with setResizeEnabled(FALSE,
 column) to have hidden list view columns.  The hidden column can contain the
@@ -59,31 +70,85 @@ map key.
 
 FIX FOR CXXTEST PROBLEM
 
-Merely including ALL the *.o files needed all Qt-specific tests to compile.  That is, to test PatientDialog, must include in linked files patientdialog.o, moc_patientdialog.o, patientdialogbase.o and moc_patientdialog.o.  (Actually maybe the non-moc ones are needed -- will test: no all the above mentioned files are needed.)
+Merely including ALL the *.o files needed all Qt-specific tests to compile. 
+That is, to test PatientDialog, must include in linked files patientdialog.o,
+moc_patientdialog.o, patientdialogbase.o and moc_patientdialog.o.  (Actually
+maybe the non-moc ones are needed -- will test: no all the above mentioned files
+are needed.)
 
 MORE FORMATTING WOES
-    Objects in .ui files are actually public data members; therefore should not end in _.  Menu items, etc. are private and should end in _.
+    Objects in .ui files are actually public data members; therefore should not
+end in _.  Menu items, etc. are private and should end in _.
 
 How the Catalog Works
-    There is only one catalog.  This resides in the program subdirectory system:  i.e.  epsimulator/system.  This catalog contains all study info.  Studies can be in the following places:
-        Local       This is by default the epsimulator/studies directory, but can be changed in the systemdialog.
-        Optical     This is by default whereever the optical drive is.  We need some sophisticated programming to get this right on program installation.
-                        Will set it to /dev/cdrom for now.  Obviously not right for Windows.
-        Other       This will by default equal the Local directory, but can be changed to another directory with a file dialog.
-        Network     This is a network directory.  This will be by default be blank.  Any blank directory will get an error message that the directory needs to be setup.
+    There is only one catalog.  This resides in the program subdirectory system:
+ i.e.  epsimulator/system.  This catalog contains all study info.  Studies can
+be in the following places:
+        Local       This is by default the epsimulator/studies directory, but
+can be changed in the systemdialog.
+        Optical     This is by default whereever the optical drive is.  We need
+some sophisticated programming to get this right on program installation.
+                        Will set it to /dev/cdrom for now.  Obviously not right
+for Windows.
+        Other       This will by default equal the Local directory, but can be
+changed to another directory with a file dialog.
+        Network     This is a network directory.  This will be by default be
+blank.  Any blank directory will get an error message that the directory needs
+to be setup.
 
-    When the catalogComboBox is set to System, all known studies will be displayed.  When set to any of the others, only the studies in that particular directory will be displayed.  When Other is selected, a file dialog will always come up, set to the last Other location, to allow changing on the fly.  Again, an empty path will display and error message, except with Other, when a file dialog will come up.  Other than Other, the paths need to be set with the systemdialog, and this can be an administrator function, password protected.  Also consider disabling the Other option via the systemdialog.  
+    When the catalogComboBox is set to System, all known studies will be
+displayed.  When set to any of the others, only the studies in that particular
+directory will be displayed.  When Other is selected, a file dialog will always
+come up, set to the last Other location, to allow changing on the fly.  Again,
+an empty path will display and error message, except with Other, when a file
+dialog will come up.  Other than Other, the paths need to be set with the
+systemdialog, and this can be an administrator function, password protected. 
+Also consider disabling the Other option via the systemdialog.  
 
-    The StatusBar will display the current source: epsimulator/system for System, local path for others, consider (Optical) for Optical.    Refresh rereads the studies.eps file.  Regenerate needs to go through each path, make sure each study in each path has a catalog entry, and generate one if not.  The TableList is filtered based on the catalogComboBox.  Any filter on top of that is done separately.  Refresh can be done on a filtered list (by rereading the catalog and reapplying the filter).  Regenerate needs an unfiltered list.  Note that Regenerate when applied to anything other than System will just look at that pwhere to put data files qt applicationarticular path (E.g. the Local path).
+    The StatusBar will display the current source: epsimulator/system for
+System, local path for others, consider (Optical) for Optical.    Refresh
+rereads the studies.eps file.  Regenerate needs to go through each path, make
+sure each study in each path has a catalog entry, and generate one if not.  The
+TableList is filtered based on the catalogComboBox.  Any filter on top of that
+is done separately.  Refresh can be done on a filtered list (by rereading the
+catalog and reapplying the filter).  Regenerate needs an unfiltered list.  Note
+that Regenerate when applied to anything other than System will just look at
+that pwhere to put data files qt applicationarticular path (E.g. the Local
+path).
 
 Some problems:
-    There is no easy way to find the application directory in Linux.  Data files should go to standard Linux File System locations.  These might depend on where the application is installed (to /usr/local/bin or to ~/bin???).  If the system and data directories don't exist they must be created initially.  This is not hard to do, but does need to be done.  Qt doesn't use the ./configure --path=whatever so no easy way to determine where the app was installed.  Hmmm.........
-    For now we will be lazy and put the studies.eps catalog in the home directory, and the actual studies in ~/MyStudies.
+    There is no easy way to find the application directory in Linux.  Data files
+should go to standard Linux File System locations.  These might depend on where
+the application is installed (to /usr/local/bin or to ~/bin???).  If the system
+and data directories don't exist they must be created initially.  This is not
+hard to do, but does need to be done.  Qt doesn't use the ./configure
+--path=whatever so no easy way to determine where the app was installed. 
+Hmmm.........
+    For now we will be lazy and put the studies.eps catalog in the home
+directory, and the actual studies in ~/MyStudies.
 
 More on Catalog
-    Studies should either be in the MyStudies directory, or can be moved to other directories.  studies.eps keeps track of all study locations.  Studies generated from another system really should be imported into the studies.eps catalog.  E.g. You have a study someone else made on a CD.  You want to review it.  Import it in: it's location appears as the path of the CD-rom.  You can now review the study.  If the CD is removed and the file can't be found, the program prompts for inserting the correct CD.  So there should be a System and a Local selection in catalogComboBox.  System shows all, and Local shows only studies on MyStudies (which should be most of them anyway).  
+    Studies should either be in the MyStudies directory, or can be moved to
+other directories.  studies.eps keeps track of all study locations.  Studies
+generated from another system really should be imported into the studies.eps
+catalog.  E.g. You have a study someone else made on a CD.  You want to review
+it.  Import it in: it's location appears as the path of the CD-rom.  You can now
+review the study.  If the CD is removed and the file can't be found, the program
+prompts for inserting the correct CD.  So there should be a System and a Local
+selection in catalogComboBox.  System shows all, and Local shows only studies on
+MyStudies (which should be most of them anyway).  
 
-    Need to check into data streaming for R/W CD-roms.  Should I have an optical drive in the system, which could be set to a hard drive path if desired?  Then each disk would have a label, stored in a file on the disk, which would appear in the location column of catalog: e.g. D:/(Optical)/Disk23.  In Linux would be /media/cdrom0/Disk23.  Each disk would have a study catalog, and System and the disk catalog would be updated simultaneously.  Refreshing should just reread the catalog, regenerating only applies to single disks and rebuilds the catalog(s) from the studies on disk.  The network has its own catalog and studies are exported to the network.  The System catalog keeps track of what it has exported to the network, but the network catalog contains all the networked items.  This is a major reworking, but similar to the functionality of the Prucka system.
+    Need to check into data streaming for R/W CD-roms.  Should I have an optical
+drive in the system, which could be set to a hard drive path if desired?  Then
+each disk would have a label, stored in a file on the disk, which would appear
+in the location column of catalog: e.g. D:/(Optical)/Disk23.  In Linux would be
+/media/cdrom0/Disk23.  Each disk would have a study catalog, and System and the
+disk catalog would be updated simultaneously.  Refreshing should just reread the
+catalog, regenerating only applies to single disks and rebuilds the catalog(s)
+from the studies on disk.  The network has its own catalog and studies are
+exported to the network.  The System catalog keeps track of what it has exported
+to the network, but the network catalog contains all the networked items.  This
+is a major reworking, but similar to the functionality of the Prucka system.
 
 How Prucka does it.
     Prucka maintains a "maximum of 3 catalogs."  These are, in order Network,
@@ -115,9 +180,23 @@ How Prucka does it.
     Also, see the EPMed system for a software stimulator.  
 
 More on Catalog/TableListView/OpticalDiskDrive/OpticalDisk...
-    This is totally confused now.  When a catalog is selected, it is read from the disk.  In the case of the System and Network catalogs, these are in fixed locations.  When the Optical catalog is read, there must be a disk in the drive, etc.  If a new patient is selected, the Location of the study depends on if a disk is in the drive, and the disk label.  So there must be a process to insert a new disk or identify the current disk, if not present on initiation of Navigator, present when any of the above happens.  It might be better to defer the drive stuff until it is needed, not when the central widget is set up.  So everytime optical is selected, this has to be confirmed.  
+    This is totally confused now.  When a catalog is selected, it is read from
+the disk.  In the case of the System and Network catalogs, these are in fixed
+locations.  When the Optical catalog is read, there must be a disk in the drive,
+etc.  If a new patient is selected, the Location of the study depends on if a
+disk is in the drive, and the disk label.  So there must be a process to insert
+a new disk or identify the current disk, if not present on initiation of
+Navigator, present when any of the above happens.  It might be better to defer
+the drive stuff until it is needed, not when the central widget is set up.  So
+everytime optical is selected, this has to be confirmed.  
     
-    So, Navigator starts up.  nothing is done with optical disk.  Switch to optical catalog.  Check if diskdrive is setup.  If not error message, set up disk drive, or create directory that needs to be created.  Check if disk in drive.  If not, "insert" disk, create label.  This is current disk, and includes the directory, etc.  Same thing if a button (like new patient) is pushed.  If catalog saved, save to disk if it is there, otherwise forget about it.  Now what are the routines, and where are they?
+    So, Navigator starts up.  nothing is done with optical disk.  Switch to
+optical catalog.  Check if diskdrive is setup.  If not error message, set up
+disk drive, or create directory that needs to be created.  Check if disk in
+drive.  If not, "insert" disk, create label.  This is current disk, and includes
+the directory, etc.  Same thing if a button (like new patient) is pushed.  If
+catalog saved, save to disk if it is there, otherwise forget about it.  Now what
+are the routines, and where are they?
 
     OpticalDiskDrive
         bool checkDrive()
@@ -129,13 +208,33 @@ More on Catalog/TableListView/OpticalDiskDrive/OpticalDisk...
         void setDiskSide(bool sideA)
 
 Note on disk labels and sides:
-     With optical disk emulation, the "disk drive" is the .../MyStudies directory.  The "disk" in the drive is a directory with format "Disk11B", i.e. "Disk" + label + side.  So the path to the catalog file for disk 11, side B would be .../MyStudies/Disk11B/catalog.eps.  The study data for each study is in a unique directory labeled by the generated key() for the study.  The structure below that is unknown at present.  OpticalDiskDrive is responsible for making sure a disk is in the drive, it is readable, etc.  OpticalDiskDrive stores the real path to the real or emulated drive.  OpticalDrive has it's own path, which is null for a real optical drive, and is generated from the label and side as above.  
+     With optical disk emulation, the "disk drive" is the .../MyStudies
+directory.  The "disk" in the drive is a directory with format "Disk11B", i.e.
+"Disk" + label + side.  So the path to the catalog file for disk 11, side B
+would be .../MyStudies/Disk11B/catalog.eps.  The study data for each study is in
+a unique directory labeled by the generated key() for the study.  The structure
+below that is unknown at present.  OpticalDiskDrive is responsible for making
+sure a disk is in the drive, it is readable, etc.  OpticalDiskDrive stores the
+real path to the real or emulated drive.  OpticalDrive has it's own path, which
+is null for a real optical drive, and is generated from the label and side as
+above.  
 
 Simplified version of above.
-    OpticalDiskDrive is unnecessary.  All you need is the path to the drive.  The simplist emulated optical disk is just using a directory such as MyStudies as the path to the optical drive.  This "drive" will fill up until limited by the hard drive space.  But it works exactly like a path to a real optical disk otherwise.  But the OpticalDisk class can keep the path private, based on the system setting for optical drive path.  The class can then have a writeLabel() and readLabel() virtual function, a writeCatalog(), addStudy(), readCatalog() function, etc.  EmulatedOpticalDrive has the same functions, but internally keeps track of subdirectories for each drive.  
+    OpticalDiskDrive is unnecessary.  All you need is the path to the drive. 
+The simplist emulated optical disk is just using a directory such as MyStudies
+as the path to the optical drive.  This "drive" will fill up until limited by
+the hard drive space.  But it works exactly like a path to a real optical disk
+otherwise.  But the OpticalDisk class can keep the path private, based on the
+system setting for optical drive path.  The class can then have a writeLabel()
+and readLabel() virtual function, a writeCatalog(), addStudy(), readCatalog()
+function, etc.  EmulatedOpticalDrive has the same functions, but internally
+keeps track of subdirectories for each drive.  
         
 
-Note on vtable errors: after adding classes, or editing the src.pro file, you must rerun qmake, or your class doesn't get run through moc, or the moc_version of your class is not linked.  This causes those unable to find vtable errors by linker.
+Note on vtable errors: after adding classes, or editing the src.pro file, you
+must rerun qmake, or your class doesn't get run through moc, or the moc_version
+of your class is not linked.  This causes those unable to find vtable errors by
+linker.
 
 
 Certain options are Simulator options.  There is a special Menu Item,
@@ -153,17 +252,28 @@ Formatting for Doxygen
 
 We will prefer the @file, @param format to \file, \param.
 
-Note about Navigator problem.  Navigator tablelistview disappeared along with horizontal splitter and part of tool bar.  It was due to corruption of the epsimulatorrc file, a bad pointer was loaded from the file.
+Note about Navigator problem.  Navigator tablelistview disappeared along with
+horizontal splitter and part of tool bar.  It was due to corruption of the
+epsimulatorrc file, a bad pointer was loaded from the file.
 
-BUG: if no network path in settings file, catalog still tries to load the network catalog, even if system options show there is no network storage, and this throws and exception.  Need to check out what is happening with catalogs when there is no network catalog.
+BUG: if no network path in settings file, catalog still tries to load the
+network catalog, even if system options show there is no network storage, and
+this throws and exception.  Need to check out what is happening with catalogs
+when there is no network catalog.
 
 Regenerating:
-	We will read the current disk label, and, if this is an optical disk, we will read
-	each study file and write the study data to the new, blank catalog.dat file and 
-	then write the label as the study location.  Then regenerate the other catalogs,
-	which will write the correct info plus the label.  When relabeling a disk 
-	(not a new disk, an old one), regenerate to make the above happen.  Note that
-	the key() for each study never changes!!!!!, this is the only way to have
+	We will read the current disk label, and, if this is an optical disk, we
+will read
+	each study file and write the study data to the new, blank catalog.dat
+file and 
+	then write the label as the study location.  Then regenerate the other
+catalogs,
+	which will write the correct info plus the label.  When relabeling a
+disk 
+	(not a new disk, an old one), regenerate to make the above happen.  Note
+that
+	the key() for each study never changes!!!!!, this is the only way to
+have
 	identify studies when everthing else changes.
 	
 Study files
@@ -215,7 +325,8 @@ Study files
 	~/MyStudies/disks/disk_XXXXXXX/A/data/study_XXXXXXXXXX/study.dat
 
 
-TODO: extract common menu actions and make a concrete base class to hold them.  Derive the navigator, stimulator, recorder actions from this class.  e.g.
+TODO: extract common menu actions and make a concrete base class to hold them. 
+Derive the navigator, stimulator, recorder actions from this class.  e.g.
     class Actions {};
     class NavigatorActions : public Actions {};
     class EpSimulatorActions : public Actions ();
@@ -294,5 +405,9 @@ Further elaboration:
     The label.dat file must contain both the actual disk label AND the side.
     Side can be null for non dual side drives.  Otherwise 2 sides of the same
     drive will have the same label.
+
+Regenerating Catalogs
+    The Regenerate method rebuilds the set of Catalogs, from the study.dat
+files.  It must start with the current optical disk.  The path to the studies folders is, for example, .../MyStudies/studies/.  There are a number of studies folders (0 or more), all beginning with study*.  Thus .../MyStudies/studies/studyxxxx, .../MyStudies/studies/studyyyyy, etc.  Inside each folder is a study.dat file.  Read each one into the optical disk catalog and replace the current optical disk catalog, catalog.dat.  Then get the study keys from that catalog.  Read each of the other catalogs, and if there is a match, replace the data in the catalog.  If no match, add the data to the catalog.  Save all the catalogs.
 
 

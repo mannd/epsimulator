@@ -136,7 +136,8 @@ void TableListView::load(Catalog* catalog) {
     catalog_ = catalog;
     if (!catalog_) 
         return;  // don't know why it would be 0, but just in case
-    for (Catalog::Iterator it = catalog->begin(); it != catalog->end(); ++it)
+    for (Catalog::CatalogMap::const_iterator it = catalog->begin(); 
+        it != catalog->end(); ++it)
         addStudy(it.data().study, catalog->location(it.data()));
 }
 
@@ -147,7 +148,7 @@ void TableListView::load(Catalog* catalog) {
 Study* TableListView::study() const {
     Study* study = 0;
     if (TableListViewItem* item = dynamic_cast<TableListViewItem*>(selectedItem())) 
-        study = new Study((*catalog_)[item->key()]);
+        study = new Study((*catalog_)[item->key()].study);
     return study;
 }
 

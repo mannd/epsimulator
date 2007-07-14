@@ -263,7 +263,8 @@ void Navigator::refreshCatalogs() {
 }
 
 void Navigator::regenerateCatalogs() {
-    catalogs_->regenerate();
+    catalogs_->regenerate(currentDisk_->label(), currentDisk_->side(), 
+                          options_->labName(), user_->machineName());
     refreshCatalogs();
 }
 
