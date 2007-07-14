@@ -81,13 +81,13 @@ public:
                         const QString& machineName);
     virtual void deleteStudy(const Study*);
 
-    virtual QString path() const {return path_;}
-    virtual QString filePath() const;  // full path including fileName
-    virtual QString fileName() const {return fileName_;}
+    QString path() const {return path_;}
+    QString filePath() const;  // full path including fileName
+    QString fileName() const {return fileName_;}
 
-    virtual void setPath(const QString& path) {path_ = path;}
-    virtual void setLabel(const QString& label) {studyData_.location = label;}
-    virtual void setSide(const QString& side) {studyData_.side = side;}
+    void setPath(const QString& path) {path_ = path;}
+    void setLabel(const QString& label) {studyData_.location = label;}
+    void setSide(const QString& side) {studyData_.side = side;}
 
     virtual bool isOptical() const {return false;}
     bool isEmpty() {return catalog_.empty();}

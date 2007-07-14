@@ -213,26 +213,34 @@ void Navigator::moveStudy() {
 }
 
 void Navigator::deleteStudy() {
-    if (Study* study = getSelectedStudy()) {
-//    if (tableListView_->selectedItem()) {
-    //if (QListViewItem* item = tableListView_->selectedItem()) {
-        int ret = QMessageBox::warning(
-            this, tr("Delete Study?"),
-            tr("The selected study will be permanently "
-               "deleted.  Do you wish to continue?"),
-            QMessageBox::Yes ,
-            QMessageBox::No | QMessageBox::Default, // default is NO!
-            QMessageBox::Cancel | QMessageBox::Escape);
-        if (ret == QMessageBox::Yes) {
-            catalogs_->deleteStudy(study);
-            refreshCatalogs();
-            // delete item;
-            deleteDataFiles();
-        }
-        delete study;
-    } 
-    else 
-        noStudySelectedError();
+    try {
+        if (Study* study = getSelectedStudy()) {
+            int ret = QMessageBox::warning(
+                this, tr("Delete Study?"),
+                tr("The selected study will be permanently "
+                "deleted.  Do you wish to continue?"),
+                QMessageBox::Yes ,
+                QMessageBox::No | QMessageBox::Default, // default is NO!
+                QMessageBox::Cancel | QMessageBox::Escape);
+            if (ret == QMessageBox::Yes) {
+                catalogs_->deleteStudy(study);
+                refreshCatalogs();
+                // delete item;
+                deleteDataFiles(study->path());
+            }
+            delete study;
+        } 
+        else 
+            noStudySelectedError();
+    }
+    catch (EpSim::FileNotFoundError& e) {
+        QMessageBox::warning(this, tr("Problem Deleting Study"),
+            tr("Could not find study file %1").arg(e.fileName()));
+    }
+    catch (EpSim::DeleteError&) {
+        QMessageBox::warning(this, tr("Problem Deleting Study"),
+            tr("Errors occurred while trying to delete study data."));
+    }
 }
 
 void Navigator::filterStudies() {
@@ -916,7 +924,31 @@ QString Navigator::studyPath(const Study* study) const {
     return QDir::cleanDirPath(currentDisk_->path() + "/" + study->key());
 }
 
-void Navigator::deleteDataFiles() {
+void Navigator::deleteDataFiles(const QString& path) {
+    if (!options_->permanentDelete())
+        return;
+    try {
+        QDir d(path);
+        if (!d.exists())
+            throw EpSim::FileNotFoundError(path);
+        QString item;
+        const QFileInfoList *list = d.entryInfoList();
+        QFileInfoListIterator it(*list);
+        QFileInfo *fi;
+        
+        while((fi = it.current())){
+            item = fi->fileName();
+            d.remove(item);
+            ++it;
+        }
+        d.rmdir(path);
+    }
+    catch (EpSim::FileNotFoundError& e) {
+        throw e;
+    }
+    catch (EpSim::IoError&) {
+        throw EpSim::DeleteError();
+    }
 }
 
 /// This checks to make sure the selected study is on the optical disk catalog.

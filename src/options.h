@@ -72,6 +72,7 @@ public:
     void setAdministratorAccountRequired(bool isRequired) {
         administratorAccountRequired_ = isRequired;}
     void setHideSimulatorMenu(bool hideMenu) {hideSimulatorMenu_ = hideMenu;}
+    void setPermanentDelete(bool permanentDelete) {permanentDelete_ = permanentDelete;}
 
     void setPasswordHash(QString hash) {passwordHash_ = hash;}
 
@@ -95,6 +96,7 @@ public:
     bool oldStyleNavigator() const {return oldStyleNavigator_;}
     bool administratorAccountRequired() const {return administratorAccountRequired_;}
     bool hideSimulatorMenu() const {return hideSimulatorMenu_;}
+    bool permanentDelete() const {return permanentDelete_;}
     
     QString passwordHash() const {return passwordHash_;}
 
@@ -138,6 +140,8 @@ private:
 
     bool administratorAccountRequired_;
     bool hideSimulatorMenu_;
+
+    bool permanentDelete_;
     
     // not a real option, but convenient to have the password hash here
     QString passwordHash_;

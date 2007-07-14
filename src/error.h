@@ -86,6 +86,19 @@ public:
                            : IoError("", msg) {}
 };
 
+class DeleteError : public IoError {
+public:
+    DeleteError(const char* msg = "could not delete files or directories")
+                : IoError("", msg) {}
+};
+
+class FileNotFoundError : public IoError {
+public:
+    FileNotFoundError(const QString& fileName,
+                      const char* msg = "file not found")
+                      : IoError(fileName, msg) {}
+};
+
 }
 
 #endif

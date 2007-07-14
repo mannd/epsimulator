@@ -94,7 +94,7 @@ void Catalog::refresh() {
 }
 
 void Catalog::regenerate(Keys& keys, Catalog* c) {
-    for (Keys::iterator p = keys.begin();
+    for (Keys::const_iterator p = keys.begin();
         p != keys.end(); ++p) {
         catalog_[*p] = (*c)[*p];
     }
@@ -146,9 +146,6 @@ QString Catalog::filePath() const {
     return QDir::cleanDirPath(path_ + "/" + fileName_);
 }
 
-/// FIXME The Optical catalog doesn't necessarily use the straight options path,
-/// since an emulated optical disk has a different path.  This needs to be
-/// addressed in this ctor.  The path will depend on opticalDisk_ in Navigator.
 OpticalCatalog::OpticalCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
 }
@@ -217,18 +214,21 @@ const char* Catalogs::fileName_ = "catalog.dat";
  * @param path = path to optical disk.
  */
 Catalogs::Catalogs(Options* options, const QString& path) {
-    networkCatalog_ = new NetworkCatalog(options->networkStudyPath(), fileName_);
     systemCatalog_ = new SystemCatalog(options->systemCatalogPath(), fileName_);
     opticalCatalog_ = new OpticalCatalog(path, fileName_);
     otherCatalog_ = new Catalog(options->systemCatalogPath(), fileName_);
-    catalogs_[Catalog::Network] = networkCatalog_;
     catalogs_[Catalog::System] = systemCatalog_;
     catalogs_[Catalog::Optical] = opticalCatalog_;
     catalogs_[Catalog::Other] = otherCatalog_;
-    if (options->enableNetworkStorage())
+    if (options->enableNetworkStorage()) {
+        networkCatalog_ = new NetworkCatalog(options->networkStudyPath(), fileName_);
+        catalogs_[Catalog::Network] = networkCatalog_;
         currentCatalog_ = networkCatalog_;
-    else
+    }
+    else {
+        networkCatalog_ = 0;
         currentCatalog_ = systemCatalog_;
+    }
 }
 
 void Catalogs::setCatalogPath(Catalog::Source source, const QString& path) {
@@ -248,7 +248,7 @@ void Catalogs::setCurrentCatalog(Catalog::Source source) {
 void Catalogs::addStudy(const Study* study, const QString& location,
                         const QString& side, const QString& labName,
                         const QString& machineName) {
-    for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+    for (CatalogsMap::iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->addStudy(study, location, side, labName, machineName);
 }
 
@@ -257,13 +257,13 @@ void Catalogs::addStudy(const Study* study) {
 }
 
 void Catalogs::deleteStudy(const Study* study) {
-    for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+    for (CatalogsMap::iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->deleteStudy(study);
 }
 
 
 void Catalogs::refresh() {
-   for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+   for (CatalogsMap::iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->refresh();
 }
 

@@ -58,7 +58,8 @@ public:
     virtual QString translatedSide() const;
 
     virtual QString path() {return path_;}
-    virtual QString filePath();
+    virtual QString filePath(); // full path to label.dat
+    QString studiesPath() {return path() + "/studies";}
 
     virtual ~OpticalDisk();
 
