@@ -21,7 +21,6 @@
 #ifndef EPFUNS_H
 #define EPFUNS_H
 
-#include "versioninfo.h"
 #include "error.h"
 
 #include <qdatastream.h>

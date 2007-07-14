@@ -130,7 +130,7 @@ private:
     QString studyPath(const Study*) const;    // returns path to that study
     void addStudyToCatalogs();  // add study to appropriate catalogs
     void createDataFiles(); // make study data files on disk
-    void deleteDataFiles(); // delete all study data on disk
+    void deleteDataFiles(const QString&); // delete all study data on disk
     bool studyOnDisk(const Study*) const; // make sure study is on current disk
     void studyNotOnDiskError();  // report study not on current disk
     QString createLocation() const; // creates study location from label and side
