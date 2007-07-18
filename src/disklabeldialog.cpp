@@ -57,6 +57,10 @@ void DiskLabelDialog::enableSideButtons(bool enable) {
     diskSideButtonGroup->setEnabled(enable);
 }
 
+void DiskLabelDialog::enableNoneButton(bool enable) {
+    noneButton->setEnabled(enable);
+}
+
 DiskLabelDialog::~DiskLabelDialog()
 {
 }

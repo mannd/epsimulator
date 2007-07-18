@@ -77,8 +77,10 @@
 Navigator::Navigator(QWidget* parent, const char* name)
     : QMainWindow( parent, name, WDestructiveClose ),
                    options_(Options::instance()), filterCatalog_(0),
-                   currentDisk_(0), user_(User::instance()) {
-    createOpticalDrive();
+                   catalogs_(0), currentDisk_(0), user_(User::instance()) {
+    do {
+        createOpticalDrive();
+    } while (!currentDisk_);
     catalogs_ = new Catalogs(options_, currentDisk_->path());
     createActions();
     createMenus();
@@ -292,9 +294,7 @@ void Navigator::changeCatalog() {
 }
 
 void Navigator::ejectDisk() {
-    currentDisk_->eject();
-    QMessageBox::information( this, tr("Eject Disk"),
-                              tr("Change Disk and select OK when done." ));
+    currentDisk_->eject(this);
     createOpticalDrive();
     delete catalogs_;
     catalogs_ = new Catalogs(options_, currentDisk_->path());
@@ -302,12 +302,6 @@ void Navigator::ejectDisk() {
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
-
-/// FIXME this should gather up all the study keys on the current disk,
-/// then find those studies on the other 2 catalogs and apply the new label.
-/// This is the only foolproof way to do this.  Note that it is not possible to
-/// change the lab name or machine name in the network catalog.  This must
-/// also change the label in the study.dat files in each study directory.
 void Navigator::relabelDisk() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     QString oldLabel = currentDisk_->label();
@@ -322,6 +316,7 @@ void Navigator::relabelDisk() {
     if (diskLabelDialog->exec()) {
         currentDisk_->setLabel(diskLabelDialog->label());
         currentDisk_->setSide(diskLabelDialog->side());
+        currentDisk_->writeLabel();
         catalogs_->relabel(diskLabelDialog->label(), diskLabelDialog->side());
         refreshCatalogs();
     }
@@ -460,7 +455,9 @@ void Navigator::simulatorSettings() {
             simDialog->setOptions();
             updateMenus();
             // change type of optical disk if needed
-            createOpticalDrive();
+            do {
+                createOpticalDrive();
+            } while (!currentDisk_);
             delete catalogs_;
             catalogs_ = new Catalogs(options_, currentDisk_->path());
             tableListView_->setOldStyle(options_->oldStyleNavigator());
@@ -485,7 +482,9 @@ void Navigator::systemSettings() {
             // menu is changed
             networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
             // optical disk, status bar and catalog might be changed 
-            createOpticalDrive();
+            do {
+                createOpticalDrive();
+            } while (!currentDisk_);
             delete catalogs_;
             /// TODO change current disk here
             catalogs_ = new Catalogs(options_, currentDisk_->path());
@@ -509,38 +508,32 @@ void Navigator::about() {
 void Navigator::createOpticalDrive() {
     try {
         // make sure any old disk is deleted
-        if (currentDisk_) 
-            delete currentDisk_;
-        if (options_->emulateOpticalDrive()) {
-            /// FIXME This should automatically load the last emulated disk,
-            /// the EmulatedOpticalDisk class can store this in settings.
-            /// If there is no last disk, open this dialog.  Use this dialog
-            /// when changing emulatedOpticalDisks, or when changing the simulator
-            /// options to emulateOpticalDrive: but first use the last disk 
-            /// if possible.  Also, this should all be in the EmulatedOpticalDisk class.
-//             SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(this);
-//             if (d->exec())
-//                 // blah blah
-//                 ;
-//             delete d;
-            /// TODO change this to reflect selected disk
+        delete currentDisk_;
+        currentDisk_ = 0;
+        if (options_->emulateOpticalDrive()) 
             currentDisk_ = new EmulatedOpticalDisk(options_->opticalStudyPath(),
                                     options_->dualSidedDrive());
-        }
         else
             currentDisk_ = new OpticalDisk(options_->opticalStudyPath());
-        // below for debugging
-#ifndef NDEBUG
-        std::cout << "currentDisk_->label() = " << currentDisk_->label() << 
-            " currentDisk_->side() = " << currentDisk_-> translatedSide() << std::endl;
-#endif
+        currentDisk_->readLabel();
     }
     catch (EpSim::IoError& e) { 
-        QMessageBox::warning(this, tr("Error"),
+        int ret = QMessageBox::warning(this, tr("Error"),
                              tr("Could not find disk %1. "
                                 "Enter the correct path to your "
-                                "optical drive using the System Settings "
-                                "menu item.").arg(e.fileName()));
+                                "optical drive or Exit").arg(e.fileName()), 
+                                tr("Continue"),
+                                tr("Exit Program"), "", 0, 0);
+        if (ret == 1)
+            exit(1);
+        else {
+            QFileDialog *fd = new QFileDialog(this, 0, true);
+            fd->setMode(QFileDialog::Directory);
+            if (fd->exec() == QDialog::Accepted) {
+                options_->setOpticalStudyPath(fd->selectedFile());
+                options_->writeSettings();
+            }
+        }
     }
 }
 

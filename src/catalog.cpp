@@ -21,7 +21,6 @@
 #include "catalog.h"
 #include "epfuns.h"
 #include "error.h"
-//#include "opticaldisk.h"
 #include "options.h"
 #include "study.h"
 

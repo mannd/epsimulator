@@ -408,6 +408,22 @@ Further elaboration:
 
 Regenerating Catalogs
     The Regenerate method rebuilds the set of Catalogs, from the study.dat
-files.  It must start with the current optical disk.  The path to the studies folders is, for example, .../MyStudies/studies/.  There are a number of studies folders (0 or more), all beginning with study*.  Thus .../MyStudies/studies/studyxxxx, .../MyStudies/studies/studyyyyy, etc.  Inside each folder is a study.dat file.  Read each one into the optical disk catalog and replace the current optical disk catalog, catalog.dat.  Then get the study keys from that catalog.  Read each of the other catalogs, and if there is a match, replace the data in the catalog.  If no match, add the data to the catalog.  Save all the catalogs.
+files.  It must start with the current optical disk.  The path to the studies
+folders is, for example, .../MyStudies/studies/.  There are a number of studies
+folders (0 or more), all beginning with study*.  Thus
+.../MyStudies/studies/studyxxxx, .../MyStudies/studies/studyyyyy, etc.  Inside
+each folder is a study.dat file.  Read each one into the optical disk catalog
+and replace the current optical disk catalog, catalog.dat.  Then get the study
+keys from that catalog.  Read each of the other catalogs, and if there is a
+match, replace the data in the catalog.  If no match, add the data to the
+catalog.  Save all the catalogs.
+
+Style Note:
+    struct data members will have no ending underscore.  Underscores indicate private data members.
+
+More on Sides:
+    isTwoSided function doesn't apply to the "regular" optical disks.  Changing the side with relabel, from none to A to B will always be reflected in the catalog listing.
+
+    Emulated optical disks are one sided or 2 sided.  A one sided disk has a side of none (QString::null).  A 2 sided disk has a side of A or B.  This will automatically be shown correctly in the catalog by the same mechanism as above.  The difference is, a one-sided disk still has its data in the A subdirectory, just like a 2 sided disk using side A.  AND, emulated optical disks cannot be relabeled to a different side!  That would mess up the location of the study files.  When a new emulated optical disk is labelled, if options are set to one sided disks, the side choice is none and disabled on the disk label dialog.  If set to 2 sided disks, the none option is disabled from the dialog.
 
 

@@ -19,7 +19,15 @@
  ***************************************************************************/
 #include "selectemulateddiskdialog.h"
 
+#include <qlistbox.h>
+#include <qstringlist.h>
+
 SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent, const char *name)
     :SelectEmulatedDiskDialogBase(parent, name)
 {
 }
+
+void SelectEmulatedDiskDialog::setLabelList(const QStringList& stringList) {
+    SelectEmulatedDiskDialogBase::labelListBox->insertStringList(stringList);
+}
+

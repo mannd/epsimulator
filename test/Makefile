@@ -27,7 +27,11 @@ OBJECTS := 	$(OBJ_DIR)/study.o \
 		$(OBJ_DIR)/opticaldisk.o \
 		$(OBJ_DIR)/user.o \
 		$(OBJ_DIR)/epfuns.o \
-		$(OBJ_DIR)/versioninfo.o
+		$(OBJ_DIR)/versioninfo.o \
+		$(OBJ_DIR)/selectemulateddiskdialog.o \
+		$(OBJ_DIR)/moc_selectemulateddiskdialog.o \
+		$(OBJ_DIR)/selectemulateddiskdialogbase.o \
+		$(OBJ_DIR)/moc_selectemulateddiskdialogbase.o 
 
 vpath %.cpp ../src
 vpath %.h ../src

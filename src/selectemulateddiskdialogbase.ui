@@ -28,13 +28,8 @@
             </property>
         </widget>
         <widget class="QListBox" row="1" column="0" rowspan="1" colspan="3">
-            <item>
-                <property name="text">
-                    <string>New Item</string>
-                </property>
-            </item>
             <property name="name">
-                <cstring>diskListBox</cstring>
+                <cstring>labelListBox</cstring>
             </property>
         </widget>
         <widget class="QPushButton" row="2" column="0">
@@ -42,10 +37,10 @@
                 <cstring>newDiskPushButton</cstring>
             </property>
             <property name="text">
-                <string>New Disk</string>
+                <string>&amp;New Disk</string>
             </property>
             <property name="accel">
-                <string></string>
+                <string>Alt+N</string>
             </property>
         </widget>
         <widget class="QPushButton" row="2" column="1">
@@ -64,10 +59,10 @@
                 <cstring>cancelPushButton</cstring>
             </property>
             <property name="text">
-                <string>Cancel</string>
+                <string>C&amp;ancel</string>
             </property>
             <property name="accel">
-                <string></string>
+                <string>Alt+A</string>
             </property>
             <property name="default">
                 <bool>true</bool>
@@ -89,7 +84,7 @@
         <slot>accept()</slot>
     </connection>
     <connection>
-        <sender>diskListBox</sender>
+        <sender>labelListBox</sender>
         <signal>doubleClicked(QListBoxItem*)</signal>
         <receiver>SelectEmulatedDiskDialogBase</receiver>
         <slot>accept()</slot>

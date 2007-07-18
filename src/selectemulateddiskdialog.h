@@ -22,12 +22,15 @@
 
 #include "selectemulateddiskdialogbase.h"
 
+class QStringList;
+
 class SelectEmulatedDiskDialog: private SelectEmulatedDiskDialogBase {
 Q_OBJECT
 public:
     SelectEmulatedDiskDialog(QWidget *parent = 0, const char *name = 0);
 
     bool exec() {return SelectEmulatedDiskDialogBase::exec();}
+    void setLabelList(const QStringList& stringList); 
     virtual ~SelectEmulatedDiskDialog() {}
 };
 

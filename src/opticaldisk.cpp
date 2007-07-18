@@ -31,124 +31,210 @@
 #include <qfile.h>
 #include <qmessagebox.h>
 #include <qobject.h>
+#include <qstringlist.h>
+
+#include <map>
 
 // for debug
 #ifndef NDEBUG
 #include <iostream>
 #endif
 
-const QString OpticalDisk::labelFileName_ = "label.dat";
+// LabelData operators.
 
 QDataStream& operator<<(QDataStream& out, const LabelData& labelData) {
-    out << labelData.label_ << labelData.side_;
+    out << labelData.label << labelData.side;
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, LabelData& labelData) {
-    in >> labelData.label_ >> labelData.side_;
+    in >> labelData.label >> labelData.side;
     return in;
 }
+
+// class OpticalDisk.
+
+const QString OpticalDisk::labelFileName_ = "label.dat";
 
 OpticalDisk::OpticalDisk(const QString& path) 
     : path_(path) {
 }
 
-/// returns full file path of label data file, including file name itself
-QString OpticalDisk::filePath() {
-    return path() + "/" + labelFileName_;
+/**
+ * Displays change disk message.  Does nothing unless the actual disk is
+ * changed, e.g. with a real optical disk drive.  If using a directory 
+ * such as ~/MyStudies, there will be no change in the disk files, i.e.
+ * it will seem the disk has not changed, which it hasn't.
+ * @param w This is the parent window calling this function.
+ */
+void OpticalDisk::eject(QWidget* w) {
+    QMessageBox::information( w, QObject::tr("Eject Disk"),
+                              QObject::tr("Change Disk and select OK when done." ));
+    // Would be nice to mechanically eject disk here.
 }
 
+/**
+ * 
+ * @return full path of the label.dat file, including file name.
+ */
+QString OpticalDisk::filePath() const {
+    return QDir::cleanDirPath(path_ + "/" + labelFileName_);
+}
+
+QString OpticalDisk::studiesPath() const {
+    return QDir::cleanDirPath(path_ + "/studies");
+}
+
+/**
+ * 
+ * @return disk has been labelled. 
+ */
 bool OpticalDisk::hasLabel() {
-    QFile file(filePath());
-    return file.exists() && !label().isEmpty();
+    try {
+        readLabel();   
+        return !label().isEmpty();
+    }
+    catch (EpSim::IoError&) {
+        return false;
+    }
 }
 
 void OpticalDisk::load(const QString& fileName) {
     EpFuns::loadData(fileName, MagicNumber, labelData_);
 }
 
-void OpticalDisk::save(const QString& fileName) {
+void OpticalDisk::save(const QString& fileName) const {
     EpFuns::saveData(fileName, MagicNumber, labelData_);
 }
 
-void OpticalDisk::setLabel(const QString& label) {
-    labelData_.label_ = label;
+void OpticalDisk::readLabel() {
+    load(filePath());
+}
+
+void OpticalDisk::writeLabel() const {
     save(filePath());
+}
+
+void OpticalDisk::setLabel(const QString& label) {
+    labelData_.label = label;
 }
 
 void OpticalDisk::setSide(const QString& side) {
-    labelData_.side_ = side;
-    save(filePath());
+    labelData_.side = side;
 }
 
-QString OpticalDisk::label() {
-    if (labelData_.label_.isNull())
-        load(filePath());
-    return labelData_.label_;
+void OpticalDisk::setLabelData(const LabelData& labelData) {
+    labelData_ = labelData;
 }
 
-QString OpticalDisk::side() {
-    if (labelData_.side_.isNull())
-        load(filePath());
-    return labelData_.side_;
+LabelData OpticalDisk::labelData() const {
+    return labelData_;
+}
+
+QString OpticalDisk::label() const {
+    return labelData_.label;
+}
+
+QString OpticalDisk::side() const {
+    return labelData_.side;
 }
 
 QString OpticalDisk::translatedSide() const {
-    return QObject::tr(labelData_.side_);    
+    return QObject::tr(labelData_.side);    
 }
 
 OpticalDisk::~OpticalDisk() {
 }
 
+
+/// FIXME emulated disks are broken at the moment.
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
-    bool isTwoSided) : OpticalDisk(path), isTwoSided_(isTwoSided) {
+    bool isTwoSided) : OpticalDisk(path) {
     // Need some housekeeping to setup fake optical disk.
-    labelData_.side_ = "A"; // this is default side, and a side is needed
-                            // to set up the directory tree.
     lastDisk();
-    if (diskName_.isEmpty())
+    if (diskName_.isEmpty()) {
         diskName_ = "disk_" + QDateTime::currentDateTime().toString(
-   		"ddMMyyyyhhmmsszzz");    
-    saveLastDisk(); // also do this when disk changes
-    /// TODO must override load, save to create the file directory.
+   		"ddMMyyyyhhmmsszzz");
+        isTwoSided_ = isTwoSided;
+        setSide(isTwoSided_ ? "A" : QString::null);
+        saveLastDisk(); // also do this when disk changes
+    }
 }
 
-// void EmulatedOpticalDisk::setSide(const QString& side) {
-//     // null side not allowed with emulated optical disk?
-//     if (side == "A" || side.isEmpty())
-//         side_ = "A";
-//     else
-//         side_ == "B";
-// }
-// 
-// QString EmulatedOpticalDisk::side() const {
-//     QString side = side == "A" || side.isEmpty() ? "A" : "B";
-//     return side;
-// }
 
-QString EmulatedOpticalDisk::filePath() {
-    return path() + "/" + labelFileName_;
+bool EmulatedOpticalDisk::hasLabel() {
+    try {
+        readLabel();   
+        return !label().isEmpty();
+    }
+    catch (EpSim::IoError&) {
+        return false;
+    }
+}
+
+void EmulatedOpticalDisk::makeLabel(const QString& fileName, QString& label, QStringList& labelList) {
+    QFile f(fileName);
+    LabelData labelData;
+    if (f.exists()) { 
+        EpFuns::loadData(fileName, MagicNumber, labelData);
+        label = labelData.label + " - " + labelData.side;
+        labelList.append(label);
+    }
+}
+
+void EmulatedOpticalDisk::eject(QWidget* w) {
+    QDir diskDir(disksPath());
+    QStringList diskList = diskDir.entryList("disk*");
+    QStringList labelList;
+    QString label, labelFile;
+//    int row = 0;
+    for (QStringList::Iterator it = diskList.begin(); 
+        it != diskList.end(); ++it) {
+        std::cerr << "Disk " << *it << std::endl;
+        labelFile = QDir::cleanDirPath(disksPath() + "/" + *it + "/A/" 
+            + labelFileName_);
+        makeLabel(labelFile, label, labelList);
+        labelFile = QDir::cleanDirPath(disksPath() + "/" + *it + "/B/" 
+            + labelFileName_);
+        makeLabel(labelFile, label, labelList);
+    }
+//     for (QStringList::Iterator pos = labelList.begin();
+// //         pos != labelList.end(); ++pos)
+//         std::cerr << *pos << std::endl;   */ 
+    SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(w);
+    d->setLabelList(labelList);
+    // note that labelList[0] == diskList[0] so that the selected row can index diskList[row]
+    // NO that isn't true because not every disk has a label.dat I guess.
+    if (d->exec() )
+        ;
+    delete d;
+}
+
+QString EmulatedOpticalDisk::filePath() const {
+    return QDir::cleanDirPath(fullPath() + "/" + labelFileName_);
 }
 
 /// returns path to /disks directory
 QString EmulatedOpticalDisk::disksPath() const {
     // have to clean path as it may or may not end in /
-    return QDir::cleanDirPath(path_ + "/disks");
+    return QDir::cleanDirPath(path() + "/disks");
 }
 
 /// returns path to specific emulated disk without the side
 QString EmulatedOpticalDisk::diskPath() const {
-    return disksPath() + "/" + diskName_;
+    return QDir::cleanDirPath(disksPath() + "/" + diskName_);
 }
 
 /// returns full path to the disk, including side
-QString EmulatedOpticalDisk::path() {
-    return diskPath() + "/" + side();
+QString EmulatedOpticalDisk::fullPath() const {
+    return QDir::cleanDirPath(diskPath() + "/" + sideDir());
 }
 
-void EmulatedOpticalDisk::load(const QString& fileName) {
-    // create /disks dir if not already present.  Better to do here than
-    // in constructor as can throw.
+QString EmulatedOpticalDisk::sideDir() const {
+    return (side() == "A" || side().isEmpty() ? "A" : "B");
+}
+
+void EmulatedOpticalDisk::makePath() const {
     QDir disksDir(disksPath());
     if (!disksDir.exists()) {
         if (!disksDir.mkdir(disksPath()))
@@ -156,34 +242,41 @@ void EmulatedOpticalDisk::load(const QString& fileName) {
     }
     // each directory must be created separately!
     QDir diskDir(diskPath());
-#ifndef NDEBUG
-    std::cout << "OpticalDisk diskpath = " << diskPath() << std::endl;
-#endif
     if (!diskDir.exists()) {
         if (!diskDir.mkdir(diskPath()))
             throw EpSim::IoError(diskPath());
     }
-    QDir pathDir(path());
-#ifndef NDEBUG
-    std::cout << "OpticalDisk path = " << path() << std::endl;
-#endif
+    // which side here??
+    QDir pathDir(fullPath());
     if (!pathDir.exists()) {
-        if (!pathDir.mkdir(path()))
-            throw EpSim::IoError(path());
+        if (!pathDir.mkdir(fullPath()))
+            throw EpSim::IoError(fullPath());
     }
-
-    OpticalDisk::load(fileName);
 }
 
+void EmulatedOpticalDisk::readLabel() {
+    // create /disks dir if not already present.
+    makePath();
+    OpticalDisk::load(filePath());
+}
+
+void EmulatedOpticalDisk::writeLabel() const {
+    makePath();
+    OpticalDisk::save(filePath());
+}
 
 void EmulatedOpticalDisk::lastDisk() {
     Settings settings;
     diskName_ = settings.readEntry("/lastDisk", "");
+    isTwoSided_ = settings.readEntry("/isTwoSided", false);
+    setSide(settings.readEntry("/lastSide", QString::null));
 }
 
 void EmulatedOpticalDisk::saveLastDisk() {
     Settings settings;
     settings.writeEntry("/lastDisk", diskName_);
+    settings.writeEntry("/isTwoSided", isTwoSided_);
+    settings.writeEntry("/lastSide", side());
 }
 
 EmulatedOpticalDisk::~EmulatedOpticalDisk() {

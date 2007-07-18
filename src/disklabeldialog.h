@@ -39,6 +39,7 @@ public:
     // sideA is the local translation for side A of the disk.
     void setSide(const QString& side);
     void enableSideButtons(bool);
+    void enableNoneButton(bool);
 
     ~DiskLabelDialog();
 

@@ -416,6 +416,8 @@ public:
     	OpticalDisk* d = new OpticalDisk(o->opticalStudyPath());
     	TS_ASSERT(d->path() == o->opticalStudyPath());
         TS_ASSERT(d->filePath() == d->path() + "/label.dat");
+        // make sure no duplicated /
+        TS_ASSERT(QDir::cleanDirPath(d->filePath()) == d->filePath());
     	delete d;
     }
     
