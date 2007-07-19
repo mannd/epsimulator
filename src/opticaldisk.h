@@ -60,6 +60,8 @@ public:
     virtual bool singleSideOnly() const {return false;}
 
     QString path() const {return path_;}
+    // fullPath() == path() in this class, but see EmulatedOpticalDisk.
+    virtual QString fullPath() const {return path_;}  
     virtual QString filePath() const; // full path to label.dat
     virtual QString studiesPath() const; 
 
@@ -110,10 +112,12 @@ private:
 
     void makePath() const;    // create subdirectories for the emulated disk
 
-    QString disksPath() const;  // e.g. /home/user/MyStudies/disks
+    QString disksPath() const;  // e.g. .../MyStudies/disks
     QString diskPath() const;   // /home/user/MyStudies/disks/disk_xxxxx
     QString sideDir() const;    // A or B
-    QString fullPath() const;   // /home/user/MyStudies/disks/disk_xxxxx/B
+    virtual QString fullPath() const;   // .../MyStudies/disks/disk_xxxxx/B
+    virtual QString studiesPath() const;  
+                                // /.../MyStudies/disks/disk_xxxxx/B/studies
 
     void lastDisk();      // loads up last diskName
     void saveLastDisk();   // saves last diskName

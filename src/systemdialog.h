@@ -40,7 +40,10 @@ class SystemDialog : private SystemDialogBase {
     Q_OBJECT
 
 public:
-    SystemDialog(Options* options, QWidget *parent = 0, const char *name = 0);
+    SystemDialog(Options* options, const QString& path, 
+                 const QString& label, const QString& spaceTime,
+                 const QString& side,
+                 QWidget *parent = 0, const char *name = 0);
 
     void setOptions();
 

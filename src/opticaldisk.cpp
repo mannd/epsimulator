@@ -234,6 +234,10 @@ QString EmulatedOpticalDisk::sideDir() const {
     return (side() == "A" || side().isEmpty() ? "A" : "B");
 }
 
+QString EmulatedOpticalDisk::studiesPath() const {
+    return QDir::cleanDirPath(fullPath() + "/studies");
+}
+
 void EmulatedOpticalDisk::makePath() const {
     QDir disksDir(disksPath());
     if (!disksDir.exists()) {

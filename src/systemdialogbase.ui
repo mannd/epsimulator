@@ -435,34 +435,34 @@
                         </property>
                         <widget class="QLabel" row="0" column="0">
                             <property name="name">
-                                <cstring>textLabel5</cstring>
+                                <cstring>studyPathLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Study Path</string>
+                                <string>Study Path: %1</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="1" column="0">
                             <property name="name">
-                                <cstring>textLabel6</cstring>
+                                <cstring>diskLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Local Storage Disk Label</string>
+                                <string>Local Storage Disk Label: %1</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="3" column="0">
                             <property name="name">
-                                <cstring>textLabel8</cstring>
+                                <cstring>sideLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Optical Disk Storage Side</string>
+                                <string>Optical Disk Storage Side: %1</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="2" column="0">
                             <property name="name">
-                                <cstring>textLabel7</cstring>
+                                <cstring>spaceTimeLabel</cstring>
                             </property>
                             <property name="text">
-                                <string>Free Space and Time</string>
+                                <string>Free Space and Time: %1</string>
                             </property>
                         </widget>
                     </grid>

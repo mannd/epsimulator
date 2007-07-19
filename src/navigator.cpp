@@ -81,7 +81,7 @@ Navigator::Navigator(QWidget* parent, const char* name)
     do {
         createOpticalDrive();
     } while (!currentDisk_);
-    catalogs_ = new Catalogs(options_, currentDisk_->path());
+    catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
     createActions();
     createMenus();
     createToolBars();
@@ -297,7 +297,7 @@ void Navigator::ejectDisk() {
     currentDisk_->eject(this);
     createOpticalDrive();
     delete catalogs_;
-    catalogs_ = new Catalogs(options_, currentDisk_->path());
+    catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
@@ -459,7 +459,7 @@ void Navigator::simulatorSettings() {
                 createOpticalDrive();
             } while (!currentDisk_);
             delete catalogs_;
-            catalogs_ = new Catalogs(options_, currentDisk_->path());
+            catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
             tableListView_->setOldStyle(options_->oldStyleNavigator());
             tableListView_->adjustColumns(true);
             refreshCatalogs();   // This repopulates the TableListView.
@@ -476,7 +476,10 @@ void Navigator::simulatorSettings() {
 
 void Navigator::systemSettings() {
     if (administrationAllowed()) {
-        SystemDialog* systemDialog = new SystemDialog(options_, this);
+        /// FIXME Need disk space-time function.
+        SystemDialog* systemDialog = new SystemDialog(options_, 
+            currentDisk_->studiesPath(), currentDisk_->label(),
+            "1000000 Gb", currentDisk_->translatedSide(), this);
         if (systemDialog->exec()) {
             systemDialog->setOptions();
             // menu is changed
@@ -487,7 +490,7 @@ void Navigator::systemSettings() {
             } while (!currentDisk_);
             delete catalogs_;
             /// TODO change current disk here
-            catalogs_ = new Catalogs(options_, currentDisk_->path());
+            catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
             refreshCatalogs();
             statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
         }
@@ -920,7 +923,7 @@ Study* Navigator::getNewStudy() {
 }
 
 QString Navigator::studyPath(const Study* study) const {
-    return QDir::cleanDirPath(currentDisk_->path() + "/" + study->key());
+    return QDir::cleanDirPath(currentDisk_->fullPath() + "/" + study->key());
 }
 
 void Navigator::deleteDataFiles(const QString& path) {

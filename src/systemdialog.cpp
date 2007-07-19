@@ -23,10 +23,13 @@
 
 #include <qcheckbox.h>
 #include <qfiledialog.h>
+#include <qlabel.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
 
-SystemDialog::SystemDialog(Options* options, 
+SystemDialog::SystemDialog(Options* options, const QString& path,
+                           const QString& label, const QString& spaceTime,
+                           const QString& side,
                            QWidget *parent, const char *name)
                            : SystemDialogBase(parent, name),
                            options_(options) {
@@ -39,6 +42,10 @@ SystemDialog::SystemDialog(Options* options,
     enableAcquisitionCheckBox->setChecked(options_->enableAcquisition());
     setEnableFileExport(options_->enableFileExport());
     setEnableNetworkStorage(options_->enableNetworkStorage());
+    studyPathLabel->setText(studyPathLabel->text().arg(path));
+    diskLabel->setText(diskLabel->text().arg(label));
+    spaceTimeLabel->setText(spaceTimeLabel->text().arg(spaceTime));
+    sideLabel->setText(sideLabel->text().arg(side.isEmpty() ? tr("None") : side)); 
 }
 
 void SystemDialog::setOptions() {
