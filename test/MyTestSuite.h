@@ -401,8 +401,6 @@ public:
     	Options* o = Options::instance();
     	EmulatedOpticalDisk d(o->opticalStudyPath());
     	cerr <<   d.path();
-    	TS_ASSERT(d.path() == QDir::cleanDirPath(o->opticalStudyPath() + "/disks/"
-    		+ d.diskName() + "/" + d.side()));
         TS_ASSERT(d.filePath() == QDir::cleanDirPath( o->opticalStudyPath() + "//disks/"
     		+ d.diskName() + "/" + d.side() + "/label.dat"));
         cerr <<   "optical disk assertion " << o->opticalStudyPath() + "/disks/"
@@ -415,7 +413,9 @@ public:
     	Options* o = Options::instance();
     	OpticalDisk* d = new OpticalDisk(o->opticalStudyPath());
     	TS_ASSERT(d->path() == o->opticalStudyPath());
-        TS_ASSERT(d->filePath() == d->path() + "/label.dat");
+        TS_ASSERT(d->filePath() == QDir::cleanDirPath(d->path() + "/label.dat"));
+        cout << "d->filePath() = " << d->filePath() 
+            << " d->path() = " << d->path() << endl;
         // make sure no duplicated /
         TS_ASSERT(QDir::cleanDirPath(d->filePath()) == d->filePath());
     	delete d;

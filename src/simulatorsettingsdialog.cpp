@@ -103,6 +103,8 @@ void SimulatorSettingsDialog::enableDriveEmulation()
     bool driveEmulation = emulateOpticalDriveCheckBox->isChecked();
     dualSidedDriveCheckBox->setEnabled(driveEmulation);
     emulatedOpticalDriveCapacitySpinBox->setEnabled(driveEmulation);
+    if (!driveEmulation)
+         setEmulatedOpticalDriveCapacity(0);
 }
 
 SimulatorSettingsDialog::~SimulatorSettingsDialog() {

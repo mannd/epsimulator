@@ -479,7 +479,7 @@ void Navigator::systemSettings() {
         /// FIXME Need disk space-time function.
         SystemDialog* systemDialog = new SystemDialog(options_, 
             currentDisk_->studiesPath(), currentDisk_->label(),
-            "1000000 Gb", currentDisk_->translatedSide(), this);
+            currentDisk_->translatedSide(), this);
         if (systemDialog->exec()) {
             systemDialog->setOptions();
             // menu is changed

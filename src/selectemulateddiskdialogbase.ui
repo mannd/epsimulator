@@ -8,67 +8,104 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>600</width>
+            <width>527</width>
             <height>480</height>
         </rect>
     </property>
     <property name="caption">
         <string>Select Disk</string>
     </property>
-    <grid>
+    <widget class="QLayoutWidget">
         <property name="name">
-            <cstring>unnamed</cstring>
+            <cstring>layout5</cstring>
         </property>
-        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
+        <property name="geometry">
+            <rect>
+                <x>372</x>
+                <y>43</y>
+                <width>130</width>
+                <height>400</height>
+            </rect>
+        </property>
+        <vbox>
             <property name="name">
-                <cstring>textLabel1</cstring>
+                <cstring>unnamed</cstring>
             </property>
-            <property name="text">
-                <string>Available Disks</string>
-            </property>
-        </widget>
-        <widget class="QListBox" row="1" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>labelListBox</cstring>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="2" column="0">
-            <property name="name">
-                <cstring>newDiskPushButton</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;New Disk</string>
-            </property>
-            <property name="accel">
-                <string>Alt+N</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="2" column="1">
-            <property name="name">
-                <cstring>selectPushButton</cstring>
-            </property>
-            <property name="text">
-                <string>Select</string>
-            </property>
-            <property name="accel">
-                <string></string>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="2" column="2">
-            <property name="name">
-                <cstring>cancelPushButton</cstring>
-            </property>
-            <property name="text">
-                <string>C&amp;ancel</string>
-            </property>
-            <property name="accel">
-                <string>Alt+A</string>
-            </property>
-            <property name="default">
-                <bool>true</bool>
-            </property>
-        </widget>
-    </grid>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>newDiskPushButton</cstring>
+                </property>
+                <property name="text">
+                    <string>&amp;New Disk</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+N</string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>flipDiskPushButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Flip Disk</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>selectPushButton</cstring>
+                </property>
+                <property name="text">
+                    <string>Select</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>cancelPushButton</cstring>
+                </property>
+                <property name="text">
+                    <string>C&amp;ancel</string>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
+                </property>
+            </widget>
+        </vbox>
+    </widget>
+    <widget class="QListBox">
+        <property name="name">
+            <cstring>labelListBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>12</x>
+                <y>45</y>
+                <width>340</width>
+                <height>400</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>11</x>
+                <y>11</y>
+                <width>578</width>
+                <height>23</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Available Disks</string>
+        </property>
+    </widget>
 </widget>
 <connections>
     <connection>

@@ -29,9 +29,14 @@ Q_OBJECT
 public:
     SelectEmulatedDiskDialog(QWidget *parent = 0, const char *name = 0);
 
+    
     bool exec() {return SelectEmulatedDiskDialogBase::exec();}
     void setLabelList(const QStringList& stringList); 
     virtual ~SelectEmulatedDiskDialog() {}
+
+private slots:
+    void toggleFlipDisk(bool);
+
 };
 
 #endif

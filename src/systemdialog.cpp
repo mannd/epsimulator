@@ -27,12 +27,18 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 
+#include <sys/vfs.h>
+
+#ifndef NDEBUG
+#include <iostream>
+#endif
+
 SystemDialog::SystemDialog(Options* options, const QString& path,
-                           const QString& label, const QString& spaceTime,
+                           const QString& label, 
                            const QString& side,
                            QWidget *parent, const char *name)
                            : SystemDialogBase(parent, name),
-                           options_(options) {
+                           options_(options), path_(path) {
     enableExportFilePathLineEdit();
     enableNetworkStudyPathLineEdit();
     // set up dialog here, from system settings on disk
@@ -44,7 +50,14 @@ SystemDialog::SystemDialog(Options* options, const QString& path,
     setEnableNetworkStorage(options_->enableNetworkStorage());
     studyPathLabel->setText(studyPathLabel->text().arg(path));
     diskLabel->setText(diskLabel->text().arg(label));
-    spaceTimeLabel->setText(spaceTimeLabel->text().arg(spaceTime));
+    long kBytes = diskFreeSpace(options_->opticalStudyPath());
+    QString space;
+    space.setNum(kBytes);
+    space += "K";
+    QString time;
+    time.setNum(timeRemaining(kBytes));
+    time += " min";
+    spaceTimeLabel->setText(spaceTimeLabel->text().arg(space + " " + time));
     sideLabel->setText(sideLabel->text().arg(side.isEmpty() ? tr("None") : side)); 
 }
 
@@ -98,6 +111,29 @@ void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {
     if (fd->exec() == QDialog::Accepted) {
         lineEdit->setText(fd->selectedFile());
     }
+}
+
+long SystemDialog::diskFreeSpace(const QString& path) const {
+    int emulatedDiskMBytes = options_->emulatedOpticalDriveCapacity();
+    if (emulatedDiskMBytes  > 0) 
+        return emulatedDiskMBytes * 1024;
+    struct statfs s;
+    long blocksFree = 0;
+    long blockSize = 0;
+    if (statfs(path.latin1(), &s) == 0) {
+        blocksFree = s.f_bavail;    // blocks available to non-su
+        blockSize = s.f_bsize;
+    }
+    long kBytes = blockSize / 1024;
+    return blocksFree * kBytes;
+}
+
+long SystemDialog::timeRemaining(long kBytes) const {
+    /// TODO This value below is totally arbitrary, will need to 
+    /// revise it once we get a better idea what it should be.
+    /// In the meantime, well this is just a simulator!
+    const double secPerKbyte = 0.1;
+    return static_cast<long>(secPerKbyte * kBytes / 60);
 }
 
 SystemDialog::~SystemDialog() {

@@ -41,7 +41,7 @@ class SystemDialog : private SystemDialogBase {
 
 public:
     SystemDialog(Options* options, const QString& path, 
-                 const QString& label, const QString& spaceTime,
+                 const QString& label, 
                  const QString& side,
                  QWidget *parent = 0, const char *name = 0);
 
@@ -69,9 +69,13 @@ private:
     void setEnableNetworkStorage(bool enable);
     void setEnableFileExport(bool enable);
 
+    long diskFreeSpace(const QString& path) const;
+    long timeRemaining(long kBytes) const;
+
     void browseFilePaths(QLineEdit*);
 
     Options* options_;
+    QString path_;
 };
 
 #endif
