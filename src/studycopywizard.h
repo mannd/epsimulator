@@ -31,10 +31,10 @@ class StudyMoveCopyWizard: protected StudyMoveCopyWizardBase {
 public:
     StudyMoveCopyWizard(QWidget* parent = 0, const char *name = 0);
     
-    virtual bool exec() {return StudyMoveCopyWizardBase::exec();}
+    int exec() {return StudyMoveCopyWizardBase::exec();}
     
 private slots:
-	void enableFinishButton();
+    void enableFinishButton();
 };
 
 class StudyCopyWizard : public StudyMoveCopyWizard {

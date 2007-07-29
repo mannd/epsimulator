@@ -22,6 +22,8 @@
 
 #include "selectemulateddiskdialogbase.h"
 
+#include <qlistbox.h>
+
 class QStringList;
 
 class SelectEmulatedDiskDialog: private SelectEmulatedDiskDialogBase {
@@ -29,13 +31,31 @@ Q_OBJECT
 public:
     SelectEmulatedDiskDialog(QWidget *parent = 0, const char *name = 0);
 
-    
-    bool exec() {return SelectEmulatedDiskDialogBase::exec();}
+    int exec() {return SelectEmulatedDiskDialogBase::exec();}
     void setLabelList(const QStringList& stringList); 
+    void setDiskRow(int row) {
+        SelectEmulatedDiskDialog::labelListBox->setCurrentItem(row);}
+
+    QListBoxItem* selectedItem() {return labelListBox->selectedItem();}
+    int currentItem() {return labelListBox->currentItem();}
+
+    bool selectDisk() const {return select_;}
+    bool newDisk() const {return new_;}
+    bool flipDisk() const {return flip_;}
+
     virtual ~SelectEmulatedDiskDialog() {}
 
 private slots:
+    void enableButtons();
     void toggleFlipDisk(bool);
+    void setSelect() {select_ = true; accept();}
+    void setNew()    {new_ = true; accept();}
+    void setFlip()   {flip_ = true; accept();}
+
+private:
+    bool select_;
+    bool new_;
+    bool flip_;
 
 };
 

@@ -22,6 +22,8 @@
 
 #include <qstring.h>
 
+#include <vector>
+
 class QDataStream;
 class QFile;
 class QStringList;
@@ -44,7 +46,7 @@ public:
 
     virtual void eject(QWidget*);
 
-    virtual bool hasLabel();
+    bool hasLabel();
     virtual void readLabel();
     virtual void writeLabel() const;
     void setLabelData(const LabelData&);
@@ -52,12 +54,16 @@ public:
     void setSide(const QString& side);
     virtual QString translatedSide() const;
 
+    static QString translateSide(const QString& side);
+
     LabelData labelData() const;
     QString label() const; 
     QString side() const;
 
     virtual bool allowSideChange() const {return true;}
     virtual bool singleSideOnly() const {return false;}
+    // below might check to see if the drive actually is two sided.
+    virtual bool isTwoSided() const {return true;}
 
     QString path() const {return path_;}
     // fullPath() == path() in this class, but see EmulatedOpticalDisk.
@@ -85,12 +91,14 @@ private:
 class EmulatedOpticalDisk : public OpticalDisk {
 public:
     EmulatedOpticalDisk(const QString& path, bool isTwoSided = false);
+    EmulatedOpticalDisk(const QString& path, const QString& diskName,
+                        const QString& side);
 
     virtual void eject(QWidget*);
 
     virtual void readLabel();
     virtual void writeLabel() const;
-    virtual bool hasLabel();
+    bool hasLabel();
 
 //    virtual QString path();
 
@@ -108,9 +116,17 @@ public:
     virtual ~EmulatedOpticalDisk();
 
 private:
-    void makeLabel(const QString& fileName, QString& label, QStringList& labelList);
+    struct DiskInfo {
+        QString name;
+        LabelData labelData;
+    };
+    typedef std::vector<DiskInfo*> DiskInfoList;
+
+    int makeLabel(const QString& diskName, QStringList& labelList,
+                   DiskInfoList& diskInfoList);
 
     void makePath() const;    // create subdirectories for the emulated disk
+                                               //  i.e. has label.dat in it
 
     QString disksPath() const;  // e.g. .../MyStudies/disks
     QString diskPath() const;   // /home/user/MyStudies/disks/disk_xxxxx

@@ -29,11 +29,13 @@
 #include <qdatetime.h>
 #include <qdir.h>
 #include <qfile.h>
+#include <qlistbox.h>
 #include <qmessagebox.h>
 #include <qobject.h>
 #include <qstringlist.h>
 
 #include <map>
+#include <vector>
 
 // for debug
 #ifndef NDEBUG
@@ -87,16 +89,10 @@ QString OpticalDisk::studiesPath() const {
 
 /**
  * 
- * @return disk has been labelled. 
+ * @return disk has been labelled.  Only call after label has been read from disk.
  */
 bool OpticalDisk::hasLabel() {
-    try {
-        readLabel();   
-        return !label().isEmpty();
-    }
-    catch (EpSim::IoError&) {
-        return false;
-    }
+    return !label().isEmpty();
 }
 
 void OpticalDisk::load(const QString& fileName) {
@@ -143,11 +139,16 @@ QString OpticalDisk::translatedSide() const {
     return QObject::tr(labelData_.side);    
 }
 
+QString OpticalDisk::translateSide(const QString& side) {
+    if (side.isEmpty())
+        return side;
+    return (side == "A" ? QObject::tr("A") : QObject::tr("B"));
+}
+
 OpticalDisk::~OpticalDisk() {
 }
 
 
-/// FIXME emulated disks are broken at the moment.
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
     bool isTwoSided) : OpticalDisk(path) {
     // Need some housekeeping to setup fake optical disk.
@@ -157,56 +158,99 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
    		"ddMMyyyyhhmmsszzz");
         isTwoSided_ = isTwoSided;
         setSide(isTwoSided_ ? "A" : QString::null);
+        //writeLabel();
         saveLastDisk(); // also do this when disk changes
     }
 }
 
-
-bool EmulatedOpticalDisk::hasLabel() {
-    try {
-        readLabel();   
-        return !label().isEmpty();
-    }
-    catch (EpSim::IoError&) {
-        return false;
-    }
-}
-
-void EmulatedOpticalDisk::makeLabel(const QString& fileName, QString& label, QStringList& labelList) {
-    QFile f(fileName);
+int EmulatedOpticalDisk::makeLabel(const QString& diskName, 
+                                    QStringList& labelList,
+                                    DiskInfoList& diskInfoList) {
     LabelData labelData;
-    if (f.exists()) { 
-        EpFuns::loadData(fileName, MagicNumber, labelData);
-        label = labelData.label + " - " + labelData.side;
-        labelList.append(label);
+    QFile f;
+    int row, currentDiskRow;
+    row = currentDiskRow = -1;
+    typedef std::vector<QString> Sides;
+    Sides sides;
+    sides.push_back("A");
+    sides.push_back("B");
+    for (Sides::iterator it = sides.begin(); it != sides.end(); ++it) {
+        f.setName(QDir::cleanDirPath(disksPath() + "/" + diskName + "/" + (*it) + "/" 
+                + labelFileName_));
+        if (f.exists()) { 
+            EpFuns::loadData(f.name(), MagicNumber, labelData);
+            labelList.append(labelData.label + 
+                (labelData.side.isEmpty() ? QString::null : " - " + translateSide(labelData.side)));
+            DiskInfo* diskInfo = new DiskInfo;
+            diskInfo->name = diskName;
+            diskInfo->labelData.side = labelData.side;
+            diskInfo->labelData.label = labelData.label;
+            diskInfoList.push_back(diskInfo);
+            ++row;
+            if (diskName_ == diskName && side() == labelData.side)
+                currentDiskRow = row;
+        }
     }
+    return currentDiskRow;
 }
 
+/// TODO label.dat should really be in the diskName/ dir, not diskName/A/.
+/// The problem is if we relabel one side of a disk, the other side
+/// should have the same label.  We can perhaps force relabel to do this.
 void EmulatedOpticalDisk::eject(QWidget* w) {
     QDir diskDir(disksPath());
     QStringList diskList = diskDir.entryList("disk*");
     QStringList labelList;
     QString label, labelFile;
-//    int row = 0;
+    DiskInfoList diskInfoList;
+    int row, currentDiskRow;
+    row = currentDiskRow = -1;
     for (QStringList::Iterator it = diskList.begin(); 
-        it != diskList.end(); ++it) {
-        std::cerr << "Disk " << *it << std::endl;
-        labelFile = QDir::cleanDirPath(disksPath() + "/" + *it + "/A/" 
-            + labelFileName_);
-        makeLabel(labelFile, label, labelList);
-        labelFile = QDir::cleanDirPath(disksPath() + "/" + *it + "/B/" 
-            + labelFileName_);
-        makeLabel(labelFile, label, labelList);
-    }
-//     for (QStringList::Iterator pos = labelList.begin();
-// //         pos != labelList.end(); ++pos)
-//         std::cerr << *pos << std::endl;   */ 
+        it != diskList.end(); ++it) 
+        if ((row = makeLabel(*it, labelList, diskInfoList)) > -1)
+            currentDiskRow = row;
     SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(w);
     d->setLabelList(labelList);
-    // note that labelList[0] == diskList[0] so that the selected row can index diskList[row]
-    // NO that isn't true because not every disk has a label.dat I guess.
-    if (d->exec() )
-        ;
+    if (currentDiskRow > -1)
+        d->setDiskRow(currentDiskRow);
+    if (d->exec() == QDialog::Accepted) {
+        if (d->newDisk()) {
+            diskName_ = QString::null;
+            saveLastDisk();
+        }
+        /// FIXME when side changes, label can't be changed, or the 2 sides
+        /// will have different labels.
+        else if (d->flipDisk()) {
+            if (d->selectedItem()) {
+                // get diskName and side from selected item, then
+                // if a two-sided disk, flip the side
+                if (!diskInfoList[d->currentItem()]->labelData.side.isEmpty()) {
+                    setSide(diskInfoList[d->currentItem()]->labelData.side == "A" ? "B" : "A");
+                    setLabel(diskInfoList[d->currentItem()]->labelData.label);
+                    diskName_ = diskInfoList[d->currentItem()]->name;
+ //                   writeLabel();
+                }
+                else {      // if disk can't be flipped, just select it
+                    setLabelData(diskInfoList[d->currentItem()]->labelData);
+                    diskName_ = diskInfoList[d->currentItem()]->name;
+                }
+                saveLastDisk();
+                writeLabel();
+            }
+        }
+        else if (d->selectDisk()) {
+            if (d->selectedItem()) {
+                // get diskName and side from selected item
+                setLabelData(diskInfoList[d->currentItem()]->labelData);
+                diskName_ = diskInfoList[d->currentItem()]->name;
+                saveLastDisk();
+            }
+        }
+    }
+    // clean-up
+    for (DiskInfoList::iterator it = diskInfoList.begin(); it != diskInfoList.end(); ++it) {
+        delete (*it);
+    }
     delete d;
 }
 

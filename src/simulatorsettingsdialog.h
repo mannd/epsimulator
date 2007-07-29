@@ -35,7 +35,7 @@ public:
 
     void setOptions();
 
-    bool exec() {return SimulatorSettingsDialogBase::exec();}
+    int exec() {return SimulatorSettingsDialogBase::exec();}
 
  
 

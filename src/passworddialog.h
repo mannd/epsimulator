@@ -38,7 +38,7 @@ public:
     void setPassword(const QString&); 
     bool testPassword();
 
-    virtual bool exec() {return PasswordDialogBase::exec();}
+    int exec() {return PasswordDialogBase::exec();}
 
 
     ~PasswordDialog();

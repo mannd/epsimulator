@@ -68,9 +68,9 @@ Catalog::Catalog(const QString& path,
 Catalog::~Catalog() {
 }
 
- void Catalog::addStudy(const Study* study, const QString& location,
-                        const QString& side, const QString& labName,
-                        const QString& machineName) {
+void Catalog::addStudy(const Study* study, const QString& location,
+                       const QString& side, const QString& labName,
+                       const QString& machineName) {
     catalog_[study->key()].study = *study;
     catalog_[study->key()].location = location;
     catalog_[study->key()].side = side;
@@ -162,13 +162,15 @@ void OpticalCatalog::regenerate(const QString& location, const QString& side,
                     const QString& labName, const QString& machineName) {
     QDir studiesDir(path() + "/studies");
     QStringList studyList = studiesDir.entryList("study_*");
+    catalog_.clear();   // Start from scratch, as some studies might have
+                        // been deleted on disk but not in the catalog.
     for (QStringList::Iterator it = studyList.begin(); 
             it != studyList.end(); ++it) {
         Study s;
         s.setPath(studiesDir.path() + "/" + *it);
         s.load();
         StudyData sd = {s, location, side, labName, machineName};
-        catalog_[s.key()] = sd; // this should replace or add entries
+        catalog_[s.key()] = sd; 
     }
     save();
 }

@@ -31,7 +31,7 @@ public:
     ChangePasswordDialog(Options* options, QWidget *parent = 0, 
                          const char *name = 0);
 
-    virtual bool exec() {return ChangePasswordDialogBase::exec();}
+    int exec() {return ChangePasswordDialogBase::exec();}
 
     void changePassword() const;
     void clear();

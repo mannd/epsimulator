@@ -45,6 +45,7 @@ public:
 
 public slots:
   /*$PUBLIC_SLOTS$*/
+    void accept();
 
 protected:
   /*$PROTECTED_FUNCTIONS$*/

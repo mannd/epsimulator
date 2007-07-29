@@ -24,8 +24,9 @@
 #include <qstringlist.h>
 
 SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent, const char *name)
-    :SelectEmulatedDiskDialogBase(parent, name)
-{
+    : SelectEmulatedDiskDialogBase(parent, name), select_(false),
+      new_(false), flip_(false) {
+    enableButtons();
 }
 
 void SelectEmulatedDiskDialog::setLabelList(const QStringList& stringList) {
@@ -35,3 +36,11 @@ void SelectEmulatedDiskDialog::setLabelList(const QStringList& stringList) {
 void SelectEmulatedDiskDialog::toggleFlipDisk(bool flip) {
     flipDiskPushButton->setEnabled(flip);
 }
+
+void SelectEmulatedDiskDialog::enableButtons() {
+    selectPushButton->setEnabled(labelListBox->selectedItem());
+    flipDiskPushButton->setEnabled(labelListBox->selectedItem());
+}
+
+
+

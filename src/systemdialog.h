@@ -47,7 +47,7 @@ public:
 
     void setOptions();
 
-    virtual bool exec() {return SystemDialogBase::exec();}
+    int exec() {return SystemDialogBase::exec();}
 
     
 

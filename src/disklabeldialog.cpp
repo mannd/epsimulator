@@ -23,6 +23,7 @@
 
 #include <qbuttongroup.h>
 #include <qlineedit.h>
+#include <qmessagebox.h>
 #include <qradiobutton.h>
 
 DiskLabelDialog::DiskLabelDialog(QWidget* parent, const char* name, bool modal, WFlags fl)
@@ -59,6 +60,17 @@ void DiskLabelDialog::enableSideButtons(bool enable) {
 
 void DiskLabelDialog::enableNoneButton(bool enable) {
     noneButton->setEnabled(enable);
+}
+
+void DiskLabelDialog::accept() {
+    if (diskLabelLineEdit->text().isEmpty()) {
+        QMessageBox::warning(this, tr("Missing Information"),
+                            tr("Disk label can't be blank.  Please "
+                               "enter it or cancel." ));    
+        diskLabelLineEdit->setFocus();  
+    }
+    else 
+        DiskLabelDialogBase::accept();
 }
 
 DiskLabelDialog::~DiskLabelDialog()

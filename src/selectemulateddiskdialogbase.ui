@@ -46,16 +46,22 @@
                 <property name="name">
                     <cstring>flipDiskPushButton</cstring>
                 </property>
+                <property name="enabled">
+                    <bool>false</bool>
+                </property>
                 <property name="text">
-                    <string>Flip Disk</string>
+                    <string>Flip Dis&amp;k</string>
                 </property>
                 <property name="accel">
-                    <string></string>
+                    <string>Alt+K</string>
                 </property>
             </widget>
             <widget class="QPushButton">
                 <property name="name">
                     <cstring>selectPushButton</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>false</bool>
                 </property>
                 <property name="text">
                     <string>Select</string>
@@ -77,19 +83,6 @@
             </widget>
         </vbox>
     </widget>
-    <widget class="QListBox">
-        <property name="name">
-            <cstring>labelListBox</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>12</x>
-                <y>45</y>
-                <width>340</width>
-                <height>400</height>
-            </rect>
-        </property>
-    </widget>
     <widget class="QLabel">
         <property name="name">
             <cstring>textLabel1</cstring>
@@ -104,6 +97,19 @@
         </property>
         <property name="text">
             <string>Available Disks</string>
+        </property>
+    </widget>
+    <widget class="QListBox">
+        <property name="name">
+            <cstring>labelListBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>12</x>
+                <y>45</y>
+                <width>340</width>
+                <height>400</height>
+            </rect>
         </property>
     </widget>
 </widget>
@@ -124,8 +130,38 @@
         <sender>labelListBox</sender>
         <signal>doubleClicked(QListBoxItem*)</signal>
         <receiver>SelectEmulatedDiskDialogBase</receiver>
-        <slot>accept()</slot>
+        <slot>setSelect()</slot>
+    </connection>
+    <connection>
+        <sender>newDiskPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>setNew()</slot>
+    </connection>
+    <connection>
+        <sender>selectPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>setSelect()</slot>
+    </connection>
+    <connection>
+        <sender>flipDiskPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>setFlip()</slot>
+    </connection>
+    <connection>
+        <sender>labelListBox</sender>
+        <signal>selectionChanged()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>enableButtons()</slot>
     </connection>
 </connections>
+<slots>
+    <slot>setNew()</slot>
+    <slot>setFlip()</slot>
+    <slot>setSelect()</slot>
+    <slot>enableButtons()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

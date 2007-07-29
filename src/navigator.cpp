@@ -108,7 +108,7 @@ void Navigator::newStudy() {
     if (currentDisk_->hasLabel()) {
         Study* study = getNewStudy();
         StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
-        if (studyConfigDialog->exec()) {
+        if (studyConfigDialog->exec() == QDialog::Accepted) {
             study->setConfig(studyConfigDialog->config());
             if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
@@ -254,7 +254,7 @@ void Navigator::deleteStudy() {
 void Navigator::filterStudies() {
     if (!filterCatalog_)
         filterCatalog_ = new FilterCatalog(this);
-    if (filterCatalog_->exec()) 
+    if (filterCatalog_->exec() == QDialog::Accepted) 
         processFilter();
 }
 
@@ -296,24 +296,33 @@ void Navigator::changeCatalog() {
 void Navigator::ejectDisk() {
     currentDisk_->eject(this);
     createOpticalDrive();
+    if (!currentDisk_->hasLabel())
+        relabelDisk();
     delete catalogs_;
     catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
+
+/// FIXME this has to distinguish between new disk (when emulated disks
+/// can select sides) and relabeling.
 void Navigator::relabelDisk() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     QString oldLabel = currentDisk_->label();
     QString oldLocation = createLocation();
     diskLabelDialog->setLabel(oldLabel);
+    // Disabled buttons can't be set, so do this first.
+    diskLabelDialog->setSide(currentDisk_->side());
+    diskLabelDialog->enableNoneButton(!currentDisk_->isTwoSided());
     // don't allow changing sides if emulated disk
-    /// FIXME double check below.
-    diskLabelDialog->enableSideButtons(currentDisk_->allowSideChange());
+    diskLabelDialog->enableSideButtons(currentDisk_->allowSideChange()
+        || oldLabel.isEmpty());    // oldLabel is empty if this is a new disk
+    // still need to inactivate None button if 2 sided and vice versa for
+    // emulated optical disks.
     // need to do this even if side buttons are disabled because we cannot
     // change sides during relabeling of emulated disks
-    diskLabelDialog->setSide(currentDisk_->side());
-    if (diskLabelDialog->exec()) {
+    if (diskLabelDialog->exec() == QDialog::Accepted) {
         currentDisk_->setLabel(diskLabelDialog->label());
         currentDisk_->setSide(diskLabelDialog->side());
         currentDisk_->writeLabel();
@@ -326,7 +335,7 @@ void Navigator::relabelDisk() {
 void Navigator::login() {
     if (!user_->isAdministrator()) {
         PasswordDialog* pwDialog = new PasswordDialog(options_,this);
-        if (pwDialog->exec()) {
+        if (pwDialog->exec() == QDialog::Accepted) {
             user_->makeAdministrator(true);
             updateStatusBarUserLabel();
             updateMenus();
@@ -348,7 +357,7 @@ void Navigator::logout() {
 
 void Navigator::changePassword() {
     ChangePasswordDialog* cpDialog = new ChangePasswordDialog(options_, this);
-    if (cpDialog->exec()) {
+    if (cpDialog->exec() == QDialog::Accepted) {
         cpDialog->changePassword();
     }
     delete cpDialog;   
@@ -451,7 +460,7 @@ void Navigator::simulatorSettings() {
     if (administrationAllowed()) {
         SimulatorSettingsDialog* simDialog = 
             new SimulatorSettingsDialog(options_, this);
-        if (simDialog->exec()) {
+        if (simDialog->exec() == QDialog::Accepted) {
             simDialog->setOptions();
             updateMenus();
             // change type of optical disk if needed
@@ -480,7 +489,7 @@ void Navigator::systemSettings() {
         SystemDialog* systemDialog = new SystemDialog(options_, 
             currentDisk_->studiesPath(), currentDisk_->label(),
             currentDisk_->translatedSide(), this);
-        if (systemDialog->exec()) {
+        if (systemDialog->exec() == QDialog::Accepted) {
             systemDialog->setOptions();
             // menu is changed
             networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
@@ -519,6 +528,7 @@ void Navigator::createOpticalDrive() {
         else
             currentDisk_ = new OpticalDisk(options_->opticalStudyPath());
         currentDisk_->readLabel();
+//        currentDisk_->writeLabel();
     }
     catch (EpSim::IoError& e) { 
         int ret = QMessageBox::warning(this, tr("Error"),
@@ -557,7 +567,6 @@ void Navigator::createButtonFrame() {
     horizontalSplitter_ = new QSplitter(Horizontal, this);
     setCentralWidget(horizontalSplitter_);
 
-//    buttonFrame_ = new QFrame(horizontalSplitter_);
     ButtonFrame* buttonFrame = new ButtonFrame(horizontalSplitter_);
 
     buttonFrame->addButton("New Study", "hi64-newstudy.png", SLOT(newStudy()));
@@ -885,7 +894,7 @@ QString Navigator::createLocation() const {
 bool Navigator::getStudyInformation(Study* study) {
     PatientDialog* patientDialog = new PatientDialog(this);
     patientDialog->setFields(study);
-    if (patientDialog->exec()) {
+    if (patientDialog->exec() == QDialog::Accepted) {
         patientDialog->getFields(study);
         if (!study->isPreregisterStudy()) {
 //             study->setLocation(currentDisk_->label());
