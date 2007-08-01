@@ -314,18 +314,23 @@ void Navigator::relabelDisk() {
     diskLabelDialog->setLabel(oldLabel);
     // Disabled buttons can't be set, so do this first.
     diskLabelDialog->setSide(currentDisk_->side());
-    diskLabelDialog->enableNoneButton(!currentDisk_->isTwoSided());
-    // don't allow changing sides if emulated disk
-    diskLabelDialog->enableSideButtons(currentDisk_->allowSideChange()
-        || oldLabel.isEmpty());    // oldLabel is empty if this is a new disk
-    // still need to inactivate None button if 2 sided and vice versa for
-    // emulated optical disks.
-    // need to do this even if side buttons are disabled because we cannot
-    // change sides during relabeling of emulated disks
+    /** Here is the logic:
+            Not an emulated disk:   Allow side changes any time.  All
+                three buttons are always available. 
+            Emulated disk:
+                New disk: Only allow side change if isTwoSided()
+                Flipping a disk: allow side change (don't allow flipping 1 sided disks)
+                Relabeling: don't allow any side changes at all
+            OpticalDisk::allowSideChange() will set itself appropriately
+    */
+    diskLabelDialog->enableNoneButton(currentDisk_->showAllSideButtons() || 
+        !currentDisk_->isTwoSided());    
+    diskLabelDialog->enableSideButtons(currentDisk_->allowSideChange());
     if (diskLabelDialog->exec() == QDialog::Accepted) {
         currentDisk_->setLabel(diskLabelDialog->label());
         currentDisk_->setSide(diskLabelDialog->side());
         currentDisk_->writeLabel();
+        currentDisk_->setIsLabeled(true);
         catalogs_->relabel(diskLabelDialog->label(), diskLabelDialog->side());
         refreshCatalogs();
     }

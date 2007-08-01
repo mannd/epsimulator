@@ -59,7 +59,7 @@ QDataStream& operator>>(QDataStream& in, LabelData& labelData) {
 const QString OpticalDisk::labelFileName_ = "label.dat";
 
 OpticalDisk::OpticalDisk(const QString& path) 
-    : path_(path) {
+    : path_(path), isLabeled_(false) {
 }
 
 /**
@@ -148,11 +148,12 @@ QString OpticalDisk::translateSide(const QString& side) {
 OpticalDisk::~OpticalDisk() {
 }
 
-
+/// FIXME allowSideChange_ handling??????????
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
     bool isTwoSided) : OpticalDisk(path) {
     // Need some housekeeping to setup fake optical disk.
-    lastDisk();
+    lastDisk();     // sets diskName_, labelData_
+    setIsLabeled(!label().isEmpty());
     if (diskName_.isEmpty()) {
         diskName_ = "disk_" + QDateTime::currentDateTime().toString(
    		"ddMMyyyyhhmmsszzz");
@@ -216,6 +217,8 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
     if (d->exec() == QDialog::Accepted) {
         if (d->newDisk()) {
             diskName_ = QString::null;
+            setLabel(QString::null);    // Must do this to make sure disk
+            setSide(QString::null);     // is set up right as 1 or 2 sided.
             saveLastDisk();
         }
         /// FIXME when side changes, label can't be changed, or the 2 sides

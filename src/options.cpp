@@ -46,15 +46,16 @@ void Options::readSettings() {
     enableAcquisition_ = settings.readBoolEntry("/enableAcquisition", true);
     enableFileExport_ = settings.readBoolEntry("/enableFileExport", false);
     enableNetworkStorage_ = settings.readBoolEntry("/enableNetworkStorage", false);
-    emulateOpticalDrive_ = settings.readBoolEntry("/emulateOpticalDrive", true);
-    QString defaultOpticalPath = 
-        emulateOpticalDrive_ ? QDir::homeDirPath() + "/MyStudies" : "";   
+    // Non-emulated drive is the default for the program.
+    /// TODO test if the above helps prevent blank emulated drive at startup.
+    emulateOpticalDrive_ = settings.readBoolEntry("/emulateOpticalDrive", false);
+    QString defaultOpticalPath = QDir::cleanDirPath(QDir::homeDirPath() + "/MyStudies");   
     opticalStudyPath_ = settings.readEntry("/opticalStudyPath", defaultOpticalPath);
     networkStudyPath_ = settings.readEntry("/networkStudyPath", "");
     exportFilePath_ = settings.readEntry("/exportFilePath", "");
     labName_ = settings.readEntry("/labName", "");
     dualSidedDrive_ = 
-        settings.readBoolEntry("/dualSidedDrive", true);
+        settings.readBoolEntry("/dualSidedDrive", false);
     emulatedOpticalDriveCapacity_ 
         =settings.readNumEntry("/emulatedOpticalDriveCapacity", 0);
     oldStyleNavigator_ = settings.readBoolEntry("/oldStyleNavigator", false);
