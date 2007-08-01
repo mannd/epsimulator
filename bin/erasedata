@@ -1,0 +1,9 @@
+#!/bin/sh
+# This script erases all epsimulator catalog, settings and 
+# data files!  Only works for my specific file locations.
+# This is handy for test purposes, but don't run it
+# on data you want to save!!
+rm -f ~/.qt/epsimulatorrc
+rm -fr ~/MyStudies/*
+rm -f ~/dev/local/epsimulator/test/catalog.dat
+rm -f ~/dev/local/epsimulator/System/catalog.dat

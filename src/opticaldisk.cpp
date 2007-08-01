@@ -319,7 +319,7 @@ void EmulatedOpticalDisk::writeLabel() const {
 void EmulatedOpticalDisk::lastDisk() {
     Settings settings;
     diskName_ = settings.readEntry("/lastDisk", "");
-    isTwoSided_ = settings.readEntry("/isTwoSided", false);
+    isTwoSided_ = settings.readBoolEntry("/isTwoSided", false);
     setSide(settings.readEntry("/lastSide", QString::null));
 }
 
