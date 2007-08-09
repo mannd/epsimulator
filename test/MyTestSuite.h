@@ -399,7 +399,7 @@ public:
     
     void testEmulatedOpticalDisk() {
     	Options* o = Options::instance();
-    	EmulatedOpticalDisk d(o->opticalStudyPath());
+    	EmulatedOpticalDisk d(o->opticalStudyPath(), true);
     	cerr <<   d.path();
         TS_ASSERT(d.filePath() == QDir::cleanDirPath( o->opticalStudyPath() + "//disks/"
     		+ d.diskName() + "/" + d.side() + "/label.dat"));
@@ -429,7 +429,8 @@ public:
         d->setSide("B");
         TS_ASSERT(d->translatedSide() == QObject::tr("B"));
         delete d;
-        d = new EmulatedOpticalDisk(o->opticalStudyPath());
+        d = new EmulatedOpticalDisk(o->opticalStudyPath(), true);
+        d->readLabel();
         // make sure default side is A
         TS_ASSERT(d->translatedSide() == QObject::tr("A"));
         delete d;

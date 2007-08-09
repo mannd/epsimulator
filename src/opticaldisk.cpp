@@ -164,13 +164,13 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
     }
 }
 
-int EmulatedOpticalDisk::makeLabel(const QString& diskName, 
+bool EmulatedOpticalDisk::makeLabel(const QString& diskName, 
                                     QStringList& labelList,
-                                    DiskInfoList& diskInfoList) {
+                                    DiskInfoList& diskInfoList,
+                                    int& row) {
     LabelData labelData;
     QFile f;
-    int row, currentDiskRow;
-    row = currentDiskRow = -1;
+    bool isCurrentDiskRow = false;
     typedef std::vector<QString> Sides;
     Sides sides;
     sides.push_back("A");
@@ -189,15 +189,12 @@ int EmulatedOpticalDisk::makeLabel(const QString& diskName,
             diskInfoList.push_back(diskInfo);
             ++row;
             if (diskName_ == diskName && side() == labelData.side)
-                currentDiskRow = row;
+                isCurrentDiskRow = true;
         }
     }
-    return currentDiskRow;
+    return isCurrentDiskRow;
 }
 
-/// TODO label.dat should really be in the diskName/ dir, not diskName/A/.
-/// The problem is if we relabel one side of a disk, the other side
-/// should have the same label.  We can perhaps force relabel to do this.
 void EmulatedOpticalDisk::eject(QWidget* w) {
     QDir diskDir(disksPath());
     QStringList diskList = diskDir.entryList("disk*");
@@ -207,13 +204,12 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
     int row, currentDiskRow;
     row = currentDiskRow = -1;
     for (QStringList::Iterator it = diskList.begin(); 
-        it != diskList.end(); ++it) 
-        if ((row = makeLabel(*it, labelList, diskInfoList)) > -1)
+        it != diskList.end(); ++it)  
+        if (makeLabel(*it, labelList, diskInfoList, row))
             currentDiskRow = row;
     SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(w);
     d->setLabelList(labelList);
-    if (currentDiskRow > -1)
-        d->setDiskRow(currentDiskRow);
+    d->setDiskRow(currentDiskRow);
     if (d->exec() == QDialog::Accepted) {
         if (d->newDisk()) {
             diskName_ = QString::null;

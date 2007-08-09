@@ -171,6 +171,7 @@
     </codecompletion>
     <designerintegration>
       <qtdesigner>
+        <implementation class="DiskLabelDialog" path="src/disklabeldialogbase.ui" implementationpath="src/disklabeldialog.h" />
         <implementation class="FilterCatalog" path="src/filtercatalogbase.ui" implementationpath="src/filtercatalog.h" />
         <implementation class="PatientDialog" path="src/patientdialogbase.ui" implementationpath="src/patientdialog.h" />
         <implementation class="SelectEmulatedDiskDialog" path="src/selectemulateddiskdialogbase.ui" implementationpath="src/selectemulateddiskdialog.h" />

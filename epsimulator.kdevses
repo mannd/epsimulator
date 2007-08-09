@@ -3,54 +3,54 @@
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="17" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/opticaldisk.cpp" >
-   <View0 Encoding="" line="209" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/opticaldisk.h" >
    <View0 Encoding="" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qdialog.html#exec" >
+  <Doc2 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qlistbox.html#currentItem" >
    <View0 Type="Documentation" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/tablelistview.cpp" >
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/catalog.cpp" >
-   <View0 Encoding="" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qlistbox.html" >
+   <View0 Type="Documentation" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator.cpp" >
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator.h" >
    <View0 Encoding="" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/selectemulateddiskdialog.cpp" >
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/disklabeldialog.h" >
    <View0 Encoding="" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/selectemulateddiskdialog.h" >
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/disklabeldialog.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/changepassworddialog.h" >
+  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qstring.h" >
    <View0 Encoding="" Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/main.cpp" >
+  <Doc9 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qshared.h" >
    <View0 Encoding="" Type="Source" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/passworddialog.h" >
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/settings.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/simulatorsettingsdialog.h" >
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/options.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/studycopywizard.h" >
+  <Doc12 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/bits/stl_iterator.h" >
    <View0 Encoding="" Type="Source" />
   </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/systemdialog.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/disklabeldialogbase.ui" >
+   <View0 Type="Other" />
   </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/studyconfigdialog.cpp" >
+  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/test/MyTestSuite.h" >
    <View0 Encoding="" Type="Source" />
   </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/selectemulateddiskdialogbase.h" >
+  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/catalog.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc15>
-  <Doc16 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/studyconfigdialog.h" >
+  <Doc16 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/catalog.h" >
    <View0 Encoding="" line="0" Type="Source" />
   </Doc16>
  </DocsAndViews>
@@ -69,15 +69,12 @@
     <breakpoint3 location="/home/mannd/dev/epsimulator/src/navigator.cpp:916" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint3>
-    <breakpoint4 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:937" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint4 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:326" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint4>
-    <breakpoint5 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:939" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint5 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:311" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint5>
-    <breakpoint6 location="/home/mannd/dev/local/epsimulator/src/opticaldisk.cpp:160" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint6>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -88,18 +85,17 @@
   <kdevbookmarks>
    <bookmarks>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/navigator.cpp" >
-     <mark line="234" />
-     <mark line="407" />
+     <mark line="415" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
      <mark line="925" />
      <mark line="915" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="437" />
+     <mark line="444" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="444" />
+     <mark line="437" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/catalog.h" >
      <mark line="152" />

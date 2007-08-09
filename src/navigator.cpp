@@ -102,10 +102,10 @@ Navigator::Navigator(QWidget* parent, const char* name)
 
 // Blue bar actions
 void Navigator::newStudy() {
-    if (!currentDisk_->hasLabel()) 
+    if (!currentDisk_->isLabeled()) 
         relabelDisk();
     // if after all the above we finally have a label...
-    if (currentDisk_->hasLabel()) {
+    if (currentDisk_->isLabeled()) {
         Study* study = getNewStudy();
         StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
         if (studyConfigDialog->exec() == QDialog::Accepted) {
@@ -294,9 +294,15 @@ void Navigator::changeCatalog() {
 }
 
 void Navigator::ejectDisk() {
+    // make sure there is a label, to avoid blank label
+    // in the label list box.
+    if (!currentDisk_->isLabeled())
+        relabelDisk();
+    if (!currentDisk_->isLabeled())
+        return;     // give up if they haven't relabeled it
     currentDisk_->eject(this);
     createOpticalDrive();
-    if (!currentDisk_->hasLabel())
+    if (!currentDisk_->isLabeled())
         relabelDisk();
     delete catalogs_;
     catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
@@ -310,7 +316,7 @@ void Navigator::ejectDisk() {
 void Navigator::relabelDisk() {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     QString oldLabel = currentDisk_->label();
-    QString oldLocation = createLocation();
+//    QString oldLocation = createLocation();
     diskLabelDialog->setLabel(oldLabel);
     // Disabled buttons can't be set, so do this first.
     diskLabelDialog->setSide(currentDisk_->side());
@@ -888,10 +894,10 @@ void Navigator::startStudy(Study* s) {
     eps->showMaximized();
 }
 
-QString Navigator::createLocation() const {
-    return currentDisk_->label() + (!currentDisk_->side().isEmpty() ?
-           " - " + currentDisk_->translatedSide() : "");
-}
+// QString Navigator::createLocation() const {
+//     return currentDisk_->label() + (!currentDisk_->side().isEmpty() ?
+//            " - " + currentDisk_->translatedSide() : "");
+// }
 
 
 /// FIXME check out below!

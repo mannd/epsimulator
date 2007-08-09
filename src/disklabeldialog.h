@@ -46,6 +46,7 @@ public:
 public slots:
   /*$PUBLIC_SLOTS$*/
     void accept();
+    void enableCancelButton();
 
 protected:
   /*$PROTECTED_FUNCTIONS$*/

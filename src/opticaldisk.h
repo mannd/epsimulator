@@ -129,8 +129,8 @@ private:
     };
     typedef std::vector<DiskInfo*> DiskInfoList;
 
-    int makeLabel(const QString& diskName, QStringList& labelList,
-                   DiskInfoList& diskInfoList);
+    bool makeLabel(const QString& diskName, QStringList& labelList,
+                   DiskInfoList& diskInfoList, int& row);
 
     void makePath() const;    // create subdirectories for the emulated disk
                                                //  i.e. has label.dat in it

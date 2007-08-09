@@ -24,11 +24,13 @@
 #include <qbuttongroup.h>
 #include <qlineedit.h>
 #include <qmessagebox.h>
+#include <qpushbutton.h>
 #include <qradiobutton.h>
 
 DiskLabelDialog::DiskLabelDialog(QWidget* parent, const char* name, bool modal, WFlags fl)
-: DiskLabelDialogBase(parent,name, modal,fl)
-{
+: DiskLabelDialogBase(parent,name, modal,fl) {
+    // do below if using enableCancelButton slot, but shouldn't be necessary.
+//    enableCancelButton();
 }
 
 QString DiskLabelDialog::label() const {
@@ -62,6 +64,10 @@ void DiskLabelDialog::enableNoneButton(bool enable) {
     noneButton->setEnabled(enable);
 }
 
+void DiskLabelDialog::enableCancelButton() {
+    cancelButton->setEnabled(!diskLabelLineEdit->text().isEmpty());
+}
+
 void DiskLabelDialog::accept() {
     if (diskLabelLineEdit->text().isEmpty()) {
         QMessageBox::warning(this, tr("Missing Information"),
@@ -76,7 +82,5 @@ void DiskLabelDialog::accept() {
 DiskLabelDialog::~DiskLabelDialog()
 {
 }
-
-/*$SPECIALIZATION$*/
 
 

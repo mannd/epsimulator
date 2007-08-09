@@ -133,7 +133,7 @@ private:
     void deleteDataFiles(const QString&); // delete all study data on disk
     bool studyOnDisk(const Study*) const; // make sure study is on current disk
     void studyNotOnDiskError();  // report study not on current disk
-    QString createLocation() const; // creates study location from label and side
+//    QString createLocation() const; // creates study location from label and side
     /// FIXME below are not needed, delete
 //     void deleteDataFile();  // delete data file associated with current study
 //     void createDataFile();  // create a data file for a new study

@@ -60,10 +60,13 @@
                 </widget>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>CancelButton</cstring>
+                        <cstring>cancelButton</cstring>
                     </property>
                     <property name="text">
                         <string>Ca&amp;ncel</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+N</string>
                     </property>
                 </widget>
             </hbox>
@@ -193,11 +196,14 @@
         <slot>accept()</slot>
     </connection>
     <connection>
-        <sender>CancelButton</sender>
+        <sender>cancelButton</sender>
         <signal>clicked()</signal>
         <receiver>DiskLabelDialogBase</receiver>
         <slot>close()</slot>
     </connection>
 </connections>
+<slots>
+    <slot>enableCancelButton()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
