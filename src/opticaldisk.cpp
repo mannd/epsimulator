@@ -28,13 +28,11 @@
 #include <qdatastream.h>
 #include <qdatetime.h>
 #include <qdir.h>
-#include <qfile.h>
 #include <qlistbox.h>
 #include <qmessagebox.h>
 #include <qobject.h>
 #include <qstringlist.h>
 
-#include <map>
 #include <vector>
 
 // for debug
@@ -79,36 +77,41 @@ void OpticalDisk::eject(QWidget* w) {
  * 
  * @return full path of the label.dat file, including file name.
  */
-QString OpticalDisk::filePath() const {
+QString OpticalDisk::labelFilePath() const {
     return QDir::cleanDirPath(path_ + "/" + labelFileName_);
 }
 
+/**
+ * 
+ * @return full path to the studies directory on the disk. 
+ */
 QString OpticalDisk::studiesPath() const {
     return QDir::cleanDirPath(path_ + "/studies");
 }
 
 /**
- * 
- * @return disk has been labelled.  Only call after label has been read from disk.
+ * Loads the label and side data in label.dat.
+ * @param fileName 
  */
-bool OpticalDisk::hasLabel() {
-    return !label().isEmpty();
-}
-
 void OpticalDisk::load(const QString& fileName) {
     EpFuns::loadData(fileName, MagicNumber, labelData_);
 }
 
+/**
+ * Saves the label and side to label.dat.
+ * @param fileName 
+ */
 void OpticalDisk::save(const QString& fileName) const {
     EpFuns::saveData(fileName, MagicNumber, labelData_);
 }
 
 void OpticalDisk::readLabel() {
-    load(filePath());
+    load(labelFilePath());
+    isLabeled_ = !label().isEmpty();
 }
 
 void OpticalDisk::writeLabel() const {
-    save(filePath());
+    save(labelFilePath());
 }
 
 void OpticalDisk::setLabel(const QString& label) {
@@ -176,12 +179,13 @@ bool EmulatedOpticalDisk::makeLabel(const QString& diskName,
     sides.push_back("A");
     sides.push_back("B");
     for (Sides::iterator it = sides.begin(); it != sides.end(); ++it) {
-        f.setName(QDir::cleanDirPath(disksPath() + "/" + diskName + "/" + (*it) + "/" 
-                + labelFileName_));
+        f.setName(QDir::cleanDirPath(disksPath() + "/" + diskName + "/" 
+                  + (*it) + "/" + labelFileName_));
         if (f.exists()) { 
             EpFuns::loadData(f.name(), MagicNumber, labelData);
             labelList.append(labelData.label + 
-                (labelData.side.isEmpty() ? QString::null : " - " + translateSide(labelData.side)));
+                (labelData.side.isEmpty() ? QString::null : " - " 
+                 + translateSide(labelData.side)));
             DiskInfo* diskInfo = new DiskInfo;
             diskInfo->name = diskName;
             diskInfo->labelData.side = labelData.side;
@@ -217,17 +221,15 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
             setSide(QString::null);     // is set up right as 1 or 2 sided.
             saveLastDisk();
         }
-        /// FIXME when side changes, label can't be changed, or the 2 sides
-        /// will have different labels.
         else if (d->flipDisk()) {
             if (d->selectedItem()) {
                 // get diskName and side from selected item, then
                 // if a two-sided disk, flip the side
                 if (!diskInfoList[d->currentItem()]->labelData.side.isEmpty()) {
-                    setSide(diskInfoList[d->currentItem()]->labelData.side == "A" ? "B" : "A");
+                    setSide(diskInfoList[d->currentItem()]->labelData.side 
+                            == "A" ? "B" : "A");
                     setLabel(diskInfoList[d->currentItem()]->labelData.label);
                     diskName_ = diskInfoList[d->currentItem()]->name;
- //                   writeLabel();
                 }
                 else {      // if disk can't be flipped, just select it
                     setLabelData(diskInfoList[d->currentItem()]->labelData);
@@ -247,13 +249,14 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
         }
     }
     // clean-up
-    for (DiskInfoList::iterator it = diskInfoList.begin(); it != diskInfoList.end(); ++it) {
+    for (DiskInfoList::iterator it = diskInfoList.begin(); 
+         it != diskInfoList.end(); ++it) {
         delete (*it);
     }
     delete d;
 }
 
-QString EmulatedOpticalDisk::filePath() const {
+QString EmulatedOpticalDisk::labelFilePath() const {
     return QDir::cleanDirPath(fullPath() + "/" + labelFileName_);
 }
 
@@ -304,12 +307,13 @@ void EmulatedOpticalDisk::makePath() const {
 void EmulatedOpticalDisk::readLabel() {
     // create /disks dir if not already present.
     makePath();
-    OpticalDisk::load(filePath());
+    OpticalDisk::load(labelFilePath());
+    setIsLabeled(!label().isEmpty());
 }
 
 void EmulatedOpticalDisk::writeLabel() const {
     makePath();
-    OpticalDisk::save(filePath());
+    OpticalDisk::save(labelFilePath());
 }
 
 void EmulatedOpticalDisk::lastDisk() {

@@ -106,7 +106,7 @@ protected:
     virtual void load();
     virtual void save();
  
-   CatalogMap catalog_;
+    CatalogMap catalog_;
 
 
 private:    
@@ -155,10 +155,12 @@ public:
     Catalogs(Options* options, const QString& opticalDiskPath);
 
     // Functions below work on all active catalogs.
-    void addStudy(const Study* study, const QString& location,
-                        const QString& side, const QString& labName,
-                        const QString& machineName);
-    void addStudy(const Study*);
+    void addStudy(const Study* study, 
+                  const QString& location = QString::null,
+                  const QString& side = QString::null, 
+                  const QString& labName = QString::null,
+                  const QString& machineName = QString::null);
+//    void addStudy(const Study*);
     void deleteStudy(const Study*);
     
     void refresh();

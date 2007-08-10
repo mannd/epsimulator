@@ -253,10 +253,6 @@ void Catalogs::addStudy(const Study* study, const QString& location,
         (*it).second->addStudy(study, location, side, labName, machineName);
 }
 
-void Catalogs::addStudy(const Study* study) {
-    addStudy(study, QString::null, QString::null, QString::null, QString::null);
-}
-
 void Catalogs::deleteStudy(const Study* study) {
     for (CatalogsMap::iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
         (*it).second->deleteStudy(study);

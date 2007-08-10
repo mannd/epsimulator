@@ -118,6 +118,8 @@ private:
     void readSettings();
     void updateStatusBarUserLabel();
 
+    // Optical disk related
+    void labelDisk(bool reLabel);
 
     // Filtering
     void processFilter();

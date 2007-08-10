@@ -303,20 +303,16 @@ void Navigator::ejectDisk() {
     currentDisk_->eject(this);
     createOpticalDrive();
     if (!currentDisk_->isLabeled())
-        relabelDisk();
+        labelDisk(false);
     delete catalogs_;
     catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
-
-/// FIXME this has to distinguish between new disk (when emulated disks
-/// can select sides) and relabeling.
-void Navigator::relabelDisk() {
+void Navigator::labelDisk(bool reLabel) {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     QString oldLabel = currentDisk_->label();
-//    QString oldLocation = createLocation();
     diskLabelDialog->setLabel(oldLabel);
     // Disabled buttons can't be set, so do this first.
     diskLabelDialog->setSide(currentDisk_->side());
@@ -337,10 +333,15 @@ void Navigator::relabelDisk() {
         currentDisk_->setSide(diskLabelDialog->side());
         currentDisk_->writeLabel();
         currentDisk_->setIsLabeled(true);
-        catalogs_->relabel(diskLabelDialog->label(), diskLabelDialog->side());
+        if (reLabel)
+            catalogs_->relabel(diskLabelDialog->label(), diskLabelDialog->side());
         refreshCatalogs();
     }
     delete diskLabelDialog;
+}
+
+void Navigator::relabelDisk() {
+    labelDisk(true);
 }
 
 void Navigator::login() {
@@ -530,7 +531,9 @@ void Navigator::about() {
 
 void Navigator::createOpticalDrive() {
     try {
-        // make sure any old disk is deleted
+        // make sure any old disk info is saved and then delete disk
+ //       if (currentDisk_)
+ //           currentDisk_->writeLabel();
         delete currentDisk_;
         currentDisk_ = 0;
         if (options_->emulateOpticalDrive()) 

@@ -46,8 +46,6 @@ public:
 
     virtual void eject(QWidget*);
 
-    bool hasLabel();
-
     bool isLabeled() const {return isLabeled_;}
     void setIsLabeled(bool isLabeled) {isLabeled_ = isLabeled;}
 
@@ -56,8 +54,14 @@ public:
     void setLabelData(const LabelData&);
     void setLabel(const QString& label);
     void setSide(const QString& side);
+
+    // returns local translation of current side or 
+    // QString::null if single sided
     virtual QString translatedSide() const;
 
+    // returns the QString::null or the local translation of "A" and "B"
+    // note: returns translation of "B" if side is anything other than 
+    // empty or "A"
     static QString translateSide(const QString& side);
 
     LabelData labelData() const;
@@ -66,14 +70,13 @@ public:
 
     virtual bool allowSideChange() const {return true;}
     virtual bool showAllSideButtons() const {return true;}
-    virtual bool singleSideOnly() const {return false;}
     // below might check to see if the drive actually is two sided.
     virtual bool isTwoSided() const {return true;}
 
     QString path() const {return path_;}
     // fullPath() == path() in this class, but see EmulatedOpticalDisk.
     virtual QString fullPath() const {return path_;}  
-    virtual QString filePath() const; // full path to label.dat
+    virtual QString labelFilePath() const; // full path to label.dat
     virtual QString studiesPath() const; 
 
     virtual ~OpticalDisk();
@@ -86,7 +89,7 @@ protected:
     void save(const QString& fileName) const;
 
 private:
-
+    OpticalDisk(OpticalDisk&);
     QString path_;  // optical drive path, all the way to study dir
                     // e.g. /home/user/MyStudies
     LabelData labelData_;
@@ -99,30 +102,27 @@ public:
     EmulatedOpticalDisk(const QString& path, const QString& diskName,
                         const QString& side);
 
-    virtual void eject(QWidget*);
+    void eject(QWidget*);
 
-    virtual void readLabel();
-    virtual void writeLabel() const;
-    bool hasLabel();
+    void readLabel();
+    void writeLabel() const;
 
-//    virtual QString path();
-
-    virtual QString filePath() const;
+    QString labelFilePath() const;
 
     // allowing relabeling of emulated disks will mess up the path to the emulated disk,
     // so don't allow this...
-    virtual bool allowSideChange() const {return !isLabeled() && isTwoSided_;} 
-    virtual bool singleSideOnly() const {return !isTwoSided_;}
-    virtual bool showAllSideButtons() const {return false;}
+    bool allowSideChange() const {return !isLabeled() && isTwoSided_;} 
+    bool showAllSideButtons() const {return false;}
 
 
     void setIsTwoSided(bool isTwoSided) {isTwoSided_ = isTwoSided;}
     bool isTwoSided() const {return isTwoSided_;}
     QString diskName() const {return diskName_;}
 
-    virtual ~EmulatedOpticalDisk();
+    ~EmulatedOpticalDisk();
 
 private:
+    EmulatedOpticalDisk(EmulatedOpticalDisk&);
     struct DiskInfo {
         QString name;
         LabelData labelData;
@@ -138,15 +138,14 @@ private:
     QString disksPath() const;  // e.g. .../MyStudies/disks
     QString diskPath() const;   // /home/user/MyStudies/disks/disk_xxxxx
     QString sideDir() const;    // A or B
-    virtual QString fullPath() const;   // .../MyStudies/disks/disk_xxxxx/B
-    virtual QString studiesPath() const;  
+    QString fullPath() const;   // .../MyStudies/disks/disk_xxxxx/B
+    QString studiesPath() const;  
                                 // /.../MyStudies/disks/disk_xxxxx/B/studies
 
     void lastDisk();      // loads up last diskName
     void saveLastDisk();   // saves last diskName
 
     bool isTwoSided_;
-//    bool allowSideChange_;
     QString diskName_;
 };
 
