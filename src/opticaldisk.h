@@ -54,6 +54,8 @@ public:
     void setLabelData(const LabelData&);
     void setLabel(const QString& label);
     void setSide(const QString& side);
+    virtual void saveLastDisk() {}  // this function only implemented
+                                    // for emulated optical disks
 
     // returns local translation of current side or 
     // QString::null if single sided
@@ -99,13 +101,14 @@ private:
 class EmulatedOpticalDisk : public OpticalDisk {
 public:
     EmulatedOpticalDisk(const QString& path, bool isTwoSided = false);
-    EmulatedOpticalDisk(const QString& path, const QString& diskName,
-                        const QString& side);
+
+    static EmulatedOpticalDisk* getLastDisk(const QString& path);    // returns last disk or 0 if none
 
     void eject(QWidget*);
 
     void readLabel();
     void writeLabel() const;
+    virtual void saveLastDisk();   // saves last diskName
 
     QString labelFilePath() const;
 
@@ -122,6 +125,7 @@ public:
     ~EmulatedOpticalDisk();
 
 private:
+    EmulatedOpticalDisk(const QString& path, const QString& diskName);
     EmulatedOpticalDisk(EmulatedOpticalDisk&);
     struct DiskInfo {
         QString name;
@@ -129,7 +133,7 @@ private:
     };
     typedef std::vector<DiskInfo*> DiskInfoList;
 
-    bool makeLabel(const QString& diskName, QStringList& labelList,
+    int makeLabel(const QString& diskName, QStringList& labelList,
                    DiskInfoList& diskInfoList, int& row);
 
     void makePath() const;    // create subdirectories for the emulated disk
@@ -143,7 +147,6 @@ private:
                                 // /.../MyStudies/disks/disk_xxxxx/B/studies
 
     void lastDisk();      // loads up last diskName
-    void saveLastDisk();   // saves last diskName
 
     bool isTwoSided_;
     QString diskName_;

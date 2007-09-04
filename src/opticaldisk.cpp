@@ -151,29 +151,63 @@ QString OpticalDisk::translateSide(const QString& side) {
 OpticalDisk::~OpticalDisk() {
 }
 
-/// FIXME allowSideChange_ handling??????????
+/// FIXME This is very messy.  There should be 2 distinct actions:
+///     1) create a new emulated optical disk
+///     2) use the last emulated optical disk, if there is one.
+/// Changing this will have a lot of downstream effects, but it needs to be done.
+// EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
+//     bool isTwoSided) : OpticalDisk(path) {
+//     // Need some housekeeping to setup fake optical disk.
+//     lastDisk();     // sets diskName_, labelData_
+//     setIsLabeled(!label().isEmpty());
+//     if (diskName_.isEmpty()) {
+//         diskName_ = "disk_" + QDateTime::currentDateTime().toString(
+//    		"ddMMyyyyhhmmsszzz");
+//         isTwoSided_ = isTwoSided;
+//         setSide(isTwoSided_ ? "A" : QString::null);
+//         //writeLabel();
+//         saveLastDisk(); // also do this when disk changes
+//     }
+// }
+
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
-    bool isTwoSided) : OpticalDisk(path) {
-    // Need some housekeeping to setup fake optical disk.
-    lastDisk();     // sets diskName_, labelData_
-    setIsLabeled(!label().isEmpty());
-    if (diskName_.isEmpty()) {
-        diskName_ = "disk_" + QDateTime::currentDateTime().toString(
-   		"ddMMyyyyhhmmsszzz");
-        isTwoSided_ = isTwoSided;
-        setSide(isTwoSided_ ? "A" : QString::null);
-        //writeLabel();
-        saveLastDisk(); // also do this when disk changes
-    }
+                                         bool isTwoSided) 
+                                         : OpticalDisk(path) {
+    diskName_ = "disk_" + QDateTime::currentDateTime().toString(
+            "ddMMyyyyhhmmsszzz");
+    isTwoSided_ = isTwoSided;
+    setSide(isTwoSided_ ? "A" : QString::null);
+//    saveLastDisk();  // this must be done by calling function
 }
 
-bool EmulatedOpticalDisk::makeLabel(const QString& diskName, 
+EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, const QString& diskName)
+    : OpticalDisk(path), diskName_(diskName) {}
+    
+
+
+/**
+ * static function to get the last disk used, 0 if none.
+ * @param path = path to the optical disk
+ * @return 0 if no prior disk, otherwise a pointer to the last disk used
+ */
+EmulatedOpticalDisk* EmulatedOpticalDisk::getLastDisk(const QString& path) {
+    EmulatedOpticalDisk* e = new EmulatedOpticalDisk(path, QString::null);
+    // we will now substitute the last disk settings for the new ones generated
+    e->lastDisk();
+    e->setIsTwoSided(!e->label().isEmpty());
+    if (e->diskName().isEmpty())
+        return 0;
+    return e;
+}
+
+
+int EmulatedOpticalDisk::makeLabel(const QString& diskName, 
                                     QStringList& labelList,
                                     DiskInfoList& diskInfoList,
                                     int& row) {
     LabelData labelData;
     QFile f;
-    bool isCurrentDiskRow = false;
+    int currentDiskRow = -1;
     typedef std::vector<QString> Sides;
     Sides sides;
     sides.push_back("A");
@@ -191,12 +225,13 @@ bool EmulatedOpticalDisk::makeLabel(const QString& diskName,
             diskInfo->labelData.side = labelData.side;
             diskInfo->labelData.label = labelData.label;
             diskInfoList.push_back(diskInfo);
-            ++row;
+            ++row;            
             if (diskName_ == diskName && side() == labelData.side)
-                isCurrentDiskRow = true;
+                currentDiskRow = row;
+            
         }
     }
-    return isCurrentDiskRow;
+    return currentDiskRow;
 }
 
 void EmulatedOpticalDisk::eject(QWidget* w) {
@@ -205,12 +240,12 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
     QStringList labelList;
     QString label, labelFile;
     DiskInfoList diskInfoList;
-    int row, currentDiskRow;
-    row = currentDiskRow = -1;
+    int row, currentDiskRow, currentRow;
+    row = currentDiskRow = currentRow = -1;
     for (QStringList::Iterator it = diskList.begin(); 
         it != diskList.end(); ++it)  
-        if (makeLabel(*it, labelList, diskInfoList, row))
-            currentDiskRow = row;
+        if ((currentRow = makeLabel(*it, labelList, diskInfoList, row)) > -1)
+            currentDiskRow = currentRow;
     SelectEmulatedDiskDialog* d = new SelectEmulatedDiskDialog(w);
     d->setLabelList(labelList);
     d->setDiskRow(currentDiskRow);

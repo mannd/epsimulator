@@ -536,13 +536,17 @@ void Navigator::createOpticalDrive() {
  //           currentDisk_->writeLabel();
         delete currentDisk_;
         currentDisk_ = 0;
-        if (options_->emulateOpticalDrive()) 
-            currentDisk_ = new EmulatedOpticalDisk(options_->opticalStudyPath(),
+        if (options_->emulateOpticalDrive()) {
+            currentDisk_ = EmulatedOpticalDisk::getLastDisk(options_->opticalStudyPath());
+            if (!currentDisk_) {
+                currentDisk_ = new EmulatedOpticalDisk(options_->opticalStudyPath(),
                                     options_->dualSidedDrive());
+                currentDisk_->saveLastDisk();
+            }
+        }
         else
             currentDisk_ = new OpticalDisk(options_->opticalStudyPath());
         currentDisk_->readLabel();
-//        currentDisk_->writeLabel();
     }
     catch (EpSim::IoError& e) { 
         int ret = QMessageBox::warning(this, tr("Error"),
@@ -893,30 +897,20 @@ void Navigator::startStudy(Study* s) {
     }
     s->setPath(studyPath);
     s->save();
-    Epsimulator* eps = new Epsimulator(this);
-    eps->showMaximized();
+    /// TODO here we will fork to monitor, for now, just a notification.
+    QMessageBox::information(this, tr("Starting Monitor Simulation"),
+        tr("For the moment, the Monitor simulation is not implemented yet.\n  "
+            "Will return to Navigator."));
+//     Epsimulator* eps = new Epsimulator(this);
+//     eps->showMaximized();
 }
 
-// QString Navigator::createLocation() const {
-//     return currentDisk_->label() + (!currentDisk_->side().isEmpty() ?
-//            " - " + currentDisk_->translatedSide() : "");
-// }
-
-
-/// FIXME check out below!
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation(Study* study) {
     PatientDialog* patientDialog = new PatientDialog(this);
     patientDialog->setFields(study);
     if (patientDialog->exec() == QDialog::Accepted) {
         patientDialog->getFields(study);
-        if (!study->isPreregisterStudy()) {
-//             study->setLocation(currentDisk_->label());
-//             study->setSide(currentDisk_->isTwoSided() ?
-//                 currentDisk_->translatedSide() : "");
-//             study->setLabName(options_->labName());
-//             study->setMachineName(user_->machineName());
-        }
         return true;
     }
     return false;
@@ -996,9 +990,7 @@ bool Navigator::studyOnDisk(const Study* s) const {
 // Below reports the error and changes the disk.  Non-const function
 // since disk is changed.
 void Navigator::studyNotOnDiskError() {
-    QMessageBox::information(this, tr("Study Not Found"),
-        tr("Selected study not found on this disk.\n"
-           "Use next dialog to change disks."));
+ 
     ejectDisk();
 }
 
