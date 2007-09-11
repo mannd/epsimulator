@@ -69,6 +69,7 @@ public:
     void setEmulatedOpticalDriveCapacity(int capacity) {
         emulatedOpticalDriveCapacity_ = capacity;}
     void setOldStyleNavigator(bool isOldStyle) {oldStyleNavigator_ = isOldStyle;}
+    void setNewStyleBlueBar(bool isNewStyle) {newStyleBlueBar_ = isNewStyle;}
     void setAdministratorAccountRequired(bool isRequired) {
         administratorAccountRequired_ = isRequired;}
     void setHideSimulatorMenu(bool hideMenu) {hideSimulatorMenu_ = hideMenu;}
@@ -94,6 +95,7 @@ public:
     int emulatedOpticalDriveCapacity() const {
         return emulatedOpticalDriveCapacity_;} 
     bool oldStyleNavigator() const {return oldStyleNavigator_;}
+    bool newStyleBlueBar() const {return newStyleBlueBar_;}
     bool administratorAccountRequired() const {return administratorAccountRequired_;}
     bool hideSimulatorMenu() const {return hideSimulatorMenu_;}
     bool permanentDelete() const {return permanentDelete_;}
@@ -133,6 +135,7 @@ private:
     int emulatedOpticalDriveCapacity_;
     // determines if last name and first name are displayed separately
     bool oldStyleNavigator_;
+    bool newStyleBlueBar_;  // flat buttons in Navigator Blue Bar
     
     bool useLabName_;   // use lab name in location column of TableListView 
                         // for for Network, if false or if lab name is empty,

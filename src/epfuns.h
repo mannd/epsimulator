@@ -27,6 +27,9 @@
 #include <qfile.h>
 #include <qstring.h>
 
+class QLineEdit;
+class QWidget;
+
 namespace EpFuns {
 
 template<typename T> 
@@ -88,6 +91,8 @@ void saveData(const QString& filePath, unsigned int magicNumber, const T& data) 
         throw EpSim::WriteError(file.name());
     file.close();
 }
+
+void browseFilePaths(QWidget*, QLineEdit*);
 
 }
 

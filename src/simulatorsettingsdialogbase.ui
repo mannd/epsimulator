@@ -88,10 +88,10 @@
                             </rect>
                         </property>
                         <property name="text">
-                            <string>Administer Account Re&amp;quired</string>
+                            <string>&amp;Administer Account Required</string>
                         </property>
                         <property name="accel">
-                            <string>Alt+Q</string>
+                            <string>Alt+A</string>
                         </property>
                     </widget>
                 </widget>
@@ -102,132 +102,166 @@
                     <attribute name="title">
                         <string>Navigator</string>
                     </attribute>
-                    <grid>
+                    <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>unnamed</cstring>
+                            <cstring>layout6</cstring>
                         </property>
-                        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
+                        <property name="geometry">
+                            <rect>
+                                <x>10</x>
+                                <y>20</y>
+                                <width>550</width>
+                                <height>480</height>
+                            </rect>
+                        </property>
+                        <grid>
                             <property name="name">
-                                <cstring>oldStyleNavigatorCheckBox</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="text">
-                                <string>Old St&amp;yle Navigator</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+Y</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>dualSidedDriveCheckBox</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Dual Sided Drive</string>
-                            </property>
-                            <property name="accel">
-                                <string></string>
-                            </property>
-                        </widget>
-                        <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>layout12</cstring>
-                            </property>
-                            <hbox>
+                            <widget class="QLayoutWidget" row="5" column="0">
                                 <property name="name">
-                                    <cstring>unnamed</cstring>
+                                    <cstring>layout5</cstring>
                                 </property>
-                                <widget class="QSpinBox">
+                                <hbox>
                                     <property name="name">
-                                        <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
+                                        <cstring>unnamed</cstring>
                                     </property>
-                                    <property name="maxValue">
-                                        <number>1028</number>
-                                    </property>
-                                    <property name="lineStep">
-                                        <number>16</number>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel1</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>La&amp;boratory Name</string>
+                                        </property>
+                                        <property name="buddy" stdset="0">
+                                            <cstring>labNameLineEdit</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLineEdit">
+                                        <property name="name">
+                                            <cstring>labNameLineEdit</cstring>
+                                        </property>
+                                    </widget>
+                                </hbox>
+                            </widget>
+                            <widget class="QCheckBox" row="6" column="0">
+                                <property name="name">
+                                    <cstring>useLabNameCheckBox</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Use Lab Name In Network Catalog</string>
+                                </property>
+                                <property name="accel">
+                                    <string></string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="0" column="0">
+                                <property name="name">
+                                    <cstring>emulateOpticalDriveCheckBox</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Emulate &amp;Optical Drive</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+O</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="1" column="0">
+                                <property name="name">
+                                    <cstring>dualSidedDriveCheckBox</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Dual Sided Drive</string>
+                                </property>
+                                <property name="accel">
+                                    <string></string>
+                                </property>
+                            </widget>
+                            <widget class="QLayoutWidget" row="2" column="0">
+                                <property name="name">
+                                    <cstring>layout12</cstring>
+                                </property>
+                                <hbox>
                                     <property name="name">
-                                        <cstring>textLabel1_2_2</cstring>
+                                        <cstring>unnamed</cstring>
                                     </property>
-                                    <property name="text">
-                                        <string>Emulated Optical Drive Capacity 
+                                    <widget class="QSpinBox">
+                                        <property name="name">
+                                            <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
+                                        </property>
+                                        <property name="maxValue">
+                                            <number>1028</number>
+                                        </property>
+                                        <property name="lineStep">
+                                            <number>16</number>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel1_2_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Emulated Optical Drive Capacity 
 (MB, &amp;0 = unlimited)</string>
-                                    </property>
-                                    <property name="buddy" stdset="0">
-                                        <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
-                                    </property>
-                                </widget>
-                                <spacer>
-                                    <property name="name">
-                                        <cstring>spacer4</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Horizontal</enum>
-                                    </property>
-                                    <property name="sizeType">
-                                        <enum>Expanding</enum>
-                                    </property>
-                                    <property name="sizeHint">
-                                        <size>
-                                            <width>40</width>
-                                            <height>20</height>
-                                        </size>
-                                    </property>
-                                </spacer>
-                            </hbox>
-                        </widget>
-                        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>emulateOpticalDriveCheckBox</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Emulate &amp;Optical Drive</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+O</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="4" column="0">
-                            <property name="name">
-                                <cstring>textLabel1</cstring>
-                            </property>
-                            <property name="text">
-                                <string>La&amp;boratory Name</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>labNameLineEdit</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QLineEdit" row="4" column="1">
-                            <property name="name">
-                                <cstring>labNameLineEdit</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="5" column="0" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>useLabNameCheckBox</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Use Lab Name In Network Catalog</string>
-                            </property>
-                            <property name="accel">
-                                <string></string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="6" column="0" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>permanentDeleteCheckBox</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Allow Permanent Deletion of Study Data</string>
-                            </property>
-                            <property name="accel">
-                                <string></string>
-                            </property>
-                        </widget>
-                    </grid>
+                                        </property>
+                                        <property name="buddy" stdset="0">
+                                            <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
+                                        </property>
+                                    </widget>
+                                    <spacer>
+                                        <property name="name">
+                                            <cstring>spacer4</cstring>
+                                        </property>
+                                        <property name="orientation">
+                                            <enum>Horizontal</enum>
+                                        </property>
+                                        <property name="sizeType">
+                                            <enum>Expanding</enum>
+                                        </property>
+                                        <property name="sizeHint">
+                                            <size>
+                                                <width>40</width>
+                                                <height>20</height>
+                                            </size>
+                                        </property>
+                                    </spacer>
+                                </hbox>
+                            </widget>
+                            <widget class="QCheckBox" row="3" column="0">
+                                <property name="name">
+                                    <cstring>oldStyleNavigatorCheckBox</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Old St&amp;yle Navigator</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+Y</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="7" column="0">
+                                <property name="name">
+                                    <cstring>permanentDeleteCheckBox</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;Allow Permanent Deletion of Study Data</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+A</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="4" column="0">
+                                <property name="name">
+                                    <cstring>newStyleBlueBarCheckBox</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>New Style Blue Bar (requires restart)</string>
+                                </property>
+                                <property name="accel">
+                                    <string></string>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
                 </widget>
             </widget>
             <widget class="QPushButton" row="1" column="2">
@@ -290,6 +324,7 @@
     <tabstop>dualSidedDriveCheckBox</tabstop>
     <tabstop>emulatedOpticalDriveCapacitySpinBox</tabstop>
     <tabstop>oldStyleNavigatorCheckBox</tabstop>
+    <tabstop>newStyleBlueBarCheckBox</tabstop>
     <tabstop>labNameLineEdit</tabstop>
     <tabstop>useLabNameCheckBox</tabstop>
     <tabstop>permanentDeleteCheckBox</tabstop>

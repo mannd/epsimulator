@@ -31,7 +31,7 @@ Q_OBJECT
 public:
     SelectEmulatedDiskDialog(QWidget *parent = 0, const char *name = 0);
 
-    int exec() {return SelectEmulatedDiskDialogBase::exec();}
+    using SelectEmulatedDiskDialogBase::exec;
     void setLabelList(const QStringList& stringList); 
     void setDiskRow(int row) {
         SelectEmulatedDiskDialog::labelListBox->setCurrentItem(row);}

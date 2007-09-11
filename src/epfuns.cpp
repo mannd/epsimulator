@@ -22,6 +22,10 @@
 
 #include "versioninfo.h"
 
+#include <qfiledialog.h>
+#include <qlineedit.h>
+#include <qwidget.h>
+
 namespace EpFuns {
 
 bool versionOk(int major, int minor) {
@@ -37,5 +41,15 @@ void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
     out << static_cast<Q_UINT32>(v->versionMajor())
         << static_cast<Q_UINT32>(v->versionMinor());
 }
+
+void browseFilePaths(QWidget* parent, QLineEdit* lineEdit) {
+    QFileDialog *fd = new QFileDialog(parent, 0, true);
+    fd->setMode(QFileDialog::Directory);
+    fd->setDir(lineEdit->text());
+    if (fd->exec() == QDialog::Accepted) {
+        lineEdit->setText(fd->selectedFile());
+    }
+}
+
 
 }

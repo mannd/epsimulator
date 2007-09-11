@@ -125,17 +125,28 @@ void Navigator::newStudy() {
 
 void Navigator::continueStudy() {
     Study* study = getSelectedStudy();
-    if ((study) && !study->isPreregisterStudy()) {
-        // if study not on this optical disk change disk and return
-        if (!studyOnDisk(study)) {
-            studyNotOnDiskError();
-            return;
-        }
-        /// TODO Rest of processing
-        ;
-    }
-    else
+    if (!study) {
         noStudySelectedError();
+        return;
+    }
+    if (study->isPreregisterStudy()) {
+        /// TODO make this a new study, but use original time/date?    
+        StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
+        if (studyConfigDialog->exec() == QDialog::Accepted) {
+            study->setConfig(studyConfigDialog->config());
+            catalogs_->deleteStudy(study);
+            catalogs_->addStudy(study, currentDisk_->label(),
+                    currentDisk_->translatedSide(),
+                    options_->labName(), user_->machineName());
+            refreshCatalogs();
+            startStudy(study);
+        }
+        delete studyConfigDialog;
+    }
+    else if (!studyOnDisk(study)) 
+        studyNotOnDiskError();
+    else
+        startStudy(study);
     delete study;
 }
 
@@ -145,6 +156,7 @@ void Navigator::reviewStudy() {
         // if study not on this optical disk change disk and return
         if (!studyOnDisk(study)) {
             studyNotOnDiskError();
+            delete study;
             return;
         }
         /// TODO Rest of processing
@@ -175,6 +187,7 @@ void Navigator::reports()  {
         // if study not on this optical disk change disk and return
         if (!studyOnDisk(study)) {
             studyNotOnDiskError();
+            delete study;
             return;
         }
         /// TODO Rest of processing
@@ -187,7 +200,14 @@ void Navigator::reports()  {
 
 void Navigator::copyStudy() {
     StudyCopyWizard* wizard = new StudyCopyWizard(this);
-    if (wizard->exec())
+    wizard->setSourcePathName(currentDisk_->fullPath());
+    if (wizard->exec()) {
+        OpticalDisk* disk = new OpticalDisk(wizard->destinationPathName());
+        disk->readLabel();
+        if (!disk->isLabeled())
+            labelDisk(false, disk);
+        Catalog* catalog = new Catalog(wizard->destinationPathName());
+        wizard->copy();
         // for each study in studiesList
         //		copy study form source folder to destination folder
         // 		throw something if any copy fails
@@ -195,13 +215,23 @@ void Navigator::copyStudy() {
         // make a catalog.dat file in the destination folder
         // data on source is not erased
         ;
+        delete catalog;
+        delete disk;
+    }
     delete wizard;
 }
 
 void Navigator::moveStudy() {
     if (administrationAllowed()) {
         StudyMoveWizard* wizard = new StudyMoveWizard(this);
-        if (wizard->exec())
+        wizard->setSourcePathName(currentDisk_->fullPath());
+        if (wizard->exec()) {
+            OpticalDisk* disk = new OpticalDisk(wizard->destinationPathName());
+            disk->readLabel();
+            if (!disk->isLabeled())
+                labelDisk(false, disk);
+            Catalog* catalog = new Catalog(wizard->destinationPathName());
+            wizard->move();
         // for each study in studiesList
         //		copy study form source folder to destination folder
         // 		throw something if any copy fails
@@ -210,6 +240,9 @@ void Navigator::moveStudy() {
         // now update system catalogs
         // now erase data on source
             ;
+            delete catalog;
+            delete disk;
+        }
         delete wizard;
     }
 }
@@ -303,19 +336,19 @@ void Navigator::ejectDisk() {
     currentDisk_->eject(this);
     createOpticalDrive();
     if (!currentDisk_->isLabeled())
-        labelDisk(false);
+        labelDisk(false, currentDisk_);
     delete catalogs_;
     catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
-void Navigator::labelDisk(bool reLabel) {
+void Navigator::labelDisk(bool reLabel, OpticalDisk* disk) {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
-    QString oldLabel = currentDisk_->label();
+    QString oldLabel = disk->label();
     diskLabelDialog->setLabel(oldLabel);
     // Disabled buttons can't be set, so do this first.
-    diskLabelDialog->setSide(currentDisk_->side());
+    diskLabelDialog->setSide(disk->side());
     /** Here is the logic:
             Not an emulated disk:   Allow side changes any time.  All
                 three buttons are always available. 
@@ -325,14 +358,14 @@ void Navigator::labelDisk(bool reLabel) {
                 Relabeling: don't allow any side changes at all
             OpticalDisk::allowSideChange() will set itself appropriately
     */
-    diskLabelDialog->enableNoneButton(currentDisk_->showAllSideButtons() || 
-        !currentDisk_->isTwoSided());    
-    diskLabelDialog->enableSideButtons(currentDisk_->allowSideChange());
+    diskLabelDialog->enableNoneButton(disk->showAllSideButtons() || 
+        !disk->isTwoSided());    
+    diskLabelDialog->enableSideButtons(disk->allowSideChange());
     if (diskLabelDialog->exec() == QDialog::Accepted) {
-        currentDisk_->setLabel(diskLabelDialog->label());
-        currentDisk_->setSide(diskLabelDialog->side());
-        currentDisk_->writeLabel();
-        currentDisk_->setIsLabeled(true);
+        disk->setLabel(diskLabelDialog->label());
+        disk->setSide(diskLabelDialog->side());
+        disk->writeLabel();
+        disk->setIsLabeled(true);
         if (reLabel)
             catalogs_->relabel(diskLabelDialog->label(), diskLabelDialog->side());
         refreshCatalogs();
@@ -341,7 +374,7 @@ void Navigator::labelDisk(bool reLabel) {
 }
 
 void Navigator::relabelDisk() {
-    labelDisk(true);
+    labelDisk(true, currentDisk_);
 }
 
 void Navigator::login() {
@@ -429,7 +462,7 @@ void Navigator::setCatalogOptical() {
 
 void Navigator::setCatalogOther() {
     QFileDialog *fd = new QFileDialog(options_->systemCatalogPath(), 
-                                      catalogs_->fileName(), this, 0, true);
+                                      Catalog::defaultFileName(), this, 0, true);
     if (fd->exec() == QDialog::Accepted) {
         catalogs_->setCatalogPath(Catalog::Other, fd->dirPath());
         catalogs_->refresh();   // to reload Other catalog
@@ -899,7 +932,7 @@ void Navigator::startStudy(Study* s) {
     s->save();
     /// TODO here we will fork to monitor, for now, just a notification.
     QMessageBox::information(this, tr("Starting Monitor Simulation"),
-        tr("For the moment, the Monitor simulation is not implemented yet.\n  "
+        tr("The Monitor simulation is not implemented yet.\n  "
             "Will return to Navigator."));
 //     Epsimulator* eps = new Epsimulator(this);
 //     eps->showMaximized();

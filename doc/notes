@@ -427,3 +427,31 @@ More on Sides:
     Emulated optical disks are one sided or 2 sided.  A one sided disk has a side of none (QString::null).  A 2 sided disk has a side of A or B.  This will automatically be shown correctly in the catalog by the same mechanism as above.  The difference is, a one-sided disk still has its data in the A subdirectory, just like a 2 sided disk using side A.  AND, emulated optical disks cannot be relabeled to a different side!  That would mess up the location of the study files.  When a new emulated optical disk is labelled, if options are set to one sided disks, the side choice is none and disabled on the disk label dialog.  If set to 2 sided disks, the none option is disabled from the dialog.
 
 
+Copy/Moving study data:
+	    All directories holding study data are treated as optical disks.
+	    There must be a label and a catalog file in each such directory.
+	    The tracking catalogs (System and Network) hold the one official
+	    location of the study data.  If copy is used, this doesn't change,
+	    if move is used, the new location is used as the official one in
+	    the tracking catalogs.  There are no other tracking catalogs than
+	    those two.  
+	    
+	    So, to move/copy a study, you must go to a directory that is
+	    already set up as a disk, or set up the new directory as a disk.
+	    What if you are using emulated disks?  Shouldn't you be able to
+	    copy from one emulated disk to another?  But can you also copy to
+	    a non-emulated disk directory?  This should be possible.  If you
+	    are not using emulated disks, you do not have the option to copy
+	    to an emulated disk, other than accessing the emulated disk
+	    directory directly.
+
+	    So, copy first (easier, no updating of catalogs):
+
+	    No disk emulation:
+	       Pick out a directory.  If not initialized do so, i.e. label it,
+	       set up catalog.  Copy study folder.  Update local catalog.
+	       Move: do above, then update tracking catalogs.
+
+	    Disk emulation:
+		 Use select disk dialog to select disk.  Do above to selected disk.
+

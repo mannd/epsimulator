@@ -35,7 +35,7 @@
 class Options;
 
 // Note private inheritance, to hide all those nasty public data members
-// that Qt Designer makes.  Just need to override exec() to make it work.
+// that Qt Designer makes.  Just need to make base class exec() public.
 class SystemDialog : private SystemDialogBase {
     Q_OBJECT
 
@@ -47,11 +47,7 @@ public:
 
     void setOptions();
 
-    int exec() {return SystemDialogBase::exec();}
-
-    
-
-
+    using SystemDialogBase::exec;
     
 /// TODO make the set check boxes functions, so that the line edits and
 /// browse buttons will be enabled correctly
@@ -71,8 +67,6 @@ private:
 
     long diskFreeSpace(const QString& path) const;
     long timeRemaining(long kBytes) const;
-
-    void browseFilePaths(QLineEdit*);
 
     Options* options_;
     QString path_;

@@ -30,6 +30,7 @@
 #include <qbuttongroup.h>
 #include <qstring.h>
 
+// public inheritance used here to facilitate testing
 class FilterCatalog: public FilterCatalogBase {
 Q_OBJECT
 public:

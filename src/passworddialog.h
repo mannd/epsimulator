@@ -38,8 +38,7 @@ public:
     void setPassword(const QString&); 
     bool testPassword();
 
-    int exec() {return PasswordDialogBase::exec();}
-
+    using PasswordDialogBase::exec;
 
     ~PasswordDialog();
 

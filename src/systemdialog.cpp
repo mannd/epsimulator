@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "systemdialog.h"
 
+#include "epfuns.h"
 #include "options.h"
 
 #include <qcheckbox.h>
@@ -73,15 +74,15 @@ void SystemDialog::setOptions() {
 }
 
 void SystemDialog::opticalStudyPathBrowse() {
-    browseFilePaths(opticalStudyPathLineEdit);
+    EpFuns::browseFilePaths(this, opticalStudyPathLineEdit);
 }
 
 void SystemDialog::networkStudyPathBrowse() {
-    browseFilePaths(networkStudyPathLineEdit);
+    EpFuns::browseFilePaths(this, networkStudyPathLineEdit);
 }
 
 void SystemDialog::exportFilePathBrowse() {
-    browseFilePaths(exportFilePathLineEdit);
+    EpFuns::browseFilePaths(this, exportFilePathLineEdit);
 }
 
 void SystemDialog::enableExportFilePathLineEdit() {
@@ -102,15 +103,6 @@ void SystemDialog::setEnableNetworkStorage(bool enabled) {
 void SystemDialog::setEnableFileExport(bool enabled) {
     enableFileExportCheckBox->setChecked(enabled);
     enableExportFilePathLineEdit();
-}
-
-void SystemDialog::browseFilePaths(QLineEdit* lineEdit) {
-    QFileDialog *fd = new QFileDialog(this, 0, true);
-    fd->setMode(QFileDialog::Directory);
-    fd->setDir(lineEdit->text());
-    if (fd->exec() == QDialog::Accepted) {
-        lineEdit->setText(fd->selectedFile());
-    }
 }
 
 long SystemDialog::diskFreeSpace(const QString& path) const {

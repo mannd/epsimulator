@@ -59,6 +59,7 @@ QDataStream& operator>>(QDataStream& in, StudyData& studyData) {
    \brief A catalog contains a group of studies.
 */
 
+const QString Catalog::defaultFileName_ = "catalog.dat";
 
 Catalog::Catalog(const QString& path, 
                  const QString& fileName) : path_(path), fileName_(fileName) {
@@ -206,7 +207,7 @@ QString NetworkCatalog::location(const StudyData& sd) {
     return sd.machineName + " - " + Catalog::location(sd);
 }
 
-const char* Catalogs::fileName_ = "catalog.dat";
+// const char* Catalogs::fileName_ = "catalog.dat";
 
 /**
  * Catalogs constructor.  Catalogs keeps all the catalogs, keeps track of
@@ -215,14 +216,14 @@ const char* Catalogs::fileName_ = "catalog.dat";
  * @param path = path to optical disk.
  */
 Catalogs::Catalogs(Options* options, const QString& path) {
-    systemCatalog_ = new SystemCatalog(options->systemCatalogPath(), fileName_);
-    opticalCatalog_ = new OpticalCatalog(path, fileName_);
-    otherCatalog_ = new Catalog(options->systemCatalogPath(), fileName_);
+    systemCatalog_ = new SystemCatalog(options->systemCatalogPath());
+    opticalCatalog_ = new OpticalCatalog(path);
+    otherCatalog_ = new Catalog(options->systemCatalogPath());
     catalogs_[Catalog::System] = systemCatalog_;
     catalogs_[Catalog::Optical] = opticalCatalog_;
     catalogs_[Catalog::Other] = otherCatalog_;
     if (options->enableNetworkStorage()) {
-        networkCatalog_ = new NetworkCatalog(options->networkStudyPath(), fileName_);
+        networkCatalog_ = new NetworkCatalog(options->networkStudyPath());
         catalogs_[Catalog::Network] = networkCatalog_;
         currentCatalog_ = networkCatalog_;
     }
@@ -236,9 +237,9 @@ void Catalogs::setCatalogPath(Catalog::Source source, const QString& path) {
     catalogs_[source]->setPath(path);
 }
 
-QString Catalogs::fileName() const {
-    return fileName_;
-}
+// QString Catalogs::fileName() const {
+//     return fileName_;
+// }
 
 /// TODO need an update Catalogs function to be called after systemDialog execs
 

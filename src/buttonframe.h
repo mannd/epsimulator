@@ -25,9 +25,8 @@
 
 class QGridLayout;
 class QLabel;
-class QPushButton;
+class QButton;
 class QString;
-class test;
 
 /**
 This is the vertical blue button bar on the left of the navigator window.
@@ -47,7 +46,7 @@ public:
  * tableListView_.
  */
 
-    void addButton(const QString& name, const QString& pixmap, 
+    void addButton(const QString& name, const QString& pixmapName, 
                    const char* slotName, bool lastButton = false);
 
     ~ButtonFrame();
@@ -56,9 +55,9 @@ private:
     static const int buttonHeight = 60;
     static const int buttonWidth = 70;   // size of square buttons in blue panel
 
-    void setupButton(QPushButton* button, const QString& pixmapName,
-                             QLabel* label, const char* slotName, 
-                             bool lastButton);
+    void setupButton(QButton* button, const QPixmap& pixmap,
+                     QLabel* label, const char* slotName, 
+                     bool lastButton);
 
     QWidget* parent_;
     QGridLayout* buttonFrameLayout_;

@@ -19,9 +19,12 @@
  ***************************************************************************/
 #include "buttonframe.h"
 
+#include "options.h"
+
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
+#include <qtoolbutton.h>
 #include <qsizepolicy.h>
 
 
@@ -36,26 +39,37 @@ ButtonFrame::ButtonFrame(QWidget* parent)
     buttonFrameLayout_ = new QGridLayout(this, 1, 1, 11, 6, "");
 }
 
-void ButtonFrame::addButton(const QString& name, const QString& pixmap, 
+void ButtonFrame::addButton(const QString& name, const QString& pixmapName, 
                             const char* slotName, bool lastButton) {
-    QPushButton* button = new QPushButton(this);
+    QPixmap pixmap(QPixmap::fromMimeSource(pixmapName));
     QLabel* label = new QLabel(tr(name), this);
-    setupButton(button, pixmap, label, slotName, lastButton);
+    if (Options::instance()->newStyleBlueBar()) {   // set up flat buttons
+        QToolButton* button = new QToolButton(this);
+        button->setUsesBigPixmap(true);
+        button->setPaletteBackgroundColor("blue");
+        button->setAutoRaise(true);
+        pixmap.fill();  // sets to white by default
+        setupButton(button, pixmap, label, slotName, lastButton);
+    }
+    else {  // using original style raised pushbuttons
+        QPushButton* button = new QPushButton(this);
+        setupButton(button, pixmap, label, slotName, lastButton);
+    }
 }
 
 /**
  * Sets up each square button along the side of the Navigator window.
  * @param button The button to be set up.
- * @param pixmapName The pixmap on the button.
+ * @param pixmap The pixmap on the button.
  * @param label Label under each button
  * @param slotName The slot associated with the button.
  * @param lastButton The last button is handled differently. 
  */
-void ButtonFrame::setupButton(QPushButton* button, const QString& pixmapName,
-                            QLabel* label, const char* slotName, 
-                            bool lastButton) {
+void ButtonFrame::setupButton(QButton* button, const QPixmap& pixmap,
+                              QLabel* label, const char* slotName, 
+                              bool lastButton) {
     button->setFixedSize(buttonWidth, buttonHeight);
-    button->setPixmap(QPixmap::fromMimeSource(pixmapName));
+    button->setPixmap(pixmap);
     static int row = 0;   // allows adding widgets in correct row
     // last parameter centers the buttons and labels horizontally
     if (row == 0) {
@@ -71,7 +85,7 @@ void ButtonFrame::setupButton(QPushButton* button, const QString& pixmapName,
     label->setPaletteForegroundColor("white");
     label->setAlignment(int(QLabel::AlignCenter));
     buttonFrameLayout_->addWidget(label, row++, 0, Qt::AlignHCenter);
-   // insert line between button/label groups
+    // insert line between button/label groups
     QLabel* spaceLabel = new QLabel("", this);
     spaceLabel->setAlignment(int(QLabel::AlignCenter));
     buttonFrameLayout_->addWidget(spaceLabel, row++, 0);

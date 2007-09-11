@@ -23,7 +23,6 @@
 
 #include "options.h"
 
-#include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
 
@@ -41,6 +40,7 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     setDualSidedDrive(options_->dualSidedDrive());
     setEmulatedOpticalDriveCapacity(options_->emulatedOpticalDriveCapacity());
     oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator());
+    newStyleBlueBarCheckBox->setChecked(options_->newStyleBlueBar());
     useLabNameCheckBox->setChecked(options_->useLabName());
     labNameLineEdit->setText(options_->labName());
     permanentDeleteCheckBox->setChecked(options_->permanentDelete());
@@ -58,6 +58,7 @@ void SimulatorSettingsDialog::setOptions() {
         options_->setEmulatedOpticalDriveCapacity((
             emulatedOpticalDriveCapacity() / 16) * 16); 
         options_->setOldStyleNavigator(oldStyleNavigatorCheckBox->isChecked());
+        options_->setNewStyleBlueBar(newStyleBlueBarCheckBox->isChecked());
         options_->setUseLabName(useLabNameCheckBox->isChecked());
         options_->setLabName(labNameLineEdit->text());
         options_->setPermanentDelete(permanentDeleteCheckBox->isChecked());
@@ -65,11 +66,6 @@ void SimulatorSettingsDialog::setOptions() {
         options_->writeSettings();
 }
 
-// Keep this function, rather than directly accessing data member.  
-// It is used multiple times.  It is inline.
-bool SimulatorSettingsDialog::emulateOpticalDrive() const {
-    return emulateOpticalDriveCheckBox->isChecked();
-}
 
 bool SimulatorSettingsDialog::dualSidedDrive() const {
     return dualSidedDriveCheckBox->isEnabled() && 

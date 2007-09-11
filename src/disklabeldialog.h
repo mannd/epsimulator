@@ -25,12 +25,14 @@
 
 #include <qstring.h>
 
-class DiskLabelDialog : public DiskLabelDialogBase
+class DiskLabelDialog : private DiskLabelDialogBase
 {
   Q_OBJECT
 
 public:
     DiskLabelDialog(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+
+    using DiskLabelDialogBase::exec;
 
     QString label() const;
     QString side() const;

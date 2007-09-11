@@ -63,7 +63,9 @@ public:
     typedef QMap<QString, StudyData> CatalogMap;
     typedef std::vector<QString> Keys;
 
-    Catalog(const QString& path, const QString& fileName);
+    Catalog(const QString& path, const QString& fileName = defaultFileName_);
+
+    static const QString defaultFileName() {return defaultFileName_;}
 
     CatalogMap::const_iterator begin() {return catalog_.begin();}
     CatalogMap::const_iterator end() {return catalog_.end();}
@@ -107,6 +109,7 @@ protected:
     virtual void save();
  
     CatalogMap catalog_;
+    static const QString defaultFileName_;
 
 
 private:    
@@ -119,7 +122,7 @@ private:
 
 class OpticalCatalog : public Catalog {
 public:
-    OpticalCatalog(const QString& path, const QString& fileName);
+    OpticalCatalog(const QString& path, const QString& fileName = defaultFileName_);
 
     virtual void addStudy(const Study* study, const QString& location,
                         const QString& side, const QString& labName,
@@ -134,14 +137,14 @@ public:
 
 class SystemCatalog : public Catalog {
 public:
-    SystemCatalog(const QString& path, const QString& fileName);
+    SystemCatalog(const QString& path, const QString& fileName = defaultFileName_);
 
     ~SystemCatalog() {}
 };
 
 class NetworkCatalog : public Catalog {
 public:
-    NetworkCatalog(const QString& path, const QString& fileName);
+    NetworkCatalog(const QString& path, const QString& fileName = defaultFileName_);
 
     ~NetworkCatalog() {}
 
@@ -176,7 +179,7 @@ public:
     bool currentCatalogIsOptical() const {return currentCatalog_->isOptical();}
     bool studyPresentOnOpticalDisk(const Study*) const;
 
-    QString fileName() const;   // returns default catalog fileName
+//    QString fileName() const;   // returns default catalog fileName
 
     ~Catalogs();
 
@@ -185,7 +188,7 @@ protected:
     Catalogs(Catalogs&);
 
 private:
-    static const char* fileName_;
+//    static const char* fileName_;
 
     Catalog* currentCatalog_;
     OpticalCatalog* opticalCatalog_;

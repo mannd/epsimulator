@@ -23,6 +23,8 @@
 
 #include "simulatorsettingsdialogbase.h"
 
+#include <qcheckbox.h>
+
 class Options;
 
 class SimulatorSettingsDialog : private SimulatorSettingsDialogBase
@@ -35,9 +37,7 @@ public:
 
     void setOptions();
 
-    int exec() {return SimulatorSettingsDialogBase::exec();}
-
- 
+    using SimulatorSettingsDialogBase::exec;
 
     ~SimulatorSettingsDialog();
     
@@ -56,6 +56,11 @@ private:
     Options* options_;
 
 };
+
+bool SimulatorSettingsDialog::emulateOpticalDrive() const {
+    return emulateOpticalDriveCheckBox->isChecked();
+}
+
 
 #endif
 

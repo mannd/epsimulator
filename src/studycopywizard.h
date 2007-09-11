@@ -22,6 +22,10 @@
 
 #include "studymovecopywizardbase.h"
 
+#include <vector>
+
+class Catalog;
+
 /**
  * This is the base for the copy and move wizards.
  */
@@ -29,24 +33,43 @@ class StudyMoveCopyWizard: protected StudyMoveCopyWizardBase {
 // protected inheritance rather than private, to allowed derived class below
     Q_OBJECT
 public:
-    StudyMoveCopyWizard(QWidget* parent = 0, const char *name = 0);
+    StudyMoveCopyWizard(const QString& action, QWidget* parent = 0, const char *name = 0);
+
+    ~StudyMoveCopyWizard();
+
+    void setSourcePathName(const QString&);
+    QString sourcePathName() const;
+    QString destinationPathName() const;
     
-    int exec() {return StudyMoveCopyWizardBase::exec();}
-    
-private slots:
+    using StudyMoveCopyWizardBase::exec;
+
+public slots:    
+    void sourcePathBrowse();
+    void destinationPathBrowse();
+    void selectAll();    
     void enableFinishButton();
+    void refreshList();
+ //   virtual void showPage(QWidget*);
+
+protected:
+    std::vector<QString> studyNameList_;
+
+private:
+    Catalog* catalog_;
 };
 
 class StudyCopyWizard : public StudyMoveCopyWizard {
     Q_OBJECT
 public:
     StudyCopyWizard(QWidget* parent = 0, const char* name = 0);
+    void copy();
 };
 
 class StudyMoveWizard : public StudyMoveCopyWizard {
     Q_OBJECT
 public:
     StudyMoveWizard(QWidget* parent = 0, const char * name = 0);
+    void move();
 };
 
 #endif
