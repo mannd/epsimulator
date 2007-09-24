@@ -3,8 +3,7 @@
 # Subdir relative project main directory: ./src/navigator
 # Target is an application:  ../../bin/epsimulator
 
-FORMS += patientdialogbase.ui \
-         systemdialogbase.ui \
+FORMS += systemdialogbase.ui \
          studyconfigdialogbase.ui \
          filtercatalogbase.ui \
          disklabeldialogbase.ui \
@@ -35,9 +34,6 @@ IMAGES += ../images/hi16-app-epsimulator.png \
 IDLS += studymovecopywizardbase.ui 
 HEADERS += epsimulator.h \
            navigator.h \
-           patientdialog.h \
-           study.h \
-           heart.h \
            systemdialog.h \
            studyconfigdialog.h \
            filtercatalog.h \
@@ -53,19 +49,14 @@ HEADERS += epsimulator.h \
            GeneralHashFunctions.h \
            changepassworddialog.h \
            passwordhandler.h \
-           error.h \
            studycopywizard.h  \
            actions.h \
  utilities.h \
  selectemulateddiskdialog.h \
- user.h \
- epfuns.h 
+ user.h
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
-           patientdialog.cpp \
-           study.cpp \
-           heart.cpp \
            systemdialog.cpp \
            studyconfigdialog.cpp \
            filtercatalog.cpp \
@@ -85,8 +76,7 @@ SOURCES += epsimulator.cpp \
            actions.cpp \
  utilities.cpp \
  selectemulateddiskdialog.cpp \
- user.cpp \
- epfuns.cpp 
+ user.cpp
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
@@ -96,8 +86,14 @@ TARGET = ../../bin/epsimulator
 CONFIG -= release
 
 LIBS += -lepsim \
- -L../../lib
-TARGETDEPS += ../../lib/libepsim.so
+ -L../../lib \
+ -lepui \
+ -leppatient
+TARGETDEPS += ../../lib/libepsim.so \
+ ../../lib/libepui.so \
+ ../../lib/libeppatient.so
 
-INCLUDEPATH += ../epsim
+INCLUDEPATH += ../epsim \
+ ../epui \
+ ../eppatient
 

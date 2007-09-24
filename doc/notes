@@ -455,3 +455,10 @@ Copy/Moving study data:
 	    Disk emulation:
 		 Use select disk dialog to select disk.  Do above to selected disk.
 
+Source Code Reorganization
+
+    I need to use libraries in order to link properly, now that modules are in their own directories.  Modules shared between navigator and recorder should be in a shared library.  During installation these libraries can be installed in the usual library locations in linux.  During development, I have added a relative path to the LD_LIBRARY_PATH environment variable in the kdevelop project file.  The new variable is ./../../lib:$LD_LIBRARY_PATH.  This is a relative path, so it should work regardless of the absolute path to the sandbox.  Modules that are not shared (such as stimulator) can be static libraries, which are linked at compile time.  They still should end up in the lib directory.
+
+    All image files (icons, etc) will be in the src/images directory.  There is enough overlap that it doesn't make sense to have individual subdirectories in each module for images.  ui files though may need to be in 2 possible locations.  The ones that are not shared can be in each module directory.  The shared ones should be in a src/ui or src/commondialogs directory.  I think that Patient Information is the only shared dialog that I know of.
+
+    The test modules: should they be in test or src/test?  They should not be in the individual module directories because they can't be compiled as a subproject then.  Should there be more than one test program (navigator vs recorder?).  Probably not.
