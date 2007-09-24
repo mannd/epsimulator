@@ -69,8 +69,6 @@
 #include <iostream> // for debugging
 #endif
 
-//class QListViewItem;
-
 /**
  * Navigator constructor
  */
@@ -159,8 +157,7 @@ void Navigator::reviewStudy() {
             delete study;
             return;
         }
-        /// TODO Rest of processing
-        ;
+        reviewStudy(study);
     }
     else
         noStudySelectedError();
@@ -171,12 +168,10 @@ void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
     study->makePreregisterStudy();
     if (getStudyInformation(study)) {
-        //tableListView_->addStudy(study);
-        // write study to catalogs -- also called from newStudy
         catalogs_->addStudy(study);
         refreshCatalogs();
-        /// FIXME if exception thrown study may not be deleted
-        /// and there may be a memory leak.
+        // refreshCatalogs() catches IO errors, so should 
+        // be no resource leak
     }
     delete study;
 }
@@ -190,8 +185,7 @@ void Navigator::reports()  {
             delete study;
             return;
         }
-        /// TODO Rest of processing
-        ;
+        reports(study);
     }
     else
         noStudySelectedError();
@@ -936,6 +930,21 @@ void Navigator::startStudy(Study* s) {
             "Will return to Navigator."));
 //     Epsimulator* eps = new Epsimulator(this);
 //     eps->showMaximized();
+}
+
+void Navigator::reviewStudy(Study* s) {
+    s = 0;  /// TODO only to avoid compiler warning now, s will be passed
+            /// to Review module.
+    QMessageBox::information(this, tr("Starting Review Simulation"),
+        tr("The Review simulation is not implemented yet.\n"
+           "Will return to Navigator."));
+}
+
+void Navigator::reports(Study* s) {
+    s = 0;
+    QMessageBox::information(this, tr("Starting Report Simulation"),
+        tr("The Report simulation is not implemented yet.\n"
+           "Will return to Navigator."));
 }
 
 // returns true if PatientDialog is saved, false if cancelled

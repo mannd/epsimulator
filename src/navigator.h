@@ -126,6 +126,8 @@ private:
 
     // Study related
     void startStudy(Study*);
+    void reviewStudy(Study*);
+    void reports(Study*);
     bool getStudyInformation(Study*);
     Study* getSelectedStudy();
     Study* getNewStudy();   // returns selected study or a new study

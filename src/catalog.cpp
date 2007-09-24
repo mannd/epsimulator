@@ -207,7 +207,9 @@ QString NetworkCatalog::location(const StudyData& sd) {
     return sd.machineName + " - " + Catalog::location(sd);
 }
 
-// const char* Catalogs::fileName_ = "catalog.dat";
+OtherCatalog::OtherCatalog(const QString& path, const QString& fileName)
+    : Catalog(path, fileName) {
+}
 
 /**
  * Catalogs constructor.  Catalogs keeps all the catalogs, keeps track of
@@ -218,7 +220,7 @@ QString NetworkCatalog::location(const StudyData& sd) {
 Catalogs::Catalogs(Options* options, const QString& path) {
     systemCatalog_ = new SystemCatalog(options->systemCatalogPath());
     opticalCatalog_ = new OpticalCatalog(path);
-    otherCatalog_ = new Catalog(options->systemCatalogPath());
+    otherCatalog_ = new OtherCatalog(options->systemCatalogPath());
     catalogs_[Catalog::System] = systemCatalog_;
     catalogs_[Catalog::Optical] = opticalCatalog_;
     catalogs_[Catalog::Other] = otherCatalog_;

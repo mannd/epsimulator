@@ -151,6 +151,20 @@ public:
     virtual QString location(const StudyData&);
 };
 
+// OtherCatalog is a read-only catalog
+class OtherCatalog : public Catalog {
+public:
+    OtherCatalog(const QString& path, const QString& fileName = defaultFileName_);
+
+    ~OtherCatalog() {}
+
+    virtual void addStudy(const Study*, const QString&,
+                        const QString&, const QString&,
+                        const QString&) {}  // don't add studies to Other catalog
+    virtual void regenerate(Keys&, Catalog*) {} // don't regenerate Other catalog
+    virtual void deleteStudy(const Study*) {}
+};
+
 
 // N.B. Catalogs owns the catalog pointers and will delete them.
 class Catalogs {
