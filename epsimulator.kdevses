@@ -1,34 +1,22 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="9" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/studycopywizard.cpp" >
-   <View0 Encoding="" line="47" Type="Source" />
+ <DocsAndViews NumberOfDocuments="5" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/monitor/main.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/studycopywizard.h" >
-   <View0 Encoding="" line="49" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/monitor/monitor.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator.cpp" >
-   <View0 Encoding="" line="438" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/monitor/monitor.h" >
+   <View0 Encoding="" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/studymovecopywizardbase.ui" >
-   <View0 Type="Other" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/catalog.h" >
-   <View0 Encoding="" line="111" Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/catalog.cpp" >
-   <View0 Encoding="" line="258" Type="Source" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/wizard-example.html#x15" >
+  <Doc3 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qmake-manual-8.html" >
    <View0 Type="Documentation" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/study.h" >
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/stimulator/Makefile" >
    <View0 Encoding="" line="0" Type="Source" />
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qwizard.h" >
-   <View0 Encoding="" line="119" Type="Source" />
-  </Doc8>
+  </Doc4>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -45,12 +33,21 @@
     <breakpoint3 location="/home/mannd/dev/epsimulator/src/navigator.cpp:916" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="0" >
      <tracedExpressions/>
     </breakpoint3>
-    <breakpoint4 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:479" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint4 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:331" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint4>
-    <breakpoint5 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:311" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint5 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:316" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint5>
+    <breakpoint6 location="/home/mannd/dev/local/epsimulator/src/catalog.cpp:93" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint6>
+    <breakpoint7 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:467" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint7>
+    <breakpoint8 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:505" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint8>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -61,17 +58,17 @@
   <kdevbookmarks>
    <bookmarks>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/navigator.cpp" >
-     <mark line="430" />
+     <mark line="456" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
      <mark line="925" />
      <mark line="915" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="437" />
+     <mark line="444" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="444" />
+     <mark line="437" />
     </bookmark>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/changepassworddialog.h" >
      <mark line="34" />

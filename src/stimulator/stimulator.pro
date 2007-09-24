@@ -5,7 +5,9 @@
 
 FORMS += dialbase.ui \
          stimulator.ui 
-CONFIG += release \
-warn_on \
-staticlib
+CONFIG += warn_on \
+staticlib \
+ debug
 TEMPLATE = lib
+CONFIG -= release
+

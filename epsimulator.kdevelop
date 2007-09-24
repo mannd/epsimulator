@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src</activedir>
+      <activedir>src/stimulator</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -114,12 +114,15 @@
       <autokdesu>false</autokdesu>
       <runarguments>
         <test/>
+        <monitor/>
       </runarguments>
       <cwd>
         <test>/home/mannd/dev/local/epsimulator/../bin</test>
+        <monitor>/home/mannd/dev/local/epsimulator</monitor>
       </cwd>
       <debugarguments>
         <test/>
+        <monitor/>
       </debugarguments>
     </run>
     <make>

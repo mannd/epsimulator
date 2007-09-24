@@ -5,7 +5,8 @@
 
 SUBDIRS += src \
            test \
-           src/stimulator 
+           src/stimulator \
+ src/monitor
 TEMPLATE = subdirs
 CONFIG += debug \
 warn_on \

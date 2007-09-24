@@ -337,13 +337,7 @@ void Navigator::ejectDisk() {
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
-void Navigator::labelDisk(bool reLabel, OpticalDisk* disk) {
-    DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
-    QString oldLabel = disk->label();
-    diskLabelDialog->setLabel(oldLabel);
-    // Disabled buttons can't be set, so do this first.
-    diskLabelDialog->setSide(disk->side());
-    /** Here is the logic:
+/** Here is the logic:
             Not an emulated disk:   Allow side changes any time.  All
                 three buttons are always available. 
             Emulated disk:
@@ -351,7 +345,19 @@ void Navigator::labelDisk(bool reLabel, OpticalDisk* disk) {
                 Flipping a disk: allow side change (don't allow flipping 1 sided disks)
                 Relabeling: don't allow any side changes at all
             OpticalDisk::allowSideChange() will set itself appropriately
-    */
+ */
+/**
+ * 
+ * @param reLabel true if relabeling already labeled disk
+ * @param disk OpticalDisk that is to be labeled
+ */
+void Navigator::labelDisk(bool reLabel, OpticalDisk* disk) {
+    DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
+    QString oldLabel = disk->label();
+    diskLabelDialog->setLabel(oldLabel);
+    // Disabled buttons can't be set, so do this first.
+    diskLabelDialog->setSide(disk->side());
+ 
     diskLabelDialog->enableNoneButton(disk->showAllSideButtons() || 
         !disk->isTwoSided());    
     diskLabelDialog->enableSideButtons(disk->allowSideChange());
