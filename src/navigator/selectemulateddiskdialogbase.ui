@@ -1,0 +1,167 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>SelectEmulatedDiskDialogBase</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>SelectEmulatedDiskDialogBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>527</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Select Disk</string>
+    </property>
+    <widget class="QLayoutWidget">
+        <property name="name">
+            <cstring>layout5</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>372</x>
+                <y>43</y>
+                <width>130</width>
+                <height>400</height>
+            </rect>
+        </property>
+        <vbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>newDiskPushButton</cstring>
+                </property>
+                <property name="text">
+                    <string>&amp;New Disk</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+N</string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>flipDiskPushButton</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>false</bool>
+                </property>
+                <property name="text">
+                    <string>Flip Dis&amp;k</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+K</string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>selectPushButton</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>false</bool>
+                </property>
+                <property name="text">
+                    <string>Select</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>cancelPushButton</cstring>
+                </property>
+                <property name="text">
+                    <string>C&amp;ancel</string>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
+                </property>
+            </widget>
+        </vbox>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>11</x>
+                <y>11</y>
+                <width>578</width>
+                <height>23</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Available Disks</string>
+        </property>
+    </widget>
+    <widget class="QListBox">
+        <property name="name">
+            <cstring>labelListBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>12</x>
+                <y>45</y>
+                <width>340</width>
+                <height>400</height>
+            </rect>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>cancelPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>selectPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>labelListBox</sender>
+        <signal>doubleClicked(QListBoxItem*)</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>setSelect()</slot>
+    </connection>
+    <connection>
+        <sender>newDiskPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>setNew()</slot>
+    </connection>
+    <connection>
+        <sender>selectPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>setSelect()</slot>
+    </connection>
+    <connection>
+        <sender>flipDiskPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>setFlip()</slot>
+    </connection>
+    <connection>
+        <sender>labelListBox</sender>
+        <signal>selectionChanged()</signal>
+        <receiver>SelectEmulatedDiskDialogBase</receiver>
+        <slot>enableButtons()</slot>
+    </connection>
+</connections>
+<slots>
+    <slot>setNew()</slot>
+    <slot>setFlip()</slot>
+    <slot>setSelect()</slot>
+    <slot>enableButtons()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
