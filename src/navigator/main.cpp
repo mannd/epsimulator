@@ -34,10 +34,10 @@
 // Note that below is Froglogics GetOpt class, but header file is
 // renamed from getopt.h to getopts.h because of conflict with 
 // unix getopt.h.
-#include "getopts.h"
-#include "options.h"
+#include "../epsim/getopts.h"
+#include "../epsim/options.h"
 #include "navigator.h"
-#include "versioninfo.h"
+#include "../epsim/versioninfo.h"
 
 #include <qapplication.h>
 #include <qmessagebox.h>

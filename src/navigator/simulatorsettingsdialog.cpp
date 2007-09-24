@@ -21,7 +21,7 @@
 
 #include "simulatorsettingsdialog.h"
 
-#include "options.h"
+#include "../epsim/options.h"
 
 #include <qlineedit.h>
 #include <qspinbox.h>

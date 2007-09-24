@@ -22,7 +22,7 @@
 #include "catalog.h"
 #include "epfuns.h"
 #include "opticaldisk.h"
-#include "options.h"
+#include "../epsim/options.h"
 #include "study.h"
 
 #include <qlabel.h>

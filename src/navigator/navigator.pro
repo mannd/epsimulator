@@ -40,14 +40,11 @@ HEADERS += epsimulator.h \
            heart.h \
            systemdialog.h \
            studyconfigdialog.h \
-           options.h \
-           getopts.h \
            filtercatalog.h \
            catalogcombobox.h \
            catalog.h \
            tablelistview.h \
            opticaldisk.h \
-           settings.h \
            disklabeldialog.h \
            buttonframe.h \
            statusbar.h \
@@ -62,8 +59,7 @@ HEADERS += epsimulator.h \
  utilities.h \
  selectemulateddiskdialog.h \
  user.h \
- epfuns.h \
- versioninfo.h
+ epfuns.h 
 SOURCES += epsimulator.cpp \
            main.cpp \
            navigator.cpp \
@@ -72,14 +68,11 @@ SOURCES += epsimulator.cpp \
            heart.cpp \
            systemdialog.cpp \
            studyconfigdialog.cpp \
-           options.cpp \
-           getopts.cpp \
            filtercatalog.cpp \
            catalogcombobox.cpp \
            catalog.cpp \
            tablelistview.cpp \
            opticaldisk.cpp \
-           settings.cpp \
            disklabeldialog.cpp \
            buttonframe.cpp \
            statusbar.cpp \
@@ -93,11 +86,18 @@ SOURCES += epsimulator.cpp \
  utilities.cpp \
  selectemulateddiskdialog.cpp \
  user.cpp \
- epfuns.cpp \
- versioninfo.cpp
+ epfuns.cpp 
 TEMPLATE += app
 CONFIG += debug \
 warn_on \
 thread \
 qt
 TARGET = ../../bin/epsimulator
+CONFIG -= release
+
+LIBS += -lepsim \
+ -L../../lib
+TARGETDEPS += ../../lib/libepsim.so
+
+INCLUDEPATH += ../epsim
+

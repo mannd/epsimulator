@@ -23,7 +23,7 @@
 #include "epfuns.h"
 #include "error.h"
 #include "selectemulateddiskdialog.h"
-#include "settings.h"
+#include "../epsim/settings.h"
 
 #include <qdatastream.h>
 #include <qdatetime.h>

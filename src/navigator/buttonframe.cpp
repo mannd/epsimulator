@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "buttonframe.h"
 
-#include "options.h"
+#include "../epsim/options.h"
 
 #include <qlabel.h>
 #include <qlayout.h>

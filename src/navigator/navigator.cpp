@@ -34,12 +34,12 @@
 #include "error.h"
 #include "filtercatalog.h"
 #include "opticaldisk.h"
-#include "options.h"
+#include "../epsim/options.h"
 #include "navigator.h"
 #include "patientdialog.h"
 #include "passworddialog.h"
 #include "simulatorsettingsdialog.h"
-#include "settings.h"
+#include "../epsim/settings.h"
 #include "statusbar.h"
 #include "study.h"
 #include "studyconfigdialog.h"
@@ -48,7 +48,7 @@
 #include "tablelistview.h"
 #include "user.h"
 #include "utilities.h"
-#include "versioninfo.h"
+#include "../epsim/versioninfo.h"
 
 #include <qaction.h>
 #include <qapplication.h>

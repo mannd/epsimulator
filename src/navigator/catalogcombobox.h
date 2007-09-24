@@ -27,7 +27,7 @@ Navigator "System" ComboBox.
 #define CATALOGCOMBOBOX_H
 
 #include "catalog.h"
-#include "options.h"
+#include "../epsim/options.h"
 
 #include <qcombobox.h>
 
