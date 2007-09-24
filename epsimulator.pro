@@ -3,12 +3,13 @@
 # Subdir relative project main directory: .
 # Target is a subdirs project 
 
-SUBDIRS += src/navigator \
+SUBDIRS += src/epsim \
+           src/eppatient \
+           src/epui \
+           src/navigator \
            src/test \
-           src/stimulator \
- src/epsim \
- src/epui \
- src/eppatient
+           src/stimulator 
+ 
 TEMPLATE = subdirs
 CONFIG += debug \
 warn_on \
