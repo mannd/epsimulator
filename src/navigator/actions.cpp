@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "actions.h"
 
-#include "../epsim/versioninfo.h"
+#include "versioninfo.h"
 
 #include <qmessagebox.h>
 #include <qobject.h>

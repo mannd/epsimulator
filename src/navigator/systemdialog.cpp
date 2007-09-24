@@ -20,7 +20,7 @@
 #include "systemdialog.h"
 
 #include "epfuns.h"
-#include "../epsim/options.h"
+#include "options.h"
 
 #include <qcheckbox.h>
 #include <qfiledialog.h>

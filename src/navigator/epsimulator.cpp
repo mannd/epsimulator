@@ -20,7 +20,7 @@
 
 #include "epsimulator.h"
 
-#include "../epsim/versioninfo.h"
+#include "versioninfo.h"
 
 #include <qlabel.h>
 #include <qmessagebox.h>

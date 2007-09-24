@@ -1,8 +1,10 @@
-DEST_DIR := ../bin
-OBJ_DIR := ../src/navigator
+DEST_DIR := ../../bin
+NAVIGATOR_DIR := ../navigator
+RECORDER_DIR := ../recorder
+OBJ_DIR := $(NAVIGATOR_DIR)
 CXXFLAGS := -pipe -O2 -fmessage-length=0 -Wall -fno-strict-aliasing -Wall -W -g -D_REENTRANT  -DQT_THREAD_SUPPORT -DQT_SHARED -DQT_TABLET_SUPPORT -DQT_NO_DEBUG
-INCPATH  := -I/usr/lib/qt3/mkspecs/default -I. -I/usr/include -I$(QTDIR)/include  -I../src -I../src/navigator -I../src/epsim -I../src/epui -I../src/eppatient
-LIBS     := $(SUBLIBS) -L/usr/lib/ -L$(QTDIR)/lib/ -L/usr/X11R6/lib/ -L../lib -lqt-mt -lXext -lX11 -lm -lpthread -lepsim -lepui -leppatient
+INCPATH  := -I/usr/lib/qt3/mkspecs/default -I. -I/usr/include -I$(QTDIR)/include  -I../navigator -I../epsim -I../epui -I../eppatient
+LIBS     := $(SUBLIBS) -L/usr/lib/ -L$(QTDIR)/lib/ -L/usr/X11R6/lib/ -L../../lib -lqt-mt -lXext -lX11 -lm -lpthread -lepsim -lepui -leppatient
 OBJECTS := 	$(OBJ_DIR)/filtercatalog.o \
 		$(OBJ_DIR)/moc_filtercatalog.o \
 		$(OBJ_DIR)/moc_filtercatalogbase.o \
@@ -22,24 +24,32 @@ OBJECTS := 	$(OBJ_DIR)/filtercatalog.o \
 		$(OBJ_DIR)/moc_selectemulateddiskdialog.o \
 		$(OBJ_DIR)/selectemulateddiskdialogbase.o \
 		$(OBJ_DIR)/moc_selectemulateddiskdialogbase.o 
+TARGET = $(DEST_DIR)/runner
+DEL_FILE = rm -f
+SYMLINK  = ln -sf
+DEL_DIR  = rmdir
+MOVE     = mv -f
+CHK_DIR_EXISTS= test -d
+MKDIR    = mkdir -p
 
-vpath %.cpp ../src/navigator
-vpath %.h ../src/navigator
+vpath %.cpp ../navigator
+vpath %.h ../navigator
 
-.PHONY: all test run
-all: run
+.PHONY: all test run clean distclean
 
-$(DEST_DIR)/runner: runner.cpp
+all:  $(TARGET) 
+
+$(DEST_DIR)/runner: runner.cpp 
 	g++ -o $@ $< $(OBJECTS) $(CXXFLAGS) $(INCPATH) $(LIBS)
 
-
 runner.cpp: MyTestSuite.h 
-	$(MAKE) ../bin/epsimulator
 	cxxtestgen.pl --gui=QtGui -o $@ $<
 
-run: $(DEST_DIR)/runner
-	$(DEST_DIR)/runner -keep
-	touch MyTestSuite.h
-# this should insure that next go around MyTestSuite will be rebuilt
+clean:
+	-$(DEL_FILE) runner.cpp
+
+distclean: clean
+	-$(DEL_FILE) $(TARGET)
+
 
 

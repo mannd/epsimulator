@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "passwordhandler.h"
 
-#include "../epsim/options.h"
+#include "options.h"
 
 #include <qstring.h>
 

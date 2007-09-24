@@ -21,7 +21,7 @@
 #include "catalog.h"
 #include "epfuns.h"
 #include "error.h"
-#include "../epsim/options.h"
+#include "options.h"
 #include "study.h"
 
 #include <qdatastream.h>
