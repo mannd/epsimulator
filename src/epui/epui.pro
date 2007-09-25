@@ -6,11 +6,15 @@ CONFIG -= release
 
 DESTDIR = ../../lib
 
-FORMS += patientdialogbase.ui
+FORMS += patientdialogbase.ui \
+ simulatorsettingsdialogbase.ui
 
-SOURCES += patientdialog.cpp
+SOURCES += patientdialog.cpp \
+ simulatorsettingsdialog.cpp
 
-HEADERS += patientdialog.h
+HEADERS += patientdialog.h \
+ simulatorsettingsdialog.h
 
-INCLUDEPATH += ../eppatient
+INCLUDEPATH += ../eppatient \
+ ../epsim
 

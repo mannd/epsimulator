@@ -13,7 +13,7 @@
     <absoluteprojectpath>false</absoluteprojectpath>
     <description>EP Simulator simulates a complete electrophysiologic recording system.</description>
     <ignoreparts/>
-    <versioncontrol/>
+    <versioncontrol></versioncontrol>
     <projectname>epsimulator</projectname>
     <defaultencoding/>
   </general>
@@ -107,7 +107,7 @@
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars>
-        <envvar value="../../lib:$LD_LIBRARY_PATH" name="LD_LIBRARY_PATH" />
+        <envvar value="./lib:../lib:../../lib:$LD_LIBRARY_PATH" name="LD_LIBRARY_PATH" />
       </envvars>
       <globaldebugarguments/>
       <globalcwd>/home/mannd/dev/local/epsimulator</globalcwd>
@@ -117,14 +117,17 @@
       <runarguments>
         <test/>
         <monitor/>
+        <recorder></recorder>
       </runarguments>
       <cwd>
         <test>/home/mannd/dev/local/epsimulator/../bin</test>
         <monitor>/home/mannd/dev/local/epsimulator</monitor>
+        <recorder>/home/mannd/dev/local/epsimulator</recorder>
       </cwd>
       <debugarguments>
         <test/>
         <monitor/>
+        <recorder></recorder>
       </debugarguments>
     </run>
     <make>

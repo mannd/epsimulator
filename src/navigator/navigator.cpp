@@ -30,7 +30,6 @@
 #include "changepassworddialog.h"
 #include "disklabeldialog.h"
 #include "catalogcombobox.h"
-#include "epsimulator.h"
 #include "error.h"
 #include "filtercatalog.h"
 #include "opticaldisk.h"
@@ -38,6 +37,7 @@
 #include "navigator.h"
 #include "patientdialog.h"
 #include "passworddialog.h"
+#include "recorder.h"
 #include "simulatorsettingsdialog.h"
 #include "settings.h"
 #include "statusbar.h"
@@ -930,12 +930,12 @@ void Navigator::startStudy(Study* s) {
     }
     s->setPath(studyPath);
     s->save();
-    /// TODO here we will fork to monitor, for now, just a notification.
-    QMessageBox::information(this, tr("Starting Monitor Simulation"),
-        tr("The Monitor simulation is not implemented yet.\n  "
-            "Will return to Navigator."));
-//     Epsimulator* eps = new Epsimulator(this);
-//     eps->showMaximized();
+    Recorder *recorder = new Recorder();
+    qApp->setMainWidget(recorder);
+    // Below is a work-around as showMaximized() alone doesn't always work.
+    recorder->showNormal();
+    recorder->showMaximized();
+    delete this;   
 }
 
 void Navigator::reviewStudy(Study* s) {

@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef EPSIMULATOR_H
-#define EPSIMULATOR_H
+#ifndef RECORDER_H
+#define RECORDER_H
 
 #include <qmainwindow.h>
 #include <qworkspace.h>
@@ -30,13 +30,13 @@ class QAction;
 class QPopupMenu;
 
 
-class Epsimulator : public QMainWindow 
+class Recorder : public QMainWindow 
 {
     Q_OBJECT
 
 public:
-    Epsimulator(QWidget* parent);
-    ~Epsimulator();
+    Recorder(QWidget* parent = 0, const char* name = "recorder");
+    ~Recorder();
 
 protected:
     void closeEvent(QCloseEvent * event);

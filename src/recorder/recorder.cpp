@@ -18,14 +18,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "epsimulator.h"
+#include "recorder.h"
 
+#include "navigator.h"
 #include "versioninfo.h"
 
+#include <qapplication.h>
 #include <qlabel.h>
-#include <qmessagebox.h>
-
 #include <qmainwindow.h>
+#include <qmessagebox.h>
 #include <qstatusbar.h>
 #include <qpopupmenu.h>
 #include <qmenubar.h>
@@ -33,8 +34,8 @@
 #include <qworkspace.h>		// this is a tmp central widget
 
 
-Epsimulator::Epsimulator(QWidget* parent)
-    : QMainWindow(parent, "epsimulator")
+Recorder::Recorder(QWidget* parent, const char* name)
+    : QMainWindow(parent, name, WDestructiveClose)
 {
     workspace = new QWorkspace(this);
     setCentralWidget(workspace);
@@ -51,29 +52,37 @@ Epsimulator::Epsimulator(QWidget* parent)
 
 }
 
-Epsimulator::~Epsimulator()
+Recorder::~Recorder()
 {
 }
 
-void Epsimulator::closeEvent(QCloseEvent *event) {
-    int ret = QMessageBox::question(
-            this,
-            VersionInfo::instance()->programName(),
-            tr("Close Study?"),
-            QMessageBox::Yes | QMessageBox::Default,
-            QMessageBox::No | QMessageBox::Escape);
-    if (ret == QMessageBox::Yes)
-        event->accept();
-    else
-        event->ignore();
+void Recorder::closeEvent(QCloseEvent *event) {
+    event->ignore();
+    QMessageBox::information(this,
+                             tr("Close Study?"),
+                             tr("Please use the Close Study menu item to close"
+                                " this study."));
 }
 
 
-void Epsimulator::closeStudy()
-{
+void Recorder::closeStudy() {
+    int ret = QMessageBox::question(this,
+                                    tr("Close Study?"),
+                                    tr("Select Yes to return to EP Simulator Navigator"),
+                                    QMessageBox::Yes | QMessageBox::Default,
+                                    QMessageBox::No | QMessageBox::Escape);
+    if (ret == QMessageBox::Yes) {
+        Navigator* navigator = new Navigator;
+        qApp->setMainWidget(navigator);
+        // Below is a work-around as showMaximized() alone doesn't always work.
+        navigator->showNormal();
+        navigator->showMaximized();
+        delete this;   
+    }
 }
 
-void Epsimulator::about(QWidget *parent)
+
+void Recorder::about(QWidget *parent)
 {
     QMessageBox::about(parent, tr("About EP Simulator"),
 		       tr("<h2>EP Simulator 0.1</h2>"
@@ -84,7 +93,7 @@ void Epsimulator::about(QWidget *parent)
 ///TODO make this an actual hyperlink that you can click on and go to
 }
 
-void Epsimulator::createActions()
+void Recorder::createActions()
 {
     // It appears the Prucka does not have typical shortcut keys and accelerator keys
     // due to keyboard relabeling.  We'll provide some anyway.
@@ -294,7 +303,7 @@ void Epsimulator::createActions()
     connect(aboutAct, SIGNAL(activated()), this, SLOT(about(this)));
 }
 
-void Epsimulator::createMenus()
+void Recorder::createMenus()
 {
 //    QPopupMenu *menuStudy = new QPopupMenu(this);
 

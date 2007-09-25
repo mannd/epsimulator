@@ -7,7 +7,6 @@ FORMS += systemdialogbase.ui \
          studyconfigdialogbase.ui \
          filtercatalogbase.ui \
          disklabeldialogbase.ui \
-         simulatorsettingsdialogbase.ui \
          passworddialogbase.ui \
          changepassworddialogbase.ui \
          studymovecopywizardbase.ui  \
@@ -32,8 +31,7 @@ IMAGES += ../images/hi16-app-epsimulator.png \
           ../images/hi64-reports.png \
           ../images/hi64-reviewstudy.png 
 IDLS += studymovecopywizardbase.ui 
-HEADERS += epsimulator.h \
-           navigator.h \
+HEADERS += navigator.h \
            systemdialog.h \
            studyconfigdialog.h \
            filtercatalog.h \
@@ -44,18 +42,15 @@ HEADERS += epsimulator.h \
            disklabeldialog.h \
            buttonframe.h \
            statusbar.h \
-           simulatorsettingsdialog.h \
            passworddialog.h \
            GeneralHashFunctions.h \
            changepassworddialog.h \
            passwordhandler.h \
            studycopywizard.h  \
-           actions.h \
- utilities.h \
+           utilities.h \
  selectemulateddiskdialog.h \
  user.h
-SOURCES += epsimulator.cpp \
-           main.cpp \
+SOURCES += main.cpp \
            navigator.cpp \
            systemdialog.cpp \
            studyconfigdialog.cpp \
@@ -67,14 +62,12 @@ SOURCES += epsimulator.cpp \
            disklabeldialog.cpp \
            buttonframe.cpp \
            statusbar.cpp \
-           simulatorsettingsdialog.cpp \
            passworddialog.cpp \
            GeneralHashFunctions.cpp \
            changepassworddialog.cpp \
            passwordhandler.cpp \
            studycopywizard.cpp  \
-           actions.cpp \
- utilities.cpp \
+           utilities.cpp \
  selectemulateddiskdialog.cpp \
  user.cpp
 TEMPLATE += app
@@ -88,12 +81,15 @@ CONFIG -= release
 LIBS += -lepsim \
  -L../../lib \
  -lepui \
- -leppatient
+ -leppatient \
+ -lrecorder
 TARGETDEPS += ../../lib/libepsim.so \
  ../../lib/libepui.so \
- ../../lib/libeppatient.so
+ ../../lib/libeppatient.so \
+ ../../lib/librecorder.so
 
 INCLUDEPATH += ../epsim \
  ../epui \
- ../eppatient
+ ../eppatient \
+ ../recorder
 
