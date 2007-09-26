@@ -99,7 +99,7 @@ int main(int argc, char **argv)
     Options* options = Options::instance();
     if (! path.isEmpty()) 
         options->setTempStudyPath(path);
-    Navigator *mainWin = new Navigator();
+    Navigator *mainWin = new Navigator;
     app.setMainWidget(mainWin);
     // Below is a work-around as showMaximized() alone doesn't always work.
     mainWin->showNormal();

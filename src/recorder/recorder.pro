@@ -1,7 +1,6 @@
 
 
-SOURCES += recorder.cpp \
- main.cpp
+SOURCES += recorder.cpp
 
 HEADERS += recorder.h
 

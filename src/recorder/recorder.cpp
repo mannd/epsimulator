@@ -81,16 +81,12 @@ void Recorder::closeStudy() {
     }
 }
 
+void Recorder::help() {
+    actions_.help(this);
+}
 
-void Recorder::about(QWidget *parent)
-{
-    QMessageBox::about(parent, tr("About EP Simulator"),
-		       tr("<h2>EP Simulator 0.1</h2>"
-		          "<p>Copyright &copy; 2006 EP Studios, Inc."
-			  "<p>EP Simulator simulates an EP recording "
-			  "system."
-                          "<p><a href=http://www.epstudiossoftware.com> http://www.epstudiossoftware.com</a>"));
-///TODO make this an actual hyperlink that you can click on and go to
+ void Recorder::about() {
+    actions_.about(this);
 }
 
 void Recorder::createActions()
@@ -99,7 +95,7 @@ void Recorder::createActions()
     // due to keyboard relabeling.  We'll provide some anyway.
     patientInformationAct = new QAction(tr("Patient Information"), 0 , this);
     patientInformationAct->setStatusTip(tr("Create and modify patient information"));
-    connect(patientInformationAct, SIGNAL(activated()), this, SLOT(patientInformation()));
+//    connect(patientInformationAct, SIGNAL(activated()), this, SLOT(patientInformation()));
 
     // Note that the keyboard hints are totally non-mnemotic.  Should
     // have a function that delivers the right QString, depending on whether
@@ -296,11 +292,13 @@ void Recorder::createActions()
     
     
     
-    
+    helpAct = new QAction(tr("EP Simulator Help"), 0, this);
+    helpAct->setStatusTip(tr("EP Simulator help"));
+    connect(helpAct, SIGNAL(activated()), this, SLOT(help()));
 
     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
     aboutAct->setStatusTip(tr("About EP Simulator"));
-    connect(aboutAct, SIGNAL(activated()), this, SLOT(about(this)));
+    connect(aboutAct, SIGNAL(activated()), this, SLOT(about()));
 }
 
 void Recorder::createMenus()
@@ -387,6 +385,7 @@ void Recorder::createMenus()
     ejectOpticalDiskAct->addTo(menuAdministration);
 
     menuHelp = new QPopupMenu(this);
+    helpAct->addTo(menuHelp);
     aboutAct->addTo(menuHelp);
     
     menuBar()->insertItem(tr("Study"), menuStudy);

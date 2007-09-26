@@ -24,7 +24,6 @@
  * and the central widget
  */
 
-#include "actions.h"
 #include "buttonframe.h"
 #include "catalog.h"
 #include "changepassworddialog.h"

@@ -1,0 +1,3 @@
+Note to developers:
+
+    As EP Simulator uses shared libraries, make sure the epsimulator/lib path is included in your library path.  You can export LD_LIBRARY_PATH=[path to]/epsimulator/lib or set up a link in /usr/lib to the libraries in epsimulator/lib.  If the program is installed, this is not a problem.

@@ -22,6 +22,8 @@
 #ifndef RECORDER_H
 #define RECORDER_H
 
+#include "actions.h"
+
 #include <qmainwindow.h>
 #include <qworkspace.h>
 
@@ -42,10 +44,9 @@ protected:
     void closeEvent(QCloseEvent * event);
     //    void contextMenuEvent(QContextMenuEvent * event);
 
-public slots:
-    static void about(QWidget *);
-
 private slots:
+    void about();
+    void help(); 
     void closeStudy();
 
 private:
@@ -63,6 +64,7 @@ private:
     // fake central widget
     QWorkspace *workspace;
 
+    Actions actions_;
     // Study Menu
     QAction *patientInformationAct;
     QAction *consciousSedationAct;
@@ -129,7 +131,7 @@ private:
     QAction *amplifierTestAct;
     QAction *ejectOpticalDiskAct;
 
-
+    QAction *helpAct;
     QAction *aboutAct;
     ///TODO change format menuStudy to studyMenu throughout
     // Main Menu Bar
