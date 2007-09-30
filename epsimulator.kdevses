@@ -1,10 +1,46 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="1" >
+ <DocsAndViews NumberOfDocuments="13" >
   <Doc0 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qmake-manual-8.html" >
    <View0 Type="Documentation" />
   </Doc0>
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/patientdialog.h" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc1>
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/patientdialog.cpp" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
+   <View0 Encoding="" line="122" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/tmp/qt4/src/epui/simulatorsettingsdialog.h" >
+   <View0 Encoding="" line="23" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/user.cpp" >
+   <View0 Encoding="" line="47" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epsim/options.h" >
+   <View0 Encoding="" line="86" Type="Source" />
+  </Doc6>
+  <Doc7 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qstring.h" >
+   <View0 Encoding="" line="847" Type="Source" />
+  </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/opticaldisk.cpp" >
+   <View0 Encoding="" line="318" Type="Source" />
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/catalog.cpp" >
+   <View0 Encoding="" line="256" Type="Source" />
+  </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/bits/stl_tree.h" >
+   <View0 Encoding="" line="168" Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qshared.h" >
+   <View0 Encoding="" line="49" Type="Source" />
+  </Doc11>
+  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/opticaldisk.h" >
+   <View0 Encoding="" line="77" Type="Source" />
+  </Doc12>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -36,9 +72,12 @@
     <breakpoint8 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:505" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint8>
-    <breakpoint9 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:559" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint9 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:111" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint9>
+    <breakpoint10 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:562" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint10>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -50,6 +89,9 @@
    <bookmarks>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/navigator.cpp" >
      <mark line="456" />
+    </bookmark>
+    <bookmark url="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
+     <mark line="120" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
      <mark line="925" />

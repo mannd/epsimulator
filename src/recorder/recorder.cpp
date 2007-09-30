@@ -20,7 +20,6 @@
 
 #include "recorder.h"
 
-#include "navigator.h"
 #include "versioninfo.h"
 
 #include <qapplication.h>
@@ -57,6 +56,8 @@ Recorder::~Recorder()
 }
 
 void Recorder::closeEvent(QCloseEvent *event) {
+    // don't allow closing, as in Qt, closing a main window closes the
+    // application.
     event->ignore();
     QMessageBox::information(this,
                              tr("Close Study?"),
@@ -72,12 +73,13 @@ void Recorder::closeStudy() {
                                     QMessageBox::Yes | QMessageBox::Default,
                                     QMessageBox::No | QMessageBox::Escape);
     if (ret == QMessageBox::Yes) {
-        Navigator* navigator = new Navigator;
-        qApp->setMainWidget(navigator);
-        // Below is a work-around as showMaximized() alone doesn't always work.
-        navigator->showNormal();
-        navigator->showMaximized();
-        delete this;   
+            hide();     // can't close, or app will terminate
+//         Navigator* navigator = new Navigator;
+//         qApp->setMainWidget(navigator);
+//         // Below is a work-around as showMaximized() alone doesn't always work.
+//         navigator->showNormal();
+//         navigator->showMaximized();
+//         delete this;   
     }
 }
 

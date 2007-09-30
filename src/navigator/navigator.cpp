@@ -113,6 +113,9 @@ void Navigator::newStudy() {
                                     options_->labName(), user_->machineName());
                 refreshCatalogs();
                 startStudy(study);
+        /// FIXME bug: startStudy deletes Navigator, then returns, and the 2 
+        /// deletes below happen, deleting an already deleted pointer.  That
+        /// can't work.
             }
         }
         delete studyConfigDialog;
@@ -934,7 +937,7 @@ void Navigator::startStudy(Study* s) {
     // Below is a work-around as showMaximized() alone doesn't always work.
     recorder->showNormal();
     recorder->showMaximized();
-    delete this;   
+    //delete this;   
 }
 
 void Navigator::reviewStudy(Study* s) {
