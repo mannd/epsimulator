@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "selectemulateddiskdialog.h"
 
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qpushbutton.h>
 #include <qstringlist.h>
 

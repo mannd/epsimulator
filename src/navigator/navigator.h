@@ -28,7 +28,10 @@
 
 #include "actions.h"
 
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <Q3PopupMenu>
 
 class Catalog;
 class Catalogs;
@@ -43,15 +46,15 @@ class User;
 
 class QAction;
 class QLabel;
-class QPopupMenu;
+class Q3PopupMenu;
 class QPushButton;
 class QSplitter;
-class QToolBar;
+class Q3ToolBar;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
  */
-class Navigator : public QMainWindow {
+class Navigator : public Q3MainWindow {
     Q_OBJECT
 
 public:
@@ -217,16 +220,16 @@ private:
     QAction* aboutAct_;
 
     // menus
-    QPopupMenu *studyMenu_;
-    QPopupMenu *catalogMenu_;
-    QPopupMenu* switchSubMenu_;
-    QPopupMenu *utilitiesMenu_;
-    QPopupMenu *administrationMenu_;
-    QPopupMenu *securitySubMenu_;
-    QPopupMenu *helpMenu_;
+    Q3PopupMenu *studyMenu_;
+    Q3PopupMenu *catalogMenu_;
+    Q3PopupMenu* switchSubMenu_;
+    Q3PopupMenu *utilitiesMenu_;
+    Q3PopupMenu *administrationMenu_;
+    Q3PopupMenu *securitySubMenu_;
+    Q3PopupMenu *helpMenu_;
 
     // toolbars
-    QToolBar* navigatorToolBar_;
+    Q3ToolBar* navigatorToolBar_;
     CatalogComboBox* catalogComboBox_;
 
 };

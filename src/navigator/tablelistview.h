@@ -26,7 +26,7 @@
 #define TABLELISTVIEW_H
 
 #include <qdatetime.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qstring.h>
 
 class Catalog;
@@ -40,7 +40,7 @@ struct StudyData;
 	@author David Mann <mannd@epstudiossoftware.com>
         TableListView lists studies from the catalogs in Navigator.
 */
-class TableListView : public QListView {
+class TableListView : public Q3ListView {
 public:
     enum ColumnName {FirstCol = 0, StudyTypeCol = FirstCol, LastNameCol, FirstNameCol, FullNameCol,
                      MRNCol, DateTimeCol, ConfigCol, NumberCol, LocationCol, LastCol = LocationCol};
@@ -83,7 +83,7 @@ private:
 
 }; // TableListView
 
-class TableListView::TableListViewItem : public QListViewItem {
+class TableListView::TableListViewItem : public Q3ListViewItem {
 
 public:
     TableListViewItem(TableListView* parent, const QString& key, 

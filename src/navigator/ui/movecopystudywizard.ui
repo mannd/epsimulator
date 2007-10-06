@@ -1,0 +1,215 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>StudyMoveCopyWizardBase</class>
+  <widget class="Q3Wizard" name="StudyMoveCopyWizardBase" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>740</width>
+        <height>741</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>Study Copy Wizard</string>
+    </property>
+    <widget class="QWidget" name="Page0" >
+      <attribute name="title" >
+        <string/>
+      </attribute>
+      <layout class="QGridLayout" >
+        <property name="margin" >
+          <number>0</number>
+        </property>
+        <item row="0" column="0" >
+          <widget class="QLabel" name="instructionsLabel" >
+            <property name="text" >
+              <string>This wizard will enable you to %1 patient studies from one location to another.&lt;br>&lt;br>
+
+
+You will need to provide the location of the source and destination folders to complete the %2.&lt;br>&lt;br>
+
+
+Please click Next to continue.</string>
+            </property>
+          </widget>
+        </item>
+      </layout>
+    </widget>
+    <widget class="QWidget" name="Page1" >
+      <attribute name="title" >
+        <string/>
+      </attribute>
+      <layout class="QGridLayout" >
+        <property name="margin" >
+          <number>0</number>
+        </property>
+        <item row="0" column="0" >
+          <layout class="QGridLayout" >
+            <property name="margin" >
+              <number>0</number>
+            </property>
+            <item row="1" column="0" >
+              <layout class="QGridLayout" >
+                <property name="margin" >
+                  <number>0</number>
+                </property>
+                <item row="0" column="0" >
+                  <layout class="QGridLayout" >
+                    <property name="margin" >
+                      <number>0</number>
+                    </property>
+                    <item rowspan="1" row="0" column="0" colspan="2" >
+                      <widget class="QLabel" name="textLabel3" >
+                        <property name="text" >
+                          <string>2) Click 'Refresh List' and select from the available studies on &lt;br>your source folder</string>
+                        </property>
+                        <property name="alignment" >
+                          <set>Qt::AlignVCenter</set>
+                        </property>
+                      </widget>
+                    </item>
+                    <item row="3" column="0" >
+                      <spacer name="spacer1" >
+                        <property name="sizeHint" >
+                          <size>
+                            <width>20</width>
+                            <height>331</height>
+                          </size>
+                        </property>
+                        <property name="sizeType" >
+                          <enum>Expanding</enum>
+                        </property>
+                        <property name="orientation" >
+                          <enum>Vertical</enum>
+                        </property>
+                      </spacer>
+                    </item>
+                    <item rowspan="3" row="1" column="1" colspan="1" >
+                      <widget class="Q3ListBox" name="studiesListBox" >
+                        <property name="selectionMode" >
+                          <enum>Q3ListBox::Multi</enum>
+                        </property>
+                        <item>
+                          <property name="text" >
+                            <string>New Item</string>
+                          </property>
+                        </item>
+                      </widget>
+                    </item>
+                    <item row="1" column="0" >
+                      <widget class="QPushButton" name="refreshButton" >
+                        <property name="text" >
+                          <string>&amp;Refresh List</string>
+                        </property>
+                        <property name="shortcut" >
+                          <string>Alt+R</string>
+                        </property>
+                      </widget>
+                    </item>
+                    <item row="2" column="0" >
+                      <widget class="QPushButton" name="selectAllButton" >
+                        <property name="text" >
+                          <string>&amp;Select All</string>
+                        </property>
+                        <property name="shortcut" >
+                          <string>Alt+S</string>
+                        </property>
+                      </widget>
+                    </item>
+                  </layout>
+                </item>
+                <item row="1" column="0" >
+                  <layout class="QGridLayout" >
+                    <property name="margin" >
+                      <number>0</number>
+                    </property>
+                    <item row="1" column="0" >
+                      <layout class="QHBoxLayout" >
+                        <property name="margin" >
+                          <number>0</number>
+                        </property>
+                        <item>
+                          <widget class="QLabel" name="textLabel6" >
+                            <property name="text" >
+                              <string>Destination:</string>
+                            </property>
+                          </widget>
+                        </item>
+                        <item>
+                          <widget class="QLineEdit" name="destinationLineEdit" />
+                        </item>
+                        <item>
+                          <widget class="QPushButton" name="browseDestinationButton" >
+                            <property name="text" >
+                              <string>&amp;Browse...</string>
+                            </property>
+                            <property name="shortcut" >
+                              <string>Alt+B</string>
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                    <item row="0" column="0" >
+                      <widget class="QLabel" name="destinationLabel" >
+                        <property name="text" >
+                          <string>3) Select your destination location and Click '%1'</string>
+                        </property>
+                      </widget>
+                    </item>
+                  </layout>
+                </item>
+              </layout>
+            </item>
+            <item row="0" column="0" >
+              <layout class="QVBoxLayout" >
+                <property name="margin" >
+                  <number>0</number>
+                </property>
+                <item>
+                  <widget class="QLabel" name="textLabel1" >
+                    <property name="text" >
+                      <string>1) Select where you would like to copy the studies from</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <layout class="QHBoxLayout" >
+                    <property name="margin" >
+                      <number>0</number>
+                    </property>
+                    <item>
+                      <widget class="QLabel" name="textLabel2" >
+                        <property name="text" >
+                          <string>Source:</string>
+                        </property>
+                      </widget>
+                    </item>
+                    <item>
+                      <widget class="QLineEdit" name="sourceLineEdit" />
+                    </item>
+                    <item>
+                      <widget class="QPushButton" name="browseSourceButton" >
+                        <property name="text" >
+                          <string>&amp;Browse...</string>
+                        </property>
+                        <property name="shortcut" >
+                          <string>Alt+B</string>
+                        </property>
+                      </widget>
+                    </item>
+                  </layout>
+                </item>
+              </layout>
+            </item>
+          </layout>
+        </item>
+      </layout>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+</ui>

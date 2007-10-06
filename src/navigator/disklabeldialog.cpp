@@ -21,13 +21,13 @@
 
 #include "disklabeldialog.h"
 
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qlineedit.h>
 #include <qmessagebox.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 
-DiskLabelDialog::DiskLabelDialog(QWidget* parent, const char* name, bool modal, WFlags fl)
+DiskLabelDialog::DiskLabelDialog(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
 : DiskLabelDialogBase(parent,name, modal,fl) {
     // do below if using enableCancelButton slot, but shouldn't be necessary.
 //    enableCancelButton();

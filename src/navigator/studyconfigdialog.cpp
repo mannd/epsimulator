@@ -20,7 +20,7 @@
 #include "studyconfigdialog.h"
 
 #include <qpushbutton.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 
 StudyConfigDialog::StudyConfigDialog(QWidget *parent, const char *name)
     : StudyConfigDialogBase(parent, name) {

@@ -3,7 +3,8 @@
 # Subdir relative project main directory: ./src/navigator
 # Target is an application:  ../../bin/epsimulator
 
-FORMS += systemdialogbase.ui \
+#The following line was changed from FORMS to FORMS3 by qt3to4
+FORMS3 += systemdialogbase.ui \
          studyconfigdialogbase.ui \
          filtercatalogbase.ui \
          disklabeldialogbase.ui \
@@ -92,4 +93,11 @@ INCLUDEPATH += ../epsim \
  ../epui \
  ../eppatient \
  ../recorder
+
+#The following line was inserted by qt3to4
+QT +=  qt3support 
+#The following line was inserted by qt3to4
+CONFIG += uic3
+
+FORMS += testform.ui
 

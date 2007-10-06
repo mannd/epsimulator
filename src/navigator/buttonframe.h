@@ -20,12 +20,16 @@
 #ifndef BUTTONFRAME_H
 #define BUTTONFRAME_H
 
-#include <qframe.h>
+#include <q3frame.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QLabel>
+#include <Q3GridLayout>
 //#include <qstring.h>
 
-class QGridLayout;
+class Q3GridLayout;
 class QLabel;
-class QButton;
+class Q3Button;
 class QString;
 
 /**
@@ -33,7 +37,7 @@ This is the vertical blue button bar on the left of the navigator window.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */
-class ButtonFrame : public QFrame
+class ButtonFrame : public Q3Frame
 {
 public:
     ButtonFrame(QWidget* parent = 0);
@@ -55,12 +59,12 @@ private:
     static const int buttonHeight = 60;
     static const int buttonWidth = 70;   // size of square buttons in blue panel
 
-    void setupButton(QButton* button, const QPixmap& pixmap,
+    void setupButton(Q3Button* button, const QPixmap& pixmap,
                      QLabel* label, const char* slotName, 
                      bool lastButton);
 
     QWidget* parent_;
-    QGridLayout* buttonFrameLayout_;
+    Q3GridLayout* buttonFrameLayout_;
 
 };
 

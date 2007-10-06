@@ -26,22 +26,26 @@
 #include <qpushbutton.h>
 #include <qtoolbutton.h>
 #include <qsizepolicy.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3GridLayout>
+#include <Q3Frame>
 
 
 ButtonFrame::ButtonFrame(QWidget* parent)
- : QFrame(parent), parent_(parent) {
+ : Q3Frame(parent), parent_(parent) {
     setSizePolicy(QSizePolicy((QSizePolicy::SizeType)1, 
                               (QSizePolicy::SizeType)5, 0, 0,
                               sizePolicy().hasHeightForWidth()));
-    setFrameShape(QFrame::StyledPanel);
+    setFrameShape(Q3Frame::StyledPanel);
     setPaletteBackgroundColor("darkBlue");
     setMaximumWidth(200);
-    buttonFrameLayout_ = new QGridLayout(this, 1, 1, 11, 6, "");
+    buttonFrameLayout_ = new Q3GridLayout(this, 1, 1, 11, 6, "");
 }
 
 void ButtonFrame::addButton(const QString& name, const QString& pixmapName, 
                             const char* slotName, bool lastButton) {
-    QPixmap pixmap(QPixmap::fromMimeSource(pixmapName));
+    QPixmap pixmap(qPixmapFromMimeSource(pixmapName));
     QLabel* label = new QLabel(tr(name), this);
     if (Options::instance()->newStyleBlueBar()) {   // set up flat buttons
         QToolButton* button = new QToolButton(this);
@@ -65,7 +69,7 @@ void ButtonFrame::addButton(const QString& name, const QString& pixmapName,
  * @param slotName The slot associated with the button.
  * @param lastButton The last button is handled differently. 
  */
-void ButtonFrame::setupButton(QButton* button, const QPixmap& pixmap,
+void ButtonFrame::setupButton(Q3Button* button, const QPixmap& pixmap,
                               QLabel* label, const char* slotName, 
                               bool lastButton) {
     button->setFixedSize(buttonWidth, buttonHeight);
@@ -75,7 +79,7 @@ void ButtonFrame::setupButton(QButton* button, const QPixmap& pixmap,
     if (row == 0) {
         // insert blank row at top -- looks better with this!
         QLabel* topLabel = new QLabel("", this);  
-        topLabel->setAlignment(int(QLabel::AlignCenter));
+        topLabel->setAlignment(int(Qt::AlignCenter));
         buttonFrameLayout_->addWidget(topLabel, row++, 0);
     }
     buttonFrameLayout_->addWidget(button, row++, 0, Qt::AlignHCenter);
@@ -83,11 +87,11 @@ void ButtonFrame::setupButton(QButton* button, const QPixmap& pixmap,
     if (slotName)
         connect(button, SIGNAL(clicked()), parent_->parent(), slotName); 
     label->setPaletteForegroundColor("white");
-    label->setAlignment(int(QLabel::AlignCenter));
+    label->setAlignment(int(Qt::AlignCenter));
     buttonFrameLayout_->addWidget(label, row++, 0, Qt::AlignHCenter);
     // insert line between button/label groups
     QLabel* spaceLabel = new QLabel("", this);
-    spaceLabel->setAlignment(int(QLabel::AlignCenter));
+    spaceLabel->setAlignment(int(Qt::AlignCenter));
     buttonFrameLayout_->addWidget(spaceLabel, row++, 0);
     if (lastButton) {
         QSpacerItem* spacer = new QSpacerItem( 20, 40, 

@@ -27,8 +27,10 @@
 
 #include <qdatastream.h>
 #include <qfile.h>
-#include <qheader.h>
+#include <q3header.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 #ifndef NDEBUG
 #include <iostream>
@@ -43,7 +45,7 @@
  */
 TableListView::TableListViewItem::TableListViewItem(TableListView* parent, 
     const QString& key, const QDateTime& dateTime, bool isPreregisterStudy)
-    : QListViewItem(parent), key_(key), dateTime_(dateTime), 
+    : Q3ListViewItem(parent), key_(key), dateTime_(dateTime), 
       isPreregisterStudy_(isPreregisterStudy), filteredOut_(false) {
 }
 
@@ -59,7 +61,7 @@ TableListView::TableListViewItem::~TableListViewItem() {
  * Ctor does not populate the table, each catalog must be loaded with load(). 
 */
 TableListView::TableListView(QWidget* parent, bool oldStyle) 
-    : QListView(parent),filtered_(false), oldStyle_(oldStyle),
+    : Q3ListView(parent),filtered_(false), oldStyle_(oldStyle),
       catalog_(0) {
     adjustColumns(false);
     setAllColumnsShowFocus(true);
@@ -117,7 +119,7 @@ void TableListView::adjustColumns(bool clearTable) {
  * filtering in place.  Does not reload table from catalog.
  */
 void TableListView::showTable() {
-    QListViewItemIterator it(this);
+    Q3ListViewItemIterator it(this);
     while (it.current()) {
         if (TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it)) 
             item->setVisible(!filtered_ || !item->filteredOut());
@@ -168,16 +170,16 @@ void TableListView::addStudy(const Study& study, const QString& location) {
 
 void TableListView::exportCSV(const QString& fileName) {
     QFile file(fileName);
-    if (!file.open(IO_WriteOnly)) 
+    if (!file.open(QIODevice::WriteOnly)) 
         throw EpSim::OpenWriteError(file.name());
     QTextStream out(&file);
     for (int i = 0; i < columns(); ++i) 
         if (i != FullNameCol)   // don't need 3 name columns
             out << '"' << columnText(i) << '"' << ',';
     out << '\n';
-    QListViewItemIterator it(this);
+    Q3ListViewItemIterator it(this);
     while (it.current()) {
-        QListViewItem* item = *it;
+        Q3ListViewItem* item = *it;
         for (int i = 0; i < columns(); ++i) 
             if (i != FullNameCol)   // avoid duplicating name columns
                 out << '"' << item->text(i) << '"' << ',';
@@ -201,7 +203,7 @@ void TableListView::applyFilter( FilterStudyType filterStudyType,
                                             const QDate& startDate,
                                             const QDate& endDate) {
     bool match = false;
-    QListViewItemIterator it(this);
+    Q3ListViewItemIterator it(this);
     while (it.current()) {
         if (TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it)) {
             QDate studyDate = item->dateTime().date();
@@ -233,7 +235,7 @@ void TableListView::applyFilter( FilterStudyType filterStudyType,
 }
 
 void TableListView::removeFilter() {
-    QListViewItemIterator it(this);
+    Q3ListViewItemIterator it(this);
     while (it.current()) {
         if (TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it))
             item->setFilteredOut(false);

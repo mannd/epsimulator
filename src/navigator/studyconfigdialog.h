@@ -23,7 +23,7 @@
 #include "studyconfigdialogbase.h"
 
 
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qstring.h>
 
 class StudyConfigDialog: private StudyConfigDialogBase {

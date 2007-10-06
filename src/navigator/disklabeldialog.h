@@ -30,7 +30,7 @@ class DiskLabelDialog : private DiskLabelDialogBase
   Q_OBJECT
 
 public:
-    DiskLabelDialog(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    DiskLabelDialog(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
 
     using DiskLabelDialogBase::exec;
 

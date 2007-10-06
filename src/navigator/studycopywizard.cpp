@@ -27,7 +27,7 @@
 
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qpushbutton.h>
 #include <qstring.h>
 

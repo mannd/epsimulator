@@ -52,15 +52,15 @@
 #include <qaction.h>
 #include <qapplication.h>
 #include <qdatetime.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qlabel.h>
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qmenubar.h>
 #include <qmessagebox.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qregexp.h>
 #include <qsplitter.h>
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 
 #include <algorithm>
 
@@ -72,7 +72,7 @@
  * Navigator constructor
  */
 Navigator::Navigator(QWidget* parent, const char* name)
-    : QMainWindow( parent, name, WDestructiveClose ),
+    : Q3MainWindow( parent, name, Qt::WDestructiveClose ),
                    options_(Options::instance()), filterCatalog_(0),
                    catalogs_(0), currentDisk_(0), user_(User::instance()) {
     do {
@@ -89,7 +89,7 @@ Navigator::Navigator(QWidget* parent, const char* name)
         this, SLOT(changeCatalog()));
 
     setCaption(tr("%1 Navigator").arg(VersionInfo::instance()->programName()));
-    setIcon(QPixmap::fromMimeSource("hi32-app-epsimulator.png"));
+    setIcon(qPixmapFromMimeSource("hi32-app-epsimulator.png"));
 }
 
 // protected
@@ -463,7 +463,7 @@ void Navigator::setCatalogOptical() {
 }
 
 void Navigator::setCatalogOther() {
-    QFileDialog *fd = new QFileDialog(options_->systemCatalogPath(), 
+    Q3FileDialog *fd = new Q3FileDialog(options_->systemCatalogPath(), 
                                       Catalog::defaultFileName(), this, 0, true);
     if (fd->exec() == QDialog::Accepted) {
         catalogs_->setCatalogPath(Catalog::Other, fd->dirPath());
@@ -475,8 +475,8 @@ void Navigator::setCatalogOther() {
 }
 
 void Navigator::exportCatalog() {
-    QFileDialog *fd = new QFileDialog(QDir::homeDirPath(), "Comma-delimited (*.csv)", this, 0, true);
-    fd->setMode(QFileDialog::AnyFile);
+    Q3FileDialog *fd = new Q3FileDialog(QDir::homeDirPath(), "Comma-delimited (*.csv)", this, 0, true);
+    fd->setMode(Q3FileDialog::AnyFile);
     if (fd->exec() == QDialog::Accepted) {
         QString fileName = fd->selectedFile();
         if (!fileName.isEmpty()) {
@@ -593,8 +593,8 @@ void Navigator::createOpticalDrive() {
         if (ret == 1)
             exit(1);
         else {
-            QFileDialog *fd = new QFileDialog(this, 0, true);
-            fd->setMode(QFileDialog::Directory);
+            Q3FileDialog *fd = new Q3FileDialog(this, 0, true);
+            fd->setMode(Q3FileDialog::Directory);
             if (fd->exec() == QDialog::Accepted) {
                 options_->setOpticalStudyPath(fd->selectedFile());
                 options_->writeSettings();
@@ -636,7 +636,7 @@ void Navigator::createButtonFrame() {
  */
 void Navigator::createTableListView() {
     tableListView_ = new TableListView(horizontalSplitter_, options_->oldStyleNavigator());
-    connect(tableListView_, SIGNAL(doubleClicked(QListViewItem*, 
+    connect(tableListView_, SIGNAL(doubleClicked(Q3ListViewItem*, 
         const QPoint&, int)), this, SLOT(newStudy()));
 }
 
@@ -658,7 +658,7 @@ void Navigator::updateMenus() {
 void Navigator::setupAction(QAction* action, QString statusTip, 
                             const char* slotName, const char* iconName) {
     if (iconName)
-        action->setIconSet(QPixmap::fromMimeSource(iconName));
+        action->setIconSet(qPixmapFromMimeSource(iconName));
     action->setStatusTip(tr(statusTip));
     if (slotName)
         connect(action, SIGNAL(activated()), this, slotName);
@@ -770,7 +770,7 @@ void Navigator::createActions() {
 }
 
 void Navigator::createToolBars() {
-    navigatorToolBar_ = new QToolBar(tr("Navigator"), this);
+    navigatorToolBar_ = new Q3ToolBar(tr("Navigator"), this);
     catalogComboBox_ = new CatalogComboBox(navigatorToolBar_, "catalogComboBox");
     navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
@@ -783,7 +783,7 @@ void Navigator::createToolBars() {
 
 void Navigator::createMenus() {
 
-    studyMenu_ = new QPopupMenu(this);
+    studyMenu_ = new Q3PopupMenu(this);
     newAct_->addTo(studyMenu_);
     continueAct_->addTo(studyMenu_);
     reviewAct_->addTo(studyMenu_);
@@ -797,8 +797,8 @@ void Navigator::createMenus() {
     studyMenu_->insertSeparator();
     exitAct_->addTo(studyMenu_);
 
-    catalogMenu_ = new QPopupMenu(this);
-    switchSubMenu_ = new QPopupMenu(this);
+    catalogMenu_ = new Q3PopupMenu(this);
+    switchSubMenu_ = new Q3PopupMenu(this);
     networkSwitchAct_->addTo(switchSubMenu_);
     systemSwitchAct_->addTo(switchSubMenu_);
     opticalSwitchAct_->addTo(switchSubMenu_);
@@ -812,7 +812,7 @@ void Navigator::createMenus() {
     relabelDiskAct_->addTo(catalogMenu_);
     mergeStudiesAct_->addTo(catalogMenu_);
 
-    utilitiesMenu_ = new QPopupMenu(this);
+    utilitiesMenu_ = new Q3PopupMenu(this);
     exportListsAct_->addTo(utilitiesMenu_);
     exportReportFormatsAct_->addTo(utilitiesMenu_);
     utilitiesMenu_->insertSeparator();
@@ -821,8 +821,8 @@ void Navigator::createMenus() {
     utilitiesMenu_->insertSeparator();
     ejectOpticalDiskAct_->addTo(utilitiesMenu_);
 
-    administrationMenu_ = new QPopupMenu(this);
-    securitySubMenu_ = new QPopupMenu(this);
+    administrationMenu_ = new Q3PopupMenu(this);
+    securitySubMenu_ = new Q3PopupMenu(this);
     loginAct_->addTo(securitySubMenu_);
     logoutAct_->addTo(securitySubMenu_);
     changePasswordAct_->addTo(securitySubMenu_);
@@ -838,7 +838,7 @@ void Navigator::createMenus() {
     simulatorOptionsAct_->addTo(administrationMenu_);
     // insert reports submenu here
 
-    helpMenu_ = new QPopupMenu(this);
+    helpMenu_ = new Q3PopupMenu(this);
     epsimulatorHelpAct_->addTo(helpMenu_);
     aboutAct_->addTo(helpMenu_);
 

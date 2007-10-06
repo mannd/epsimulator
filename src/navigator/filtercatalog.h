@@ -24,10 +24,10 @@
 #include "tablelistview.h"  // for FilterStudyType
 
 #include <qdatetime.h>
-#include <qdatetimeedit.h>
-#include <qcombobox.h>
+#include <q3datetimeedit.h>
+#include <q3combobox.h>
 #include <qlineedit.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qstring.h>
 
 // public inheritance used here to facilitate testing

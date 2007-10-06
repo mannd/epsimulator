@@ -25,11 +25,11 @@
 
 #include "filtercatalog.h"
 
-#include <qcombobox.h>
-#include <qbuttongroup.h>
+#include <q3combobox.h>
+#include <q3buttongroup.h>
 #include <qlineedit.h>
 #include <qdatetime.h>
-#include <qdatetimeedit.h>
+#include <q3datetimeedit.h>
 #include <qlabel.h>
 #include <qradiobutton.h>
 

@@ -28,7 +28,7 @@
 #include <qdatastream.h>
 #include <qdatetime.h>
 #include <qdir.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qmessagebox.h>
 #include <qobject.h>
 #include <qstringlist.h>

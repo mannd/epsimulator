@@ -23,7 +23,7 @@
 #include "options.h"
 
 #include <qcheckbox.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
