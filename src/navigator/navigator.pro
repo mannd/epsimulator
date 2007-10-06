@@ -3,35 +3,17 @@
 # Subdir relative project main directory: ./src/navigator
 # Target is an application:  ../../bin/epsimulator
 
-#The following line was changed from FORMS to FORMS3 by qt3to4
-FORMS3 += systemdialogbase.ui \
-         studyconfigdialogbase.ui \
-         filtercatalogbase.ui \
-         disklabeldialogbase.ui \
-         passworddialogbase.ui \
-         changepassworddialogbase.ui \
-         studymovecopywizardbase.ui  \
- selectemulateddiskdialogbase.ui
+FORMS += ui/systemdialog.ui \
+         ui/selectstudyconfigdialog.ui \
+         ui/filtercatalogdialog.ui \
+         ui/disklabeldialog.ui \
+         ui/changepassworddialog.ui \
+         ui/movecopystudywizard.ui  \
+         ui/selectemulateddiskdialog.ui
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
-IMAGES += ../images/hi16-app-epsimulator.png \
-          ../images/hi32-app-epsimulator.png \
-          ../images/hi48-app-epsimulator.png \
-          ../images/hi32-newstudy.png \
-          ../images/hi32-continuestudy.png \
-          ../images/hi32-preregister.png \
-          ../images/hi32-reports.png \
-          ../images/hi32-reviewstudy.png \
-          ../images/hi32-filterstudies.png \
-          ../images/hi32-refreshcatalog.png \
-          ../images/hi32-removefilter.png \
-          ../images/hi32-exportstudy.png \
-          ../images/hi64-newstudy.png \
-          ../images/hi64-continuestudy.png \
-          ../images/hi64-preregister.png \
-          ../images/hi64-reports.png \
-          ../images/hi64-reviewstudy.png 
-IDLS += studymovecopywizardbase.ui 
+
+#IDLS += ui/studymovecopywizard.ui 
 HEADERS += navigator.h \
            systemdialog.h \
            studyconfigdialog.h \
@@ -96,8 +78,6 @@ INCLUDEPATH += ../epsim \
 
 #The following line was inserted by qt3to4
 QT +=  qt3support 
-#The following line was inserted by qt3to4
-CONFIG += uic3
 
-FORMS += testform.ui
+RESOURCES += ../resources/resources.qrc
 

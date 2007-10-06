@@ -3,6 +3,8 @@
 # Subdir relative project main directory: .
 # Target is a subdirs project 
 
+QT += qt3support
+
 SUBDIRS += src/epsim \
            src/eppatient \
            src/epui \

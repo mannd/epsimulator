@@ -1,46 +1,31 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="13" >
-  <Doc0 NumberOfViews="1" URL="file:///usr/lib/qt3/doc/html/qmake-manual-8.html" >
-   <View0 Type="Documentation" />
+ <DocsAndViews NumberOfDocuments="8" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/tmp/qt4/src/epui/simulatorsettingsdialog.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/patientdialog.h" >
-   <View0 Encoding="" line="0" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/tmp/qt4/src/epui/simulatorsettingsdialog.h" >
+   <View0 Encoding="" line="41" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/patientdialog.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/tmp/qt4/src/navigator/main.cpp" >
+   <View0 Encoding="" line="38" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
-   <View0 Encoding="" line="122" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/tmp/qt4/src/navigator/navigator.cpp" >
+   <View0 Encoding="" line="92" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/tmp/qt4/src/epui/simulatorsettingsdialog.h" >
-   <View0 Encoding="" line="23" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///usr/share/doc/packages/qt/html/qpixmap.html#QPixmap-3" >
+   <View0 Type="Documentation" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/user.cpp" >
-   <View0 Encoding="" line="47" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/tmp/qt4/src/resources/resources.qrc" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epsim/options.h" >
-   <View0 Encoding="" line="86" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/tmp/qt4/src/navigator/navigator.pro" >
+   <View0 Encoding="" line="81" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qstring.h" >
-   <View0 Encoding="" line="847" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///opt/kde3/share/doc/HTML/en/kdelibs-apidocs/kate/html/classKateViewConfig.html#9a7a38768fef2e467b11b5aeeffdc90e" >
+   <View0 Type="Documentation" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/opticaldisk.cpp" >
-   <View0 Encoding="" line="318" Type="Source" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/catalog.cpp" >
-   <View0 Encoding="" line="256" Type="Source" />
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///usr/include/c%2B%2B/4.1.0/bits/stl_tree.h" >
-   <View0 Encoding="" line="168" Type="Source" />
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///usr/lib/qt3/include/qshared.h" >
-   <View0 Encoding="" line="49" Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/opticaldisk.h" >
-   <View0 Encoding="" line="77" Type="Source" />
-  </Doc12>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

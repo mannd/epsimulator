@@ -178,23 +178,16 @@
       <resolveIncludePathsUsingMakeExperimental>false</resolveIncludePathsUsingMakeExperimental>
     </codecompletion>
     <designerintegration>
-      <qtdesigner>
-        <implementation class="DiskLabelDialog" path="src/disklabeldialogbase.ui" implementationpath="src/disklabeldialog.h" />
-        <implementation class="FilterCatalog" path="src/filtercatalogbase.ui" implementationpath="src/filtercatalog.h" />
-        <implementation class="PatientDialog" path="src/patientdialogbase.ui" implementationpath="src/patientdialog.h" />
-        <implementation class="SelectEmulatedDiskDialog" path="src/selectemulateddiskdialogbase.ui" implementationpath="src/selectemulateddiskdialog.h" />
-        <implementation class="StudyConfigDialog" path="src/studyconfigdialogbase.ui" implementationpath="src/studyconfigdialog.h" />
-        <implementation class="StudyMoveCopyWizard" path="src/studymovecopywizardbase.ui" implementationpath="src/studycopywizard.h" />
-      </qtdesigner>
+      <qtdesigner/>
     </designerintegration>
     <qt>
       <used>true</used>
-      <version>3</version>
+      <version>4</version>
       <root>/usr/lib/qt3</root>
       <includestyle>3</includestyle>
-      <designerintegration>EmbeddedKDevDesigner</designerintegration>
-      <qmake>/usr/lib/qt3/bin/qmake</qmake>
-      <designer>/usr/lib/qt3/bin/designer</designer>
+      <designerintegration>ExternalDesigner</designerintegration>
+      <qmake>/usr/bin/qmake</qmake>
+      <designer>/usr/bin/designer</designer>
       <designerpluginpaths/>
     </qt>
     <creategettersetter>

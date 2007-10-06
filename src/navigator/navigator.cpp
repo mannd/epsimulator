@@ -89,7 +89,8 @@ Navigator::Navigator(QWidget* parent, const char* name)
         this, SLOT(changeCatalog()));
 
     setCaption(tr("%1 Navigator").arg(VersionInfo::instance()->programName()));
-    setIcon(qPixmapFromMimeSource("hi32-app-epsimulator.png"));
+//    setIcon(qPixmapFromMimeSource("hi32-app-epsimulator.png"));
+    setIcon(QIcon(":/hi32-app-epsimulator.png"));
 }
 
 // protected
