@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>images/NewStudy.png</file>
+        <file>images/hi16-app-epsimulator.png</file>
+        <file>images/hi32-app-epsimulator.png</file>
+        <file>images/hi32-continuestudy.png</file>
+        <file>images/hi32-exportstudy.png</file>
+        <file>images/hi32-filterstudies.png</file>
+        <file>images/hi32-newstudy.png</file>
+        <file>images/hi32-preregister.png</file>
+        <file>images/hi32-refreshcatalog.png</file>
+        <file>images/hi32-removefilter.png</file>
+        <file>images/hi32-reports.png</file>
+        <file>images/hi32-reviewstudy.png</file>
+        <file>images/hi48-app-epsimulator.png</file>
+        <file>images/hi64-continuestudy.png</file>
+        <file>images/hi64-newstudy.png</file>
+        <file>images/hi64-preregister.png</file>
+        <file>images/hi64-reports.png</file>
+        <file>images/hi64-reviewstudy.png</file>
+    </qresource>
+</RCC>
