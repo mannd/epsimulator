@@ -184,8 +184,12 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
     // like --key=value.
     Q3ValueStack<QString> stack;
     {
-	QStringList::const_iterator it = args.fromLast();
+	//QStringList::const_iterator it = args.fromLast();
+        QStringList::const_iterator it = args.end();
 	const QStringList::const_iterator end = args.end();
+        // old Qt3 fromLast() is end() decremented, so
+        --it;
+        // appparently reaching back past the beginning also gives you end
 	while ( it != end ) {
 	    stack.push( *it );
 	    --it;
@@ -216,7 +220,8 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
 		}
 		t = LongOpt;
 		// split key=value style arguments
-		int equal = a.find( '=' );
+                // use indexOf instead of Qt3 find
+		int equal = a.indexOf( '=' );
 		if ( equal >= 0 ) {
 		    stack.push( a.mid( equal + 1 ) );
 		    currArg--;
@@ -272,7 +277,7 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
 	    }
 	    if ( t == LongOpt && opt.type == OUnknown ) {
 		if ( currOpt.type != OVarLen ) {
-		    qWarning( "Unknown option --%s", a.ascii() );
+		    qWarning( "Unknown option --%s", a.toAscii().constData() );
 		    return false;
 		} else {
 		    // VarLength options support arguments starting with '-'
@@ -347,7 +352,8 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
 	    } else {
 		QString n = currType == LongOpt ?
 			    currOpt.lname : QString( QChar( currOpt.sname ) );
-		qWarning( "Expected an argument after '%s' option", n.ascii() );
+		qWarning( "Expected an argument after '%s' option",
+                           n.toAscii().constData() );
 		return false;
 	    }
 	    break;

@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/navigator</activedir>
+      <activedir>src/epsim</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -184,7 +184,7 @@
       <used>true</used>
       <version>4</version>
       <root>/usr/lib/qt3</root>
-      <includestyle>3</includestyle>
+      <includestyle>4</includestyle>
       <designerintegration>ExternalDesigner</designerintegration>
       <qmake>/usr/bin/qmake</qmake>
       <designer>/usr/bin/designer</designer>
