@@ -5,7 +5,7 @@
 
 #include <qapplication.h>
 #include <qfileinfo.h>
-#include <qvaluestack.h>
+#include <q3valuestack.h>
 #include <stdlib.h>
 
 #include <assert.h>
@@ -182,7 +182,7 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
     // push all arguments as we got them on a stack
     // more pushes might following when parsing condensed arguments
     // like --key=value.
-    QValueStack<QString> stack;
+    Q3ValueStack<QString> stack;
     {
 	QStringList::const_iterator it = args.fromLast();
 	const QStringList::const_iterator end = args.end();

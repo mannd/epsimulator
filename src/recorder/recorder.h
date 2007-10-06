@@ -24,15 +24,18 @@
 
 #include "actions.h"
 
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qworkspace.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
+#include <QCloseEvent>
 
 class QWorkspace;
 class QAction;
-class QPopupMenu;
+class Q3PopupMenu;
 
 
-class Recorder : public QMainWindow 
+class Recorder : public Q3MainWindow 
 {
     Q_OBJECT
 
@@ -135,12 +138,12 @@ private:
     QAction *aboutAct;
     ///TODO change format menuStudy to studyMenu throughout
     // Main Menu Bar
-    QPopupMenu *menuStudy;
-    QPopupMenu *menuStudyConfiguration;
-    QPopupMenu *menuMeasurements;
-    QPopupMenu *menuWindows;
-    QPopupMenu *menuAdministration;
-    QPopupMenu *menuHelp;
+    Q3PopupMenu *menuStudy;
+    Q3PopupMenu *menuStudyConfiguration;
+    Q3PopupMenu *menuMeasurements;
+    Q3PopupMenu *menuWindows;
+    Q3PopupMenu *menuAdministration;
+    Q3PopupMenu *menuHelp;
 };
 
 #endif // EPSIMULATOR_H

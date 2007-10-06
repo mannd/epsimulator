@@ -52,14 +52,14 @@ template<typename T>
 void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
     QFile file(filePath);
     if (!file.exists()) {
-        if (!file.open(IO_WriteOnly))
+        if (!file.open(QIODevice::WriteOnly))
             throw EpSim::OpenWriteError(file.name());
         QDataStream out(&file);
         out.setVersion(5);
         saveMagicNumber(magicNumber, out);
         file.close();
     }
-    if (!file.open(IO_ReadOnly))
+    if (!file.open(QIODevice::ReadOnly))
         throw EpSim::OpenReadError(file.name());
     QDataStream in(&file);
     in.setVersion(5);
@@ -81,7 +81,7 @@ void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
 template<typename T>
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data) {
     QFile file(filePath);
-    if (!file.open(IO_WriteOnly))
+    if (!file.open(QIODevice::WriteOnly))
         throw EpSim::OpenWriteError(file.name());
     QDataStream out(&file);
     out.setVersion(5);

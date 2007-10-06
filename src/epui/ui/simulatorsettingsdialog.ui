@@ -1,0 +1,322 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>SimulatorSettingsDialo</class>
+ <widget class="QDialog" name="SimulatorSettingsDialo" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>613</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Simulator Settings</string>
+  </property>
+  <widget class="QWidget" name="layout6" >
+   <property name="geometry" >
+    <rect>
+     <x>11</x>
+     <y>11</y>
+     <width>578</width>
+     <height>590</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" >
+    <property name="margin" >
+     <number>0</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item row="1" column="1" >
+     <widget class="QPushButton" name="okButton" >
+      <property name="text" >
+       <string>O&amp;K</string>
+      </property>
+      <property name="shortcut" >
+       <string>Alt+K</string>
+      </property>
+      <property name="default" >
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="3" >
+     <widget class="QTabWidget" name="tabCategories" >
+      <widget class="QWidget" name="tabGeneral" >
+       <attribute name="title" >
+        <string>&amp;General</string>
+       </attribute>
+       <widget class="QCheckBox" name="hideSimulatorMenuCheckBox" >
+        <property name="geometry" >
+         <rect>
+          <x>11</x>
+          <y>167</y>
+          <width>554</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text" >
+         <string>Hide Simulator Settings &amp;Menu Item From Users</string>
+        </property>
+        <property name="shortcut" >
+         <string>Alt+M</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="administratorAccountRequiredCheckBox" >
+        <property name="geometry" >
+         <rect>
+          <x>11</x>
+          <y>72</y>
+          <width>554</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text" >
+         <string>&amp;Administer Account Required</string>
+        </property>
+        <property name="shortcut" >
+         <string>Alt+A</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabNavigator" >
+       <attribute name="title" >
+        <string>Navigator</string>
+       </attribute>
+       <widget class="QWidget" name="layout6" >
+        <property name="geometry" >
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>550</width>
+          <height>480</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="5" column="0" >
+          <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="textLabel1" >
+             <property name="text" >
+              <string>La&amp;boratory Name</string>
+             </property>
+             <property name="buddy" >
+              <cstring>labNameLineEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="labNameLineEdit" />
+           </item>
+          </layout>
+         </item>
+         <item row="6" column="0" >
+          <widget class="QCheckBox" name="useLabNameCheckBox" >
+           <property name="text" >
+            <string>Use Lab Name In Network Catalog</string>
+           </property>
+           <property name="shortcut" >
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" >
+          <widget class="QCheckBox" name="emulateOpticalDriveCheckBox" >
+           <property name="text" >
+            <string>Emulate &amp;Optical Drive</string>
+           </property>
+           <property name="shortcut" >
+            <string>Alt+O</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" >
+          <widget class="QCheckBox" name="dualSidedDriveCheckBox" >
+           <property name="text" >
+            <string>Dual Sided Drive</string>
+           </property>
+           <property name="shortcut" >
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" >
+          <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QSpinBox" name="emulatedOpticalDriveCapacitySpinBox" >
+             <property name="maximum" >
+              <number>1028</number>
+             </property>
+             <property name="singleStep" >
+              <number>16</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="textLabel1_2_2" >
+             <property name="text" >
+              <string>Emulated Optical Drive Capacity 
+(MB, &amp;0 = unlimited)</string>
+             </property>
+             <property name="buddy" >
+              <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType" >
+              <enum>QSizePolicy::Expanding</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="0" >
+          <widget class="QCheckBox" name="oldStyleNavigatorCheckBox" >
+           <property name="text" >
+            <string>Old St&amp;yle Navigator</string>
+           </property>
+           <property name="shortcut" >
+            <string>Alt+Y</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" >
+          <widget class="QCheckBox" name="permanentDeleteCheckBox" >
+           <property name="text" >
+            <string>&amp;Allow Permanent Deletion of Study Data</string>
+           </property>
+           <property name="shortcut" >
+            <string>Alt+A</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" >
+          <widget class="QCheckBox" name="newStyleBlueBarCheckBox" >
+           <property name="text" >
+            <string>New Style Blue Bar (requires restart)</string>
+           </property>
+           <property name="shortcut" >
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="2" >
+     <widget class="QPushButton" name="cancelButton" >
+      <property name="text" >
+       <string>Cancel</string>
+      </property>
+      <property name="shortcut" >
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" >
+     <spacer>
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType" >
+       <enum>QSizePolicy::Expanding</enum>
+      </property>
+      <property name="sizeHint" >
+       <size>
+        <width>422</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>administratorAccountRequiredCheckBox</tabstop>
+  <tabstop>hideSimulatorMenuCheckBox</tabstop>
+  <tabstop>emulateOpticalDriveCheckBox</tabstop>
+  <tabstop>dualSidedDriveCheckBox</tabstop>
+  <tabstop>emulatedOpticalDriveCapacitySpinBox</tabstop>
+  <tabstop>oldStyleNavigatorCheckBox</tabstop>
+  <tabstop>newStyleBlueBarCheckBox</tabstop>
+  <tabstop>labNameLineEdit</tabstop>
+  <tabstop>useLabNameCheckBox</tabstop>
+  <tabstop>permanentDeleteCheckBox</tabstop>
+  <tabstop>tabCategories</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>okButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SimulatorSettingsDialo</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>454</x>
+     <y>587</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>299</x>
+     <y>306</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SimulatorSettingsDialo</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>545</x>
+     <y>587</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>299</x>
+     <y>306</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

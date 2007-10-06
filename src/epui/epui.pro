@@ -1,20 +1,22 @@
 TEMPLATE = lib
 
 CONFIG += dll \
-debug
-CONFIG -= release
+ debug
+
+#The following line was inserted by qt3to4
+QT +=  qt3support 
 
 DESTDIR = ../../lib
 
-FORMS += patientdialogbase.ui \
- simulatorsettingsdialogbase.ui
-
-SOURCES += patientdialog.cpp \
- simulatorsettingsdialog.cpp
-
-HEADERS += patientdialog.h \
- simulatorsettingsdialog.h
-
 INCLUDEPATH += ../eppatient \
  ../epsim
+
+SOURCES += simulatorsettingsdialog.cpp
+
+HEADERS += simulatorsettingsdialog.h
+
+
+CONFIG -= release
+
+FORMS += simulatorsettingsdialog.ui
 

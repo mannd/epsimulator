@@ -20,9 +20,9 @@
 #include "patientdialog.h"
 
 #include <qcheckbox.h>
-#include <qcombobox.h>
+#include <q3combobox.h>
 #include <qdatetime.h>
-#include <qdatetimeedit.h>
+#include <q3datetimeedit.h>
 #include <qlineedit.h>
 #include <qmessagebox.h>
 #include <qspinbox.h>

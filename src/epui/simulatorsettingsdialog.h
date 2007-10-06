@@ -21,23 +21,24 @@
 #ifndef SIMULATORSETTINGSDIALOG_H
 #define SIMULATORSETTINGSDIALOG_H
 
-#include "simulatorsettingsdialogbase.h"
+#include "ui_simulatorsettingsdialog.h"
 
 #include <qcheckbox.h>
+#include <QDialog>
 
 class Options;
 
-class SimulatorSettingsDialog : private SimulatorSettingsDialogBase
+class SimulatorSettingsDialog : public QDialog, 
+				private Ui::SimulatorSettingsDialog
 {
     Q_OBJECT
 
 public:
-    SimulatorSettingsDialog(Options* options, QWidget* parent = 0, 
-                            const char* name = 0, WFlags fl = 0 );
+    SimulatorSettingsDialog(Options* options, QDialog* parent = 0);
 
     void setOptions();
 
-    using SimulatorSettingsDialogBase::exec;
+//    using SimulatorSettingsDialogBase::exec;
 
     ~SimulatorSettingsDialog();
     

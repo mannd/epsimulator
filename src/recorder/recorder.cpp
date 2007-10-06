@@ -24,17 +24,19 @@
 
 #include <qapplication.h>
 #include <qlabel.h>
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qmessagebox.h>
 #include <qstatusbar.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qmenubar.h>
 #include <qaction.h>
 #include <qworkspace.h>		// this is a tmp central widget
+//Added by qt3to4:
+#include <QCloseEvent>
 
 
 Recorder::Recorder(QWidget* parent, const char* name)
-    : QMainWindow(parent, name, WDestructiveClose)
+    : Q3MainWindow(parent, name, Qt::WDestructiveClose)
 {
     workspace = new QWorkspace(this);
     setCentralWidget(workspace);
@@ -43,7 +45,7 @@ Recorder::Recorder(QWidget* parent, const char* name)
     createMenus();
 
     setCaption(tr("EP Simulator"));
-    setIcon(QPixmap::fromMimeSource("hi16-app-epsimulator.png"));
+    setIcon(qPixmapFromMimeSource("hi16-app-epsimulator.png"));
 
 
 
@@ -307,7 +309,7 @@ void Recorder::createMenus()
 {
 //    QPopupMenu *menuStudy = new QPopupMenu(this);
 
-    menuStudy = new QPopupMenu(this);
+    menuStudy = new Q3PopupMenu(this);
     patientInformationAct->addTo(menuStudy);
     menuStudy->insertSeparator();
     consciousSedationAct->addTo(menuStudy);
@@ -326,7 +328,7 @@ void Recorder::createMenus()
     menuStudy->insertSeparator();
     closeStudyAct->addTo(menuStudy);
 
-    menuStudyConfiguration = new QPopupMenu(this);
+    menuStudyConfiguration = new Q3PopupMenu(this);
     switchAct->addTo(menuStudyConfiguration);
     saveAct->addTo(menuStudyConfiguration);
     saveAsAct->addTo(menuStudyConfiguration);
@@ -335,7 +337,7 @@ void Recorder::createMenus()
     columnFormatsAct->addTo(menuStudyConfiguration);
     protocolsAct->addTo(menuStudyConfiguration);
 
-    menuMeasurements = new QPopupMenu(this);
+    menuMeasurements = new Q3PopupMenu(this);
     conductionIntervalsAct->addTo(menuMeasurements);
     snrtAct->addTo(menuMeasurements);
     anteRPsAct->addTo(menuMeasurements);
@@ -351,7 +353,7 @@ void Recorder::createMenus()
     menuMeasurements->insertSeparator();
     dataExtractionAct->addTo(menuMeasurements);
 
-    menuWindows = new QPopupMenu(this);
+    menuWindows = new Q3PopupMenu(this);
     winSaveAct->addTo(menuWindows);
     winSaveAsAct->addTo(menuWindows);
     winSwitchAct->addTo(menuWindows);
@@ -374,7 +376,7 @@ void Recorder::createMenus()
     image2Act->addTo(menuWindows);
     imageLibraryAct->addTo(menuWindows);
 
-    menuAdministration = new QPopupMenu(this);
+    menuAdministration = new Q3PopupMenu(this);
     securityAct->addTo(menuAdministration);
     menuAdministration->insertSeparator();
     systemSettingsAct->addTo(menuAdministration);
@@ -386,7 +388,7 @@ void Recorder::createMenus()
     menuAdministration->insertSeparator();
     ejectOpticalDiskAct->addTo(menuAdministration);
 
-    menuHelp = new QPopupMenu(this);
+    menuHelp = new Q3PopupMenu(this);
     helpAct->addTo(menuHelp);
     aboutAct->addTo(menuHelp);
     

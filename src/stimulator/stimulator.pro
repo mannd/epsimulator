@@ -1,6 +1,16 @@
 TEMPLATE = lib
 
-CONFIG += staticlib
+CONFIG += staticlib \
+ debug
 
-FORMS += dialbase.ui \
-stimulator.ui
+FORMS += ui/stimulator.ui ui/dial.ui
+
+
+CONFIG -= release
+
+DESTDIR = ../../lib/
+
+SOURCES += dialwidget.cpp
+
+HEADERS += dialwidget.h
+
