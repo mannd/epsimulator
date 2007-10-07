@@ -53,28 +53,28 @@ void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
     QFile file(filePath);
     if (!file.exists()) {
         if (!file.open(QIODevice::WriteOnly))
-            throw EpSim::OpenWriteError(file.name());
+            throw EpSim::OpenWriteError(file.fileName());
         QDataStream out(&file);
         out.setVersion(5);
         saveMagicNumber(magicNumber, out);
         file.close();
     }
     if (!file.open(QIODevice::ReadOnly))
-        throw EpSim::OpenReadError(file.name());
+        throw EpSim::OpenReadError(file.fileName());
     QDataStream in(&file);
     in.setVersion(5);
-    Q_UINT32 magic;
+    quint32 magic;
     in >> magic;
     if (magic != magicNumber)
-        throw EpSim::WrongFileTypeError(file.name());
-    Q_UINT32 versionMajor, versionMinor;
+        throw EpSim::WrongFileTypeError(file.fileName());
+    quint32 versionMajor, versionMinor;
     in >> versionMajor >> versionMinor;
     if (!versionOk(versionMajor, versionMinor))
         throw EpSim::WrongEpSimVersionError();
     if (!in.atEnd())
         in >> data;
-    if (file.status() != IO_Ok)
-        throw EpSim::ReadError(file.name());
+    if (file.error() != QFile::NoError)
+        throw EpSim::ReadError(file.fileName());
     file.close();
 }
 
@@ -82,13 +82,13 @@ template<typename T>
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data) {
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly))
-        throw EpSim::OpenWriteError(file.name());
+        throw EpSim::OpenWriteError(file.fileName());
     QDataStream out(&file);
     out.setVersion(5);
     saveMagicNumber(magicNumber, out);
     out << data;
-    if (file.status() != IO_Ok)
-        throw EpSim::WriteError(file.name());
+    if (file.error() != QFile::NoError)
+        throw EpSim::WriteError(file.fileName());
     file.close();
 }
 

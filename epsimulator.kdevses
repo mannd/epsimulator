@@ -42,12 +42,9 @@
     <breakpoint8 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:505" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint8>
-    <breakpoint9 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:111" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint9 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:559" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint9>
-    <breakpoint10 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:562" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint10>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -59,9 +56,6 @@
    <bookmarks>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/navigator.cpp" >
      <mark line="456" />
-    </bookmark>
-    <bookmark url="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
-     <mark line="120" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
      <mark line="925" />

@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "settings.h"
 
-Settings::Settings() : QSettings() {
-    setPath("EPStudios", "EPSimulator");
+Settings::Settings() : QSettings("EPStudios", "EPSimulator") {
+    // setPath("EPStudios", "EPSimulator");
     beginGroup("/EPSimulator");
 }
 

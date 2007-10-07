@@ -189,7 +189,8 @@ bool GetOpt::parse( bool untilFirstSwitchOnly )
 	const QStringList::const_iterator end = args.end();
         // old Qt3 fromLast() is end() decremented, so
         --it;
-        // appparently reaching back past the beginning also gives you end
+        // appparently reaching back past the beginning also 
+        // gives you end
 	while ( it != end ) {
 	    stack.push( *it );
 	    --it;

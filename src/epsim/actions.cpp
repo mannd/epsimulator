@@ -35,8 +35,10 @@ void Actions::about(QWidget* parent) {
 		          "<p>Copyright &copy; %3 EP Studios, Inc."
 			  "<p>EP Simulator simulates an EP recording "
 			  "system."
-                          "<p><a href=http://www.epstudiossoftware.com> http://www.epstudiossoftware.com</a>")
-                          .arg(info->programName()).arg(info->version()).arg(info->copyrightYear()));
+                          "<p><a href=http://www.epstudiossoftware.com> "
+                          "http://www.epstudiossoftware.com</a>")
+                          .arg(info->programName()).arg(info->version())
+                          .arg(info->copyrightYear()));
 ///TODO make this an actual hyperlink that you can click on and go to
 }
 

@@ -36,10 +36,10 @@ bool versionOk(int major, int minor) {
 }
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
-    out << static_cast<Q_UINT32>(magicNumber);
+    out << static_cast<quint32>(magicNumber);
     VersionInfo* v = VersionInfo::instance();
-    out << static_cast<Q_UINT32>(v->versionMajor())
-        << static_cast<Q_UINT32>(v->versionMinor());
+    out << static_cast<quint32>(v->versionMajor())
+        << static_cast<quint32>(v->versionMinor());
 }
 
 void browseFilePaths(QWidget* parent, QLineEdit* lineEdit) {
