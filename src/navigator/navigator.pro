@@ -74,7 +74,8 @@ TARGETDEPS += ../../lib/libepsim.so \
 INCLUDEPATH += ../epsim \
  ../epui \
  ../eppatient \
- ../recorder
+ ../recorder \
+ /usr/include/Qt
 
 #The following line was inserted by qt3to4
 QT +=  qt3support 

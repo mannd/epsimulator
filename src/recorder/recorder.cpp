@@ -45,7 +45,7 @@ Recorder::Recorder(QWidget* parent, const char* name)
     createMenus();
 
     setCaption(tr("EP Simulator"));
-    setIcon(qPixmapFromMimeSource("hi16-app-epsimulator.png"));
+    setIcon(QIcon(":/hi16-app-epsimulator.png"));
 
 
 

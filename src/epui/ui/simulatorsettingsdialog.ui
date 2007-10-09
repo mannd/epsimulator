@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>SimulatorSettingsDialo</class>
- <widget class="QDialog" name="SimulatorSettingsDialo" >
+ <class>SimulatorSettingsDialog</class>
+ <widget class="QDialog" name="SimulatorSettingsDialog" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -289,7 +289,7 @@
   <connection>
    <sender>okButton</sender>
    <signal>clicked()</signal>
-   <receiver>SimulatorSettingsDialo</receiver>
+   <receiver>SimulatorSettingsDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -305,7 +305,7 @@
   <connection>
    <sender>cancelButton</sender>
    <signal>clicked()</signal>
-   <receiver>SimulatorSettingsDialo</receiver>
+   <receiver>SimulatorSettingsDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >

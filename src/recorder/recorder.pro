@@ -7,7 +7,8 @@ HEADERS += recorder.h
 INCLUDEPATH += ../epsim \
 ../eppatient \
 ../epui \
-../stimulator
+../stimulator \
+ /usr/include/qt
 LIBS += -L../../lib \
 -lepsim \
 -leppatient \

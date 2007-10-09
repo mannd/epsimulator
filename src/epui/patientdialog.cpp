@@ -30,8 +30,9 @@
 
 #include <math.h>
 
-PatientDialog::PatientDialog(QWidget* parent, const char* name)
-    : PatientDialogBase(parent, name) {
+PatientDialog::PatientDialog(QWidget* parent)
+    : QDialog(parent) {
+    setupUi(this);
 }
 
 void PatientDialog::accept() {
@@ -42,7 +43,7 @@ void PatientDialog::accept() {
         lastNameLineEdit->setFocus();  
     }
     else 
-        PatientDialogBase::accept();
+        QDialog::accept();
 }
 
 double PatientDialog::inchesToCentimeters(double inches) const {

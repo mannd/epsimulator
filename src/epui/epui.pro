@@ -9,14 +9,18 @@ QT +=  qt3support
 DESTDIR = ../../lib
 
 INCLUDEPATH += ../eppatient \
- ../epsim
+ ../epsim \
+ /usr/include/Qt
 
-SOURCES += simulatorsettingsdialog.cpp
+SOURCES += simulatorsettingsdialog.cpp \
+ patientdialog.cpp
 
-HEADERS += simulatorsettingsdialog.h
+HEADERS += simulatorsettingsdialog.h \
+ patientdialog.h
 
 
 CONFIG -= release
 
-FORMS += simulatorsettingsdialog.ui
+FORMS += ui/simulatorsettingsdialog.ui \
+         ui/patientdialog.ui
 

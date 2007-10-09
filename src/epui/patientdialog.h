@@ -20,15 +20,16 @@
 #ifndef PATIENTDIALOG_H
 #define PATIENTDIALOG_H
 
-#include "patientdialogbase.h"
+#include "ui_patientdialog.h"
 #include "study.h"
 
+#include <QDialog>
+
 /// TODO Consider not allowing any edits of study date and time in PatientDialogBase.ui
-class PatientDialog: public PatientDialogBase {
+class PatientDialog: public QDialog, private Ui::PatientDialog {
     Q_OBJECT
 public:
-    PatientDialog(QWidget *parent = 0, 
-		  const char *name = 0);
+    PatientDialog(QWidget *parent = 0);
     void setFields(const Study* study);
     void getFields(Study* study) const;
    

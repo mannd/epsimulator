@@ -10,7 +10,8 @@ SOURCES += heart.cpp \
 study.cpp
 HEADERS += heart.h \
 study.h
-INCLUDEPATH += ../epsim
+INCLUDEPATH += ../epsim \
+ /usr/include/Qt
 
 #The following line was inserted by qt3to4
 QT +=  qt3support 
