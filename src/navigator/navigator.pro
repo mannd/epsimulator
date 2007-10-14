@@ -3,11 +3,8 @@
 # Subdir relative project main directory: ./src/navigator
 # Target is an application:  ../../bin/epsimulator
 
-FORMS += ui/systemdialog.ui \
-         ui/selectstudyconfigdialog.ui \
-         ui/filtercatalogdialog.ui \
+FORMS += ui/filtercatalogdialog.ui \
          ui/disklabeldialog.ui \
-         ui/changepassworddialog.ui \
          ui/movecopystudywizard.ui  \
          ui/selectemulateddiskdialog.ui
 TRANSLATIONS += epsimulator_de.ts \
@@ -15,7 +12,6 @@ TRANSLATIONS += epsimulator_de.ts \
 
 #IDLS += ui/studymovecopywizard.ui 
 HEADERS += navigator.h \
-           systemdialog.h \
            studyconfigdialog.h \
            filtercatalog.h \
            catalogcombobox.h \
@@ -26,14 +22,10 @@ HEADERS += navigator.h \
            buttonframe.h \
            statusbar.h \
            passworddialog.h \
-           GeneralHashFunctions.h \
-           changepassworddialog.h \
-           passwordhandler.h \
            studycopywizard.h  \
            selectemulateddiskdialog.h
 SOURCES += main.cpp \
            navigator.cpp \
-           systemdialog.cpp \
            studyconfigdialog.cpp \
            filtercatalog.cpp \
            catalogcombobox.cpp \
@@ -43,10 +35,6 @@ SOURCES += main.cpp \
            disklabeldialog.cpp \
            buttonframe.cpp \
            statusbar.cpp \
-           passworddialog.cpp \
-           GeneralHashFunctions.cpp \
-           changepassworddialog.cpp \
-           passwordhandler.cpp \
            studycopywizard.cpp  \
            selectemulateddiskdialog.cpp
 TEMPLATE += app

@@ -29,7 +29,7 @@
 
 class Q3GridLayout;
 class QLabel;
-class Q3Button;
+class QAbstractButton;
 class QString;
 
 /**
@@ -59,7 +59,7 @@ private:
     static const int buttonHeight = 60;
     static const int buttonWidth = 70;   // size of square buttons in blue panel
 
-    void setupButton(Q3Button* button, const QPixmap& pixmap,
+    void setupButton(QAbstractButton* button, const QPixmap& pixmap,
                      QLabel* label, const char* slotName, 
                      bool lastButton);
 

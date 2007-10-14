@@ -23,8 +23,8 @@
 
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qpushbutton.h>
-#include <qtoolbutton.h>
+#include <QPushButton>
+#include <QToolButton>
 #include <qsizepolicy.h>
 //Added by qt3to4:
 #include <QPixmap>
@@ -45,7 +45,7 @@ ButtonFrame::ButtonFrame(QWidget* parent)
 
 void ButtonFrame::addButton(const QString& name, const QString& pixmapName, 
                             const char* slotName, bool lastButton) {
-    QPixmap pixmap(qPixmapFromMimeSource(pixmapName));
+    QPixmap pixmap(":/images/" + pixmapName);
     QLabel* label = new QLabel(tr(name), this);
     if (Options::instance()->newStyleBlueBar()) {   // set up flat buttons
         QToolButton* button = new QToolButton(this);
@@ -69,7 +69,7 @@ void ButtonFrame::addButton(const QString& name, const QString& pixmapName,
  * @param slotName The slot associated with the button.
  * @param lastButton The last button is handled differently. 
  */
-void ButtonFrame::setupButton(Q3Button* button, const QPixmap& pixmap,
+void ButtonFrame::setupButton(QAbstractButton* button, const QPixmap& pixmap,
                               QLabel* label, const char* slotName, 
                               bool lastButton) {
     button->setFixedSize(buttonWidth, buttonHeight);

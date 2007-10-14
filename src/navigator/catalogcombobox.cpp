@@ -31,7 +31,7 @@ using namespace std;
  * Default is no Network
 */
 CatalogComboBox::CatalogComboBox(QWidget *parent, const char *name)
- : QComboBox(parent, name), browse_(false), includeNetwork_(false) {
+ : Q3ComboBox(parent, name), browse_(false), includeNetwork_(false) {
     options_ = Options::instance();
     setup();
     connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));

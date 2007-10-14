@@ -34,7 +34,7 @@ class SimulatorSettingsDialog : public QDialog,
     Q_OBJECT
 
 public:
-    SimulatorSettingsDialog(Options* options, QDialog* parent = 0);
+    SimulatorSettingsDialog(Options* options, QWidget* parent = 0);
 
     void setOptions();
 

@@ -619,7 +619,7 @@ void Navigator::createCentralWidget() {
  * tableListView_.
  */
 void Navigator::createButtonFrame() {
-    horizontalSplitter_ = new QSplitter(Horizontal, this);
+    horizontalSplitter_ = new QSplitter(Qt::Horizontal, this);
     setCentralWidget(horizontalSplitter_);
 
     ButtonFrame* buttonFrame = new ButtonFrame(horizontalSplitter_);

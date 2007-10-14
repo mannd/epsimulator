@@ -27,7 +27,7 @@
 #include <qspinbox.h>
 
 SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options, 
-						 QDialog* parent) :
+						 QWidget* parent) :
     QDialog(parent), options_(options) {
     setupUi(this);
     administratorAccountRequiredCheckBox->setChecked(

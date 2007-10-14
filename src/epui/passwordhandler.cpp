@@ -30,14 +30,14 @@ PasswordHandler::PasswordHandler(Options* options) :
 
 void PasswordHandler::setPassword(const QString& pw) {    
     QString h;
-    h.setNum(hash_(pw));
+    h.setNum(hash_(pw.toAscii().constData()));
     options_->setPasswordHash(h);
     options_->writeSettings();
 }
 
 bool PasswordHandler::testPassword(const QString& pw) {
  //   const char* str = pw;
-    unsigned int h = hash_(pw);
+    unsigned int h = hash_(pw.toAscii().constData());
     return h == options_->passwordHash().toUInt();
 }
 

@@ -38,7 +38,7 @@ Encapsulates specific behavior of the catalog combo box in Navigator.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */
-class CatalogComboBox : public QComboBox {
+class CatalogComboBox : public Q3ComboBox {
     Q_OBJECT
 public:
     CatalogComboBox(QWidget *parent = 0, const char *name = 0);

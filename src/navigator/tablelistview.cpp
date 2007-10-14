@@ -186,7 +186,7 @@ void TableListView::exportCSV(const QString& fileName) {
         out << '\n';
         ++it;
     }
-    if (file.status() != IO_Ok) 
+    if (file.error()) 
         throw EpSim::WriteError(file.name());
     file.close();
 }
