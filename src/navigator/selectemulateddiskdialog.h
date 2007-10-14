@@ -20,18 +20,18 @@
 #ifndef SELECTEMULATEDDISKDIALOG_H
 #define SELECTEMULATEDDISKDIALOG_H
 
-#include "selectemulateddiskdialogbase.h"
+#include "ui_selectemulateddiskdialog.h"
 
 #include <q3listbox.h>
 
 class QStringList;
 
-class SelectEmulatedDiskDialog: private SelectEmulatedDiskDialogBase {
+class SelectEmulatedDiskDialog: public QDialog,
+    private Ui::SelectEmulatedDiskDialog {
 Q_OBJECT
 public:
-    SelectEmulatedDiskDialog(QWidget *parent = 0, const char *name = 0);
+    SelectEmulatedDiskDialog(QWidget *parent = 0);
 
-    using SelectEmulatedDiskDialogBase::exec;
     void setLabelList(const QStringList& stringList); 
     void setDiskRow(int row) {
         SelectEmulatedDiskDialog::labelListBox->setCurrentItem(row);}

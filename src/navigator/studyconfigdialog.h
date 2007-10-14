@@ -20,18 +20,16 @@
 #ifndef STUDYCONFIGDIALOG_H
 #define STUDYCONFIGDIALOG_H
 
-#include "studyconfigdialogbase.h"
+#include "ui_selectstudyconfigdialog.h"
 
 
 #include <q3listbox.h>
 #include <qstring.h>
 
-class StudyConfigDialog: private StudyConfigDialogBase {
+class StudyConfigDialog: public QDialog, private Ui::SelectStudyConfigDialog {
     Q_OBJECT
 public:
-    StudyConfigDialog(QWidget *parent = 0, const char *name = 0);
-
-    using StudyConfigDialogBase::exec;
+    StudyConfigDialog(QWidget *parent = 0);
 
     QString config() const {return configListBox->currentText();}
 

@@ -90,7 +90,8 @@ Navigator::Navigator(QWidget* parent, const char* name)
 
     setCaption(tr("%1 Navigator").arg(VersionInfo::instance()->programName()));
 //    setIcon(qPixmapFromMimeSource("hi32-app-epsimulator.png"));
-    setIcon(QIcon(":/hi32-app-epsimulator.png"));
+    /// TODO maybe set this for the app with QApplication::setWindowIcon()?
+    setWindowIcon(QIcon(":/hi32-app-epsimulator.png"));
 }
 
 // protected

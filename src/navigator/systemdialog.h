@@ -26,7 +26,7 @@
 #ifndef SYSTEMSETTINGS_H
 #define SYSTEMSETTINGS_H
 
-#include "systemdialogbase.h"
+#include "ui_systemdialog.h"
 
 #include <qcheckbox.h>
 #include <qlineedit.h>
@@ -36,18 +36,17 @@ class Options;
 
 // Note private inheritance, to hide all those nasty public data members
 // that Qt Designer makes.  Just need to make base class exec() public.
-class SystemDialog : private SystemDialogBase {
+class SystemDialog : public QDialog, private Ui::SystemDialog {
     Q_OBJECT
 
 public:
     SystemDialog(Options* options, const QString& path, 
                  const QString& label, 
                  const QString& side,
-                 QWidget *parent = 0, const char *name = 0);
+                 QWidget *parent = 0);
 
     void setOptions();
 
-    using SystemDialogBase::exec;
     
 /// TODO make the set check boxes functions, so that the line edits and
 /// browse buttons will be enabled correctly

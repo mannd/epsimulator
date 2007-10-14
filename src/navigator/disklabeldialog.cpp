@@ -27,8 +27,9 @@
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 
-DiskLabelDialog::DiskLabelDialog(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
-: DiskLabelDialogBase(parent,name, modal,fl) {
+DiskLabelDialog::DiskLabelDialog(QWidget* parent)
+: QDialog(parent) {
+    setupUi(this);
     // do below if using enableCancelButton slot, but shouldn't be necessary.
 //    enableCancelButton();
 }
@@ -76,7 +77,7 @@ void DiskLabelDialog::accept() {
         diskLabelLineEdit->setFocus();  
     }
     else 
-        DiskLabelDialogBase::accept();
+        accept();
 }
 
 DiskLabelDialog::~DiskLabelDialog()

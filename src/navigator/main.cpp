@@ -82,23 +82,25 @@ int main(int argc, char **argv)
     bool help;
     opts.addSwitch("help", &help);
     if (!opts.parse()) {
-        cerr << QObject::tr("Usage:  %1 [--path=filename]").arg(versionInfo->appName()) 
+        cerr << QObject::tr("Usage:  %1 [--path=filename]").arg(versionInfo->appName()).toAscii().constData() 
             << endl << endl;
         return 1;
     }
     if (help) {
         cerr << 
             QObject::tr("%1 version %2").arg(versionInfo->programName())
-                     .arg(versionInfo->version())
+                     .arg(versionInfo->version()).toAscii().constData()
             << endl << QObject::tr("Copyright (c) %1 EP Studios, Inc.")
-               .arg(versionInfo->copyrightYear())
+               .arg(versionInfo->copyrightYear()).toAscii().constData()
             << endl << QObject::tr("See www.epstudiossoftware.com for help.")
+                .toAscii().constData()
             << endl << endl; 
         return 1;
     }
     Options* options = Options::instance();
     if (! path.isEmpty()) 
         options->setTempStudyPath(path);
+    app.setWindowIcon(QIcon(":/images/hi16-app-epsimulator.png"));
     Navigator *mainWin = new Navigator;
     app.setMainWidget(mainWin);
     // Below is a work-around as showMaximized() alone doesn't always work.

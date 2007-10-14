@@ -22,6 +22,7 @@
 
 #include "versioninfo.h"
 
+#include <QAction>
 #include <q3filedialog.h>
 #include <qlineedit.h>
 #include <qwidget.h>
@@ -49,6 +50,41 @@ void browseFilePaths(QWidget* parent, QLineEdit* lineEdit) {
     if (fd->exec() == QDialog::Accepted) {
         lineEdit->setText(fd->selectedFile());
     }
+}
+
+/**
+ * Sets up icon, status tip, and slot for an action.
+ */
+void setupAction(QAction* action, 
+		 QWidget* w,
+		 const QString& statusTip,
+		 const char* slotName,
+                 const QString& accelKey,
+                 const QString& iconName ) {
+    if (!iconName.isEmpty())
+        action->setIcon(QIcon(iconName));
+    if (!accelKey.isEmpty())
+        action->setShortcut(QKeySequence(accelKey));
+    action->setStatusTip(statusTip);
+    if (slotName)
+        QObject::connect(action, SIGNAL(activated()), w, slotName);
+} 
+
+QAction* createAction(QWidget* w,
+		      const QString& name,
+		      const QString& statusTip,
+                      const char* slotName,
+		      const QString& accelKey,
+                      const QString& iconName) {
+    QAction* action = new QAction(name, w);
+    if (!iconName.isEmpty())
+        action->setIcon(QIcon(iconName));
+    if (!accelKey.isEmpty())
+        action->setShortcut(QKeySequence(accelKey));
+    action->setStatusTip(statusTip);
+    if (slotName)
+        QObject::connect(action, SIGNAL(activated()), w, slotName);
+    return action;
 }
 
 

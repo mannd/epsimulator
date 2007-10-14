@@ -1,169 +1,201 @@
-<ui version="4.0" stdsetdef="1" >
-  <author></author>
-  <comment></comment>
-  <exportmacro></exportmacro>
-  <class>DiskLabelDialogBase</class>
-  <widget class="QDialog" name="DiskLabelDialogBase" >
-    <property name="geometry" >
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>584</width>
-        <height>226</height>
-      </rect>
-    </property>
-    <property name="windowTitle" >
-      <string>Enter Disk Label</string>
-    </property>
-    <layout class="QGridLayout" >
-      <item rowspan="1" row="4" column="0" colspan="3" >
-        <layout class="QHBoxLayout" >
-          <property name="margin" >
-            <number>0</number>
-          </property>
-          <item>
-            <spacer name="spacer2" >
-              <property name="sizeHint" >
-                <size>
-                  <width>465</width>
-                  <height>20</height>
-                </size>
-              </property>
-              <property name="sizeType" >
-                <enum>Expanding</enum>
-              </property>
-              <property name="orientation" >
-                <enum>Horizontal</enum>
-              </property>
-            </spacer>
-          </item>
-          <item>
-            <widget class="QPushButton" name="OkButton" >
-              <property name="text" >
-                <string>&amp;OK</string>
-              </property>
-              <property name="shortcut" >
-                <string>Alt+O</string>
-              </property>
-              <property name="default" >
-                <bool>true</bool>
-              </property>
-            </widget>
-          </item>
-          <item>
-            <widget class="QPushButton" name="cancelButton" >
-              <property name="text" >
-                <string>Ca&amp;ncel</string>
-              </property>
-              <property name="shortcut" >
-                <string>Alt+N</string>
-              </property>
-            </widget>
-          </item>
-        </layout>
-      </item>
-      <item rowspan="1" row="1" column="1" colspan="2" >
-        <widget class="QLineEdit" name="diskLabelLineEdit" />
-      </item>
-      <item row="1" column="0" >
-        <widget class="QLabel" name="textLabel1" >
-          <property name="text" >
-            <string>Disk label</string>
-          </property>
-          <property name="buddy" stdset="0" >
-            <cstring>diskLabelLineEdit</cstring>
-          </property>
-        </widget>
-      </item>
-      <item row="0" column="1" >
-        <spacer name="spacer3" >
-          <property name="sizeHint" >
-            <size>
-              <width>20</width>
-              <height>40</height>
-            </size>
-          </property>
-          <property name="sizeType" >
-            <enum>Expanding</enum>
-          </property>
-          <property name="orientation" >
-            <enum>Vertical</enum>
-          </property>
-        </spacer>
-      </item>
-      <item row="2" column="2" >
-        <spacer name="spacer4" >
-          <property name="sizeHint" >
-            <size>
-              <width>20</width>
-              <height>40</height>
-            </size>
-          </property>
-          <property name="sizeType" >
-            <enum>Expanding</enum>
-          </property>
-          <property name="orientation" >
-            <enum>Vertical</enum>
-          </property>
-        </spacer>
-      </item>
-      <item rowspan="1" row="3" column="0" colspan="3" >
-        <widget class="Q3ButtonGroup" name="diskSideButtonGroup" >
-          <property name="title" >
-            <string>Disk Side</string>
-          </property>
-          <property name="exclusive" >
-            <bool>false</bool>
-          </property>
-          <layout class="QGridLayout" >
-            <item row="0" column="0" >
-              <layout class="QHBoxLayout" >
-                <property name="margin" >
-                  <number>0</number>
-                </property>
-                <item>
-                  <widget class="QRadioButton" name="noneButton" >
-                    <property name="text" >
-                      <string>None</string>
-                    </property>
-                    <property name="shortcut" >
-                      <string/>
-                    </property>
-                    <property name="checked" >
-                      <bool>true</bool>
-                    </property>
-                  </widget>
-                </item>
-                <item>
-                  <widget class="QRadioButton" name="sideAButton" >
-                    <property name="text" >
-                      <string>Side &amp;A</string>
-                    </property>
-                    <property name="shortcut" >
-                      <string>Alt+A</string>
-                    </property>
-                    <property name="checked" >
-                      <bool>false</bool>
-                    </property>
-                  </widget>
-                </item>
-                <item>
-                  <widget class="QRadioButton" name="sideBButton" >
-                    <property name="text" >
-                      <string>Side &amp;B</string>
-                    </property>
-                    <property name="shortcut" >
-                      <string>Alt+B</string>
-                    </property>
-                  </widget>
-                </item>
-              </layout>
-            </item>
-          </layout>
-        </widget>
-      </item>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>DiskLabelDialog</class>
+ <widget class="QDialog" name="DiskLabelDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>584</width>
+    <height>226</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Enter Disk Label</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>11</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="4" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>465</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="OkButton" >
+       <property name="text" >
+        <string>&amp;OK</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+O</string>
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton" >
+       <property name="text" >
+        <string>Ca&amp;ncel</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+N</string>
+       </property>
+      </widget>
+     </item>
     </layout>
-  </widget>
-  <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+   </item>
+   <item row="1" column="1" colspan="2" >
+    <widget class="QLineEdit" name="diskLabelLineEdit" />
+   </item>
+   <item row="1" column="0" >
+    <widget class="QLabel" name="textLabel1" >
+     <property name="text" >
+      <string>Disk label</string>
+     </property>
+     <property name="buddy" >
+      <cstring>diskLabelLineEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="2" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="0" colspan="3" >
+    <widget class="Q3ButtonGroup" name="diskSideButtonGroup" >
+     <property name="title" >
+      <string>Disk Side</string>
+     </property>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="exclusive" >
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>11</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QRadioButton" name="noneButton" >
+          <property name="text" >
+           <string>None</string>
+          </property>
+          <property name="shortcut" >
+           <string/>
+          </property>
+          <property name="checked" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="sideAButton" >
+          <property name="text" >
+           <string>Side &amp;A</string>
+          </property>
+          <property name="shortcut" >
+           <string>Alt+A</string>
+          </property>
+          <property name="checked" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="sideBButton" >
+          <property name="text" >
+           <string>Side &amp;B</string>
+          </property>
+          <property name="shortcut" >
+           <string>Alt+B</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>Q3ButtonGroup</class>
+   <extends></extends>
+   <header>Qt3Support/Q3ButtonGroup</header>
+   <container>1</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
 </ui>

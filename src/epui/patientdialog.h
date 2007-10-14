@@ -23,7 +23,6 @@
 #include "ui_patientdialog.h"
 #include "study.h"
 
-#include <QDialog>
 
 /// TODO Consider not allowing any edits of study date and time in PatientDialogBase.ui
 class PatientDialog: public QDialog, private Ui::PatientDialog {

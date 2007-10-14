@@ -30,9 +30,7 @@ HEADERS += navigator.h \
            changepassworddialog.h \
            passwordhandler.h \
            studycopywizard.h  \
-           utilities.h \
- selectemulateddiskdialog.h \
- user.h
+           selectemulateddiskdialog.h
 SOURCES += main.cpp \
            navigator.cpp \
            systemdialog.cpp \
@@ -50,9 +48,7 @@ SOURCES += main.cpp \
            changepassworddialog.cpp \
            passwordhandler.cpp \
            studycopywizard.cpp  \
-           utilities.cpp \
- selectemulateddiskdialog.cpp \
- user.cpp
+           selectemulateddiskdialog.cpp
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

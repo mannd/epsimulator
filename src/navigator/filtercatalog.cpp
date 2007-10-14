@@ -34,8 +34,8 @@
 #include <qradiobutton.h>
 
 
-FilterCatalog::FilterCatalog(QWidget *parent, const char *name)
-    : FilterCatalogBase(parent, name) {
+FilterCatalog::FilterCatalog(QWidget *parent)
+    : QDialog(parent) {
     setDefaultDates();
 }
 

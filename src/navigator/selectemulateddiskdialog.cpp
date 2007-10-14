@@ -23,8 +23,8 @@
 #include <qpushbutton.h>
 #include <qstringlist.h>
 
-SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent, const char *name)
-    : SelectEmulatedDiskDialogBase(parent, name), select_(false),
+SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent)
+    : QDialog(parent), select_(false),
       new_(false), flip_(false) {
     enableButtons();
 }

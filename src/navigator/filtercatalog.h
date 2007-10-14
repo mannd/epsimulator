@@ -20,7 +20,7 @@
 #ifndef FILTERCATALOG_H
 #define FILTERCATALOG_H
 
-#include "filtercatalogbase.h"
+#include "ui_filtercatalogdialog.h"
 #include "tablelistview.h"  // for FilterStudyType
 
 #include <qdatetime.h>
@@ -31,11 +31,11 @@
 #include <qstring.h>
 
 // public inheritance used here to facilitate testing
-class FilterCatalog: public FilterCatalogBase {
+class FilterCatalog: public QDialog, private Ui::FilterCatalogDialog {
 Q_OBJECT
 public:
     enum DateRange {AnyDate, Today, LastWeek, SpecificDates};
-    FilterCatalog(QWidget *parent = 0, const char *name = 0);
+    FilterCatalog(QWidget *parent = 0);
 
     // Functions below return text or * if no text in field
     QString lastNameFilter() const {return makeFilter(lastNameLineEdit->text());}

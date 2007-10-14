@@ -22,8 +22,9 @@
 #include <qpushbutton.h>
 #include <q3listbox.h>
 
-StudyConfigDialog::StudyConfigDialog(QWidget *parent, const char *name)
-    : StudyConfigDialogBase(parent, name) {
+StudyConfigDialog::StudyConfigDialog(QWidget *parent)
+    : QDialog(parent) {
+    setupUi(this);
 }
 
 

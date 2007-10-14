@@ -20,19 +20,15 @@
 #ifndef CHANGEPASSWORDDIALOG_H
 #define CHANGEPASSWORDDIALOG_H
 
-#include "changepassworddialogbase.h"
+#include "ui_changepassworddialog.h"
 
 class Options;
 class PasswordHandler;
 
-class ChangePasswordDialog: private ChangePasswordDialogBase {
+class ChangePasswordDialog: public QDialog, private Ui::ChangePasswordDialog {
     Q_OBJECT
 public:
-    ChangePasswordDialog(Options* options, QWidget *parent = 0, 
-                         const char *name = 0);
-
-    //int exec() {return ChangePasswordDialogBase::exec();}
-    using ChangePasswordDialogBase::exec;
+    ChangePasswordDialog(Options* options, QWidget *parent = 0);
 
     void changePassword() const;
     void clear();

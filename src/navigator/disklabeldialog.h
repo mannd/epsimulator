@@ -21,18 +21,16 @@
 #ifndef DISKLABELDIALOG_H
 #define DISKLABELDIALOG_H
 
-#include "disklabeldialogbase.h"
+#include "ui_disklabeldialog.h"
 
 #include <qstring.h>
 
-class DiskLabelDialog : private DiskLabelDialogBase
+class DiskLabelDialog : public QDialog, private Ui::DiskLabelDialog
 {
   Q_OBJECT
 
 public:
-    DiskLabelDialog(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
-
-    using DiskLabelDialogBase::exec;
+    DiskLabelDialog(QWidget* parent = 0);
 
     QString label() const;
     QString side() const;

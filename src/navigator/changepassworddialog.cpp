@@ -21,11 +21,13 @@
 
 #include "passwordhandler.h"
 
+#include <QDialog>
 #include <qlineedit.h>
 #include <qmessagebox.h>
 
-ChangePasswordDialog::ChangePasswordDialog(Options* options, QWidget *parent, 
-    const char *name): ChangePasswordDialogBase(parent, name) {
+ChangePasswordDialog::ChangePasswordDialog(Options* options, QWidget *parent)
+    : QDialog(parent) {
+    setupUi(this);
     pwHandler_ = new PasswordHandler(options);
 }
 
@@ -48,7 +50,7 @@ void ChangePasswordDialog::accept() {
         clear();
     }
     else if (testPasswordsEqual())    
-        ChangePasswordDialogBase::accept();
+        accept();
     else {
         QMessageBox::warning(this, tr("Passwords Don't Match"),
                              tr("The new passwords don't match. "

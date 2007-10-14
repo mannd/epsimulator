@@ -37,9 +37,10 @@
 SystemDialog::SystemDialog(Options* options, const QString& path,
                            const QString& label, 
                            const QString& side,
-                           QWidget *parent, const char *name)
-                           : SystemDialogBase(parent, name),
+                           QWidget *parent)
+                           : QDialog(parent),
                            options_(options), path_(path) {
+    setupUi(this);
     enableExportFilePathLineEdit();
     enableNetworkStudyPathLineEdit();
     // set up dialog here, from system settings on disk

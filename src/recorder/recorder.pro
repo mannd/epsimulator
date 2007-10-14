@@ -13,11 +13,11 @@ LIBS += -L../../lib \
 -lepsim \
 -leppatient \
 -lepui \
-../stimulator/libstimulator.a
+../../lib/libstimulator.a
 TARGETDEPS += ../../lib/libepsim.so \
 ../../lib/libeppatient.so \
 ../../lib/libepui.so \
-../stimulator/libstimulator.a
+../../lib/libstimulator.a
 CONFIG -= release
 
 CONFIG += debug \

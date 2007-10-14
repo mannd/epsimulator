@@ -10,7 +10,5 @@ CONFIG -= release
 
 DESTDIR = ../../lib/
 
-SOURCES += dialwidget.cpp
 
-HEADERS += dialwidget.h
 
