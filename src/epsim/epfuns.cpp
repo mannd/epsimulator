@@ -64,7 +64,7 @@ void setupAction(QAction* action,
     if (!iconName.isEmpty())
         action->setIcon(QIcon(iconName));
     if (!accelKey.isEmpty())
-        action->setShortcut(QKeySequence(accelKey));
+        action->setShortcut(accelKey);
     action->setStatusTip(statusTip);
     if (slotName)
         QObject::connect(action, SIGNAL(activated()), w, slotName);
@@ -74,16 +74,16 @@ QAction* createAction(QWidget* w,
 		      const QString& name,
 		      const QString& statusTip,
                       const char* slotName,
-		      const QString& accelKey,
+		      const QKeySequence& accelKey,
                       const QString& iconName) {
     QAction* action = new QAction(name, w);
     if (!iconName.isEmpty())
-        action->setIcon(QIcon(iconName));
+        action->setIcon(QIcon(":/images/" + iconName));
     if (!accelKey.isEmpty())
         action->setShortcut(QKeySequence(accelKey));
     action->setStatusTip(statusTip);
     if (slotName)
-        QObject::connect(action, SIGNAL(activated()), w, slotName);
+        QObject::connect(action, SIGNAL(triggered()), w, slotName);
     return action;
 }
 

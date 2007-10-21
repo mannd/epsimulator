@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef FILTERCATALOG_H
-#define FILTERCATALOG_H
+#ifndef FILTERCATALOGDIALOG_H
+#define FILTERCATALOGDIALOG_H
 
 #include "ui_filtercatalogdialog.h"
 #include "tablelistview.h"  // for FilterStudyType
@@ -31,11 +31,12 @@
 #include <qstring.h>
 
 // public inheritance used here to facilitate testing
-class FilterCatalog: public QDialog, private Ui::FilterCatalogDialog {
-Q_OBJECT
+class FilterCatalogDialog : public QDialog, 
+    private Ui::FilterCatalogDialog {
+    Q_OBJECT
 public:
     enum DateRange {AnyDate, Today, LastWeek, SpecificDates};
-    FilterCatalog(QWidget *parent = 0);
+    FilterCatalogDialog(QWidget *parent = 0);
 
     // Functions below return text or * if no text in field
     QString lastNameFilter() const {return makeFilter(lastNameLineEdit->text());}
@@ -50,7 +51,7 @@ public:
     TableListView::FilterStudyType filterStudyType() const {
         return static_cast<TableListView::FilterStudyType>(studyTypeComboBox->currentItem());}
 
-    ~FilterCatalog() {}
+    ~FilterCatalogDialog() {}
 public slots:
     void enableDateRange();
     void clearForm();

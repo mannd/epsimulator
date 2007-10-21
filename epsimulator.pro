@@ -10,9 +10,8 @@ SUBDIRS += src/epsim \
            src/epui \
            src/stimulator \
 	   src/recorder \
-           src/navigator \
-           src/test 
- 
+           src/navigator
+
 TEMPLATE = subdirs
 CONFIG += debug \
 warn_on \

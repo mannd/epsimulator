@@ -24,6 +24,7 @@
 #include "ui_disklabeldialog.h"
 
 #include <qstring.h>
+#include <QDialog>
 
 class DiskLabelDialog : public QDialog, private Ui::DiskLabelDialog
 {

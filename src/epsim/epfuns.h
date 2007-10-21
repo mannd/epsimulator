@@ -25,9 +25,11 @@
 
 #include <qdatastream.h>
 #include <qfile.h>
+#include <QKeySequence>
 #include <QtCore/QString>
 
 class QAction;
+class QKeySequence;
 class QLineEdit;
 class QWidget;
 
@@ -99,15 +101,15 @@ void setupAction(QAction* action,
 		 QWidget* w,
 		 const QString& statusTip,
                  const char* slotName = 0,
-		 const QString& accelKey = QString::Null(),
+		 const QKeySequence& accelKey = QKeySequence(),
                  const QString& iconName = QString::Null());
 
 QAction* createAction(QWidget*,
 		      const QString& name,
 		      const QString& statusTip,
                       const char* slotName = 0,
-		      const QString& accelKey 
-			= QString::Null(),
+		      const QKeySequence& accelKey 
+			= QKeySequence(),
                       const QString& iconName 
 			= QString::Null());
 		      

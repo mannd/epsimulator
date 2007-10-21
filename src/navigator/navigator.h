@@ -36,7 +36,7 @@
 class Catalog;
 class Catalogs;
 class CatalogComboBox;
-class FilterCatalog;
+class FilterCatalogDialog;
 class OpticalDisk;
 class Options;
 class StatusBar;
@@ -154,7 +154,7 @@ private:
 
     // Data members
     Options* options_;
-    FilterCatalog* filterCatalog_;  // FilterCatalog Dialog box
+    FilterCatalogDialog* filterCatalogDialog_;  // FilterCatalog Dialog box
     Catalogs* catalogs_;
     StatusBar* statusBar_;
     OpticalDisk* currentDisk_;

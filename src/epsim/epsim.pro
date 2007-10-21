@@ -25,3 +25,5 @@ versioninfo.h \
 #QT +=  qt3support 
 INCLUDEPATH += /usr/include/Qt
 
+
+

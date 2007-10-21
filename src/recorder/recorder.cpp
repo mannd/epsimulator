@@ -95,218 +95,156 @@ void Recorder::help() {
     actions_.about(this);
 }
 
+using EpFuns::createAction;
+
 void Recorder::createActions()
 {
     // It appears the Prucka does not have typical shortcut keys and accelerator keys
     // due to keyboard relabeling.  We'll provide some anyway.
 //    patientInformationAct = new QAction(tr("Patient Information"), this);
-      patientInformationAct = EpFuns::createAction(this, tr("Patient Information"), 
-                        tr("Create and modify patient information"));
-///    patientInformationAct->setStatusTip(tr("Create and modify patient information"));
-//    connect(patientInformationAct, SIGNAL(activated()), this, SLOT(patientInformation()));
-
+     patientInformationAct = createAction(this, tr("Patient Information"), 
+                        tr("Create and modify patient information"),
+                        SLOT(patientInformation()));
     // Note that the keyboard hints are totally non-mnemotic.  Should
     // have a function that delivers the right QString, depending on whether
     // using Prucka compatible or simplified menu, or just have a separate
     // set of menus -- probably that is easier -- for each configuration
-//     consciousSedationAct = new QAction(tr("Conscious Sedation"), tr("Alt+A"), this);
-//     consciousSedationAct->setStatusTip(tr("Conscious sedation list"));
-//     //connect signal slot here
-// 
-//     complicationsAct = new QAction(tr("Complications"), tr("Alt+M"), this);
-//     complicationsAct->setStatusTip(tr("Complications list"));
-// 
-//     radiologyAct = new QAction(tr("Radiology"), tr("Alt+N"), this);
-//     radiologyAct->setStatusTip(tr("Radiology list"));
-// 
-//     medicationAct = new QAction(tr("Medications"), tr("Alt+B"), this);
-//     medicationAct->setStatusTip(tr("Medication list"));
-// 
-//     suppliesAct = new QAction(tr("Supplies"), tr("Alt+V"), this);
-//     suppliesAct->setStatusTip(tr("Supplies list"));
-// 
-//     staffAct = new QAction(tr("Staff"), tr("Alt+C"), this);
-//     staffAct->setStatusTip(tr("Staff list"));
-// 
-//     clinicalProceduresAct = new QAction(tr("Clinical Procedures"), tr("Alt+X"), this);
-//     clinicalProceduresAct->setStatusTip(tr("Clinical procedures list"));
-// 
-//     macrosAct = new QAction(tr("Macros"), tr("Alt+Z"), this);
-//     macrosAct->setStatusTip(tr("Macros list"));    
-// 
-//     ordersAct = new QAction(tr("Orders"), 0, this);
-//     ordersAct->setStatusTip(tr("Enter orders"));
-// 
-//     reportsAct = new QAction(tr("Reports..."), 0, this);
-//     reportsAct->setStatusTip(tr("Create procedure reports"));
-// 
-//     exportDataAct = new QAction(tr("Export Data"), 0, this);
-//     exportDataAct->setStatusTip(tr("Export data to external formats"));
-// 
-//     closeStudyAct = new QAction(tr("Close Study"), 0, this);
-//     closeStudyAct->setStatusTip(tr("Close patient study"));
-//     connect(closeStudyAct, SIGNAL(activated()), this, SLOT(closeStudy()));
-// 
-// 
-//     // Study Configuration
-//     switchAct = new QAction(tr("Switch..."), 0, this);
-//     switchAct->setStatusTip(tr("Switch study configuration"));
-// 
-//     saveAct = new QAction(tr("Save"), 0, this);
-//     saveAct->setStatusTip(tr("Save study configuration"));
-// 
-//     saveAsAct = new QAction(tr("Save As..."), 0, this);
-//     saveAsAct->setStatusTip(tr("Save study configuration under different name"));
-// 
-//     intervalsAct = new QAction(tr("Intervals"), 0, this);
-//     intervalsAct->setStatusTip(tr("Configure study intervals"));
-// 
-//     columnFormatsAct = new QAction(tr("Column Formats"), 0, this);
-//     columnFormatsAct->setStatusTip(tr("Configure column formats"));
-// 
-//     protocolsAct = new QAction(tr("Protocols"), 0, this);
-//     protocolsAct->setStatusTip(tr("Configure protocols"));
-// 
-//     // Measurements
-//     conductionIntervalsAct = new QAction(tr("Conduction Intervals..."), tr("Alt+Q"), this);
-//     conductionIntervalsAct->setStatusTip(tr("Measure conduction intervals"));
-//    
-//     snrtAct = new QAction(tr("SNRT..."), tr("Alt+W"), this);
-//     snrtAct->setStatusTip(tr("Measure sinus node recovery time"));
-// 
-//     anteRPsAct = new QAction(tr("Ante RPs..."), tr("Alt+E"), this);
-//     anteRPsAct->setStatusTip(tr("Measure anterograde refractory periods"));
-// 
-//     retroRPsAct = new QAction(tr("Retro RPs..."), tr("Alt+R"), this);
-//     retroRPsAct->setStatusTip(tr("Measure retrograde refractory periods"));
-// 
-//     manualMeasurementsAct = new QAction(tr("Manual Measurements"), 0, this);
-//     manualMeasurementsAct->setStatusTip(tr("Make manual measurements"));
-// 
-//     statVitalsAct = new QAction(tr("Stat Vitals"), 0, this);
-//     statVitalsAct->setStatusTip(tr("Record stat vital signs"));
-// 
-//     startStopNBPAct = new QAction(tr("Start/Stop NBP"), tr("F8"), this);
-//     startStopNBPAct->setStatusTip(tr("Start or stop noninvasive BP measurements"));
-// 
-//     autoLogVitalsAct = new QAction(tr("Auto-Log Vitals"), 0, this);
-//     autoLogVitalsAct->setToggleAction(true);
-//     autoLogVitalsAct->setStatusTip(tr("Auto-log vital signs"));
-// 
-//     autoLogNBPAct = new QAction(tr("Auto-Log NBP"), 0, this);
-//     autoLogNBPAct->setToggleAction(true);
-//     autoLogNBPAct->setStatusTip(tr("Auto-log noninvasive BP measurements"));
-// 
-//     measurementConfigurationAct = new QAction(tr("Measurement Configuration"), 0, this);
-//     measurementConfigurationAct->setStatusTip(tr("Configure measurements"));
-// 
-//     dataExtractionAct = new QAction(tr("Data Extraction"), 0, this);
-//     dataExtractionAct->setStatusTip(tr("Extract data"));
-// 
-//     // Windows Menu
-//     winSaveAct = new QAction(tr("Save"), 0, this);
-//     winSaveAct->setStatusTip(tr("Save window configuration"));
-// 
-//     winSaveAsAct = new QAction(tr("Save As..."), 0, this);
-//     winSaveAct->setStatusTip(tr("Save windows configuration as..."));
-// 
-//     winSwitchAct = new QAction(tr("Switch..."), 0, this);
-//     winSwitchAct->setStatusTip(tr("Switch windows configuration"));
-// 
-//     winDeleteAct = new QAction(tr("Delete..."), 0, this);
-//     winDeleteAct->setStatusTip(tr("Delete windows configuration"));
-// 
-//     timerAct = new QAction(tr("Timer"), 0, this);
-//     timerAct->setToggleAction(true);
-//     timerAct->setStatusTip(tr("Show timer"));
-// 
-//     stopwatchAct = new QAction(tr("Stopwatch"), 0, this);
-//     stopwatchAct->setToggleAction(true);
-//     stopwatchAct->setStatusTip(tr("Show stopwatch"));
-// 
-//     realTimeAct = new QAction(tr("Real-Time"), 0, this);
-//     realTimeAct->setToggleAction(true);
-//     realTimeAct->setOn(true);   // for now, default to on
-//     realTimeAct->setStatusTip(tr("Show real-time window"));
-// 
-//     review1Act = new QAction(tr("Review 1"), 0, this);
-//     review1Act->setToggleAction(true);
-//     review1Act->setStatusTip(tr("Show review 1 window"));
-// 
-//     review2Act = new QAction(tr("Review 2"), 0, this);
-//     review2Act->setToggleAction(true);
-//     review2Act->setStatusTip(tr("Show review 2 window"));
-// 
-//     logAct = new QAction(tr("Log"), 0, this);
-//     logAct->setToggleAction(true);
-//     logAct->setStatusTip(tr("Show log window"));
-// 
-//     ablationAct = new QAction(tr("Ablation"), 0, this);
-//     ablationAct->setToggleAction(true);
-//     ablationAct->setStatusTip(tr("Show ablation window"));
-// 
-//     alignmentAct = new QAction(tr("Alignment"), 0, this);
-//     alignmentAct->setToggleAction(true);
-//     alignmentAct->setStatusTip(tr("Show alignment window"));
-// 
-//     mapAct = new QAction(tr("Map"), 0, this);
-//     mapAct->setToggleAction(true);
-//     mapAct->setStatusTip(tr("Show map window"));
-// 
-//     holterAct = new QAction(tr("Holter"), 0, this);
-//     holterAct->setToggleAction(true);
-//     holterAct->setStatusTip(tr("Show holter window"));
-// 
-//     plotAct = new QAction(tr("Plot"), 0, this);
-//     plotAct->setToggleAction(true);
-//     plotAct->setStatusTip(tr("Show plot window"));
-// 
-//     macroAct = new QAction(tr("Macro"), 0, this);
-//     macroAct->setToggleAction(true);
-//     macroAct->setStatusTip(tr("Show macro window"));
-// 
-//     image1Act = new QAction(tr("Image 1"), 0, this);
-//     image1Act->setToggleAction(true);
-//     image1Act->setStatusTip(tr("Show image 1 window"));
-// 
-//     image2Act = new QAction(tr("Image 2"), 0, this);
-//     image2Act->setToggleAction(true);
-//     image2Act->setStatusTip(tr("Show image 2 window"));
-// 
-//     imageLibraryAct = new QAction(tr("Image Library"), 0, this);
-//     imageLibraryAct->setToggleAction(true);
-//     imageLibraryAct->setStatusTip(tr("Show image library window"));
-// 
-//     securityAct = new QAction(tr("Security"), 0, this);
-//     securityAct->setStatusTip(tr("Security settings"));
-//     
-//     systemSettingsAct = new QAction(tr("System Settings"), 0, this);
-//     systemSettingsAct->setStatusTip(tr("Configure system settings"));
-//     
-//     printSetupAct = new QAction(tr("Print Setup"), 0, this);
-//     printSetupAct->setStatusTip(tr("Setup printer"));
-// 
-//     adminReportsAct = new QAction(tr("Reports"), 0, this);
-//     adminReportsAct->setStatusTip(tr("Generate procedure reports"));
-//     
-//     compressionRatioAct = new QAction(tr("Compression Ratio"), 0, this);
-//     compressionRatioAct->setStatusTip(tr("Set compression ratio"));
-// 
-//     amplifierTestAct = new QAction(tr("Amplifier Test..."), 0, this);
-//     amplifierTestAct->setStatusTip(tr("Test amplifier"));
-// 
-//     ejectOpticalDiskAct = new QAction(tr("Eject Optical Disk"), 0, this);
-//     ejectOpticalDiskAct->setStatusTip(tr("Eject optical disk"));
-//     
-//     
-//     
-//     helpAct = new QAction(tr("EP Simulator Help"), 0, this);
-//     helpAct->setStatusTip(tr("EP Simulator help"));
-//     connect(helpAct, SIGNAL(activated()), this, SLOT(help()));
-// 
-//     aboutAct = new QAction(tr("&About EP Simulator"), 0, this);
-//     aboutAct->setStatusTip(tr("About EP Simulator"));
-//     connect(aboutAct, SIGNAL(activated()), this, SLOT(about()));
+    consciousSedationAct = createAction(this, tr("Conscious Sedation"),
+        tr("Conscious sedation list"), 0, tr("Alt+A"));
+    complicationsAct = createAction(this, tr("Complications"), 
+        tr("Complications list"), 0, tr("Alt+M"));
+    radiologyAct = createAction(this, tr("Radiology"), 
+        tr("Radiology list"), 0, tr("Alt+N"));
+    medicationAct = createAction(this, tr("Medications"), 
+        tr("Medication list"), 0, tr("Alt+B"));
+    suppliesAct = createAction(this, tr("Supplies"),
+        tr("Supplies list"), 0, tr("Alt+V"));
+    staffAct = createAction(this, tr("Staff"), 
+        tr("Staff list"), 0, tr("Alt+C"));
+    clinicalProceduresAct = createAction(this, tr("Clinical Procedures"), 
+        tr("Clinical procedures list"), 0, tr("Alt+X"));
+    macrosAct = createAction(this, tr("Macros"), 
+        tr("Macros list"), 0, tr("Alt+Z"));
+    ordersAct = createAction(this, tr("Orders"), 
+        tr("Enter orders"));
+    reportsAct = createAction(this, tr("Reports..."), 
+        tr("Create procedure reports"));
+    exportDataAct = createAction(this, tr("Export Data"), 
+        tr("Export data to external formats"));
+    closeStudyAct = createAction(this, tr("Close Study"),
+        tr("Close patient study"), SLOT(closeStudy()));
+    // Study Configuration
+    switchAct = createAction(this, tr("Switch..."), 
+        tr("Switch study configuration"));
+    saveAct = createAction(this, tr("Save"),
+        tr("Save study configuration"));
+    saveAsAct = createAction(this, tr("Save As..."), 
+        tr("Save study configuration under different name"));
+    intervalsAct = createAction(this, tr("Intervals"), 
+        tr("Configure study intervals"));
+    columnFormatsAct = createAction(this, tr("Column Formats"), 
+        tr("Configure column formats"));
+    protocolsAct = createAction(this, tr("Protocols"), 
+        tr("Configure protocols"));
+    // Measurements
+    conductionIntervalsAct = createAction(this, tr("Conduction Intervals..."),
+        tr("Measure conduction intervals"), 0, tr("Alt+Q"));
+    snrtAct = createAction(this, tr("SNRT..."), 
+        tr("Measure sinus node recover time"), 0, tr("Alt+W"));
+    anteRPsAct = createAction(this, tr("Ante RPs..."), 
+        tr("Measure anterograde refractory periods"), 0, tr("Alt+E"));
+    retroRPsAct = createAction(this, tr("Retro RPs..."), 
+        tr("Measure retrograde refractory periods"), 0, tr("Alt+R"));
+    manualMeasurementsAct = createAction(this, tr("Manual Measurements"),
+        tr("Make manual measurements"));
+    statVitalsAct = createAction(this, tr("Stat Vitals"),
+        tr("Record stat vital signs"));
+    startStopNBPAct = createAction(this, tr("Start/Stop NBP"),
+        tr("Start or stop noninvasive BP measurements"), 0, tr("F8"));
+    autoLogVitalsAct = createAction(this, tr("Auto-Log Vitals"),
+        tr("Auto-log vital signs"));
+    autoLogVitalsAct->setToggleAction(true);
+    autoLogNBPAct = createAction(this, tr("Auto-Log NBP"),
+        tr("Auto-log noninvasive BP measurements"));
+    autoLogNBPAct->setToggleAction(true);
+    measurementConfigurationAct = createAction(this, 
+        tr("Measurement Configuration"),
+        tr("Configure measurements"));
+    dataExtractionAct = createAction(this, tr("Data Extraction"),
+        tr("Extract data"));
+    // Windows Menu
+    winSaveAct = createAction(this, tr("Save"),
+        tr("Save window configuration"));
+    winSaveAsAct = createAction(this, tr("Save As..."),
+        tr("Save windows configuration as..."));
+    winSwitchAct = createAction(this, tr("Switch..."),
+        tr("Switch windows configuration"));
+    winDeleteAct = createAction(this, tr("Delete..."),
+        tr("Delete windows configuration"));
+    timerAct = createAction(this, tr("Timer"),
+        tr("Show timer"));
+    timerAct->setToggleAction(true);
+    stopwatchAct = createAction(this, tr("Stopwatch"),
+        tr("Show stopwatch"));
+    stopwatchAct->setToggleAction(true);
+    realTimeAct = createAction(this, tr("Real-Time"),
+       tr("Show real-time window"));
+    realTimeAct->setToggleAction(true);
+    realTimeAct->setOn(true);   // for now, default to on
+    review1Act = createAction(this, tr("Review 1"),
+       tr("Show review 1 window"));
+    review1Act->setToggleAction(true);
+    review2Act = createAction(this, tr("Review 2"),
+       tr("Show review 2 window"));
+    review2Act->setToggleAction(true);
+    logAct = createAction(this, tr("Log"),
+       tr("Show log window"));
+    logAct->setToggleAction(true);
+    ablationAct = createAction(this, tr("Ablation"),
+       tr("Show ablation window"));
+    ablationAct->setToggleAction(true);
+    alignmentAct = createAction(this, tr("Alignment"),
+       tr("Show alignment window"));
+    alignmentAct->setToggleAction(true);
+    mapAct = createAction(this, tr("Map"),
+       tr("Show map window"));
+    mapAct->setToggleAction(true);
+    holterAct = createAction(this, tr("Holter"),
+       tr("Show holter window"));
+    holterAct->setToggleAction(true);
+    plotAct = createAction(this, tr("Plot"),
+       tr("Show plot window"));
+    plotAct->setToggleAction(true);
+    macroAct = createAction(this, tr("Macro"),
+       tr("Show macro window"));
+    macroAct->setToggleAction(true);
+    image1Act = createAction(this, tr("Image 1"),
+       tr("Show image 1 window"));
+    image1Act->setToggleAction(true);
+    image2Act = createAction(this, tr("Image 2"),
+       tr("Show image 2 window"));
+    image2Act->setToggleAction(true);
+    imageLibraryAct = createAction(this, tr("Image Library"),
+       tr("Show image library window"));
+    imageLibraryAct->setToggleAction(true);
+    securityAct = createAction(this, tr("Security"),
+        tr("Security settings"));
+    systemSettingsAct = createAction(this, tr("System Settings"),
+        tr("Configure system settings"));
+    printSetupAct = createAction(this, tr("Print Setup"),
+        tr("Setup printer"));
+    adminReportsAct = createAction(this, tr("Reports"),
+        tr("Generate procedure reports"));
+    compressionRatioAct = createAction(this, tr("Compression Ratio"),
+        tr("Set compression ratio"));
+    amplifierTestAct = createAction(this, tr("Amplifier Test..."),
+        tr("Test amplifier"));
+    ejectOpticalDiskAct = createAction(this, tr("Eject Optical Disk"),
+        tr("Eject optical disk"));
+    helpAct = createAction(this, tr("EP Simulator Help"),
+        tr("EP Simulator help"), SLOT(help()));
+    aboutAct = createAction(this, tr("&About EP Simulator"),
+        tr("About EP Simulator"), SLOT(about()));
 }
 
 void Recorder::createMenus()

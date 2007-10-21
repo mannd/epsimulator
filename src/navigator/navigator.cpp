@@ -29,20 +29,21 @@
 #include "changepassworddialog.h"
 #include "disklabeldialog.h"
 #include "catalogcombobox.h"
+#include "epfuns.h"
 #include "error.h"
-#include "filtercatalog.h"
+#include "filtercatalogdialog.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "navigator.h"
 #include "patientdialog.h"
-#include "passworddialog.h"
+#include "changepassworddialog.h"
 #include "recorder.h"
 #include "simulatorsettingsdialog.h"
 #include "settings.h"
 #include "statusbar.h"
 #include "study.h"
-#include "studyconfigdialog.h"
-#include "studycopywizard.h"
+#include "selectstudyconfigdialog.h"
+//#include "studycopywizard.h"
 #include "systemdialog.h"
 #include "tablelistview.h"
 #include "user.h"
@@ -73,7 +74,7 @@
  */
 Navigator::Navigator(QWidget* parent, const char* name)
     : Q3MainWindow( parent, name, Qt::WDestructiveClose ),
-                   options_(Options::instance()), filterCatalog_(0),
+                   options_(Options::instance()), filterCatalogDialog_(0),
                    catalogs_(0), currentDisk_(0), user_(User::instance()) {
     do {
         createOpticalDrive();
@@ -89,9 +90,6 @@ Navigator::Navigator(QWidget* parent, const char* name)
         this, SLOT(changeCatalog()));
 
     setCaption(tr("%1 Navigator").arg(VersionInfo::instance()->programName()));
-//    setIcon(qPixmapFromMimeSource("hi32-app-epsimulator.png"));
-    /// TODO maybe set this for the app with QApplication::setWindowIcon()?
-    setWindowIcon(QIcon(":/hi32-app-epsimulator.png"));
 }
 
 // protected
@@ -106,9 +104,10 @@ void Navigator::newStudy() {
     // if after all the above we finally have a label...
     if (currentDisk_->isLabeled()) {
         Study* study = getNewStudy();
-        StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
-        if (studyConfigDialog->exec() == QDialog::Accepted) {
-            study->setConfig(studyConfigDialog->config());
+        SelectStudyConfigDialog* selectStudyConfigDialog  = 
+            new SelectStudyConfigDialog(this);
+        if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
+            study->setConfig(selectStudyConfigDialog->config());
             if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),
@@ -120,7 +119,7 @@ void Navigator::newStudy() {
         /// can't work.
             }
         }
-        delete studyConfigDialog;
+        delete selectStudyConfigDialog;
         delete study;
     }
 }
@@ -133,9 +132,10 @@ void Navigator::continueStudy() {
     }
     if (study->isPreregisterStudy()) {
         /// TODO make this a new study, but use original time/date?    
-        StudyConfigDialog* studyConfigDialog  = new StudyConfigDialog(this);
-        if (studyConfigDialog->exec() == QDialog::Accepted) {
-            study->setConfig(studyConfigDialog->config());
+        SelectStudyConfigDialog* selectStudyConfigDialog  = 
+            new SelectStudyConfigDialog(this);
+        if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
+            study->setConfig(selectStudyConfigDialog->config());
             catalogs_->deleteStudy(study);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),
@@ -143,7 +143,7 @@ void Navigator::continueStudy() {
             refreshCatalogs();
             startStudy(study);
         }
-        delete studyConfigDialog;
+        delete selectStudyConfigDialog;
     }
     else if (!studyOnDisk(study)) 
         studyNotOnDiskError();
@@ -197,52 +197,52 @@ void Navigator::reports()  {
 }
 
 void Navigator::copyStudy() {
-    StudyCopyWizard* wizard = new StudyCopyWizard(this);
-    wizard->setSourcePathName(currentDisk_->fullPath());
-    if (wizard->exec()) {
-        OpticalDisk* disk = new OpticalDisk(wizard->destinationPathName());
-        disk->readLabel();
-        if (!disk->isLabeled())
-            labelDisk(false, disk);
-        Catalog* catalog = new Catalog(wizard->destinationPathName());
-        wizard->copy();
-        // for each study in studiesList
-        //		copy study form source folder to destination folder
-        // 		throw something if any copy fails
-        // after successful copying, don't update catalog
-        // make a catalog.dat file in the destination folder
-        // data on source is not erased
-        ;
-        delete catalog;
-        delete disk;
-    }
-    delete wizard;
+//     StudyCopyWizard* wizard = new StudyCopyWizard(this);
+//     wizard->setSourcePathName(currentDisk_->fullPath());
+//     if (wizard->exec()) {
+//         OpticalDisk* disk = new OpticalDisk(wizard->destinationPathName());
+//         disk->readLabel();
+//         if (!disk->isLabeled())
+//             labelDisk(false, disk);
+//         Catalog* catalog = new Catalog(wizard->destinationPathName());
+//         wizard->copy();
+//         // for each study in studiesList
+//         //		copy study form source folder to destination folder
+//         // 		throw something if any copy fails
+//         // after successful copying, don't update catalog
+//         // make a catalog.dat file in the destination folder
+//         // data on source is not erased
+//         ;
+//         delete catalog;
+//         delete disk;
+//     }
+//     delete wizard;
 }
 
 void Navigator::moveStudy() {
-    if (administrationAllowed()) {
-        StudyMoveWizard* wizard = new StudyMoveWizard(this);
-        wizard->setSourcePathName(currentDisk_->fullPath());
-        if (wizard->exec()) {
-            OpticalDisk* disk = new OpticalDisk(wizard->destinationPathName());
-            disk->readLabel();
-            if (!disk->isLabeled())
-                labelDisk(false, disk);
-            Catalog* catalog = new Catalog(wizard->destinationPathName());
-            wizard->move();
-        // for each study in studiesList
-        //		copy study form source folder to destination folder
-        // 		throw something if any copy fails
-        // after successful copying, 
-        // make a catalog.dat file in the destination folder
-        // now update system catalogs
-        // now erase data on source
-            ;
-            delete catalog;
-            delete disk;
-        }
-        delete wizard;
-    }
+//     if (administrationAllowed()) {
+//         StudyMoveWizard* wizard = new StudyMoveWizard(this);
+//         wizard->setSourcePathName(currentDisk_->fullPath());
+//         if (wizard->exec()) {
+//             OpticalDisk* disk = new OpticalDisk(wizard->destinationPathName());
+//             disk->readLabel();
+//             if (!disk->isLabeled())
+//                 labelDisk(false, disk);
+//             Catalog* catalog = new Catalog(wizard->destinationPathName());
+//             wizard->move();
+//         // for each study in studiesList
+//         //		copy study form source folder to destination folder
+//         // 		throw something if any copy fails
+//         // after successful copying, 
+//         // make a catalog.dat file in the destination folder
+//         // now update system catalogs
+//         // now erase data on source
+//             ;
+//             delete catalog;
+//             delete disk;
+//         }
+//         delete wizard;
+//     }
 }
 
 void Navigator::deleteStudy() {
@@ -283,9 +283,9 @@ void Navigator::deleteStudy() {
 }
 
 void Navigator::filterStudies() {
-    if (!filterCatalog_)
-        filterCatalog_ = new FilterCatalog(this);
-    if (filterCatalog_->exec() == QDialog::Accepted) 
+    if (!filterCatalogDialog_)
+        filterCatalogDialog_ = new FilterCatalogDialog(this);
+    if (filterCatalogDialog_->exec() == QDialog::Accepted) 
         processFilter();
 }
 
@@ -383,7 +383,8 @@ void Navigator::relabelDisk() {
 
 void Navigator::login() {
     if (!user_->isAdministrator()) {
-        PasswordDialog* pwDialog = new PasswordDialog(options_,this);
+        ChangePasswordDialog* pwDialog = 
+            new ChangePasswordDialog(options_,this);
         if (pwDialog->exec() == QDialog::Accepted) {
             user_->makeAdministrator(true);
             updateStatusBarUserLabel();
@@ -657,118 +658,110 @@ void Navigator::updateMenus() {
 /**
  * Sets up icon, status tip, and slot for an action.
  */
-void Navigator::setupAction(QAction* action, QString statusTip, 
-                            const char* slotName, const char* iconName) {
-    if (iconName)
-        action->setIconSet(qPixmapFromMimeSource(iconName));
-    action->setStatusTip(tr(statusTip));
-    if (slotName)
-        connect(action, SIGNAL(activated()), this, slotName);
-} 
+// void Navigator::setupAction(QAction* action, QString statusTip, 
+//                             const char* slotName, const char* iconName) {
+// //     if (iconName)
+// //         action->setIconSet(qPixmapFromMimeSource(iconName));
+// //     action->setStatusTip(tr(statusTip));
+// //     if (slotName)
+// //         connect(action, SIGNAL(activated()), this, slotName);
+// } 
+
+using EpFuns::createAction;
 
 void Navigator::createActions() {
     // Study menu
-    newAct_ = new QAction(tr("&New..."), tr("Ctrl+N"), this);
-    setupAction(newAct_, "New study", SLOT(newStudy()), "hi32-newstudy.png");
-    continueAct_ = new QAction(tr("&Continue"), 0, this);
-    setupAction(continueAct_, "Continue study", SLOT(continueStudy()), 
-                "hi32-continuestudy.png");
-    reviewAct_ = new QAction(tr("&Review"), 0, this);
-    setupAction(reviewAct_, "Review study", SLOT(reviewStudy()), 
-                "hi32-reviewstudy.png");
-    preregisterAct_= new QAction(tr("&Pre-Register"), 0, this);
-    setupAction(preregisterAct_, "Pre-register patient", 
-        SLOT(preregisterPatient()), "hi32-preregister.png");
-    reportsAct_= new QAction(tr("R&eports..."), 0, this);
-    setupAction(reportsAct_, "Procedure reports", SLOT(reports()), 
-                "hi32-reports.png" );
-    copyAct_= new QAction(tr("Copy..."), 0, this);
-    setupAction(copyAct_, "Copy study", SLOT(copyStudy()));
-    moveAct_ = new QAction(tr("Move..."), 0, this);
-    setupAction(moveAct_, "Move study", SLOT(moveStudy()));
-    deleteAct_= new QAction(tr("Delete..."), 0, this);
-    setupAction(deleteAct_, "Delete study", SLOT(deleteStudy()));
-    exportAct_ = new QAction(tr("Export..."), 0, this);
-    setupAction(exportAct_, "Export study", SLOT(exportCatalog()), "hi32-exportstudy.png");
-    exitAct_= new QAction(tr("E&xit"), tr("Ctrl+Q"), this);
-    setupAction(exitAct_, "Exit EP Simulator", SLOT(close()));
-
+    newAct_ = EpFuns::createAction(this, tr("&New..."), tr("New study"),
+        SLOT(newStudy()), QKeySequence(tr("Ctrl+N")), "hi32-newstudy.png");
+    continueAct_ = createAction(this, tr("&Continue"),tr ("Continue study"),
+        SLOT(continueStudy()), 0, "hi32-continuestudy.png");
+    reviewAct_ = createAction(this, tr("&Review"),
+        tr("Review study"), SLOT(reviewStudy()), 0, "hi32-reviewstudy.png");
+    preregisterAct_= createAction(this, tr("&Pre-Register"),
+        tr("Pre-register patient"), SLOT(preregisterPatient()), 
+        0, "hi32-preregister.png");
+    reportsAct_= createAction(this, tr("R&eports..."),
+        tr("Procedure reports"), SLOT(reports()), 0,
+        "hi32-reports.png" );
+    copyAct_= createAction(this, tr("Copy..."), tr("Copy study"),
+        SLOT(copyStudy()));
+    moveAct_ = createAction(this, tr("Move..."), tr("Move study"),
+        SLOT(moveStudy()));
+    deleteAct_= createAction(this, tr("Delete..."), tr("Delete study"),
+        SLOT(deleteStudy()));
+    exportAct_ = createAction(this, tr("Export..."), tr("Export study"),
+        SLOT(exportCatalog()), 0, "hi32-exportstudy.png");
+    exitAct_= createAction(this, tr("E&xit"), tr("Exit EP Simulator"),
+        SLOT(close()), tr("Ctrl+Q"));
     // Catalog menu
     // Submenu of Switch...
     // an action "Achive Server" is skipped here, but is present on Prucka
-    networkSwitchAct_ = new QAction(tr("Network"), 0, this);
-    setupAction(networkSwitchAct_, "Switch to network catalog", 
-        SLOT(setCatalogNetwork()));
+    networkSwitchAct_ = createAction(this, tr("Network"),
+        tr("Switch to network catalog"), SLOT(setCatalogNetwork()));
     // networkSwitchAct_ only enabled if set in options
     networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
-    systemSwitchAct_ = new QAction(tr("System"), 0, this);
-    setupAction(systemSwitchAct_, "Switch to system catalog", 
-        SLOT(setCatalogSystem()));
-    opticalSwitchAct_ = new QAction(tr("Optical"), 0, this);
-    setupAction(opticalSwitchAct_, "Switch to optical catalog", 
-        SLOT(setCatalogOptical()));
+    systemSwitchAct_ = createAction(this, tr("System"),
+        tr("Switch to system catalog"), SLOT(setCatalogSystem()));
+    opticalSwitchAct_ = createAction(this, tr("Optical"),
+        tr("Switch to optical catalog"), SLOT(setCatalogOptical()));
     // back to main menu items
-    browseSwitchAct_ = new QAction(tr("Browse..."), 0, this);
-    setupAction(browseSwitchAct_, "Browse for catalog files", 
-        SLOT(setCatalogOther()));
-    filterStudiesAct_ = new QAction(tr("Filter Studies..."), 0, this);
-    setupAction(filterStudiesAct_, "Filter studies", 
-        SLOT(filterStudies()), "hi32-filterstudies.png");
-    removeStudiesFilterAct_ = new QAction(tr("Remove Studies Filter"), 0, this);
-    setupAction(removeStudiesFilterAct_, "Remove studies filter",
-	SLOT(unfilterStudies()), "hi32-removefilter.png");
+    browseSwitchAct_ = createAction(this, tr("Browse..."),
+        tr("Browse for catalog files"), SLOT(setCatalogOther()));
+    filterStudiesAct_ = createAction(this, tr("Filter Studies..."),
+        tr("Filter studies"), SLOT(filterStudies()),
+        0, "hi32-filterstudies.png");
+    removeStudiesFilterAct_ = createAction(this, tr("Remove Studies Filter"),
+        tr("Remove studies filter"), SLOT(unfilterStudies()),
+        0, "hi32-removefilter.png");
     // inactivate removeStudiesFilterAct_ by default
     removeStudiesFilterAct_->setEnabled(false);
-    refreshViewAct_ = new QAction(tr("Refresh"), 0, this);
-    setupAction(refreshViewAct_, "Refresh the catalog", 
-        SLOT(refreshCatalogs()), "hi32-refreshcatalog.png");
-    regenerateAct_ = new QAction(tr("Regenerate"), 0, this);
-    setupAction(regenerateAct_, "Regenerate the catalog",
-	SLOT(regenerateCatalogs()));
-    relabelDiskAct_ = new QAction(tr("Re-Label Disk..."), 0 ,this);
-    setupAction(relabelDiskAct_, "Re-label the optical disk", SLOT(relabelDisk()));
-    mergeStudiesAct_ = new QAction(tr("Merge Studies..."), 0, this);
-    setupAction(mergeStudiesAct_, "Merge studies together", 0);
+    refreshViewAct_ = createAction(this, tr("Refresh"),
+        tr("Refresh the catalog"), SLOT(refreshCatalogs()),
+        0, "hi32-refreshcatalog.png");
+    regenerateAct_ = createAction(this, tr("Regenerate"),
+        tr("Regenerate the catalog"), SLOT(regenerateCatalogs()));
+    relabelDiskAct_ = createAction(this, tr("Re-Label Disk..."),
+        tr("Re-label the optical disk"), SLOT(relabelDisk()));
+    mergeStudiesAct_ = createAction(this, tr("Merge Studies..."),
+        tr("Merge studies together"));
 
     // Utilities menu
-    exportListsAct_ = new QAction(tr("Export Lists..."), 0, this);
-    setupAction(exportListsAct_, "Export lists", 0);
-    exportReportFormatsAct_ = new QAction(tr("Export Report Formats..."), 0, this);
-    setupAction(exportReportFormatsAct_, "Export report formats", 0);
-    importListsAct_ = new QAction(tr("Import Lists..."), 0, this);
-    setupAction(importListsAct_, "Import lists", 0);
-    importReportFormatsAct_ = new QAction(tr("Import Report Formats..."), 0, this);
-    setupAction(importReportFormatsAct_, "Import report formats", 0);
-    ejectOpticalDiskAct_ = new QAction(tr("Eject Optical Disk"), 0, this);
-    setupAction(ejectOpticalDiskAct_, "Eject optical disk", SLOT(ejectDisk()));
+    exportListsAct_ = createAction(this, tr("Export Lists..."),
+        tr("Export lists"));
+    exportReportFormatsAct_ = createAction(this, tr("Export Report Formats..."),
+        tr("Export report formats"));
+    importListsAct_ = createAction(this, tr("Import Lists..."),
+        tr("Import lists"));
+    importReportFormatsAct_ = createAction(this, tr("Import Report Formats..."),
+        tr("Import report formats"));
+    ejectOpticalDiskAct_ = createAction(this, tr("Eject Optical Disk"),
+        tr("Eject optical disk"), SLOT(ejectDisk()));
 
     // Administration menu
-    loginAct_= new QAction(tr("Login..."), 0, this);
-    setupAction(loginAct_, "Login as administrator", SLOT(login()));
-    logoutAct_= new QAction(tr("Logout"), 0, this);
-    setupAction(logoutAct_, "Logout from administrator", SLOT(logout()));
-    changePasswordAct_= new QAction(tr("Change Password..."), 0, this);
-    setupAction(changePasswordAct_, "Change administrator password", SLOT(changePassword()));
-    intervalsAct_= new QAction(tr("Intervals"), 0, this);
-    setupAction(intervalsAct_, "Intervals", SLOT(setIntervals()));
-    columnFormatsAct_= new QAction(tr("Column Formats"), 0, this);
-    setupAction(columnFormatsAct_, "Column formats", SLOT(setColumnFormats()));
-    protocolsAct_= new QAction(tr("Protocols"), 0, this);
-    setupAction(protocolsAct_, "Protocols", SLOT(setProtocols()));
-    studyConfigurationsAct_= new QAction(tr("Study Configurations"), 0, this);
-    setupAction(studyConfigurationsAct_, "Study configurations", SLOT(setStudyConfigurations()));
-    systemSettingsAct_= new QAction(tr("System Settings"), 0, this);
-    setupAction(systemSettingsAct_, "Change system settings",
-                SLOT(systemSettings()));
-    simulatorOptionsAct_ = new QAction(tr("*Simulator Settings*"), 0, this);
-    setupAction(simulatorOptionsAct_, "Change simulator settings", 
-                SLOT(simulatorSettings()));
+    loginAct_= createAction(this, tr("Login..."),
+        tr("Login as administrator"), SLOT(login()));
+    logoutAct_= createAction(this, tr("Logout"),
+        tr("Logout from administrator"), SLOT(logout()));
+    changePasswordAct_= createAction(this, tr("Change Password..."),
+        tr("Change administrator password"), SLOT(changePassword()));
+    intervalsAct_= createAction(this, tr("Intervals"),
+        tr("Intervals"), SLOT(setIntervals()));
+    columnFormatsAct_= createAction(this, tr("Column Formats"),
+        tr("Column formats"), SLOT(setColumnFormats()));
+    protocolsAct_= createAction(this, tr("Protocols"),
+        tr("Protocols"), SLOT(setProtocols()));
+    studyConfigurationsAct_= createAction(this, tr("Study Configurations"),
+        tr("Study configurations"), SLOT(setStudyConfigurations()));
+    systemSettingsAct_= createAction(this, tr("System Settings"),
+        tr("Change system settings"), SLOT(systemSettings()));
+    simulatorOptionsAct_ = createAction(this, tr("*Simulator Settings*"),
+        tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Help menu
-    epsimulatorHelpAct_ = new QAction(tr("EP Simulator Help..."), tr("F1"), this);
-    setupAction(epsimulatorHelpAct_, "Get help for EP Simulator", SLOT(help()));
-    aboutAct_= new QAction(tr("&About EP Simulator"), 0, this);
-    setupAction(aboutAct_, "About EP Simulator", SLOT(about()));
+    epsimulatorHelpAct_ = createAction(this, tr("EP Simulator Help..."),
+        tr("Get help for EP Simulator"), SLOT(help()), tr("F1"));
+    aboutAct_= createAction(this, tr("&About EP Simulator"),
+        tr("About EP Simulator"), SLOT(about()));
 }
 
 void Navigator::createToolBars() {
@@ -875,34 +868,34 @@ void Navigator::readSettings() {
 }
 
 void Navigator::processFilter() {
-        QRegExp lastNameRegExp(filterCatalog_->lastNameFilter(), false, true);
-	QRegExp firstNameRegExp(filterCatalog_->firstNameFilter(), false, true);
-	QRegExp mrnRegExp(filterCatalog_->mrnFilter(), false, true);
-	QRegExp studyConfigRegExp(filterCatalog_->studyConfigFilter(), false, true);
-	QRegExp studyNumberRegExp(filterCatalog_->studyNumberFilter(), false, true);
-	QRegExp studyLocationRegExp(filterCatalog_->studyLocationFilter(), false, true);
+        QRegExp lastNameRegExp(filterCatalogDialog_->lastNameFilter(), false, true);
+	QRegExp firstNameRegExp(filterCatalogDialog_->firstNameFilter(), false, true);
+	QRegExp mrnRegExp(filterCatalogDialog_->mrnFilter(), false, true);
+	QRegExp studyConfigRegExp(filterCatalogDialog_->studyConfigFilter(), false, true);
+	QRegExp studyNumberRegExp(filterCatalogDialog_->studyNumberFilter(), false, true);
+	QRegExp studyLocationRegExp(filterCatalogDialog_->studyLocationFilter(), false, true);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;
 	bool anyDate = false;
-	switch (filterCatalog_->dateFilter()) {
-	    case FilterCatalog::AnyDate : 
+	switch (filterCatalogDialog_->dateFilter()) {
+	    case FilterCatalogDialog::AnyDate : 
 		anyDate = true;
 		break;
 
-	    case FilterCatalog::Today : // today, default settings are true
+	    case FilterCatalogDialog::Today : // today, default settings are true
 		break;
 
-	    case FilterCatalog::LastWeek : 
+	    case FilterCatalogDialog::LastWeek : 
 		startDate = endDate.addDays(-7);
 		break; // i.e. last week's studies
 
-	    case FilterCatalog::SpecificDates :   // specific dates selected
-		startDate = filterCatalog_->beginDate();
-		endDate = filterCatalog_->endDate();
+	    case FilterCatalogDialog::SpecificDates :   // specific dates selected
+		startDate = filterCatalogDialog_->beginDate();
+		endDate = filterCatalogDialog_->endDate();
 		break;
 	}	
-        TableListView::FilterStudyType filterStudyType = filterCatalog_->filterStudyType();
+        TableListView::FilterStudyType filterStudyType = filterCatalogDialog_->filterStudyType();
  
         tableListView_->applyFilter(filterStudyType, lastNameRegExp,
             firstNameRegExp, mrnRegExp, studyConfigRegExp, 
@@ -998,7 +991,8 @@ QString Navigator::studyPath(const Study* study) const {
 void Navigator::deleteDataFiles(const QString& path) {
     if (!options_->permanentDelete()) {
 #ifndef NDEBUG
-        std::cerr << "Path is " << path << std::endl;
+        std::cerr << "Path is " << path.toAscii().constData()
+            << std::endl;
 #endif
         return;
     }
@@ -1007,15 +1001,20 @@ void Navigator::deleteDataFiles(const QString& path) {
         if (!d.exists())
             throw EpSim::FileNotFoundError(path);
         QString item;
-        const QFileInfoList *list = d.entryInfoList();
-        QFileInfoListIterator it(*list);
-        QFileInfo *fi;
-        
-        while((fi = it.current())){
-            item = fi->fileName();
-            d.remove(item);
-            ++it;
+ //       const QFileInfoList *list = d.entryInfoList();
+        QFileInfoList list = d.entryInfoList();
+        for (int i = 0; i < list.size(); ++i) {
+            QFileInfo fileInfo = list.at(i);
+            d.remove(fileInfo.fileName());
         }
+//         QFileInfoListIterator it(list);
+//         QFileInfo *fi;
+//         
+//         while(fi = *it) {
+//             item = fi->fileName();
+//             d.remove(item);
+//             ++it;
+//         }
         d.rmdir(path);
     }
     catch (EpSim::FileNotFoundError& e) {
@@ -1025,6 +1024,22 @@ void Navigator::deleteDataFiles(const QString& path) {
         throw EpSim::DeleteError();
     }
 }
+
+/*
+   {
+        QDir dir;
+        dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
+        dir.setSorting(QDir::Size | QDir::Reversed);
+
+        QFileInfoList list = dir.entryInfoList();
+        printf("     Bytes Filename\n");
+    
+            QFileInfo fileInfo = list.at(i);
+            printf("%10li %s\n", fileInfo.size(), qPrintable(fileInfo.fileName()));
+        }
+        return 0;
+    }
+*/
 
 /// This checks to make sure the selected study is on the optical disk catalog.
 /// If something is wrong with the catalog and the study is not physically present

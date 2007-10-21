@@ -38,7 +38,11 @@ ButtonFrame::ButtonFrame(QWidget* parent)
                               (QSizePolicy::SizeType)5, 0, 0,
                               sizePolicy().hasHeightForWidth()));
     setFrameShape(Q3Frame::StyledPanel);
-    setPaletteBackgroundColor("darkBlue");
+    QPalette palette;
+    palette.setColor(QPalette::Background, Qt::darkBlue);
+    setPalette(palette);
+    // old Qt3 style
+    //setPaletteBackgroundColor("darkBlue");
     setMaximumWidth(200);
     buttonFrameLayout_ = new Q3GridLayout(this, 1, 1, 11, 6, "");
 }
@@ -73,7 +77,7 @@ void ButtonFrame::setupButton(QAbstractButton* button, const QPixmap& pixmap,
                               QLabel* label, const char* slotName, 
                               bool lastButton) {
     button->setFixedSize(buttonWidth, buttonHeight);
-    button->setPixmap(pixmap);
+    button->setIcon(QIcon(pixmap));
     static int row = 0;   // allows adding widgets in correct row
     // last parameter centers the buttons and labels horizontally
     if (row == 0) {

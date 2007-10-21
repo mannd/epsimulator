@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef STUDYCONFIGDIALOG_H
-#define STUDYCONFIGDIALOG_H
+#ifndef SELECTSTUDYCONFIGDIALOG_H
+#define SELECTSTUDYCONFIGDIALOG_H
 
 #include "ui_selectstudyconfigdialog.h"
 
@@ -26,14 +26,15 @@
 #include <q3listbox.h>
 #include <qstring.h>
 
-class StudyConfigDialog: public QDialog, private Ui::SelectStudyConfigDialog {
+class SelectStudyConfigDialog: public QDialog, 
+    private Ui::SelectStudyConfigDialog {
     Q_OBJECT
 public:
-    StudyConfigDialog(QWidget *parent = 0);
+    SelectStudyConfigDialog(QWidget *parent = 0);
 
     QString config() const {return configListBox->currentText();}
 
-    ~StudyConfigDialog();
+    ~SelectStudyConfigDialog();
 
 private slots:
     void enableOkButton();
@@ -41,6 +42,3 @@ private slots:
 };
 
 #endif
-
-///TODO  This should probably be called the SelectStudyConfigDialog.  There is a separate
-/// study configuration dialog.

@@ -6,14 +6,13 @@
 FORMS += ui/filtercatalogdialog.ui \
          ui/disklabeldialog.ui \
          ui/movecopystudywizard.ui  \
-         ui/selectemulateddiskdialog.ui
+         ui/selectemulateddiskdialog.ui \
+         ui/selectstudyconfigdialog.ui
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 
 #IDLS += ui/studymovecopywizard.ui 
 HEADERS += navigator.h \
-           studyconfigdialog.h \
-           filtercatalog.h \
            catalogcombobox.h \
            catalog.h \
            tablelistview.h \
@@ -21,13 +20,11 @@ HEADERS += navigator.h \
            disklabeldialog.h \
            buttonframe.h \
            statusbar.h \
-           passworddialog.h \
-           studycopywizard.h  \
-           selectemulateddiskdialog.h
+           selectemulateddiskdialog.h \
+ selectstudyconfigdialog.h \
+ filtercatalogdialog.h
 SOURCES += main.cpp \
            navigator.cpp \
-           studyconfigdialog.cpp \
-           filtercatalog.cpp \
            catalogcombobox.cpp \
            catalog.cpp \
            tablelistview.cpp \
@@ -35,8 +32,9 @@ SOURCES += main.cpp \
            disklabeldialog.cpp \
            buttonframe.cpp \
            statusbar.cpp \
-           studycopywizard.cpp  \
-           selectemulateddiskdialog.cpp
+           selectemulateddiskdialog.cpp \
+ selectstudyconfigdialog.cpp \
+ filtercatalogdialog.cpp
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

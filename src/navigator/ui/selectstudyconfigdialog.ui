@@ -91,5 +91,38 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>okButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SelectStudyConfigDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>261</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>45</x>
+     <y>444</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SelectStudyConfigDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>365</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>150</x>
+     <y>453</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

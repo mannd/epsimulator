@@ -115,5 +115,38 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>selectPushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SelectEmulatedDiskDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>431</x>
+     <y>285</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>399</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelPushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SelectEmulatedDiskDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>433</x>
+     <y>371</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>428</x>
+     <y>414</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
