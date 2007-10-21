@@ -38,7 +38,7 @@ User* User::instance() {
 User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
     const size_t length = 255;
     char name[length] = "";
-    machineName_ = gethostname(name, length) == 0 ? QString(name) : QString::null;
+    machineName_ = gethostname(name, length) == 0 ? QString(name) : QString();
 }
 
 User::~User() {}

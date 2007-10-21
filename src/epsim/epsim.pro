@@ -1,19 +1,18 @@
 TEMPLATE = lib
 
-CONFIG += dll
+CONFIG += dll \
+ debug
 
 DESTDIR = ../../lib/
 
-SOURCES += getopts.cpp \
-options.cpp \
+SOURCES += options.cpp \
 settings.cpp \
 versioninfo.cpp \
  epfuns.cpp \
  actions.cpp \
  utilities.cpp \
  user.cpp
-HEADERS += getopts.h \
-options.h \
+HEADERS += options.h \
 settings.h \
 versioninfo.h \
  epfuns.h \
@@ -26,4 +25,8 @@ versioninfo.h \
 INCLUDEPATH += /usr/include/Qt
 
 
+
+CONFIG -= release
+
+QT += qt3support
 
