@@ -74,7 +74,7 @@ public:
     virtual void refresh();
     virtual void regenerate(Keys& keys, Catalog*); 
     virtual void relabel(const QString& label, const QString& side, 
-        const QString& key = QString::null);
+        const QString& key = QString());
 
     virtual QString location(const StudyData&); // generates appropriate location format
                                                 // overriden by specific catalog types
@@ -173,10 +173,10 @@ public:
 
     // Functions below work on all active catalogs.
     void addStudy(const Study* study, 
-                  const QString& location = QString::null,
-                  const QString& side = QString::null, 
-                  const QString& labName = QString::null,
-                  const QString& machineName = QString::null);
+                  const QString& location = QString(),
+                  const QString& side = QString(), 
+                  const QString& labName = QString(),
+                  const QString& machineName = QString());
 //    void addStudy(const Study*);
     void deleteStudy(const Study*);
     

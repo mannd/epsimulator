@@ -19,50 +19,43 @@
  ***************************************************************************/
 #include "buttonframe.h"
 
-#include "../epsim/options.h"
-
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QLayout>
 #include <QPushButton>
 #include <QToolButton>
-#include <qsizepolicy.h>
-//Added by qt3to4:
+#include <QSizePolicy>
 #include <QPixmap>
-#include <Q3GridLayout>
-#include <Q3Frame>
+#include <QGridLayout>
 
+/**
+ * @class AbstractButtonFrame
+ * Abstract class, constructs the vertical blue button bar 
+ * on the left of the navigator window.
+ * Uses setupButton to make each button.  The parent is
+ * a horizontal QSplitter.  This is also the parent of the 
+ * Studeis TableListView.
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
 
-ButtonFrame::ButtonFrame(QWidget* parent)
- : Q3Frame(parent), parent_(parent) {
+/**
+ * Constructs blue bar on left side of Navigator window
+ * @param parent the QSplitter that owns this widget 
+ */
+AbstractButtonFrame::AbstractButtonFrame(QWidget* parent) 
+    : QFrame(parent) {
     setSizePolicy(QSizePolicy((QSizePolicy::SizeType)1, 
                               (QSizePolicy::SizeType)5, 0, 0,
                               sizePolicy().hasHeightForWidth()));
-    setFrameShape(Q3Frame::StyledPanel);
+    setFrameShape(QFrame::StyledPanel);
     QPalette palette;
-    palette.setColor(QPalette::Background, Qt::darkBlue);
+    palette.setColor(QPalette::Window, Qt::darkBlue);
+    palette.setColor(QPalette::Button, Qt::white);
+    palette.setColor(QPalette::WindowText, Qt::white);
     setPalette(palette);
-    // old Qt3 style
-    //setPaletteBackgroundColor("darkBlue");
+    // necessary to actually apply the Window color to the background
+    setAutoFillBackground(true);
     setMaximumWidth(200);
-    buttonFrameLayout_ = new Q3GridLayout(this, 1, 1, 11, 6, "");
-}
-
-void ButtonFrame::addButton(const QString& name, const QString& pixmapName, 
-                            const char* slotName, bool lastButton) {
-    QPixmap pixmap(":/images/" + pixmapName);
-    QLabel* label = new QLabel(tr(name), this);
-    if (Options::instance()->newStyleBlueBar()) {   // set up flat buttons
-        QToolButton* button = new QToolButton(this);
-        button->setUsesBigPixmap(true);
-        button->setPaletteBackgroundColor("blue");
-        button->setAutoRaise(true);
-        pixmap.fill();  // sets to white by default
-        setupButton(button, pixmap, label, slotName, lastButton);
-    }
-    else {  // using original style raised pushbuttons
-        QPushButton* button = new QPushButton(this);
-        setupButton(button, pixmap, label, slotName, lastButton);
-    }
+    buttonFrameLayout_ = new QGridLayout(this, 1, 1, 11, 6, "");    
 }
 
 /**
@@ -73,11 +66,12 @@ void ButtonFrame::addButton(const QString& name, const QString& pixmapName,
  * @param slotName The slot associated with the button.
  * @param lastButton The last button is handled differently. 
  */
-void ButtonFrame::setupButton(QAbstractButton* button, const QPixmap& pixmap,
+void AbstractButtonFrame::setupButton(QAbstractButton* button, const QPixmap& pixmap,
                               QLabel* label, const char* slotName, 
                               bool lastButton) {
     button->setFixedSize(buttonWidth, buttonHeight);
     button->setIcon(QIcon(pixmap));
+    button->setIconSize(QSize(buttonWidth - 10, buttonHeight - 10));
     static int row = 0;   // allows adding widgets in correct row
     // last parameter centers the buttons and labels horizontally
     if (row == 0) {
@@ -89,8 +83,7 @@ void ButtonFrame::setupButton(QAbstractButton* button, const QPixmap& pixmap,
     buttonFrameLayout_->addWidget(button, row++, 0, Qt::AlignHCenter);
     // Notice that a SLOT is passed as a function parameter as a const char*.
     if (slotName)
-        connect(button, SIGNAL(clicked()), parent_->parent(), slotName); 
-    label->setPaletteForegroundColor("white");
+        connect(button, SIGNAL(clicked()), parent()->parent(), slotName); 
     label->setAlignment(int(Qt::AlignCenter));
     buttonFrameLayout_->addWidget(label, row++, 0, Qt::AlignHCenter);
     // insert line between button/label groups
@@ -105,7 +98,49 @@ void ButtonFrame::setupButton(QAbstractButton* button, const QPixmap& pixmap,
 }
 
 
-ButtonFrame::~ButtonFrame() {
+// OldStyleButtonFrame
+
+OldStyleButtonFrame::OldStyleButtonFrame(QWidget* parent) 
+    : AbstractButtonFrame(parent) {}
+
+/**
+ * Adds a button along with the corresponding pixmap and slot
+ * @param name name of the label under the button
+ * @param pixmapName name of pixmap image WITHOUT trailing ".png"
+ * @param slotName name of slot attached to button
+ * @param lastButton the last button is handled differently
+ */
+void OldStyleButtonFrame::addButton(const QString& name, 
+                                    const QString& pixmapName, 
+                                    const char* slotName, 
+                                    bool lastButton) {
+    QPixmap pixmap(":/images/" + pixmapName + ".png");
+    QLabel* label = new QLabel(tr(name), this);        
+    QPushButton* button = new QPushButton(this);
+    setupButton(button, pixmap, label, slotName, lastButton);
 }
 
+// NewStyleButtonFrame
 
+NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent)
+    : AbstractButtonFrame(parent) {}
+
+/**
+ * Adds a button along with the corresponding pixmap and slot
+ * @param name name of the label under the button
+ * @param pixmapName name of pixmap image WITHOUT trailing "white.png"
+ * @param slotName name of slot attached to button
+ * @param lastButton the last button is handled differently
+ */
+void NewStyleButtonFrame::addButton(const QString& name, 
+                                    const QString& pixmapName, 
+                                    const char* slotName, 
+                                    bool lastButton) {
+    QPixmap pixmap(":/images/" + pixmapName + "white.png");
+    QLabel* label = new QLabel(tr(name), this);    
+    QToolButton* button = new QToolButton(this);
+    button->setAutoRaise(true);
+    // unfortunately Qt4 sets whole pixmap to white, ignoring transparency
+    //pixmap.fill();  // sets to white by default
+    setupButton(button, pixmap, label, slotName, lastButton);
+}

@@ -50,7 +50,7 @@ void ChangePasswordDialog::accept() {
         clear();
     }
     else if (testPasswordsEqual())    
-        accept();
+        QDialog::accept();
     else {
         QMessageBox::warning(this, tr("Passwords Don't Match"),
                              tr("The new passwords don't match. "

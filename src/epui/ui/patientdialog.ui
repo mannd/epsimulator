@@ -432,5 +432,38 @@
   <tabstop>buttonCancel</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonOk</sender>
+   <signal>clicked()</signal>
+   <receiver>PatientDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>661</x>
+     <y>426</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>153</x>
+     <y>418</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>PatientDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>764</x>
+     <y>429</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>480</x>
+     <y>428</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

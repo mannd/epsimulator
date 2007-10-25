@@ -33,6 +33,7 @@
 #include <QLabel>
 #include <Q3PopupMenu>
 
+class AbstractButtonFrame;
 class Catalog;
 class Catalogs;
 class CatalogComboBox;
@@ -140,11 +141,6 @@ private:
     void deleteDataFiles(const QString&); // delete all study data on disk
     bool studyOnDisk(const Study*) const; // make sure study is on current disk
     void studyNotOnDiskError();  // report study not on current disk
-//    QString createLocation() const; // creates study location from label and side
-    /// FIXME below are not needed, delete
-//     void deleteDataFile();  // delete data file associated with current study
-//     void createDataFile();  // create a data file for a new study
-//     void openDataFile();    // open a  data file for review or appending data
 
     // Administration related
     bool administrationAllowed();
@@ -160,11 +156,9 @@ private:
     OpticalDisk* currentDisk_;
     User* user_;
 
-//    OpticalDiskDrive* opticalDiskDrive_;
-
     // central widget stuff
-    /// TODO Make all these end in underscore
     QSplitter* horizontalSplitter_;
+    AbstractButtonFrame* buttonFrame_;
     TableListView* tableListView_;
 
     // Actions
@@ -210,7 +204,6 @@ private:
     QAction* protocolsAct_;
     QAction* studyConfigurationsAct_;
     QAction* systemSettingsAct_;
-    
     // Not part of the Prucka menu system!
     // Simulator options are set here.
     QAction* simulatorOptionsAct_;

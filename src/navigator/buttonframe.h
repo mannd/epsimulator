@@ -20,52 +20,45 @@
 #ifndef BUTTONFRAME_H
 #define BUTTONFRAME_H
 
-#include <q3frame.h>
-//Added by qt3to4:
-#include <QPixmap>
-#include <QLabel>
-#include <Q3GridLayout>
-//#include <qstring.h>
+#include <QFrame>
 
-class Q3GridLayout;
+class QGridLayout;
 class QLabel;
 class QAbstractButton;
 class QString;
 
-/**
-This is the vertical blue button bar on the left of the navigator window.
 
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class ButtonFrame : public Q3Frame
-{
+class AbstractButtonFrame : public QFrame {
 public:
-    ButtonFrame(QWidget* parent = 0);
-
-
-/**
- * Create the "blue bar" to the side of the Navigator window.  Uses
- * setupButton to make each button.  The parent of the buttonFrame_ is
- * the horizontalSplitter_.  This is also the parent of the 
- * tableListView_.
- */
-
-    void addButton(const QString& name, const QString& pixmapName, 
-                   const char* slotName, bool lastButton = false);
-
-    ~ButtonFrame();
-
-private:
-    static const int buttonHeight = 60;
-    static const int buttonWidth = 70;   // size of square buttons in blue panel
+    virtual void addButton(const QString& name, const QString& pixmapName, 
+                   const char* slotName, bool lastButton = false) = 0; 
+protected:
+    AbstractButtonFrame(QWidget* parent = 0);
+    ~AbstractButtonFrame() {}
 
     void setupButton(QAbstractButton* button, const QPixmap& pixmap,
                      QLabel* label, const char* slotName, 
                      bool lastButton);
+private:
+    QGridLayout* buttonFrameLayout_;
+    static const int buttonHeight = 60;
+    static const int buttonWidth = 70;   // size of square buttons in blue panel
+};
 
-    QWidget* parent_;
-    Q3GridLayout* buttonFrameLayout_;
+class OldStyleButtonFrame : public AbstractButtonFrame {
+public:
+    OldStyleButtonFrame(QWidget* parent = 0);
+    ~OldStyleButtonFrame() {}
+    virtual void addButton(const QString& name, const QString& pixmapName, 
+                   const char* slotName, bool lastButton = false);
+}; 
 
+class NewStyleButtonFrame : public AbstractButtonFrame {
+public:
+    NewStyleButtonFrame(QWidget* parent = 0);
+    ~NewStyleButtonFrame() {}
+    virtual void addButton(const QString& name, const QString& pixmapName, 
+                   const char* slotName, bool lastButton = false);
 };
 
 #endif

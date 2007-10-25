@@ -189,8 +189,8 @@
       <root>/usr/lib/qt3</root>
       <includestyle>4</includestyle>
       <designerintegration>ExternalDesigner</designerintegration>
-      <qmake>/usr/bin/qmake</qmake>
-      <designer>/usr/bin/designer</designer>
+      <qmake>/usr/local/Trolltech/Qt-4.3.2/bin/qmake</qmake>
+      <designer>/usr/local/Trolltech/Qt-4.3.2/bin/designer</designer>
       <designerpluginpaths/>
     </qt>
     <creategettersetter>

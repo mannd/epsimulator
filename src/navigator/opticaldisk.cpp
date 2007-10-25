@@ -191,7 +191,7 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, const QString& dis
  * @return 0 if no prior disk, otherwise a pointer to the last disk used
  */
 EmulatedOpticalDisk* EmulatedOpticalDisk::getLastDisk(const QString& path) {
-    EmulatedOpticalDisk* e = new EmulatedOpticalDisk(path, QString::null);
+    EmulatedOpticalDisk* e = new EmulatedOpticalDisk(path, QString());
     // we will now substitute the last disk settings for the new ones generated
     e->lastDisk();
     e->setIsTwoSided(!e->label().isEmpty());
@@ -218,7 +218,7 @@ int EmulatedOpticalDisk::makeLabel(const QString& diskName,
         if (f.exists()) { 
             EpFuns::loadData(f.name(), MagicNumber, labelData);
             labelList.append(labelData.label + 
-                (labelData.side.isEmpty() ? QString::null : " - " 
+                (labelData.side.isEmpty() ? QString() : " - " 
                  + translateSide(labelData.side)));
             DiskInfo* diskInfo = new DiskInfo;
             diskInfo->name = diskName;
@@ -251,9 +251,9 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
     d->setDiskRow(currentDiskRow);
     if (d->exec() == QDialog::Accepted) {
         if (d->newDisk()) {
-            diskName_ = QString::null;
-            setLabel(QString::null);    // Must do this to make sure disk
-            setSide(QString::null);     // is set up right as 1 or 2 sided.
+            diskName_ = QString();
+            setLabel(QString());    // Must do this to make sure disk
+            setSide(QString());     // is set up right as 1 or 2 sided.
             saveLastDisk();
         }
         else if (d->flipDisk()) {
@@ -355,7 +355,7 @@ void EmulatedOpticalDisk::lastDisk() {
     Settings settings;
     diskName_ = settings.readEntry("/lastDisk", "");
     isTwoSided_ = settings.readBoolEntry("/isTwoSided", false);
-    setSide(settings.readEntry("/lastSide", QString::null));
+    setSide(settings.readEntry("/lastSide", QString()));
 }
 
 void EmulatedOpticalDisk::saveLastDisk() {

@@ -124,9 +124,9 @@ bool Catalog::studyPresent(const Study* s) {
 
 QString Catalog::location(const StudyData& sd) {
     if (sd.study.isPreregisterStudy())
-        return QString::null;
+        return QString();
     return sd.location + 
-            (!sd.side.isEmpty() ? " - " + sd.side : QString::null);
+            (!sd.side.isEmpty() ? " - " + sd.side : QString());
 }
 
 void Catalog::load() {
@@ -199,7 +199,7 @@ NetworkCatalog::NetworkCatalog(const QString& path,
  */
 QString NetworkCatalog::location(const StudyData& sd) {
     if (sd.study.isPreregisterStudy())
-        return QString::null;
+        return QString();
     if (Options::instance()->useLabName()) {
         if (!sd.labName.isEmpty())
             return sd.labName + " - " + Catalog::location(sd);

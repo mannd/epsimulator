@@ -490,7 +490,7 @@ void Navigator::exportCatalog() {
                                            tr("Overwrite\n\'%1\'?").
                                                 arg(fileName),
                                            tr("&Yes"), tr("&No"),
-                                           QString::null, 1, 1);
+                                           QString(), 1, 1);
             if (ret == 0) {
                 try {
                     tableListView_->exportCSV(fd->selectedFile());
@@ -527,7 +527,6 @@ void Navigator::simulatorSettings() {
             statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
             updateStatusBarUserLabel();
             /// TODO other effects of changing simulator settings below
-            
         }
         delete simDialog;
     }
@@ -607,6 +606,8 @@ void Navigator::createOpticalDrive() {
 }
 
 void Navigator::createCentralWidget() {
+    horizontalSplitter_ = new QSplitter(Qt::Horizontal, this);
+    setCentralWidget(horizontalSplitter_);
     createButtonFrame();
     createTableListView();
     readSettings(); 
@@ -620,16 +621,19 @@ void Navigator::createCentralWidget() {
  * tableListView_.
  */
 void Navigator::createButtonFrame() {
-    horizontalSplitter_ = new QSplitter(Qt::Horizontal, this);
-    setCentralWidget(horizontalSplitter_);
-
-    ButtonFrame* buttonFrame = new ButtonFrame(horizontalSplitter_);
-
-    buttonFrame->addButton("New Study", "hi64-newstudy.png", SLOT(newStudy()));
-    buttonFrame->addButton("Continue Study", "hi64-continuestudy.png", SLOT(continueStudy()));
-    buttonFrame->addButton("Review Study", "hi64-reviewstudy.png", SLOT(reviewStudy()));
-    buttonFrame->addButton("Pre-Register", "hi64-preregister.png", SLOT(preregisterPatient()));
-    buttonFrame->addButton("Reports", "hi64-reports.png", SLOT(reports()), true); 
+    if (Options::instance()->newStyleBlueBar()) // set up flat buttons
+        buttonFrame_ = new NewStyleButtonFrame(horizontalSplitter_);
+    else
+        buttonFrame_ = new OldStyleButtonFrame(horizontalSplitter_);
+    buttonFrame_->addButton("New Study", "hi64-newstudy", SLOT(newStudy()));
+    buttonFrame_->addButton("Continue Study", "hi64-continuestudy",
+        SLOT(continueStudy()));
+    buttonFrame_->addButton("Review Study", "hi64-reviewstudy",
+        SLOT(reviewStudy()));
+    buttonFrame_->addButton("Pre-Register", "hi64-preregister",
+        SLOT(preregisterPatient()));
+    buttonFrame_->addButton("Reports", "hi64-reports", 
+        SLOT(reports()), true); 
 }
 
 /** @brief Creates the TableListView object.
@@ -974,7 +978,7 @@ Study* Navigator::getNewStudy() {
         // A new study must have a current date time.
         study->setDateTime(QDateTime::currentDateTime());
         // study number will be set to blank also.
-        study->setNumber(QString::null);
+        study->setNumber(QString());
         // need a new key for a new study.
         study->resetKey(); 
         return study;

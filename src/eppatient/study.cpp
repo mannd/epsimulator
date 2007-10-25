@@ -148,7 +148,7 @@ QString Study::key() const {
     // blank last name, so shouldn't happen.
     assert(!name_.last.isNull());
     if (name_.last.isNull())
-        return QString::null;
+        return QString();
     if (key_.isEmpty())
         key_ = name_.last.stripWhiteSpace() + "_" 
         + name_.first.stripWhiteSpace()

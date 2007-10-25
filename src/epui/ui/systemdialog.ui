@@ -431,5 +431,38 @@
   <tabstop>exportPathBrowsePushButton</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonOk</sender>
+   <signal>clicked()</signal>
+   <receiver>SystemDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>632</x>
+     <y>508</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>242</x>
+     <y>502</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>SystemDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>725</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>475</x>
+     <y>507</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
