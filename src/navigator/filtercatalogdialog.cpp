@@ -25,17 +25,18 @@
 
 #include "filtercatalogdialog.h"
 
-#include <q3combobox.h>
-#include <q3buttongroup.h>
-#include <qlineedit.h>
-#include <qdatetime.h>
-#include <q3datetimeedit.h>
-#include <qlabel.h>
-#include <qradiobutton.h>
+// #include <q3combobox.h>
+// #include <q3buttongroup.h>
+// #include <qlineedit.h>
+// #include <qdatetime.h>
+// #include <q3datetimeedit.h>
+// #include <qlabel.h>
+// #include <qradiobutton.h>
 
 
 FilterCatalogDialog::FilterCatalogDialog(QWidget *parent)
     : QDialog(parent) {
+    setupUi(this);
     setDefaultDates();
 }
 

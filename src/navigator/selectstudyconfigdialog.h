@@ -32,7 +32,7 @@ class SelectStudyConfigDialog: public QDialog,
 public:
     SelectStudyConfigDialog(QWidget *parent = 0);
 
-    QString config() const {return configListBox->currentText();}
+    QString config() const {return configListWidget->currentItem()->text();}
 
     ~SelectStudyConfigDialog();
 

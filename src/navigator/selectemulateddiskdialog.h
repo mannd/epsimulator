@@ -22,8 +22,6 @@
 
 #include "ui_selectemulateddiskdialog.h"
 
-#include <q3listbox.h>
-
 class QStringList;
 
 class SelectEmulatedDiskDialog: public QDialog,
@@ -34,10 +32,10 @@ public:
 
     void setLabelList(const QStringList& stringList); 
     void setDiskRow(int row) {
-        SelectEmulatedDiskDialog::labelListBox->setCurrentItem(row);}
+        SelectEmulatedDiskDialog::labelListWidget->setCurrentRow(row);}
 
-    Q3ListBoxItem* selectedItem() {return labelListBox->selectedItem();}
-    int currentItem() {return labelListBox->currentItem();}
+    QListWidgetItem* selectedItem() {return labelListWidget->currentItem();}
+    int currentItem() {return labelListWidget->currentRow();}
 
     bool selectDisk() const {return select_;}
     bool newDisk() const {return new_;}

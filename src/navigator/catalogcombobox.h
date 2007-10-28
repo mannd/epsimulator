@@ -29,7 +29,7 @@ Navigator "System" ComboBox.
 #include "catalog.h"
 #include "options.h"
 
-#include <q3combobox.h>
+#include <QComboBox>
 
 #include <map>
 
@@ -38,10 +38,10 @@ Encapsulates specific behavior of the catalog combo box in Navigator.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */
-class CatalogComboBox : public Q3ComboBox {
+class CatalogComboBox : public QComboBox {
     Q_OBJECT
 public:
-    CatalogComboBox(QWidget *parent = 0, const char *name = 0);
+    CatalogComboBox(QWidget *parent = 0);
     
     void setSource(Catalog::Source source); 
     void refresh();

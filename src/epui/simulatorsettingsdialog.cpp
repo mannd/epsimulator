@@ -42,6 +42,8 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     useLabNameCheckBox->setChecked(options_->useLabName());
     labNameLineEdit->setText(options_->labName());
     permanentDeleteCheckBox->setChecked(options_->permanentDelete());
+    connect(emulateOpticalDriveCheckBox, SIGNAL(stateChanged(int)), 
+        this, SLOT(enableDriveEmulation())); 
 }
 
 void SimulatorSettingsDialog::setOptions() {

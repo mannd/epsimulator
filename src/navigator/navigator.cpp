@@ -770,7 +770,7 @@ void Navigator::createActions() {
 
 void Navigator::createToolBars() {
     navigatorToolBar_ = new Q3ToolBar(tr("Navigator"), this);
-    catalogComboBox_ = new CatalogComboBox(navigatorToolBar_, "catalogComboBox");
+    catalogComboBox_ = new CatalogComboBox(navigatorToolBar_);
     navigatorToolBar_->addSeparator();
     filterStudiesAct_->addTo(navigatorToolBar_);
     removeStudiesFilterAct_->addTo(navigatorToolBar_);
@@ -932,10 +932,22 @@ void Navigator::startStudy(Study* s) {
     s->setPath(studyPath);
     s->save();
     Recorder *recorder = new Recorder();
-    qApp->setMainWidget(recorder);
+    /// FIXME not sure how to substitute MainWindows
+    /* To make this really work, probably need to make recorder a widget,
+    with a new set of menubars and toolbars.    Should be an MDI
+    workspace, to allow simultaneous windows (monitor and review,eg.
+    So...
+        save old menubars and toolbars
+        setCentralWidget(recorder);
+        delete original QSplitter central widget
+        when window closes, reconstruct Navigator again.
+    */
+    //qApp->setMainWidget(recorder);
     // Below is a work-around as showMaximized() alone doesn't always work.
     recorder->showNormal();
     recorder->showMaximized();
+    //showNormal();
+    //showMaximized();
     //delete this;   
 }
 

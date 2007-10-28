@@ -19,23 +19,18 @@
  ***************************************************************************/
 #include "selectstudyconfigdialog.h"
 
-#include <qpushbutton.h>
-#include <q3listbox.h>
-
 SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     : QDialog(parent) {
     setupUi(this);
+    connect(configListWidget, SIGNAL(itemActivated(QListWidgetItem*)), 
+        this, SLOT(enableOkButton()));
+    new QListWidgetItem(tr("<default>"), configListWidget);
+    /// TODO read list of study configurations from 
+    /// file in System dir.
 }
-
-
-// void StudyConfigDialog::enableOkButton() {
-//     
-// }
-
-
-SelectStudyConfigDialog::~SelectStudyConfigDialog() {}
 
 void SelectStudyConfigDialog::enableOkButton() {
-    okButton->setEnabled(configListBox->selectedItem());
+    okButton->setEnabled(configListWidget->currentItem());
 }
 
+SelectStudyConfigDialog::~SelectStudyConfigDialog() {}

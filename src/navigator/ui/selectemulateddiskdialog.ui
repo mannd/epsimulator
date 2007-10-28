@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>SelectEmulatedDiskDialog</class>
  <widget class="QDialog" name="SelectEmulatedDiskDialog" >
   <property name="geometry" >
@@ -15,123 +12,104 @@
   <property name="windowTitle" >
    <string>Select Disk</string>
   </property>
-  <widget class="QWidget" name="layout5" >
-   <property name="geometry" >
-    <rect>
-     <x>372</x>
-     <y>43</y>
-     <width>130</width>
-     <height>400</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" >
-    <property name="margin" >
-     <number>0</number>
-    </property>
-    <property name="spacing" >
-     <number>6</number>
-    </property>
-    <item>
-     <widget class="QPushButton" name="newDiskPushButton" >
-      <property name="text" >
-       <string>&amp;New Disk</string>
-      </property>
-      <property name="shortcut" >
-       <string>Alt+N</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="flipDiskPushButton" >
-      <property name="enabled" >
-       <bool>false</bool>
-      </property>
-      <property name="text" >
-       <string>Flip Dis&amp;k</string>
-      </property>
-      <property name="shortcut" >
-       <string>Alt+K</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="selectPushButton" >
-      <property name="enabled" >
-       <bool>false</bool>
-      </property>
-      <property name="text" >
-       <string>Select</string>
-      </property>
-      <property name="shortcut" >
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="cancelPushButton" >
-      <property name="text" >
-       <string>C&amp;ancel</string>
-      </property>
-      <property name="default" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QLabel" name="textLabel1" >
    <property name="geometry" >
     <rect>
      <x>11</x>
      <y>11</y>
-     <width>578</width>
-     <height>23</height>
+     <width>201</width>
+     <height>18</height>
     </rect>
    </property>
    <property name="text" >
     <string>Available Disks</string>
    </property>
   </widget>
-  <widget class="Q3ListBox" name="labelListBox" >
+  <widget class="QWidget" name="layoutWidget" >
    <property name="geometry" >
     <rect>
-     <x>12</x>
-     <y>45</y>
-     <width>340</width>
-     <height>400</height>
+     <x>10</x>
+     <y>40</y>
+     <width>501</width>
+     <height>421</height>
     </rect>
    </property>
+   <layout class="QGridLayout" >
+    <item row="0" column="0" >
+     <widget class="QListWidget" name="labelListWidget" />
+    </item>
+    <item row="0" column="1" >
+     <layout class="QVBoxLayout" >
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <property name="leftMargin" >
+       <number>0</number>
+      </property>
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="newDiskPushButton" >
+        <property name="text" >
+         <string>&amp;New Disk</string>
+        </property>
+        <property name="shortcut" >
+         <string>Alt+N</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="flipDiskPushButton" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Flip Dis&amp;k</string>
+        </property>
+        <property name="shortcut" >
+         <string>Alt+K</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="selectPushButton" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Select</string>
+        </property>
+        <property name="shortcut" >
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cancelPushButton" >
+        <property name="text" >
+         <string>C&amp;ancel</string>
+        </property>
+        <property name="default" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3ListBox</class>
-   <extends></extends>
-   <header>q3listbox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>selectPushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SelectEmulatedDiskDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>431</x>
-     <y>285</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>399</x>
-     <y>305</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>cancelPushButton</sender>
    <signal>clicked()</signal>

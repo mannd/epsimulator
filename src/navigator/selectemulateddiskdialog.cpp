@@ -19,18 +19,28 @@
  ***************************************************************************/
 #include "selectemulateddiskdialog.h"
 
-#include <q3listbox.h>
-#include <qpushbutton.h>
+//#include <q3listbox.h>
+//#include <qpushbutton.h>
 #include <qstringlist.h>
 
 SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent)
     : QDialog(parent), select_(false),
       new_(false), flip_(false) {
+    setupUi(this);
+    // not sure if this is working the same as with qt3
     enableButtons();
+    connect(labelListWidget, SIGNAL(itemSelectionChanged()),
+        this, SLOT(enableButtons()));
+    connect(newDiskPushButton, SIGNAL(clicked()),
+        this, SLOT(setNew()));
+    connect(selectPushButton, SIGNAL(clicked()),
+        this, SLOT(setSelect()));
+    connect(flipDiskPushButton, SIGNAL(clicked()),
+        this, SLOT(setFlip()));
 }
 
 void SelectEmulatedDiskDialog::setLabelList(const QStringList& stringList) {
-    labelListBox->insertStringList(stringList);
+    labelListWidget->insertItems(0, stringList);
 }
 
 void SelectEmulatedDiskDialog::toggleFlipDisk(bool flip) {
@@ -38,8 +48,8 @@ void SelectEmulatedDiskDialog::toggleFlipDisk(bool flip) {
 }
 
 void SelectEmulatedDiskDialog::enableButtons() {
-    selectPushButton->setEnabled(labelListBox->selectedItem());
-    flipDiskPushButton->setEnabled(labelListBox->selectedItem());
+    selectPushButton->setEnabled(labelListWidget->currentItem());
+    flipDiskPushButton->setEnabled(labelListWidget->currentItem());
 }
 
 
