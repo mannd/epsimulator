@@ -25,19 +25,11 @@
 
 #include "filtercatalogdialog.h"
 
-// #include <q3combobox.h>
-// #include <q3buttongroup.h>
-// #include <qlineedit.h>
-// #include <qdatetime.h>
-// #include <q3datetimeedit.h>
-// #include <qlabel.h>
-// #include <qradiobutton.h>
-
-
 FilterCatalogDialog::FilterCatalogDialog(QWidget *parent)
     : QDialog(parent) {
     setupUi(this);
     setDefaultDates();
+    connect(clearFormButton, SIGNAL(clicked()), this, SLOT(clearForm()));
 }
 
 
@@ -53,8 +45,8 @@ void FilterCatalogDialog::clearForm() {
     studyConfigLineEdit->clear();
     studyNumberLineEdit->clear();
     studyLocationLineEdit->clear();
-    studyDateButtonGroup->setButton(0);
     setDefaultDates();
+    anyDateRadioButton->setChecked(true);
 }
 
 /**
@@ -64,6 +56,16 @@ void FilterCatalogDialog::clearForm() {
 // Filter FilterCatalog::getFilter() {
 // 
 // }
+
+FilterCatalogDialog::DateRange FilterCatalogDialog::dateFilter() {
+    if (anyDateRadioButton->isChecked()) 
+        return AnyDate;
+    if (todaysStudiesRadioButton->isChecked())
+        return Today;
+    if (thisWeeksStudiesRadioButton->isChecked())
+        return LastWeek;
+    return SpecificDates;
+}
 
 void FilterCatalogDialog::enableDateRange() {
     bool checked = datesBetweenRadioButton->isChecked();

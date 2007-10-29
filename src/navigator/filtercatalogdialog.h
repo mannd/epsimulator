@@ -23,14 +23,6 @@
 #include "ui_filtercatalogdialog.h"
 #include "tablelistview.h"  // for FilterStudyType
 
-#include <qdatetime.h>
-#include <q3datetimeedit.h>
-#include <q3combobox.h>
-#include <qlineedit.h>
-#include <q3buttongroup.h>
-#include <qstring.h>
-
-// public inheritance used here to facilitate testing
 class FilterCatalogDialog : public QDialog, 
     private Ui::FilterCatalogDialog {
     Q_OBJECT
@@ -45,7 +37,7 @@ public:
     QString studyConfigFilter() const {return makeFilter(studyConfigLineEdit->text());}
     QString studyNumberFilter() const {return makeFilter(studyNumberLineEdit->text());}
     QString studyLocationFilter() const {return makeFilter(studyLocationLineEdit->text());}
-    DateRange dateFilter() const {return static_cast<DateRange>(studyDateButtonGroup->selectedId());}
+    DateRange dateFilter();
     QDate beginDate() const {return beginDateEdit->date();}
     QDate endDate() const {return endDateEdit->date();}
     TableListView::FilterStudyType filterStudyType() const {
