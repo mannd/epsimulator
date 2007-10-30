@@ -21,6 +21,7 @@
 #include "recorder.h"
 
 #include "epfuns.h"
+#include "patientdialog.h"
 #include "versioninfo.h"
 
 #include <qapplication.h>
@@ -36,9 +37,8 @@
 #include <QCloseEvent>
 
 
-Recorder::Recorder(QWidget* parent, const char* name)
-    : Q3MainWindow(parent, name, Qt::WDestructiveClose)
-{
+Recorder::Recorder(QWidget* parent)
+    : Q3MainWindow(parent) {
     workspace = new QWorkspace(this);
     setCentralWidget(workspace);
 
@@ -77,13 +77,11 @@ void Recorder::closeStudy() {
                                     QMessageBox::Yes | QMessageBox::Default,
                                     QMessageBox::No | QMessageBox::Escape);
     if (ret == QMessageBox::Yes) {
-            hide();     // can't close, or app will terminate
-//         Navigator* navigator = new Navigator;
-//         qApp->setMainWidget(navigator);
-//         // Below is a work-around as showMaximized() alone doesn't always work.
-//         navigator->showNormal();
-//         navigator->showMaximized();
-//         delete this;   
+        if (QWidget* parentWidget = dynamic_cast<QWidget*>(parent())) {
+            parentWidget->showNormal();
+            parentWidget->showMaximized();
+        }
+        hide();     // can't close, or app will terminate
     }
 }
 

@@ -40,6 +40,7 @@ class CatalogComboBox;
 class FilterCatalogDialog;
 class OpticalDisk;
 class Options;
+class Recorder;
 class StatusBar;
 class Study;
 class TableListView;
@@ -141,6 +142,7 @@ private:
     void deleteDataFiles(const QString&); // delete all study data on disk
     bool studyOnDisk(const Study*) const; // make sure study is on current disk
     void studyNotOnDiskError();  // report study not on current disk
+    Recorder* getRecorder(); // returns the Recorder window
 
     // Administration related
     bool administrationAllowed();
@@ -155,6 +157,7 @@ private:
     StatusBar* statusBar_;
     OpticalDisk* currentDisk_;
     User* user_;
+    Recorder* recorder_;
 
     // central widget stuff
     QSplitter* horizontalSplitter_;

@@ -40,7 +40,7 @@ class Recorder : public Q3MainWindow
     Q_OBJECT
 
 public:
-    Recorder(QWidget* parent = 0, const char* name = "recorder");
+    Recorder(QWidget* parent = 0);
     ~Recorder();
 
 protected:

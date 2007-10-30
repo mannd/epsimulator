@@ -75,7 +75,8 @@
 Navigator::Navigator(QWidget* parent, const char* name)
     : Q3MainWindow( parent, name, Qt::WDestructiveClose ),
                    options_(Options::instance()), filterCatalogDialog_(0),
-                   catalogs_(0), currentDisk_(0), user_(User::instance()) {
+                   catalogs_(0), currentDisk_(0), user_(User::instance()),
+                   recorder_(0) {
     do {
         createOpticalDrive();
     } while (!currentDisk_);
@@ -931,24 +932,18 @@ void Navigator::startStudy(Study* s) {
     }
     s->setPath(studyPath);
     s->save();
-    Recorder *recorder = new Recorder();
-    /// FIXME not sure how to substitute MainWindows
-    /* To make this really work, probably need to make recorder a widget,
-    with a new set of menubars and toolbars.    Should be an MDI
-    workspace, to allow simultaneous windows (monitor and review,eg.
-    So...
-        save old menubars and toolbars
-        setCentralWidget(recorder);
-        delete original QSplitter central widget
-        when window closes, reconstruct Navigator again.
-    */
-    //qApp->setMainWidget(recorder);
-    // Below is a work-around as showMaximized() alone doesn't always work.
+    // recorder saves pointer to navigator and unhides it when
+    // it "closes" (actually it hides itself too)
+    // We also reuse the same recorder all the time, 
+    // but use lazy initialization
+    Recorder *recorder = getRecorder();
     recorder->showNormal();
     recorder->showMaximized();
-    //showNormal();
-    //showMaximized();
-    //delete this;   
+    //recorder->setStudy(s);
+    // looks better to show new window first, then hide this one,
+    // and vice versa
+    hide();
+
 }
 
 void Navigator::reviewStudy(Study* s) {
@@ -998,6 +993,12 @@ Study* Navigator::getNewStudy() {
     else
         // Current date time already set with new study.
         return new Study;
+}
+
+Recorder* Navigator::getRecorder() {
+    if (!recorder_)
+        recorder_ = new Recorder(this);
+    return recorder_;
 }
 
 QString Navigator::studyPath(const Study* study) const {
