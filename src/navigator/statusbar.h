@@ -20,9 +20,9 @@
 #ifndef STATUSBAR_H
 #define STATUSBAR_H
 
-#include <qstatusbar.h>
+#include <QStatusBar>
 //Added by qt3to4:
-#include <QLabel>
+//#include <QLabel>
 
 class QLabel;
 class QString;
@@ -35,8 +35,7 @@ Provides status bar functionality for the Navigator window.
 class StatusBar : public QStatusBar  {
 Q_OBJECT
 public:
-    StatusBar(const QString& catalogPath, QWidget *parent = 0, 
-        const char *name = 0);
+    StatusBar(const QString& catalogPath, QWidget *parent = 0);
     
     void updateSourceLabel(const QString&);
     void updateFilterLabel(bool filtered);

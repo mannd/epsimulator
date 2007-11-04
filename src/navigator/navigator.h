@@ -28,7 +28,7 @@
 
 #include "actions.h"
 
-#include <q3mainwindow.h>
+#include <QMainWindow>
 //Added by qt3to4:
 #include <QLabel>
 #include <Q3PopupMenu>
@@ -48,19 +48,19 @@ class User;
 
 class QAction;
 class QLabel;
-class Q3PopupMenu;
+class QMenu;
 class QPushButton;
 class QSplitter;
-class Q3ToolBar;
+class QToolBar;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
  */
-class Navigator : public Q3MainWindow {
+class Navigator : public QMainWindow {
     Q_OBJECT
 
 public:
-    Navigator(QWidget* parent = 0, const char *name = "navigator");
+    Navigator(QWidget* parent = 0);
     ~Navigator();
 
 private slots:
@@ -216,16 +216,16 @@ private:
     QAction* aboutAct_;
 
     // menus
-    Q3PopupMenu *studyMenu_;
-    Q3PopupMenu *catalogMenu_;
-    Q3PopupMenu* switchSubMenu_;
-    Q3PopupMenu *utilitiesMenu_;
-    Q3PopupMenu *administrationMenu_;
-    Q3PopupMenu *securitySubMenu_;
-    Q3PopupMenu *helpMenu_;
+    QMenu *studyMenu_;
+    QMenu *catalogMenu_;
+    QMenu* switchSubMenu_;
+    QMenu *utilitiesMenu_;
+    QMenu *administrationMenu_;
+    QMenu *securitySubMenu_;
+    QMenu *helpMenu_;
 
     // toolbars
-    Q3ToolBar* navigatorToolBar_;
+    QToolBar* navigatorToolBar_;
     CatalogComboBox* catalogComboBox_;
 
 };

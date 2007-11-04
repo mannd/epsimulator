@@ -22,8 +22,8 @@
 #include <qlabel.h>
 #include <qstring.h>
 
-StatusBar::StatusBar(const QString& catalogPath, QWidget *parent, 
-    const char *name) : QStatusBar(parent, name) {
+StatusBar::StatusBar(const QString& catalogPath, QWidget *parent) 
+    : QStatusBar(parent) {
     messageLabel_ = new QLabel(tr("For Help, press F1"), this);
 
 //     QString user = oldStyle ? tr(" User: eplabuser ") :
@@ -44,9 +44,9 @@ StatusBar::StatusBar(const QString& catalogPath, QWidget *parent,
     // true or false (default) determine if label is permanently displayed, or covered by
     // messages.
     addWidget(messageLabel_, 1);
-    addWidget(userLabel_, 0, true);
-    addWidget(sourceLabel_, 0, true);
-    addWidget(filterLabel_, 0, true);
+    addPermanentWidget(userLabel_);
+    addPermanentWidget(sourceLabel_);
+    addPermanentWidget(filterLabel_);
 }
 
 /// Updates status bar to show source of current catalog.

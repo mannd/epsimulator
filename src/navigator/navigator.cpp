@@ -55,13 +55,14 @@
 #include <qdatetime.h>
 #include <q3filedialog.h>
 #include <qlabel.h>
-#include <q3mainwindow.h>
+//#include <q3mainwindow.h>
 #include <qmenubar.h>
 #include <qmessagebox.h>
-#include <q3popupmenu.h>
+#include <QMenu>
 #include <qregexp.h>
 #include <qsplitter.h>
-#include <q3toolbar.h>
+#include <QToolBar>
+#include <QWorkspace>
 
 #include <algorithm>
 
@@ -72,8 +73,8 @@
 /**
  * Navigator constructor
  */
-Navigator::Navigator(QWidget* parent, const char* name)
-    : Q3MainWindow( parent, name, Qt::WDestructiveClose ),
+Navigator::Navigator(QWidget* parent)
+    : QMainWindow( parent, Qt::WDestructiveClose ),
                    options_(Options::instance()), filterCatalogDialog_(0),
                    catalogs_(0), currentDisk_(0), user_(User::instance()),
                    recorder_(0) {
@@ -84,8 +85,8 @@ Navigator::Navigator(QWidget* parent, const char* name)
     createActions();
     createMenus();
     createToolBars();
-    createStatusBar();
     createCentralWidget();
+    createStatusBar();
 
     connect(catalogComboBox_, SIGNAL(activated(int)),
         this, SLOT(changeCatalog()));
@@ -649,8 +650,8 @@ void Navigator::createTableListView() {
 }
 
 void Navigator::createStatusBar() {
-    statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this, 
-        "StatusBar");
+    statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this);
+    setStatusBar(statusBar_);
     updateStatusBarUserLabel();
 }
 
@@ -769,84 +770,94 @@ void Navigator::createActions() {
         tr("About EP Simulator"), SLOT(about()));
 }
 
+// void Navigator::createToolBars() {
+//     navigatorToolBar_ = new Q3ToolBar(tr("Navigator"), this);
+//     catalogComboBox_ = new CatalogComboBox(navigatorToolBar_);
+//     navigatorToolBar_->addSeparator();
+//     filterStudiesAct_->addTo(navigatorToolBar_);
+//     removeStudiesFilterAct_->addTo(navigatorToolBar_);
+//     navigatorToolBar_->addSeparator();
+//     refreshViewAct_->addTo(navigatorToolBar_);
+//     navigatorToolBar_->addSeparator();
+//     exportAct_->addTo(navigatorToolBar_);
+// }
+
 void Navigator::createToolBars() {
-    navigatorToolBar_ = new Q3ToolBar(tr("Navigator"), this);
-    catalogComboBox_ = new CatalogComboBox(navigatorToolBar_);
+    navigatorToolBar_ = new QToolBar(tr("Navigator")); 
+    navigatorToolBar_->setAutoFillBackground(true);
+    catalogComboBox_ = new CatalogComboBox();
+    navigatorToolBar_->addWidget(catalogComboBox_);
     navigatorToolBar_->addSeparator();
-    filterStudiesAct_->addTo(navigatorToolBar_);
-    removeStudiesFilterAct_->addTo(navigatorToolBar_);
+    navigatorToolBar_->addAction(filterStudiesAct_);
+    navigatorToolBar_->addAction(removeStudiesFilterAct_);
     navigatorToolBar_->addSeparator();
-    refreshViewAct_->addTo(navigatorToolBar_);
+    navigatorToolBar_->addAction(refreshViewAct_);
     navigatorToolBar_->addSeparator();
-    exportAct_->addTo(navigatorToolBar_);
+    navigatorToolBar_->addAction(exportAct_);
+    addToolBar(navigatorToolBar_);
+    //navigatorToolBar_->show();
 }
 
 void Navigator::createMenus() {
 
-    studyMenu_ = new Q3PopupMenu(this);
-    newAct_->addTo(studyMenu_);
-    continueAct_->addTo(studyMenu_);
-    reviewAct_->addTo(studyMenu_);
-    preregisterAct_->addTo(studyMenu_);
-    reportsAct_->addTo(studyMenu_);
-    studyMenu_->insertSeparator();
-    copyAct_->addTo(studyMenu_);
-    moveAct_->addTo(studyMenu_);
-    deleteAct_->addTo(studyMenu_);
-    exportAct_->addTo(studyMenu_);
-    studyMenu_->insertSeparator();
-    exitAct_->addTo(studyMenu_);
+    studyMenu_ = menuBar()->addMenu(tr("&Study"));
+    studyMenu_->addAction(newAct_);
+    studyMenu_->addAction(continueAct_);
+    studyMenu_->addAction(reviewAct_);
+    studyMenu_->addAction(preregisterAct_);
+    studyMenu_->addAction(reportsAct_);
+    studyMenu_->addSeparator();
+    studyMenu_->addAction(copyAct_);
+    studyMenu_->addAction(moveAct_);
+    studyMenu_->addAction(deleteAct_);
+    studyMenu_->addAction(exportAct_);
+    studyMenu_->addSeparator();
+    studyMenu_->addAction(exitAct_);
 
-    catalogMenu_ = new Q3PopupMenu(this);
-    switchSubMenu_ = new Q3PopupMenu(this);
-    networkSwitchAct_->addTo(switchSubMenu_);
-    systemSwitchAct_->addTo(switchSubMenu_);
-    opticalSwitchAct_->addTo(switchSubMenu_);
-    browseSwitchAct_->addTo(switchSubMenu_);
-    catalogMenu_->insertItem(tr("Switch"), switchSubMenu_);
-    filterStudiesAct_->addTo(catalogMenu_);
-    removeStudiesFilterAct_->addTo(catalogMenu_);
-    catalogMenu_->insertSeparator();
-    refreshViewAct_->addTo(catalogMenu_);
-    regenerateAct_->addTo(catalogMenu_);
-    relabelDiskAct_->addTo(catalogMenu_);
-    mergeStudiesAct_->addTo(catalogMenu_);
+    catalogMenu_ = menuBar()->addMenu(tr("&Catalog"));
+    switchSubMenu_ = new QMenu(tr("Switch"));
+    switchSubMenu_->addAction(networkSwitchAct_);
+    switchSubMenu_->addAction(systemSwitchAct_);
+    switchSubMenu_->addAction(opticalSwitchAct_);
+    switchSubMenu_->addAction(browseSwitchAct_);
+    catalogMenu_->addMenu(switchSubMenu_);
+    catalogMenu_->addAction(filterStudiesAct_);
+    catalogMenu_->addAction(removeStudiesFilterAct_);
+    catalogMenu_->addSeparator();
+    catalogMenu_->addAction(refreshViewAct_);
+    catalogMenu_->addAction(regenerateAct_);
+    catalogMenu_->addAction(relabelDiskAct_);
+    catalogMenu_->addAction(mergeStudiesAct_);
 
-    utilitiesMenu_ = new Q3PopupMenu(this);
-    exportListsAct_->addTo(utilitiesMenu_);
-    exportReportFormatsAct_->addTo(utilitiesMenu_);
-    utilitiesMenu_->insertSeparator();
-    importListsAct_->addTo(utilitiesMenu_);
-    importReportFormatsAct_->addTo(utilitiesMenu_);
-    utilitiesMenu_->insertSeparator();
-    ejectOpticalDiskAct_->addTo(utilitiesMenu_);
+    utilitiesMenu_ = menuBar()->addMenu(tr("&Utilities"));
+    utilitiesMenu_->addAction(exportListsAct_);
+    utilitiesMenu_->addAction(exportReportFormatsAct_);
+    utilitiesMenu_->addSeparator();
+    utilitiesMenu_->addAction(importListsAct_);
+    utilitiesMenu_->addAction(importReportFormatsAct_);
+    utilitiesMenu_->addSeparator();
+    utilitiesMenu_->addAction(ejectOpticalDiskAct_);
 
-    administrationMenu_ = new Q3PopupMenu(this);
-    securitySubMenu_ = new Q3PopupMenu(this);
-    loginAct_->addTo(securitySubMenu_);
-    logoutAct_->addTo(securitySubMenu_);
-    changePasswordAct_->addTo(securitySubMenu_);
-    administrationMenu_->insertItem(tr("Security"), securitySubMenu_);
+    administrationMenu_ = menuBar()->addMenu(tr("&Administration"));
+    securitySubMenu_ = new QMenu(tr("Security"));
+    securitySubMenu_->addAction(loginAct_);
+    securitySubMenu_->addAction(logoutAct_);
+    securitySubMenu_->addAction(changePasswordAct_);
+    administrationMenu_->addMenu(securitySubMenu_);
     //insert Lists submenu here
-    administrationMenu_->insertSeparator();
-    intervalsAct_->addTo(administrationMenu_);
-    columnFormatsAct_->addTo(administrationMenu_);
-    protocolsAct_->addTo(administrationMenu_);
-    studyConfigurationsAct_->addTo(administrationMenu_);
-    administrationMenu_->insertSeparator();
-    systemSettingsAct_->addTo(administrationMenu_);
-    simulatorOptionsAct_->addTo(administrationMenu_);
+    administrationMenu_->addSeparator();
+    administrationMenu_->addAction(intervalsAct_);
+    administrationMenu_->addAction(columnFormatsAct_);
+    administrationMenu_->addAction(protocolsAct_);
+    administrationMenu_->addAction(studyConfigurationsAct_);
+    administrationMenu_->addSeparator();
+    administrationMenu_->addAction(systemSettingsAct_);
+    administrationMenu_->addAction(simulatorOptionsAct_);
     // insert reports submenu here
 
-    helpMenu_ = new Q3PopupMenu(this);
-    epsimulatorHelpAct_->addTo(helpMenu_);
-    aboutAct_->addTo(helpMenu_);
-
-    menuBar()->insertItem(tr("&Study"), studyMenu_);
-    menuBar()->insertItem(tr("&Catalog"), catalogMenu_);
-    menuBar()->insertItem(tr("&Utilities"), utilitiesMenu_);
-    menuBar()->insertItem(tr("&Administration"), administrationMenu_);
-    menuBar()->insertItem(tr("&Help"), helpMenu_);
+    helpMenu_ = menuBar()->addMenu(tr("&Help"));
+    helpMenu_->addAction(epsimulatorHelpAct_);
+    helpMenu_->addAction(aboutAct_);
 
     updateMenus();
 
