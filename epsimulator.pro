@@ -10,7 +10,8 @@ SUBDIRS += src/epsim \
            src/epui \
            src/stimulator \
 	   src/recorder \
-           src/navigator
+           src/navigator \
+ src/test
 
 TEMPLATE = subdirs
 CONFIG += debug \

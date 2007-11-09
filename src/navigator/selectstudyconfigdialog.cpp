@@ -24,6 +24,8 @@ SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     setupUi(this);
     connect(configListWidget, SIGNAL(itemActivated(QListWidgetItem*)), 
         this, SLOT(enableOkButton()));
+    connect(configListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+        this, SLOT(accept()));
     new QListWidgetItem(tr("<default>"), configListWidget);
     /// TODO read list of study configurations from 
     /// file in System dir.

@@ -29,9 +29,6 @@
 #include "actions.h"
 
 #include <QMainWindow>
-//Added by qt3to4:
-#include <QLabel>
-#include <Q3PopupMenu>
 
 class AbstractButtonFrame;
 class Catalog;
@@ -47,9 +44,7 @@ class TableListView;
 class User;
 
 class QAction;
-class QLabel;
 class QMenu;
-class QPushButton;
 class QSplitter;
 class QToolBar;
 
@@ -216,13 +211,13 @@ private:
     QAction* aboutAct_;
 
     // menus
-    QMenu *studyMenu_;
-    QMenu *catalogMenu_;
+    QMenu* studyMenu_;
+    QMenu* catalogMenu_;
     QMenu* switchSubMenu_;
-    QMenu *utilitiesMenu_;
-    QMenu *administrationMenu_;
-    QMenu *securitySubMenu_;
-    QMenu *helpMenu_;
+    QMenu* utilitiesMenu_;
+    QMenu* administrationMenu_;
+    QMenu* securitySubMenu_;
+    QMenu* helpMenu_;
 
     // toolbars
     QToolBar* navigatorToolBar_;

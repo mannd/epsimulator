@@ -19,30 +19,18 @@
  ***************************************************************************/
 #include "statusbar.h"
 
-#include <qlabel.h>
-#include <qstring.h>
+#include <QLabel>
+#include <QString>
 
 StatusBar::StatusBar(const QString& catalogPath, QWidget *parent) 
     : QStatusBar(parent) {
     messageLabel_ = new QLabel(tr("For Help, press F1"), this);
-
-//     QString user = oldStyle ? tr(" User: eplabuser ") :
-//         tr(" User: %1 ").arg(std::getenv("USER"));
     userLabel_ = new QLabel(this);
-//    userLabel_->setAlignment(AlignHCenter);
-//    updateUserLabel(false, oldStyle);
-
     sourceLabel_ = new QLabel(this);
-//    sourceLabel_->setAlignment(AlignHCenter);
     updateSourceLabel(catalogPath);
-
     filterLabel_ = new QLabel(this);
-//    filterLabel_->setAlignment(AlignHCenter);
     updateFilterLabel(false);   // filter always off at start of program
 
-    // 1 or 0 determine how much space the label takes up.  0 minimizes space.
-    // true or false (default) determine if label is permanently displayed, or covered by
-    // messages.
     addWidget(messageLabel_, 1);
     addPermanentWidget(userLabel_);
     addPermanentWidget(sourceLabel_);
@@ -53,13 +41,11 @@ StatusBar::StatusBar(const QString& catalogPath, QWidget *parent)
 void StatusBar::updateSourceLabel(const QString& label) {
     sourceLabel_->setText(tr(" Source: %1 ")
         .arg(label));
-//    sourceLabel_->setMinimumSize(sourceLabel_->sizeHint());
     update();
 }
 
 void StatusBar::updateFilterLabel(bool filtered) {
     filterLabel_->setText(filtered ? tr(" Filtered ") : tr(" Unfiltered "));
-//    filterLabel_->setMinimumSize(filterLabel_->sizeHint());
     update();
 }
 
@@ -68,8 +54,5 @@ void StatusBar::updateUserLabel(const QString& userName) {
     update();
 }
 
-StatusBar::~StatusBar()
-{
+StatusBar::~StatusBar() {
 }
-
-

@@ -24,10 +24,10 @@
 #include "options.h"
 #include "study.h"
 
-#include <qdatastream.h>
-#include <qdir.h>
-#include <qfile.h>
-#include <qstringlist.h>
+#include <QDataStream>
+#include <QDir>
+#include <QFile>
+#include <QStringList>
 
 #include <vector>
 
@@ -84,10 +84,6 @@ void Catalog::deleteStudy(const Study* study) {
     catalog_.erase(study->key());
     save();
 }
-
-// void Catalog::editStudy(Study* study) {
-//     addStudy(study);
-// }
 
 void Catalog::refresh() {
     load();
@@ -239,10 +235,6 @@ void Catalogs::setCatalogPath(Catalog::Source source, const QString& path) {
     catalogs_[source]->setPath(path);
 }
 
-// QString Catalogs::fileName() const {
-//     return fileName_;
-// }
-
 /// TODO need an update Catalogs function to be called after systemDialog execs
 
 void Catalogs::setCurrentCatalog(Catalog::Source source) {
@@ -252,18 +244,21 @@ void Catalogs::setCurrentCatalog(Catalog::Source source) {
 void Catalogs::addStudy(const Study* study, const QString& location,
                         const QString& side, const QString& labName,
                         const QString& machineName) {
-    for (CatalogsMap::iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+    for (CatalogsMap::iterator it = catalogs_.begin(); 
+        it != catalogs_.end(); ++it)
         (*it).second->addStudy(study, location, side, labName, machineName);
 }
 
 void Catalogs::deleteStudy(const Study* study) {
-    for (CatalogsMap::iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+    for (CatalogsMap::iterator it = catalogs_.begin(); 
+        it != catalogs_.end(); ++it)
         (*it).second->deleteStudy(study);
 }
 
 
 void Catalogs::refresh() {
-   for (CatalogsMap::iterator it = catalogs_.begin(); it != catalogs_.end(); ++it)
+   for (CatalogsMap::iterator it = catalogs_.begin(); 
+        it != catalogs_.end(); ++it)
         (*it).second->refresh();
 }
 
@@ -271,7 +266,8 @@ void Catalogs::regenerate(const QString& location, const QString& side,
                     const QString& labName, const QString& machineName) {
     opticalCatalog_->regenerate(location, side, labName, machineName);
     Catalog::Keys keys = opticalCatalog_->getKeys();
-    for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it) 
+    for (CatalogsMap::const_iterator it = catalogs_.begin(); 
+        it != catalogs_.end(); ++it) 
         if (!(*it).second->isOptical())   // already did the optical catalog
             (*it).second->regenerate(keys, opticalCatalog_);
 }
@@ -280,8 +276,9 @@ void Catalogs::relabel(const QString& label, const QString& side) {
     // relabel optical catalog first
     opticalCatalog_->relabel(label, side);
     std::vector<QString> keys = opticalCatalog_->getKeys();
-     for (CatalogsMap::const_iterator it = catalogs_.begin(); it != catalogs_.end(); ++it) 
-         if (!(*it).second->isOptical()) // already did the optical catalog
+     for (CatalogsMap::const_iterator it = catalogs_.begin(); 
+        it != catalogs_.end(); ++it) 
+        if (!(*it).second->isOptical()) // already did the optical catalog
             for (std::vector<QString>::iterator p = keys.begin();
                 p != keys.end(); ++p)
                 (*it).second->relabel(label, side, *p);

@@ -50,19 +50,16 @@
 #include "utilities.h"
 #include "versioninfo.h"
 
-#include <qaction.h>
-#include <qapplication.h>
-#include <qdatetime.h>
-#include <q3filedialog.h>
-#include <qlabel.h>
-//#include <q3mainwindow.h>
-#include <qmenubar.h>
-#include <qmessagebox.h>
+#include <QAction>
+#include <QDateTime>
+#include <QFileDialog>
+#include <QLabel>
 #include <QMenu>
-#include <qregexp.h>
-#include <qsplitter.h>
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QRegExp>
+#include <QSplitter>
 #include <QToolBar>
-#include <QWorkspace>
 
 #include <algorithm>
 
@@ -468,10 +465,10 @@ void Navigator::setCatalogOptical() {
 }
 
 void Navigator::setCatalogOther() {
-    Q3FileDialog *fd = new Q3FileDialog(options_->systemCatalogPath(), 
-                                      Catalog::defaultFileName(), this, 0, true);
+    QFileDialog* fd = new QFileDialog(this, tr("Select Catalog"),
+        options_->systemCatalogPath(), Catalog::defaultFileName());
     if (fd->exec() == QDialog::Accepted) {
-        catalogs_->setCatalogPath(Catalog::Other, fd->dirPath());
+        catalogs_->setCatalogPath(Catalog::Other, fd->directory().path());
         catalogs_->refresh();   // to reload Other catalog
         catalogComboBox_->setSource(Catalog::Other);
         changeCatalog();
@@ -480,10 +477,15 @@ void Navigator::setCatalogOther() {
 }
 
 void Navigator::exportCatalog() {
-    Q3FileDialog *fd = new Q3FileDialog(QDir::homeDirPath(), "Comma-delimited (*.csv)", this, 0, true);
-    fd->setMode(Q3FileDialog::AnyFile);
+    QFileDialog* fd = new QFileDialog(this, tr("Export Catalog"),
+        QDir::homeDirPath(), tr("Comma-delimited (*.csv)"));
+    fd->setMode(QFileDialog::AnyFile);
+    fd->setAcceptMode(QFileDialog::AcceptSave);
     if (fd->exec() == QDialog::Accepted) {
-        QString fileName = fd->selectedFile();
+        QStringList files = fd->selectedFiles();
+        QString fileName = QString();
+        if (!files.isEmpty())
+            fileName = files[0];
         if (!fileName.isEmpty()) {
             int ret = 0;
             if (QFile::exists(fileName))
@@ -495,7 +497,7 @@ void Navigator::exportCatalog() {
                                            QString(), 1, 1);
             if (ret == 0) {
                 try {
-                    tableListView_->exportCSV(fd->selectedFile());
+                    tableListView_->exportCSV(fileName);
                 }
                 catch (EpSim::IoError& e) {
                     std::cerr << e.what() << std::endl;
@@ -576,10 +578,12 @@ void Navigator::createOpticalDrive() {
         delete currentDisk_;
         currentDisk_ = 0;
         if (options_->emulateOpticalDrive()) {
-            currentDisk_ = EmulatedOpticalDisk::getLastDisk(options_->opticalStudyPath());
+            currentDisk_ = EmulatedOpticalDisk::getLastDisk(
+                options_->opticalStudyPath());
             if (!currentDisk_) {
-                currentDisk_ = new EmulatedOpticalDisk(options_->opticalStudyPath(),
-                                    options_->dualSidedDrive());
+                currentDisk_ = new EmulatedOpticalDisk(
+                    options_->opticalStudyPath(),
+                    options_->dualSidedDrive());
                 currentDisk_->saveLastDisk();
             }
         }
@@ -597,11 +601,18 @@ void Navigator::createOpticalDrive() {
         if (ret == 1)
             exit(1);
         else {
-            Q3FileDialog *fd = new Q3FileDialog(this, 0, true);
-            fd->setMode(Q3FileDialog::Directory);
+            QFileDialog* fd = new QFileDialog(this);
+            fd->setMode(QFileDialog::Directory);
             if (fd->exec() == QDialog::Accepted) {
-                options_->setOpticalStudyPath(fd->selectedFile());
-                options_->writeSettings();
+                QStringList files = fd->selectedFiles();
+                QString fileName = QString();
+                if (!files.isEmpty()) {
+                    fileName = files[0];
+                    if (!fileName.isEmpty()) {
+                        options_->setOpticalStudyPath(fileName);
+                        options_->writeSettings();
+                    }
+                }
             }
         }
     }
@@ -644,7 +655,8 @@ void Navigator::createButtonFrame() {
  * source is current in the catalogComboBox_.
  */
 void Navigator::createTableListView() {
-    tableListView_ = new TableListView(horizontalSplitter_, options_->oldStyleNavigator());
+    tableListView_ = new TableListView(horizontalSplitter_,
+        options_->oldStyleNavigator());
     connect(tableListView_, SIGNAL(doubleClicked(Q3ListViewItem*, 
         const QPoint&, int)), this, SLOT(newStudy()));
 }
@@ -660,18 +672,6 @@ void Navigator::updateMenus() {
         user_->isAdministrator();
     simulatorOptionsAct_->setVisible(showSimulatorSettings);
 }
-
-/**
- * Sets up icon, status tip, and slot for an action.
- */
-// void Navigator::setupAction(QAction* action, QString statusTip, 
-//                             const char* slotName, const char* iconName) {
-// //     if (iconName)
-// //         action->setIconSet(qPixmapFromMimeSource(iconName));
-// //     action->setStatusTip(tr(statusTip));
-// //     if (slotName)
-// //         connect(action, SIGNAL(activated()), this, slotName);
-// } 
 
 using EpFuns::createAction;
 
@@ -770,18 +770,6 @@ void Navigator::createActions() {
         tr("About EP Simulator"), SLOT(about()));
 }
 
-// void Navigator::createToolBars() {
-//     navigatorToolBar_ = new Q3ToolBar(tr("Navigator"), this);
-//     catalogComboBox_ = new CatalogComboBox(navigatorToolBar_);
-//     navigatorToolBar_->addSeparator();
-//     filterStudiesAct_->addTo(navigatorToolBar_);
-//     removeStudiesFilterAct_->addTo(navigatorToolBar_);
-//     navigatorToolBar_->addSeparator();
-//     refreshViewAct_->addTo(navigatorToolBar_);
-//     navigatorToolBar_->addSeparator();
-//     exportAct_->addTo(navigatorToolBar_);
-// }
-
 void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator")); 
     navigatorToolBar_->setAutoFillBackground(true);
@@ -795,7 +783,6 @@ void Navigator::createToolBars() {
     navigatorToolBar_->addSeparator();
     navigatorToolBar_->addAction(exportAct_);
     addToolBar(navigatorToolBar_);
-    //navigatorToolBar_->show();
 }
 
 void Navigator::createMenus() {
@@ -884,12 +871,17 @@ void Navigator::readSettings() {
 }
 
 void Navigator::processFilter() {
-        QRegExp lastNameRegExp(filterCatalogDialog_->lastNameFilter(), false, true);
-	QRegExp firstNameRegExp(filterCatalogDialog_->firstNameFilter(), false, true);
+        QRegExp lastNameRegExp(filterCatalogDialog_->lastNameFilter(), 
+            false, true);
+	QRegExp firstNameRegExp(filterCatalogDialog_->firstNameFilter(), 
+            false, true);
 	QRegExp mrnRegExp(filterCatalogDialog_->mrnFilter(), false, true);
-	QRegExp studyConfigRegExp(filterCatalogDialog_->studyConfigFilter(), false, true);
-	QRegExp studyNumberRegExp(filterCatalogDialog_->studyNumberFilter(), false, true);
-	QRegExp studyLocationRegExp(filterCatalogDialog_->studyLocationFilter(), false, true);
+	QRegExp studyConfigRegExp(filterCatalogDialog_->studyConfigFilter(),
+            false, true);
+	QRegExp studyNumberRegExp(filterCatalogDialog_->studyNumberFilter(),
+            false, true);
+	QRegExp studyLocationRegExp(filterCatalogDialog_->studyLocationFilter(),
+            false, true);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;
@@ -898,20 +890,21 @@ void Navigator::processFilter() {
 	    case FilterCatalogDialog::AnyDate : 
 		anyDate = true;
 		break;
-
-	    case FilterCatalogDialog::Today : // today, default settings are true
+            // today, default settings are true
+	    case FilterCatalogDialog::Today : 
 		break;
-
+            // last week's studies
 	    case FilterCatalogDialog::LastWeek : 
 		startDate = endDate.addDays(-7);
-		break; // i.e. last week's studies
-
-	    case FilterCatalogDialog::SpecificDates :   // specific dates selected
+		break; 
+            // specific dates selected
+	    case FilterCatalogDialog::SpecificDates :   
 		startDate = filterCatalogDialog_->beginDate();
 		endDate = filterCatalogDialog_->endDate();
 		break;
 	}	
-        TableListView::FilterStudyType filterStudyType = filterCatalogDialog_->filterStudyType();
+        TableListView::FilterStudyType filterStudyType =
+            filterCatalogDialog_->filterStudyType();
  
         tableListView_->applyFilter(filterStudyType, lastNameRegExp,
             firstNameRegExp, mrnRegExp, studyConfigRegExp, 
@@ -921,7 +914,8 @@ void Navigator::processFilter() {
         filterStudiesAct_->setEnabled(false);
         removeStudiesFilterAct_->setEnabled(true);
         // only disallow regenerating when catalog is filtered
-        /// TODO This may not be necessary.  Catalog will be refreshed automatically
+        /// TODO This may not be necessary.  
+        /// Catalog will be refreshed automatically
         /// after it is regenerated.
         regenerateAct_->setEnabled(false);
 }
@@ -1029,20 +1023,11 @@ void Navigator::deleteDataFiles(const QString& path) {
         if (!d.exists())
             throw EpSim::FileNotFoundError(path);
         QString item;
- //       const QFileInfoList *list = d.entryInfoList();
         QFileInfoList list = d.entryInfoList();
         for (int i = 0; i < list.size(); ++i) {
             QFileInfo fileInfo = list.at(i);
             d.remove(fileInfo.fileName());
         }
-//         QFileInfoListIterator it(list);
-//         QFileInfo *fi;
-//         
-//         while(fi = *it) {
-//             item = fi->fileName();
-//             d.remove(item);
-//             ++it;
-//         }
         d.rmdir(path);
     }
     catch (EpSim::FileNotFoundError& e) {
@@ -1053,30 +1038,15 @@ void Navigator::deleteDataFiles(const QString& path) {
     }
 }
 
-/*
-   {
-        QDir dir;
-        dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
-        dir.setSorting(QDir::Size | QDir::Reversed);
-
-        QFileInfoList list = dir.entryInfoList();
-        printf("     Bytes Filename\n");
-    
-            QFileInfo fileInfo = list.at(i);
-            printf("%10li %s\n", fileInfo.size(), qPrintable(fileInfo.fileName()));
-        }
-        return 0;
-    }
-*/
-
 /// This checks to make sure the selected study is on the optical disk catalog.
 /// If something is wrong with the catalog and the study is not physically present
 /// on disk, despite being in the catalog, the actual disk processing should raise
 /// and exception.
 bool Navigator::studyOnDisk(const Study* s) const {
     if (catalogs_->currentCatalogIsOptical())
-        return true; // by definition is you are selecting from the optical catalog
-                // the study is there.
+        return true; 
+        // by definition if you are selecting from the optical catalog
+        // the study is there.
     if (catalogs_->studyPresentOnOpticalDisk(s))
         return true;
     return false;

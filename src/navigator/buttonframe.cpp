@@ -66,9 +66,11 @@ AbstractButtonFrame::AbstractButtonFrame(QWidget* parent)
  * @param slotName The slot associated with the button.
  * @param lastButton The last button is handled differently. 
  */
-void AbstractButtonFrame::setupButton(QAbstractButton* button, const QPixmap& pixmap,
-                              QLabel* label, const char* slotName, 
-                              bool lastButton) {
+void AbstractButtonFrame::setupButton(QAbstractButton* button, 
+                                      const QPixmap& pixmap, 
+                                      QLabel* label, 
+                                      const char* slotName, 
+                                      bool lastButton) {
     button->setFixedSize(buttonWidth, buttonHeight);
     button->setIcon(QIcon(pixmap));
     button->setIconSize(QSize(buttonWidth - 10, buttonHeight - 10));

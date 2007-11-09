@@ -39,6 +39,7 @@
 #include "versioninfo.h"
 
 #include <QApplication>
+#include <QIcon>
 #include <QMessageBox>
 #include <QString>
 
@@ -52,16 +53,9 @@
 #include <qtranslator.h>
 #endif
 
-#include <exception>
-#include <iostream>
-
-using std::endl;
-using std::cerr;
-
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    std::cerr << argc << std::endl;
 
 // International stuff below
 #ifndef ENGLISH

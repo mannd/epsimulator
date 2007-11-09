@@ -151,25 +151,6 @@ QString OpticalDisk::translateSide(const QString& side) {
 OpticalDisk::~OpticalDisk() {
 }
 
-/// FIXME This is very messy.  There should be 2 distinct actions:
-///     1) create a new emulated optical disk
-///     2) use the last emulated optical disk, if there is one.
-/// Changing this will have a lot of downstream effects, but it needs to be done.
-// EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
-//     bool isTwoSided) : OpticalDisk(path) {
-//     // Need some housekeeping to setup fake optical disk.
-//     lastDisk();     // sets diskName_, labelData_
-//     setIsLabeled(!label().isEmpty());
-//     if (diskName_.isEmpty()) {
-//         diskName_ = "disk_" + QDateTime::currentDateTime().toString(
-//    		"ddMMyyyyhhmmsszzz");
-//         isTwoSided_ = isTwoSided;
-//         setSide(isTwoSided_ ? "A" : QString::null);
-//         //writeLabel();
-//         saveLastDisk(); // also do this when disk changes
-//     }
-// }
-
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
                                          bool isTwoSided) 
                                          : OpticalDisk(path) {

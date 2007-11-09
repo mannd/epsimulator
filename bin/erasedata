@@ -3,7 +3,8 @@
 # data files!  Only works for my specific file locations.
 # This is handy for test purposes, but don't run it
 # on data you want to save!!
-rm -f ~/.qt/epsimulatorrc
+# Note location of configuration files is different in Qt4 vs 3
+rm -f ~/.config/EPStudios/EPSimulator.conf
 rm -fr ~/MyStudies/*
 rm -f ~/dev/local/epsimulator/test/catalog.dat
 rm -f ~/dev/local/epsimulator/System/catalog.dat
