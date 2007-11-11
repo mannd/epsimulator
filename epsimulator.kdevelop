@@ -119,18 +119,21 @@
         <monitor/>
         <recorder/>
         <epsimulator/>
+        <runner/>
       </runarguments>
       <cwd>
         <test>/home/mannd/dev/local/epsimulator/../bin</test>
         <monitor>/home/mannd/dev/local/epsimulator</monitor>
         <recorder>/home/mannd/dev/local/epsimulator</recorder>
         <epsimulator>/home/mannd/dev/local/epsimulator</epsimulator>
+        <runner>/home/mannd/dev/local/epsimulator</runner>
       </cwd>
       <debugarguments>
         <test/>
         <monitor/>
         <recorder/>
         <epsimulator/>
+        <runner/>
       </debugarguments>
     </run>
     <make>
@@ -147,7 +150,10 @@
       <replacePaths>false</replacePaths>
       <disableDefaultOpts>true</disableDefaultOpts>
     </qmake>
-    <subclassing/>
+    <subclassing>
+      <subclass uifile="src/navigator/ui/movecopystudydialog.ui" sourcefile="ui/movecopystudydialog.cpp" />
+      <subclass uifile="src/navigator/ui/movecopystudydialog.ui" sourcefile="ui/movecopystudydialog.h" />
+    </subclassing>
   </kdevtrollproject>
   <kdevcppsupport>
     <references/>

@@ -33,6 +33,16 @@
 PatientDialog::PatientDialog(QWidget* parent)
     : QDialog(parent) {
     setupUi(this);
+    connect(manualEditBsaCheckBox, SIGNAL(stateChanged(int)),
+        this, SLOT(manualEditBsaCheckBox_toggled(int)));
+    connect(heightInLineEdit, SIGNAL(lostFocus()),
+        this, SLOT(heightInLineEdit_lostFocus()));
+    connect(heightCmLineEdit, SIGNAL(lostFocus()),
+        this, SLOT(heightCmLineEdit_lostFocus()));
+    connect(weightLbsLineEdit, SIGNAL(lostFocus()),
+        this, SLOT(weightLbsLineEdit_lostFocus()));
+    connect(weightKgLineEdit, SIGNAL(lostFocus()),
+        this, SLOT(weightKgLineEdit_lostFocus()));
 }
 
 void PatientDialog::accept() {
@@ -50,12 +60,20 @@ double PatientDialog::inchesToCentimeters(double inches) const {
     return inches * 2.54;
 }
 
-double PatientDialog::poundsToKilograms(double pounds) const {
-    return pounds * 0.45;
+double PatientDialog::centimetersToInches(double cm) const {
+    return cm / 2.54;
 }
 
-void PatientDialog::manualEditBsaCheckBox_toggled(bool checked) {
-    bsaLineEdit->setEnabled(checked);
+double PatientDialog::poundsToKilograms(double pounds) const {
+    return pounds * 0.45359237;
+}
+
+double PatientDialog::kilogramsToPounds(double kg) const {
+    return kg / 0.45359237;
+}
+
+void PatientDialog::manualEditBsaCheckBox_toggled(int state) {
+    bsaLineEdit->setEnabled(state == Qt::Checked);
 }
 
 void PatientDialog::setBsaText() {
@@ -66,7 +84,9 @@ void PatientDialog::setBsaText() {
 double PatientDialog::bsa() {
     double height = heightCmLineEdit->text().toDouble();
     double weight = weightKgLineEdit->text().toDouble();
-    return sqrt(height * weight) / 3600;
+    // Mosteller formula
+    // see http://www.halls.md/body-surface-area/refs.htm
+    return sqrt((height * weight) / 3600);
 }
 
 void PatientDialog::heightInLineEdit_lostFocus() {

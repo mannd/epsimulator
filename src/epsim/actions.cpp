@@ -43,11 +43,12 @@ void Actions::about(QWidget* parent) {
 }
 
 void Actions::help(QWidget* parent) {
-    Q3Url site("www.epsimulator.com");
     QMessageBox::information(parent, QObject::tr(
         "%1 Help").arg(VersionInfo::instance()->programName()),
         QObject::tr(
-        "Help is available from www.epstudiossoftware.com"),
+        "Help is available from "
+        "<p><a href=http://www.epstudiossoftware.com> "
+        "http://www.epstudiossoftware.com</a>"),
         QMessageBox::Ok);
 }
 

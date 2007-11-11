@@ -8,7 +8,8 @@ INCLUDEPATH += ../epsim \
 ../eppatient \
 ../epui \
 ../stimulator \
- /usr/include/qt
+ /usr/include/qt \
+ ../navigator
 LIBS += -L../../lib \
 -lepsim \
 -leppatient \
@@ -17,7 +18,8 @@ LIBS += -L../../lib \
 TARGETDEPS += ../../lib/libepsim.so \
 ../../lib/libeppatient.so \
 ../../lib/libepui.so \
-../../lib/libstimulator.a
+../../lib/libstimulator.a \
+ ../navigator/../../bin/epsimulator
 CONFIG -= release
 
 CONFIG += debug \

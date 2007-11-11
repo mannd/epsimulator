@@ -22,7 +22,7 @@
 SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     : QDialog(parent) {
     setupUi(this);
-    connect(configListWidget, SIGNAL(itemActivated(QListWidgetItem*)), 
+    connect(configListWidget, SIGNAL(itemClicked(QListWidgetItem*)), 
         this, SLOT(enableOkButton()));
     connect(configListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
         this, SLOT(accept()));

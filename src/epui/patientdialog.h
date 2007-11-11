@@ -33,7 +33,7 @@ public:
     void getFields(Study* study) const;
    
 public slots:
-    virtual void manualEditBsaCheckBox_toggled(bool);
+    virtual void manualEditBsaCheckBox_toggled(int);
     virtual void weightKgLineEdit_lostFocus();
     virtual void weightLbsLineEdit_lostFocus();
     virtual void heightCmLineEdit_lostFocus();
@@ -41,8 +41,10 @@ public slots:
     virtual void accept();
 
 private:
-    double inchesToCentimeters(double inches) const;
-    double poundsToKilograms(double pounds) const;
+    double inchesToCentimeters(double) const;
+    double centimetersToInches(double) const;
+    double poundsToKilograms(double) const;
+    double kilogramsToPounds(double) const;
     double bsa();
     void setBsaText();
     Sex getSex() const;

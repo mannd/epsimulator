@@ -23,20 +23,21 @@
  * the epsimulator window, we will actually just be changing the menus
  * and the central widget
  */
+#include "navigator.h"
 
 #include "buttonframe.h"
 #include "catalog.h"
+#include "catalogcombobox.h"
 #include "changepassworddialog.h"
 #include "disklabeldialog.h"
-#include "catalogcombobox.h"
 #include "epfuns.h"
 #include "error.h"
 #include "filtercatalogdialog.h"
 #include "opticaldisk.h"
 #include "options.h"
-#include "navigator.h"
+#include "movecopystudydialog.h"    // temporary
+#include "movecopystudywizard.h"
 #include "patientdialog.h"
-#include "changepassworddialog.h"
 #include "recorder.h"
 #include "simulatorsettingsdialog.h"
 #include "settings.h"
@@ -59,6 +60,8 @@
 #include <QMessageBox>
 #include <QRegExp>
 #include <QSplitter>
+#include <QTextIStream>
+#include <QTextOStream>
 #include <QToolBar>
 
 #include <algorithm>
@@ -119,7 +122,6 @@ void Navigator::newStudy() {
             }
         }
         delete selectStudyConfigDialog;
-        delete study;
     }
 }
 
@@ -148,7 +150,6 @@ void Navigator::continueStudy() {
         studyNotOnDiskError();
     else
         startStudy(study);
-    delete study;
 }
 
 void Navigator::reviewStudy() {
@@ -164,7 +165,6 @@ void Navigator::reviewStudy() {
     }
     else
         noStudySelectedError();
-    delete study;
 }
 
 void Navigator::preregisterPatient() {
@@ -192,10 +192,16 @@ void Navigator::reports()  {
     }
     else
         noStudySelectedError();
-    delete study;
 }
 
 void Navigator::copyStudy() {
+    CopyStudyDialog* w = new CopyStudyDialog(this);
+    //w->setCurrentIndex(0);
+    w->show();
+/*    if (w->exec())
+        ;
+    delete w;*/
+}
 //     StudyCopyWizard* wizard = new StudyCopyWizard(this);
 //     wizard->setSourcePathName(currentDisk_->fullPath());
 //     if (wizard->exec()) {
@@ -216,7 +222,7 @@ void Navigator::copyStudy() {
 //         delete disk;
 //     }
 //     delete wizard;
-}
+//}
 
 void Navigator::moveStudy() {
 //     if (administrationAllowed()) {
@@ -487,23 +493,13 @@ void Navigator::exportCatalog() {
         if (!files.isEmpty())
             fileName = files[0];
         if (!fileName.isEmpty()) {
-            int ret = 0;
-            if (QFile::exists(fileName))
-                ret = QMessageBox::warning(this,
-                                           tr("Overwrite File"),
-                                           tr("Overwrite\n\'%1\'?").
-                                                arg(fileName),
-                                           tr("&Yes"), tr("&No"),
-                                           QString(), 1, 1);
-            if (ret == 0) {
-                try {
-                    tableListView_->exportCSV(fileName);
-                }
-                catch (EpSim::IoError& e) {
-                    std::cerr << e.what() << std::endl;
-                    QMessageBox::warning(this, tr("Error"),
-                        tr("Could not export Catalog to %1").arg(e.fileName()));
-                }
+            try {
+                tableListView_->exportCSV(fileName);
+            }
+            catch (EpSim::IoError& e) {
+                std::cerr << e.what() << std::endl;
+                QMessageBox::warning(this, tr("Error"),
+                    tr("Could not export Catalog to %1").arg(e.fileName()));
             }
         }
     }
@@ -842,6 +838,8 @@ void Navigator::createMenus() {
     administrationMenu_->addAction(simulatorOptionsAct_);
     // insert reports submenu here
 
+    menuBar()->addSeparator();
+
     helpMenu_ = menuBar()->addMenu(tr("&Help"));
     helpMenu_->addAction(epsimulatorHelpAct_);
     helpMenu_->addAction(aboutAct_);
@@ -942,6 +940,7 @@ void Navigator::startStudy(Study* s) {
     // We also reuse the same recorder all the time, 
     // but use lazy initialization
     Recorder *recorder = getRecorder();
+    recorder->setStudy(s);
     recorder->showNormal();
     recorder->showMaximized();
     //recorder->setStudy(s);
@@ -952,18 +951,17 @@ void Navigator::startStudy(Study* s) {
 }
 
 void Navigator::reviewStudy(Study* s) {
-    s = 0;  /// TODO only to avoid compiler warning now, s will be passed
-            /// to Review module.
     QMessageBox::information(this, tr("Starting Review Simulation"),
         tr("The Review simulation is not implemented yet.\n"
            "Will return to Navigator."));
+    delete s;
 }
 
 void Navigator::reports(Study* s) {
-    s = 0;
     QMessageBox::information(this, tr("Starting Report Simulation"),
         tr("The Report simulation is not implemented yet.\n"
            "Will return to Navigator."));
+    delete s;
 }
 
 // returns true if PatientDialog is saved, false if cancelled
@@ -972,8 +970,10 @@ bool Navigator::getStudyInformation(Study* study) {
     patientDialog->setFields(study);
     if (patientDialog->exec() == QDialog::Accepted) {
         patientDialog->getFields(study);
+        delete patientDialog;
         return true;
     }
+    delete patientDialog;
     return false;
 }
 
@@ -985,7 +985,7 @@ Study* Navigator::getSelectedStudy() {
 
 /// Returns study selected in the catalog, or, if none selected, a new study.
 Study* Navigator::getNewStudy() {
-    Study* study= getSelectedStudy();
+    Study* study = getSelectedStudy();
     if (study) {
         // A new study must have a current date time.
         study->setDateTime(QDateTime::currentDateTime());

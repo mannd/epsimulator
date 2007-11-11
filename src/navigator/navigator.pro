@@ -7,7 +7,8 @@ FORMS += ui/filtercatalogdialog.ui \
          ui/disklabeldialog.ui \
          ui/movecopystudywizard.ui  \
          ui/selectemulateddiskdialog.ui \
-         ui/selectstudyconfigdialog.ui
+         ui/selectstudyconfigdialog.ui \
+         ui/movecopystudydialog.ui
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 
@@ -22,7 +23,9 @@ HEADERS += navigator.h \
            statusbar.h \
            selectemulateddiskdialog.h \
  selectstudyconfigdialog.h \
- filtercatalogdialog.h
+ filtercatalogdialog.h \
+ movecopystudydialog.h \
+ movecopystudywizard.h
 SOURCES += main.cpp \
            navigator.cpp \
            catalogcombobox.cpp \
@@ -34,7 +37,9 @@ SOURCES += main.cpp \
            statusbar.cpp \
            selectemulateddiskdialog.cpp \
  selectstudyconfigdialog.cpp \
- filtercatalogdialog.cpp
+ filtercatalogdialog.cpp \
+ movecopystudydialog.cpp \
+ movecopystudywizard.cpp
 TEMPLATE += app
 CONFIG += debug \
 warn_on \

@@ -24,23 +24,22 @@
 
 #include "actions.h"
 
-#include <q3mainwindow.h>
-#include <qworkspace.h>
-//Added by qt3to4:
-#include <Q3PopupMenu>
-#include <QCloseEvent>
+#include <QMainWindow>
 
-class QWorkspace;
 class QAction;
-class Q3PopupMenu;
+class QCloseEvent;
+class QMdiArea;
+class QMenu;
+class Study;
 
-
-class Recorder : public Q3MainWindow 
-{
+class Recorder : public QMainWindow {
     Q_OBJECT
 
 public:
     Recorder(QWidget* parent = 0);
+    
+    void setStudy(Study*);
+
     ~Recorder();
 
 protected:
@@ -48,6 +47,7 @@ protected:
     //    void contextMenuEvent(QContextMenuEvent * event);
 
 private slots:
+    void patientInformation();
     void about();
     void help(); 
     void closeStudy();
@@ -55,6 +55,8 @@ private slots:
 private:
     void createActions();
     void createMenus();
+
+    Study* study_;
 
 
 
@@ -64,86 +66,87 @@ private:
         void loadStudy();
         void saveStudy();
     */
-    // fake central widget
-    QWorkspace *workspace;
+    // central widget
+    QMdiArea *workspace_;
 
     Actions actions_;
+    
     // Study Menu
-    QAction *patientInformationAct;
-    QAction *consciousSedationAct;
-    QAction *complicationsAct;
-    QAction *radiologyAct;
-    QAction *medicationAct;
-    QAction *suppliesAct;
-    QAction *staffAct;
-    QAction *clinicalProceduresAct;
-    QAction *macrosAct;
-    QAction *ordersAct;
-    QAction *reportsAct;
-    QAction *exportDataAct;
-    QAction *closeStudyAct;
+    QAction* patientInformationAct_;
+    QAction* consciousSedationAct_;
+    QAction* complicationsAct_;
+    QAction* radiologyAct_;
+    QAction* medicationAct_;
+    QAction* suppliesAct_;
+    QAction* staffAct_;
+    QAction* clinicalProceduresAct_;
+    QAction* macrosAct_;
+    QAction* ordersAct_;
+    QAction* reportsAct_;
+    QAction* exportDataAct_;
+    QAction* closeStudyAct_;
 
     // Study Configuration
-    QAction *switchAct;
-    QAction *saveAct;
-    QAction *saveAsAct;
-    QAction *intervalsAct;
-    QAction *columnFormatsAct;
-    QAction *protocolsAct;
+    QAction* switchAct_;
+    QAction* saveAct_;
+    QAction* saveAsAct_;
+    QAction* intervalsAct_;
+    QAction* columnFormatsAct_;
+    QAction* protocolsAct_;
 
     // Measurements
-    QAction *conductionIntervalsAct;
-    QAction *snrtAct;
-    QAction *anteRPsAct;
-    QAction *retroRPsAct;
-    QAction *manualMeasurementsAct;
-    QAction *statVitalsAct;
-    QAction *startStopNBPAct;
-    QAction *autoLogVitalsAct;
-    QAction *autoLogNBPAct;
-    QAction *measurementConfigurationAct;
-    QAction *dataExtractionAct;
+    QAction* conductionIntervalsAct_;
+    QAction* snrtAct_;
+    QAction* anteRPsAct_;
+    QAction* retroRPsAct_;
+    QAction* manualMeasurementsAct_;
+    QAction* statVitalsAct_;
+    QAction* startStopNBPAct_;
+    QAction* autoLogVitalsAct_;
+    QAction* autoLogNBPAct_;
+    QAction* measurementConfigurationAct_;
+    QAction* dataExtractionAct_;
 
     // Windows
-    QAction *winSaveAct;   // note that Study Config menu has duplicate names
-    QAction *winSaveAsAct;
-    QAction *winSwitchAct;
-    QAction *winDeleteAct;
-    QAction *timerAct;
-    QAction *stopwatchAct;
-    QAction *realTimeAct;
-    QAction *review1Act;
-    QAction *review2Act;
-    QAction *logAct;
-    QAction *ablationAct;
-    QAction *alignmentAct;
-    QAction *mapAct;
-    QAction *holterAct;
-    QAction *plotAct;
-    QAction *macroAct;
-    QAction *image1Act;
-    QAction *image2Act;
-    QAction *imageLibraryAct;
+    QAction* winSaveAct_;   // note that Study Config menu has duplicate names
+    QAction* winSaveAsAct_;
+    QAction* winSwitchAct_;
+    QAction* winDeleteAct_;
+    QAction* timerAct_;
+    QAction* stopwatchAct_;
+    QAction* realTimeAct_;
+    QAction* review1Act_;
+    QAction* review2Act_;
+    QAction* logAct_;
+    QAction* ablationAct_;
+    QAction* alignmentAct_;
+    QAction* mapAct_;
+    QAction* holterAct_;
+    QAction* plotAct_;
+    QAction* macroAct_;
+    QAction* image1Act_;
+    QAction* image2Act_;
+    QAction* imageLibraryAct_;
 
     // Administration Menu
-    QAction *securityAct;
-    QAction *systemSettingsAct;
-    QAction *printSetupAct;
-    QAction *adminReportsAct;   // there is a Report action in the Study menu too
-    QAction *compressionRatioAct;
-    QAction *amplifierTestAct;
-    QAction *ejectOpticalDiskAct;
+    QAction* securityAct_;
+    QAction* systemSettingsAct_;
+    QAction* printSetupAct_;
+    QAction* adminReportsAct_;   // there is a Report action in the Study menu too
+    QAction* compressionRatioAct_;
+    QAction* amplifierTestAct_;
+    QAction* ejectOpticalDiskAct_;
+    
+    QAction* helpAct_;
+    QAction* aboutAct_;
 
-    QAction *helpAct;
-    QAction *aboutAct;
-    ///TODO change format menuStudy to studyMenu throughout
     // Main Menu Bar
-    Q3PopupMenu *menuStudy;
-    Q3PopupMenu *menuStudyConfiguration;
-    Q3PopupMenu *menuMeasurements;
-    Q3PopupMenu *menuWindows;
-    Q3PopupMenu *menuAdministration;
-    Q3PopupMenu *menuHelp;
+    QMenu* studyMenu_;
+    QMenu* studyConfigurationMenu_;
+    QMenu* measurementsMenu_;
+    QMenu* windowsMenu_;
+    QMenu* administrationMenu_;
+    QMenu* helpMenu_;
 };
 
-#endif // EPSIMULATOR_H
+#endif
