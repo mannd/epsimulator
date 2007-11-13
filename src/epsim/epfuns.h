@@ -22,6 +22,7 @@
 #define EPFUNS_H
 
 #include "error.h"
+#include "versioninfo.h"
 
 #include <qdatastream.h>
 #include <qfile.h>
@@ -42,14 +43,6 @@ template<typename T>
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data);
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out);
-
-/// Major or minor version number == BadTestVersion then version not OK.
-/// Version numbers >= the Good... versions are OK.  This system is to 
-/// make sure file formats are compatible when the program is updated.
-enum {BadTestVersion = 9999, GoodMajorVersion = 0, 
-    GoodMinorVersion = 0};
-
-bool versionOk(int major, int minor);
 
 template<typename T> 
 void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
@@ -72,7 +65,7 @@ void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
         throw EpSim::WrongFileTypeError(file.fileName());
     quint32 versionMajor, versionMinor;
     in >> versionMajor >> versionMinor;
-    if (!versionOk(versionMajor, versionMinor))
+    if (!VersionInfo::versionOk(versionMajor, versionMinor))
         throw EpSim::WrongEpSimVersionError();
     if (!in.atEnd())
         in >> data;
@@ -114,7 +107,7 @@ QAction* createAction(QWidget*,
 			= QString::Null());
 		      
 
-}
+}  // namespace EpFuns
 
 #endif
 

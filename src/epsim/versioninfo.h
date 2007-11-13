@@ -20,8 +20,7 @@
 #ifndef EPSIMVERSIONINFO_H
 #define EPSIMVERSIONINFO_H
 
-#include <qapplication.h>
-#include <qstring.h>
+#include <QString>
 
 /**
 Provides version and application information for a program.
@@ -40,14 +39,23 @@ public:
     QString version() {return QString("%1.%2").arg(versionMajor_)
                        .arg(versionMinor_);}
     QString copyrightYear() {return copyrightYear_;}
+    static bool versionOk(int major, int minor);
 
     ~VersionInfo() {}
 
     void destroy() {delete instance_; instance_ = 0;}
 
 private:
-    static VersionInfo* instance_;
+    /// Major or minor version number == BadTestVersion then version not OK.
+    /// Version numbers >= the Good... versions are OK.  This system is to 
+    /// make sure file formats are compatible when the program is updated.
+    enum {BadTestVersion = 9999, GoodMajorVersion = 0, 
+        GoodMinorVersion = 0};
+
+
     VersionInfo(); 
+
+    static VersionInfo* instance_;
     QString appName_;
     QString shortAppName_;
     QString programName_;

@@ -20,6 +20,8 @@
 
 #include "versioninfo.h"
 
+#include <QApplication>
+
 VersionInfo* VersionInfo::instance_ = 0;
 
 VersionInfo* VersionInfo::instance() {
@@ -28,7 +30,17 @@ VersionInfo* VersionInfo::instance() {
     return instance_;
 }
 
-VersionInfo::VersionInfo(): appName_("epsimulator"), shortAppName_("epsim"),
-          programName_(qApp->translate("Global", "EP Simulator")), 
-          copyrightYear_("2006"), versionMajor_(0),
-          versionMinor_(1) {}
+VersionInfo::VersionInfo(): appName_("epsimulator"), 
+                            shortAppName_("epsim"),
+                            programName_(qApp->translate("Global", 
+                                         "EP Simulator")), 
+                            copyrightYear_("2006"), 
+                            versionMajor_(0),
+                            versionMinor_(1) {}
+
+bool VersionInfo::versionOk(int major, int minor) {
+    if (major == BadTestVersion || minor == BadTestVersion)
+        return false;
+    return (major >= GoodMajorVersion 
+        && minor >= GoodMinorVersion);
+}

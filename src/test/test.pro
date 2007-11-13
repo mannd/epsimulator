@@ -5,21 +5,24 @@ TEMPLATE = app
 #The following line was inserted by qt3to4
 QT +=  qt3support 
 INCLUDEPATH += ../epsim \
-../eppatient \
 ../epui \
 ../stimulator \
-../recorder
+../recorder \
+ ../patient \
+ ../navigator
 LIBS += -L../../lib \
 -lepsim \
 -leppatient \
 -lepui \
 ../../lib/libstimulator.a \
--lrecorder
+-lrecorder \
+ -lpatient
 TARGETDEPS += ../../lib/libepsim.so \
-../../lib/libeppatient.so \
 ../../lib/libepui.so \
 ../../lib/libstimulator.a \
-../../lib/librecorder.so
+../../lib/librecorder.so \
+ ../../lib/libpatient.so \
+ ../navigator/../../bin/epsimulator
 SOURCES += testqstring.cpp
 
 CONFIG += qtestlib

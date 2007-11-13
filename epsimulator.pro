@@ -6,7 +6,7 @@
 QT += qt3support
 
 SUBDIRS += src/epsim \
-           src/eppatient \
+           src/patient \
            src/epui \
            src/stimulator \
 	   src/recorder \

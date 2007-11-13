@@ -37,6 +37,7 @@
 #include "options.h"
 #include "movecopystudydialog.h"    // temporary
 #include "movecopystudywizard.h"
+#include "passworddialog.h"
 #include "patientdialog.h"
 #include "recorder.h"
 #include "simulatorsettingsdialog.h"
@@ -388,8 +389,8 @@ void Navigator::relabelDisk() {
 
 void Navigator::login() {
     if (!user_->isAdministrator()) {
-        ChangePasswordDialog* pwDialog = 
-            new ChangePasswordDialog(options_,this);
+        PasswordDialog* pwDialog = 
+            new PasswordDialog(options_,this);
         if (pwDialog->exec() == QDialog::Accepted) {
             user_->makeAdministrator(true);
             updateStatusBarUserLabel();

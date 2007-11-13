@@ -20,21 +20,12 @@
 
 #include "epfuns.h"
 
-#include "versioninfo.h"
-
 #include <QAction>
 #include <q3filedialog.h>
 #include <qlineedit.h>
 #include <qwidget.h>
 
 namespace EpFuns {
-
-bool versionOk(int major, int minor) {
-    if (major == BadTestVersion || minor == BadTestVersion)
-        return false;
-    return (major >= GoodMajorVersion 
-        && minor >= GoodMinorVersion);
-}
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
     out << static_cast<quint32>(magicNumber);

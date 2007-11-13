@@ -114,4 +114,5 @@ void Options::writeSettings() {
 }
 
 Options::~Options() {
+    writeSettings();
 }

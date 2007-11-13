@@ -5,21 +5,20 @@ SOURCES += recorder.cpp
 HEADERS += recorder.h
 
 INCLUDEPATH += ../epsim \
-../eppatient \
 ../epui \
 ../stimulator \
  /usr/include/qt \
- ../navigator
+ ../patient
 LIBS += -L../../lib \
 -lepsim \
 -leppatient \
 -lepui \
-../../lib/libstimulator.a
+../../lib/libstimulator.a \
+ -lpatient
 TARGETDEPS += ../../lib/libepsim.so \
-../../lib/libeppatient.so \
 ../../lib/libepui.so \
 ../../lib/libstimulator.a \
- ../navigator/../../bin/epsimulator
+ ../../lib/libpatient.so
 CONFIG -= release
 
 CONFIG += debug \

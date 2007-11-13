@@ -23,7 +23,6 @@
 
 #include <qmessagebox.h>
 #include <qobject.h>
-#include <q3url.h>
 
 Actions::Actions() {
 }
