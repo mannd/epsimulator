@@ -8,23 +8,23 @@ QT +=  qt3support
 
 DESTDIR = ../../lib
 
-INCLUDEPATH += ../eppatient \
- ../epsim \
- /usr/include/Qt
+INCLUDEPATH += ../epsim \
+ /usr/include/Qt \
+ ../patient
 
 SOURCES += simulatorsettingsdialog.cpp \
  patientdialog.cpp \
  changepassworddialog.cpp \
  passwordhandler.cpp \
- GeneralHashFunctions.cpp \
- systemdialog.cpp
+ systemdialog.cpp \
+ passworddialog.cpp
 
 HEADERS += simulatorsettingsdialog.h \
  patientdialog.h \
  changepassworddialog.h \
  passwordhandler.h \
- GeneralHashFunctions.h \
- systemdialog.h
+ systemdialog.h \
+ passworddialog.h
 
 
 CONFIG -= release
@@ -32,12 +32,15 @@ CONFIG -= release
 FORMS += ui/simulatorsettingsdialog.ui \
          ui/patientdialog.ui \
          ui/changepassworddialog.ui \
-         ui/systemdialog.ui
+         ui/systemdialog.ui \
+         ui/passworddialog.ui
 
 DISTFILES += .
 
 LIBS += -L../../lib \
--lepsim
-TARGETDEPS += ../../lib/libepsim.so
+-lepsim \
+ -lpatient
+TARGETDEPS += ../../lib/libepsim.so \
+ ../../lib/libpatient.so
 
 

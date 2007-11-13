@@ -17,32 +17,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "passwordhandler.h"
 
-#include "options.h"
+#ifndef PASSWORDDIALOG_H
+#define PASSWORDDIALOG_H
 
-#include <QObject>
-#include <QString>
+#include "ui_passworddialog.h"
 
-PasswordHandler::PasswordHandler(Options* options) :
-    options_(options), hash_(QCryptographicHash::Sha1){
-    // set original password to "admin"
-    if (options_->passwordHash() == "0")
-        setPassword(QObject::tr("admin"));
-}
+class Options;
+class PasswordHandler;
+class QString;
 
-void PasswordHandler::setPassword(const QString& pw) {    
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    options_->setPasswordHash(hash_.result());
-    options_->writeSettings();
-}
+class PasswordDialog : public QDialog, 
+    private Ui::PasswordDialog {
+    Q_OBJECT
 
-bool PasswordHandler::testPassword(const QString& pw) {
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    return hash_.result() == options_->passwordHash().toAscii();
-}
+public:
+    PasswordDialog(Options* options, QWidget* parent = 0);
 
-PasswordHandler::~PasswordHandler() {
-}
+    /// public function, just for debugging and testing.
+    void setPassword(const QString&); 
+    bool testPassword();
+
+    ~PasswordDialog();
+
+public slots:
+    virtual void accept();
+  /*$PUBLIC_SLOTS$*/
+
+protected:
+  /*$PROTECTED_FUNCTIONS$*/
+
+protected slots:
+  /*$PROTECTED_SLOTS$*/
+
+private:
+    PasswordHandler* pwHandler_;
+
+};
+
+#endif
+

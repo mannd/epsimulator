@@ -17,32 +17,46 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+
+#include "passworddialog.h"
+
 #include "passwordhandler.h"
 
-#include "options.h"
+#include <qlineedit.h>
+#include <qmessagebox.h>
 
-#include <QObject>
-#include <QString>
 
-PasswordHandler::PasswordHandler(Options* options) :
-    options_(options), hash_(QCryptographicHash::Sha1){
-    // set original password to "admin"
-    if (options_->passwordHash() == "0")
-        setPassword(QObject::tr("admin"));
+PasswordDialog::PasswordDialog(Options* options, QWidget* parent)
+    : QDialog(parent) {
+    setupUi(this);
+    // must set default password of blank
+    passwordLineEdit->setText("");
+    pwHandler_ = new PasswordHandler(options);
 }
 
-void PasswordHandler::setPassword(const QString& pw) {    
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    options_->setPasswordHash(hash_.result());
-    options_->writeSettings();
+void PasswordDialog::setPassword(const QString& pw) {
+    passwordLineEdit->setText(pw);
 }
 
-bool PasswordHandler::testPassword(const QString& pw) {
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    return hash_.result() == options_->passwordHash().toAscii();
+bool PasswordDialog::testPassword() {
+    return pwHandler_->testPassword(passwordLineEdit->text());
 }
 
-PasswordHandler::~PasswordHandler() {
+void PasswordDialog::accept() {
+    if (testPassword())    
+        QDialog::accept();
+    else {
+        QMessageBox::warning(this, tr("Wrong Password"),
+                             tr("Please retry your password."));
+        passwordLineEdit->clear();
+    }
 }
+
+PasswordDialog::~PasswordDialog() {
+    delete pwHandler_;
+}
+
+/*$SPECIALIZATION$*/
+
+

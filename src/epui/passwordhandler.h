@@ -20,11 +20,9 @@
 #ifndef PASSWORDHANDLER_H
 #define PASSWORDHANDLER_H
 
-#include "GeneralHashFunctions.h"
+#include <QCryptographicHash>
 
 class Options;
-class QString;
-
 
 /**
 Encapsulates password alorithm and processing.
@@ -33,16 +31,16 @@ Encapsulates password alorithm and processing.
 */
 class PasswordHandler {
 public:
-    PasswordHandler(Options* o);
+    PasswordHandler(Options*);
 
-    void setPassword(const QString& pw);
-    bool testPassword(const QString& pw);
+    void setPassword(const QString&);
+    bool testPassword(const QString&);
 
     ~PasswordHandler();
 
 private:
     Options* options_;
-    HashFunction hash_;
+    QCryptographicHash hash_;
 
 };
 

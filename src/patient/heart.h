@@ -17,32 +17,31 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "passwordhandler.h"
+#ifndef HEART_H
+#define HEART_H
 
-#include "options.h"
+#include <qstring.h>
 
-#include <QObject>
-#include <QString>
+/**
+Obviously the heart.
 
-PasswordHandler::PasswordHandler(Options* options) :
-    options_(options), hash_(QCryptographicHash::Sha1){
-    // set original password to "admin"
-    if (options_->passwordHash() == "0")
-        setPassword(QObject::tr("admin"));
-}
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
 
-void PasswordHandler::setPassword(const QString& pw) {    
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    options_->setPasswordHash(hash_.result());
-    options_->writeSettings();
-}
+#define DEFAULT_HEART "default"
 
-bool PasswordHandler::testPassword(const QString& pw) {
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    return hash_.result() == options_->passwordHash().toAscii();
-}
+class Heart{
+public:
+    Heart(QString name = DEFAULT_HEART);
+    Heart (const Heart& heart);
 
-PasswordHandler::~PasswordHandler() {
-}
+    QString name() {return name_;}
+
+    ~Heart();
+
+private:
+    QString name_;
+
+};
+
+#endif
