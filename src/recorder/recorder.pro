@@ -11,7 +11,6 @@ INCLUDEPATH += ../epsim \
  ../patient
 LIBS += -L../../lib \
 -lepsim \
--leppatient \
 -lepui \
 ../../lib/libstimulator.a \
  -lpatient

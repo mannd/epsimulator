@@ -12,7 +12,6 @@ INCLUDEPATH += ../epsim \
  ../navigator
 LIBS += -L../../lib \
 -lepsim \
--leppatient \
 -lepui \
 ../../lib/libstimulator.a \
 -lrecorder \
@@ -23,8 +22,11 @@ TARGETDEPS += ../../lib/libepsim.so \
 ../../lib/librecorder.so \
  ../../lib/libpatient.so \
  ../navigator/../../bin/epsimulator
-SOURCES += testqstring.cpp
 
 CONFIG += qtestlib
 
+
+SOURCES += testepsimulator.cpp
+
+HEADERS += testepsimulator.h
 
