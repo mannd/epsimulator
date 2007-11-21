@@ -26,8 +26,6 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include "actions.h"
-
 #include <QMainWindow>
 
 class AbstractButtonFrame;
@@ -159,8 +157,6 @@ private:
     AbstractButtonFrame* buttonFrame_;
     TableListView* tableListView_;
 
-    // Actions
-    Actions actions_;
     // Study menu
     QAction* newAct_;
     QAction* continueAct_;

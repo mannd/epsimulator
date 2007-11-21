@@ -34,7 +34,7 @@ class QKeySequence;
 class QLineEdit;
 class QWidget;
 
-namespace EpFuns {
+namespace EpCore {
 
 template<typename T> 
 void loadData(const QString& filePath, unsigned int magicNumber, T& data); 
@@ -107,7 +107,7 @@ QAction* createAction(QWidget*,
 			= QString::Null());
 		      
 
-}  // namespace EpFuns
+}  // namespace EpCore
 
 #endif
 

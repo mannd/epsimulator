@@ -25,6 +25,7 @@
  */
 #include "navigator.h"
 
+#include "actions.h"
 #include "buttonframe.h"
 #include "catalog.h"
 #include "catalogcombobox.h"
@@ -33,10 +34,10 @@
 #include "epfuns.h"
 #include "error.h"
 #include "filtercatalogdialog.h"
-#include "opticaldisk.h"
-#include "options.h"
 #include "movecopystudydialog.h"    // temporary
 #include "movecopystudywizard.h"
+#include "opticaldisk.h"
+#include "options.h"
 #include "passworddialog.h"
 #include "patientdialog.h"
 #include "recorder.h"
@@ -558,11 +559,11 @@ void Navigator::systemSettings() {
 }
 
 void Navigator::help() {
-    actions_.help(this);
+    EpUi::help(this);
 }
 
 void Navigator::about() {
-    actions_.about(this);
+    EpUi::about(this);
 }
 
 // private
@@ -670,11 +671,11 @@ void Navigator::updateMenus() {
     simulatorOptionsAct_->setVisible(showSimulatorSettings);
 }
 
-using EpFuns::createAction;
+using EpCore::createAction;
 
 void Navigator::createActions() {
     // Study menu
-    newAct_ = EpFuns::createAction(this, tr("&New..."), tr("New study"),
+    newAct_ = createAction(this, tr("&New..."), tr("New study"),
         SLOT(newStudy()), QKeySequence(tr("Ctrl+N")), "hi32-newstudy.png");
     continueAct_ = createAction(this, tr("&Continue"),tr ("Continue study"),
         SLOT(continueStudy()), 0, "hi32-continuestudy.png");

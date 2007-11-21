@@ -51,7 +51,6 @@ CONFIG -= release
 LIBS += -lepsim \
  -L../../lib \
  -lepui \
- -leppatient \
  -lrecorder \
  -lpatient
 TARGETDEPS += ../../lib/libepsim.so \

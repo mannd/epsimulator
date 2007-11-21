@@ -22,8 +22,6 @@
 #ifndef RECORDER_H
 #define RECORDER_H
 
-#include "actions.h"
-
 #include <QMainWindow>
 
 class QAction;
@@ -69,8 +67,6 @@ private:
     // central widget
     QMdiArea *workspace_;
 
-    Actions actions_;
-    
     // Study Menu
     QAction* patientInformationAct_;
     QAction* consciousSedationAct_;

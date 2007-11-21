@@ -127,7 +127,7 @@ QString Catalog::location(const StudyData& sd) {
 
 void Catalog::load() {
     try {
-        EpFuns::loadData(filePath(), MagicNumber, catalog_);
+     EpCore::loadData(filePath(), MagicNumber, catalog_);
     }
     catch (EpSim::IoError&) {
         // ignore failure to read, leave catalog empty
@@ -135,7 +135,7 @@ void Catalog::load() {
 }
 
 void Catalog::save() {
-    EpFuns::saveData(filePath(), MagicNumber, catalog_);
+ EpCore::saveData(filePath(), MagicNumber, catalog_);
 }
 
 QString Catalog::filePath() const {

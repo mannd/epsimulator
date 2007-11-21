@@ -25,7 +25,7 @@
 #include <qlineedit.h>
 #include <qwidget.h>
 
-namespace EpFuns {
+namespace EpCore {
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
     out << static_cast<quint32>(magicNumber);

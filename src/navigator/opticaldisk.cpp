@@ -94,7 +94,7 @@ QString OpticalDisk::studiesPath() const {
  * @param fileName 
  */
 void OpticalDisk::load(const QString& fileName) {
-    EpFuns::loadData(fileName, MagicNumber, labelData_);
+ EpCore::loadData(fileName, MagicNumber, labelData_);
 }
 
 /**
@@ -102,7 +102,7 @@ void OpticalDisk::load(const QString& fileName) {
  * @param fileName 
  */
 void OpticalDisk::save(const QString& fileName) const {
-    EpFuns::saveData(fileName, MagicNumber, labelData_);
+ EpCore::saveData(fileName, MagicNumber, labelData_);
 }
 
 void OpticalDisk::readLabel() {
@@ -197,7 +197,7 @@ int EmulatedOpticalDisk::makeLabel(const QString& diskName,
         f.setName(QDir::cleanDirPath(disksPath() + "/" + diskName + "/" 
                   + (*it) + "/" + labelFileName_));
         if (f.exists()) { 
-            EpFuns::loadData(f.name(), MagicNumber, labelData);
+         EpCore::loadData(f.name(), MagicNumber, labelData);
             labelList.append(labelData.label + 
                 (labelData.side.isEmpty() ? QString() : " - " 
                  + translateSide(labelData.side)));

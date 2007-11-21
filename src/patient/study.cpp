@@ -196,11 +196,11 @@ QString Study::filePath() {
 }
 
 void Study::save() {
-    EpFuns::saveData(filePath(), MagicNumber, *this);
+ EpCore::saveData(filePath(), MagicNumber, *this);
 }
 
 void Study::load() {
-    EpFuns::loadData(filePath(), MagicNumber, *this);
+ EpCore::loadData(filePath(), MagicNumber, *this);
 }
 
 Study::~Study() {

@@ -379,3 +379,5 @@ void TestEpSimulator::completePatientDialog(PatientDialog* p) {
 
 
 QTEST_MAIN(TestEpSimulator)
+//#include "testepsimulator.moc"
+

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,22 +17,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ACTIONS_H
-#define ACTIONS_H
 
-#include <qwidget.h>
+#include "actions.h"
 
-/**
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class Actions {
-public:
-    Actions();
-    void about(QWidget* parent);
-    void help(QWidget* parent);
+#include "versioninfo.h"
 
-    ~Actions();
+#include <QMessageBox>
+#include <QObject>
+#include <QWidget>
 
-};
+namespace EpUi {
 
-#endif
+void about(QWidget* parent) {
+    VersionInfo* info = VersionInfo::instance();
+    QMessageBox::about(parent, QObject::tr("About %1").arg(info->programName()),
+		       QObject::tr("<h2>%1 %2</h2>"
+		          "<p>Copyright &copy; %3 EP Studios, Inc."
+			  "<p>EP Simulator simulates an EP recording "
+			  "system."
+                          "<p><a href=http://www.epstudiossoftware.com> "
+                          "http://www.epstudiossoftware.com</a>")
+                          .arg(info->programName()).arg(info->version())
+                          .arg(info->copyrightYear()));
+///TODO make this an actual hyperlink that you can click on and go to
+}
+
+void help(QWidget* parent) {
+    QMessageBox::information(parent, QObject::tr(
+        "%1 Help").arg(VersionInfo::instance()->programName()),
+        QObject::tr(
+        "Help is available from "
+        "<p><a href=http://www.epstudiossoftware.com> "
+        "http://www.epstudiossoftware.com</a>"),
+        QMessageBox::Ok);
+}
+
+}

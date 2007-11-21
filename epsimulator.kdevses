@@ -2,53 +2,53 @@
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="16" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.h" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/test/testepsimulator.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
-   <View0 Encoding="" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="http://www.icce.rug.nl/documents/cplusplus/" >
+   <View0 Type="Documentation" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.h" >
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/patientdialog.h" >
    <View0 Encoding="" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/patientdialog.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epsim/actions.h" >
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/filtercatalogdialog.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/changepassworddialog.cpp" >
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/filtercatalogdialog.h" >
    <View0 Encoding="" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/changepassworddialog.h" >
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/patient/study.h" >
    <View0 Encoding="" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/passwordhandler.h" >
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/tablelistview.h" >
    <View0 Encoding="" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/passwordhandler.cpp" >
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/patient/study.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/passworddialog.h" >
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/test/testepsimulator.h" >
    <View0 Encoding="" Type="Source" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/passworddialog.cpp" >
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/passwordhandler.h" >
    <View0 Encoding="" Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epsim/options.h" >
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epui/passwordhandler.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epsim/options.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epsim/epfuns.h" >
+   <View0 Encoding="" Type="Source" />
   </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/test/testepsimulator.cpp" >
-   <View0 Encoding="" line="116" Type="Source" />
+  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epsim/versioninfo.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///usr/local/Trolltech/Qt-4.3.2/include/QtTest/qtestmouse.h" >
-   <View0 Encoding="" line="107" Type="Source" />
+  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/epsim/versioninfo.h" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/test/cppunit/MyTestSuite.h" >
-   <View0 Encoding="" line="481" Type="Source" />
+  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/doc/notes" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc15>
  </DocsAndViews>
  <pluginList>

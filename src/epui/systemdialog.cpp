@@ -75,15 +75,15 @@ void SystemDialog::setOptions() {
 }
 
 void SystemDialog::opticalStudyPathBrowse() {
-    EpFuns::browseFilePaths(this, opticalStudyPathLineEdit);
+ EpCore::browseFilePaths(this, opticalStudyPathLineEdit);
 }
 
 void SystemDialog::networkStudyPathBrowse() {
-    EpFuns::browseFilePaths(this, networkStudyPathLineEdit);
+ EpCore::browseFilePaths(this, networkStudyPathLineEdit);
 }
 
 void SystemDialog::exportFilePathBrowse() {
-    EpFuns::browseFilePaths(this, exportFilePathLineEdit);
+ EpCore::browseFilePaths(this, exportFilePathLineEdit);
 }
 
 void SystemDialog::enableExportFilePathLineEdit() {

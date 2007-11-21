@@ -9,7 +9,6 @@ SOURCES += options.cpp \
 settings.cpp \
 versioninfo.cpp \
  epfuns.cpp \
- actions.cpp \
  utilities.cpp \
  user.cpp
 HEADERS += options.h \
@@ -17,7 +16,6 @@ settings.h \
 versioninfo.h \
  epfuns.h \
  error.h \
- actions.h \
  utilities.h \
  user.h
 #The following line was inserted by qt3to4
