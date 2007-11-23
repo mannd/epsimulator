@@ -11,7 +11,9 @@ SUBDIRS += src/core \
            src/stimulator \
 	   src/recorder \
            src/navigator \
-           src/test
+           src/main \
+           src/test 
+           
 
 TEMPLATE = subdirs
 CONFIG += debug \

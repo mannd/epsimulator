@@ -466,3 +466,5 @@ Source Code Reorganization
 Namespaces
 
     Source code modules (or subprojects) have been reorganized.  Basic functions and classes used by all parts of the program are in src/core, and basic gui classes and functions are in src/gui.  Analagous to the QtCore and QtGui namespaces in Qt4, the corresponding namespaces are EpCore and EpGui.  I am also thinking of using a Ep namespace for very basic stuff, like the error handling functions.  *.ui files are now in ui subdirectories beneath the source code directories.  Common ui files are in the gui/ui directory.  Files specific to a module, e.g. the Navigator module are in a ui subdir of that module, e.g. navigator/ui.  To allow unit testing, all modules except main will be shared libaries.  This includes navigator.
+
+Note that TableListView will stay a Q3ListView derived class, as the closest class in Qt4, QTableWidget is very different and finding equivalent functions between the 2 classes is very hard (I tried).  Thus Navigator will require Q3Support to compile.
