@@ -38,12 +38,14 @@ FORMS += ui/simulatorsettingsdialog.ui \
 
 DISTFILES += .
 
-LIBS += -L../../lib \
--lpatient \
- -lcore
+LIBS += -lpatient \
+ -lcore \
+ -L../../lib
 TARGETDEPS += ../../lib/libpatient.so \
  ../../lib/libcore.so
 
 RESOURCES += ../resources/resources.qrc
 
+
+QT += qt3support
 
