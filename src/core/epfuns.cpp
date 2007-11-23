@@ -18,29 +18,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "versioninfo.h"
+#include "epfuns.h"
 
-#include <QApplication>
+/// @namespace EpCore program functions that only require QtCore, not QtGui
+namespace EpCore {
 
-VersionInfo* VersionInfo::instance_ = 0;
-
-VersionInfo* VersionInfo::instance() {
-    if (instance_ == 0)
-        instance_ = new VersionInfo;
-    return instance_;
+void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
+    out << static_cast<quint32>(magicNumber);
+    VersionInfo* v = VersionInfo::instance();
+    out << static_cast<quint32>(v->versionMajor())
+        << static_cast<quint32>(v->versionMinor());
 }
 
-VersionInfo::VersionInfo(): appName_("epsimulator"), 
-                            shortAppName_("epsim"),
-                            programName_(qApp->translate("Global", 
-                                         "EP Simulator")), 
-                            copyrightYear_("2006"), 
-                            versionMajor_(0),
-                            versionMinor_(1) {}
-
-bool VersionInfo::versionOk(int major, int minor) {
-    if (major == BadTestVersion || minor == BadTestVersion)
-        return false;
-    return (major >= GoodMajorVersion 
-        && minor >= GoodMinorVersion);
 }

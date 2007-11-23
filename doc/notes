@@ -462,3 +462,7 @@ Source Code Reorganization
     All image files (icons, etc) will be in the src/images directory.  There is enough overlap that it doesn't make sense to have individual subdirectories in each module for images.  ui files though may need to be in 2 possible locations.  The ones that are not shared can be in each module directory.  The shared ones should be in a src/ui or src/commondialogs directory.  I think that Patient Information is the only shared dialog that I know of.
 
     The test modules: should they be in test or src/test?  They should not be in the individual module directories because they can't be compiled as a subproject then.  Should there be more than one test program (navigator vs recorder?).  Probably not.
+
+Namespaces
+
+    Source code modules (or subprojects) have been reorganized.  Basic functions and classes used by all parts of the program are in src/core, and basic gui classes and functions are in src/gui.  Analagous to the QtCore and QtGui namespaces in Qt4, the corresponding namespaces are EpCore and EpGui.  I am also thinking of using a Ep namespace for very basic stuff, like the error handling functions.  *.ui files are now in ui subdirectories beneath the source code directories.  Common ui files are in the gui/ui directory.  Files specific to a module, e.g. the Navigator module are in a ui subdir of that module, e.g. navigator/ui.  To allow unit testing, all modules except main will be shared libaries.  This includes navigator.

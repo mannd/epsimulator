@@ -10,5 +10,7 @@ CONFIG -= release
 
 DESTDIR = ../../lib/
 
+RESOURCES += ../resources/resources.qrc
+
 
 

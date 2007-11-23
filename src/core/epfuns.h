@@ -26,13 +26,8 @@
 
 #include <qdatastream.h>
 #include <qfile.h>
-#include <QKeySequence>
 #include <QtCore/QString>
 
-class QAction;
-class QKeySequence;
-class QLineEdit;
-class QWidget;
 
 namespace EpCore {
 
@@ -88,24 +83,6 @@ void saveData(const QString& filePath, unsigned int magicNumber, const T& data) 
     file.close();
 }
 
-void browseFilePaths(QWidget*, QLineEdit*);
-
-void setupAction(QAction* action, 
-		 QWidget* w,
-		 const QString& statusTip,
-                 const char* slotName = 0,
-		 const QKeySequence& accelKey = QKeySequence(),
-                 const QString& iconName = QString::Null());
-
-QAction* createAction(QWidget*,
-		      const QString& name,
-		      const QString& statusTip,
-                      const char* slotName = 0,
-		      const QKeySequence& accelKey 
-			= QKeySequence(),
-                      const QString& iconName 
-			= QString::Null());
-		      
 
 }  // namespace EpCore
 

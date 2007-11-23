@@ -5,13 +5,13 @@
 
 QT += qt3support
 
-SUBDIRS += src/epsim \
+SUBDIRS += src/core \
            src/patient \
-           src/epui \
+           src/gui \
            src/stimulator \
 	   src/recorder \
            src/navigator \
- src/test
+           src/test
 
 TEMPLATE = subdirs
 CONFIG += debug \

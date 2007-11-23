@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by EP Studios, Inc.                                *
+ *   Copyright (C) 2006 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,27 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef ACTIONS_H
-#define ACTIONS_H
 
-class QWidget;
+#include "utilities.h"
 
-namespace EpUi {
 
-/**
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-void about(QWidget* parent);
-void help(QWidget* parent);
+namespace EpSim {
+
 
 }
-
-#endif
-
-
-
-
-
-
-
-

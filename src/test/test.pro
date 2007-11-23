@@ -4,24 +4,24 @@ TEMPLATE = app
 
 #The following line was inserted by qt3to4
 QT +=  qt3support 
-INCLUDEPATH += ../epsim \
-../epui \
+INCLUDEPATH += ../gui \
 ../stimulator \
 ../recorder \
  ../patient \
- ../navigator
+ ../navigator \
+ ../core
 LIBS += -L../../lib \
--lepsim \
--lepui \
 ../../lib/libstimulator.a \
 -lrecorder \
- -lpatient
-TARGETDEPS += ../../lib/libepsim.so \
-../../lib/libepui.so \
+ -lpatient \
+ -lgui \
+ -lcore
+TARGETDEPS += ../../lib/libgui.so \
 ../../lib/libstimulator.a \
 ../../lib/librecorder.so \
  ../../lib/libpatient.so \
- ../navigator/../../bin/epsimulator
+ ../navigator/../../bin/epsimulator \
+ ../../lib/libcore.so
 
 CONFIG += qtestlib
 
@@ -31,4 +31,6 @@ SOURCES += testepsimulator.cpp
 HEADERS += testepsimulator.h
 
 QMAKE_CXXFLAGS_RELEASE += -L../navigator
+
+TARGET = ../../bin/testepsimulator
 

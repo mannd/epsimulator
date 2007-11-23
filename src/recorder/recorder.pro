@@ -4,20 +4,20 @@ SOURCES += recorder.cpp
 
 HEADERS += recorder.h
 
-INCLUDEPATH += ../epsim \
-../epui \
+INCLUDEPATH += ../gui \
 ../stimulator \
  /usr/include/qt \
- ../patient
+ ../patient \
+ ../core
 LIBS += -L../../lib \
--lepsim \
--lepui \
 ../../lib/libstimulator.a \
- -lpatient
-TARGETDEPS += ../../lib/libepsim.so \
-../../lib/libepui.so \
+ -lpatient \
+ -lgui \
+ -lcore
+TARGETDEPS += ../../lib/libgui.so \
 ../../lib/libstimulator.a \
- ../../lib/libpatient.so
+ ../../lib/libpatient.so \
+ ../../lib/libcore.so
 CONFIG -= release
 
 CONFIG += debug \
@@ -32,5 +32,7 @@ DESTDIR = ../../lib
 
 #The following line was inserted by qt3to4
 QT +=  qt3support 
+
+RESOURCES += ../resources/resources.qrc
 
 

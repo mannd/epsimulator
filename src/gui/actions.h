@@ -17,39 +17,56 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef ACTIONS_H
+#define ACTIONS_H
 
-#include "actions.h"
+#include <QDir>
+#include <QKeySequence>
+#include <QString>
 
-#include "versioninfo.h"
+class QAction;
+class QLineEdit;
+class QWidget;
 
-#include <QMessageBox>
-#include <QObject>
-#include <QWidget>
+namespace EpGui {
 
-namespace EpUi {
+/**
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+void about(QWidget* parent);
+void help(QWidget* parent);
+/// Gives "not implemented yet" error message.
+void filler(QWidget*);
 
-void about(QWidget* parent) {
-    VersionInfo* info = VersionInfo::instance();
-    QMessageBox::about(parent, QObject::tr("About %1").arg(info->programName()),
-		       QObject::tr("<h2>%1 %2</h2>"
-		          "<p>Copyright &copy; %3 EP Studios, Inc."
-			  "<p>EP Simulator simulates an EP recording "
-			  "system."
-                          "<p><a href=http://www.epstudiossoftware.com> "
-                          "http://www.epstudiossoftware.com</a>")
-                          .arg(info->programName()).arg(info->version())
-                          .arg(info->copyrightYear()));
-///TODO make this an actual hyperlink that you can click on and go to
+void browseFilePaths(QWidget*, QLineEdit*, const QString& defaultPath = 
+    QDir::homePath());
+
+void setupAction(QAction* action, 
+		 QWidget* w,
+		 const QString& statusTip,
+                 const char* slotName = 0,
+		 const QKeySequence& accelKey = QKeySequence(),
+                 const QString& iconName = QString::Null());
+
+QAction* createAction(QWidget*,
+		      const QString& name,
+		      const QString& statusTip,
+                      const char* slotName = 0,
+		      const QKeySequence& accelKey 
+			= QKeySequence(),
+                      const QString& iconName 
+			= QString());
+		      
+
+
 }
 
-void help(QWidget* parent) {
-    QMessageBox::information(parent, QObject::tr(
-        "%1 Help").arg(VersionInfo::instance()->programName()),
-        QObject::tr(
-        "Help is available from "
-        "<p><a href=http://www.epstudiossoftware.com> "
-        "http://www.epstudiossoftware.com</a>"),
-        QMessageBox::Ok);
-}
+#endif
 
-}
+
+
+
+
+
+
+

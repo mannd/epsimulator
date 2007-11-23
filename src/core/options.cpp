@@ -22,7 +22,7 @@
 #include "options.h"
 #include "settings.h"
 
-#include <qapplication.h>
+#include <QCoreApplication>
 #include <qdir.h>
 
 Options* Options::instance_ = 0;
@@ -34,7 +34,8 @@ Options* Options::instance() {
 }
 
 Options::Options() : tempStudyPath_(""),
-    systemCatalogPath_(QDir::cleanPath(qApp->applicationDirPath() + "/../System")) {
+    systemCatalogPath_(QDir::cleanPath(
+        QCoreApplication::applicationDirPath() + "/../System")) {
     readSettings();
 }
 

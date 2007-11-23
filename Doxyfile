@@ -135,7 +135,8 @@ EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = moc_* \
                          *base* \
                          qmake* \
-                         *.ui
+                         *.ui \
+                         ui_*
 EXAMPLE_PATH           = 
 EXAMPLE_PATTERNS       = 
 EXAMPLE_RECURSIVE      = NO

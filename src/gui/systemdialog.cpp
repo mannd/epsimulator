@@ -19,11 +19,12 @@
  ***************************************************************************/
 #include "systemdialog.h"
 
-#include "epfuns.h"
+#include "actions.h"
+//#include "epfuns.h"
 #include "options.h"
 
 #include <qcheckbox.h>
-#include <q3filedialog.h>
+#include <QCoreApplication>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
@@ -60,7 +61,19 @@ SystemDialog::SystemDialog(Options* options, const QString& path,
     time.setNum(timeRemaining(kBytes));
     time += " min";
     spaceTimeLabel->setText(spaceTimeLabel->text().arg(space + " " + time));
-    sideLabel->setText(sideLabel->text().arg(side.isEmpty() ? tr("None") : side)); 
+    sideLabel->setText(sideLabel->text().arg(side.isEmpty() ? 
+        tr("None") : side)); 
+    /// TODO connect enable acquisition checkbox to a slot
+    connect(opticalPathBrowsePushButton, SIGNAL(clicked()), this,
+        SLOT(opticalStudyPathBrowse()));
+    connect(networkPathBrowsePushButton, SIGNAL(clicked()), this,
+        SLOT(networkStudyPathBrowse()));
+    connect(exportPathBrowsePushButton, SIGNAL(clicked()), this,
+        SLOT(exportFilePathBrowse()));    
+    connect(enableNetworkStorageCheckBox, SIGNAL(stateChanged(int)), 
+        this, SLOT(enableNetworkStudyPathLineEdit()));
+    connect(enableFileExportCheckBox, SIGNAL(stateChanged(int)), 
+        this, SLOT(enableExportFilePathLineEdit()));
 }
 
 void SystemDialog::setOptions() {
@@ -75,15 +88,15 @@ void SystemDialog::setOptions() {
 }
 
 void SystemDialog::opticalStudyPathBrowse() {
- EpCore::browseFilePaths(this, opticalStudyPathLineEdit);
+    EpGui::browseFilePaths(this, opticalStudyPathLineEdit);
 }
 
 void SystemDialog::networkStudyPathBrowse() {
- EpCore::browseFilePaths(this, networkStudyPathLineEdit);
+    EpGui::browseFilePaths(this, networkStudyPathLineEdit);
 }
 
 void SystemDialog::exportFilePathBrowse() {
- EpCore::browseFilePaths(this, exportFilePathLineEdit);
+    EpGui::browseFilePaths(this, exportFilePathLineEdit);
 }
 
 void SystemDialog::enableExportFilePathLineEdit() {
@@ -113,7 +126,7 @@ long SystemDialog::diskFreeSpace(const QString& path) const {
     struct statfs s;
     long blocksFree = 0;
     long blockSize = 0;
-    if (statfs(path.latin1(), &s) == 0) {
+    if (statfs(path.toLatin1().constData(), &s) == 0) {
         blocksFree = s.f_bavail;    // blocks available to non-su
         blockSize = s.f_bsize;
     }

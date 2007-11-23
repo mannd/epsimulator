@@ -439,22 +439,22 @@ void Navigator::noStudySelectedError() {
 
 void Navigator::setIntervals() {
     if (administrationAllowed())
-        EpSim::filler(this);
+        EpGui::filler(this);
 }
 
 void Navigator::setColumnFormats() {
     if (administrationAllowed())
-        EpSim::filler(this);
+        EpGui::filler(this);
 }
 
 void Navigator::setProtocols() {
     if (administrationAllowed())
-        EpSim::filler(this);
+        EpGui::filler(this);
 }
 
 void Navigator::setStudyConfigurations() {
     if (administrationAllowed())
-        EpSim::filler(this);
+        EpGui::filler(this);
 }
 
 void Navigator::setCatalogNetwork() {
@@ -559,11 +559,11 @@ void Navigator::systemSettings() {
 }
 
 void Navigator::help() {
-    EpUi::help(this);
+    EpGui::help(this);
 }
 
 void Navigator::about() {
-    EpUi::about(this);
+    EpGui::about(this);
 }
 
 // private
@@ -671,7 +671,7 @@ void Navigator::updateMenus() {
     simulatorOptionsAct_->setVisible(showSimulatorSettings);
 }
 
-using EpCore::createAction;
+using EpGui::createAction;
 
 void Navigator::createActions() {
     // Study menu

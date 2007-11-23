@@ -48,21 +48,21 @@ qt
 TARGET = ../../bin/epsimulator
 CONFIG -= release
 
-LIBS += -lepsim \
- -L../../lib \
- -lepui \
+LIBS += -L../../lib \
+ -lgui \
  -lrecorder \
- -lpatient
-TARGETDEPS += ../../lib/libepsim.so \
- ../../lib/libepui.so \
- ../../lib/librecorder.so \
- ../../lib/libpatient.so
+ -lpatient \
+ -lcore
+TARGETDEPS += ../../lib/librecorder.so \
+ ../../lib/libpatient.so \
+ ../../lib/libgui.so \
+ ../../lib/libcore.so
 
-INCLUDEPATH += ../epsim \
- ../epui \
+INCLUDEPATH += ../gui \
  ../recorder \
  /usr/include/Qt \
- ../patient
+ ../patient \
+ ../core
 
 #The following line was inserted by qt3to4
 QT +=  qt3support 

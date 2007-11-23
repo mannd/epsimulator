@@ -21,7 +21,7 @@
 #include "recorder.h"
 
 #include "actions.h"
-#include "epfuns.h"
+//#include "epfuns.h"
 #include "patientdialog.h"
 #include "study.h"
 #include "versioninfo.h"
@@ -104,14 +104,14 @@ void Recorder::closeStudy() {
 }
 
 void Recorder::help() {
-    EpUi::help(this);
+    EpGui::help(this);
 }
 
  void Recorder::about() {
-    EpUi::about(this);
+    EpGui::about(this);
 }
 
-using EpCore::createAction;
+using EpGui::createAction;
 
 void Recorder::createActions()
 {
