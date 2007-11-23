@@ -48,11 +48,11 @@ Recorder::Recorder(QWidget* parent)
     createActions();
     createMenus();
 
-    setCaption(tr("EP Simulator"));
+    setWindowTitle(tr("EP Simulator"));
     // Below not necessary, set in main.cpp by QApplication::setWindowIcon()
     // setWindowIcon(QIcon(":/hi16-app-epsimulator.png"));
 
-    statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
+    //statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
 
 }
 
@@ -96,7 +96,7 @@ void Recorder::closeStudy() {
         // get rid of study_
         delete study_;
         if (QWidget* parentWidget = dynamic_cast<QWidget*>(parent())) {
-            parentWidget->showNormal();
+            //parentWidget->showNormal();
             parentWidget->showMaximized();
         }
         hide();     // can't close, or app will terminate
@@ -179,10 +179,10 @@ void Recorder::createActions()
         tr("Start or stop noninvasive BP measurements"), 0, tr("F8"));
     autoLogVitalsAct_ = createAction(this, tr("Auto-Log Vitals"),
         tr("Auto-log vital signs"));
-    autoLogVitalsAct_->setToggleAction(true);
+    autoLogVitalsAct_->setCheckable(true);
     autoLogNBPAct_ = createAction(this, tr("Auto-Log NBP"),
         tr("Auto-log noninvasive BP measurements"));
-    autoLogNBPAct_->setToggleAction(true);
+    autoLogNBPAct_->setCheckable(true);
     measurementConfigurationAct_ = createAction(this, 
         tr("Measurement Configuration"),
         tr("Configure measurements"));
@@ -199,50 +199,50 @@ void Recorder::createActions()
         tr("Delete windows configuration"));
     timerAct_ = createAction(this, tr("Timer"),
         tr("Show timer"));
-    timerAct_->setToggleAction(true);
+    timerAct_->setCheckable(true);
     stopwatchAct_ = createAction(this, tr("Stopwatch"),
         tr("Show stopwatch"));
-    stopwatchAct_->setToggleAction(true);
+    stopwatchAct_->setCheckable(true);
     realTimeAct_ = createAction(this, tr("Real-Time"),
        tr("Show real-time window"));
-    realTimeAct_->setToggleAction(true);
-    realTimeAct_->setOn(true);   // for now, default to on
+    realTimeAct_->setCheckable(true);
+    realTimeAct_->setChecked(true);   // for now, default to on
     review1Act_ = createAction(this, tr("Review 1"),
        tr("Show review 1 window"));
-    review1Act_->setToggleAction(true);
+    review1Act_->setCheckable(true);
     review2Act_ = createAction(this, tr("Review 2"),
        tr("Show review 2 window"));
-    review2Act_->setToggleAction(true);
+    review2Act_->setCheckable(true);
     logAct_ = createAction(this, tr("Log"),
        tr("Show log window"));
-    logAct_->setToggleAction(true);
+    logAct_->setCheckable(true);
     ablationAct_ = createAction(this, tr("Ablation"),
        tr("Show ablation window"));
-    ablationAct_->setToggleAction(true);
+    ablationAct_->setCheckable(true);
     alignmentAct_ = createAction(this, tr("Alignment"),
        tr("Show alignment window"));
-    alignmentAct_->setToggleAction(true);
+    alignmentAct_->setCheckable(true);
     mapAct_ = createAction(this, tr("Map"),
        tr("Show map window"));
-    mapAct_->setToggleAction(true);
+    mapAct_->setCheckable(true);
     holterAct_ = createAction(this, tr("Holter"),
        tr("Show holter window"));
-    holterAct_->setToggleAction(true);
+    holterAct_->setCheckable(true);
     plotAct_ = createAction(this, tr("Plot"),
        tr("Show plot window"));
-    plotAct_->setToggleAction(true);
+    plotAct_->setCheckable(true);
     macroAct_ = createAction(this, tr("Macro"),
        tr("Show macro window"));
-    macroAct_->setToggleAction(true);
+    macroAct_->setCheckable(true);
     image1Act_ = createAction(this, tr("Image 1"),
        tr("Show image 1 window"));
-    image1Act_->setToggleAction(true);
+    image1Act_->setCheckable(true);
     image2Act_ = createAction(this, tr("Image 2"),
        tr("Show image 2 window"));
-    image2Act_->setToggleAction(true);
+    image2Act_->setCheckable(true);
     imageLibraryAct_ = createAction(this, tr("Image Library"),
        tr("Show image library window"));
-    imageLibraryAct_->setToggleAction(true);
+    imageLibraryAct_->setCheckable(true);
     securityAct_ = createAction(this, tr("Security"),
         tr("Security settings"));
     systemSettingsAct_ = createAction(this, tr("System Settings"),

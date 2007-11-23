@@ -10,7 +10,7 @@ INCLUDEPATH += ../gui \
  ../patient \
  ../core
 LIBS += -L../../lib \
-../../lib/libstimulator.a \
+    -lstimulator \
  -lpatient \
  -lgui \
  -lcore
@@ -24,14 +24,14 @@ CONFIG += debug \
  dll
 
 
-IMAGES += hi16-app-epsimulator.png
+#IMAGES += hi16-app-epsimulator.png
 
 TEMPLATE = lib
 
 DESTDIR = ../../lib
 
 #The following line was inserted by qt3to4
-QT +=  qt3support 
+#QT +=  qt3support 
 
 RESOURCES += ../resources/resources.qrc
 

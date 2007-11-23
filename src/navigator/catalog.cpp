@@ -129,7 +129,7 @@ void Catalog::load() {
     try {
      EpCore::loadData(filePath(), MagicNumber, catalog_);
     }
-    catch (EpSim::IoError&) {
+    catch (EpCore::IoError&) {
         // ignore failure to read, leave catalog empty
     }
 }

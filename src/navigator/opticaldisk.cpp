@@ -304,19 +304,19 @@ void EmulatedOpticalDisk::makePath() const {
     QDir disksDir(disksPath());
     if (!disksDir.exists()) {
         if (!disksDir.mkdir(disksPath()))
-            throw EpSim::IoError(disksPath());
+            throw EpCore::IoError(disksPath());
     }
     // each directory must be created separately!
     QDir diskDir(diskPath());
     if (!diskDir.exists()) {
         if (!diskDir.mkdir(diskPath()))
-            throw EpSim::IoError(diskPath());
+            throw EpCore::IoError(diskPath());
     }
     // which side here??
     QDir pathDir(fullPath());
     if (!pathDir.exists()) {
         if (!pathDir.mkdir(fullPath()))
-            throw EpSim::IoError(fullPath());
+            throw EpCore::IoError(fullPath());
     }
 }
 

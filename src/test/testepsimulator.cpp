@@ -20,8 +20,10 @@
 
 #include "testepsimulator.h"
 
+#include "catalog.h"
+#include "catalogcombobox.h"
 #include "epfuns.h"
-//#include "filtercatalogdialog.h"
+#include "filtercatalogdialog.h"
 #include "options.h"
 #include "passworddialog.h"
 #include "passwordhandler.h"
@@ -201,18 +203,16 @@ void TestEpSimulator::testPatientDialogCalculations() {
     delete s;
 }
 
-// void TestEpSimulator::testFilterCatalogDialog() {
-//     FilterCatalogDialog* filterCatalog = new FilterCatalogDialog;
-//     QVERIFY(filterCatalog->lastNameFilter() == "*");
-//     QVERIFY(filterCatalog->firstNameFilter() == "*");
-//     QVERIFY(filterCatalog->mrnFilter() == "*");
-//     QVERIFY(filterCatalog->studyConfigFilter() == "*");
-//     QVERIFY(filterCatalog->studyNumberFilter() == "*");
-//     QVERIFY(filterCatalog->studyLocationFilter() == "*");
-//     QVERIFY(filterCatalog->beginDate() == filterCatalog->endDate());
-//     QVERIFY(filterCatalog->beginDate() == QDate::currentDate());
-//     delete filterCatalog;
-// }
+void TestEpSimulator::testFilterCatalogDialog() {
+    FilterCatalogDialog* filterCatalog = new FilterCatalogDialog;
+    QVERIFY(filterCatalog->lastNameFilter() == "*");
+    QVERIFY(filterCatalog->firstNameFilter() == "*");
+    QVERIFY(filterCatalog->mrnFilter() == "*");
+    QVERIFY(filterCatalog->studyConfigFilter() == "*");
+    QVERIFY(filterCatalog->studyNumberFilter() == "*");
+    QVERIFY(filterCatalog->studyLocationFilter() == "*");
+    delete filterCatalog;
+}
 
 
 void TestEpSimulator::testGetSetPatientDialogDefaultStudies() {
@@ -318,6 +318,75 @@ void TestEpSimulator::testVersionOk() {
     QVERIFY(!VersionInfo::versionOk(0,-999999));
     v->destroy();
 }
+
+void TestEpSimulator::testCatalog() {
+    Catalog c("../System", "catalog.dat");
+    QVERIFY(c.filePath() == "../System/catalog.dat");
+    c.setPath("/testpath/");
+    // make sure no duplicate backslashes
+    QVERIFY(c.filePath() == "/testpath/catalog.dat");
+    // test Catalog subclasses
+//     Catalog* cp = new OpticalCatalog("../System", "catalog.dat");
+//     cerr <<   "catalog filepath" << cp->filePath();
+//    delete cp;
+}
+
+void TestEpSimulator::testCatalogs() {
+    Options* o = Options::instance();
+    Catalogs* c1 = new Catalogs(o, "");
+    c1->setCatalogPath(Catalog::Other, "/tmp/test");
+    c1->setCurrentCatalog(Catalog::Other);
+    QVERIFY(c1->currentCatalog()->path() == "/tmp/test");
+    delete c1;
+}
+
+void TestEpSimulator::testCatalogAddStudy() {
+    Options* o = Options::instance();
+    Catalogs* cats = new Catalogs(o, o->opticalStudyPath());
+    Study* s = new Study;
+    Name n = {"Doe", "John", "E"};
+    s->setName(n);
+    // key will be null unless there is a last name
+    QString key = s->key();
+    cats->addStudy(s);
+    Study s1 = (*cats->currentCatalog())[key].study;
+    QVERIFY(s1.key() == key);
+    cats->deleteStudy(s);
+    delete s;
+    delete cats;
+}
+
+
+void TestEpSimulator::testCatalogComboBox() {
+    CatalogComboBox* c = new CatalogComboBox;
+    Options* o = Options::instance();
+    bool originalEnableNetwork = o->enableNetworkStorage();
+    o->setEnableNetworkStorage(false);
+    // must refresh catalogcombobox after system options changed!
+    c->refresh();
+    QVERIFY(c->source() == Catalog::System);
+    QVERIFY(c->currentItem() == 0);   // there should be no Network
+    c->setSource(Catalog::Network);  // should not work because of above
+    QVERIFY(!o->enableNetworkStorage());
+    QVERIFY(c->currentItem() == 0);
+    QVERIFY(c->source() != Catalog::Network);
+    // should be System
+    o->setEnableNetworkStorage(true);
+    c->refresh();
+    QVERIFY(c->source() == Catalog::System);
+    c->setSource(Catalog::Network);
+    QVERIFY(c->source() == Catalog::Network);
+    c->setSource(Catalog::Optical);
+    QVERIFY(c->source() == Catalog::Optical);
+    c->setSource(Catalog::Other);
+    QVERIFY(c->source() == Catalog::Other);
+    c->setSource(Catalog::System);
+    QVERIFY(c->source() == Catalog::System);
+    // reset options
+    o->setEnableNetworkStorage(originalEnableNetwork);
+    delete c;
+}
+    
 
 void TestEpSimulator::cleanupTestCase() {
 }

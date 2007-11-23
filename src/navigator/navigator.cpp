@@ -93,7 +93,7 @@ Navigator::Navigator(QWidget* parent)
     connect(catalogComboBox_, SIGNAL(activated(int)),
         this, SLOT(changeCatalog()));
 
-    setCaption(tr("%1 Navigator").arg(VersionInfo::instance()->programName()));
+    setWindowTitle(tr("%1 Navigator").arg(VersionInfo::instance()->programName()));
 }
 
 // protected
@@ -279,11 +279,11 @@ void Navigator::deleteStudy() {
         else 
             noStudySelectedError();
     }
-    catch (EpSim::FileNotFoundError& e) {
+    catch (EpCore::FileNotFoundError& e) {
         QMessageBox::warning(this, tr("Problem Deleting Study"),
             tr("Could not find study file %1").arg(e.fileName()));
     }
-    catch (EpSim::DeleteError&) {
+    catch (EpCore::DeleteError&) {
         QMessageBox::warning(this, tr("Problem Deleting Study"),
             tr("Errors occurred while trying to delete study data."));
     }
@@ -498,7 +498,7 @@ void Navigator::exportCatalog() {
             try {
                 tableListView_->exportCSV(fileName);
             }
-            catch (EpSim::IoError& e) {
+            catch (EpCore::IoError& e) {
                 std::cerr << e.what() << std::endl;
                 QMessageBox::warning(this, tr("Error"),
                     tr("Could not export Catalog to %1").arg(e.fileName()));
@@ -589,7 +589,7 @@ void Navigator::createOpticalDrive() {
             currentDisk_ = new OpticalDisk(options_->opticalStudyPath());
         currentDisk_->readLabel();
     }
-    catch (EpSim::IoError& e) { 
+    catch (EpCore::IoError& e) { 
         int ret = QMessageBox::warning(this, tr("Error"),
                              tr("Could not find disk %1. "
                                 "Enter the correct path to your "
@@ -926,14 +926,14 @@ void Navigator::startStudy(Study* s) {
     QDir studiesDir(studiesPath);
     if (!studiesDir.exists()) {
         if (!studiesDir.mkdir(studiesPath))
-            throw EpSim::IoError(studiesPath, "could not create studiesPath");
+            throw EpCore::IoError(studiesPath, "could not create studiesPath");
     }
     // create study directory and write study.dat file
     QString studyPath = studiesPath + s->studyDirName();
     QDir studyDir(studyPath);
     if (!studyDir.exists()) {
         if (!studyDir.mkdir(studyPath))
-            throw EpSim::IoError(studyPath, "could not create studyPath");
+            throw EpCore::IoError(studyPath, "could not create studyPath");
     }
     s->setPath(studyPath);
     s->save();
@@ -1023,7 +1023,7 @@ void Navigator::deleteDataFiles(const QString& path) {
     try {
         QDir d(path);
         if (!d.exists())
-            throw EpSim::FileNotFoundError(path);
+            throw EpCore::FileNotFoundError(path);
         QString item;
         QFileInfoList list = d.entryInfoList();
         for (int i = 0; i < list.size(); ++i) {
@@ -1032,11 +1032,11 @@ void Navigator::deleteDataFiles(const QString& path) {
         }
         d.rmdir(path);
     }
-    catch (EpSim::FileNotFoundError& e) {
+    catch (EpCore::FileNotFoundError& e) {
         throw e;
     }
-    catch (EpSim::IoError&) {
-        throw EpSim::DeleteError();
+    catch (EpCore::IoError&) {
+        throw EpCore::DeleteError();
     }
 }
 

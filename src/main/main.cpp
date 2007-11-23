@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
     Navigator* mainWin = new Navigator;
     // Below is a work-around as showMaximized() alone doesn't always work.
-    mainWin->showNormal();
+    //mainWin->showNormal();
     mainWin->showMaximized();
     return app.exec();
     // delete the singletons -- only need to do here at end of program!

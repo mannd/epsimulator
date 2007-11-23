@@ -25,12 +25,7 @@
 
 #include <stdexcept>
 
-/**
-   \namespace EpSim
-   \brief Contains nonmember utility functions.
-*/
-
-namespace EpSim {
+namespace EpCore {
 
 class IoError : public std::runtime_error {
 public:

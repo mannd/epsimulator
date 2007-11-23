@@ -171,7 +171,7 @@ void TableListView::addStudy(const Study& study, const QString& location) {
 void TableListView::exportCSV(const QString& fileName) {
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) 
-        throw EpSim::OpenWriteError(file.name());
+        throw EpCore::OpenWriteError(file.name());
     QTextStream out(&file);
     for (int i = 0; i < columns(); ++i) 
         if (i != FullNameCol)   // don't need 3 name columns
@@ -187,7 +187,7 @@ void TableListView::exportCSV(const QString& fileName) {
         ++it;
     }
     if (file.error()) 
-        throw EpSim::WriteError(file.name());
+        throw EpCore::WriteError(file.name());
     file.close();
 }
 
