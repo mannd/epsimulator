@@ -9,11 +9,11 @@ INCLUDEPATH += ../gui \
  /usr/include/qt \
  ../patient \
  ../core
-LIBS += -L../../lib \
-    -lstimulator \
- -lpatient \
+LIBS += -lpatient \
  -lgui \
- -lcore
+ -lcore \
+ -L../../lib \
+ ../../lib/libstimulator.a
 TARGETDEPS += ../../lib/libgui.so \
 ../../lib/libstimulator.a \
  ../../lib/libpatient.so \
