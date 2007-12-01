@@ -24,7 +24,8 @@ TARGETDEPS += ../../lib/libgui.so \
  ../../lib/libcore.so \
  ../../lib/libnavigator.a
 
-CONFIG += qtestlib
+CONFIG += qtestlib \
+ debug
 
 
 SOURCES += testepsimulator.cpp
@@ -34,4 +35,6 @@ HEADERS += testepsimulator.h
 QMAKE_CXXFLAGS_RELEASE += -L../navigator
 
 TARGET = ../../bin/testepsimulator
+
+CONFIG -= release
 

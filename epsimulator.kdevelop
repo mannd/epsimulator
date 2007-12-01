@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/gui</activedir>
+      <activedir>src/navigator</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -118,10 +118,9 @@
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
-        <testepsimulator></testepsimulator>
-        <main></main>
+        <testepsimulator/>
       </runarguments>
       <cwd>
         <test>/home/mannd/dev/local/epsimulator/../bin</test>
@@ -130,16 +129,14 @@
         <epsimulator>/home/mannd/dev/local/epsimulator</epsimulator>
         <runner>/home/mannd/dev/local/epsimulator</runner>
         <testepsimulator>/home/mannd/dev/local/epsimulator</testepsimulator>
-        <main>/home/mannd/dev/local/epsimulator</main>
       </cwd>
       <debugarguments>
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
-        <testepsimulator></testepsimulator>
-        <main></main>
+        <testepsimulator/>
       </debugarguments>
     </run>
     <make>
