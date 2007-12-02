@@ -26,5 +26,6 @@ INCLUDEPATH += /usr/include/Qt
 
 CONFIG -= release
 
-QT += qt3support
+
+QT -= gui
 

@@ -55,7 +55,6 @@ TARGETDEPS += ../../lib/librecorder.so \
 
 INCLUDEPATH += ../gui \
  ../recorder \
- /usr/include/Qt \
  ../patient \
  ../core
 

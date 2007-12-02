@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "catalog.h"
-#include "epfuns.h"
+#include "fileutilities.h"
 #include "error.h"
 #include "options.h"
 #include "study.h"

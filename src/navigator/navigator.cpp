@@ -31,7 +31,7 @@
 #include "catalogcombobox.h"
 #include "changepassworddialog.h"
 #include "disklabeldialog.h"
-#include "epfuns.h"
+#include "fileutilities.h"
 #include "error.h"
 #include "filtercatalogdialog.h"
 #include "movecopystudydialog.h"    // temporary
@@ -50,10 +50,10 @@
 #include "systemdialog.h"
 #include "tablelistview.h"
 #include "user.h"
-#include "utilities.h"
 #include "versioninfo.h"
 
 #include <QAction>
+#include <QCloseEvent>
 #include <QDateTime>
 #include <QFileDialog>
 #include <QLabel>
@@ -62,9 +62,8 @@
 #include <QMessageBox>
 #include <QRegExp>
 #include <QSplitter>
-#include <QTextIStream>
-#include <QTextOStream>
 #include <QToolBar>
+#include <QVariant>
 
 #include <algorithm>
 
@@ -94,9 +93,17 @@ Navigator::Navigator(QWidget* parent)
         this, SLOT(changeCatalog()));
 
     setWindowTitle(tr("%1 Navigator").arg(VersionInfo::instance()->programName()));
+    readSettings();
+
 }
 
 // protected
+
+void Navigator::closeEvent(QCloseEvent* event) {
+    saveSettings();
+    event->accept();
+
+}
 
 
 // private slots
@@ -118,9 +125,6 @@ void Navigator::newStudy() {
                                     options_->labName(), user_->machineName());
                 refreshCatalogs();
                 startStudy(study);
-        /// FIXME bug: startStudy deletes Navigator, then returns, and the 2 
-        /// deletes below happen, deleting an already deleted pointer.  That
-        /// can't work.
             }
         }
         delete selectStudyConfigDialog;
@@ -621,7 +625,6 @@ void Navigator::createCentralWidget() {
     setCentralWidget(horizontalSplitter_);
     createButtonFrame();
     createTableListView();
-    readSettings(); 
     refreshCatalogs();
 }
 
@@ -852,10 +855,9 @@ void Navigator::createMenus() {
 
 void Navigator::saveSettings() {
     Settings settings;
-    QString str;
-    QTextOStream out(&str);
-    out << *horizontalSplitter_;
-    settings.writeEntry("/horizontalSplitter", str);
+    settings.setValue("/navigatorSize", size());
+    settings.setValue("/navigatorPos", pos());    
+    settings.setValue("/horizontalSplitter", horizontalSplitter_->saveState());
 }
 
 /**
@@ -865,9 +867,14 @@ void Navigator::saveSettings() {
  */
 void Navigator::readSettings() {
     Settings settings;
-    QString str = settings.readEntry("/horizontalSplitter");
-    QTextIStream in(&str);
-    in >> *horizontalSplitter_;
+    QVariant size = settings.value("/navigatorSize");
+    if (size.isNull())  // initial run of program, window is maximized by default
+        showMaximized();
+    else {  // but if not initial run, use previous window settings
+        resize(size.toSize());
+        move(settings.value("/navigatorPos").toPoint());
+        horizontalSplitter_->restoreState(settings.value("/horizontalSplitter").toByteArray());
+    }
 }
 
 void Navigator::processFilter() {
@@ -943,8 +950,7 @@ void Navigator::startStudy(Study* s) {
     // but use lazy initialization
     Recorder *recorder = getRecorder();
     recorder->setStudy(s);
-    recorder->showNormal();
-    recorder->showMaximized();
+    recorder->show();
     //recorder->setStudy(s);
     // looks better to show new window first, then hide this one,
     // and vice versa
@@ -1063,7 +1069,6 @@ void Navigator::studyNotOnDiskError() {
 
 
 Navigator::~Navigator() {
-    saveSettings();
     delete catalogs_;
     delete currentDisk_;
     user_->destroy();

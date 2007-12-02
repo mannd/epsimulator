@@ -10,8 +10,7 @@ SOURCES += heart.cpp \
 study.cpp
 HEADERS += heart.h \
 study.h
-INCLUDEPATH += /usr/include/Qt \
- ../core
+INCLUDEPATH += ../core
 
 #The following line was inserted by qt3to4
 LIBS += -L../../lib \

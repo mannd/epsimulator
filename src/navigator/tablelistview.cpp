@@ -164,7 +164,8 @@ void TableListView::addStudy(const Study& study, const QString& location) {
         t->setText(MRNCol, study.mrn());
         t->setText(DateTimeCol, study.dateTime().toString("yyyy/MM/dd hh:mm:ss"));
         t->setText(ConfigCol, study.config());
-        t->setText(NumberCol, study.number());
+        //t->setText(NumberCol, study.number());
+        t->setText(NumberCol, study.key());
         t->setText(LocationCol, location); 
 }
 

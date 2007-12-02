@@ -21,5 +21,7 @@ TARGETDEPS += ../../lib/libcore.so \
  ../../lib/librecorder.so
 SOURCES += main.cpp
 
-QT += qt3support
+
+RESOURCES += ../resources/resources.qrc
+
 

@@ -18,15 +18,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef EPFUNS_H
-#define EPFUNS_H
+#ifndef FILEUTILITIES_H
+#define FILEUTILITIES_H
 
 #include "error.h"
 #include "versioninfo.h"
 
-#include <qdatastream.h>
-#include <qfile.h>
-#include <QtCore/QString>
+#include <QDataStream>
+#include <QFile>
+#include <QString>
 
 
 namespace EpCore {

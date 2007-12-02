@@ -124,7 +124,7 @@ public:
     void setConfig(QString config) {config_ = config;}
     void makePreregisterStudy() {config_ = "";}  // preregistered study has no config info
 
-    void resetKey() {key_ = "";}
+    void resetKey() {key_ = QString();}
     void load();        // load study.dat file
     void save();        // save study.dat file
 

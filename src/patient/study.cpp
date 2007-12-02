@@ -20,7 +20,7 @@
 
 #include "study.h"
 
-#include "epfuns.h"
+#include "fileutilities.h"
 #include "error.h"
 #include "heart.h"
 
@@ -102,9 +102,7 @@ Study::Study() : dateTime_(QDateTime::currentDateTime()),
                  ef_(DEFAULT_EF), 
                  ischemia_(false) {
     ///TODO need to compute path
-    config_ = "";
-    path_ = "";
-    key_ = "";
+    config_ = path_ = key_ = QString();
     heart_ = new Heart;
     testInvariant();
 }
@@ -149,7 +147,7 @@ QString Study::key() const {
     assert(!name_.last.isNull());
     if (name_.last.isNull())
         return QString();
-    if (key_.isEmpty())
+    if (key_.isNull())
         key_ = name_.last.simplified() + "_" 
         + name_.first.simplified()
         + "_" + dateTime_.toString("ddMMyyyyhhmmsszzz");

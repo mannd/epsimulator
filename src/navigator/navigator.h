@@ -42,6 +42,7 @@ class TableListView;
 class User;
 
 class QAction;
+class QCloseEvent;
 class QMenu;
 class QSplitter;
 class QToolBar;
@@ -55,6 +56,9 @@ class Navigator : public QMainWindow {
 public:
     Navigator(QWidget* parent = 0);
     ~Navigator();
+
+protected:
+    void closeEvent(QCloseEvent*);
 
 private slots:
     void newStudy();

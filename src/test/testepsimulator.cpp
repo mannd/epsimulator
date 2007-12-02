@@ -22,7 +22,7 @@
 
 #include "catalog.h"
 #include "catalogcombobox.h"
-#include "epfuns.h"
+#include "fileutilities.h"
 #include "filtercatalogdialog.h"
 #include "options.h"
 #include "passworddialog.h"
@@ -120,9 +120,6 @@ void TestEpSimulator::testFilePath() {
 
 void TestEpSimulator::testStudyKey() {
     Study s;
-    // below won't work in debug mode as there is an assert in Study
-    // that intercepts this
-    // TS_ASSERT(s.key() == QString::null);
     Name name;
     name.first = "John";
     name.last = "Doe";
@@ -135,6 +132,16 @@ void TestEpSimulator::testStudyKey() {
     s.setName(name);
     QCOMPARE(s.key(), "Doe_John_" + 
             s.dateTime().toString("ddMMyyyyhhmmsszzz"));
+    // make sure keys are copied
+    Study s1(s);
+    QCOMPARE(s1.key(), s.key());
+    s1.setDateTime(QDateTime::currentDateTime());
+    // keys should still be equal
+    QCOMPARE(s1.key(), s.key());
+    s1.resetKey();
+    // now keys should be different
+    QVERIFY(s1.key() != s.key());
+    
 }
 
 void TestEpSimulator::testStudyFileName() {
@@ -211,6 +218,7 @@ void TestEpSimulator::testFilterCatalogDialog() {
     QVERIFY(filterCatalog->studyConfigFilter() == "*");
     QVERIFY(filterCatalog->studyNumberFilter() == "*");
     QVERIFY(filterCatalog->studyLocationFilter() == "*");
+    QVERIFY(filterCatalog->dateFilter() == FilterCatalogDialog::AnyDate);
     delete filterCatalog;
 }
 

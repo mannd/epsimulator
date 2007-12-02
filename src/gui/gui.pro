@@ -7,8 +7,7 @@ CONFIG += dll \
 
 DESTDIR = ../../lib
 
-INCLUDEPATH += /usr/include/Qt \
- ../patient \
+INCLUDEPATH += ../patient \
  ../core
 
 SOURCES += simulatorsettingsdialog.cpp \

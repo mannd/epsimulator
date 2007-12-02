@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     Navigator* mainWin = new Navigator;
     // showMaximized() does not alway work, no real workaround
     // will use restore window state to help with this.
-    mainWin->showMaximized();
+    mainWin->show();
     return app.exec();
     // delete the singletons -- only need to do here at end of program!
     options->destroy();

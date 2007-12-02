@@ -6,7 +6,6 @@ HEADERS += recorder.h
 
 INCLUDEPATH += ../gui \
 ../stimulator \
- /usr/include/qt \
  ../patient \
  ../core
 LIBS += -lpatient \

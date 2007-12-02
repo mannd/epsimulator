@@ -21,23 +21,22 @@
 #include "recorder.h"
 
 #include "actions.h"
-//#include "epfuns.h"
+//#include "fileutilities.h"
 #include "patientdialog.h"
+#include "settings.h"
 #include "study.h"
 #include "versioninfo.h"
 
 #include <qapplication.h>
 #include <qlabel.h>
-//#include <q3mainwindow.h>
 #include <qmessagebox.h>
 #include <qstatusbar.h>
 #include <QMenu>
 #include <QMenuBar>
-//#include <qmenubar.h>
 #include <QAction>
 #include <QMdiArea>
-//Added by qt3to4:
 #include <QCloseEvent>
+#include <QVariant>
 
 
 Recorder::Recorder(QWidget* parent)
@@ -53,6 +52,7 @@ Recorder::Recorder(QWidget* parent)
     // setWindowIcon(QIcon(":/hi16-app-epsimulator.png"));
 
     //statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
+    readSettings();
 
 }
 
@@ -78,10 +78,7 @@ void Recorder::closeEvent(QCloseEvent *event) {
     // don't allow closing, as in Qt, closing a main window closes the
     // application.
     event->ignore();
-    QMessageBox::information(this,
-                             tr("Close Study?"),
-                             tr("Please use the Close Study menu item to close"
-                                " this study."));
+    closeStudy();
 }
 
 
@@ -96,11 +93,28 @@ void Recorder::closeStudy() {
         // get rid of study_
         delete study_;
         if (QWidget* parentWidget = dynamic_cast<QWidget*>(parent())) {
-            //parentWidget->showNormal();
-            parentWidget->showMaximized();
+            parentWidget->show();
         }
         hide();     // can't close, or app will terminate
+        saveSettings();
     }
+}
+
+void Recorder::saveSettings() {
+    Settings settings;
+    settings.setValue("/recorderSize", size());
+    settings.setValue("/recorderPos", pos());    
+}
+
+void Recorder::readSettings() {
+    Settings settings;
+    QVariant size = settings.value("/recorderSize");
+    if (size.isNull()) {
+        showMaximized();
+        return;
+    }
+    resize(size.toSize());
+    move(settings.value("/recorderPos").toPoint());
 }
 
 void Recorder::help() {

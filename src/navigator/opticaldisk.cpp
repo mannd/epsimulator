@@ -20,7 +20,7 @@
 
 #include "opticaldisk.h"
 
-#include "epfuns.h"
+#include "fileutilities.h"
 #include "error.h"
 #include "selectemulateddiskdialog.h"
 #include "settings.h"

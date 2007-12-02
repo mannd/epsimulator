@@ -53,6 +53,8 @@ private slots:
 private:
     void createActions();
     void createMenus();
+    void readSettings();
+    void saveSettings();
 
     Study* study_;
 
