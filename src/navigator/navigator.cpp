@@ -972,6 +972,8 @@ void Navigator::reports(Study* s) {
     delete s;
 }
 
+/// FIXME Problem is that study key() is not fixed until the first time key() is called.
+/// If key() is not called between invocations of PatientDialog, key() can change!!
 // returns true if PatientDialog is saved, false if cancelled
 bool Navigator::getStudyInformation(Study* study) {
     PatientDialog* patientDialog = new PatientDialog(this);

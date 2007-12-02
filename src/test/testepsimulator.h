@@ -36,6 +36,7 @@ private slots:
     void testFilePath();
     void testStudyKey();
     void testStudyFileName();
+    void testStudyLoadSave();
     // class Options
     void testOptions();
     // class PatientDialog

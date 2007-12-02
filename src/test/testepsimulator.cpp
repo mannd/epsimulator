@@ -132,6 +132,11 @@ void TestEpSimulator::testStudyKey() {
     s.setName(name);
     QCOMPARE(s.key(), "Doe_John_" + 
             s.dateTime().toString("ddMMyyyyhhmmsszzz"));
+    // make sure keys stay constant when name changes
+    QString originalKey = s.key();
+    name.last = "Nobody";
+    s.setName(name);
+    QCOMPARE(s.key(), originalKey);
     // make sure keys are copied
     Study s1(s);
     QCOMPARE(s1.key(), s.key());
@@ -139,6 +144,7 @@ void TestEpSimulator::testStudyKey() {
     // keys should still be equal
     QCOMPARE(s1.key(), s.key());
     s1.resetKey();
+    s1.setDateTime(QDateTime::currentDateTime());
     // now keys should be different
     QVERIFY(s1.key() != s.key());
     
@@ -151,6 +157,56 @@ void TestEpSimulator::testStudyFileName() {
     Name n = {"Smith", "John", ""};
     s.setName(n);
     QVERIFY(s.filePath() == "garbage/study.dat");
+}
+
+void TestEpSimulator::testStudyLoadSave() {
+    Study s;
+    s.setPath("../tmp");
+    Name name = {"Doe", "James", ""};
+    s.setName(name);
+    s.save();
+    Study s1;
+    s1.setPath("../tmp");
+    s1.load();
+    QCOMPARE(s.key(), s1.key());
+    Study s2 = s1;
+    QCOMPARE(s2.key(), s1.key());
+    Study s3 = s2;
+    name.last = "Roe";
+    s3.setName(name);   // this should NOT change key, already = to s2 key()
+    QCOMPARE(s3.key(), s2.key());
+    s3.save();
+    s3.load();
+    name.last = "Coe";
+    s3.setName(name);
+    QCOMPARE(s3.key(), s2.key());
+    // test with a pointer
+    Study* sp = new Study;
+    sp->setName(name);
+    QString originalKey = sp->key();
+    sp->setPath("../tmp"); 
+    sp->save();
+    sp->load();
+    QCOMPARE(sp->key(), originalKey);
+    delete sp;
+    Study s4;
+    name.last = "NewName";
+    s4.setName(name);
+    QString key1 = s4.key();
+    s4.setPath("../tmp");
+    s4.save();
+    s4.load();
+    name.last = "AnotherNewName";
+    s4.setName(name);
+    s4.save();
+    s4.load();
+    QCOMPARE(key1, s4.key());
+    QVERIFY(s4.key() != s1.key());
+    Study s5;
+    s5.setPath("../tmp");
+    s5.load();
+    // key should be same as the s4 key if loading is actually loading the key
+    QCOMPARE(s4.key(), s5.key());    
 }
 
 void TestEpSimulator::testOptions() {

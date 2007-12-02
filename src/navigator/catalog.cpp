@@ -63,7 +63,7 @@ const QString Catalog::defaultFileName_ = "catalog.dat";
 
 Catalog::Catalog(const QString& path, 
                  const QString& fileName) : path_(path), fileName_(fileName) {
-        refresh();
+        load();
 }
 
 Catalog::~Catalog() {
@@ -86,6 +86,8 @@ void Catalog::deleteStudy(const Study* study) {
 }
 
 void Catalog::refresh() {
+    /// NOTE below added for testing
+    catalog_.clear();
     load();
 }
 

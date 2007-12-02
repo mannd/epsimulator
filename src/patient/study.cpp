@@ -63,7 +63,7 @@ QDataStream& operator<<(QDataStream& out, const Study& study) {
         << study.heightIn_<< study.weightLbs_ << study.bsa_ 
         << (qint32)study.bsaManualEdit_ << (qint32)study.vagalTone_ 
         << (qint32)study.sympatheticTone_ << (qint32)study.ef_
-        << (qint32)study.ischemia_ << study.path_;
+        << (qint32)study.ischemia_ << study.path_ << study.key_;
     ///TODO need to add heart to this
     return out;
 }
@@ -76,7 +76,7 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
         >> sex >> study.height_ >> study.weight_ >> study.heightIn_
         >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
         >> vagalTone >> sympatheticTone >> ef
-        >> ischemia >> study.path_;
+        >> ischemia >> study.path_ >> study.key_;
     ///TODO need to add heart to this
     study.sex_ = (sex != 0) ? Female : Male;
     study.bsaManualEdit_ = bsaManualEdit;

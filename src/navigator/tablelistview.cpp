@@ -36,6 +36,9 @@
 #include <iostream>
 #endif
 
+// uncomment below to show a key column in the table
+#define DEBUGKEYS 1
+
 /**
  * Constructor for TableListViewItem subclass of Navigator
  * @param parent = TableListView. 
@@ -93,6 +96,9 @@ void TableListView::adjustColumns(bool clearTable) {
     addColumn(tr("Study Config"));      
     addColumn(tr("Study Number"));      
     addColumn(tr("Location of Study")); 
+#ifdef DEBUGKEYS
+    addColumn(tr("Study Key"));
+#endif    
     header()->setResizeEnabled(true);
     if (oldStyle_) {
         // must set ColumnWidthMode to Manual, or else it is Maximum and the
@@ -148,10 +154,10 @@ void TableListView::load(Catalog* catalog) {
  * @return Study pointer, 0 if no row selected.
  */
 Study* TableListView::study() const {
-    Study* study = 0;
     if (TableListViewItem* item = dynamic_cast<TableListViewItem*>(selectedItem())) 
-        study = new Study((*catalog_)[item->key()].study);
-    return study;
+        return new Study((*catalog_)[item->key()].study);
+    else
+        return 0;
 }
 
 void TableListView::addStudy(const Study& study, const QString& location) {
@@ -164,9 +170,12 @@ void TableListView::addStudy(const Study& study, const QString& location) {
         t->setText(MRNCol, study.mrn());
         t->setText(DateTimeCol, study.dateTime().toString("yyyy/MM/dd hh:mm:ss"));
         t->setText(ConfigCol, study.config());
-        //t->setText(NumberCol, study.number());
-        t->setText(NumberCol, study.key());
+        t->setText(NumberCol, study.number());
         t->setText(LocationCol, location); 
+        // for debugging show study key 
+#ifdef DEBUGKEYS
+        t->setText(NumberCol, study.key());
+#endif
 }
 
 void TableListView::exportCSV(const QString& fileName) {
