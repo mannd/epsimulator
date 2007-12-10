@@ -57,6 +57,9 @@ public:
     Navigator(QWidget* parent = 0);
     ~Navigator();
 
+public slots:
+    void regenerateCatalogs();
+
 protected:
     void closeEvent(QCloseEvent*);
 
@@ -72,7 +75,6 @@ private slots:
     void filterStudies();
     void unfilterStudies();
     void refreshCatalogs();        
-    void regenerateCatalogs();
     void changeCatalog();
     void ejectDisk();
     void relabelDisk();

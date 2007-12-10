@@ -22,6 +22,7 @@
 
 #include "actions.h"
 //#include "fileutilities.h"
+#include "navigator.h"
 #include "patientdialog.h"
 #include "settings.h"
 #include "study.h"
@@ -48,10 +49,6 @@ Recorder::Recorder(QWidget* parent)
     createMenus();
 
     setWindowTitle(tr("EP Simulator"));
-    // Below not necessary, set in main.cpp by QApplication::setWindowIcon()
-    // setWindowIcon(QIcon(":/hi16-app-epsimulator.png"));
-
-    //statusBar()->message(tr("EP Simulator (c) 2006 EP Studios, Inc."));
     readSettings();
 
 }
@@ -92,7 +89,8 @@ void Recorder::closeStudy() {
         study_->save();
         // get rid of study_
         delete study_;
-        if (QWidget* parentWidget = dynamic_cast<QWidget*>(parent())) {
+        if (Navigator* parentWidget = dynamic_cast<Navigator*>(parent())) {
+            parentWidget->regenerateCatalogs();
             parentWidget->show();
         }
         hide();     // can't close, or app will terminate

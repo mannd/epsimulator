@@ -35,7 +35,7 @@
 #include "error.h"
 #include "filtercatalogdialog.h"
 #include "movecopystudydialog.h"    // temporary
-#include "movecopystudywizard.h"
+//#include "movecopystudywizard.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "passworddialog.h"
@@ -201,12 +201,19 @@ void Navigator::reports()  {
 }
 
 void Navigator::copyStudy() {
-    CopyStudyDialog* w = new CopyStudyDialog(this);
+    QMessageBox::information(this, tr("Study Copy Wizard"),
+        tr("This wizard will enable you to copy patient studies" 
+           " from one location to another.  You will need to provide"
+           " the location of the source and destination folders to complete"
+           " the copying.  Please click OK to continue."));
+    CopyStudyDialog* w = new CopyStudyDialog(this, currentDisk_->fullPath());
     //w->setCurrentIndex(0);
     w->show();
-/*    if (w->exec())
-        ;
-    delete w;*/
+    if (w->exec()) {
+        // do stuff
+        // no need to regenerateCatalogs(), catalogs_ left intact by just copying 
+    }
+    delete w;
 }
 //     StudyCopyWizard* wizard = new StudyCopyWizard(this);
 //     wizard->setSourcePathName(currentDisk_->fullPath());
@@ -231,6 +238,21 @@ void Navigator::copyStudy() {
 //}
 
 void Navigator::moveStudy() {
+    QMessageBox::information(this, tr("Study Move Wizard"),
+        tr("This wizard will enable you to move patient studies" 
+           " from one location to another.  You will need to provide"
+           " the location of the source and destination folders to complete"
+           " the moving.  Please click OK to continue."));
+    MoveStudyDialog* w = new MoveStudyDialog(this, currentDisk_->fullPath());
+    //w->setCurrentIndex(0);
+    w->show();
+    if (w->exec()) {
+        // do stuff
+        regenerateCatalogs(); // have to reconstruct catalogs 
+                              // because studies are actually moved
+    }
+    delete w;
+}
 //     if (administrationAllowed()) {
 //         StudyMoveWizard* wizard = new StudyMoveWizard(this);
 //         wizard->setSourcePathName(currentDisk_->fullPath());
@@ -254,7 +276,7 @@ void Navigator::moveStudy() {
 //         }
 //         delete wizard;
 //     }
-}
+//}
 
 void Navigator::deleteStudy() {
     try {

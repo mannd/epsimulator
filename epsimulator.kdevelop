@@ -118,7 +118,7 @@
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
         <testepsimulator/>
         <main/>
@@ -136,7 +136,7 @@
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
         <testepsimulator/>
         <main/>

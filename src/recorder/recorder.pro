@@ -7,16 +7,19 @@ HEADERS += recorder.h
 INCLUDEPATH += ../gui \
 ../stimulator \
  ../patient \
- ../core
+ ../core \
+ ../navigator
 LIBS += -lpatient \
  -lgui \
  -lcore \
  -L../../lib \
- ../../lib/libstimulator.a
+ ../../lib/libstimulator.a \
+ ../../lib/libnavigator.a
 TARGETDEPS += ../../lib/libgui.so \
 ../../lib/libstimulator.a \
  ../../lib/libpatient.so \
- ../../lib/libcore.so
+ ../../lib/libcore.so \
+ ../../lib/libnavigator.a
 CONFIG -= release
 
 CONFIG += debug \

@@ -1,7 +1,6 @@
 
 FORMS += ui/filtercatalogdialog.ui \
          ui/disklabeldialog.ui \
-         ui/movecopystudywizard.ui  \
          ui/selectemulateddiskdialog.ui \
          ui/selectstudyconfigdialog.ui \
          ui/movecopystudydialog.ui
@@ -20,8 +19,7 @@ HEADERS += navigator.h \
            selectemulateddiskdialog.h \
  selectstudyconfigdialog.h \
  filtercatalogdialog.h \
- movecopystudydialog.h \
- movecopystudywizard.h
+ movecopystudydialog.h
 SOURCES += navigator.cpp \
            catalogcombobox.cpp \
            catalog.cpp \
@@ -33,8 +31,7 @@ SOURCES += navigator.cpp \
            selectemulateddiskdialog.cpp \
  selectstudyconfigdialog.cpp \
  filtercatalogdialog.cpp \
- movecopystudydialog.cpp \
- movecopystudywizard.cpp
+ movecopystudydialog.cpp
 TEMPLATE = lib
 CONFIG += debug \
 warn_on \

@@ -21,27 +21,36 @@
 #ifndef MOVECOPYSTUDYDIALOG_H
 #define MOVECOPYSTUDYDIALOG_H
 
-#include <QDialog>
 #include "ui_movecopystudydialog.h"
+
+#include <QDialog>
+#include <QString>
 
 class MoveCopyStudyDialog : public QDialog, 
     private Ui::MoveCopyStudyDialog {
     
     Q_OBJECT
 public:
-    MoveCopyStudyDialog(QWidget* parent = 0, Qt::WFlags fl = 0 );
+    MoveCopyStudyDialog(QWidget* parent = 0, 
+                        const QString& sourcePath = QString());
     ~MoveCopyStudyDialog();
-  /*$PUBLIC_FUNCTIONS$*/
 
-public slots:
-  /*$PUBLIC_SLOTS$*/
+protected:
+    void setUpLabels(const QString& label);
 
+private slots:
+    void sourcePathBrowse();
+    void destinationPathBrowse();
+    void activateFinishButton();    // will activate if dialog filled out correctly
+    void fillStudiesListView();
+    void selectAll();
 };
 
 class CopyStudyDialog : public MoveCopyStudyDialog {
 
 public:
-    CopyStudyDialog(QWidget* parent = 0);
+    CopyStudyDialog(QWidget* parent = 0,
+                    const QString& sourcePath = QString());
     ~CopyStudyDialog();
 
 };
@@ -49,7 +58,8 @@ public:
 class MoveStudyDialog : public MoveCopyStudyDialog {
 
 public:
-    MoveStudyDialog(QWidget* parent = 0);
+    MoveStudyDialog(QWidget* parent = 0,
+                    const QString& sourcePath = QString());
     ~MoveStudyDialog();
 
 };

@@ -1,34 +1,22 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="9" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/epfuns.h" >
-   <View0 Encoding="" line="26" Type="Source" />
+ <DocsAndViews NumberOfDocuments="5" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
+   <View0 Encoding="" line="991" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/epfuns.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
+   <View0 Encoding="" line="92" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/main/main.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.h" >
+   <View0 Encoding="" line="61" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.pro" >
-   <View0 Encoding="" line="64" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/tablelistview.cpp" >
+   <View0 Encoding="" line="39" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/main/main.pro" >
-   <View0 Encoding="" line="26" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/tablelistview.h" >
+   <View0 Encoding="" line="70" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/tablelistview.h" >
-   <View0 Encoding="" line="54" Type="Source" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.h" >
-   <View0 Encoding="" line="69" Type="Source" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
-   <View0 Encoding="" line="308" Type="Source" />
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/tablelistview.cpp" >
-   <View0 Encoding="" line="135" Type="Source" />
-  </Doc8>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -60,18 +48,15 @@
     <breakpoint8 location="/home/mannd/dev/local/epsimulator/src/navigator.cpp:505" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint8>
-    <breakpoint9 location="/home/mannd/dev/local/epsimulator/src/navigator/disklabeldialog.cpp:72" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint9 location="/home/mannd/dev/local/epsimulator/src/epsim/getopts.cpp:216" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint9>
-    <breakpoint10 location="/home/mannd/dev/local/epsimulator/src/epsim/getopts.cpp:216" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint10 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:103" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint10>
-    <breakpoint11 location="/home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp:67" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint11 location="/home/mannd/dev/local/epsimulator/src/navigator/catalog.cpp:94" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint11>
-    <breakpoint12 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:110" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint12>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -85,17 +70,17 @@
      <mark line="456" />
     </bookmark>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
-     <mark line="109" />
+     <mark line="867" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/src/navigator.cpp" >
      <mark line="925" />
      <mark line="915" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="444" />
+     <mark line="437" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="437" />
+     <mark line="444" />
     </bookmark>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/changepassworddialog.h" >
      <mark line="34" />

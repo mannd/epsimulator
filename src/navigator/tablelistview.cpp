@@ -37,7 +37,7 @@
 #endif
 
 // uncomment below to show a key column in the table
-#define DEBUGKEYS 1
+// #define DEBUGKEYS 1
 
 /**
  * Constructor for TableListViewItem subclass of Navigator
@@ -174,7 +174,7 @@ void TableListView::addStudy(const Study& study, const QString& location) {
         t->setText(LocationCol, location); 
         // for debugging show study key 
 #ifdef DEBUGKEYS
-        t->setText(NumberCol, study.key());
+        t->setText(LocationCol+1, study.key());
 #endif
 }
 
