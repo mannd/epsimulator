@@ -33,6 +33,7 @@ class Catalog;
 class Catalogs;
 class CatalogComboBox;
 class FilterCatalogDialog;
+class MoveCopyStudyDialog;
 class OpticalDisk;
 class Options;
 class Recorder;
@@ -121,6 +122,8 @@ private:
     void saveSettings();
     void readSettings();
     void updateStatusBarUserLabel();
+    void updateWindowTitle();
+    void updateAll();
 
     // Optical disk related
     void labelDisk(bool reLabel, OpticalDisk* disk);
@@ -138,6 +141,10 @@ private:
     QString studyPath(const Study*) const;    // returns path to that study
     void addStudyToCatalogs();  // add study to appropriate catalogs
     void createDataFiles(); // make study data files on disk
+    void moveCopyStudyMessageBox(bool move = false);
+    bool doStudyCopy(MoveCopyStudyDialog&);
+    void copyDataFiles(const QString& sourcePath, 
+                       const QString destinationPath);
     void deleteDataFiles(const QString&); // delete all study data on disk
     bool studyOnDisk(const Study*) const; // make sure study is on current disk
     void studyNotOnDiskError();  // report study not on current disk

@@ -52,6 +52,14 @@ QDataStream& operator>>(QDataStream& in, LabelData& labelData) {
     return in;
 }
 
+bool LabelData::operator==(const LabelData& rhs) const {
+    return rhs.label == label && rhs.side == side;
+}
+
+bool LabelData::operator!=(const LabelData& rhs) const {
+    return !(rhs == *this);
+}
+
 // class OpticalDisk.
 
 const QString OpticalDisk::labelFileName_ = "label.dat";

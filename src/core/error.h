@@ -94,6 +94,13 @@ public:
                       : IoError(fileName, msg) {}
 };
 
+class SourceDestinationSameError : public IoError {
+public:
+    SourceDestinationSameError(const QString& pathName,
+        const char* msg = "source and destination are identical") 
+        : IoError(pathName, msg) {}
+};
+
 }
 
 #endif

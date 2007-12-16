@@ -23,13 +23,15 @@
 
 #include "actions.h"
 #include "catalog.h"
+#include "opticaldisk.h"
 
 MoveCopyStudyDialog::MoveCopyStudyDialog(QWidget* parent, 
-                                         const QString& sourcePath)
-    : QDialog(parent), Ui::MoveCopyStudyDialog()
+                                         OpticalDisk* opticalDisk)
+    : QDialog(parent), Ui::MoveCopyStudyDialog(), opticalDisk_(opticalDisk)
 {
     setupUi(this);
-    sourcePathLineEdit->setText(sourcePath);
+    sourcePathLineEdit->setText(addOpticalToPath(opticalDisk->path()));
+    destinationPathLineEdit->setText(addOpticalToPath(opticalDisk->path()));
     finishButton->setEnabled(false);
     fillStudiesListView();
     connect(sourcePathBrowseButton, SIGNAL(clicked()), this,
@@ -48,20 +50,55 @@ MoveCopyStudyDialog::MoveCopyStudyDialog(QWidget* parent,
         this, SLOT(selectAll()));
 }
 
+QString MoveCopyStudyDialog::sourcePath() {
+    return removeOpticalFromPath(sourcePathLineEdit->text());
+}
+
+QString MoveCopyStudyDialog::destinationPath() {
+    return removeOpticalFromPath(destinationPathLineEdit->text());
+}
+
 void MoveCopyStudyDialog::sourcePathBrowse() {
+    sourcePathLineEdit->setUpdatesEnabled(false);
+    sourcePathLineEdit->setText(
+        removeOpticalFromPath(sourcePathLineEdit->text()));
     EpGui::browseFilePaths(this, sourcePathLineEdit);
+    sourcePathLineEdit->setText(
+        addOpticalToPath(sourcePathLineEdit->text()));
+    sourcePathLineEdit->setUpdatesEnabled(true);
 }
 
 void MoveCopyStudyDialog::destinationPathBrowse() {
+    destinationPathLineEdit->setUpdatesEnabled(false);
+    destinationPathLineEdit->setText(
+        removeOpticalFromPath(destinationPathLineEdit->text()));
     EpGui::browseFilePaths(this, destinationPathLineEdit);
+    destinationPathLineEdit->setText(
+        addOpticalToPath(destinationPathLineEdit->text()));
+    destinationPathLineEdit->setUpdatesEnabled(true);
 }
 
 void MoveCopyStudyDialog::setUpLabels(const QString& label) {
-    setWindowTitle(tr("%1 Study Wizard").arg(label));
+    setWindowTitle(tr("Study %1 Wizard").arg(label));
     finishButton->setText(label);
     destinationLabel->setText(destinationLabel->text().arg(label));
 }
 
+QString MoveCopyStudyDialog::addOpticalToPath(const QString& path) {
+    if (path == opticalDisk_->path())
+        return QDir::cleanDirPath(opticalDisk_->path() + "/" 
+            + QObject::tr("(Optical)"));
+    else
+        return path;
+}
+
+QString MoveCopyStudyDialog::removeOpticalFromPath(const QString& path) {
+    if (path == addOpticalToPath(opticalDisk_->path()))
+        return opticalDisk_->path();
+    else
+        return path;
+}
+            
 /**
  * Checks to see if there is an entry in the source and finish line edits,
  * and makes sure that there is at least one selected study.  If so,
@@ -76,7 +113,10 @@ void MoveCopyStudyDialog::activateFinishButton() {
 
 void MoveCopyStudyDialog::fillStudiesListView() {
     studiesListWidget->clear();
-    Catalog catalog(sourcePathLineEdit->text());
+    QString path = removeOpticalFromPath(sourcePathLineEdit->text());
+    if (path == opticalDisk_->path())   // source is optical disk
+        path = opticalDisk_->fullPath();
+    Catalog catalog(path);
     for (Catalog::CatalogMap::const_iterator it = catalog.begin(); 
         it != catalog.end(); ++it)
         studiesListWidget->addItem(QString(it.data().study.name().fullName(true) + 
@@ -90,16 +130,16 @@ void MoveCopyStudyDialog::selectAll() {
 MoveCopyStudyDialog::~MoveCopyStudyDialog() {
 }
 
-CopyStudyDialog::CopyStudyDialog(QWidget* parent, const QString& sourcePath) 
-    : MoveCopyStudyDialog(parent, sourcePath) {
+CopyStudyDialog::CopyStudyDialog(QWidget* parent, OpticalDisk* opticalDisk) 
+    : MoveCopyStudyDialog(parent, opticalDisk) {
     setUpLabels(tr("Copy"));
 }
 
 CopyStudyDialog::~CopyStudyDialog() {
 }
 
-MoveStudyDialog::MoveStudyDialog(QWidget* parent, const QString& sourcePath) 
-    : MoveCopyStudyDialog(parent, sourcePath) {
+MoveStudyDialog::MoveStudyDialog(QWidget* parent, OpticalDisk* opticalDisk) 
+    : MoveCopyStudyDialog(parent, opticalDisk) {
     setUpLabels(tr("Move"));
 }
 

@@ -34,8 +34,7 @@
 #include "fileutilities.h"
 #include "error.h"
 #include "filtercatalogdialog.h"
-#include "movecopystudydialog.h"    // temporary
-//#include "movecopystudywizard.h"
+#include "movecopystudydialog.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "passworddialog.h"
@@ -46,7 +45,6 @@
 #include "statusbar.h"
 #include "study.h"
 #include "selectstudyconfigdialog.h"
-//#include "studycopywizard.h"
 #include "systemdialog.h"
 #include "tablelistview.h"
 #include "user.h"
@@ -66,6 +64,7 @@
 #include <QVariant>
 
 #include <algorithm>
+#include <memory>
 
 #ifndef NDEBUG
 #include <iostream> // for debugging
@@ -92,7 +91,7 @@ Navigator::Navigator(QWidget* parent)
     connect(catalogComboBox_, SIGNAL(activated(int)),
         this, SLOT(changeCatalog()));
 
-    setWindowTitle(tr("%1 Navigator").arg(VersionInfo::instance()->programName()));
+    updateWindowTitle();
     readSettings();
 
 }
@@ -171,6 +170,7 @@ void Navigator::reviewStudy() {
     }
     else
         noStudySelectedError();
+    delete study;
 }
 
 void Navigator::preregisterPatient() {
@@ -198,23 +198,47 @@ void Navigator::reports()  {
     }
     else
         noStudySelectedError();
+    delete study;
+}
+
+void Navigator::moveCopyStudyMessageBox(bool move) {
+    QString typeOfCopy = move ? tr("move") : tr("copy");
+    QString uCaseTypeOfCopy = move ? tr("Move") : tr("Copy");
+    QMessageBox::information(this, tr("Study %1 Wizard").arg(uCaseTypeOfCopy),
+        tr("This wizard will enable you to %1 patient studies" 
+           " from one location to another.  You will need to provide"
+           " the location of the source and destination"
+           " folders to complete the %1.").arg(typeOfCopy));
+}
+
+bool Navigator::doStudyCopy(MoveCopyStudyDialog& d) {
+    bool result = d.exec();
+    if (result) {
+        try {
+            copyDataFiles(d.sourcePath(), d.destinationPath());
+        }
+        // do stuff
+        // no need to regenerateCatalogs(), catalogs_ left intact by just copying 
+    catch (EpCore::SourceDestinationSameError& e) {    
+        QMessageBox::warning(this, 
+            tr("Source and destination directories are the same"),
+            tr("Source and destination directories must be different"));
+    }
+    catch (EpCore::IoError& e) {
+        QMessageBox::warning(this,
+            tr("Error copying study"),
+            tr("Study could not be copied"));
+        }    
+    }
+    return result;
 }
 
 void Navigator::copyStudy() {
-    QMessageBox::information(this, tr("Study Copy Wizard"),
-        tr("This wizard will enable you to copy patient studies" 
-           " from one location to another.  You will need to provide"
-           " the location of the source and destination folders to complete"
-           " the copying.  Please click OK to continue."));
-    CopyStudyDialog* w = new CopyStudyDialog(this, currentDisk_->fullPath());
-    //w->setCurrentIndex(0);
-    w->show();
-    if (w->exec()) {
-        // do stuff
-        // no need to regenerateCatalogs(), catalogs_ left intact by just copying 
-    }
-    delete w;
+    moveCopyStudyMessageBox(false);
+    CopyStudyDialog copyStudyDialog(this, currentDisk_);
+    doStudyCopy(copyStudyDialog);
 }
+
 //     StudyCopyWizard* wizard = new StudyCopyWizard(this);
 //     wizard->setSourcePathName(currentDisk_->fullPath());
 //     if (wizard->exec()) {
@@ -238,20 +262,12 @@ void Navigator::copyStudy() {
 //}
 
 void Navigator::moveStudy() {
-    QMessageBox::information(this, tr("Study Move Wizard"),
-        tr("This wizard will enable you to move patient studies" 
-           " from one location to another.  You will need to provide"
-           " the location of the source and destination folders to complete"
-           " the moving.  Please click OK to continue."));
-    MoveStudyDialog* w = new MoveStudyDialog(this, currentDisk_->fullPath());
-    //w->setCurrentIndex(0);
-    w->show();
-    if (w->exec()) {
-        // do stuff
+    moveCopyStudyMessageBox(true);
+    MoveStudyDialog moveStudyDialog(this, currentDisk_);
+    if (doStudyCopy(moveStudyDialog))
         regenerateCatalogs(); // have to reconstruct catalogs 
                               // because studies are actually moved
-    }
-    delete w;
+    // delete w;
 }
 //     if (administrationAllowed()) {
 //         StudyMoveWizard* wizard = new StudyMoveWizard(this);
@@ -279,11 +295,13 @@ void Navigator::moveStudy() {
 //}
 
 void Navigator::deleteStudy() {
+    Study* study = getSelectedStudy();
     try {
-        if (Study* study = getSelectedStudy()) {
+        if (study) {
             if (!study->isPreregisterStudy() && !catalogs_->studyPresentOnOpticalDisk(study)) {
                 QMessageBox::information(this, tr("Study Not On Optical Disk"),
                     tr("Insert the disk containing this study and try again."));
+                delete study;
                 return;
             }
             int ret = QMessageBox::warning(
@@ -308,10 +326,12 @@ void Navigator::deleteStudy() {
     catch (EpCore::FileNotFoundError& e) {
         QMessageBox::warning(this, tr("Problem Deleting Study"),
             tr("Could not find study file %1").arg(e.fileName()));
+        delete study;
     }
     catch (EpCore::DeleteError&) {
         QMessageBox::warning(this, tr("Problem Deleting Study"),
             tr("Errors occurred while trying to delete study data."));
+        delete study;
     }
 }
 
@@ -420,11 +440,18 @@ void Navigator::login() {
             new PasswordDialog(options_,this);
         if (pwDialog->exec() == QDialog::Accepted) {
             user_->makeAdministrator(true);
-            updateStatusBarUserLabel();
-            updateMenus();
+            updateAll();
         }
         delete pwDialog;
     }
+}
+
+void Navigator::updateWindowTitle() {
+    QString title = tr("%1 Navigator")
+        .arg(VersionInfo::instance()->programName());
+    title = user_->isAdministrator() ? 
+        QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
+    setWindowTitle(title);
 }
 
 void Navigator::updateStatusBarUserLabel() {
@@ -432,18 +459,25 @@ void Navigator::updateStatusBarUserLabel() {
         user_->role() : user_->name());
 }
 
-void Navigator::logout() {
-    user_->makeAdministrator(false);
+void Navigator::updateAll() {
     updateStatusBarUserLabel();
+    updateWindowTitle();
     updateMenus();
 }
 
+void Navigator::logout() {
+    user_->makeAdministrator(false);
+    updateAll();
+}
+
 void Navigator::changePassword() {
-    ChangePasswordDialog* cpDialog = new ChangePasswordDialog(options_, this);
-    if (cpDialog->exec() == QDialog::Accepted) {
-        cpDialog->changePassword();
+    if (administrationAllowed()) {
+        ChangePasswordDialog* cpDialog = new ChangePasswordDialog(options_, this);
+        if (cpDialog->exec() == QDialog::Accepted) {
+            cpDialog->changePassword();
+        }
+        delete cpDialog;   
     }
-    delete cpDialog;   
 }
 
 /// Checks to see if administrator access if required, if it is,
@@ -980,18 +1014,16 @@ void Navigator::startStudy(Study* s) {
 
 }
 
-void Navigator::reviewStudy(Study* s) {
+void Navigator::reviewStudy(Study*) {
     QMessageBox::information(this, tr("Starting Review Simulation"),
         tr("The Review simulation is not implemented yet.\n"
            "Will return to Navigator."));
-    delete s;
 }
 
-void Navigator::reports(Study* s) {
+void Navigator::reports(Study*) {
     QMessageBox::information(this, tr("Starting Report Simulation"),
         tr("The Report simulation is not implemented yet.\n"
            "Will return to Navigator."));
-    delete s;
 }
 
 /// FIXME Problem is that study key() is not fixed until the first time key() is called.
@@ -1041,6 +1073,30 @@ Recorder* Navigator::getRecorder() {
 QString Navigator::studyPath(const Study* study) const {
     return QDir::cleanDirPath(currentDisk_->fullPath() + "/" + study->key());
 }
+
+void Navigator::copyDataFiles(const QString& sourcePath,
+                              const QString destinationPath) {
+    if (sourcePath == currentDisk_->path() 
+        && destinationPath == currentDisk_->path()) {
+        ejectDisk();
+        OpticalDisk* disk = new OpticalDisk(destinationPath);
+        disk->readLabel();
+        if (!disk->isLabeled())
+            labelDisk(false, disk);
+        // compare labelData
+        if (disk->labelData() == currentDisk_->labelData()) {
+            delete disk;
+            throw EpCore::SourceDestinationSameError(sourcePath);
+        }
+        delete disk;
+    }
+    else if (sourcePath == destinationPath)
+        throw EpCore::SourceDestinationSameError(sourcePath);
+    Catalog* catalog = new Catalog(destinationPath);
+    // do the copying here
+    delete catalog;
+}
+
 
 void Navigator::deleteDataFiles(const QString& path) {
     if (!options_->permanentDelete()) {

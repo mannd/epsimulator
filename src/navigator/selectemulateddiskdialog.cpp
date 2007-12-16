@@ -37,6 +37,8 @@ SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent)
         this, SLOT(setSelect()));
     connect(flipDiskPushButton, SIGNAL(clicked()),
         this, SLOT(setFlip()));
+    connect(labelListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+        this, SLOT(setSelect()));
 }
 
 void SelectEmulatedDiskDialog::setLabelList(const QStringList& stringList) {

@@ -34,6 +34,8 @@ struct LabelData {
     QString side;
     friend QDataStream& operator<<(QDataStream&, const LabelData&);
     friend QDataStream& operator>>(QDataStream&, LabelData&);
+    bool operator==(const LabelData&) const;
+    bool operator!=(const LabelData&) const;
 };
 
 /**

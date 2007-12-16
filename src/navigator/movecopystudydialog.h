@@ -26,17 +26,22 @@
 #include <QDialog>
 #include <QString>
 
+class OpticalDisk;
+
 class MoveCopyStudyDialog : public QDialog, 
     private Ui::MoveCopyStudyDialog {
     
     Q_OBJECT
 public:
-    MoveCopyStudyDialog(QWidget* parent = 0, 
-                        const QString& sourcePath = QString());
+    MoveCopyStudyDialog(QWidget* parent, OpticalDisk*);
+    QString sourcePath();
+    QString destinationPath();
     ~MoveCopyStudyDialog();
 
 protected:
     void setUpLabels(const QString& label);
+    QString addOpticalToPath(const QString& path);
+    QString removeOpticalFromPath(const QString& path);
 
 private slots:
     void sourcePathBrowse();
@@ -44,13 +49,16 @@ private slots:
     void activateFinishButton();    // will activate if dialog filled out correctly
     void fillStudiesListView();
     void selectAll();
+
+private:
+    OpticalDisk* opticalDisk_;
+
 };
 
 class CopyStudyDialog : public MoveCopyStudyDialog {
 
 public:
-    CopyStudyDialog(QWidget* parent = 0,
-                    const QString& sourcePath = QString());
+    CopyStudyDialog(QWidget* parent, OpticalDisk*);
     ~CopyStudyDialog();
 
 };
@@ -58,8 +66,7 @@ public:
 class MoveStudyDialog : public MoveCopyStudyDialog {
 
 public:
-    MoveStudyDialog(QWidget* parent = 0,
-                    const QString& sourcePath = QString());
+    MoveStudyDialog(QWidget* parent, OpticalDisk*);
     ~MoveStudyDialog();
 
 };
