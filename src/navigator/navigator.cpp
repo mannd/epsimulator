@@ -31,8 +31,8 @@
 #include "catalogcombobox.h"
 #include "changepassworddialog.h"
 #include "disklabeldialog.h"
-#include "fileutilities.h"
 #include "error.h"
+#include "fileutilities.h"
 #include "filtercatalogdialog.h"
 #include "movecopystudydialog.h"
 #include "opticaldisk.h"
@@ -40,11 +40,11 @@
 #include "passworddialog.h"
 #include "patientdialog.h"
 #include "recorder.h"
-#include "simulatorsettingsdialog.h"
+#include "selectstudyconfigdialog.h"
 #include "settings.h"
+#include "simulatorsettingsdialog.h"
 #include "statusbar.h"
 #include "study.h"
-#include "selectstudyconfigdialog.h"
 #include "systemdialog.h"
 #include "tablelistview.h"
 #include "user.h"
@@ -215,6 +215,12 @@ bool Navigator::doStudyCopy(MoveCopyStudyDialog& d) {
     bool result = d.exec();
     if (result) {
         try {
+            QList<QString> items = d.selectedItems();
+            ///  FIXME Debug only below!!!
+            for (int i = 0; i < items.size(); ++i) {
+                QString s = items.at(i);
+                std::cout << s.toAscii().constData() << std::endl;
+            }
             copyDataFiles(d.sourcePath(), d.destinationPath());
         }
         // do stuff
@@ -434,18 +440,6 @@ void Navigator::relabelDisk() {
     labelDisk(true, currentDisk_);
 }
 
-void Navigator::login() {
-    if (!user_->isAdministrator()) {
-        PasswordDialog* pwDialog = 
-            new PasswordDialog(options_,this);
-        if (pwDialog->exec() == QDialog::Accepted) {
-            user_->makeAdministrator(true);
-            updateAll();
-        }
-        delete pwDialog;
-    }
-}
-
 void Navigator::updateWindowTitle() {
     QString title = tr("%1 Navigator")
         .arg(VersionInfo::instance()->programName());
@@ -463,6 +457,18 @@ void Navigator::updateAll() {
     updateStatusBarUserLabel();
     updateWindowTitle();
     updateMenus();
+}
+
+void Navigator::login() {
+    if (!user_->isAdministrator()) {
+        PasswordDialog* pwDialog = 
+            new PasswordDialog(options_,this);
+        if (pwDialog->exec() == QDialog::Accepted) {
+            user_->makeAdministrator(true);
+            updateAll();
+        }
+        delete pwDialog;
+    }
 }
 
 void Navigator::logout() {
@@ -489,8 +495,6 @@ bool Navigator::administrationAllowed() {
     login();
     return user_->isAdministrator();
 }
-
-
 
 void Navigator::noStudySelectedError() {
     QMessageBox::warning(this, tr("No Study Selected"),
@@ -1076,45 +1080,54 @@ QString Navigator::studyPath(const Study* study) const {
 
 void Navigator::copyDataFiles(const QString& sourcePath,
                               const QString destinationPath) {
-    if (sourcePath == currentDisk_->path() 
-        && destinationPath == currentDisk_->path()) {
+    // disk to disk copy
+    if (currentDisk_->isOpticalDiskPath(sourcePath) 
+        && destinationPath == sourcePath) {
+        // copy studies to temp dir
+        LabelData sourceLabelData = currentDisk_->labelData();
         ejectDisk();
-        OpticalDisk* disk = new OpticalDisk(destinationPath);
-        disk->readLabel();
-        if (!disk->isLabeled())
-            labelDisk(false, disk);
-        // compare labelData
-        if (disk->labelData() == currentDisk_->labelData()) {
-            delete disk;
+        currentDisk_->readLabel();
+        if (!currentDisk_->isLabeled())
+            labelDisk(false, currentDisk_);
+        // compare labelData, make sure not the same disk
+        if (sourceLabelData == currentDisk_->labelData()) {
             throw EpCore::SourceDestinationSameError(sourcePath);
         }
-        delete disk;
     }
     else if (sourcePath == destinationPath)
         throw EpCore::SourceDestinationSameError(sourcePath);
     Catalog* catalog = new Catalog(destinationPath);
     // do the copying here
+//    QList<QListViewItem*> studies = 
     delete catalog;
 }
 
 
+/**
+ * Will recursively delete all study files and dirs in path, and
+ * remove the path dir as well.
+ * @param path = full path to the specific study dir, e.g.
+ * /home/user/MyStudies/studies/study_name__3333333333/
+ */
 void Navigator::deleteDataFiles(const QString& path) {
     if (!options_->permanentDelete()) {
-#ifndef NDEBUG
-        std::cerr << "Path is " << path.toAscii().constData()
-            << std::endl;
-#endif
         return;
     }
     try {
         QDir d(path);
         if (!d.exists())
             throw EpCore::FileNotFoundError(path);
-        QString item;
-        QFileInfoList list = d.entryInfoList();
+        // infinite recursion is filters not set
+        QFileInfoList list = d.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
+        std::cerr << "List size = " << list.size() << std::endl;
         for (int i = 0; i < list.size(); ++i) {
             QFileInfo fileInfo = list.at(i);
-            d.remove(fileInfo.fileName());
+            if (fileInfo.isDir())  {
+                deleteDataFiles(fileInfo.filePath());   // recursive
+                d.rmdir(fileInfo.path());
+            } 
+            else
+                d.remove(fileInfo.filePath());
         }
         d.rmdir(path);
     }

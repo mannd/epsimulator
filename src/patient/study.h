@@ -92,15 +92,17 @@ public:
     AutonomicTone sympatheticTone() const {return sympatheticTone_;}
     QDateTime dateTime() const {return dateTime_;}
     QString number() const {return number_;}
-    QString path() const {return path_;}    // returns path to specific study directory
-    QString filePath();     // Returns full path of study.dat file, 
-    QString studyDirName() {return "/study_" + key();}
     QString config() const {return config_;}
     QString key() const;    // Generates key based on name and datetime
                             // to identify study uniquely.
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
+
+    QString path() const {return path_;} // returns path to 
+                                         // specific study directory
+    QString filePath();     // Returns full path of study.dat file, 
+    QString studyDirName() const {return "/study_" + key();}
     QString studyFileName() const {return studyFileName_;}
 
     void setBsa(double bsa) {bsa_ = bsa;}

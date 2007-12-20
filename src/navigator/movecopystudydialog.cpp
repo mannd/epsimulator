@@ -25,6 +25,14 @@
 #include "catalog.h"
 #include "opticaldisk.h"
 
+#include <QList>
+#include <QListWidgetItem>
+
+StudyListWidgetItem::StudyListWidgetItem(const QString& studyName, 
+    const QString& studyPath, QListWidget* parent) 
+    : QListWidgetItem(studyName, parent), studyPath_(studyPath) {
+}
+
 MoveCopyStudyDialog::MoveCopyStudyDialog(QWidget* parent, 
                                          OpticalDisk* opticalDisk)
     : QDialog(parent), Ui::MoveCopyStudyDialog(), opticalDisk_(opticalDisk)
@@ -57,6 +65,17 @@ QString MoveCopyStudyDialog::sourcePath() {
 QString MoveCopyStudyDialog::destinationPath() {
     return removeOpticalFromPath(destinationPathLineEdit->text());
 }
+
+QList<QString> MoveCopyStudyDialog::selectedItems() {
+    QList<QString> studyPaths;
+    QList<QListWidgetItem*> items = studiesListWidget->selectedItems();
+    for (int i = 0; i < items.size(); ++i) {
+        if (StudyListWidgetItem* s = dynamic_cast<StudyListWidgetItem*>(items[i]))
+            studyPaths.push_back(s->studyPath());
+    }
+    return studyPaths;
+}
+
 
 void MoveCopyStudyDialog::sourcePathBrowse() {
     sourcePathLineEdit->setUpdatesEnabled(false);
@@ -118,9 +137,14 @@ void MoveCopyStudyDialog::fillStudiesListView() {
         path = opticalDisk_->fullPath();
     Catalog catalog(path);
     for (Catalog::CatalogMap::const_iterator it = catalog.begin(); 
-        it != catalog.end(); ++it)
-        studiesListWidget->addItem(QString(it.data().study.name().fullName(true) + 
-            " [" + it.data().study.dateTime().toString() + "]"));
+        it != catalog.end(); ++it) {
+        StudyListWidgetItem* item = new StudyListWidgetItem(QString(it.data().study.name().fullName(true) + 
+            " [" + it.data().study.dateTime().toString() + "]"),
+            it.data().study.path(), studiesListWidget);
+ //       studiesListWidget->addItem(QString(it.data().study.name().fullName(true) + 
+ //           " [" + it.data().study.dateTime().toString() + "]"));
+        studiesListWidget->addItem(item);
+    }
 }
 
 void MoveCopyStudyDialog::selectAll() {

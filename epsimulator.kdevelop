@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/recorder</activedir>
+      <activedir>src/navigator</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -234,7 +234,8 @@
   </kdevdocumentation>
   <ctagspart>
     <customArguments/>
-    <customTagfilePath/>
+    <customTagfilePath>/home/mannd/dev/local/epsimulator/tags</customTagfilePath>
+    <activeTagsFiles/>
   </ctagspart>
   <dist>
     <custom>false</custom>

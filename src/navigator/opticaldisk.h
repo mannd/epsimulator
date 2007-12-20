@@ -82,6 +82,8 @@ public:
     virtual QString fullPath() const {return path_;}  
     virtual QString labelFilePath() const; // full path to label.dat
     virtual QString studiesPath() const; 
+    bool isOpticalDiskPath(const QString& path) const {
+        return path == path_;}
 
     virtual ~OpticalDisk();
 

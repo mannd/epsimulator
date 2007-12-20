@@ -28,6 +28,17 @@
 
 class OpticalDisk;
 
+
+class StudyListWidgetItem : public QListWidgetItem {
+public:
+    StudyListWidgetItem(const QString& studyName, 
+        const QString& studyPath, QListWidget* parent = 0);
+    QString studyPath() const {return studyPath_;}
+private:
+    QString studyPath_;
+
+};
+
 class MoveCopyStudyDialog : public QDialog, 
     private Ui::MoveCopyStudyDialog {
     
@@ -36,6 +47,7 @@ public:
     MoveCopyStudyDialog(QWidget* parent, OpticalDisk*);
     QString sourcePath();
     QString destinationPath();
+    QList<QString> selectedItems();
     ~MoveCopyStudyDialog();
 
 protected:
