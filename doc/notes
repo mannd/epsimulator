@@ -476,4 +476,21 @@ Copying/Moving Studies
 
     With emulated optical disks, all the above must hold true, but with the usual emulated disk stuff behind the scenes.  To construct the study list, the dialog must know both the path() and the fullPath() (these are equal for optical disks, not equal for emulated disks).  So, pass both values?  Or just have the dialog read the current disk path -- it needs to know if it is an emulated disk or not???  Probably need to pass the opticalDisk* to the dialog, and should allow disk ejection in the dialog box, so that emulated disks work too.
 
+Re Terminology
+    To attain uniform terminology, use the file terminology used in Qt classes.  Here's an example:
+        file = /home/user/MyStudies/studies/study1/study.dat
+        directory = /home/user/MyStudies
+
+    path() for a file is the path of the file, excluding the file name. 
+        file.path() == /home/user/MyStudies/studies/study1
+    path() for a directory is the whole path, including the directory.
+        directory.path() == /home/user/MyStudies
+    fileName() for the file is the file name without the path.
+        file.fileName() == study.dat
+    dirName() for the name of the directory without the path.
+        directory.dirName() == MyStudies
+    filePath() for the name of the file including the path.
+        file.filePath() == /home/user/MyStudies/studies/study1/study.dat
+    
+
     

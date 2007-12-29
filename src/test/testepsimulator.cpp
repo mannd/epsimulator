@@ -33,6 +33,7 @@
 #include "versioninfo.h"
 
 #include <cmath>
+#include <iostream>
 
 void TestEpSimulator::testStudyConstructor() {
     Study s;
@@ -115,7 +116,7 @@ void TestEpSimulator::testFilePath() {
     QCOMPARE(s.filePath(), QString("/home/study.dat"));
     s.setPath("");
     QCOMPARE(s.filePath(), QString("/study.dat"));
-    QCOMPARE(s.filePath(), QString("/" + s.studyFileName()));
+    QCOMPARE(s.filePath(), QString("/" + s.fileName()));
 }
 
 void TestEpSimulator::testStudyKey() {
@@ -152,7 +153,7 @@ void TestEpSimulator::testStudyKey() {
 
 void TestEpSimulator::testStudyFileName() {
     Study s;
-    QVERIFY(s.studyFileName() == "study.dat");
+    QVERIFY(s.fileName() == "study.dat");
     s.setPath("garbage");
     Name n = {"Smith", "John", ""};
     s.setName(n);
@@ -451,6 +452,37 @@ void TestEpSimulator::testCatalogComboBox() {
     delete c;
 }
     
+void TestEpSimulator::testDeleteDir() {
+    QDir dir("../../tmp");
+    if (!dir.exists())
+        dir.mkdir("../../tmp");
+    QCOMPARE(dir.exists(), true);
+    if (!dir.exists("test"))
+        QCOMPARE(dir.mkdir("test"), true);
+    QCOMPARE(dir.exists("test"), true);
+    // what happens if mkdir done twice? -- should be false
+    QCOMPARE(dir.mkdir("test"), false);
+    QCOMPARE(dir.exists("test"), true);
+    dir.cd("test");
+    dir.mkdir("test1");
+    dir.cd("test1");
+    Catalog c(dir.path());  // make a file here
+    dir.cdUp(); // test
+    EpCore::deleteDir(dir.path());
+    QCOMPARE(dir.exists(), false);
+}
+
+void TestEpSimulator::testCopyDir() {
+    QDir dir("../../tmp");
+    dir.mkdir("source");
+    dir.mkdir("destination");
+    dir.mkdir("source/study");
+    Catalog c("../../tmp/source/study");
+    EpCore::copyDir(dir.path() + "/source/study", dir.path() + "/destination");
+    QCOMPARE(dir.exists("destination/study/catalog.dat"), true);
+    EpCore::deleteDir(dir.absolutePath() + "/source");
+    EpCore::deleteDir(dir.absolutePath() + "/destination");    
+}
 
 void TestEpSimulator::cleanupTestCase() {
 }

@@ -102,8 +102,8 @@ public:
     QString path() const {return path_;} // returns path to 
                                          // specific study directory
     QString filePath();     // Returns full path of study.dat file, 
-    QString studyDirName() const {return "/study_" + key();}
-    QString studyFileName() const {return studyFileName_;}
+    QString dirName() const {return "/study_" + key();}
+    QString fileName() const {return fileName_;}
 
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
@@ -166,7 +166,7 @@ private:
     mutable QString key_;   // unique key for each study
     Heart *heart_;
     
-    static const QString studyFileName_;
+    static const QString fileName_;
 };
 
 

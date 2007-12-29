@@ -20,6 +20,9 @@
 
 #include "fileutilities.h"
 
+#include <QDir>
+#include <QFileInfo>
+
 /// @namespace EpCore program functions that only require QtCore, not QtGui
 namespace EpCore {
 
@@ -28,6 +31,71 @@ void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
     VersionInfo* v = VersionInfo::instance();
     out << static_cast<quint32>(v->versionMajor())
         << static_cast<quint32>(v->versionMinor());
+}
+
+/**
+ * Deletes the directory, and all subdirs and files.
+ * @param path path to dir to be deleted.
+ * Note path MUST be a dir, not a file
+ */
+void deleteDir(const QString& path) {
+    QDir d(path);
+    if (!d.exists())
+        throw FileNotFoundError(path);
+    // infinite recursion if filters not set
+    QFileInfoList list = d.entryInfoList(QDir::AllEntries 
+        | QDir::NoDotAndDotDot);
+    for (int i = 0; i < list.size(); ++i) {
+        QFileInfo fileInfo = list.at(i);
+        if (fileInfo.isDir())  {
+            deleteDir(fileInfo.filePath());   // recursive
+            d.rmdir(fileInfo.path());
+        } 
+        else
+            d.remove(fileInfo.filePath());
+    }
+    d.rmdir(path);
+}
+
+/**
+ * Copies sourcePath to destinationPath, including all subdirs.  The directory
+ * defined by sourcePath is copied to the directory destinationPath, 
+ * note that sourcePath and destinationPath must be directories, NOT files.  Example:
+ *      sourcePath = /home/user/MyStudies/studies/studyXXXXXXX
+ *      destinationPath = /home/user/tmp/
+ * After copyDir() there will be a dir:
+ *      /home/user/tmp/studyXXXXXXX
+ * If any files already exist in the destinationPath of the same name, they will
+ * not be overwritten, and there will be no error.  To ensure this works, first
+ * deleteDir(destinationPath + "/studyXXXXXXX").
+ * @param sourcePath path to directory that you wish to copy in toto.
+ * @param destinationPath the destination directory, where the copied directory
+ * will end up.
+ */
+void copyDir(const QString& sourcePath, const QString& destinationPath) {
+    QDir source(sourcePath);
+    if (!source.exists())
+        throw FileNotFoundError(sourcePath);
+    QDir destination(destinationPath);
+    if (!destination.exists())
+        throw FileNotFoundError(destinationPath); 
+    if (!destination.mkdir(source.dirName()))   
+        throw IoError();   
+    destination.cd(source.dirName());
+    // infinite recursion if filters not set
+    QFileInfoList list = source.entryInfoList(QDir::AllEntries 
+        | QDir::NoDotAndDotDot);
+    for (int i = 0; i < list.size(); ++i) {
+        QFileInfo fileInfo = list.at(i);
+        if (fileInfo.isDir()) {
+            destination.mkdir(fileInfo.fileName());
+            destination.cd(fileInfo.fileName());
+            copyDir(fileInfo.filePath(), destination.path());
+        }
+        else
+            QFile::copy(fileInfo.filePath(), destination.path() + "/"
+                + fileInfo.fileName());
+    }
 }
 
 }

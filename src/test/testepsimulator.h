@@ -60,6 +60,10 @@ private slots:
     void testCatalogAddStudy();
     // class CatalogComboBox
     void testCatalogComboBox();
+    // function deleteDir()
+    void testDeleteDir();
+    // function copyDir()
+    void testCopyDir();
 
     void cleanupTestCase();
 

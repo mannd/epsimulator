@@ -87,7 +87,7 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
     return in;
 }
 
-const QString Study::studyFileName_ = "study.dat";
+const QString Study::fileName_ = "study.dat";
 
 /**
  *  Study ctor.  New Study is initialized to certain defaults.  
@@ -190,7 +190,7 @@ void Study::setEf(int ef) {
 
 
 QString Study::filePath() {
-    return QDir::cleanPath(path_ + "/" + studyFileName_);
+    return QDir::cleanPath(path_ + "/" + fileName_);
 }
 
 void Study::save() {

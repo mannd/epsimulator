@@ -29,7 +29,7 @@ namespace EpCore {
 
 class IoError : public std::runtime_error {
 public:
-    explicit IoError(const QString& fileName, 
+    explicit IoError(const QString& fileName = "", 
                      const char* msg = "general IOError")
                      : std::runtime_error(msg), fileName_(fileName) {}
     virtual ~IoError() throw() {}
@@ -85,6 +85,12 @@ class DeleteError : public IoError {
 public:
     DeleteError(const char* msg = "could not delete files or directories")
                 : IoError("", msg) {}
+};
+
+class CopyError : public IoError {
+public:
+    CopyError(const char* msg = "could not copy files or directories")
+              : IoError("", msg) {}
 };
 
 class FileNotFoundError : public IoError {

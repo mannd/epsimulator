@@ -44,14 +44,14 @@ void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
     QFile file(filePath);
     if (!file.exists()) {
         if (!file.open(QIODevice::WriteOnly))
-            throw EpCore::OpenWriteError(file.fileName());
+            throw OpenWriteError(file.fileName());
         QDataStream out(&file);
         out.setVersion(5);
         saveMagicNumber(magicNumber, out);
         file.close();
     }
     if (!file.open(QIODevice::ReadOnly))
-        throw EpCore::OpenReadError(file.fileName());
+        throw OpenReadError(file.fileName());
     QDataStream in(&file);
     in.setVersion(5);
     quint32 magic;
@@ -61,11 +61,11 @@ void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
     quint32 versionMajor, versionMinor;
     in >> versionMajor >> versionMinor;
     if (!VersionInfo::versionOk(versionMajor, versionMinor))
-        throw EpCore::WrongEpSimVersionError();
+        throw WrongEpSimVersionError();
     if (!in.atEnd())
         in >> data;
     if (file.error() != QFile::NoError)
-        throw EpCore::ReadError(file.fileName());
+        throw ReadError(file.fileName());
     file.close();
 }
 
@@ -73,16 +73,18 @@ template<typename T>
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data) {
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly))
-        throw EpCore::OpenWriteError(file.fileName());
+        throw OpenWriteError(file.fileName());
     QDataStream out(&file);
     out.setVersion(5);
     saveMagicNumber(magicNumber, out);
     out << data;
     if (file.error() != QFile::NoError)
-        throw EpCore::WriteError(file.fileName());
+        throw WriteError(file.fileName());
     file.close();
 }
 
+void deleteDir(const QString& path);
+void copyDir(const QString& sourcePath, const QString& destinationPath);
 
 }  // namespace EpCore
 

@@ -144,8 +144,7 @@ private:
     void moveCopyStudyMessageBox(bool move = false);
     bool doStudyCopy(MoveCopyStudyDialog&);
     void copyDataFiles(const QString& sourcePath, 
-                       const QString destinationPath);
-    void deleteDataFiles(const QString&); // delete all study data on disk
+                       const QString& destinationPath);
     bool studyOnDisk(const Study*) const; // make sure study is on current disk
     void studyNotOnDiskError();  // report study not on current disk
     Recorder* getRecorder(); // returns the Recorder window
