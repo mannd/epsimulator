@@ -138,13 +138,11 @@ private:
     bool getStudyInformation(Study*);
     Study* getSelectedStudy();
     Study* getNewStudy();   // returns selected study or a new study
-    QString studyPath(const Study*) const;    // returns path to that study
     void addStudyToCatalogs();  // add study to appropriate catalogs
     void createDataFiles(); // make study data files on disk
     void moveCopyStudyMessageBox(bool move = false);
-    bool doStudyCopy(MoveCopyStudyDialog&);
-    void copyDataFiles(const QString& sourcePath, 
-                       const QString& destinationPath);
+    void copyStudy(bool);
+    void doStudyCopy(MoveCopyStudyDialog&, bool move);
     bool studyOnDisk(const Study*) const; // make sure study is on current disk
     void studyNotOnDiskError();  // report study not on current disk
     Recorder* getRecorder(); // returns the Recorder window

@@ -81,7 +81,7 @@ Navigator::Navigator(QWidget* parent)
     do {
         createOpticalDrive();
     } while (!currentDisk_);
-    catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
+    catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
     createActions();
     createMenus();
     createToolBars();
@@ -211,62 +211,21 @@ void Navigator::moveCopyStudyMessageBox(bool move) {
            " folders to complete the %1.").arg(typeOfCopy));
 }
 
-bool Navigator::doStudyCopy(MoveCopyStudyDialog& d) {
-    bool result = d.exec();
-    if (result) {
-        try {
-            QList<QString> items = d.selectedItems();
-            ///  FIXME Debug only below!!!
-            for (int i = 0; i < items.size(); ++i) {
-                QString s = items.at(i);
-                std::cout << s.toAscii().constData() << std::endl;
-            }
-            copyDataFiles(d.sourcePath(), d.destinationPath());
-        }
-        // do stuff
-        // no need to regenerateCatalogs(), catalogs_ left intact by just copying 
-    catch (EpCore::SourceDestinationSameError& e) {    
-        QMessageBox::warning(this, 
-            tr("Source and destination directories are the same"),
-            tr("Source and destination directories must be different"));
-    }
-    catch (EpCore::IoError& e) {
-        QMessageBox::warning(this,
-            tr("Error copying study"),
-            tr("Study could not be copied"));
-        }    
-    }
-    return result;
-}
-
-void Navigator::copyStudy() {
-try {    
-    moveCopyStudyMessageBox(false);
-    CopyStudyDialog dialog(this, currentDisk_);
-    //doStudyCopy(copyStudyDialog);
+void Navigator::doStudyCopy(MoveCopyStudyDialog& dialog, bool move) {
     if (dialog.exec()) {
-    
-        // handle badness first
+        // handle badness first: source and destination can't be the same
+        // UNLESS they both are the optical disk.
         if (!currentDisk_->isOpticalDiskPath(dialog.sourcePath()) &&
             dialog.destinationPath() == dialog.sourcePath())
             throw EpCore::SourceDestinationSameError(dialog.sourcePath());
-        // next, legal copying
-        // copy studies to temp dir
+        // copy studies to temp dir, pretend it is an optical disk
         QList<QString> list = dialog.selectedItems();
-        // delete the old versions in tmp, otherwise copy will not copy
-        // deleteDataFiles???
         QDir tmpDir = QDir::temp(); 
-        EpCore::deleteDir(tmpDir.absolutePath() + "/studies");
-        if (!tmpDir.mkdir("studies"))
+        // delete the old versions in tmp, otherwise copy will not copy
+        EpCore::deleteDir(OpticalDisk::makeStudiesPath(tmpDir.absolutePath()));
+        if (!tmpDir.mkdir(OpticalDisk::studiesDirName()))
             throw EpCore::IoError();
-//         if (!tmpDir.mkdir("studies")) {
-//             tmpDir.cd("studies");
-//             EpCore::deleteDir(tmpDir.absolutePath());
-//             tmpDir.cdUp();
-//             if (!tmpDir.mkdir("studies"))
-//                 throw EpCore::IoError();
-//         }
-        tmpDir.cd("studies");
+        tmpDir.cd(OpticalDisk::studiesDirName());
         for (int i = 0; i < list.size(); ++i) {
             QFileInfo fileInfo = list.at(i);
             //EpCore::deleteDir(destinationPath);
@@ -285,12 +244,15 @@ try {
             if (sourceLabel == currentDisk_->label())
                 throw EpCore::SourceDestinationSameError(dialog.sourcePath());
             // now copy from the tmp dir to the destination (optical disk or hard drive)
-            EpCore::copyDir(tmpDir.absolutePath(), currentDisk_->fullPath());
+            EpCore::copyDir(tmpDir.absolutePath(), currentDisk_->labelPath());
             // make/update catalog on destination, don't update system catalogs
-            OpticalCatalog c(currentDisk_->fullPath());
-            c.regenerate(currentDisk_->label(), currentDisk_->side(), 
-                          options_->labName(), user_->machineName());
+            OpticalCatalog c(currentDisk_->labelPath());
             // move is exactly the same, except update system catalogs
+            if (move)
+                regenerateCatalogs();
+            else
+                c.regenerate(currentDisk_->label(), currentDisk_->side(), 
+                          options_->labName(), user_->machineName());
         }
         else {    // we are copying from disk or dir to dir
             EpCore::copyDir(tmpDir.absolutePath(), dialog.destinationPath());
@@ -300,73 +262,38 @@ try {
         }
     }
 }
-catch (EpCore::IoError& e) {
-                std::cerr << e.what() << std::endl;
-                QMessageBox::warning(this, tr("IOError"),
-                    tr("File causing error is %1")
-                    .arg(e.fileName()));
-}
 
-}
-/*        
-        if (currentDisk_->isOpticalDiskPath(dialog.sourcePath()) 
-            && dialog.destinationPath() == dialog.sourcePath()) {
-            // copy studies to temp dir
-            LabelData sourceLabelData = currentDisk_->labelData();
-            ejectDisk();
-            currentDisk_->readLabel();
-            if (!currentDisk_->isLabeled())
-                labelDisk(false, currentDisk_);
-            // compare labelData, make sure not the same disk
-            if (sourceLabelData == currentDisk_->labelData()) {
-                throw EpCore::SourceDestinationSameError(sourcePath);
-            }
+void Navigator::copyStudy(bool move) {
+    try {    
+        moveCopyStudyMessageBox(move);
+        if (move) {
+            MoveStudyDialog dialog(this, currentDisk_);
+            doStudyCopy(dialog, move);
         }
-        // else if paths the same but not an optical disk path
-        else if (dialog.sourcePath() == dialog.destinationPath())
-            throw EpCore::SourceDestinationSameError(dialog.sourcePath());
-        Catalog* catalog = new Catalog(dialog.destinationPath());
-        // do the copying here
-    //    QList<QListViewItem*> studies = 
-        delete catalog;*/
+        else {
+            CopyStudyDialog dialog(this, currentDisk_);
+            doStudyCopy(dialog, move);
+        }
+    }
+    catch (EpCore::SourceDestinationSameError& e) {    
+        QMessageBox::warning(this, 
+            tr("Source and destination directories are the same"),
+            tr("Source and destination directories must be different"));
+    }
+    catch (EpCore::IoError& e) {
+        QMessageBox::warning(this,
+            tr("Error copying study"),
+            tr("Study could not be copied"));
+    }    
+}
 
-        // do stuff
-        // no need to regenerateCatalogs(), catalogs_ left intact by just copying 
-//    }
-//}
+void Navigator::copyStudy() {
+    copyStudy(false);
+}
 
 void Navigator::moveStudy() {
-    moveCopyStudyMessageBox(true);
-    MoveStudyDialog moveStudyDialog(this, currentDisk_);
-//     if (doStudyCopy(moveStudyDialog))
-//         regenerateCatalogs(); // have to reconstruct catalogs 
-//                               // because studies are actually moved
-    // delete w;
+    copyStudy(true);
 }
-//     if (administrationAllowed()) {
-//         StudyMoveWizard* wizard = new StudyMoveWizard(this);
-//         wizard->setSourcePathName(currentDisk_->fullPath());
-//         if (wizard->exec()) {
-//             OpticalDisk* disk = new OpticalDisk(wizard->destinationPathName());
-//             disk->readLabel();
-//             if (!disk->isLabeled())
-//                 labelDisk(false, disk);
-//             Catalog* catalog = new Catalog(wizard->destinationPathName());
-//             wizard->move();
-//         // for each study in studiesList
-//         //		copy study form source folder to destination folder
-//         // 		throw something if any copy fails
-//         // after successful copying, 
-//         // make a catalog.dat file in the destination folder
-//         // now update system catalogs
-//         // now erase data on source
-//             ;
-//             delete catalog;
-//             delete disk;
-//         }
-//         delete wizard;
-//     }
-//}
 
 void Navigator::deleteStudy() {
     Study* study = getSelectedStudy();
@@ -468,7 +395,7 @@ void Navigator::ejectDisk() {
     if (!currentDisk_->isLabeled())
         labelDisk(false, currentDisk_);
     delete catalogs_;
-    catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
+    catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
@@ -657,7 +584,7 @@ void Navigator::simulatorSettings() {
                 createOpticalDrive();
             } while (!currentDisk_);
             delete catalogs_;
-            catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
+            catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
             tableListView_->setOldStyle(options_->oldStyleNavigator());
             tableListView_->adjustColumns(true);
             refreshCatalogs();   // This repopulates the TableListView.
@@ -687,7 +614,7 @@ void Navigator::systemSettings() {
             } while (!currentDisk_);
             delete catalogs_;
             /// TODO change current disk here
-            catalogs_ = new Catalogs(options_, currentDisk_->fullPath());
+            catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
             refreshCatalogs();
             statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
         }
@@ -1147,66 +1074,6 @@ Recorder* Navigator::getRecorder() {
     return recorder_;
 }
 
-
-QString Navigator::studyPath(const Study* study) const {
-    return QDir::cleanDirPath(currentDisk_->fullPath() + "/" + study->key());
-}
-
-/**
- * Copies full set of study data files from sourcePath to destinationPath.
- * Does not delete original files (i.e. copy not move).
- * @param sourcePath full path to study directory
- * @param destinationPath full path to destination for copy
- */
-void Navigator::copyDataFiles(const QString& sourcePath,
-                              const QString& destinationPath) {
-try {
-    QDir d(sourcePath);
-    if (!d.exists())
-        throw EpCore::FileNotFoundError(sourcePath);
-    // infinite recursion if filters not set
-    QFileInfoList list = d.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
-    for (int i = 0; i < list.size(); ++i) {
-        QFileInfo fileInfo = list.at(i);
-//         if (fileInfo.isDir())  {
-//             copyDataFiles(fileInfo.filePath());   // recursive
-//             d.rmdir(fileInfo.path());
-//         } 
-//         else
-            QFile::copy(fileInfo.filePath(), 
-                destinationPath + "/" + fileInfo.fileName());
-    }
-//    d.rmdir(path);
-}
-catch (EpCore::FileNotFoundError& e) {
-    throw;
-}
-catch (EpCore::IoError&) {
-    throw EpCore::CopyError();
-}
-/*
-    // disk to disk copy
-    if (currentDisk_->isOpticalDiskPath(sourcePath) 
-        && destinationPath == sourcePath) {
-        // copy studies to temp dir
-        LabelData sourceLabelData = currentDisk_->labelData();
-        ejectDisk();
-        currentDisk_->readLabel();
-        if (!currentDisk_->isLabeled())
-            labelDisk(false, currentDisk_);
-        // compare labelData, make sure not the same disk
-        if (sourceLabelData == currentDisk_->labelData()) {
-            throw EpCore::SourceDestinationSameError(sourcePath);
-        }
-    }
-    else if (sourcePath == destinationPath)
-        throw EpCore::SourceDestinationSameError(sourcePath);
-    Catalog* catalog = new Catalog(destinationPath);
-    // do the copying here
-//    QList<QListViewItem*> studies = 
-    delete catalog;*/
-}
-
 /// This checks to make sure the selected study is on the optical disk catalog.
 /// If something is wrong with the catalog and the study is not physically present
 /// on disk, despite being in the catalog, the actual disk processing should raise
@@ -1226,7 +1093,6 @@ bool Navigator::studyOnDisk(const Study* s) const {
 void Navigator::studyNotOnDiskError() {
     ejectDisk();
 }
-
 
 Navigator::~Navigator() {
     delete catalogs_;

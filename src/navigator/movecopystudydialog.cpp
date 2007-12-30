@@ -134,7 +134,7 @@ void MoveCopyStudyDialog::fillStudiesListView() {
     studiesListWidget->clear();
     QString path = removeOpticalFromPath(sourcePathLineEdit->text());
     if (path == opticalDisk_->path())   // source is optical disk
-        path = opticalDisk_->fullPath();
+        path = opticalDisk_->labelPath();
     Catalog catalog(path);
     for (Catalog::CatalogMap::const_iterator it = catalog.begin(); 
         it != catalog.end(); ++it) {

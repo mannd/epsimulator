@@ -67,6 +67,8 @@ public:
     // note: returns translation of "B" if side is anything other than 
     // empty or "A"
     static QString translateSide(const QString& side);
+    static QString studiesDirName() {return studiesDirName_;}
+    static QString makeStudiesPath(const QString& path);
 
     LabelData labelData() const;
     QString label() const; 
@@ -77,11 +79,11 @@ public:
     // below might check to see if the drive actually is two sided.
     virtual bool isTwoSided() const {return true;}
 
-    QString path() const {return path_;}
-    // fullPath() == path() in this class, but see EmulatedOpticalDisk.
-    virtual QString fullPath() const {return path_;}  
+    QString path() const {return path_;}    // root path of this optical disk
+    // labelPath() == path() in this class, but see EmulatedOpticalDisk.
+    virtual QString labelPath() const {return path_;}  // path to label
     virtual QString labelFilePath() const; // full path to label.dat
-    virtual QString studiesPath() const; 
+    virtual QString studiesPath() const;    // full path of studies dir
     bool isOpticalDiskPath(const QString& path) const {
         return path == path_;}
 
@@ -96,6 +98,8 @@ protected:
 
 private:
     OpticalDisk(OpticalDisk&);
+    
+    static const QString studiesDirName_;
     QString path_;  // optical drive path, all the way to study dir
                     // e.g. /home/user/MyStudies
     LabelData labelData_;
@@ -114,7 +118,6 @@ public:
     void writeLabel() const;
     virtual void saveLastDisk();   // saves last diskName
 
-    QString labelFilePath() const;
 
     // allowing relabeling of emulated disks will mess up the path to the emulated disk,
     // so don't allow this...
@@ -125,6 +128,11 @@ public:
     void setIsTwoSided(bool isTwoSided) {isTwoSided_ = isTwoSided;}
     bool isTwoSided() const {return isTwoSided_;}
     QString diskName() const {return diskName_;}
+
+    QString labelFilePath() const;
+    QString labelPath() const;   // .../MyStudies/disks/disk_xxxxx/B
+    QString studiesPath() const;  
+                                // /.../MyStudies/disks/disk_xxxxx/B/studies
 
     ~EmulatedOpticalDisk();
 
@@ -146,9 +154,7 @@ private:
     QString disksPath() const;  // e.g. .../MyStudies/disks
     QString diskPath() const;   // /home/user/MyStudies/disks/disk_xxxxx
     QString sideDir() const;    // A or B
-    QString fullPath() const;   // .../MyStudies/disks/disk_xxxxx/B
-    QString studiesPath() const;  
-                                // /.../MyStudies/disks/disk_xxxxx/B/studies
+
 
     void lastDisk();      // loads up last diskName
 

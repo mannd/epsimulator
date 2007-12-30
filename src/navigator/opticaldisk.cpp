@@ -63,9 +63,14 @@ bool LabelData::operator!=(const LabelData& rhs) const {
 // class OpticalDisk.
 
 const QString OpticalDisk::labelFileName_ = "label.dat";
+const QString OpticalDisk::studiesDirName_ = "studies";
 
 OpticalDisk::OpticalDisk(const QString& path) 
     : path_(path), isLabeled_(false) {
+}
+
+QString OpticalDisk::makeStudiesPath(const QString& path) {
+    return QDir::cleanDirPath(path + "/" + studiesDirName_);
 }
 
 /**
@@ -86,7 +91,7 @@ void OpticalDisk::eject(QWidget* w) {
  * @return full path of the label.dat file, including file name.
  */
 QString OpticalDisk::labelFilePath() const {
-    return QDir::cleanDirPath(path_ + "/" + labelFileName_);
+    return QDir::cleanDirPath(labelPath() + "/" + labelFileName_);
 }
 
 /**
@@ -94,7 +99,8 @@ QString OpticalDisk::labelFilePath() const {
  * @return full path to the studies directory on the disk. 
  */
 QString OpticalDisk::studiesPath() const {
-    return QDir::cleanDirPath(path_ + "/studies");
+    return makeStudiesPath(path_);
+    // return QDir::cleanDirPath(path_ + "/studies");
 }
 
 /**
@@ -281,7 +287,7 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
 }
 
 QString EmulatedOpticalDisk::labelFilePath() const {
-    return QDir::cleanDirPath(fullPath() + "/" + labelFileName_);
+    return QDir::cleanDirPath(labelPath() + "/" + labelFileName_);
 }
 
 /// returns path to /disks directory
@@ -295,8 +301,8 @@ QString EmulatedOpticalDisk::diskPath() const {
     return QDir::cleanDirPath(disksPath() + "/" + diskName_);
 }
 
-/// returns full path to the disk, including side
-QString EmulatedOpticalDisk::fullPath() const {
+/// returns full path to label.dat, including side, excluding file itself
+QString EmulatedOpticalDisk::labelPath() const {
     return QDir::cleanDirPath(diskPath() + "/" + sideDir());
 }
 
@@ -305,7 +311,7 @@ QString EmulatedOpticalDisk::sideDir() const {
 }
 
 QString EmulatedOpticalDisk::studiesPath() const {
-    return QDir::cleanDirPath(fullPath() + "/studies");
+    return makeStudiesPath(labelPath());
 }
 
 void EmulatedOpticalDisk::makePath() const {
@@ -321,10 +327,10 @@ void EmulatedOpticalDisk::makePath() const {
             throw EpCore::IoError(diskPath());
     }
     // which side here??
-    QDir pathDir(fullPath());
+    QDir pathDir(labelPath());
     if (!pathDir.exists()) {
-        if (!pathDir.mkdir(fullPath()))
-            throw EpCore::IoError(fullPath());
+        if (!pathDir.mkdir(labelPath()))
+            throw EpCore::IoError(labelPath());
     }
 }
 

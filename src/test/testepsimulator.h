@@ -39,6 +39,8 @@ private slots:
     void testStudyLoadSave();
     // class Options
     void testOptions();
+    // class OpticalDisk
+    void testOpticalDisk();
     // class PatientDialog
     void testPatientDialog();
     void testPatientDialogCalculations();

@@ -79,8 +79,7 @@ void copyDir(const QString& sourcePath, const QString& destinationPath) {
     QDir destination(destinationPath);
     if (!destination.exists())
         throw FileNotFoundError(destinationPath); 
-    if (!destination.mkdir(source.dirName()))   
-        throw IoError();   
+    destination.mkdir(source.dirName());   
     destination.cd(source.dirName());
     // infinite recursion if filters not set
     QFileInfoList list = source.entryInfoList(QDir::AllEntries 
@@ -88,8 +87,8 @@ void copyDir(const QString& sourcePath, const QString& destinationPath) {
     for (int i = 0; i < list.size(); ++i) {
         QFileInfo fileInfo = list.at(i);
         if (fileInfo.isDir()) {
-            destination.mkdir(fileInfo.fileName());
-            destination.cd(fileInfo.fileName());
+            //destination.mkdir(fileInfo.fileName());
+            //destination.cd(fileInfo.fileName());
             copyDir(fileInfo.filePath(), destination.path());
         }
         else

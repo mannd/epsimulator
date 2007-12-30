@@ -21,6 +21,7 @@
 #include "catalog.h"
 #include "fileutilities.h"
 #include "error.h"
+#include "opticaldisk.h"
 #include "options.h"
 #include "study.h"
 
@@ -159,7 +160,7 @@ void OpticalCatalog::addStudy(const Study* study, const QString& location,
 
 void OpticalCatalog::regenerate(const QString& location, const QString& side,
                     const QString& labName, const QString& machineName) {
-    QDir studiesDir(path() + "/studies");
+    QDir studiesDir(OpticalDisk::makeStudiesPath(path()));
     QStringList studyList = studiesDir.entryList("study_*");
     catalog_.clear();   // Start from scratch, as some studies might have
                         // been deleted on disk but not in the catalog.

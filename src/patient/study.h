@@ -98,7 +98,8 @@ public:
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
-
+    
+    // file related members
     QString path() const {return path_;} // returns path to 
                                          // specific study directory
     QString filePath();     // Returns full path of study.dat file, 
@@ -166,7 +167,7 @@ private:
     mutable QString key_;   // unique key for each study
     Heart *heart_;
     
-    static const QString fileName_;
+    static const QString fileName_; // name of studies data file
 };
 
 

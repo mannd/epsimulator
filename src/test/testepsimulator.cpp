@@ -24,6 +24,7 @@
 #include "catalogcombobox.h"
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
+#include "opticaldisk.h"
 #include "options.h"
 #include "passworddialog.h"
 #include "passwordhandler.h"
@@ -217,6 +218,18 @@ void TestEpSimulator::testOptions() {
     o->setOpticalStudyPath(s);
     QVERIFY(s == o->opticalStudyPath());
     o->destroy();
+}
+
+void TestEpSimulator::testOpticalDisk() {
+    QCOMPARE(OpticalDisk::makeStudiesPath("test"), QString("test/studies"));
+    QCOMPARE(OpticalDisk::studiesDirName(), QString("studies"));
+    OpticalDisk* o = new OpticalDisk("../../tmp");
+    QCOMPARE(o->path(), o->labelPath());
+    QCOMPARE(o->path(), QString("../../tmp"));
+    delete o;
+    EmulatedOpticalDisk* e = new EmulatedOpticalDisk("../../tmp", true);
+    QVERIFY(e->path() != e->labelPath());
+    delete e;
 }
 
 void TestEpSimulator::testPatientDialog() {
