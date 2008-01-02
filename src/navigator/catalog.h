@@ -19,11 +19,11 @@
  ***************************************************************************/
 
 /**
-  * @file catalog.h
-  * Contains all catalog related classes, including 
-  * Catalog (base class), SystemCatalog,
-  * OpticalCatalog, NetworkCatalog, and the group of catalogs: Catalogs.
-*/
+ * @file catalog.h
+ * Contains all catalog related classes, including 
+ * Catalog (base class), SystemCatalog,
+ * OpticalCatalog, NetworkCatalog, and the group of catalogs: Catalogs.
+ */
 
 #ifndef CATALOG_H
 #define CATALOG_H
@@ -110,7 +110,6 @@ protected:
     CatalogMap catalog_;
     static const QString defaultFileName_;
 
-
 private:    
     QString path_;  // path to catalog file, excluding file name
     QString fileName_; // file name of catalog
@@ -176,7 +175,6 @@ public:
                   const QString& side = QString(), 
                   const QString& labName = QString(),
                   const QString& machineName = QString());
-//    void addStudy(const Study*);
     void deleteStudy(const Study*);
     
     void refresh();
@@ -192,8 +190,6 @@ public:
     bool currentCatalogIsOptical() const {return currentCatalog_->isOptical();}
     bool studyPresentOnOpticalDisk(const Study*) const;
 
-//    QString fileName() const;   // returns default catalog fileName
-
     ~Catalogs();
 
 protected:
@@ -201,8 +197,6 @@ protected:
     Catalogs(Catalogs&);
 
 private:
-//    static const char* fileName_;
-
     Catalog* currentCatalog_;
     OpticalCatalog* opticalCatalog_;
     SystemCatalog* systemCatalog_;
@@ -212,6 +206,5 @@ private:
     typedef std::map<Catalog::Source, Catalog*> CatalogsMap;
     CatalogsMap catalogs_;
 };
-
 
 #endif

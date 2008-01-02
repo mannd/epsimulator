@@ -23,10 +23,11 @@
 #include <qsettings.h>
 
 /**
-Derived from QSettings, saves us from initializing QSettings each time with company name and program name.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
+ * Derived from QSettings, saves us from initializing QSettings 
+ * each time with   company name and program name.
+ *
+ *	@author David Mann <mannd@epstudiossoftware.com>
+ */
 class Settings : public QSettings  {
 public:
     Settings();

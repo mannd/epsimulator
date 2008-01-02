@@ -23,11 +23,10 @@
 
 #include "ui_disklabeldialog.h"
 
-#include <qstring.h>
+#include <QString>
 #include <QDialog>
 
-class DiskLabelDialog : public QDialog, private Ui::DiskLabelDialog
-{
+class DiskLabelDialog : public QDialog, private Ui::DiskLabelDialog {
   Q_OBJECT
 
 public:
@@ -39,22 +38,18 @@ public:
     void setLabel(const QString& label);
     // sideA is the local translation for side A of the disk.
     void setSide(const QString& side);
+    void setLabelSide(const QString& label, const QString& side) {
+        setLabel(label);
+        setSide(side);
+    }
     void enableSideButtons(bool);
     void enableNoneButton(bool);
 
     ~DiskLabelDialog();
 
 public slots:
-  /*$PUBLIC_SLOTS$*/
     void accept();
     void enableCancelButton();
-
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-  /*$PROTECTED_SLOTS$*/
-
 };
 
 #endif

@@ -19,21 +19,18 @@
  ***************************************************************************/
 
 /** 
-    \file main.cpp
-    Main program file for EP Simulator.
-*/
+ * @file main.cpp
+ * Main program file for EP Simulator.
+ */
 
 /**
-    \mainpage
-    EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
-    complete with recording equipment, programmable stimulator, and, most importantly, 
-    a heart simulator that can be set up to mimic 
-    normal cardiac electrophysiology and arrhythmias.
-*/
+ * @mainpage
+ * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
+ *  complete with recording equipment, programmable stimulator, and, most importantly, 
+ *  a heart simulator that can be set up to mimic 
+ *   normal cardiac electrophysiology and arrhythmias.
+ */
 
-// Note that below is Froglogics GetOpt class, but header file is
-// renamed from getopt.h to getopts.h because of conflict with 
-// unix getopt.h.
 #include "options.h"
 #include "navigator.h"
 #include "versioninfo.h"
@@ -53,8 +50,7 @@
 #include <qtranslator.h>
 #endif
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     QApplication app(argc, argv);
 
 // International stuff below
@@ -73,8 +69,6 @@ int main(int argc, char **argv)
     Options* options = Options::instance();
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
     Navigator* mainWin = new Navigator;
-    // showMaximized() does not alway work, no real workaround
-    // will use restore window state to help with this.
     mainWin->show();
     return app.exec();
     // delete the singletons -- only need to do here at end of program!

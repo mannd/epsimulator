@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef BUTTONFRAME_H
 #define BUTTONFRAME_H
 
@@ -27,7 +28,12 @@ class QLabel;
 class QAbstractButton;
 class QString;
 
-
+/**
+ * AbstractButtonFrame is an ABC for the "blue bar" located vertically to
+ * the left of the Navigator window.  The width of the fram can be changed
+ * to a degree, and this setting is saved by QSettings.  The behavior of the
+ * buttons is different in the derived classes.
+ */
 class AbstractButtonFrame : public QFrame {
 public:
     virtual void addButton(const QString& name, const QString& pixmapName, 
@@ -45,6 +51,9 @@ private:
     static const int buttonWidth = 70;   // size of square buttons in blue panel
 };
 
+/**
+ * The "Old Style" uses raised buttons.
+ */
 class OldStyleButtonFrame : public AbstractButtonFrame {
 public:
     OldStyleButtonFrame(QWidget* parent = 0);
@@ -53,6 +62,9 @@ public:
                    const char* slotName, bool lastButton = false);
 }; 
 
+/**
+ * The "New Style" has flat buttons that act more like toolbar buttons.
+ */
 class NewStyleButtonFrame : public AbstractButtonFrame {
 public:
     NewStyleButtonFrame(QWidget* parent = 0);

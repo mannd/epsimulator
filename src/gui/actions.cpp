@@ -30,7 +30,9 @@
 #include <QStringList>
 #include <QWidget>
 
-/// @namespace EpGui program functions that require QtGui
+/**
+ * @namespace EpGui program functions that require QtGui
+ */
 namespace EpGui {
 
 void about(QWidget* parent) {
@@ -44,7 +46,6 @@ void about(QWidget* parent) {
                           "http://www.epstudiossoftware.com</a>")
                           .arg(info->programName()).arg(info->version())
                           .arg(info->copyrightYear()));
-///TODO make this an actual hyperlink that you can click on and go to
 }
 
 void help(QWidget* parent) {
@@ -64,7 +65,7 @@ void filler(QWidget* widget) {
 }
 
 /**
- * 
+ * Opens a file dialog and provides a file for the lineEdit.
  * @param parent 
  * @param lineEdit function modifies the Text property of the LineEdit
  * @param defaultPath uses this path if lineEdit text is empty.  Avoids
@@ -88,23 +89,9 @@ void browseFilePaths(QWidget* parent, QLineEdit* lineEdit,
 }
 
 /**
- * Sets up icon, status tip, and slot for an action.
+ * Sets up icon, status tip, and slot for an action.  Note that
+ * a slot must be passed as a const char*.
  */
-void setupAction(QAction* action, 
-		 QWidget* w,
-		 const QString& statusTip,
-		 const char* slotName,
-                 const QString& accelKey,
-                 const QString& iconName ) {
-    if (!iconName.isEmpty())
-        action->setIcon(QIcon(iconName));
-    if (!accelKey.isEmpty())
-        action->setShortcut(accelKey);
-    action->setStatusTip(statusTip);
-    if (slotName)
-        QObject::connect(action, SIGNAL(activated()), w, slotName);
-} 
-
 QAction* createAction(QWidget* w,
 		      const QString& name,
 		      const QString& statusTip,

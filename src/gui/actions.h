@@ -30,23 +30,14 @@ class QWidget;
 
 namespace EpGui {
 
-/**
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
 void about(QWidget* parent);
 void help(QWidget* parent);
-/// Gives "not implemented yet" error message.
+
+// Gives "not implemented yet" error message.
 void filler(QWidget*);
 
 void browseFilePaths(QWidget*, QLineEdit*, const QString& defaultPath = 
     QDir::homePath());
-
-void setupAction(QAction* action, 
-		 QWidget* w,
-		 const QString& statusTip,
-                 const char* slotName = 0,
-		 const QKeySequence& accelKey = QKeySequence(),
-                 const QString& iconName = QString::Null());
 
 QAction* createAction(QWidget*,
 		      const QString& name,
@@ -56,8 +47,6 @@ QAction* createAction(QWidget*,
 			= QKeySequence(),
                       const QString& iconName 
 			= QString());
-		      
-
 
 }
 

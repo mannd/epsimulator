@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "buttonframe.h"
 
 #include <QLabel>
@@ -26,16 +27,6 @@
 #include <QSizePolicy>
 #include <QPixmap>
 #include <QGridLayout>
-
-/**
- * @class AbstractButtonFrame
- * Abstract class, constructs the vertical blue button bar 
- * on the left of the navigator window.
- * Uses setupButton to make each button.  The parent is
- * a horizontal QSplitter.  This is also the parent of the 
- * Studeis TableListView.
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
 
 /**
  * Constructs blue bar on left side of Navigator window

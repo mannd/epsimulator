@@ -18,41 +18,22 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/**
-    \file 
-    options.h contains all system options.
-*/
-
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
 #include <qstring.h>
 
 /**
-Singleton class providing one-stop shopping for all program options.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-    Explanation of the various study/catalog paths:
-    
-    opticalStudyPath is the path to the optical drive.  If emulateOpticalDrive is
-true, this is a directory on the hard drive, by default ($HOME)/EPStudies.  The
-actual disks are emulated as subdirectories in this directory, each one named for the
-disk label.  Example: ($HOME)/EPStudies/Disk32A/.  In each of these subdirectories there
-is a catalog.dat file, and the actual data files for each study.  Emulation will ensure that
-each directory is limited in size, to emulate switching disks.  The systemCatalogPath is
-fixed at ($EPSIMULATOR)/System/.  It cannot be changed.  This path just contains a
-catalog.dat file, but no data files.  (Note that the real Prucka uses studies.dat 
-files for this purpose.  The networkStudyPath is a path to a server directory.
-This directory can hold a catalog.dat file, and optionally studies that are exported to it.
-Export can be manual, or automatic when the study is closed.  Finally there is a tempCatalogPath,
-which can be provided on the command line, or can be browsed to.  If not specified on 
-the command line, it defaults to the systemCatalogPath.
-    opticalStudyPath and networkStudyPath can be specified in the systemDialog.  Export
-*/
+ * Singleton class providing one-stop shopping for all program options.
+ * These are set both in SystemDialog and SimulatorSettingsDialog.
+ * Options are stored on disk as Settings, subclassed from QSettings.
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
 class Options {
 public:
     static Options* instance();
-
+    
+    // paths to the main system catalogs
     void setOpticalStudyPath(const QString& opticalStudyPath) {opticalStudyPath_ = opticalStudyPath;}
     void setNetworkStudyPath(const QString& networkStudyPath) {networkStudyPath_ = networkStudyPath;}
     void setExportFilePath(const QString& exportFilePath) {exportFilePath_ = exportFilePath;}
@@ -76,7 +57,6 @@ public:
     void setPermanentDelete(bool permanentDelete) {permanentDelete_ = permanentDelete;}
 
     void setPasswordHash(QString hash) {passwordHash_ = hash;}
-
 
     QString opticalStudyPath() const {return opticalStudyPath_;}
     QString networkStudyPath() const {return networkStudyPath_;}
@@ -102,6 +82,7 @@ public:
     
     QString passwordHash() const {return passwordHash_;}
 
+    // read and write options to disk
     void readSettings();
     void writeSettings();
 
@@ -130,9 +111,11 @@ private:
     // related to Optical drive emulation
     bool emulateOpticalDrive_;
     bool dualSidedDrive_;
+
     // emulated optical drive capacity (per side) in megabytes
     // if = 0 then no limit.  Default is 0 (unlimited)
     int emulatedOpticalDriveCapacity_;
+
     // determines if last name and first name are displayed separately
     bool oldStyleNavigator_;
     bool newStyleBlueBar_;  // flat buttons in Navigator Blue Bar

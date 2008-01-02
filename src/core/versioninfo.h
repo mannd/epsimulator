@@ -23,10 +23,10 @@
 #include <QString>
 
 /**
-Provides version and application information for a program.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
+ * Provides version and application information for a program.
+ *
+ *	@author David Mann <mannd@epstudiossoftware.com>
+ */
 class VersionInfo{
 public:
     static VersionInfo* instance();

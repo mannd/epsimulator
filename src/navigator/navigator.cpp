@@ -400,16 +400,20 @@ void Navigator::ejectDisk() {
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
-/** Here is the logic:
-            Not an emulated disk:   Allow side changes any time.  All
-                three buttons are always available. 
-            Emulated disk:
-                New disk: Only allow side change if isTwoSided()
-                Flipping a disk: allow side change (don't allow flipping 1 sided disks)
-                Relabeling: don't allow any side changes at all
-            OpticalDisk::allowSideChange() will set itself appropriately
- */
-/**
+/** 
+ * Label the optical disk.  Opens a dialog to get the label and side,
+ * then writes both to the label.dat file in the catalog directory
+ * of the disk.  Not that the catalog directory is NOT necessarily the
+ * root directory of the disk; with emulated optical disks they are
+ * different, but the disk itself handles this.  
+ * Here is the logic:
+ *           Not an emulated disk:   Allow side changes any time.  All
+ *               three buttons are always available. 
+ *           Emulated disk:
+ *               New disk: Only allow side change if isTwoSided()
+ *               Flipping a disk: allow side change (don't allow flipping 1 sided disks)
+ *               Relabeling: don't allow any side changes at all
+ *           OpticalDisk::allowSideChange() will set itself appropriately
  * 
  * @param reLabel true if relabeling already labeled disk
  * @param disk OpticalDisk that is to be labeled
@@ -417,20 +421,19 @@ void Navigator::ejectDisk() {
 void Navigator::labelDisk(bool reLabel, OpticalDisk* disk) {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     QString oldLabel = disk->label();
-    diskLabelDialog->setLabel(oldLabel);
     // Disabled buttons can't be set, so do this first.
-    diskLabelDialog->setSide(disk->side());
- 
+    diskLabelDialog->setLabelSide(oldLabel, disk->side());
     diskLabelDialog->enableNoneButton(disk->showAllSideButtons() || 
         !disk->isTwoSided());    
     diskLabelDialog->enableSideButtons(disk->allowSideChange());
     if (diskLabelDialog->exec() == QDialog::Accepted) {
-        disk->setLabel(diskLabelDialog->label());
-        disk->setSide(diskLabelDialog->side());
+        disk->setLabelSide(diskLabelDialog->label(), 
+            diskLabelDialog->side());
         disk->writeLabel();
         disk->setIsLabeled(true);
         if (reLabel)
-            catalogs_->relabel(diskLabelDialog->label(), diskLabelDialog->side());
+            catalogs_->relabel(diskLabelDialog->label(), 
+                diskLabelDialog->side());
         refreshCatalogs();
     }
     delete diskLabelDialog;

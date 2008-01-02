@@ -20,7 +20,6 @@
 #include "systemdialog.h"
 
 #include "actions.h"
-//#include "fileutilities.h"
 #include "options.h"
 
 #include <qcheckbox.h>

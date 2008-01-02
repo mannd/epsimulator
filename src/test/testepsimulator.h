@@ -25,6 +25,7 @@ class PatientDialog;
 
 class TestEpSimulator : public QObject {
     Q_OBJECT
+
 private slots:
     // class Study
     void testStudyConstructor();

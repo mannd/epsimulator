@@ -21,12 +21,15 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-#include <qstring.h>
+#include <QString>
 
 #include <stdexcept>
 
 namespace EpCore {
 
+/**
+ * Base class for IO errors.
+ */
 class IoError : public std::runtime_error {
 public:
     explicit IoError(const QString& fileName = "", 
@@ -68,6 +71,9 @@ public:
                   : IoError(fileName, msg) {}
 };
 
+/**
+ * Used if magic number doesn't match.
+ */
 class WrongFileTypeError : public IoError {
 public:
     WrongFileTypeError(const QString& fileName,
@@ -75,6 +81,10 @@ public:
                   : IoError(fileName, msg) {}
 };
 
+
+/**
+ * Incompatible file from earlier version of epsimulator.
+ */
 class WrongEpSimVersionError : public IoError {
 public:
     WrongEpSimVersionError(const char* msg = "wrong EP Simulator version")
@@ -100,6 +110,9 @@ public:
                       : IoError(fileName, msg) {}
 };
 
+/**
+ * Used if source and destination for copying are the same
+ */
 class SourceDestinationSameError : public IoError {
 public:
     SourceDestinationSameError(const QString& pathName,

@@ -8,14 +8,12 @@ QT +=  qt3support
 
 DESTDIR = ../../lib
 
-INCLUDEPATH += ../epsim \
- /usr/include/Qt \
- ../patient
+INCLUDEPATH += ../patient \
+ ../core
 
 SOURCES += simulatorsettingsdialog.cpp \
  patientdialog.cpp \
  changepassworddialog.cpp \
- passwordhandler.cpp \
  systemdialog.cpp \
  passworddialog.cpp \
  actions.cpp
@@ -23,7 +21,6 @@ SOURCES += simulatorsettingsdialog.cpp \
 HEADERS += simulatorsettingsdialog.h \
  patientdialog.h \
  changepassworddialog.h \
- passwordhandler.h \
  systemdialog.h \
  passworddialog.h \
  actions.h
@@ -40,9 +37,9 @@ FORMS += ui/simulatorsettingsdialog.ui \
 DISTFILES += .
 
 LIBS += -L../../lib \
--lepsim \
- -lpatient
-TARGETDEPS += ../../lib/libepsim.so \
- ../../lib/libpatient.so
+-lpatient \
+ -lcore
+TARGETDEPS += ../../lib/libpatient.so \
+ ../../lib/libcore.so
 
 

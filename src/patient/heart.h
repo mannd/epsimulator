@@ -22,14 +22,12 @@
 
 #include <qstring.h>
 
-/**
-Obviously the heart.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-
 #define DEFAULT_HEART "default"
 
+/**
+ * Obviously the heart.
+ *	@author David Mann <mannd@epstudiossoftware.com>
+ */
 class Heart{
 public:
     Heart(QString name = DEFAULT_HEART);
@@ -41,7 +39,6 @@ public:
 
 private:
     QString name_;
-
 };
 
 #endif

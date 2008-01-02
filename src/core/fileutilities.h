@@ -31,10 +31,18 @@
 
 namespace EpCore {
 
+/**
+ * Loads data from QDataStream identified by filePath.  File must be proper
+ * type, matching magicNumber.
+ */
 template<typename T> 
 void loadData(const QString& filePath, unsigned int magicNumber, T& data); 
 
-template<typename T>
+/**
+ * Save data to QDataStream identified by filePath.  magicNumber is saved to
+ * stream for identification purposes.
+ */
+template<typename T> 
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data);
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out);

@@ -18,11 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/** \file
-    Contains class CatalogComboBox.  Mimics the behavior of the 
-Navigator "System" ComboBox.
-*/
-
 #ifndef CATALOGCOMBOBOX_H
 #define CATALOGCOMBOBOX_H
 
@@ -34,10 +29,10 @@ Navigator "System" ComboBox.
 #include <map>
 
 /**
-Encapsulates specific behavior of the catalog combo box in Navigator.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
+ * Encapsulates specific behavior of the catalog combo box in Navigator.
+ *
+ *	@author David Mann <mannd@epstudiossoftware.com>
+ */
 class CatalogComboBox : public QComboBox {
     Q_OBJECT
 public:
@@ -46,7 +41,7 @@ public:
     void setSource(Catalog::Source source); 
     void refresh();
 
-    /// return catalog ComboBox is pointing too
+    // return catalog ComboBox is pointing too
     Catalog::Source source(); 
 
     ~CatalogComboBox();
@@ -63,7 +58,6 @@ private:
     Options* options_;
     typedef std::map<Catalog::Source, int> CatalogMap;
     CatalogMap sourceMap_;
-
 };
 
 #endif

@@ -47,11 +47,19 @@ QString User::machineName() const {
     return machineName_;
 }
 
+/**
+ * The user name.
+ * @return either ADMINISTRATOR or the user's login name.
+ */
 QString User::name() const {
     return isAdministrator_ ? QObject::tr("ADMINISTRATOR") 
         :  name_;
 }
 
+/**
+ * The role of the user.  Used in old style Navigator.
+ * @return ADMINSTRATOR or EPSIMUSER.
+ */
 QString User::role() const {
     return isAdministrator_ ? QObject::tr("ADMINISTRATOR") 
         :  QObject::tr("EPSIMUSER");

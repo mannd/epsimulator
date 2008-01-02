@@ -56,6 +56,10 @@ public:
     void setLabelData(const LabelData&);
     void setLabel(const QString& label);
     void setSide(const QString& side);
+    void setLabelSide(const QString& label, const QString& side) {
+        setLabel(label);
+        setSide(side);
+    }
     virtual void saveLastDisk() {}  // this function only implemented
                                     // for emulated optical disks
 

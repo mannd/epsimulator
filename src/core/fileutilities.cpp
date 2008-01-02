@@ -23,9 +23,17 @@
 #include <QDir>
 #include <QFileInfo>
 
-/// @namespace EpCore program functions that only require QtCore, not QtGui
+/**
+ * @namespace EpCore Program functions that only require QtCore, not QtGui.
+ */
 namespace EpCore {
 
+/**
+ * Writes unique integer and version numbers to datastream, to insure only
+ * that files are truly epsimulator files.
+ * @param magicNumber Unique int for each file type.
+ * @param out QDataStream written to.
+ */
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
     out << static_cast<quint32>(magicNumber);
     VersionInfo* v = VersionInfo::instance();
@@ -35,8 +43,8 @@ void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
 
 /**
  * Deletes the directory, and all subdirs and files.
- * @param path path to dir to be deleted.
- * Note path MUST be a dir, not a file
+ * @param path Path to dir to be deleted.
+ * Note path MUST be a directory, not a file.
  */
 void deleteDir(const QString& path) {
     QDir d(path);
@@ -72,7 +80,8 @@ void deleteDir(const QString& path) {
  * @param destinationPath the destination directory, where the copied directory
  * will end up.
  */
-void copyDir(const QString& sourcePath, const QString& destinationPath) {
+void copyDir(const QString& sourcePath, 
+             const QString& destinationPath) {
     QDir source(sourcePath);
     if (!source.exists())
         throw FileNotFoundError(sourcePath);
@@ -87,8 +96,6 @@ void copyDir(const QString& sourcePath, const QString& destinationPath) {
     for (int i = 0; i < list.size(); ++i) {
         QFileInfo fileInfo = list.at(i);
         if (fileInfo.isDir()) {
-            //destination.mkdir(fileInfo.fileName());
-            //destination.cd(fileInfo.fileName());
             copyDir(fileInfo.filePath(), destination.path());
         }
         else

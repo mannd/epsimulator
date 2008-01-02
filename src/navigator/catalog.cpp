@@ -36,11 +36,7 @@
 #include <iostream>
 #endif
 
-/**
-   \file catalog.cpp
-
-   \brief Contains catalog classes and Catalogs class.
-*/
+// struct StudyData
 
 QDataStream& operator<<(QDataStream& out, const StudyData& studyData) {
     out << studyData.study << studyData.location << studyData.side 
@@ -54,11 +50,7 @@ QDataStream& operator>>(QDataStream& in, StudyData& studyData) {
     return in;
 }
 
-/**
-   \class Catalog
-
-   \brief A catalog contains a group of studies.
-*/
+// class Catalog
 
 const QString Catalog::defaultFileName_ = "catalog.dat";
 
@@ -145,6 +137,8 @@ QString Catalog::filePath() const {
     return QDir::cleanDirPath(path_ + "/" + fileName_);
 }
 
+// class OpticalCatalog
+
 OpticalCatalog::OpticalCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
 }
@@ -183,9 +177,13 @@ Catalog::Keys OpticalCatalog::getKeys() {
     return keys;
 }
 
+// class SystemCatalog
+
 SystemCatalog::SystemCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
 }
+
+// class NetworkCatalog
 
 NetworkCatalog::NetworkCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName){
@@ -193,7 +191,7 @@ NetworkCatalog::NetworkCatalog(const QString& path,
 
 /**
  * 
- * @param s Study 
+ * @param sd StudyData 
  * @return location of study, including machine name or lab name
  */
 QString NetworkCatalog::location(const StudyData& sd) {
@@ -206,9 +204,13 @@ QString NetworkCatalog::location(const StudyData& sd) {
     return sd.machineName + " - " + Catalog::location(sd);
 }
 
+// class OtherCatalog
+
 OtherCatalog::OtherCatalog(const QString& path, const QString& fileName)
     : Catalog(path, fileName) {
 }
+
+// class Catalogs
 
 /**
  * Catalogs constructor.  Catalogs keeps all the catalogs, keeps track of
@@ -238,8 +240,6 @@ void Catalogs::setCatalogPath(Catalog::Source source, const QString& path) {
     catalogs_[source]->setPath(path);
 }
 
-/// TODO need an update Catalogs function to be called after systemDialog execs
-
 void Catalogs::setCurrentCatalog(Catalog::Source source) {
     currentCatalog_ = catalogs_[source];
 }
@@ -257,7 +257,6 @@ void Catalogs::deleteStudy(const Study* study) {
         it != catalogs_.end(); ++it)
         (*it).second->deleteStudy(study);
 }
-
 
 void Catalogs::refresh() {
    for (CatalogsMap::iterator it = catalogs_.begin(); 
@@ -299,4 +298,3 @@ Catalogs::~ Catalogs() {
     delete networkCatalog_;
     delete otherCatalog_;
 }
-

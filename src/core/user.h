@@ -23,11 +23,10 @@
 #include <qstring.h>
 
 /**
-Encapsulates info on the program user.  Is singleton class, only 1 user obviously.
-Also, perhaps overambitiously contains host machine info.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
+ * Encapsulates info on the program user.  Is singleton class, only 1 user obviously.
+ * Also, perhaps overambitiously contains host machine info.
+ *	@author David Mann <mannd@epstudiossoftware.com>
+ */
 class User {
 public:
     static User* instance();
@@ -52,7 +51,6 @@ private:
     bool isAdministrator_;
     QString name_;
     QString machineName_;
-
 };
 
 #endif

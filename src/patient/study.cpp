@@ -24,13 +24,15 @@
 #include "error.h"
 #include "heart.h"
 
-#include <qdir.h>
+#include <QDir>
 
 #ifndef NDEBUG
 #include <iostream>
 using std::cout;
 using std::endl;
 #endif
+
+// stuct Name
 
 QDataStream& operator<<(QDataStream& out, const Name& name) {
     out << name.first << name.middle << name.last;
@@ -41,7 +43,6 @@ QDataStream& operator>>(QDataStream& in, Name& name) {
     in >> name.first >> name.middle >> name.last;
     return in;
 }
-
 
 QString Name::fullName(bool lastFirst, bool useMiddleName) const {
     QString middleName;
@@ -86,6 +87,8 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
     study.ischemia_ = ischemia;
     return in;
 }
+
+// class Study
 
 const QString Study::fileName_ = "study.dat";
 
@@ -182,12 +185,10 @@ Study& Study::operator =(const Study& rhs) {
     return *this;
 }
 
-
 void Study::setEf(int ef) {
     ef_ = ef > MAX_EF ? MAX_EF : ef;
     ef_ = ef < MIN_EF ? MIN_EF : ef;
 }
-
 
 QString Study::filePath() {
     return QDir::cleanPath(path_ + "/" + fileName_);
