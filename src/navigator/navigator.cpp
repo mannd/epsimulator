@@ -251,13 +251,13 @@ void Navigator::doStudyCopy(MoveCopyStudyDialog& dialog, bool move) {
             if (move)
                 regenerateCatalogs();
             else
-                c.regenerate(currentDisk_->label(), currentDisk_->side(), 
+                c.create(currentDisk_->label(), currentDisk_->side(), 
                           options_->labName(), user_->machineName());
         }
         else {    // we are copying from disk or dir to dir
             EpCore::copyDir(tmpDir.absolutePath(), dialog.destinationPath());
             OpticalCatalog c(dialog.destinationPath());
-            c.regenerate(dialog.destinationPath(), QString(), options_->labName(),
+            c.create(dialog.destinationPath(), QString(), options_->labName(),
                 user_->machineName());   
         }
     }
@@ -1082,13 +1082,7 @@ Recorder* Navigator::getRecorder() {
 /// on disk, despite being in the catalog, the actual disk processing should raise
 /// an exception.
 bool Navigator::studyOnDisk(const Study* s) const {
-    if (catalogs_->currentCatalogIsOptical())
-        return true; 
-        // by definition if you are selecting from the optical catalog
-        // the study is there.
-    if (catalogs_->studyPresentOnOpticalDisk(s))
-        return true;
-    return false;
+    return catalogs_->studyPresentOnOpticalDisk(s);
 }
 
 // Below reports the error and changes the disk.  Non-const function

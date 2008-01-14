@@ -73,7 +73,7 @@ public:
     virtual void refresh();
     virtual void regenerate(Keys& keys, Catalog*); 
     virtual void relabel(const QString& label, const QString& side, 
-        const QString& key = QString());
+        const QString& key);
 
     virtual QString location(const StudyData&); // generates appropriate location format
                                                 // overriden by specific catalog types
@@ -90,7 +90,6 @@ public:
     void setLabel(const QString& label) {studyData_.location = label;}
     void setSide(const QString& side) {studyData_.side = side;}
 
-    virtual bool isOptical() const {return false;}
     bool isEmpty() {return catalog_.empty();}
     virtual bool studyPresent(const Study*);
 
@@ -125,12 +124,15 @@ public:
     virtual void addStudy(const Study* study, const QString& location,
                         const QString& side, const QString& labName,
                         const QString& machineName);
-    void regenerate(const QString& location, const QString& side,
+    void create(const QString& location, const QString& side,
                     const QString& labName, const QString& machineName);
-
+    void regenerate(Keys&, Catalog*) {} 
+    void relabel(const QString&, const QString&, 
+        const QString&) {}  // this relabel does nothing
+    // relabel below is nonvirtual, only in this class
+    void relabel(const QString& label, const QString& side);
     Catalog::Keys getKeys();
     ~OpticalCatalog() {}
-    bool isOptical() const {return true;}
 };
 
 class SystemCatalog : public Catalog {
@@ -187,7 +189,6 @@ public:
     void setCurrentCatalog(Catalog::Source);
     void setCatalogPath(Catalog::Source, const QString& path);
 
-    bool currentCatalogIsOptical() const {return currentCatalog_->isOptical();}
     bool studyPresentOnOpticalDisk(const Study*) const;
 
     ~Catalogs();

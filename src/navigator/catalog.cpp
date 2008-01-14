@@ -95,8 +95,7 @@ void Catalog::regenerate(Keys& keys, Catalog* c) {
 void Catalog::relabel(const QString& label, const QString& side, const QString& key) {
     for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) {
-        // with optical catalog, all studies must be relabeled
-        if (isOptical() || p.data().study.key() == key ) {
+        if (p.data().study.key() == key ) {
             p.data().location = label;
             p.data().side = side;
         }
@@ -152,7 +151,26 @@ void OpticalCatalog::addStudy(const Study* study, const QString& location,
         Catalog::addStudy(study, location, side, labName, machineName);
 }
 
-void OpticalCatalog::regenerate(const QString& location, const QString& side,
+/**
+ * This is an overloaded nonvirtual version of relabel, eliminating the key
+ * parameter in the virtual relabel.  All studies in an optical catalog
+ * are relabeled with the new label.  System catalogs are a mix of different
+ * studies from different optical drives, so they are relabeled for a specific
+ * key.  See Catalogs::relabel() for more.
+ * @param label new label for the disk.
+ * @param side new side for the disk.
+ */
+void OpticalCatalog::relabel(const QString& label, const QString& side) {
+    for (CatalogMap::iterator p = catalog_.begin();
+        p != catalog_.end(); ++p) {
+        // with optical catalog, all studies must be relabeled
+        p.data().location = label;
+        p.data().side = side;
+    }
+    save();
+}
+
+void OpticalCatalog::create(const QString& location, const QString& side,
                     const QString& labName, const QString& machineName) {
     QDir studiesDir(OpticalDisk::makeStudiesPath(path()));
     QStringList studyList = studiesDir.entryList("study_*");
@@ -266,24 +284,31 @@ void Catalogs::refresh() {
 
 void Catalogs::regenerate(const QString& location, const QString& side,
                     const QString& labName, const QString& machineName) {
-    opticalCatalog_->regenerate(location, side, labName, machineName);
+    opticalCatalog_->create(location, side, labName, machineName);
     Catalog::Keys keys = opticalCatalog_->getKeys();
     for (CatalogsMap::const_iterator it = catalogs_.begin(); 
         it != catalogs_.end(); ++it) 
-        if (!(*it).second->isOptical())   // already did the optical catalog
-            (*it).second->regenerate(keys, opticalCatalog_);
+        (*it).second->regenerate(keys, opticalCatalog_);
 }
 
+/**
+ * Relabels the current optical disk catalog, then updates the system 
+ * catalogs.  Uses the special overloaded nonvirtual relabel of 
+ * OpticalCatalog, then extracts the keys from the OpticalCatalog
+ * and goes through the current system catalogs, relabeling if
+ * the keys match.
+ * @param label new label for the disk.
+ * @param side new side for the disk.
+ */
 void Catalogs::relabel(const QString& label, const QString& side) {
     // relabel optical catalog first
     opticalCatalog_->relabel(label, side);
     std::vector<QString> keys = opticalCatalog_->getKeys();
      for (CatalogsMap::const_iterator it = catalogs_.begin(); 
         it != catalogs_.end(); ++it) 
-        if (!(*it).second->isOptical()) // already did the optical catalog
-            for (std::vector<QString>::iterator p = keys.begin();
-                p != keys.end(); ++p)
-                (*it).second->relabel(label, side, *p);
+        for (std::vector<QString>::iterator p = keys.begin();
+            p != keys.end(); ++p)
+            (*it).second->relabel(label, side, *p);
 }
 
 bool Catalogs::studyPresentOnOpticalDisk(const Study* s) const {

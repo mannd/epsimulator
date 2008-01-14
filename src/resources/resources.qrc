@@ -23,5 +23,9 @@
         <file>images/hi64-preregisterwhite.png</file>
         <file>images/hi64-reportswhite.png</file>
         <file>images/hi64-reviewstudywhite.png</file>
+        <file>images/hi64-nosave.png</file>
+        <file>images/hi64-autosave.png</file>
+        <file>images/hi64-manualsave.png</file>
+        <file>images/hi32-closestudy.png</file>
    </qresource>
 </RCC>

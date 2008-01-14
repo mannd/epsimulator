@@ -1,8 +1,10 @@
 
 
-SOURCES += recorder.cpp
+SOURCES += recorder.cpp \
+ patientstatusbar.cpp
 
-HEADERS += recorder.h
+HEADERS += recorder.h \
+ patientstatusbar.h
 
 INCLUDEPATH += ../gui \
 ../stimulator \
@@ -37,4 +39,6 @@ DESTDIR = ../../lib
 
 RESOURCES += ../resources/resources.qrc
 
+
+FORMS += ui/patientstatusbar.ui
 

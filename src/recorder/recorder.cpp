@@ -24,19 +24,20 @@
 //#include "fileutilities.h"
 #include "navigator.h"
 #include "patientdialog.h"
+#include "patientstatusbar.h"
 #include "settings.h"
 #include "study.h"
 #include "versioninfo.h"
 
-#include <qapplication.h>
+#include <QAction>
+#include <QDockWidget>
 #include <qlabel.h>
 #include <qmessagebox.h>
-#include <qstatusbar.h>
 #include <QMenu>
 #include <QMenuBar>
-#include <QAction>
 #include <QMdiArea>
 #include <QCloseEvent>
+#include <QToolBar>
 #include <QVariant>
 
 
@@ -44,11 +45,15 @@ Recorder::Recorder(QWidget* parent)
     : QMainWindow(parent), study_(0) {
     workspace_ = new QMdiArea(this);
     setCentralWidget(workspace_);
+    patientStatusBar_ = new PatientStatusBar;
 
     createActions();
     createMenus();
+    createToolBars();
 
     setWindowTitle(tr("EP Simulator"));
+    setStatusBar(0);    // no status bar
+    createPatientStatusBar();
     readSettings();
 
 }
@@ -59,6 +64,7 @@ Recorder::~Recorder() {
 
 void Recorder::setStudy(Study* s) {
     study_ = s;
+    patientStatusBar_->setName(s->name());
 }
 
 void Recorder::patientInformation() {
@@ -67,6 +73,8 @@ void Recorder::patientInformation() {
     if (patientDialog->exec() == QDialog::Accepted) {
         patientDialog->getFields(study_);
         study_->save();
+        patientStatusBar_->setName(study_->name());
+
     }
     delete patientDialog;
 }
@@ -123,6 +131,15 @@ void Recorder::help() {
     EpGui::about(this);
 }
 
+void Recorder::createPatientStatusBar() {
+    QDockWidget* bottomDockWidget = new QDockWidget(this);
+//    bottomDockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    bottomDockWidget->setWidget(patientStatusBar_);
+/*    Qt::WindowFlags flags = Qt::Widget;
+    bottomDockWidget->setWindowFlags(flags);*/
+    addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
+}
+
 using EpGui::createAction;
 
 void Recorder::createActions()
@@ -160,7 +177,8 @@ void Recorder::createActions()
     exportDataAct_ = createAction(this, tr("Export Data"), 
         tr("Export data to external formats"));
     closeStudyAct_ = createAction(this, tr("Close Study"),
-        tr("Close patient study"), SLOT(closeStudy()));
+        tr("Close patient study"), SLOT(closeStudy()), 0,
+        "hi32-closestudy.png");
     // Study Configuration
     switchAct_ = createAction(this, tr("Switch..."), 
         tr("Switch study configuration"));
@@ -262,7 +280,7 @@ void Recorder::createActions()
     printSetupAct_ = createAction(this, tr("Print Setup"),
         tr("Setup printer"));
     adminReportsAct_ = createAction(this, tr("Reports"),
-        tr("Generate procedure reports"));
+        tr("Generate procedure reports"), 0, 0, "hi32-reports.png");
     compressionRatioAct_ = createAction(this, tr("Compression Ratio"),
         tr("Set compression ratio"));
     amplifierTestAct_ = createAction(this, tr("Amplifier Test..."),
@@ -361,6 +379,15 @@ void Recorder::createMenus()
     helpMenu_ = menuBar()->addMenu(tr("&Help"));
     helpMenu_->addAction(helpAct_);
     helpMenu_->addAction(aboutAct_);
+}
+
+void Recorder::createToolBars() {
+    QToolBar* systemToolBar = new QToolBar(tr("System")); 
+    systemToolBar->setAutoFillBackground(true);
+    systemToolBar->addAction(closeStudyAct_);
+    systemToolBar->addAction(adminReportsAct_);
+  
+    addToolBar(systemToolBar);
 }
 
 

@@ -24,8 +24,10 @@
 
 #include <QMainWindow>
 
+class PatientStatusBar;
 class QAction;
 class QCloseEvent;
+class QDockWidget;
 class QMdiArea;
 class QMenu;
 class Study;
@@ -53,6 +55,8 @@ private slots:
 private:
     void createActions();
     void createMenus();
+    void createToolBars();
+    void createPatientStatusBar();
     void readSettings();
     void saveSettings();
 
@@ -68,6 +72,8 @@ private:
     */
     // central widget
     QMdiArea *workspace_;
+    // patient status bar
+    PatientStatusBar* patientStatusBar_;
 
     // Study Menu
     QAction* patientInformationAct_;
