@@ -1,10 +1,12 @@
 
 
 SOURCES += recorder.cpp \
- patientstatusbar.cpp
+ patientstatusbar.cpp \
+ realtimewindow.cpp
 
 HEADERS += recorder.h \
- patientstatusbar.h
+ patientstatusbar.h \
+ realtimewindow.h
 
 INCLUDEPATH += ../gui \
 ../stimulator \

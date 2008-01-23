@@ -17,35 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef REALTIMEWINDOW_H
+#define REALTIMEWINDOW_H
 
-#ifndef PATIENTSTATUSBAR_H
-#define PATIENTSTATUSBAR_H
+#include <QMainWindow>
 
-#include <QWidget>
-#include "ui_patientstatusbar.h"
+/**
+The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
 
-struct Name;
-
-class PatientStatusBar : public QWidget, private Ui::PatientStatusBar
-{
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+class RealTimeWindow : public QMainWindow  {
     Q_OBJECT
 public:
-    PatientStatusBar(QWidget* parent = 0, Qt::WFlags fl = 0 );
-    ~PatientStatusBar();
-    
-    void setName(const Name&);
-    void setO2Sat(int);
+    RealTimeWindow(QWidget* parent = 0);
 
-public slots:
-  /*$PUBLIC_SLOTS$*/
-
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-  /*$PROTECTED_SLOTS$*/
+    ~RealTimeWindow();
 
 };
 
 #endif
-

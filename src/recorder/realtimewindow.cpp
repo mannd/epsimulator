@@ -18,34 +18,39 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PATIENTSTATUSBAR_H
-#define PATIENTSTATUSBAR_H
+#include "realtimewindow.h"
 
-#include <QWidget>
-#include "ui_patientstatusbar.h"
+#include "actions.h"
 
-struct Name;
+#include <QAction>
+#include <QIcon>
+#include <QPalette>
+#include <QToolBar>
 
-class PatientStatusBar : public QWidget, private Ui::PatientStatusBar
-{
-    Q_OBJECT
-public:
-    PatientStatusBar(QWidget* parent = 0, Qt::WFlags fl = 0 );
-    ~PatientStatusBar();
+using EpGui::createAction;
+
+RealTimeWindow::RealTimeWindow(QWidget* parent)
+ : QMainWindow(parent) {
+    setWindowTitle(tr("Real-Time Page 1"));
+    QWidget* centralWidget = new QWidget;
+    centralWidget->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setColor(QPalette::Window, Qt::black);
+    centralWidget->setPalette(palette);
+    setCentralWidget(centralWidget);
+    /// FIXME this is just a test toolbar
+    QToolBar* toolBar = new QToolBar(this);
+    toolBar->setAutoFillBackground(true);
+    QAction* testAction = createAction(this, QString("test"), QString("test"));
+    toolBar->addAction(testAction);
+    toolBar->addSeparator();
     
-    void setName(const Name&);
-    void setO2Sat(int);
+    
+}
 
-public slots:
-  /*$PUBLIC_SLOTS$*/
 
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
+RealTimeWindow::~RealTimeWindow()
+{
+}
 
-protected slots:
-  /*$PROTECTED_SLOTS$*/
-
-};
-
-#endif
 

@@ -25,6 +25,7 @@
 #include "navigator.h"
 #include "patientdialog.h"
 #include "patientstatusbar.h"
+#include "realtimewindow.h"
 #include "settings.h"
 #include "study.h"
 #include "versioninfo.h"
@@ -32,10 +33,12 @@
 #include <QAction>
 #include <QDockWidget>
 #include <qlabel.h>
+#include <QMainWindow>
 #include <qmessagebox.h>
 #include <QMenu>
 #include <QMenuBar>
 #include <QMdiArea>
+#include <QMdiSubWindow>
 #include <QCloseEvent>
 #include <QToolBar>
 #include <QVariant>
@@ -43,7 +46,13 @@
 
 Recorder::Recorder(QWidget* parent)
     : QMainWindow(parent), study_(0) {
+    //workspace_ = new QMdiArea(this);
     workspace_ = new QMdiArea(this);
+    RealTimeWindow* realTimeWindow = new RealTimeWindow;
+    QMdiSubWindow* msw = new QMdiSubWindow; 
+    msw->setWidget(realTimeWindow);
+    msw->showMaximized();
+    workspace_->addSubWindow(msw);
     setCentralWidget(workspace_);
     patientStatusBar_ = new PatientStatusBar;
 
@@ -56,6 +65,15 @@ Recorder::Recorder(QWidget* parent)
     createPatientStatusBar();
     readSettings();
 
+}
+
+void Recorder::updateWindowTitle() {
+    QString title = tr("%1")
+        .arg(VersionInfo::instance()->programName());
+    /// TODO need to have user stuff in Recorder
+//    title = user_->isAdministrator() ? 
+//        QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
+    setWindowTitle(title);
 }
 
 Recorder::~Recorder() {
@@ -109,11 +127,13 @@ void Recorder::closeStudy() {
 void Recorder::saveSettings() {
     Settings settings;
     settings.setValue("/recorderSize", size());
-    settings.setValue("/recorderPos", pos());    
+    settings.setValue("/recorderPos", pos()); 
+    settings.setValue("/recorderState", saveState());   
 }
 
 void Recorder::readSettings() {
     Settings settings;
+    restoreState(settings.value("/recorderState").toByteArray());
     QVariant size = settings.value("/recorderSize");
     if (size.isNull()) {
         showMaximized();
@@ -133,6 +153,7 @@ void Recorder::help() {
 
 void Recorder::createPatientStatusBar() {
     QDockWidget* bottomDockWidget = new QDockWidget(this);
+    bottomDockWidget->setObjectName("bottomDockWidget");
 //    bottomDockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     bottomDockWidget->setWidget(patientStatusBar_);
 /*    Qt::WindowFlags flags = Qt::Widget;
@@ -383,6 +404,7 @@ void Recorder::createMenus()
 
 void Recorder::createToolBars() {
     QToolBar* systemToolBar = new QToolBar(tr("System")); 
+    systemToolBar->setObjectName("SystemToolBar");
     systemToolBar->setAutoFillBackground(true);
     systemToolBar->addAction(closeStudyAct_);
     systemToolBar->addAction(adminReportsAct_);

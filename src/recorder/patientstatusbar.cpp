@@ -34,6 +34,13 @@ void PatientStatusBar::setName(const Name& name) {
     nameLabel->setText(name.fullName(true));    // lastname, firstname
 }
 
+void PatientStatusBar::setO2Sat(int sat) {
+    sat = sat > 100 ? 100 : sat;
+    sat = sat < 0 ? 0 : sat;
+    spO2Label->setText(QString::number(sat));
+}
+    
+
 /*$SPECIALIZATION$*/
 
 

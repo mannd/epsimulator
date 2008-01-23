@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/test</activedir>
+      <activedir>src/navigator</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -159,6 +159,10 @@
     <subclassing>
       <subclass uifile="src/navigator/ui/movecopystudydialog.ui" sourcefile="ui/movecopystudydialog.cpp" />
       <subclass uifile="src/navigator/ui/movecopystudydialog.ui" sourcefile="ui/movecopystudydialog.h" />
+      <subclass uifile="src/recorder/testbox.ui" sourcefile="testbox.cpp" />
+      <subclass uifile="src/recorder/testbox.ui" sourcefile="testbox.h" />
+      <subclass uifile="src/recorder/ui/patientstatusbar.ui" sourcefile="ui/patientstatusbar.cpp" />
+      <subclass uifile="src/recorder/ui/patientstatusbar.ui" sourcefile="ui/patientstatusbar.h" />
     </subclassing>
   </kdevtrollproject>
   <kdevcppsupport>

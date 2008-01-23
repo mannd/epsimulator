@@ -502,5 +502,18 @@ Doxygen usage
 
     That means key words with be preceded by @, not \, e.g. @class.  Will put all Doxygen comments for member functions into the source file, not the header file.  Class comments must be in the header.
 
+Patient classes
+
+    Study contains basic study and baseline patient information.  The goal is to "setup" the simulation.  Thus we have sex, weight, BSA, baseline autonomic tone, possibly drugs, etc.  This is used to initialize the Patient object.  As a study can be continued, the Patient object must also be saveable to disk.  The file should be patient.dat, and be unique for each study directory.  When a study is ended, the current status of the Patient is saved into this file, allowing continuation without reinitializing a new patient.  
+
+    What is in the Patient class?  First, outside the class there must be some physiology classes, e.g. an O2Saturation class, a Pressure class (holding arterial, other blood pressures), possibly some typedefs, eg. Respiration, Pulse, etc.  AutonomicTone (with subclasses SympatheticTone, ParasympatheticTone, etc.  Drugs need to be handled too, with drug effects translated to effects on physiology.
+
+    Inside Patient: various subclasses for systems: respiratory rate, O2 sat (with interactions between them, and between external O2 as a drug), BP, autonomic tone (with net effects on conduction, refractoriness, automaticity), and most importantly the Heart class.  The Heart class will generate the heart rate, and the actual simulation of electrical activity.
+
+Hardware classes
+
+    Include the stimulator (a floating dockable window), catheters, junction box, amplifier.
+
+
 
     

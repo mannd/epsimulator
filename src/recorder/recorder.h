@@ -57,6 +57,7 @@ private:
     void createMenus();
     void createToolBars();
     void createPatientStatusBar();
+    void updateWindowTitle();
     void readSettings();
     void saveSettings();
 
@@ -71,7 +72,7 @@ private:
         void saveStudy();
     */
     // central widget
-    QMdiArea *workspace_;
+    QMdiArea* workspace_;
     // patient status bar
     PatientStatusBar* patientStatusBar_;
 
