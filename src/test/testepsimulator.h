@@ -67,6 +67,8 @@ private slots:
     void testDeleteDir();
     // function copyDir()
     void testCopyDir();
+    // class Saturation
+    void testSaturation();
 
     void cleanupTestCase();
 

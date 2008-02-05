@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/navigator</activedir>
+      <activedir>src/core</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>

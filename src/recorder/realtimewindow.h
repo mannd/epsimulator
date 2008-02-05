@@ -22,6 +22,9 @@
 
 #include <QMainWindow>
 
+class QAction;
+class QComboBox;
+
 /**
 The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
 
@@ -33,6 +36,23 @@ public:
     RealTimeWindow(QWidget* parent = 0);
 
     ~RealTimeWindow();
+
+private:
+    void createActions();
+    void createToolBars();
+
+    QComboBox* sweepSpeedComboBox_;
+
+    QAction* minusAct_;
+    QAction* plusAct_;
+    QAction* studyConfigAct_;
+    QAction* timeCalipersAct_;
+    QAction* amplitudeCalipersAct_;
+    QAction* deleteAllCalipersAct_;
+    QAction* msCalipersAct_;
+    QAction* bpmCalipersAct_;
+    QAction* makeWindowActiveAct_;
+    QAction* updateWindowToggleAct_;    
 
 };
 

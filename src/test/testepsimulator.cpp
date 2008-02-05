@@ -29,6 +29,7 @@
 #include "passworddialog.h"
 #include "passwordhandler.h"
 #include "patientdialog.h"
+#include "saturation.h"
 #include "study.h"
 #include "user.h"
 #include "versioninfo.h"
@@ -495,6 +496,19 @@ void TestEpSimulator::testCopyDir() {
     QCOMPARE(dir.exists("destination/study/catalog.dat"), true);
     EpCore::deleteDir(dir.absolutePath() + "/source");
     EpCore::deleteDir(dir.absolutePath() + "/destination");    
+}
+
+void TestEpSimulator::testSaturation() {
+    Saturation sat;
+    QCOMPARE(sat.number(), 0);
+    sat = 99;
+    QCOMPARE(sat.number(), 99);
+    QVERIFY(sat == 99);
+    QVERIFY(sat.percent() == "99%");
+    sat.setNumber(110);
+    QCOMPARE(sat.number(), 100);
+    sat.setNumber(-90);
+    QCOMPARE(sat.number(), 0);
 }
 
 void TestEpSimulator::cleanupTestCase() {

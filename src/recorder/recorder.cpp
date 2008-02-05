@@ -31,6 +31,7 @@
 #include "versioninfo.h"
 
 #include <QAction>
+#include <QComboBox>
 #include <QDockWidget>
 #include <qlabel.h>
 #include <QMainWindow>
@@ -40,6 +41,7 @@
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QCloseEvent>
+#include <QStatusBar>
 #include <QToolBar>
 #include <QVariant>
 
@@ -61,7 +63,8 @@ Recorder::Recorder(QWidget* parent)
     createToolBars();
 
     setWindowTitle(tr("EP Simulator"));
-    setStatusBar(0);    // no status bar
+    //setStatusBar(0);    // no status bar
+    createStatusBar();
     createPatientStatusBar();
     readSettings();
 
@@ -82,7 +85,10 @@ Recorder::~Recorder() {
 
 void Recorder::setStudy(Study* s) {
     study_ = s;
-    patientStatusBar_->setName(s->name());
+    patient_.setPath(s->path());
+    patient_.load();
+    patientStatusBar_->setPatient(patient_);
+    patientStatusBar_->setPatientInfo(s->name(), s->weight(), s->bsa());
 }
 
 void Recorder::patientInformation() {
@@ -91,7 +97,8 @@ void Recorder::patientInformation() {
     if (patientDialog->exec() == QDialog::Accepted) {
         patientDialog->getFields(study_);
         study_->save();
-        patientStatusBar_->setName(study_->name());
+        patientStatusBar_->setPatientInfo(study_->name(), 
+            study_->weight(), study_->bsa());
 
     }
     delete patientDialog;
@@ -113,6 +120,7 @@ void Recorder::closeStudy() {
                                     QMessageBox::No | QMessageBox::Escape);
     if (ret == QMessageBox::Yes) {
         study_->save();
+        patient_.save();
         // get rid of study_
         delete study_;
         if (Navigator* parentWidget = dynamic_cast<Navigator*>(parent())) {
@@ -149,6 +157,21 @@ void Recorder::help() {
 
  void Recorder::about() {
     EpGui::about(this);
+}
+
+/**
+ * Gets the statusbar going, with a blank message.
+ * Temporary messages from menu functions, etc. will
+ * now show up here.  The "Press F1 for Help" message
+ * that appears on the Navigator statusbar doesn't work
+ * well here, since a frame is drawn around any widget
+ * inserted into the statusbar, which looks ugly adjacent
+ * to the PatientStatusBar.  TODO The status bar will
+ * only appear when the option below is set.
+ */
+void Recorder::createStatusBar() {
+    //. if (options_->recorderStatusBar())
+        statusBar()->showMessage(QString());
 }
 
 void Recorder::createPatientStatusBar() {
@@ -202,9 +225,10 @@ void Recorder::createActions()
         "hi32-closestudy.png");
     // Study Configuration
     switchAct_ = createAction(this, tr("Switch..."), 
-        tr("Switch study configuration"));
+        tr("Switch study configuration"), 0, 
+        0, "hi32-switchwindowsettings.png");
     saveAct_ = createAction(this, tr("Save"),
-        tr("Save study configuration"));
+        tr("Save study configuration"), 0, 0, "hi32-savestudytype.png");
     saveAsAct_ = createAction(this, tr("Save As..."), 
         tr("Save study configuration under different name"));
     intervalsAct_ = createAction(this, tr("Intervals"), 
@@ -309,9 +333,13 @@ void Recorder::createActions()
     ejectOpticalDiskAct_ = createAction(this, tr("Eject Optical Disk"),
         tr("Eject optical disk"));
     helpAct_ = createAction(this, tr("EP Simulator Help"),
-        tr("EP Simulator help"), SLOT(help()));
+        tr("EP Simulator help"), SLOT(help()), tr("F1"));
     aboutAct_ = createAction(this, tr("&About EP Simulator"),
         tr("About EP Simulator"), SLOT(about()));
+    // only on system toolbar
+    autoSaveAct_ = createAction(this, tr("Auto Save"),
+        tr("Toggle Auto Save"), 0, 0, "hi32-autosavetoggle.png");
+    autoSaveAct_->setCheckable(true);
 }
 
 void Recorder::createMenus()
@@ -407,7 +435,21 @@ void Recorder::createToolBars() {
     systemToolBar->setObjectName("SystemToolBar");
     systemToolBar->setAutoFillBackground(true);
     systemToolBar->addAction(closeStudyAct_);
+    systemToolBar->addAction(saveAct_);
+    systemToolBar->addAction(autoSaveAct_);
     systemToolBar->addAction(adminReportsAct_);
+    systemToolBar->addAction(switchAct_);
+    switchedVideoComboBox_ = new QComboBox(this);
+    switchedVideoComboBox_->addItem(tr("Real-Time"));
+    switchedVideoComboBox_->addItem(tr("Review"));
+    switchedVideoComboBox_->addItem(tr("Image"));
+    systemToolBar->addWidget(switchedVideoComboBox_);
+    systemToolBar->addSeparator();
+    /// TODO replace below with a dynamic combobox generated from
+    /// a list of protocols.  
+    protocolComboBox_ = new QComboBox(this);
+    protocolComboBox_->addItem(tr("Baseline"));
+    systemToolBar->addWidget(protocolComboBox_);
   
     addToolBar(systemToolBar);
 }

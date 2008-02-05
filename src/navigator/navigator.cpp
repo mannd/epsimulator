@@ -1011,10 +1011,10 @@ void Navigator::startStudy(Study* s) {
     // it "closes" (actually it hides itself too)
     // We also reuse the same recorder all the time, 
     // but use lazy initialization
-    Recorder *recorder = getRecorder();
-    recorder->setStudy(s);
-    recorder->show();
-    //recorder->setStudy(s);
+    if (!recorder_)
+        recorder_ = new Recorder(this);
+    recorder_->setStudy(s);
+    recorder_->show();
     // looks better to show new window first, then hide this one,
     // and vice versa
     hide();
@@ -1069,12 +1069,6 @@ Study* Navigator::getNewStudy() {
     else
         // Current date time already set with new study.
         return new Study;
-}
-
-Recorder* Navigator::getRecorder() {
-    if (!recorder_)
-        recorder_ = new Recorder(this);
-    return recorder_;
 }
 
 /// This checks to make sure the selected study is on the optical disk catalog.

@@ -27,5 +27,18 @@
         <file>images/hi64-autosave.png</file>
         <file>images/hi64-manualsave.png</file>
         <file>images/hi32-closestudy.png</file>
+	<file>images/hi32-savestudytype.png</file>
+	<file>images/hi32-autosavetoggle.png</file>
+	<file>images/hi32-switchwindowsettings.png</file>
+        <file>images/hi32-minus.png</file>
+        <file>images/hi32-plus.png</file>
+        <file>images/hi32-studyconfig.png</file>
+        <file>images/hi32-timecalipers.png</file>
+        <file>images/hi32-amplitudecalipers.png</file>
+        <file>images/hi32-deleteallcalipers.png</file>
+        <file>images/hi32-mscalipers.png</file>
+        <file>images/hi32-bpmcalipers.png</file>
+        <file>images/hi32-makewindowactive.png</file>
+        <file>images/hi32-updatewindowtoggle.png</file>
    </qresource>
 </RCC>

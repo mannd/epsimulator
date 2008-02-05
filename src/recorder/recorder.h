@@ -22,11 +22,14 @@
 #ifndef RECORDER_H
 #define RECORDER_H
 
+#include "patient.h"
+
 #include <QMainWindow>
 
 class PatientStatusBar;
 class QAction;
 class QCloseEvent;
+class QComboBox;
 class QDockWidget;
 class QMdiArea;
 class QMenu;
@@ -56,25 +59,21 @@ private:
     void createActions();
     void createMenus();
     void createToolBars();
+    void createStatusBar();
     void createPatientStatusBar();
     void updateWindowTitle();
     void readSettings();
     void saveSettings();
 
     Study* study_;
+    Patient patient_;
 
-
-
-    /*    void createToolBars();
-        void loadPatient();
-        void savePatient();
-        void loadStudy();
-        void saveStudy();
-    */
     // central widget
     QMdiArea* workspace_;
     // patient status bar
     PatientStatusBar* patientStatusBar_;
+    
+    
 
     // Study Menu
     QAction* patientInformationAct_;
@@ -144,6 +143,11 @@ private:
     
     QAction* helpAct_;
     QAction* aboutAct_;
+
+    // System Toolbar
+    QAction* autoSaveAct_;
+    QComboBox* switchedVideoComboBox_;
+    QComboBox* protocolComboBox_;
 
     // Main Menu Bar
     QMenu* studyMenu_;

@@ -22,22 +22,35 @@
 
 #include "study.h"
 
-PatientStatusBar::PatientStatusBar(QWidget* parent, Qt::WFlags fl)
-: QWidget( parent, fl ) {
+#include <QDateTime>
+#include <QTimer>
+
+PatientStatusBar::PatientStatusBar(QWidget* parent)
+    : QWidget(parent) {
     setupUi(this);
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(1000);
 }
 
 PatientStatusBar::~PatientStatusBar() {
 }
 
-void PatientStatusBar::setName(const Name& name) {
+void PatientStatusBar::setPatientInfo(const Name& name, 
+    double kg, double bsa) {
     nameLabel->setText(name.fullName(true));    // lastname, firstname
+    kgLabel->setText(QObject::tr("Kg ") + QString::number(kg, 'f', 1));
+    bsaLabel->setText(QObject::tr("BSA ") + QString::number(bsa, 'f', 2));
 }
 
-void PatientStatusBar::setO2Sat(int sat) {
-    sat = sat > 100 ? 100 : sat;
-    sat = sat < 0 ? 0 : sat;
-    spO2Label->setText(QString::number(sat));
+void PatientStatusBar::displayO2Sat() {
+    spO2Label->setText(patient_.o2Saturation().percent());
+}
+
+void PatientStatusBar::update() {
+    displayO2Sat();
+    timeLabel->setText(QTime::currentTime().toString());
+    dateLabel->setText(QDate::currentDate().toString());
 }
     
 

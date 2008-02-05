@@ -5,9 +5,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1368</width>
-    <height>117</height>
+    <width>1306</width>
+    <height>108</height>
    </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+    <horstretch>1</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
@@ -25,6 +31,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>240</width>
+         <height>16</height>
+        </size>
        </property>
        <property name="frameShape" >
         <enum>QFrame::StyledPanel</enum>
@@ -577,6 +589,9 @@
          <property name="text" >
           <string>time</string>
          </property>
+         <property name="alignment" >
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
        </item>
        <item row="0" column="1" >
@@ -591,6 +606,9 @@
          <property name="text" >
           <string>date</string>
          </property>
+         <property name="alignment" >
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
        </item>
        <item row="1" column="1" >
@@ -598,12 +616,18 @@
          <property name="text" >
           <string>TextLabel</string>
          </property>
+         <property name="alignment" >
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
        </item>
        <item row="2" column="1" >
         <widget class="QLabel" name="estDiskSpaceLabel" >
          <property name="text" >
           <string>TextLabel</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>

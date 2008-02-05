@@ -21,6 +21,8 @@
 #ifndef PATIENTSTATUSBAR_H
 #define PATIENTSTATUSBAR_H
 
+#include "patient.h"
+
 #include <QWidget>
 #include "ui_patientstatusbar.h"
 
@@ -30,20 +32,25 @@ class PatientStatusBar : public QWidget, private Ui::PatientStatusBar
 {
     Q_OBJECT
 public:
-    PatientStatusBar(QWidget* parent = 0, Qt::WFlags fl = 0 );
+    PatientStatusBar(QWidget* parent = 0);
     ~PatientStatusBar();
+
+    void setPatient(Patient& patient) {patient_ = patient;} 
     
-    void setName(const Name&);
-    void setO2Sat(int);
+    void setPatientInfo(const Name&, double kg, double bsa);
+    void displayO2Sat();
 
 public slots:
-  /*$PUBLIC_SLOTS$*/
+    void update();
 
 protected:
   /*$PROTECTED_FUNCTIONS$*/
 
 protected slots:
   /*$PROTECTED_SLOTS$*/
+
+private:
+    Patient patient_;
 
 };
 

@@ -28,6 +28,9 @@
 #include <QPixmap>
 #include <QGridLayout>
 
+const int AbstractButtonFrame::buttonHeight;
+const int AbstractButtonFrame::buttonWidth;
+
 /**
  * Constructs blue bar on left side of Navigator window
  * @param parent the QSplitter that owns this widget 

@@ -145,7 +145,6 @@ private:
     void doStudyCopy(MoveCopyStudyDialog&, bool move);
     bool studyOnDisk(const Study*) const; // make sure study is on current disk
     void studyNotOnDiskError();  // report study not on current disk
-    Recorder* getRecorder(); // returns the Recorder window
 
     // Administration related
     bool administrationAllowed();

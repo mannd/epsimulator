@@ -13,7 +13,6 @@ INCLUDEPATH += ../patient \
 SOURCES += simulatorsettingsdialog.cpp \
  patientdialog.cpp \
  changepassworddialog.cpp \
- passwordhandler.cpp \
  systemdialog.cpp \
  passworddialog.cpp \
  actions.cpp
@@ -21,7 +20,6 @@ SOURCES += simulatorsettingsdialog.cpp \
 HEADERS += simulatorsettingsdialog.h \
  patientdialog.h \
  changepassworddialog.h \
- passwordhandler.h \
  systemdialog.h \
  passworddialog.h \
  actions.h
