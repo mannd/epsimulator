@@ -17,13 +17,11 @@ LIBS += -lpatient \
  -lgui \
  -lcore \
  -L../../lib \
- ../../lib/libstimulator.a \
- ../../lib/libnavigator.a
+ ../../lib/libstimulator.a
 TARGETDEPS += ../../lib/libgui.so \
 ../../lib/libstimulator.a \
  ../../lib/libpatient.so \
- ../../lib/libcore.so \
- ../../lib/libnavigator.a
+ ../../lib/libcore.so
 CONFIG -= release
 
 CONFIG += debug \

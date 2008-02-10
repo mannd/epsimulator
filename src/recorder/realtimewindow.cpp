@@ -67,8 +67,15 @@ void RealTimeWindow::createToolBars() {
     toolBar->addAction(msCalipersAct_);
     toolBar->addAction(bpmCalipersAct_);
     toolBar->addSeparator();
-    toolBar->addAction(makeWindowActiveAct_);
-    toolBar->addAction(updateWindowToggleAct_);   
+    toolBar->addAction(offsetSignalsAct_);
+    toolBar->addAction(triggeredModeAct_);
+    toolBar->addAction(toggleAblationWindowAct_);
+    toolBar->addSeparator();
+    toolBar->addAction(realTime12LeadAct_);
+    toolBar->addSeparator();
+    toolBar->addAction(timerAct_);
+    toolBar->addAction(stopwatchAct_);
+    toolBar->addSeparator();
 
     addToolBar(toolBar); 
 }
@@ -94,14 +101,23 @@ void RealTimeWindow::createActions() {
     bpmCalipersAct_ = createAction(this, tr("BPM Calipers"),
         tr("Caliper value in BPM"), 0, 0, "hi32-bpmcalipers.png");
     bpmCalipersAct_->setCheckable(true);
-    makeWindowActiveAct_ = createAction(this, tr("Make Window Active"),
-        tr("Enable this review window for updates"), 0, 0,
-        "hi32-makewindowactive.png");
-    makeWindowActiveAct_->setCheckable(true);
-    updateWindowToggleAct_ = createAction(this, tr("Update Window On/Off"),
-        tr("Toggle review window updating"), 0, 0,
-        "hi32-updatewindowtoggle.png");
-    updateWindowToggleAct_->setCheckable(true);   
+    offsetSignalsAct_ = createAction(this, tr("Offset Signals"),
+        tr("Offset signals"), 0, 0, "hi32-offsetsignals.png");
+    triggeredModeAct_ = createAction(this, tr("Triggered Mode"),
+        tr("Toggle triggered mode"), 0, 0, "hi32-triggeredmode.png");
+    triggeredModeAct_->setCheckable(true);
+    toggleAblationWindowAct_ = createAction(this, 
+        tr("Toggle Ablation Window"),
+        tr("Toggle ablation window"), 0, 0, "hi32-toggleablationwindow.png");
+    toggleAblationWindowAct_->setCheckable(true);
+    realTime12LeadAct_ = createAction(this, tr("Real-Time 12-Lead"),
+        tr("Print 12-lead of real-time data"), 0, 0, 
+        "hi32-realtime12lead.png");
+    timerAct_ = createAction(this, tr("Timer"),
+        tr("Open count down timer"), 0, 0, "hi32-timer.png");
+    stopwatchAct_ = createAction(this, tr("Stopwatch"),
+        tr("Open count up timer"), 0,0, "hi32-stopwatch.png");
+    
 
 }
 

@@ -23,7 +23,6 @@
 
 #include "ui_passworddialog.h"
 
-class Options;
 class PasswordHandler;
 class QString;
 
@@ -32,7 +31,7 @@ class PasswordDialog : public QDialog,
     Q_OBJECT
 
 public:
-    PasswordDialog(Options* options, QWidget* parent = 0);
+    PasswordDialog(QWidget* parent = 0);
 
     /// public function, just for debugging and testing.
     void setPassword(const QString&); 

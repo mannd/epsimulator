@@ -27,12 +27,12 @@
 #include <qmessagebox.h>
 
 
-PasswordDialog::PasswordDialog(Options* options, QWidget* parent)
+PasswordDialog::PasswordDialog(QWidget* parent)
     : QDialog(parent) {
     setupUi(this);
     // must set default password of blank
     passwordLineEdit->setText("");
-    pwHandler_ = new PasswordHandler(options);
+    pwHandler_ = new PasswordHandler();
 }
 
 void PasswordDialog::setPassword(const QString& pw) {

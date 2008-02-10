@@ -330,11 +330,11 @@ void TestEpSimulator::testGetSetPatientDialogDefaultStudies() {
 
 void TestEpSimulator::testPasswordDialog() {
     Options* o = Options::instance();
-    PasswordDialog* d = new PasswordDialog(o);
+    PasswordDialog* d = new PasswordDialog();
     // test consistency, will fail if line edit is giving gibberish
     bool result1 = d->testPassword();
     delete d;
-    PasswordDialog* d1 = new PasswordDialog(o);
+    PasswordDialog* d1 = new PasswordDialog();
     bool result2 = d1->testPassword();
     QVERIFY(result1 == result2);
     // another consistency test
@@ -356,7 +356,7 @@ void TestEpSimulator::testPasswordDialog() {
 
 void TestEpSimulator::testPasswordHandler() {
     Options* o = Options::instance();
-    PasswordHandler* ph = new PasswordHandler(o);
+    PasswordHandler* ph = new PasswordHandler();
     QString s = "password1";
     ph->setPassword(s);
     QString testPasswordHash = o->passwordHash();
@@ -509,6 +509,22 @@ void TestEpSimulator::testSaturation() {
     QCOMPARE(sat.number(), 100);
     sat.setNumber(-90);
     QCOMPARE(sat.number(), 0);
+    sat = 99;
+    sat = sat + 2;
+    QCOMPARE(sat.number(), 100);
+    --sat;
+    QCOMPARE(sat.number(), 99);
+    sat -= 9;
+    QCOMPARE(sat.number(), 90);
+    sat = 1;
+    sat--;
+    QCOMPARE(sat.number(), 0);
+    Saturation sat2 = sat--;
+    QCOMPARE(sat2.number(), 0);
+    QCOMPARE(sat.number(), 0);
+    QVERIFY(sat2 == sat);
+    ++sat2;
+    QVERIFY(sat2 != sat);
 }
 
 void TestEpSimulator::cleanupTestCase() {

@@ -28,7 +28,7 @@
 ChangePasswordDialog::ChangePasswordDialog(Options* options, QWidget *parent)
     : QDialog(parent) {
     setupUi(this);
-    pwHandler_ = new PasswordHandler(options);
+    pwHandler_ = new PasswordHandler();
 }
 
 bool ChangePasswordDialog::testPasswordsEqual() const {

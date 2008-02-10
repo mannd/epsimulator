@@ -20,17 +20,23 @@
 
 #include "patientstatusbar.h"
 
+#include "patient.h"
 #include "study.h"
 
 #include <QDateTime>
 #include <QTimer>
+#include <QWidget>
+
+Saturation PatientStatusBar::warningO2Sat_ = 90;
+Saturation PatientStatusBar::dangerO2Sat_ = 80;
+Saturation PatientStatusBar::malfunctionO2Sat_ = 40;
 
 PatientStatusBar::PatientStatusBar(QWidget* parent)
-    : QWidget(parent) {
+    : QWidget(parent), patient_(0) {
     setupUi(this);
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(1000);
+    timer_ = new QTimer(this);
+    connect(timer_, SIGNAL(timeout()), this, SLOT(update()));
+    timer_->start(1000);
 }
 
 PatientStatusBar::~PatientStatusBar() {
@@ -44,13 +50,27 @@ void PatientStatusBar::setPatientInfo(const Name& name,
 }
 
 void PatientStatusBar::displayO2Sat() {
-    spO2Label->setText(patient_.o2Saturation().percent());
+    if (patient_) {
+        if (patient_->o2Saturation() < malfunctionO2Sat_)
+            spO2Label->setText(tr("***%"));
+        spO2Label->setText(patient_->o2Saturation().percent());
+    }
 }
 
 void PatientStatusBar::update() {
     displayO2Sat();
     timeLabel->setText(QTime::currentTime().toString());
     dateLabel->setText(QDate::currentDate().toString());
+}
+
+void PatientStatusBar::hide() {
+    timer_->stop();
+    hide();
+}
+
+void PatientStatusBar::show() {
+    timer_->start(1000);
+    show();
 }
     
 

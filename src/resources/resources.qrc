@@ -40,5 +40,11 @@
         <file>images/hi32-bpmcalipers.png</file>
         <file>images/hi32-makewindowactive.png</file>
         <file>images/hi32-updatewindowtoggle.png</file>
+        <file>images/hi32-offsetsignals.png</file>
+        <file>images/hi32-triggeredmode.png</file>
+        <file>images/hi32-toggleablationwindow.png</file>
+        <file>images/hi32-realtime12lead.png</file>
+        <file>images/hi32-timer.png</file>
+        <file>images/hi32-stopwatch.png</file>
    </qresource>
 </RCC>

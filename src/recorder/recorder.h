@@ -34,6 +34,7 @@ class QDockWidget;
 class QMdiArea;
 class QMenu;
 class Study;
+class User;
 
 class Recorder : public QMainWindow {
     Q_OBJECT
@@ -51,6 +52,9 @@ protected:
 
 private slots:
     void patientInformation();
+    void login();
+    void logout();
+    void changePassword();
     void about();
     void help(); 
     void closeStudy();
@@ -62,11 +66,13 @@ private:
     void createStatusBar();
     void createPatientStatusBar();
     void updateWindowTitle();
+    void updateAll();
     void readSettings();
     void saveSettings();
 
     Study* study_;
-    Patient patient_;
+    Patient* patient_;
+    User* user_;
 
     // central widget
     QMdiArea* workspace_;
@@ -133,7 +139,9 @@ private:
     QAction* imageLibraryAct_;
 
     // Administration Menu
-    QAction* securityAct_;
+    QAction* loginAct_;
+    QAction* logoutAct_;
+    QAction* changePasswordAct_;
     QAction* systemSettingsAct_;
     QAction* printSetupAct_;
     QAction* adminReportsAct_;   // there is a Report action in the Study menu too
@@ -155,6 +163,7 @@ private:
     QMenu* measurementsMenu_;
     QMenu* windowsMenu_;
     QMenu* administrationMenu_;
+    QMenu* securitySubMenu_;
     QMenu* helpMenu_;
 };
 

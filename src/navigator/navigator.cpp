@@ -37,7 +37,7 @@
 #include "movecopystudydialog.h"
 #include "opticaldisk.h"
 #include "options.h"
-#include "passworddialog.h"
+//#include "passworddialog.h"
 #include "patientdialog.h"
 #include "recorder.h"
 #include "selectstudyconfigdialog.h"
@@ -53,6 +53,7 @@
 #include <QAction>
 #include <QCloseEvent>
 #include <QDateTime>
+#include <QDesktopWidget>
 #include <QFileDialog>
 #include <QLabel>
 #include <QMenu>
@@ -463,19 +464,21 @@ void Navigator::updateAll() {
 }
 
 void Navigator::login() {
-    if (!user_->isAdministrator()) {
-        PasswordDialog* pwDialog = 
-            new PasswordDialog(options_,this);
-        if (pwDialog->exec() == QDialog::Accepted) {
-            user_->makeAdministrator(true);
-            updateAll();
-        }
-        delete pwDialog;
-    }
+    if (EpGui::login(this, user_))
+         updateAll();
+//     if (!user_->isAdministrator()) {
+//         PasswordDialog* pwDialog = 
+//             new PasswordDialog(options_,this);
+//         if (pwDialog->exec() == QDialog::Accepted) {
+//             user_->makeAdministrator(true);
+//             updateAll();
+//         }
+//         delete pwDialog;
+//     }
 }
 
 void Navigator::logout() {
-    user_->makeAdministrator(false);
+    EpGui::logout(user_);
     updateAll();
 }
 
@@ -1007,18 +1010,29 @@ void Navigator::startStudy(Study* s) {
     }
     s->setPath(studyPath);
     s->save();
-    // recorder saves pointer to navigator and unhides it when
-    // it "closes" (actually it hides itself too)
-    // We also reuse the same recorder all the time, 
-    // but use lazy initialization
-    if (!recorder_)
-        recorder_ = new Recorder(this);
-    recorder_->setStudy(s);
-    recorder_->show();
-    // looks better to show new window first, then hide this one,
-    // and vice versa
-    hide();
-
+    QDesktopWidget* desktopWidget = qApp->desktop();
+    if (desktopWidget->numScreens() > 1) {
+        /// TODO special handling of 2 screen system here.
+        /// Basically, will open another recorder window
+        /// on the second screen, with the review window on
+        /// it.  Real-time window will not be allowed on the
+        /// second screen.  With just one screen, review
+        /// window has to be spit screen with the real-time
+        /// window.
+    }
+    else {
+        // recorder saves pointer to navigator and unhides it when
+        // it "closes" (actually it hides itself too)
+        // We also reuse the same recorder all the time, 
+        // but use lazy initialization
+        if (!recorder_)
+            recorder_ = new Recorder(this);
+        recorder_->setStudy(s);
+        recorder_->show();
+        // looks better to show new window first, then hide this one,
+        // and vice versa
+        hide();
+    }
 }
 
 void Navigator::reviewStudy(Study*) {
@@ -1089,4 +1103,6 @@ Navigator::~Navigator() {
     delete catalogs_;
     delete currentDisk_;
     user_->destroy();
+    options_->destroy();
+    //versionInfo_->destroy();
 }

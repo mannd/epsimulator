@@ -31,7 +31,7 @@
  *   normal cardiac electrophysiology and arrhythmias.
  */
 
-#include "options.h"
+//#include "options.h"
 #include "navigator.h"
 #include "versioninfo.h"
 
@@ -66,12 +66,12 @@ int main(int argc, char **argv) {
 #endif
 
     VersionInfo* versionInfo = VersionInfo::instance();
-    Options* options = Options::instance();
+    //Options* options = Options::instance();
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
     Navigator* mainWin = new Navigator;
     mainWin->show();
     return app.exec();
     // delete the singletons -- only need to do here at end of program!
-    options->destroy();
+    //options->destroy();
     versionInfo->destroy();
 }

@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/core</activedir>
+      <activedir>src/gui</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>

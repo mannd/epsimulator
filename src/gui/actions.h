@@ -27,9 +27,13 @@
 class QAction;
 class QLineEdit;
 class QWidget;
+class User;
 
 namespace EpGui {
 
+bool login(QWidget*, User*);
+void logout(User*);
+void changePassword();
 void about(QWidget* parent);
 void help(QWidget* parent);
 

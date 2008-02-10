@@ -20,6 +20,8 @@
 
 #include "actions.h"
 
+#include "passworddialog.h"
+#include "user.h"
 #include "versioninfo.h"
 
 #include <QAction>
@@ -34,6 +36,26 @@
  * @namespace EpGui program functions that require QtGui
  */
 namespace EpGui {
+
+bool login(QWidget* widget, User* user) {
+    bool success = false;
+    if (!user->isAdministrator()) {
+        PasswordDialog* pwDialog = 
+            new PasswordDialog(widget);
+        if (pwDialog->exec() == QDialog::Accepted) {
+            user->makeAdministrator(true);
+            success = true;
+        }
+        delete pwDialog;
+    }
+    return success;
+}
+
+void logout(User* user) {
+    user->makeAdministrator(false);
+}
+
+void changePassword() {}
 
 void about(QWidget* parent) {
     VersionInfo* info = VersionInfo::instance();

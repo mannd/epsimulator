@@ -31,7 +31,7 @@ Encapsulates password alorithm and processing.
 */
 class PasswordHandler {
 public:
-    PasswordHandler(Options*);
+    PasswordHandler();
 
     void setPassword(const QString&);
     bool testPassword(const QString&);

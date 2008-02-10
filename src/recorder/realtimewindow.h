@@ -51,8 +51,12 @@ private:
     QAction* deleteAllCalipersAct_;
     QAction* msCalipersAct_;
     QAction* bpmCalipersAct_;
-    QAction* makeWindowActiveAct_;
-    QAction* updateWindowToggleAct_;    
+    QAction* offsetSignalsAct_;
+    QAction* triggeredModeAct_;
+    QAction* toggleAblationWindowAct_;
+    QAction* realTime12LeadAct_;
+    QAction* timerAct_;
+    QAction* stopwatchAct_;  
 
 };
 

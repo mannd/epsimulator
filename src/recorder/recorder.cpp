@@ -28,6 +28,7 @@
 #include "realtimewindow.h"
 #include "settings.h"
 #include "study.h"
+#include "user.h"
 #include "versioninfo.h"
 
 #include <QAction>
@@ -47,7 +48,7 @@
 
 
 Recorder::Recorder(QWidget* parent)
-    : QMainWindow(parent), study_(0) {
+    : QMainWindow(parent), study_(0), user_(User::instance()) {
     //workspace_ = new QMdiArea(this);
     workspace_ = new QMdiArea(this);
     RealTimeWindow* realTimeWindow = new RealTimeWindow;
@@ -74,19 +75,25 @@ void Recorder::updateWindowTitle() {
     QString title = tr("%1")
         .arg(VersionInfo::instance()->programName());
     /// TODO need to have user stuff in Recorder
-//    title = user_->isAdministrator() ? 
-//        QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
+    title = User::instance()->isAdministrator() ? 
+        QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
     setWindowTitle(title);
+}
+
+void Recorder::updateAll() {
+    updateWindowTitle();
 }
 
 Recorder::~Recorder() {
     // note study_ is deleted in closeStudy
+    delete patient_;
 }
 
 void Recorder::setStudy(Study* s) {
     study_ = s;
-    patient_.setPath(s->path());
-    patient_.load();
+    patient_ = new Patient;
+    patient_->setPath(s->path());
+    patient_->load();
     patientStatusBar_->setPatient(patient_);
     patientStatusBar_->setPatientInfo(s->name(), s->weight(), s->bsa());
 }
@@ -120,9 +127,10 @@ void Recorder::closeStudy() {
                                     QMessageBox::No | QMessageBox::Escape);
     if (ret == QMessageBox::Yes) {
         study_->save();
-        patient_.save();
+        patient_->save();
         // get rid of study_
         delete study_;
+        //delete patient_;
         if (Navigator* parentWidget = dynamic_cast<Navigator*>(parent())) {
             parentWidget->regenerateCatalogs();
             parentWidget->show();
@@ -150,6 +158,18 @@ void Recorder::readSettings() {
     resize(size.toSize());
     move(settings.value("/recorderPos").toPoint());
 }
+
+void Recorder::login() {
+    EpGui::login(this, user_);
+    updateAll();
+}
+
+void Recorder::logout() {
+    EpGui::logout(user_);
+    updateAll();
+}
+
+void Recorder::changePassword() {}
 
 void Recorder::help() {
     EpGui::help(this);
@@ -318,8 +338,14 @@ void Recorder::createActions()
     imageLibraryAct_ = createAction(this, tr("Image Library"),
        tr("Show image library window"));
     imageLibraryAct_->setCheckable(true);
-    securityAct_ = createAction(this, tr("Security"),
-        tr("Security settings"));
+
+    // Administration menu
+    loginAct_= createAction(this, tr("Login..."),
+        tr("Login as administrator"), SLOT(login()));
+    logoutAct_= createAction(this, tr("Logout"),
+        tr("Logout from administrator"), SLOT(logout()));
+    changePasswordAct_= createAction(this, tr("Change Password..."),
+        tr("Change administrator password"), SLOT(changePassword()));
     systemSettingsAct_ = createAction(this, tr("System Settings"),
         tr("Configure system settings"));
     printSetupAct_ = createAction(this, tr("Print Setup"),
@@ -412,7 +438,11 @@ void Recorder::createMenus()
     windowsMenu_->addAction(imageLibraryAct_);
 
     administrationMenu_ = menuBar()->addMenu(tr("&Administration"));
-    administrationMenu_->addAction(securityAct_);
+    securitySubMenu_ = new QMenu(tr("Security"));
+    securitySubMenu_->addAction(loginAct_);
+    securitySubMenu_->addAction(logoutAct_);
+    securitySubMenu_->addAction(changePasswordAct_);
+    administrationMenu_->addMenu(securitySubMenu_);
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(systemSettingsAct_);
     administrationMenu_->addAction(printSetupAct_);

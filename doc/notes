@@ -497,7 +497,8 @@ Doxygen usage
     Some conventions for using the Doxygen system.  Will use the JAVADOC style:
 
 /**
- *  Comment.
+ * @file filename.cpp
+ * Comment.
  */
 
     That means key words with be preceded by @, not \, e.g. @class.  Will put all Doxygen comments for member functions into the source file, not the header file.  Class comments must be in the header.
@@ -513,6 +514,13 @@ Patient classes
 Hardware classes
 
     Include the stimulator (a floating dockable window), catheters, junction box, amplifier.
+
+Multiple desktops
+
+QApplication::display() returns a QDesktopWiget*.  From this, number of windows and which is the primary window can be obtained.  Presumably if there are 2 displays, the review window can be placed there.
+
+Randomizing patient data.
+    When time passes and a study is resumed, the patient data is loaded, then there should be some randomization.  There should be some randomization at the start too.  During the simulation, in addition to the factors that have a deterministic effect on physiologic parameters (e.g. low resp rate should lower O2 sat, there is a "jiggle" effect.  jiggle() should be a template function that takes the type of data (e.g. Saturation) and applies random fluctuations.  This should include short term and long term fluctuations, with a standard deviation for both.  E.g. O2Saturation on a short term basis (i.e. each time the function is called, could occasionally go up or down 1 or 2 percentage points, and randomly occasionally there is a greater shift.  
 
 
 

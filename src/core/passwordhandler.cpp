@@ -24,8 +24,8 @@
 #include <QObject>
 #include <QString>
 
-PasswordHandler::PasswordHandler(Options* options) :
-    options_(options), hash_(QCryptographicHash::Sha1){
+PasswordHandler::PasswordHandler() :
+    options_(Options::instance()), hash_(QCryptographicHash::Sha1){
     // set original password to "admin"
     if (options_->passwordHash() == "0")
         setPassword(QObject::tr("admin"));
