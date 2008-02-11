@@ -86,6 +86,11 @@ void SystemDialog::setOptions() {
     options_->writeSettings();
 }
 
+void SystemDialog::disableFilePathsTab() {
+    filePathsTabWidget->setCurrentIndex(0);
+    filePathsTabWidget->currentWidget()->setEnabled(false);
+}
+
 void SystemDialog::opticalStudyPathBrowse() {
     EpGui::browseFilePaths(this, opticalStudyPathLineEdit);
 }

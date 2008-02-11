@@ -1,7 +1,6 @@
 
 FORMS += ui/filtercatalogdialog.ui \
          ui/disklabeldialog.ui \
-         ui/selectemulateddiskdialog.ui \
          ui/selectstudyconfigdialog.ui \
          ui/movecopystudydialog.ui
 TRANSLATIONS += epsimulator_de.ts \
@@ -12,24 +11,20 @@ HEADERS += navigator.h \
            catalogcombobox.h \
            catalog.h \
            tablelistview.h \
-           opticaldisk.h \
            disklabeldialog.h \
            buttonframe.h \
            statusbar.h \
-           selectemulateddiskdialog.h \
- selectstudyconfigdialog.h \
+           selectstudyconfigdialog.h \
  filtercatalogdialog.h \
  movecopystudydialog.h
 SOURCES += navigator.cpp \
            catalogcombobox.cpp \
            catalog.cpp \
            tablelistview.cpp \
-           opticaldisk.cpp \
            disklabeldialog.cpp \
            buttonframe.cpp \
            statusbar.cpp \
-           selectemulateddiskdialog.cpp \
- selectstudyconfigdialog.cpp \
+           selectstudyconfigdialog.cpp \
  filtercatalogdialog.cpp \
  movecopystudydialog.cpp
 TEMPLATE = lib
@@ -40,20 +35,12 @@ qt \
  staticlib
 CONFIG -= release
 
-LIBS += -L../../lib \
- -lgui \
- -lrecorder \
- -lpatient \
- -lcore
-TARGETDEPS += ../../lib/librecorder.so \
- ../../lib/libpatient.so \
- ../../lib/libgui.so \
- ../../lib/libcore.so
 
 INCLUDEPATH += ../gui \
  ../recorder \
  ../patient \
- ../core
+ ../core \
+ ../hardware
 
 #The following line was inserted by qt3to4
 QT +=  qt3support 
@@ -62,3 +49,12 @@ RESOURCES += ../resources/resources.qrc
 
 DESTDIR = ../../lib/
 
+LIBS += -L../../lib \
+-lcore \
+-lpatient \
+-lgui \
+-lhardware
+TARGETDEPS += ../../lib/libcore.so \
+../../lib/libpatient.so \
+../../lib/libgui.so \
+../../lib/libhardware.so

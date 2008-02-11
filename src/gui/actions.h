@@ -24,6 +24,7 @@
 #include <QKeySequence>
 #include <QString>
 
+class Options;
 class QAction;
 class QLineEdit;
 class QWidget;
@@ -33,9 +34,10 @@ namespace EpGui {
 
 bool login(QWidget*, User*);
 void logout(User*);
-void changePassword();
-void about(QWidget* parent);
-void help(QWidget* parent);
+void changePassword(QWidget*, Options*);
+bool showSimulatorSettings(Options*, User*);
+void about(QWidget*);
+void help(QWidget*);
 
 // Gives "not implemented yet" error message.
 void filler(QWidget*);

@@ -8,12 +8,14 @@ QT += qt3support
 SUBDIRS += src/core \
            src/patient \
            src/gui \
+           src/hardware \
            src/stimulator \
 	   src/recorder \
            src/navigator \
            src/main \
            src/test 
-           
+ 
+
 
 TEMPLATE = subdirs
 CONFIG += debug \

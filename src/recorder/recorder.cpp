@@ -21,22 +21,25 @@
 #include "recorder.h"
 
 #include "actions.h"
-//#include "fileutilities.h"
 #include "navigator.h"
+#include "opticaldisk.h"
+#include "options.h"
 #include "patientdialog.h"
 #include "patientstatusbar.h"
 #include "realtimewindow.h"
 #include "settings.h"
+#include "simulatorsettingsdialog.h"
 #include "study.h"
+#include "systemdialog.h"
 #include "user.h"
 #include "versioninfo.h"
 
 #include <QAction>
 #include <QComboBox>
 #include <QDockWidget>
-#include <qlabel.h>
+#include <QLabel>
 #include <QMainWindow>
-#include <qmessagebox.h>
+#include <QMessageBox>
 #include <QMenu>
 #include <QMenuBar>
 #include <QMdiArea>
@@ -48,7 +51,8 @@
 
 
 Recorder::Recorder(QWidget* parent)
-    : QMainWindow(parent), study_(0), user_(User::instance()) {
+    : QMainWindow(parent), study_(0), user_(User::instance()),
+    options_(Options::instance()), currentDisk_(0) {
     //workspace_ = new QMdiArea(this);
     workspace_ = new QMdiArea(this);
     RealTimeWindow* realTimeWindow = new RealTimeWindow;
@@ -63,8 +67,8 @@ Recorder::Recorder(QWidget* parent)
     createMenus();
     createToolBars();
 
-    setWindowTitle(tr("EP Simulator"));
-    //setStatusBar(0);    // no status bar
+    updateAll();
+
     createStatusBar();
     createPatientStatusBar();
     readSettings();
@@ -81,6 +85,7 @@ void Recorder::updateWindowTitle() {
 }
 
 void Recorder::updateAll() {
+    updateMenus();
     updateWindowTitle();
 }
 
@@ -111,6 +116,33 @@ void Recorder::patientInformation() {
     delete patientDialog;
 }
 
+void Recorder::systemSettings() {
+    if (administrationAllowed()) {
+        SystemDialog* systemDialog = new SystemDialog(options_, 
+            currentDisk_->studiesPath(), currentDisk_->label(),
+            currentDisk_->translatedSide(), this);
+        // I'm not sure what the Prucka does, but it's probably
+        // crazy to change filepaths while in the Recorder!
+        systemDialog->disableFilePathsTab();
+        if (systemDialog->exec() == QDialog::Accepted) 
+            systemDialog->setOptions();
+        delete systemDialog;
+    }
+}
+
+void Recorder::simulatorSettings() {
+    if (administrationAllowed()) {
+        SimulatorSettingsDialog* simDialog = 
+            new SimulatorSettingsDialog(options_, this);
+        simDialog->disableNavigatorTab();
+        if (simDialog->exec() == QDialog::Accepted) {
+            simDialog->setOptions();
+            updateMenus();
+        }
+        delete simDialog;
+    }
+}
+
 void Recorder::closeEvent(QCloseEvent *event) {
     // don't allow closing, as in Qt, closing a main window closes the
     // application.
@@ -121,10 +153,10 @@ void Recorder::closeEvent(QCloseEvent *event) {
 
 void Recorder::closeStudy() {
     int ret = QMessageBox::question(this,
-                                    tr("Close Study?"),
-                                    tr("Select Yes to return to EP Simulator Navigator"),
-                                    QMessageBox::Yes | QMessageBox::Default,
-                                    QMessageBox::No | QMessageBox::Escape);
+        tr("Close Study?"),
+        tr("Select Yes to return to EP Simulator Navigator"),
+        QMessageBox::Yes | QMessageBox::Default,
+        QMessageBox::No | QMessageBox::Escape);
     if (ret == QMessageBox::Yes) {
         study_->save();
         patient_->save();
@@ -134,6 +166,7 @@ void Recorder::closeStudy() {
         if (Navigator* parentWidget = dynamic_cast<Navigator*>(parent())) {
             parentWidget->regenerateCatalogs();
             parentWidget->show();
+            parentWidget->updateAll();
         }
         hide();     // can't close, or app will terminate
         saveSettings();
@@ -169,7 +202,17 @@ void Recorder::logout() {
     updateAll();
 }
 
-void Recorder::changePassword() {}
+void Recorder::changePassword() {
+    if (administrationAllowed())
+        EpGui::changePassword(this, options_);
+}
+
+bool Recorder::administrationAllowed() {
+    if (!options_->administratorAccountRequired())
+        return true;
+    login();
+    return user_->isAdministrator();
+}
 
 void Recorder::help() {
     EpGui::help(this);
@@ -203,6 +246,8 @@ void Recorder::createPatientStatusBar() {
     bottomDockWidget->setWindowFlags(flags);*/
     addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 }
+
+
 
 using EpGui::createAction;
 
@@ -347,7 +392,7 @@ void Recorder::createActions()
     changePasswordAct_= createAction(this, tr("Change Password..."),
         tr("Change administrator password"), SLOT(changePassword()));
     systemSettingsAct_ = createAction(this, tr("System Settings"),
-        tr("Configure system settings"));
+        tr("Configure system settings"), SLOT(systemSettings()));
     printSetupAct_ = createAction(this, tr("Print Setup"),
         tr("Setup printer"));
     adminReportsAct_ = createAction(this, tr("Reports"),
@@ -358,6 +403,10 @@ void Recorder::createActions()
         tr("Test amplifier"));
     ejectOpticalDiskAct_ = createAction(this, tr("Eject Optical Disk"),
         tr("Eject optical disk"));
+    simulatorSettingsAct_ = createAction(this, tr("*Simulator Settings*"),
+        tr("Change simulator settings"), SLOT(simulatorSettings()));
+
+    // Help menu
     helpAct_ = createAction(this, tr("EP Simulator Help"),
         tr("EP Simulator help"), SLOT(help()), tr("F1"));
     aboutAct_ = createAction(this, tr("&About EP Simulator"),
@@ -452,6 +501,8 @@ void Recorder::createMenus()
     administrationMenu_->addAction(amplifierTestAct_);
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(ejectOpticalDiskAct_);
+    administrationMenu_->addSeparator();
+    administrationMenu_->addAction(simulatorSettingsAct_);
 
     menuBar()->addSeparator();
 
@@ -482,6 +533,11 @@ void Recorder::createToolBars() {
     systemToolBar->addWidget(protocolComboBox_);
   
     addToolBar(systemToolBar);
+}
+
+void Recorder::updateMenus() {
+    simulatorSettingsAct_->setVisible(
+        EpGui::showSimulatorSettings(options_, user_));
 }
 
 

@@ -1,62 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="18" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/patient/study.h" >
-   <View0 Encoding="" line="0" Type="Source" />
-  </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/patient/patient.h" >
-   <View0 Encoding="" line="40" Type="Source" />
-  </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/patient/patient.cpp" >
-   <View0 Encoding="" line="45" Type="Source" />
-  </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/patient/saturation.h" >
-   <View0 Encoding="" line="32" Type="Source" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/patient/saturation.cpp" >
-   <View0 Encoding="" line="89" Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.h" >
-   <View0 Encoding="" line="36" Type="Source" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
-   <View0 Encoding="" line="164" Type="Source" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/actions.h" >
-   <View0 Encoding="" line="34" Type="Source" />
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/actions.cpp" >
-   <View0 Encoding="" line="41" Type="Source" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
-   <View0 Encoding="" line="27" Type="Source" />
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/patientstatusbar.h" >
-   <View0 Encoding="" line="33" Type="Source" />
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/patientstatusbar.cpp" >
-   <View0 Encoding="" line="31" Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="http://gcc.gnu.org/onlinedocs/libstdc++/26_numerics/howto.html" >
-   <View0 Type="Documentation" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/patient/study.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.h" >
-   <View0 Encoding="" line="210" Type="Source" />
-  </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/user.h" >
-   <View0 Encoding="" line="0" Type="Source" />
-  </Doc15>
-  <Doc16 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/changepassworddialog.cpp" >
-   <View0 Encoding="" line="44" Type="Source" />
-  </Doc16>
-  <Doc17 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/main/main.cpp" >
-   <View0 Encoding="" line="67" Type="Source" />
-  </Doc17>
- </DocsAndViews>
+ <DocsAndViews NumberOfDocuments="0" />
  <pluginList>
   <kdevdebugger>
    <breakpointList>
@@ -107,10 +52,10 @@
      <mark line="915" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="437" />
+     <mark line="444" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="444" />
+     <mark line="437" />
     </bookmark>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/changepassworddialog.h" >
      <mark line="34" />

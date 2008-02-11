@@ -522,6 +522,12 @@ QApplication::display() returns a QDesktopWiget*.  From this, number of windows 
 Randomizing patient data.
     When time passes and a study is resumed, the patient data is loaded, then there should be some randomization.  There should be some randomization at the start too.  During the simulation, in addition to the factors that have a deterministic effect on physiologic parameters (e.g. low resp rate should lower O2 sat, there is a "jiggle" effect.  jiggle() should be a template function that takes the type of data (e.g. Saturation) and applies random fluctuations.  This should include short term and long term fluctuations, with a standard deviation for both.  E.g. O2Saturation on a short term basis (i.e. each time the function is called, could occasionally go up or down 1 or 2 percentage points, and randomly occasionally there is a greater shift.  
 
+Probability
+    Relevant to the preceding paragraph, certain events occur randomly.  E.g., the O2Sat probe falls off the finger.  Maybe the chance of this increases if the patient is not adequately sedated and is moving around.  It happens once in a while anyway.  A Probability class represents the chance (a double from 0.0 to 1.0) that and event will happen per unit time (maybe standardize the updating of patient data to once a second).  A random number will be generated each second, and all probabilities less than that number will come true.  An event like the probe falling off will be permanent until it is fixed (there will be a way to do this).  Maybe the prob should go down after it is fixed (it is put on more carefully the second time perhaps!).  
+
+Hardware
+    src/hardware contains the emulated hardware, e.g. the opticaldisk, a sat monitor, the catheters, junction box, amplifier, etc.  Maybe also the stimulator.  We need a menu item Hardware (not present on the real Prucka unfortunately).  This is used to bring up the floating windows that are the hardware items.  On the other hand, these items could be added to the Windows menu item.  Probably better though to keep them separate and add the menu item, or add a toolbar icon like the study configuration one.  
+
 
 
     

@@ -20,7 +20,6 @@ INCLUDEPATH += ../core
 LIBS += -L../../lib \
  -lcore
 
-TARGETDEPS += ../../lib/libcore.so
 
 QT -= gui
 

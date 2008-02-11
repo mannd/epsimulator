@@ -20,7 +20,7 @@
 #ifndef OPTICALDISK_H
 #define OPTICALDISK_H
 
-#include <qstring.h>
+#include <QString>
 
 #include <vector>
 

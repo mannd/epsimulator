@@ -46,10 +46,7 @@ public:
                  QWidget *parent = 0);
 
     void setOptions();
-
-    
-/// TODO make the set check boxes functions, so that the line edits and
-/// browse buttons will be enabled correctly
+    void disableFilePathsTab();
 
     ~SystemDialog();
 

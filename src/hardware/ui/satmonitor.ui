@@ -1,0 +1,67 @@
+<ui version="4.0" >
+ <class>SatMonitor</class>
+ <widget class="QWidget" name="SatMonitor" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>393</width>
+    <height>260</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Sat Monitor</string>
+  </property>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>30</x>
+     <y>30</y>
+     <width>341</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" >
+    <item row="0" column="0" >
+     <widget class="QLabel" name="label" >
+      <property name="font" >
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text" >
+       <string>O2 Sat</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" >
+     <widget class="QLCDNumber" name="o2LcdNumber" />
+    </item>
+    <item row="1" column="0" >
+     <widget class="QLabel" name="label_2" >
+      <property name="font" >
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text" >
+       <string>CO2 Sat</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" >
+     <widget class="QLCDNumber" name="cO2LcdNumber" />
+    </item>
+    <item row="2" column="0" >
+     <widget class="QCheckBox" name="onOffCheckBox" >
+      <property name="text" >
+       <string>On/Off</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

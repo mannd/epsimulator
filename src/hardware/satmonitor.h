@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,42 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "selectemulateddiskdialog.h"
 
-//#include <q3listbox.h>
-//#include <qpushbutton.h>
-#include <qstringlist.h>
+#ifndef SATMONITOR_H
+#define SATMONITOR_H
 
-SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent)
-    : QDialog(parent), select_(false),
-      new_(false), flip_(false) {
-    setupUi(this);
-    // not sure if this is working the same as with qt3
-    enableButtons();
-    connect(labelListWidget, SIGNAL(itemSelectionChanged()),
-        this, SLOT(enableButtons()));
-    connect(newDiskPushButton, SIGNAL(clicked()),
-        this, SLOT(setNew()));
-    connect(selectPushButton, SIGNAL(clicked()),
-        this, SLOT(setSelect()));
-    connect(flipDiskPushButton, SIGNAL(clicked()),
-        this, SLOT(setFlip()));
-    connect(labelListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-        this, SLOT(setSelect()));
-}
+#include <QWidget>
+#include "ui_satmonitor.h"
 
-void SelectEmulatedDiskDialog::setLabelList(const QStringList& stringList) {
-    labelListWidget->insertItems(0, stringList);
-}
+class SatMonitor : public QWidget, private Ui::SatMonitor
+{
+  Q_OBJECT
 
-void SelectEmulatedDiskDialog::toggleFlipDisk(bool flip) {
-    flipDiskPushButton->setEnabled(flip);
-}
+public:
+  SatMonitor(QWidget* parent = 0, Qt::WFlags fl = 0 );
+  ~SatMonitor();
+  /*$PUBLIC_FUNCTIONS$*/
 
-void SelectEmulatedDiskDialog::enableButtons() {
-    selectPushButton->setEnabled(labelListWidget->currentItem());
-    flipDiskPushButton->setEnabled(labelListWidget->currentItem());
-}
+public slots:
+  /*$PUBLIC_SLOTS$*/
 
+protected:
+  /*$PROTECTED_FUNCTIONS$*/
 
+protected slots:
+  /*$PROTECTED_SLOTS$*/
+
+};
+
+#endif
 

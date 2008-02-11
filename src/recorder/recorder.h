@@ -26,6 +26,8 @@
 
 #include <QMainWindow>
 
+class OpticalDisk;
+class Options;
 class PatientStatusBar;
 class QAction;
 class QCloseEvent;
@@ -40,9 +42,11 @@ class Recorder : public QMainWindow {
     Q_OBJECT
 
 public:
-    Recorder(QWidget* parent = 0);
+    Recorder(QWidget* parent);
     
     void setStudy(Study*);
+    void setCurrentDisk(OpticalDisk* disk) {currentDisk_ = disk;}
+    void updateAll();
 
     ~Recorder();
 
@@ -58,6 +62,8 @@ private slots:
     void about();
     void help(); 
     void closeStudy();
+    void systemSettings();
+    void simulatorSettings();
 
 private:
     void createActions();
@@ -66,13 +72,16 @@ private:
     void createStatusBar();
     void createPatientStatusBar();
     void updateWindowTitle();
-    void updateAll();
     void readSettings();
     void saveSettings();
+    bool administrationAllowed();
+    void updateMenus();
 
     Study* study_;
     Patient* patient_;
     User* user_;
+    Options* options_;
+    OpticalDisk* currentDisk_;
 
     // central widget
     QMdiArea* workspace_;
@@ -148,7 +157,9 @@ private:
     QAction* compressionRatioAct_;
     QAction* amplifierTestAct_;
     QAction* ejectOpticalDiskAct_;
+    QAction* simulatorSettingsAct_;
     
+    // Help Menu
     QAction* helpAct_;
     QAction* aboutAct_;
 

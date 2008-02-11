@@ -12,16 +12,8 @@ INCLUDEPATH += ../gui \
 ../stimulator \
  ../patient \
  ../core \
- ../navigator
-LIBS += -lpatient \
- -lgui \
- -lcore \
- -L../../lib \
- ../../lib/libstimulator.a
-TARGETDEPS += ../../lib/libgui.so \
-../../lib/libstimulator.a \
- ../../lib/libpatient.so \
- ../../lib/libcore.so
+ ../navigator \
+ ../hardware
 CONFIG -= release
 
 CONFIG += debug \
@@ -42,3 +34,12 @@ RESOURCES += ../resources/resources.qrc
 
 FORMS += ui/patientstatusbar.ui
 
+LIBS += -L../../lib \
+-lcore \
+-lpatient \
+-lgui \
+-lhardware
+TARGETDEPS += ../../lib/libcore.so \
+../../lib/libpatient.so \
+../../lib/libgui.so \
+../../lib/libhardware.so

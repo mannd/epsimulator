@@ -29,7 +29,6 @@
 #include "buttonframe.h"
 #include "catalog.h"
 #include "catalogcombobox.h"
-#include "changepassworddialog.h"
 #include "disklabeldialog.h"
 #include "error.h"
 #include "fileutilities.h"
@@ -37,7 +36,6 @@
 #include "movecopystudydialog.h"
 #include "opticaldisk.h"
 #include "options.h"
-//#include "passworddialog.h"
 #include "patientdialog.h"
 #include "recorder.h"
 #include "selectstudyconfigdialog.h"
@@ -483,13 +481,8 @@ void Navigator::logout() {
 }
 
 void Navigator::changePassword() {
-    if (administrationAllowed()) {
-        ChangePasswordDialog* cpDialog = new ChangePasswordDialog(options_, this);
-        if (cpDialog->exec() == QDialog::Accepted) {
-            cpDialog->changePassword();
-        }
-        delete cpDialog;   
-    }
+    if (administrationAllowed())
+        EpGui::changePassword(this, options_);
 }
 
 /// Checks to see if administrator access if required, if it is,
@@ -735,9 +728,8 @@ void Navigator::createStatusBar() {
 }
 
 void Navigator::updateMenus() {
-    bool showSimulatorSettings = !options_->hideSimulatorMenu() ||
-        user_->isAdministrator();
-    simulatorOptionsAct_->setVisible(showSimulatorSettings);
+    simulatorSettingsAct_->setVisible(
+        EpGui::showSimulatorSettings(options_, user_));
 }
 
 using EpGui::createAction;
@@ -827,7 +819,7 @@ void Navigator::createActions() {
         tr("Study configurations"), SLOT(setStudyConfigurations()));
     systemSettingsAct_= createAction(this, tr("System Settings"),
         tr("Change system settings"), SLOT(systemSettings()));
-    simulatorOptionsAct_ = createAction(this, tr("*Simulator Settings*"),
+    simulatorSettingsAct_ = createAction(this, tr("*Simulator Settings*"),
         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Help menu
@@ -906,7 +898,7 @@ void Navigator::createMenus() {
     administrationMenu_->addAction(studyConfigurationsAct_);
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(systemSettingsAct_);
-    administrationMenu_->addAction(simulatorOptionsAct_);
+    administrationMenu_->addAction(simulatorSettingsAct_);
     // insert reports submenu here
 
     menuBar()->addSeparator();
@@ -1028,6 +1020,8 @@ void Navigator::startStudy(Study* s) {
         if (!recorder_)
             recorder_ = new Recorder(this);
         recorder_->setStudy(s);
+        recorder_->setCurrentDisk(currentDisk_);
+        recorder_->updateAll(); // show administrator status, etc.
         recorder_->show();
         // looks better to show new window first, then hide this one,
         // and vice versa

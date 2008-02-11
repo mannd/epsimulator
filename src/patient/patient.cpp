@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,52 +17,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include "patient.h"
 
-#ifndef SIMULATORSETTINGSDIALOG_H
-#define SIMULATORSETTINGSDIALOG_H
+#include "fileutilities.h"
 
-#include "ui_simulatorsettingsdialog.h"
+#include <QDataStream>
+#include <QDir>
+#include <QString>
 
-#include <qcheckbox.h>
-#include <QDialog>
+const QString Patient::fileName_ = "patient.dat";
 
-class Options;
-
-class SimulatorSettingsDialog : public QDialog, 
-				private Ui::SimulatorSettingsDialog
-{
-    Q_OBJECT
-
-public:
-    SimulatorSettingsDialog(Options* options, QWidget* parent = 0);
-
-    void setOptions();
-    void disableNavigatorTab();
-
-//    using SimulatorSettingsDialogBase::exec;
-
-    ~SimulatorSettingsDialog();
-    
-public slots:
-    virtual void enableDriveEmulation();
-
-private:
-    inline bool emulateOpticalDrive() const;
-    bool dualSidedDrive() const;
-    int emulatedOpticalDriveCapacity() const;
-
-    void setEmulateOpticalDrive(bool);
-    void setDualSidedDrive(bool);
-    void setEmulatedOpticalDriveCapacity(int);
-
-    Options* options_;
-
-};
-
-bool SimulatorSettingsDialog::emulateOpticalDrive() const {
-    return emulateOpticalDriveCheckBox->isChecked();
+QDataStream& operator<<(QDataStream& out, const Patient& patient) {
+    out << patient.path_ << patient.o2Saturation_;
+    return out;
 }
 
+QDataStream& operator>>(QDataStream& in, Patient& patient) {
+    in >> patient.path_ >> patient.o2Saturation_;
+    return in;
+}
 
-#endif
+Patient::Patient() : path_(0), 
+    o2Saturation_(0) {
+}
+
+Saturation Patient::o2Saturation() {
+    o2Saturation_ = o2Saturation_ + 1;
+    return o2Saturation_;
+}
+
+void Patient::load() {
+ EpCore::loadData(filePath(), MagicNumber, *this);
+}
+
+void Patient::save() {
+ EpCore::saveData(filePath(), MagicNumber, *this);
+}
+
+QString Patient::filePath() {
+    return QDir::cleanPath(path_ + "/" + fileName_);
+}
+
+Patient::~Patient() {
+}
+
 

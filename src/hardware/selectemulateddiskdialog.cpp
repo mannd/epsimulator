@@ -17,52 +17,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include "selectemulateddiskdialog.h"
 
-#ifndef SIMULATORSETTINGSDIALOG_H
-#define SIMULATORSETTINGSDIALOG_H
+#include <QStringList>
 
-#include "ui_simulatorsettingsdialog.h"
+SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent)
+    : QDialog(parent), select_(false),
+      new_(false), flip_(false) {
+    setupUi(this);
+    // not sure if this is working the same as with qt3
+    enableButtons();
+    connect(labelListWidget, SIGNAL(itemSelectionChanged()),
+        this, SLOT(enableButtons()));
+    connect(newDiskPushButton, SIGNAL(clicked()),
+        this, SLOT(setNew()));
+    connect(selectPushButton, SIGNAL(clicked()),
+        this, SLOT(setSelect()));
+    connect(flipDiskPushButton, SIGNAL(clicked()),
+        this, SLOT(setFlip()));
+    connect(labelListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+        this, SLOT(setSelect()));
+}
 
-#include <qcheckbox.h>
-#include <QDialog>
+void SelectEmulatedDiskDialog::setLabelList(const QStringList& stringList) {
+    labelListWidget->insertItems(0, stringList);
+}
 
-class Options;
+void SelectEmulatedDiskDialog::toggleFlipDisk(bool flip) {
+    flipDiskPushButton->setEnabled(flip);
+}
 
-class SimulatorSettingsDialog : public QDialog, 
-				private Ui::SimulatorSettingsDialog
-{
-    Q_OBJECT
-
-public:
-    SimulatorSettingsDialog(Options* options, QWidget* parent = 0);
-
-    void setOptions();
-    void disableNavigatorTab();
-
-//    using SimulatorSettingsDialogBase::exec;
-
-    ~SimulatorSettingsDialog();
-    
-public slots:
-    virtual void enableDriveEmulation();
-
-private:
-    inline bool emulateOpticalDrive() const;
-    bool dualSidedDrive() const;
-    int emulatedOpticalDriveCapacity() const;
-
-    void setEmulateOpticalDrive(bool);
-    void setDualSidedDrive(bool);
-    void setEmulatedOpticalDriveCapacity(int);
-
-    Options* options_;
-
-};
-
-bool SimulatorSettingsDialog::emulateOpticalDrive() const {
-    return emulateOpticalDriveCheckBox->isChecked();
+void SelectEmulatedDiskDialog::enableButtons() {
+    selectPushButton->setEnabled(labelListWidget->currentItem());
+    flipDiskPushButton->setEnabled(labelListWidget->currentItem());
 }
 
 
-#endif
 

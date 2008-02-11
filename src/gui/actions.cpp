@@ -20,6 +20,8 @@
 
 #include "actions.h"
 
+#include "changepassworddialog.h"
+#include "options.h"
 #include "passworddialog.h"
 #include "user.h"
 #include "versioninfo.h"
@@ -37,11 +39,11 @@
  */
 namespace EpGui {
 
-bool login(QWidget* widget, User* user) {
+bool login(QWidget* parent, User* user) {
     bool success = false;
     if (!user->isAdministrator()) {
         PasswordDialog* pwDialog = 
-            new PasswordDialog(widget);
+            new PasswordDialog(parent);
         if (pwDialog->exec() == QDialog::Accepted) {
             user->makeAdministrator(true);
             success = true;
@@ -55,7 +57,17 @@ void logout(User* user) {
     user->makeAdministrator(false);
 }
 
-void changePassword() {}
+void changePassword(QWidget* parent, Options* options) {
+    ChangePasswordDialog* cpDialog = 
+        new ChangePasswordDialog(options, parent);
+    if (cpDialog->exec() == QDialog::Accepted) 
+        cpDialog->changePassword();
+    delete cpDialog;   
+}
+
+bool showSimulatorSettings(Options* options, User* user) {
+    return !options->hideSimulatorMenu() || user->isAdministrator();
+}
 
 void about(QWidget* parent) {
     VersionInfo* info = VersionInfo::instance();

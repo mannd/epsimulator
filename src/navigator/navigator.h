@@ -56,6 +56,9 @@ class Navigator : public QMainWindow {
 
 public:
     Navigator(QWidget* parent = 0);
+
+    void updateAll();   // called by Recorder
+
     ~Navigator();
 
 public slots:
@@ -123,7 +126,6 @@ private:
     void readSettings();
     void updateStatusBarUserLabel();
     void updateWindowTitle();
-    void updateAll();
 
     // Optical disk related
     void labelDisk(bool reLabel, OpticalDisk* disk);
@@ -209,7 +211,7 @@ private:
     QAction* systemSettingsAct_;
     // Not part of the Prucka menu system!
     // Simulator options are set here.
-    QAction* simulatorOptionsAct_;
+    QAction* simulatorSettingsAct_;
 
     // Help menu
     QAction* epsimulatorHelpAct_;

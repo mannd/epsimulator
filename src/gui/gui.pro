@@ -44,5 +44,4 @@ TARGETDEPS += ../../lib/libpatient.so \
 RESOURCES += ../resources/resources.qrc
 
 
-QT += qt3support
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,52 +17,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PATIENT_H
+#define PATIENT_H
 
-#ifndef SIMULATORSETTINGSDIALOG_H
-#define SIMULATORSETTINGSDIALOG_H
+#include "saturation.h"
 
-#include "ui_simulatorsettingsdialog.h"
+#include <QString>
 
-#include <qcheckbox.h>
-#include <QDialog>
+class QDataStream;
 
-class Options;
-
-class SimulatorSettingsDialog : public QDialog, 
-				private Ui::SimulatorSettingsDialog
-{
-    Q_OBJECT
-
+/**
+ * real-time patient simulation
+ *
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
+class Patient{
 public:
-    SimulatorSettingsDialog(Options* options, QWidget* parent = 0);
+    friend QDataStream& operator<<(QDataStream&, const Patient&);
+    friend QDataStream& operator>>(QDataStream&, Patient&);
 
-    void setOptions();
-    void disableNavigatorTab();
+    Patient();
 
-//    using SimulatorSettingsDialogBase::exec;
+    Saturation o2Saturation();
 
-    ~SimulatorSettingsDialog();
-    
-public slots:
-    virtual void enableDriveEmulation();
+    void setPath(const QString& path) {path_ = path;}
+
+    void load();        
+    void save();        
+
+    ~Patient();
 
 private:
-    inline bool emulateOpticalDrive() const;
-    bool dualSidedDrive() const;
-    int emulatedOpticalDriveCapacity() const;
+    QString filePath();  // get full path to patient file
 
-    void setEmulateOpticalDrive(bool);
-    void setDualSidedDrive(bool);
-    void setEmulatedOpticalDriveCapacity(int);
+    static const QString fileName_;
+    enum {MagicNumber = 0x99379335};  // for patient.dat file
 
-    Options* options_;
-
+    QString path_;      // path to patient.dat file
+    Saturation o2Saturation_;
 };
 
-bool SimulatorSettingsDialog::emulateOpticalDrive() const {
-    return emulateOpticalDriveCheckBox->isChecked();
-}
-
-
 #endif
-

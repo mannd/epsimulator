@@ -25,13 +25,12 @@
 #include "selectemulateddiskdialog.h"
 #include "settings.h"
 
-#include <qdatastream.h>
-#include <qdatetime.h>
-#include <qdir.h>
-#include <q3listbox.h>
-#include <qmessagebox.h>
-#include <qobject.h>
-#include <qstringlist.h>
+#include <QDataStream>
+#include <QDateTime>
+#include <QDir>
+#include <QMessageBox>
+#include <QObject>
+#include <QStringList>
 
 #include <vector>
 
