@@ -46,7 +46,7 @@ public:
                  QWidget *parent = 0);
 
     void setOptions();
-    void disableFilePathsTab();
+    void removeFilePathsTab();
 
     ~SystemDialog();
 

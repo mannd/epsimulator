@@ -86,9 +86,8 @@ void SystemDialog::setOptions() {
     options_->writeSettings();
 }
 
-void SystemDialog::disableFilePathsTab() {
-    filePathsTabWidget->setCurrentIndex(0);
-    filePathsTabWidget->currentWidget()->setEnabled(false);
+void SystemDialog::removeFilePathsTab() {
+    filePathsTabWidget->removeTab(0);
 }
 
 void SystemDialog::opticalStudyPathBrowse() {

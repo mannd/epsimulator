@@ -26,6 +26,7 @@
 #include <QComboBox>
 #include <QIcon>
 #include <QPalette>
+#include <QPushButton>
 #include <QToolBar>
 
 using EpGui::createAction;
@@ -75,6 +76,33 @@ void RealTimeWindow::createToolBars() {
     toolBar->addSeparator();
     toolBar->addAction(timerAct_);
     toolBar->addAction(stopwatchAct_);
+    // add stim buttons
+    toolBar->addSeparator();
+    QPushButton* toggleStimChannelButton = 
+        new QPushButton(tr("hRA : 2-1"));
+    QPalette palette;
+    palette.setColor(QPalette::Button, Qt::cyan);
+    toggleStimChannelButton->setPalette(palette);
+    toolBar->addWidget(toggleStimChannelButton);
+    toolBar->addSeparator();
+    QPushButton* enableStimOneButton =
+        new QPushButton(tr("hRA : 2-1"));
+    palette.setColor(QPalette::Button, Qt::red);
+    enableStimOneButton->setPalette(palette);
+    toolBar->addWidget(enableStimOneButton);
+    toolBar->addSeparator();
+    QPushButton* enableStimTwoButton =
+        new QPushButton(tr("RVa : 18-17"));
+    enableStimTwoButton->setPalette(palette);
+    toolBar->addWidget(enableStimTwoButton);
+    toolBar->addSeparator();
+    QPushButton* enableStimThreeButton =
+        new QPushButton(tr("CS : 2-1"));
+    toolBar->addWidget(enableStimThreeButton);
+    toolBar->addSeparator();
+    QPushButton* enableStimFourButton =
+        new QPushButton(tr("ABL : 18-17"));
+    toolBar->addWidget(enableStimFourButton);
     toolBar->addSeparator();
 
     addToolBar(toolBar); 

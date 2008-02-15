@@ -5,12 +5,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1306</width>
-    <height>108</height>
+    <width>1472</width>
+    <height>124</height>
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+   <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
     <horstretch>1</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -21,8 +21,8 @@
   <property name="windowIcon" >
    <iconset resource="../../resources/resources.qrc" >:/images/hi64-reports.png</iconset>
   </property>
-  <layout class="QHBoxLayout" >
-   <item>
+  <layout class="QGridLayout" >
+   <item row="0" column="0" >
     <layout class="QHBoxLayout" >
      <item>
       <widget class="QFrame" name="frame" >
@@ -177,7 +177,7 @@
           </font>
          </property>
          <property name="text" >
-          <string>TextLabel</string>
+          <string>0</string>
          </property>
         </widget>
        </item>
@@ -233,7 +233,7 @@
           </font>
          </property>
          <property name="text" >
-          <string>TextLabel</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -245,6 +245,19 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <layout class="QGridLayout" >
@@ -300,7 +313,7 @@
           </font>
          </property>
          <property name="text" >
-          <string>TextLabel</string>
+          <string>0</string>
          </property>
         </widget>
        </item>
@@ -356,7 +369,7 @@
           </font>
          </property>
          <property name="text" >
-          <string>TextLabel</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -368,6 +381,19 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <layout class="QGridLayout" >
@@ -486,7 +512,7 @@
           </font>
          </property>
          <property name="text" >
-          <string>  / /</string>
+          <string>***/***/***</string>
          </property>
         </widget>
        </item>
@@ -499,8 +525,8 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>341</width>
+         <height>88</height>
         </size>
        </property>
       </spacer>

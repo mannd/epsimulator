@@ -27,16 +27,26 @@
 #include <QTimer>
 #include <QWidget>
 
+const int PatientStatusBar::updateInterval;
+
 Saturation PatientStatusBar::warningO2Sat_ = 90;
 Saturation PatientStatusBar::dangerO2Sat_ = 80;
 Saturation PatientStatusBar::malfunctionO2Sat_ = 40;
 
 PatientStatusBar::PatientStatusBar(QWidget* parent)
-    : QWidget(parent), patient_(0) {
+    : QWidget(parent), patient_(0), saveStatus_(NoSave) {
     setupUi(this);
     timer_ = new QTimer(this);
     connect(timer_, SIGNAL(timeout()), this, SLOT(update()));
-    timer_->start(1000);
+    timer_->start(updateInterval);
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(manualSave()));
+    // change save status when signaled by Recorder
+    connect(this, SIGNAL(saveTriggered(SaveStatus)), 
+        this, SLOT(changeSaveStatus(SaveStatus)));
+    // saveButton also responds to signals from Recorder for autosaving
+    /// TODO
+    /// connect(parent, SIGNAL(saveTriggered(SaveStatus)),
+    ///     this, SLOT(changeSaveStatus(SaveStatus)));
 }
 
 PatientStatusBar::~PatientStatusBar() {
@@ -50,10 +60,18 @@ void PatientStatusBar::setPatientInfo(const Name& name,
 }
 
 void PatientStatusBar::displayO2Sat() {
+    // here we want no reading if the probe has fallen off,
+    // a black on red reading if danger, a black on yellow if
+    // warning, otherwise regular text.  
     if (patient_) {
         if (patient_->o2Saturation() < malfunctionO2Sat_)
             spO2Label->setText(tr("***%"));
-        spO2Label->setText(patient_->o2Saturation().percent());
+        else if (patient_->o2Saturation() < dangerO2Sat_)
+            ; // set background/foreground
+        else if (patient_->o2Saturation() < warningO2Sat_)
+            ; // set warning text/backgroun
+        else
+            spO2Label->setText(patient_->o2Saturation().percent());
     }
 }
 
@@ -71,6 +89,32 @@ void PatientStatusBar::hide() {
 void PatientStatusBar::show() {
     timer_->start(1000);
     show();
+}
+
+void PatientStatusBar::manualSave() {
+    if (saveStatus_ != ManualSave) 
+        saveStatus_ = ManualSave;
+    else 
+        saveStatus_ = NoSave;
+    emit(saveTriggered(saveStatus_));
+}
+
+void PatientStatusBar::changeSaveStatus(SaveStatus saveStatus) {
+    saveStatus_ = saveStatus;
+    switch (saveStatus) {
+        case ManualSave: 
+            saveButton->setIcon(QIcon(":/images/hi64-manualsave.png"));
+            break;
+        case AutoSave:
+            saveButton->setIcon(QIcon(":/images/hi64-autosave.png"));
+            break;
+        case ExitAutoSave:
+            saveButton->setIcon(QIcon(":/images/hi64-autosaveexit.png"));
+            break;
+        case NoSave:
+        default:
+            saveButton->setIcon(QIcon(":/images/hi64-nosave.png"));
+    }
 }
     
 

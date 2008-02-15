@@ -29,6 +29,7 @@
 #include "realtimewindow.h"
 #include "settings.h"
 #include "simulatorsettingsdialog.h"
+#include "stimulator.h"
 #include "study.h"
 #include "systemdialog.h"
 #include "user.h"
@@ -123,7 +124,7 @@ void Recorder::systemSettings() {
             currentDisk_->translatedSide(), this);
         // I'm not sure what the Prucka does, but it's probably
         // crazy to change filepaths while in the Recorder!
-        systemDialog->disableFilePathsTab();
+        systemDialog->removeFilePathsTab();
         if (systemDialog->exec() == QDialog::Accepted) 
             systemDialog->setOptions();
         delete systemDialog;
@@ -134,7 +135,7 @@ void Recorder::simulatorSettings() {
     if (administrationAllowed()) {
         SimulatorSettingsDialog* simDialog = 
             new SimulatorSettingsDialog(options_, this);
-        simDialog->disableNavigatorTab();
+        simDialog->removeNavigatorTab();
         if (simDialog->exec() == QDialog::Accepted) {
             simDialog->setOptions();
             updateMenus();
@@ -212,6 +213,11 @@ bool Recorder::administrationAllowed() {
         return true;
     login();
     return user_->isAdministrator();
+}
+
+void Recorder::openStimulator() {
+    Stimulator* stimulator = new Stimulator(workspace_);
+    stimulator->show();
 }
 
 void Recorder::help() {
@@ -406,6 +412,12 @@ void Recorder::createActions()
     simulatorSettingsAct_ = createAction(this, tr("*Simulator Settings*"),
         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
+    // Hardware menu -- NB No equivalent in Prucka system
+    stimulatorAct_ = createAction(this, tr("Stimulator"),
+        tr("Open stimulator"), SLOT(openStimulator()));
+    satMonitorAct_ = createAction(this, tr("Sat Monitor"),
+        tr("Open sat monitor"));
+
     // Help menu
     helpAct_ = createAction(this, tr("EP Simulator Help"),
         tr("EP Simulator help"), SLOT(help()), tr("F1"));
@@ -503,6 +515,10 @@ void Recorder::createMenus()
     administrationMenu_->addAction(ejectOpticalDiskAct_);
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(simulatorSettingsAct_);
+
+    hardwareMenu_ = menuBar()->addMenu(tr("&Hardware"));
+    hardwareMenu_->addAction(stimulatorAct_);
+    hardwareMenu_->addAction(satMonitorAct_);
 
     menuBar()->addSeparator();
 

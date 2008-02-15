@@ -18,69 +18,28 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PATIENTSTATUSBAR_H
-#define PATIENTSTATUSBAR_H
+#include "probability.h"
 
-#include "ui_patientstatusbar.h"
+#include <cstdlib>
+#include <ctime>
 
-#include "saturation.h"
+Probability::Probability(double value) {
+    setValue(value);
+    srand(time(0));     // initialize random number generator
+}
 
-struct Name;
-class Patient;
-class QPalette;
-class QTimer;
-class QWidget;
+void Probability::setValue(double value) {
+    // probabilities are only between 0.0 and 1.0
+    value = value > 1.0 ? 1.0 : value;
+    value = value < 0.0 ? 0.0 : value;
+    value_ = value;
+}
 
-class PatientStatusBar : public QWidget, private Ui::PatientStatusBar {
-    Q_OBJECT
-public:
-    enum SaveStatus {NoSave, ManualSave, AutoSave, ExitAutoSave};
-    PatientStatusBar(QWidget* parent = 0);
-    ~PatientStatusBar();
+bool Probability::result() const {
+    return true;
+}
 
-    void setPatient(Patient* patient) {patient_ = patient;} 
-    
-    void setPatientInfo(const Name&, double kg, double bsa);
-    void displayO2Sat();
+Probability::~Probability() {
+}
 
-    virtual void hide();
-    virtual void show();
-
-    static void setWarningO2Sat(const Saturation& sat) {
-        warningO2Sat_ = sat;}
-    static void setDangerO2Sat(const Saturation& sat) {
-        dangerO2Sat_ = sat;}
-    static void setmalfunctionO2Sat(const Saturation& sat) {
-        malfunctionO2Sat_ = sat;}
-
-signals:
-    void saveTriggered(SaveStatus);
-
-public slots:
-    void update();
-    void manualSave();
-    void changeSaveStatus(SaveStatus);
-
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-  /*$PROTECTED_SLOTS$*/
-
-private:
-    static const int updateInterval = 1000;
-    static Saturation warningO2Sat_;
-    static Saturation dangerO2Sat_;
-    static Saturation malfunctionO2Sat_;
-
-    Patient* patient_;
-    QTimer* timer_;
-    SaveStatus saveStatus_;
-    QPalette* defaultPalette_;
-    QPalette* dangerPalette_;
-    QPalette* warningPalette_;
-
-};
-
-#endif
 

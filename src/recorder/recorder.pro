@@ -38,8 +38,10 @@ LIBS += -L../../lib \
 -lcore \
 -lpatient \
 -lgui \
--lhardware
+-lhardware \
+ ../../lib/libstimulator.a
 TARGETDEPS += ../../lib/libcore.so \
 ../../lib/libpatient.so \
 ../../lib/libgui.so \
-../../lib/libhardware.so
+../../lib/libhardware.so \
+ ../../lib/libstimulator.a

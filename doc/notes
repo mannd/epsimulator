@@ -529,5 +529,14 @@ Hardware
     src/hardware contains the emulated hardware, e.g. the opticaldisk, a sat monitor, the catheters, junction box, amplifier, etc.  Maybe also the stimulator.  We need a menu item Hardware (not present on the real Prucka unfortunately).  This is used to bring up the floating windows that are the hardware items.  On the other hand, these items could be added to the Windows menu item.  Probably better though to keep them separate and add the menu item, or add a toolbar icon like the study configuration one.  
 
 
-
-    
+More On Navigator
+     It appears that if a networked system is used, then studies are copied to
+     the network server.  It also appears that when this is done, the study no
+     longer appears in the System catalog.  You can open a study for review,
+     possibly also for continuation from the network catalog.  It may be that
+     you can also use the network catalog as a sort of master catalog, without
+     necessarily copying studies there.  You would then still need the optical
+     disk.  Once a study is begun, it is possible to continue the study to
+     another disk or directory.  The only way I can think of doing this would
+     be to insert a link in the original directory (link.dat??) that would
+     direct one to change disks when reviewing the study.

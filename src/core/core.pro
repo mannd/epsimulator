@@ -10,14 +10,16 @@ SOURCES += options.cpp \
            versioninfo.cpp \
            user.cpp \
  fileutilities.cpp \
- passwordhandler.cpp
+ passwordhandler.cpp \
+ probability.cpp
 HEADERS += options.h \
            settings.h \
            versioninfo.h \
            error.h \
            user.h \
  fileutilities.h \
- passwordhandler.h
+ passwordhandler.h \
+ probability.h
 
 
 CONFIG -= release

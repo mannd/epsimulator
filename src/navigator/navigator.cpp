@@ -1027,6 +1027,10 @@ void Navigator::startStudy(Study* s) {
         // and vice versa
         hide();
     }
+    /// TODO One other possibility to handle.  If
+    /// options_->enableAcquisition() if false, then recorder_
+    /// central widget can only be review screens.  This is also
+    /// the case for Review Study blue bar button.  
 }
 
 void Navigator::reviewStudy(Study*) {

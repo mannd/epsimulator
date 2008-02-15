@@ -64,6 +64,7 @@ private slots:
     void closeStudy();
     void systemSettings();
     void simulatorSettings();
+    void openStimulator();
 
 private:
     void createActions();
@@ -158,6 +159,10 @@ private:
     QAction* amplifierTestAct_;
     QAction* ejectOpticalDiskAct_;
     QAction* simulatorSettingsAct_;
+
+    // Hardware Menu
+    QAction* stimulatorAct_;
+    QAction* satMonitorAct_;
     
     // Help Menu
     QAction* helpAct_;
@@ -175,6 +180,7 @@ private:
     QMenu* windowsMenu_;
     QMenu* administrationMenu_;
     QMenu* securitySubMenu_;
+    QMenu* hardwareMenu_;
     QMenu* helpMenu_;
 };
 

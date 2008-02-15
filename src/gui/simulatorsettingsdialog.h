@@ -37,9 +37,7 @@ public:
     SimulatorSettingsDialog(Options* options, QWidget* parent = 0);
 
     void setOptions();
-    void disableNavigatorTab();
-
-//    using SimulatorSettingsDialogBase::exec;
+    void removeNavigatorTab();
 
     ~SimulatorSettingsDialog();
     

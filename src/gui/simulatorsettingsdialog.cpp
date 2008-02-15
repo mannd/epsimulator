@@ -66,11 +66,8 @@ void SimulatorSettingsDialog::setOptions() {
         options_->writeSettings();
 }
 
-void SimulatorSettingsDialog::disableNavigatorTab() {
-    tabCategories->setCurrentIndex(1);
-    tabCategories->currentWidget()->setEnabled(false);
-    // return to first tab
-    tabCategories->setCurrentIndex(0);
+void SimulatorSettingsDialog::removeNavigatorTab() {
+    tabCategories->removeTab(1);
 }
 
 bool SimulatorSettingsDialog::dualSidedDrive() const {

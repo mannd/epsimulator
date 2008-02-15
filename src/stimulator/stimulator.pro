@@ -14,3 +14,7 @@ RESOURCES += ../resources/resources.qrc
 
 
 
+SOURCES += stimulator.cpp
+
+HEADERS += stimulator.h
+

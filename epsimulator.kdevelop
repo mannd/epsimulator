@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/main</activedir>
+      <activedir>src/recorder</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -118,9 +118,9 @@
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
-        <testepsimulator></testepsimulator>
+        <testepsimulator/>
         <main/>
       </runarguments>
       <cwd>
@@ -136,9 +136,9 @@
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
-        <testepsimulator></testepsimulator>
+        <testepsimulator/>
         <main/>
       </debugarguments>
     </run>
@@ -163,6 +163,10 @@
       <subclass uifile="src/recorder/testbox.ui" sourcefile="testbox.h" />
       <subclass uifile="src/recorder/ui/patientstatusbar.ui" sourcefile="ui/patientstatusbar.cpp" />
       <subclass uifile="src/recorder/ui/patientstatusbar.ui" sourcefile="ui/patientstatusbar.h" />
+      <subclass uifile="src/hardware/ui/satmonitor.ui" sourcefile="ui/satmonitor.cpp" />
+      <subclass uifile="src/hardware/ui/satmonitor.ui" sourcefile="ui/satmonitor.h" />
+      <subclass uifile="src/stimulator/ui/stimulator.ui" sourcefile="ui/stimulator.cpp" />
+      <subclass uifile="src/stimulator/ui/stimulator.ui" sourcefile="ui/stimulator.h" />
     </subclassing>
   </kdevtrollproject>
   <kdevcppsupport>
