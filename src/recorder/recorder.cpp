@@ -53,16 +53,16 @@
 
 Recorder::Recorder(QWidget* parent)
     : QMainWindow(parent), study_(0), user_(User::instance()),
-    options_(Options::instance()), currentDisk_(0) {
+    options_(Options::instance()), currentDisk_(0),
+    realTimeWindow_(new RealTimeWindow),
+    patientStatusBar_(new PatientStatusBar) {
     //workspace_ = new QMdiArea(this);
     workspace_ = new QMdiArea(this);
-    RealTimeWindow* realTimeWindow = new RealTimeWindow;
     QMdiSubWindow* msw = new QMdiSubWindow; 
-    msw->setWidget(realTimeWindow);
+    msw->setWidget(realTimeWindow_);
     msw->showMaximized();
     workspace_->addSubWindow(msw);
     setCentralWidget(workspace_);
-    patientStatusBar_ = new PatientStatusBar;
 
     createActions();
     createMenus();
@@ -70,8 +70,8 @@ Recorder::Recorder(QWidget* parent)
 
     updateAll();
 
-    createStatusBar();
     createPatientStatusBar();
+    createStatusBar();
     readSettings();
 
 }
@@ -97,6 +97,7 @@ Recorder::~Recorder() {
 
 void Recorder::setStudy(Study* s) {
     study_ = s;
+    delete patient_;
     patient_ = new Patient;
     patient_->setPath(s->path());
     patient_->load();
@@ -163,13 +164,13 @@ void Recorder::closeStudy() {
         patient_->save();
         // get rid of study_
         delete study_;
-        //delete patient_;
         if (Navigator* parentWidget = dynamic_cast<Navigator*>(parent())) {
             parentWidget->regenerateCatalogs();
             parentWidget->show();
             parentWidget->updateAll();
         }
         hide();     // can't close, or app will terminate
+        //realTimeWindow_->saveSettings();
         saveSettings();
     }
 }
@@ -540,12 +541,14 @@ void Recorder::createToolBars() {
     switchedVideoComboBox_->addItem(tr("Real-Time"));
     switchedVideoComboBox_->addItem(tr("Review"));
     switchedVideoComboBox_->addItem(tr("Image"));
+    switchedVideoComboBox_->setMinimumWidth(200);
     systemToolBar->addWidget(switchedVideoComboBox_);
     systemToolBar->addSeparator();
     /// TODO replace below with a dynamic combobox generated from
     /// a list of protocols.  
     protocolComboBox_ = new QComboBox(this);
     protocolComboBox_->addItem(tr("Baseline"));
+    protocolComboBox_->setMinimumWidth(100);
     systemToolBar->addWidget(protocolComboBox_);
   
     addToolBar(systemToolBar);

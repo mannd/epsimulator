@@ -18,72 +18,63 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PATIENTSTATUSBAR_H
-#define PATIENTSTATUSBAR_H
+#ifndef SIGNALDISPLAYWINDOW_H
+#define SIGNALDISPLAYWINDOW_H
 
-#include "ui_patientstatusbar.h"
+#include <QFrame>
+#include <QMainWindow>
 
-#include "saturation.h"
+class ChannelBar;
 
-struct Name;
-class Patient;
-class QPalette;
-class QTimer;
-class QWidget;
-
-class PatientStatusBar : public QWidget, private Ui::PatientStatusBar {
+/**
+ * Abstract base class for RealTimeWindow and ReviewWindow.  Implements common 
+ * funcionality, such as the ChannelBar, but does not implement toolbars and 
+ * updating of signal displays.
+ *
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
+class SignalDisplayWindow : public QMainWindow  {
     Q_OBJECT
 public:
-    enum SaveStatus {NoSave, ManualSave, AutoSave, ExitSave};
-    PatientStatusBar(QWidget* parent = 0);
-    ~PatientStatusBar();
+    SignalDisplayWindow(QWidget* parent = 0);
 
-    void setPatient(Patient* patient) {patient_ = patient;} 
-    
-    void setPatientInfo(const Name&, double kg, double bsa);
-    void displayO2Sat();
+    void setChannelBar(ChannelBar* cb) {channelBar_ = cb;}
 
-    virtual void hide();
-    virtual void show();
+    ChannelBar* channelBar() const {return channelBar_;}
 
-    static void setWarningO2Sat(const Saturation& sat) {
-        warningO2Sat_ = sat;}
-    static void setDangerO2Sat(const Saturation& sat) {
-        dangerO2Sat_ = sat;}
-    static void setmalfunctionO2Sat(const Saturation& sat) {
-        malfunctionO2Sat_ = sat;}
+    virtual void createCentralWidget();
+    virtual void createActions() = 0;
+    virtual void createToolBars() = 0;
 
-signals:
-    void saveTriggered(SaveStatus);
-
-public slots:
-    void update();
-    void manualSave();
-    void changeSaveStatus(SaveStatus);
-
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-  /*$PROTECTED_SLOTS$*/
-
-private slots:
-    void noSave();
-
+    ~SignalDisplayWindow();
 private:
-    static const int updateInterval = 1000;
-    static Saturation warningO2Sat_;
-    static Saturation dangerO2Sat_;
-    static Saturation malfunctionO2Sat_;
+    ChannelBar* channelBar_;
+};
 
-    Patient* patient_;
-    QTimer* timer_;
-    SaveStatus saveStatus_;
-    QPalette* defaultPalette_;
-    QPalette* dangerPalette_;
-    QPalette* warningPalette_;
+/**
+ * This is the channel label area.  This is an ABC, mostly so that
+ * the right click menu can be overriden, as it is different on 
+ * the real-time vs the review window.
+ */
+class ChannelBar : public QFrame {
+    Q_OBJECT
+public:
+    ChannelBar(QWidget* parent = 0);
 
+    void setUp();
+
+    ~ChannelBar();
+};
+
+/**
+ * This is the black signal area to the right of the channel bar.
+ */
+class SignalArea : public QWidget {
+    Q_OBJECT
+public:
+    SignalArea(QWidget* parent = 0);
+
+    ~SignalArea();
 };
 
 #endif
-

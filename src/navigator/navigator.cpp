@@ -1022,7 +1022,7 @@ void Navigator::startStudy(Study* s) {
         recorder_->setStudy(s);
         recorder_->setCurrentDisk(currentDisk_);
         recorder_->updateAll(); // show administrator status, etc.
-        recorder_->show();
+        recorder_->showMaximized();
         // looks better to show new window first, then hide this one,
         // and vice versa
         hide();

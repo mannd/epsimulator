@@ -36,6 +36,7 @@ Saturation PatientStatusBar::malfunctionO2Sat_ = 40;
 PatientStatusBar::PatientStatusBar(QWidget* parent)
     : QWidget(parent), patient_(0), saveStatus_(NoSave) {
     setupUi(this);
+    timeLabel->setMinimumWidth(100);    // prevent flickering?
     timer_ = new QTimer(this);
     connect(timer_, SIGNAL(timeout()), this, SLOT(update()));
     timer_->start(updateInterval);
@@ -95,8 +96,12 @@ void PatientStatusBar::manualSave() {
     if (saveStatus_ != ManualSave) 
         saveStatus_ = ManualSave;
     else 
-        saveStatus_ = NoSave;
+        saveStatus_ = ExitSave;
     emit(saveTriggered(saveStatus_));
+}
+
+void PatientStatusBar::noSave() {
+    changeSaveStatus(NoSave);
 }
 
 void PatientStatusBar::changeSaveStatus(SaveStatus saveStatus) {
@@ -108,8 +113,10 @@ void PatientStatusBar::changeSaveStatus(SaveStatus saveStatus) {
         case AutoSave:
             saveButton->setIcon(QIcon(":/images/hi64-autosave.png"));
             break;
-        case ExitAutoSave:
+        case ExitSave:
             saveButton->setIcon(QIcon(":/images/hi64-autosaveexit.png"));
+            saveStatus = NoSave;
+            QTimer::singleShot(4000, this, SLOT(noSave()));
             break;
         case NoSave:
         default:

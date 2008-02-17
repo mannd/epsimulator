@@ -18,72 +18,30 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PATIENTSTATUSBAR_H
-#define PATIENTSTATUSBAR_H
+#ifndef REVIEWWINDOW_H
+#define REVIEWWINDOW_H
 
-#include "ui_patientstatusbar.h"
+#include <signaldisplaywindow.h>
 
-#include "saturation.h"
+/**
+This window is used to review already saved signal.  You can scroll through the data, or click on a time-stamp in the log window and bring up a window of signals.  This behaves like the RealTimeWindow, except there is no live updating of signals.
 
-struct Name;
-class Patient;
-class QPalette;
-class QTimer;
-class QWidget;
-
-class PatientStatusBar : public QWidget, private Ui::PatientStatusBar {
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+class ReviewWindow : public SignalDisplayWindow  {
     Q_OBJECT
 public:
-    enum SaveStatus {NoSave, ManualSave, AutoSave, ExitSave};
-    PatientStatusBar(QWidget* parent = 0);
-    ~PatientStatusBar();
+    ReviewWindow(int number = 1, QWidget *parent = 0);
 
-    void setPatient(Patient* patient) {patient_ = patient;} 
-    
-    void setPatientInfo(const Name&, double kg, double bsa);
-    void displayO2Sat();
+    virtual void saveSettings();
+    virtual void readSettings();
 
-    virtual void hide();
-    virtual void show();
 
-    static void setWarningO2Sat(const Saturation& sat) {
-        warningO2Sat_ = sat;}
-    static void setDangerO2Sat(const Saturation& sat) {
-        dangerO2Sat_ = sat;}
-    static void setmalfunctionO2Sat(const Saturation& sat) {
-        malfunctionO2Sat_ = sat;}
-
-signals:
-    void saveTriggered(SaveStatus);
-
-public slots:
-    void update();
-    void manualSave();
-    void changeSaveStatus(SaveStatus);
-
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-  /*$PROTECTED_SLOTS$*/
-
-private slots:
-    void noSave();
+    ~ReviewWindow();
 
 private:
-    static const int updateInterval = 1000;
-    static Saturation warningO2Sat_;
-    static Saturation dangerO2Sat_;
-    static Saturation malfunctionO2Sat_;
-
-    Patient* patient_;
-    QTimer* timer_;
-    SaveStatus saveStatus_;
-    QPalette* defaultPalette_;
-    QPalette* dangerPalette_;
-    QPalette* warningPalette_;
+    int number_;    // only 2 review windows allowed, 1 or 2
 
 };
 
 #endif
-

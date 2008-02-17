@@ -26,6 +26,7 @@
 
 #include <QMainWindow>
 
+class LowWindow;
 class OpticalDisk;
 class Options;
 class PatientStatusBar;
@@ -35,6 +36,8 @@ class QComboBox;
 class QDockWidget;
 class QMdiArea;
 class QMenu;
+class RealTimeWindow;
+class ReviewWindow;
 class Study;
 class User;
 
@@ -49,6 +52,9 @@ public:
     void updateAll();
 
     ~Recorder();
+
+public slots:
+//    void manualSave();  // starts manual saving, depresses Save button
 
 protected:
     void closeEvent(QCloseEvent * event);
@@ -86,6 +92,11 @@ private:
 
     // central widget
     QMdiArea* workspace_;
+    RealTimeWindow* realTimeWindow_;
+    ReviewWindow* reviewWindow1_;
+    ReviewWindow* reviewWindow2_;
+    // LowWindow* logWindow_;
+
     // patient status bar
     PatientStatusBar* patientStatusBar_;
     

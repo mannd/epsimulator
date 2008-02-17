@@ -21,33 +21,30 @@
 #include "realtimewindow.h"
 
 #include "actions.h"
+#include "settings.h"
 
 #include <QAction>
 #include <QComboBox>
 #include <QIcon>
 #include <QPalette>
 #include <QPushButton>
+#include <QSplitter>
 #include <QToolBar>
 
 using EpGui::createAction;
 
 RealTimeWindow::RealTimeWindow(QWidget* parent)
- : QMainWindow(parent) {
+ : SignalDisplayWindow(parent) {
     setWindowTitle(tr("Real-Time Page 1"));
-    QWidget* centralWidget = new QWidget;
-    centralWidget->setAutoFillBackground(true);
-    QPalette palette;
-    palette.setColor(QPalette::Window, Qt::black);
-    centralWidget->setPalette(palette);
-    setCentralWidget(centralWidget);
+    createCentralWidget();
     createActions();
     createToolBars();
- 
-    
+    //readSettings();
 }
 
 void RealTimeWindow::createToolBars() {
-    QToolBar* toolBar = new QToolBar(this);
+    QToolBar* toolBar = new QToolBar(tr("Real-Time Window Tool Bar"));
+    toolBar->setObjectName("RealTimeWindowToolBar");
     toolBar->setAutoFillBackground(true);
     toolBar->addAction(minusAct_);
     toolBar->addSeparator();
@@ -149,9 +146,32 @@ void RealTimeWindow::createActions() {
 
 }
 
-
-RealTimeWindow::~RealTimeWindow()
-{
+/// TODO can move these to superclass, pass prefix (e.g. "/realTimeWindow")
+void RealTimeWindow::saveSettings() {
+    Settings settings;
+    settings.setValue("/realTimeWindowSize", size());
+    settings.setValue("/realTimeWindowPos", pos()); 
+    settings.setValue("/realTimeWindowState", saveState());
+    settings.setValue("/realTimeWindowSplitter", 
+        static_cast<QSplitter*>(centralWidget())->saveState());   
 }
+
+void RealTimeWindow::readSettings() {
+    Settings settings;
+    restoreState(settings.value("/realTimeWindowState").toByteArray());
+    QVariant size = settings.value("/realTimeWindowSize");
+    if (size.isNull()) {
+        showMaximized();
+        return;
+    }
+    resize(size.toSize());
+    move(settings.value("/realTimeWindowPos").toPoint());
+    static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
+        "/realTimeWindowSplitter").toByteArray());
+}
+
+
+
+RealTimeWindow::~RealTimeWindow() {}
 
 

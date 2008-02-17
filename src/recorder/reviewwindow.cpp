@@ -17,55 +17,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef REALTIMEWINDOW_H
-#define REALTIMEWINDOW_H
 
-#include "signaldisplaywindow.h"
+#include "reviewwindow.h"
 
-class QAction;
-class QComboBox;
+#include "settings.h"
 
-/**
-The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
+#include <QSplitter>
 
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class RealTimeWindow : public SignalDisplayWindow  {
-    Q_OBJECT
-public:
-    RealTimeWindow(QWidget* parent = 0);
-    
-    virtual void saveSettings();
-    virtual void readSettings();
+ReviewWindow::ReviewWindow(int number, QWidget *parent)
+ : SignalDisplayWindow(parent), number_(number) {
+    setWindowTitle(tr("Review %1").arg(QString::number(number_)));
+}
 
-    ~RealTimeWindow();
+void ReviewWindow::saveSettings() {
+    Settings settings;
+    QString prefix = "/reviewWindow" + QString::number(number_);
+    settings.setValue(prefix + "Size", size());
+    settings.setValue(prefix + "Pos", pos()); 
+    settings.setValue(prefix + "State", saveState());
+    settings.setValue(prefix + "Splitter", 
+        static_cast<QSplitter*>(centralWidget())->saveState());   
+}
 
-public slots:
-    
+void ReviewWindow::readSettings() {
+    Settings settings;
+    QString prefix = "/reviewWindow" + QString::number(number_);
+    restoreState(settings.value(prefix + "State").toByteArray());
+    QVariant size = settings.value(prefix + "Size");
+    if (size.isNull()) {
+        showMaximized();
+        return;
+    }
+    resize(size.toSize());
+    move(settings.value(prefix + "Pos").toPoint());
+    static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
+        prefix + "Splitter").toByteArray());
+}
 
-private:
-    virtual void createActions();
-    virtual void createToolBars();
+
+ReviewWindow::~ReviewWindow() {}
 
 
-
-    QComboBox* sweepSpeedComboBox_;
-
-    QAction* minusAct_;
-    QAction* plusAct_;
-    QAction* studyConfigAct_;
-    QAction* timeCalipersAct_;
-    QAction* amplitudeCalipersAct_;
-    QAction* deleteAllCalipersAct_;
-    QAction* msCalipersAct_;
-    QAction* bpmCalipersAct_;
-    QAction* offsetSignalsAct_;
-    QAction* triggeredModeAct_;
-    QAction* toggleAblationWindowAct_;
-    QAction* realTime12LeadAct_;
-    QAction* timerAct_;
-    QAction* stopwatchAct_;  
-
-};
-
-#endif
