@@ -35,11 +35,31 @@ using EpGui::createAction;
 
 RealTimeWindow::RealTimeWindow(QWidget* parent)
  : SignalDisplayWindow(parent) {
-    setWindowTitle(tr("Real-Time Page 1"));
+    updateWindowTitle();
     createCentralWidget();
     createActions();
     createToolBars();
-    //readSettings();
+
+}
+
+void RealTimeWindow::updateWindowTitle() {
+    setWindowTitle(tr("Real-Time Page %1").arg(currentPage()));
+}
+
+void RealTimeWindow::increaseSweepSpeed() {
+    int index = sweepSpeedComboBox_->currentIndex();
+    // decreasing index increases number in combobox
+    if (--index < 0)
+        index = 0;
+    sweepSpeedComboBox_->setCurrentIndex(index);
+}
+
+void RealTimeWindow::decreaseSweepSpeed() {
+    int index = sweepSpeedComboBox_->currentIndex();
+    int maxIndex = sweepSpeedComboBox_->count() -1;
+    if (++index > maxIndex)  
+        index = maxIndex;
+    sweepSpeedComboBox_-> setCurrentIndex(index);
 }
 
 void RealTimeWindow::createToolBars() {
@@ -49,11 +69,13 @@ void RealTimeWindow::createToolBars() {
     toolBar->addAction(minusAct_);
     toolBar->addSeparator();
     sweepSpeedComboBox_ = new QComboBox(this);
+    /// TODO Which direction does the Prucka combobox go?
     sweepSpeedComboBox_->addItem(tr("400   "));
     sweepSpeedComboBox_->addItem(tr("200   "));
     sweepSpeedComboBox_->addItem(tr("100   "));
     sweepSpeedComboBox_->addItem(tr("50    "));
     sweepSpeedComboBox_->addItem(tr("25    "));
+    sweepSpeedComboBox_->setCurrentIndex(3);    // 50 sweep speed
     toolBar->addWidget(sweepSpeedComboBox_);
     toolBar->addSeparator();
     toolBar->addAction(plusAct_);
@@ -107,9 +129,11 @@ void RealTimeWindow::createToolBars() {
 
 void RealTimeWindow::createActions() {
     minusAct_ = createAction(this, tr("Minus"), 
-        tr("Decrease sweep speed"), 0, 0, "hi32-minus.png"); 
+        tr("Decrease sweep speed"), SLOT(decreaseSweepSpeed()), 
+        0, "hi32-minus.png"); 
     plusAct_ = createAction(this, tr("Plus"),
-        tr("Increase sweep speed"), 0, 0, "hi32-plus.png");
+        tr("Increase sweep speed"), SLOT(increaseSweepSpeed()),
+        0, "hi32-plus.png");
     studyConfigAct_ = createAction(this, tr("Study Configuration"),
         tr("Open study configuration"), 0, 0, "hi32-studyconfig.png");
     timeCalipersAct_ = createAction(this, tr("Time Calipers"),

@@ -25,6 +25,8 @@
 #include <QMainWindow>
 
 class ChannelBar;
+class QAction;
+class SignalArea;
 
 /**
  * Abstract base class for RealTimeWindow and ReviewWindow.  Implements common 
@@ -38,17 +40,41 @@ class SignalDisplayWindow : public QMainWindow  {
 public:
     SignalDisplayWindow(QWidget* parent = 0);
 
+    void setCurrentPage(int page);
+    int currentPage() const {return currentPage_;}
+
     void setChannelBar(ChannelBar* cb) {channelBar_ = cb;}
 
     ChannelBar* channelBar() const {return channelBar_;}
+    SignalArea* signalArea() const {return signalArea_;}
 
     virtual void createCentralWidget();
-    virtual void createActions() = 0;
+    virtual void createActions();
     virtual void createToolBars() = 0;
 
+    virtual void saveSettings() = 0;
+    virtual void readSettings() = 0;
+
     ~SignalDisplayWindow();
+
+public slots:
+    void previousPage();
+    void nextPage();
+    virtual void updateWindowTitle() = 0;
+
+signals:
+    void pageChanged(int newPage);
+
 private:
     ChannelBar* channelBar_;
+    SignalArea* signalArea_;
+
+    enum {minPage = 1, maxPage = 8};
+    int currentPage_;
+
+    QAction* previousPageAct_;
+    QAction* nextPageAct_;
+    
 };
 
 /**
@@ -64,6 +90,9 @@ public:
     void setUp();
 
     ~ChannelBar();
+
+public slots:
+    void changePage(int newPage);
 };
 
 /**
@@ -75,6 +104,9 @@ public:
     SignalArea(QWidget* parent = 0);
 
     ~SignalArea();
+
+public slots:
+    void changePage(int newPage);
 };
 
 #endif

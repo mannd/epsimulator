@@ -21,7 +21,7 @@
 
 #include "satmonitor.h"
 
-SatMonitor::SatMonitor(QWidget* parent, Qt::WFlags fl)
+SatMonitor::SatMonitor(QWidget* parent, Qt::WindowFlags fl)
 : QWidget( parent, fl ), Ui::SatMonitor()
 {
 	setupUi(this);

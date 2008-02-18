@@ -43,8 +43,8 @@ public:
     void setPatientInfo(const Name&, double kg, double bsa);
     void displayO2Sat();
 
-    virtual void hide();
-    virtual void show();
+    void stop();
+    void start();
 
     static void setWarningO2Sat(const Saturation& sat) {
         warningO2Sat_ = sat;}

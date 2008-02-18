@@ -39,7 +39,7 @@ PatientStatusBar::PatientStatusBar(QWidget* parent)
     timeLabel->setMinimumWidth(100);    // prevent flickering?
     timer_ = new QTimer(this);
     connect(timer_, SIGNAL(timeout()), this, SLOT(update()));
-    timer_->start(updateInterval);
+    //timer_->start(updateInterval);
     connect(saveButton, SIGNAL(clicked()), this, SLOT(manualSave()));
     // change save status when signaled by Recorder
     connect(this, SIGNAL(saveTriggered(SaveStatus)), 
@@ -82,14 +82,12 @@ void PatientStatusBar::update() {
     dateLabel->setText(QDate::currentDate().toString());
 }
 
-void PatientStatusBar::hide() {
+void PatientStatusBar::stop() {
     timer_->stop();
-    hide();
 }
 
-void PatientStatusBar::show() {
-    timer_->start(1000);
-    show();
+void PatientStatusBar::start() {
+    timer_->start(updateInterval);
 }
 
 void PatientStatusBar::manualSave() {

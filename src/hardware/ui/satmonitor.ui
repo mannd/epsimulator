@@ -12,7 +12,10 @@
   <property name="windowTitle" >
    <string>Sat Monitor</string>
   </property>
-  <widget class="QWidget" name="" >
+  <property name="autoFillBackground" >
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="layoutWidget" >
    <property name="geometry" >
     <rect>
      <x>30</x>
@@ -30,12 +33,22 @@
        </font>
       </property>
       <property name="text" >
-       <string>O2 Sat</string>
+       <string>O2 Sat (%)</string>
       </property>
      </widget>
     </item>
     <item row="0" column="1" >
-     <widget class="QLCDNumber" name="o2LcdNumber" />
+     <widget class="QLCDNumber" name="o2LcdNumber" >
+      <property name="numDigits" >
+       <number>3</number>
+      </property>
+      <property name="segmentStyle" >
+       <enum>QLCDNumber::Filled</enum>
+      </property>
+      <property name="intValue" stdset="0" >
+       <number>95</number>
+      </property>
+     </widget>
     </item>
     <item row="1" column="0" >
      <widget class="QLabel" name="label_2" >
@@ -45,12 +58,25 @@
        </font>
       </property>
       <property name="text" >
-       <string>CO2 Sat</string>
+       <string>CO2 Sat (%)</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1" >
-     <widget class="QLCDNumber" name="cO2LcdNumber" />
+     <widget class="QLCDNumber" name="cO2LcdNumber" >
+      <property name="numDigits" >
+       <number>3</number>
+      </property>
+      <property name="mode" >
+       <enum>QLCDNumber::Dec</enum>
+      </property>
+      <property name="segmentStyle" >
+       <enum>QLCDNumber::Filled</enum>
+      </property>
+      <property name="intValue" stdset="0" >
+       <number>32</number>
+      </property>
+     </widget>
     </item>
     <item row="2" column="0" >
      <widget class="QCheckBox" name="onOffCheckBox" >

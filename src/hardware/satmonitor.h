@@ -29,7 +29,7 @@ class SatMonitor : public QWidget, private Ui::SatMonitor
   Q_OBJECT
 
 public:
-  SatMonitor(QWidget* parent = 0, Qt::WFlags fl = 0 );
+  SatMonitor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::Tool );
   ~SatMonitor();
   /*$PUBLIC_FUNCTIONS$*/
 

@@ -41,6 +41,11 @@ public:
     ~RealTimeWindow();
 
 public slots:
+    virtual void updateWindowTitle();
+
+private slots:
+    void increaseSweepSpeed();
+    void decreaseSweepSpeed();
     
 
 private:

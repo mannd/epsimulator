@@ -28,6 +28,7 @@
 #include "patientstatusbar.h"
 #include "realtimewindow.h"
 #include "settings.h"
+#include "satmonitor.h"
 #include "simulatorsettingsdialog.h"
 #include "stimulator.h"
 #include "study.h"
@@ -52,17 +53,18 @@
 
 
 Recorder::Recorder(QWidget* parent)
-    : QMainWindow(parent), study_(0), user_(User::instance()),
-    options_(Options::instance()), currentDisk_(0),
-    realTimeWindow_(new RealTimeWindow),
-    patientStatusBar_(new PatientStatusBar) {
-    //workspace_ = new QMdiArea(this);
-    workspace_ = new QMdiArea(this);
+    : QMainWindow(parent), study_(0), patient_(0),
+    user_(User::instance()), options_(Options::instance()),
+    currentDisk_(0) {
+    //centralWidget_ = new QMdiArea(this);
+    centralWidget_ = new QMdiArea(this);
+    realTimeWindow_ = new RealTimeWindow;
     QMdiSubWindow* msw = new QMdiSubWindow; 
     msw->setWidget(realTimeWindow_);
-    msw->showMaximized();
-    workspace_->addSubWindow(msw);
-    setCentralWidget(workspace_);
+    //msw->showMaximized();
+    centralWidget_->addSubWindow(msw);
+    centralWidget_->tileSubWindows();
+    setCentralWidget(centralWidget_);
 
     createActions();
     createMenus();
@@ -73,6 +75,7 @@ Recorder::Recorder(QWidget* parent)
     createPatientStatusBar();
     createStatusBar();
     readSettings();
+
 
 }
 
@@ -92,17 +95,19 @@ void Recorder::updateAll() {
 
 Recorder::~Recorder() {
     // note study_ is deleted in closeStudy
-    delete patient_;
+    //delete patient_;
 }
 
 void Recorder::setStudy(Study* s) {
     study_ = s;
     delete patient_;
+    patient_ = 0;
     patient_ = new Patient;
     patient_->setPath(s->path());
     patient_->load();
     patientStatusBar_->setPatient(patient_);
     patientStatusBar_->setPatientInfo(s->name(), s->weight(), s->bsa());
+    patientStatusBar_->start();
 }
 
 void Recorder::patientInformation() {
@@ -162,15 +167,14 @@ void Recorder::closeStudy() {
     if (ret == QMessageBox::Yes) {
         study_->save();
         patient_->save();
-        // get rid of study_
-        delete study_;
+        patientStatusBar_->stop();
         if (Navigator* parentWidget = dynamic_cast<Navigator*>(parent())) {
             parentWidget->regenerateCatalogs();
             parentWidget->show();
             parentWidget->updateAll();
         }
+        
         hide();     // can't close, or app will terminate
-        //realTimeWindow_->saveSettings();
         saveSettings();
     }
 }
@@ -179,10 +183,12 @@ void Recorder::saveSettings() {
     Settings settings;
     settings.setValue("/recorderSize", size());
     settings.setValue("/recorderPos", pos()); 
-    settings.setValue("/recorderState", saveState());   
+    settings.setValue("/recorderState", saveState());
+    realTimeWindow_->saveSettings();   
 }
 
 void Recorder::readSettings() {
+    realTimeWindow_->readSettings();
     Settings settings;
     restoreState(settings.value("/recorderState").toByteArray());
     QVariant size = settings.value("/recorderSize");
@@ -217,8 +223,13 @@ bool Recorder::administrationAllowed() {
 }
 
 void Recorder::openStimulator() {
-    Stimulator* stimulator = new Stimulator(workspace_);
+    Stimulator* stimulator = new Stimulator(this);
     stimulator->show();
+}
+
+void Recorder::openSatMonitor() {
+       SatMonitor* satMonitor = new SatMonitor(this);
+       satMonitor->show();
 }
 
 void Recorder::help() {
@@ -245,12 +256,10 @@ void Recorder::createStatusBar() {
 }
 
 void Recorder::createPatientStatusBar() {
+    patientStatusBar_ = new PatientStatusBar(this);
     QDockWidget* bottomDockWidget = new QDockWidget(this);
     bottomDockWidget->setObjectName("bottomDockWidget");
-//    bottomDockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     bottomDockWidget->setWidget(patientStatusBar_);
-/*    Qt::WindowFlags flags = Qt::Widget;
-    bottomDockWidget->setWindowFlags(flags);*/
     addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 }
 
@@ -417,7 +426,7 @@ void Recorder::createActions()
     stimulatorAct_ = createAction(this, tr("Stimulator"),
         tr("Open stimulator"), SLOT(openStimulator()));
     satMonitorAct_ = createAction(this, tr("Sat Monitor"),
-        tr("Open sat monitor"));
+        tr("Open sat monitor"), SLOT(openSatMonitor()));
 
     // Help menu
     helpAct_ = createAction(this, tr("EP Simulator Help"),

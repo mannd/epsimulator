@@ -38,6 +38,7 @@ class QMdiArea;
 class QMenu;
 class RealTimeWindow;
 class ReviewWindow;
+class SatMonitor;
 class Study;
 class User;
 
@@ -71,6 +72,7 @@ private slots:
     void systemSettings();
     void simulatorSettings();
     void openStimulator();
+    void openSatMonitor();
 
 private:
     void createActions();
@@ -88,10 +90,12 @@ private:
     Patient* patient_;
     User* user_;
     Options* options_;
+
+    // hardware
     OpticalDisk* currentDisk_;
 
     // central widget
-    QMdiArea* workspace_;
+    QMdiArea* centralWidget_;
     RealTimeWindow* realTimeWindow_;
     ReviewWindow* reviewWindow1_;
     ReviewWindow* reviewWindow2_;

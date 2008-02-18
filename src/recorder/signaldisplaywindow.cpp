@@ -20,26 +20,71 @@
 
 #include "signaldisplaywindow.h"
 
+#include "actions.h"
+
+#include <QKeySequence>
 #include <QPalette>
 #include <QSizePolicy>
 #include <QSplitter>
 
 SignalDisplayWindow::SignalDisplayWindow(QWidget *parent)
- : QMainWindow(parent) {}
+ : QMainWindow(parent), currentPage_(minPage) {
+    createActions();
+    // note this works in subclasses even though 
+    // updateWindowTitle() is a pure virtual function!
+    connect(this, SIGNAL(pageChanged(int)), this,
+        SLOT(updateWindowTitle()));
 
+}
+
+void SignalDisplayWindow::setCurrentPage(int page) {
+    if (page < minPage)
+        currentPage_ = minPage;
+    else if (page > maxPage)
+        currentPage_ = maxPage;
+    else
+        currentPage_ = page;
+}
+
+void SignalDisplayWindow::previousPage() {
+    if (--currentPage_ < minPage)
+        currentPage_ = minPage;
+    emit pageChanged(currentPage_);
+}
+
+void SignalDisplayWindow::nextPage() {
+    if (++currentPage_ > maxPage)
+        currentPage_ = maxPage;
+    emit pageChanged(currentPage_);
+}
 
 
 void SignalDisplayWindow::createCentralWidget() {
     QSplitter* centralWidget = new QSplitter(Qt::Horizontal, this);
  
-    ChannelBar* channelBar = new ChannelBar;
-    SignalArea* signalArea = new SignalArea;
-    centralWidget->addWidget(channelBar);
-    centralWidget->addWidget(signalArea);
+    channelBar_ = new ChannelBar;
+    signalArea_ = new SignalArea;
+    centralWidget->addWidget(channelBar_);
+    centralWidget->addWidget(signalArea_);
     setCentralWidget(centralWidget);
+    connect(this, SIGNAL(pageChanged(int)), channelBar_,
+        SLOT(changePage(int)));
+    connect(this, SIGNAL(pageChanged(int)), signalArea_,
+        SLOT(changePage(int)));
 }
 
+using EpGui::createAction;
 
+void SignalDisplayWindow::createActions() {
+    previousPageAct_ = createAction(this, tr("Previous Page"),
+        0, SLOT(previousPage()),
+        QKeySequence(QKeySequence::MoveToPreviousPage));
+    nextPageAct_ = createAction(this, tr("Next Page"),
+        0, SLOT(nextPage()), QKeySequence(QKeySequence::MoveToNextPage));
+
+    addAction(previousPageAct_);
+    addAction(nextPageAct_);
+}
 SignalDisplayWindow::~SignalDisplayWindow() {}
 
 
@@ -62,14 +107,16 @@ void ChannelBar::setUp() {
     setPalette(palette);
     // necessary to actually apply the Window color to the background
     setAutoFillBackground(true);
-    setMaximumWidth(200);
-    setMinimumWidth(100);
+    setMaximumWidth(150);
+    setMinimumWidth(50);
 }
+
+void ChannelBar::changePage(int) {}
 
 ChannelBar::~ChannelBar() {}
 
 SignalArea::SignalArea(QWidget* parent) : QWidget(parent) {
-    QSizePolicy policy(QSizePolicy::Minimum,
+    QSizePolicy policy(QSizePolicy::MinimumExpanding,
         QSizePolicy::MinimumExpanding);
     policy.setHorizontalStretch(1);
     setSizePolicy(policy);
@@ -78,6 +125,8 @@ SignalArea::SignalArea(QWidget* parent) : QWidget(parent) {
     palette.setColor(QPalette::Window, Qt::black);
     setPalette(palette);
 }
+
+void SignalArea::changePage(int) {}
 
 SignalArea::~SignalArea() {}
 
