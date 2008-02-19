@@ -32,7 +32,7 @@ CONFIG += debug \
 warn_on \
 thread \
 qt \
- staticlib
+ dll
 CONFIG -= release
 
 

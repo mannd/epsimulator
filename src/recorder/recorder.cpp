@@ -52,16 +52,21 @@
 #include <QVariant>
 
 
-Recorder::Recorder(QWidget* parent)
-    : QMainWindow(parent), study_(0), patient_(0),
-    user_(User::instance()), options_(Options::instance()),
-    currentDisk_(0) {
-    //centralWidget_ = new QMdiArea(this);
+Recorder::Recorder(QWidget* parent) : QMainWindow(parent), 
+                                      study_(0), patient_(0),
+                                      user_(User::instance()),
+                                      options_(Options::instance()),
+                                      currentDisk_(0) {
+    // ensure the Recorder window, PatientStatusBar, floating
+    // hardware windows... the whole kit and kaboodle are deleted
+    // when the window closes.  As long as the Navigator window 
+    // is first made visible, the application will not close.
+    setAttribute(Qt::WA_DeleteOnClose);
+    
     centralWidget_ = new QMdiArea(this);
     realTimeWindow_ = new RealTimeWindow;
     QMdiSubWindow* msw = new QMdiSubWindow; 
     msw->setWidget(realTimeWindow_);
-    //msw->showMaximized();
     centralWidget_->addSubWindow(msw);
     centralWidget_->tileSubWindows();
     setCentralWidget(centralWidget_);
@@ -75,6 +80,7 @@ Recorder::Recorder(QWidget* parent)
     createPatientStatusBar();
     createStatusBar();
     readSettings();
+
 
 
 }
@@ -151,20 +157,7 @@ void Recorder::simulatorSettings() {
 }
 
 void Recorder::closeEvent(QCloseEvent *event) {
-    // don't allow closing, as in Qt, closing a main window closes the
-    // application.
-    event->ignore();
-    closeStudy();
-}
-
-
-void Recorder::closeStudy() {
-    int ret = QMessageBox::question(this,
-        tr("Close Study?"),
-        tr("Select Yes to return to EP Simulator Navigator"),
-        QMessageBox::Yes | QMessageBox::Default,
-        QMessageBox::No | QMessageBox::Escape);
-    if (ret == QMessageBox::Yes) {
+    if (closeStudy()) {
         study_->save();
         patient_->save();
         patientStatusBar_->stop();
@@ -173,10 +166,22 @@ void Recorder::closeStudy() {
             parentWidget->show();
             parentWidget->updateAll();
         }
-        
-        hide();     // can't close, or app will terminate
+        //hide();     // can't close, or app will terminate
         saveSettings();
+        event->accept();
     }
+    else
+        event->ignore();
+}
+
+
+bool Recorder::closeStudy() {
+    int ret = QMessageBox::question(this,
+        tr("Close Study?"),
+        tr("Select Yes to return to EP Simulator Navigator"),
+        QMessageBox::Yes | QMessageBox::Default,
+        QMessageBox::No | QMessageBox::Escape);
+    return ret == QMessageBox::Yes;
 }
 
 void Recorder::saveSettings() {
@@ -302,7 +307,7 @@ void Recorder::createActions()
     exportDataAct_ = createAction(this, tr("Export Data"), 
         tr("Export data to external formats"));
     closeStudyAct_ = createAction(this, tr("Close Study"),
-        tr("Close patient study"), SLOT(closeStudy()), 0,
+        tr("Close patient study"), SLOT(close()), 0,
         "hi32-closestudy.png");
     // Study Configuration
     switchAct_ = createAction(this, tr("Switch..."), 

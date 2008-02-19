@@ -23,7 +23,7 @@
 #include <cstdlib>
 #include <ctime>
 
-Probability::Probability(double value) {
+Probability::Probability(double value) : delta_(0) {
     setValue(value);
     srand(time(0));     // initialize random number generator
 }

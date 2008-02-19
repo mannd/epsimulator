@@ -26,7 +26,7 @@
 
 #include <QMainWindow>
 
-class LowWindow;
+class LogWindow;
 class OpticalDisk;
 class Options;
 class PatientStatusBar;
@@ -68,7 +68,6 @@ private slots:
     void changePassword();
     void about();
     void help(); 
-    void closeStudy();
     void systemSettings();
     void simulatorSettings();
     void openStimulator();
@@ -85,6 +84,8 @@ private:
     void saveSettings();
     bool administrationAllowed();
     void updateMenus();
+    bool closeStudy();
+
 
     Study* study_;
     Patient* patient_;

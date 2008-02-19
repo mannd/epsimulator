@@ -28,8 +28,8 @@
  * Default is no Network
 */
 CatalogComboBox::CatalogComboBox(QWidget *parent)
- : QComboBox(parent), browse_(false), includeNetwork_(false) {
-    options_ = Options::instance();
+ : QComboBox(parent), browse_(false), includeNetwork_(false),
+    options_(Options::instance()) {
     setup();
     connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));
     setCurrentItem(0);  // will be Network or System depending on options

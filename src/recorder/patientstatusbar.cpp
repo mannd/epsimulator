@@ -48,10 +48,13 @@ PatientStatusBar::PatientStatusBar(QWidget* parent)
     /// TODO
     /// connect(parent, SIGNAL(saveTriggered(SaveStatus)),
     ///     this, SLOT(changeSaveStatus(SaveStatus)));
+    createPalettes();
 }
 
 PatientStatusBar::~PatientStatusBar() {
 }
+
+void PatientStatusBar::createPalettes() {}
 
 void PatientStatusBar::setPatientInfo(const Name& name, 
     double kg, double bsa) {

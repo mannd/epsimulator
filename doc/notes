@@ -540,3 +540,6 @@ More On Navigator
      another disk or directory.  The only way I can think of doing this would
      be to insert a link in the original directory (link.dat??) that would
      direct one to change disks when reviewing the study.
+
+REVELATION
+    Non-class data members (e.g. int and pointers) MUST be initialized in the constructor.  There is no default initialization (e.g. to 0) for them.  This may be true for a compiler generated default constructor too, not sure.  Class members with default constructors don't have to be initialized in constructor initialization lists.  So, an uninitialized pointer in a constructor is a potential disaster!

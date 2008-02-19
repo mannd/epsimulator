@@ -76,6 +76,8 @@ private:
     static Saturation dangerO2Sat_;
     static Saturation malfunctionO2Sat_;
 
+    void createPalettes();
+
     Patient* patient_;
     QTimer* timer_;
     SaveStatus saveStatus_;

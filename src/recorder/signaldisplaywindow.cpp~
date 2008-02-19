@@ -64,8 +64,8 @@ void SignalDisplayWindow::createCentralWidget() {
  
     channelBar_ = new ChannelBar;
     signalArea_ = new SignalArea;
-    centralWidget->addWidget(channelBar);
-    centralWidget->addWidget(signalArea);
+    centralWidget->addWidget(channelBar_);
+    centralWidget->addWidget(signalArea_);
     setCentralWidget(centralWidget);
     connect(this, SIGNAL(pageChanged(int)), channelBar_,
         SLOT(changePage(int)));

@@ -31,7 +31,8 @@
 #include <math.h>
 
 PatientDialog::PatientDialog(QWidget* parent)
-    : QDialog(parent) {
+    : QDialog(parent), metricHeight_(0.0),
+    metricWeight_(0.0) {
     setupUi(this);
     connect(manualEditBsaCheckBox, SIGNAL(stateChanged(int)),
         this, SLOT(manualEditBsaCheckBox_toggled(int)));

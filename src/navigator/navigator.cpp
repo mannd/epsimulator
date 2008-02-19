@@ -75,8 +75,8 @@
 Navigator::Navigator(QWidget* parent)
     : QMainWindow( parent, Qt::WDestructiveClose ),
                    options_(Options::instance()), filterCatalogDialog_(0),
-                   catalogs_(0), currentDisk_(0), user_(User::instance()),
-                   recorder_(0) {
+                   catalogs_(0), currentDisk_(0), user_(User::instance())
+                   /*, recorder_(0) */ {
     do {
         createOpticalDrive();
     } while (!currentDisk_);
@@ -1017,14 +1017,20 @@ void Navigator::startStudy(Study* s) {
         // it "closes" (actually it hides itself too)
         // We also reuse the same recorder all the time, 
         // but use lazy initialization
-        if (!recorder_)
-            recorder_ = new Recorder(this);
-        recorder_->setStudy(s);
-        recorder_->setCurrentDisk(currentDisk_);
-        recorder_->updateAll(); // show administrator status, etc.
-        recorder_->show();
-        // looks better to show new window first, then hide this one,
-        // and vice versa
+//         if (!recorder_)
+//             recorder_ = new Recorder(this);
+//         recorder_->setStudy(s);
+//         recorder_->setCurrentDisk(currentDisk_);
+//         recorder_->updateAll(); // show administrator status, etc.
+//         recorder_->show();
+//         // looks better to show new window first, then hide this one,
+//         // and vice versa
+        Recorder* recorder = new Recorder(this);
+        recorder->setStudy(s);
+        recorder->setCurrentDisk(currentDisk_);
+        recorder->updateAll();
+        recorder->show();
+
         hide();
     }
     /// TODO One other possibility to handle.  If

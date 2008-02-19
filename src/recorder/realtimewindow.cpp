@@ -36,7 +36,7 @@ using EpGui::createAction;
 RealTimeWindow::RealTimeWindow(QWidget* parent)
  : SignalDisplayWindow(parent) {
     updateWindowTitle();
-    createCentralWidget();
+    //createCentralWidget();
     createActions();
     createToolBars();
 

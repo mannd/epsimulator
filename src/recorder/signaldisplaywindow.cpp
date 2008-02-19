@@ -29,6 +29,7 @@
 
 SignalDisplayWindow::SignalDisplayWindow(QWidget *parent)
  : QMainWindow(parent), currentPage_(minPage) {
+    createCentralWidget();
     createActions();
     // note this works in subclasses even though 
     // updateWindowTitle() is a pure virtual function!

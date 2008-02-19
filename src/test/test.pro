@@ -17,15 +17,15 @@ LIBS += ../../lib/libstimulator.a \
  -lgui \
  -lcore \
  -L../../lib \
- ../../lib/libnavigator.a \
- -lhardware
+ -lhardware \
+ -lnavigator
 TARGETDEPS += ../../lib/libgui.so \
 ../../lib/libstimulator.a \
 ../../lib/librecorder.so \
  ../../lib/libpatient.so \
  ../../lib/libcore.so \
- ../../lib/libnavigator.a \
- ../../lib/libhardware.so
+ ../../lib/libhardware.so \
+ ../../lib/libnavigator.so
 
 CONFIG += qtestlib \
  debug

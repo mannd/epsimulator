@@ -36,7 +36,7 @@ class FilterCatalogDialog;
 class MoveCopyStudyDialog;
 class OpticalDisk;
 class Options;
-class Recorder;
+//class Recorder;
 class StatusBar;
 class Study;
 class TableListView;
@@ -161,7 +161,7 @@ private:
     StatusBar* statusBar_;
     OpticalDisk* currentDisk_;
     User* user_;
-    Recorder* recorder_;
+    //Recorder* recorder_;
 
     // central widget stuff
     QSplitter* horizontalSplitter_;
