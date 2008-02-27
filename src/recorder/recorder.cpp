@@ -31,6 +31,7 @@
 #include "satmonitor.h"
 #include "simulatorsettingsdialog.h"
 #include "stimulator.h"
+#include "teststimulator.h"
 #include "study.h"
 #include "systemdialog.h"
 #include "user.h"
@@ -51,12 +52,16 @@
 #include <QToolBar>
 #include <QVariant>
 
+namespace EpRecorder {
 
-Recorder::Recorder(QWidget* parent) : QMainWindow(parent), 
-                                      study_(0), patient_(0),
-                                      user_(User::instance()),
-                                      options_(Options::instance()),
-                                      currentDisk_(0) {
+Recorder::Recorder(QWidget* parent, 
+                   Study* study, 
+                   OpticalDisk* currentDisk): 
+                   QMainWindow(parent), 
+                   study_(study), 
+                   user_(User::instance()),
+                   options_(Options::instance()),
+                   currentDisk_(currentDisk)  {
     // ensure the Recorder window, PatientStatusBar, floating
     // hardware windows... the whole kit and kaboodle are deleted
     // when the window closes.  As long as the Navigator window 
@@ -79,10 +84,21 @@ Recorder::Recorder(QWidget* parent) : QMainWindow(parent),
 
     createPatientStatusBar();
     createStatusBar();
-    readSettings();
+    readSettings();    
 
+    patient_ = new Patient;
+    patient_->setPath(study_->path());
+    patient_->load();
+    patientStatusBar_->setPatient(patient_);
+    patientStatusBar_->setPatientInfo(study_->name(), 
+        study_->weight(), study_->bsa());
+    patientStatusBar_->start();
+    connect(patientStatusBar_, SIGNAL(manualSave(bool)),
+        this, SLOT(setManualSave(bool)));
+}
 
-
+void Recorder::setManualSave(bool enable) {
+    manualSaveAct_->setChecked(enable);
 }
 
 void Recorder::updateWindowTitle() {
@@ -100,20 +116,7 @@ void Recorder::updateAll() {
 }
 
 Recorder::~Recorder() {
-    // note study_ is deleted in closeStudy
-    //delete patient_;
-}
-
-void Recorder::setStudy(Study* s) {
-    study_ = s;
     delete patient_;
-    patient_ = 0;
-    patient_ = new Patient;
-    patient_->setPath(s->path());
-    patient_->load();
-    patientStatusBar_->setPatient(patient_);
-    patientStatusBar_->setPatientInfo(s->name(), s->weight(), s->bsa());
-    patientStatusBar_->start();
 }
 
 void Recorder::patientInformation() {
@@ -147,10 +150,12 @@ void Recorder::simulatorSettings() {
     if (administrationAllowed()) {
         SimulatorSettingsDialog* simDialog = 
             new SimulatorSettingsDialog(options_, this);
-        simDialog->removeNavigatorTab();
+        //simDialog->removeNavigatorTab();
         if (simDialog->exec() == QDialog::Accepted) {
             simDialog->setOptions();
             updateMenus();
+            if (Navigator* navigator = dynamic_cast<Navigator*>(parent()))
+                navigator->updateSimulatorSettings();
         }
         delete simDialog;
     }
@@ -161,19 +166,17 @@ void Recorder::closeEvent(QCloseEvent *event) {
         study_->save();
         patient_->save();
         patientStatusBar_->stop();
-        if (Navigator* parentWidget = dynamic_cast<Navigator*>(parent())) {
-            parentWidget->regenerateCatalogs();
-            parentWidget->show();
-            parentWidget->updateAll();
+        if (Navigator* navigator = dynamic_cast<Navigator*>(parent())) {
+            navigator->regenerateCatalogs();
+            navigator->show();
+            navigator->updateAll();
         }
-        //hide();     // can't close, or app will terminate
         saveSettings();
         event->accept();
     }
     else
         event->ignore();
 }
-
 
 bool Recorder::closeStudy() {
     int ret = QMessageBox::question(this,
@@ -228,7 +231,7 @@ bool Recorder::administrationAllowed() {
 }
 
 void Recorder::openStimulator() {
-    Stimulator* stimulator = new Stimulator(this);
+    Stimulator* stimulator = new TestStimulator(this);
     stimulator->show();
 }
 
@@ -268,22 +271,19 @@ void Recorder::createPatientStatusBar() {
     addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 }
 
-
-
-using EpGui::createAction;
-
 void Recorder::createActions()
 {
-    // It appears the Prucka does not have typical shortcut keys and accelerator keys
-    // due to keyboard relabeling.  We'll provide some anyway.
-//    patientInformationAct = new QAction(tr("Patient Information"), this);
-     patientInformationAct_ = createAction(this, tr("Patient Information"), 
-                        tr("Create and modify patient information"),
-                        SLOT(patientInformation()));
+    // It appears the Prucka does not have typical shortcut keys 
+    // and accelerator keys due to keyboard relabeling.  
+    // We'll provide some anyway.
     // Note that the keyboard hints are totally non-mnemotic.  Should
     // have a function that delivers the right QString, depending on whether
     // using Prucka compatible or simplified menu, or just have a separate
     // set of menus -- probably that is easier -- for each configuration
+    using EpGui::createAction;
+    patientInformationAct_ = createAction(this, tr("Patient Information"), 
+        tr("Create and modify patient information"),
+        SLOT(patientInformation()));    
     consciousSedationAct_ = createAction(this, tr("Conscious Sedation"),
         tr("Conscious sedation list"), 0, tr("Alt+A"));
     complicationsAct_ = createAction(this, tr("Complications"), 
@@ -314,7 +314,7 @@ void Recorder::createActions()
         tr("Switch study configuration"), 0, 
         0, "hi32-switchwindowsettings.png");
     saveAct_ = createAction(this, tr("Save"),
-        tr("Save study configuration"), 0, 0, "hi32-savestudytype.png");
+        tr("Save study configuration"));
     saveAsAct_ = createAction(this, tr("Save As..."), 
         tr("Save study configuration under different name"));
     intervalsAct_ = createAction(this, tr("Intervals"), 
@@ -439,13 +439,23 @@ void Recorder::createActions()
     aboutAct_ = createAction(this, tr("&About EP Simulator"),
         tr("About EP Simulator"), SLOT(about()));
     // only on system toolbar
+    manualSaveAct_ = createAction(this, tr("Manual Save"),
+        tr("Activate manual saving of data"),
+        0, 0, "hi32-savestudytype.png");
+    manualSaveAct_->setCheckable(true);
+    connect(manualSaveAct_, SIGNAL(triggered(bool)),
+        this, SIGNAL(manualSave(bool)));
+    // explicitly connect signal/slot to indicate if "checked"
+//     connect(manualSaveAct_, SIGNAL(triggered(bool checked)),
+//         this, SLOT(manualSaveToggle(checked)));
     autoSaveAct_ = createAction(this, tr("Auto Save"),
         tr("Toggle Auto Save"), 0, 0, "hi32-autosavetoggle.png");
     autoSaveAct_->setCheckable(true);
+    connect(autoSaveAct_, SIGNAL(triggered(bool)),
+        this, SIGNAL(autoSave(bool)));
 }
 
-void Recorder::createMenus()
-{
+void Recorder::createMenus() {
     studyMenu_ = menuBar()->addMenu(tr("&Study"));
     studyMenu_->addAction(patientInformationAct_);
     studyMenu_->addSeparator();
@@ -540,6 +550,7 @@ void Recorder::createMenus()
     helpMenu_ = menuBar()->addMenu(tr("&Help"));
     helpMenu_->addAction(helpAct_);
     helpMenu_->addAction(aboutAct_);
+    
 }
 
 void Recorder::createToolBars() {
@@ -547,7 +558,7 @@ void Recorder::createToolBars() {
     systemToolBar->setObjectName("SystemToolBar");
     systemToolBar->setAutoFillBackground(true);
     systemToolBar->addAction(closeStudyAct_);
-    systemToolBar->addAction(saveAct_);
+    systemToolBar->addAction(manualSaveAct_);
     systemToolBar->addAction(autoSaveAct_);
     systemToolBar->addAction(adminReportsAct_);
     systemToolBar->addAction(switchAct_);
@@ -573,5 +584,4 @@ void Recorder::updateMenus() {
         EpGui::showSimulatorSettings(options_, user_));
 }
 
-
-
+}

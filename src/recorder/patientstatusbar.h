@@ -23,6 +23,7 @@
 
 #include "ui_patientstatusbar.h"
 
+#include "recorder.h"
 #include "saturation.h"
 
 struct Name;
@@ -31,10 +32,13 @@ class QPalette;
 class QTimer;
 class QWidget;
 
+using EpRecorder::SaveStatus;
+
 class PatientStatusBar : public QWidget, private Ui::PatientStatusBar {
     Q_OBJECT
 public:
-    enum SaveStatus {NoSave, ManualSave, AutoSave, ExitSave};
+
+
     PatientStatusBar(QWidget* parent = 0);
     ~PatientStatusBar();
 
@@ -55,11 +59,13 @@ public:
 
 signals:
     void saveTriggered(SaveStatus);
+    void manualSave(bool);
 
 public slots:
     void update();
     void manualSave();
     void changeSaveStatus(SaveStatus);
+    void autoSave(bool);
 
 protected:
   /*$PROTECTED_FUNCTIONS$*/
@@ -71,16 +77,18 @@ private slots:
     void noSave();
 
 private:
+    void createPalettes();
+
     static const int updateInterval = 1000;
     static Saturation warningO2Sat_;
     static Saturation dangerO2Sat_;
     static Saturation malfunctionO2Sat_;
 
-    void createPalettes();
 
     Patient* patient_;
     QTimer* timer_;
     SaveStatus saveStatus_;
+    bool autoSave_;
     QPalette* defaultPalette_;
     QPalette* dangerPalette_;
     QPalette* warningPalette_;

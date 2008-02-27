@@ -3,7 +3,9 @@ TEMPLATE = lib
 CONFIG += staticlib \
  debug
 
-FORMS += ui/stimulator.ui ui/dial.ui
+FORMS += ui/dial.ui \
+         ui/basicstimulator.ui \
+ ui/teststimulator.ui
 
 
 CONFIG -= release
@@ -14,7 +16,13 @@ RESOURCES += ../resources/resources.qrc
 
 
 
-SOURCES += stimulator.cpp
+SOURCES += stimulator.cpp \
+ teststimulator.cpp
 
-HEADERS += stimulator.h
+HEADERS += stimulator.h \
+ teststimulator.h
+
+INCLUDEPATH += ../core
+
+DISTFILES += .
 

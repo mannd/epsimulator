@@ -27,6 +27,11 @@
 #include <QTimer>
 #include <QWidget>
 
+using EpRecorder::NoSave;
+using EpRecorder::ManualSave;
+using EpRecorder::ExitSave;
+using EpRecorder::AutoSave;
+
 const int PatientStatusBar::updateInterval;
 
 Saturation PatientStatusBar::warningO2Sat_ = 90;
@@ -34,7 +39,8 @@ Saturation PatientStatusBar::dangerO2Sat_ = 80;
 Saturation PatientStatusBar::malfunctionO2Sat_ = 40;
 
 PatientStatusBar::PatientStatusBar(QWidget* parent)
-    : QWidget(parent), patient_(0), saveStatus_(NoSave) {
+    : QWidget(parent), patient_(0), saveStatus_(NoSave),
+    autoSave_(false) {
     setupUi(this);
     timeLabel->setMinimumWidth(100);    // prevent flickering?
     timer_ = new QTimer(this);
@@ -46,9 +52,12 @@ PatientStatusBar::PatientStatusBar(QWidget* parent)
         this, SLOT(changeSaveStatus(SaveStatus)));
     // saveButton also responds to signals from Recorder for autosaving
     /// TODO
-    /// connect(parent, SIGNAL(saveTriggered(SaveStatus)),
-    ///     this, SLOT(changeSaveStatus(SaveStatus)));
+    connect(parent, SIGNAL(manualSave(bool)),
+        this, SLOT(manualSave()));
+    connect(parent, SIGNAL(autoSave(bool)),
+        this, SLOT(autoSave(bool)));
     createPalettes();
+    changeSaveStatus(saveStatus_);
 }
 
 PatientStatusBar::~PatientStatusBar() {
@@ -99,29 +108,42 @@ void PatientStatusBar::manualSave() {
     else 
         saveStatus_ = ExitSave;
     emit(saveTriggered(saveStatus_));
+    emit(manualSave(saveStatus_ == ManualSave));
 }
+
+void PatientStatusBar::autoSave(bool enable) {
+    autoSave_ = enable;
+    emit(saveTriggered(saveStatus_));
+}
+
 
 void PatientStatusBar::noSave() {
     changeSaveStatus(NoSave);
 }
 
 void PatientStatusBar::changeSaveStatus(SaveStatus saveStatus) {
+    QString prefix = ":/images/hi64-";
+    QString suffix = autoSave_ ? "autosave.png" : ".png";
+    QString manualSaveIcon = prefix + "manualsave" + suffix;
+    QString autoSaveIcon = prefix + "autosave" + suffix;
+    QString exitSaveIcon = prefix + "autosaveexit" + suffix;
+    QString noSaveIcon = prefix + "nosave" + suffix;
     saveStatus_ = saveStatus;
     switch (saveStatus) {
         case ManualSave: 
-            saveButton->setIcon(QIcon(":/images/hi64-manualsave.png"));
+            saveButton->setIcon(QIcon(manualSaveIcon));
             break;
         case AutoSave:
-            saveButton->setIcon(QIcon(":/images/hi64-autosave.png"));
+            saveButton->setIcon(QIcon(autoSaveIcon));
             break;
         case ExitSave:
-            saveButton->setIcon(QIcon(":/images/hi64-autosaveexit.png"));
+            saveButton->setIcon(QIcon(exitSaveIcon));
             saveStatus = NoSave;
             QTimer::singleShot(4000, this, SLOT(noSave()));
             break;
         case NoSave:
         default:
-            saveButton->setIcon(QIcon(":/images/hi64-nosave.png"));
+            saveButton->setIcon(QIcon(noSaveIcon));
     }
 }
     

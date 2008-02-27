@@ -42,8 +42,10 @@ struct StudyData;
 */
 class TableListView : public Q3ListView {
 public:
-    enum ColumnName {FirstCol = 0, StudyTypeCol = FirstCol, LastNameCol, FirstNameCol, FullNameCol,
-                     MRNCol, DateTimeCol, ConfigCol, NumberCol, LocationCol, LastCol = LocationCol};
+    enum ColumnName {FirstCol = 0, StudyTypeCol = FirstCol, LastNameCol,
+                     FirstNameCol, FullNameCol, MRNCol, DateTimeCol, 
+                     ConfigCol, NumberCol, LocationCol, 
+                     LastCol = LocationCol};
     enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
 
     TableListView(QWidget* parent, bool oldStyle);
@@ -54,7 +56,8 @@ public:
 
     void load(Catalog*);
 
-    Study* study() const;     // returns currently selected study or 0 if none selected
+    Study* study() const; // returns currently selected study 
+                          // or 0 if none selected
 
     void applyFilter(FilterStudyType filterStudyType,
                     const QRegExp& lastName,

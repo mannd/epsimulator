@@ -34,10 +34,14 @@ public:
     static Options* instance();
     
     // paths to the main system catalogs
-    void setOpticalStudyPath(const QString& opticalStudyPath) {opticalStudyPath_ = opticalStudyPath;}
-    void setNetworkStudyPath(const QString& networkStudyPath) {networkStudyPath_ = networkStudyPath;}
-    void setExportFilePath(const QString& exportFilePath) {exportFilePath_ = exportFilePath;}
-    void setTempStudyPath(const QString& tempStudyPath) {tempStudyPath_ = tempStudyPath;}
+    void setOpticalStudyPath(const QString& opticalStudyPath) {
+        opticalStudyPath_ = opticalStudyPath;}
+    void setNetworkStudyPath(const QString& networkStudyPath) {
+        networkStudyPath_ = networkStudyPath;}
+    void setExportFilePath(const QString& exportFilePath) {
+        exportFilePath_ = exportFilePath;}
+    void setTempStudyPath(const QString& tempStudyPath) {
+        tempStudyPath_ = tempStudyPath;}
 
     void setLabName(const QString& labName) {labName_ = labName;}
     void setUseLabName(bool useLabName) {useLabName_ = useLabName;}
@@ -49,14 +53,18 @@ public:
     void setDualSidedDrive(bool emulate) {dualSidedDrive_ = emulate;}
     void setEmulatedOpticalDriveCapacity(int capacity) {
         emulatedOpticalDriveCapacity_ = capacity;}
-    void setOldStyleNavigator(bool isOldStyle) {oldStyleNavigator_ = isOldStyle;}
+    void setOldStyleNavigator(bool isOldStyle) {
+        oldStyleNavigator_ = isOldStyle;}
     void setNewStyleBlueBar(bool isNewStyle) {newStyleBlueBar_ = isNewStyle;}
     void setAdministratorAccountRequired(bool isRequired) {
         administratorAccountRequired_ = isRequired;}
     void setHideSimulatorMenu(bool hideMenu) {hideSimulatorMenu_ = hideMenu;}
-    void setPermanentDelete(bool permanentDelete) {permanentDelete_ = permanentDelete;}
+    void setPermanentDelete(bool permanentDelete) {
+        permanentDelete_ = permanentDelete;}
 
     void setPasswordHash(QString hash) {passwordHash_ = hash;}
+
+    void setAutoSaveDiskIcon(bool enable) {autoSaveDiskIcon_ = enable;}
 
     QString opticalStudyPath() const {return opticalStudyPath_;}
     QString networkStudyPath() const {return networkStudyPath_;}
@@ -76,11 +84,14 @@ public:
         return emulatedOpticalDriveCapacity_;} 
     bool oldStyleNavigator() const {return oldStyleNavigator_;}
     bool newStyleBlueBar() const {return newStyleBlueBar_;}
-    bool administratorAccountRequired() const {return administratorAccountRequired_;}
+    bool administratorAccountRequired() const {
+        return administratorAccountRequired_;}
     bool hideSimulatorMenu() const {return hideSimulatorMenu_;}
     bool permanentDelete() const {return permanentDelete_;}
     
     QString passwordHash() const {return passwordHash_;}
+
+    bool autoSaveDiskIcon() const {return autoSaveDiskIcon_;}
 
     // read and write options to disk
     void readSettings();
@@ -131,6 +142,9 @@ private:
     
     // not a real option, but convenient to have the password hash here
     QString passwordHash_;
+
+    // Recorder options
+    bool autoSaveDiskIcon_;
 };
 
 #endif

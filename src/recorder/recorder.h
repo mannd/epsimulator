@@ -42,14 +42,18 @@ class SatMonitor;
 class Study;
 class User;
 
+namespace EpRecorder {
+    enum SaveStatus {NoSave, ManualSave, AutoSave, ExitSave};
+
+
 class Recorder : public QMainWindow {
     Q_OBJECT
 
 public:
-    Recorder(QWidget* parent);
+
+    Recorder(QWidget* parent, 
+        Study* study, OpticalDisk* currentDisk);
     
-    void setStudy(Study*);
-    void setCurrentDisk(OpticalDisk* disk) {currentDisk_ = disk;}
     void updateAll();
 
     ~Recorder();
@@ -61,8 +65,13 @@ protected:
     void closeEvent(QCloseEvent * event);
     //    void contextMenuEvent(QContextMenuEvent * event);
 
+signals:
+    void manualSave(bool);  // emitted if Save toolbar button changed
+    void autoSave(bool);    // emitted if AutoSave toolbar button changed
+
 private slots:
     void patientInformation();
+    //void autoSaveToggle(bool on);
     void login();
     void logout();
     void changePassword();
@@ -72,6 +81,7 @@ private slots:
     void simulatorSettings();
     void openStimulator();
     void openSatMonitor();
+    void setManualSave(bool);
 
 private:
     void createActions();
@@ -185,6 +195,7 @@ private:
     QAction* aboutAct_;
 
     // System Toolbar
+    QAction* manualSaveAct_;
     QAction* autoSaveAct_;
     QComboBox* switchedVideoComboBox_;
     QComboBox* protocolComboBox_;
@@ -200,4 +211,7 @@ private:
     QMenu* helpMenu_;
 };
 
+}
+
 #endif
+

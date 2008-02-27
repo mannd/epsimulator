@@ -139,6 +139,7 @@ void RealTimeWindow::createActions() {
     timeCalipersAct_ = createAction(this, tr("Time Calipers"),
         tr("Time calipers"), 0, 0, "hi32-timecalipers.png");
     timeCalipersAct_->setCheckable(true);
+    timeCalipersAct_->setChecked(true); // default to time calipers
     amplitudeCalipersAct_ = createAction(this, tr("Amplitude Calipers"),
         tr("Amplitude calipers"), 0, 0, "hi32-amplitudecalipers.png");
     amplitudeCalipersAct_->setCheckable(true);
@@ -147,6 +148,7 @@ void RealTimeWindow::createActions() {
     msCalipersAct_ = createAction(this, tr("Millisecond Calipers"),
         tr("Caliper value in milliseconds"), 0, 0, "hi32-mscalipers.png");
     msCalipersAct_->setCheckable(true);
+    msCalipersAct_->setChecked(true);   // default to ms calipers
     bpmCalipersAct_ = createAction(this, tr("BPM Calipers"),
         tr("Caliper value in BPM"), 0, 0, "hi32-bpmcalipers.png");
     bpmCalipersAct_->setCheckable(true);

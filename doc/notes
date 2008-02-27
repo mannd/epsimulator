@@ -543,3 +543,43 @@ More On Navigator
 
 REVELATION
     Non-class data members (e.g. int and pointers) MUST be initialized in the constructor.  There is no default initialization (e.g. to 0) for them.  This may be true for a compiler generated default constructor too, not sure.  Class members with default constructors don't have to be initialized in constructor initialization lists.  So, an uninitialized pointer in a constructor is a potential disaster!
+
+
+Data saving signals and slots
+    There are several different data saving states.  If no data is being saved, the autosave state may still be toggled on.  Later versions of the Prucka system indicate autosaving on not only by the toolbar icon being on but also the disk save icon has a circular arrow in it.  There are thus 2 sets of disk save icons, with and without the circular arrow icon.  Manual save is turned on by clicking the system toolbar save icon, or by clicking the disk icon.  The disk turns red.  This overrides all other save states.  This is only turned off by clicking the disk icon again or by toggling off the system toolbar save icon.  There is a transient change of color of the disk icon to light blue for a few secs whenever any save state goes off.  During that period, Recorder could conceivably turn save back on by detecting the need to autosave.  During active autosaving, the disk icon is dark blue.  
+
+    The save states are an enum.  This needs to be defined publically in namespace EpRecorder:
+
+    namespace EpRecorder {
+    enum SaveStatus {NoSave, ManualSave, AutoSave, ExitSave};
+    }
+
+    Whether autosave is turned on is a bool:
+
+    public:
+    bool autoSaveToggle() const;
+
+    Toggling the auto save tool button must send a signal which sets the autoSaveEnabled_ data member and initiates the check to see if data needs to be autosaved.  This also connects to a slot in PatientStatusBar which will change the disk icon if that option is set.  The routine that checks to see if autosave needs to be on or off is driven by heart rate, pacing and RFA, and is triggered by a QTimer, e.g.:
+
+    void Recorder::monitorAutoSave();
+
+    This routine will use a signal to turn on or off autosaving:
+
+    signal:
+        autoSave(bool enable);
+
+    PatientStatusBar feeds the signal into a slot that changes the disk icon appearance appropriately.
+
+    void PatientStatusBar::setAutoSave(bool enable);
+
+    This is distinct from the slot that is affected by the auto save toggle:
+
+    void PatientStatusBar::setAutoSaveToggle(bool enable);
+
+Sound
+    QSound uses nas (Network Audio System) only on X11 systems.  I installed nas from source.  However, Qt must be compiled with sound support (type ./configure --help in the Qt source directory to see the option that needs to be enabled.  Sound is not enabled by default in Qt.  Finally, you must make sure the nasd daemon is running:
+
+    sudo nasd -aa -b
+
+    And, the sound library files (libaudio.so) are in the /usr/X11R6/lib directory, which is added to the /etc/ld.conf file automatically when nas is installed, but it is necessary as always to run sudo /sbin/ldconfig to get it to work.  See my Linux Tweaks.
+

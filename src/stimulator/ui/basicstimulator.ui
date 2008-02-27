@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>Stimulator</class>
- <widget class="QWidget" name="Stimulator" >
+ <class>BasicStimulator</class>
+ <widget class="QWidget" name="BasicStimulator" >
   <property name="geometry" >
    <rect>
     <x>0</x>

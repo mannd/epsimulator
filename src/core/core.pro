@@ -19,7 +19,8 @@ HEADERS += options.h \
            user.h \
  fileutilities.h \
  passwordhandler.h \
- probability.h
+ probability.h \
+ epdefs.h
 
 
 CONFIG -= release

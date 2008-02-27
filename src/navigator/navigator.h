@@ -57,6 +57,7 @@ class Navigator : public QMainWindow {
 public:
     Navigator(QWidget* parent = 0);
 
+    void updateSimulatorSettings();
     void updateAll();   // called by Recorder
 
     ~Navigator();
@@ -164,7 +165,7 @@ private:
     //Recorder* recorder_;
 
     // central widget stuff
-    QSplitter* horizontalSplitter_;
+    QSplitter* centralWidget_;
     AbstractButtonFrame* buttonFrame_;
     TableListView* tableListView_;
 

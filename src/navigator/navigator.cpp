@@ -75,8 +75,7 @@
 Navigator::Navigator(QWidget* parent)
     : QMainWindow( parent, Qt::WDestructiveClose ),
                    options_(Options::instance()), filterCatalogDialog_(0),
-                   catalogs_(0), currentDisk_(0), user_(User::instance())
-                   /*, recorder_(0) */ {
+                   currentDisk_(0), user_(User::instance()) {
     do {
         createOpticalDrive();
     } while (!currentDisk_);
@@ -464,15 +463,6 @@ void Navigator::updateAll() {
 void Navigator::login() {
     if (EpGui::login(this, user_))
          updateAll();
-//     if (!user_->isAdministrator()) {
-//         PasswordDialog* pwDialog = 
-//             new PasswordDialog(options_,this);
-//         if (pwDialog->exec() == QDialog::Accepted) {
-//             user_->makeAdministrator(true);
-//             updateAll();
-//         }
-//         delete pwDialog;
-//     }
 }
 
 void Navigator::logout() {
@@ -571,27 +561,41 @@ void Navigator::exportCatalog() {
     delete fd;
 }
 
+void Navigator::updateSimulatorSettings(){
+    try {
+        setUpdatesEnabled(false);
+        updateMenus();
+        // change type of optical disk if needed
+        do {
+            createOpticalDrive();
+        } while (!currentDisk_);
+        delete centralWidget_;
+        createCentralWidget();
+        delete catalogs_;
+        catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
+        tableListView_->setOldStyle(options_->oldStyleNavigator());
+        tableListView_->adjustColumns(true);
+        refreshCatalogs();   // This repopulates the TableListView.
+        // Need to do below to make sure user label
+        // matches Navigator style.
+        statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
+        updateStatusBarUserLabel();
+        /// TODO other effects of changing simulator settings below
+        setUpdatesEnabled(true);
+    }
+    catch (std::exception&) {
+        setUpdatesEnabled(true);
+        throw;
+    }
+}
+
 void Navigator::simulatorSettings() {
     if (administrationAllowed()) {
         SimulatorSettingsDialog* simDialog = 
             new SimulatorSettingsDialog(options_, this);
         if (simDialog->exec() == QDialog::Accepted) {
             simDialog->setOptions();
-            updateMenus();
-            // change type of optical disk if needed
-            do {
-                createOpticalDrive();
-            } while (!currentDisk_);
-            delete catalogs_;
-            catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
-            tableListView_->setOldStyle(options_->oldStyleNavigator());
-            tableListView_->adjustColumns(true);
-            refreshCatalogs();   // This repopulates the TableListView.
-            // Need to do below to make sure user label
-            // matches Navigator style.
-            statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
-            updateStatusBarUserLabel();
-            /// TODO other effects of changing simulator settings below
+            updateSimulatorSettings();
         }
         delete simDialog;
     }
@@ -680,8 +684,8 @@ void Navigator::createOpticalDrive() {
 }
 
 void Navigator::createCentralWidget() {
-    horizontalSplitter_ = new QSplitter(Qt::Horizontal, this);
-    setCentralWidget(horizontalSplitter_);
+    centralWidget_ = new QSplitter(Qt::Horizontal, this);
+    setCentralWidget(centralWidget_);
     createButtonFrame();
     createTableListView();
     refreshCatalogs();
@@ -690,14 +694,14 @@ void Navigator::createCentralWidget() {
 /**
  * Create the "blue bar" to the side of the Navigator window.  Uses
  * setupButton to make each button.  The parent of the buttonFrame is
- * the horizontalSplitter_.  This is also the parent of the 
+ * the centralWidget_.  This is also the parent of the 
  * tableListView_.
  */
 void Navigator::createButtonFrame() {
     if (Options::instance()->newStyleBlueBar()) // set up flat buttons
-        buttonFrame_ = new NewStyleButtonFrame(horizontalSplitter_);
+        buttonFrame_ = new NewStyleButtonFrame(centralWidget_);
     else
-        buttonFrame_ = new OldStyleButtonFrame(horizontalSplitter_);
+        buttonFrame_ = new OldStyleButtonFrame(centralWidget_);
     buttonFrame_->addButton("New Study", "hi64-newstudy", SLOT(newStudy()));
     buttonFrame_->addButton("Continue Study", "hi64-continuestudy",
         SLOT(continueStudy()));
@@ -715,7 +719,7 @@ void Navigator::createButtonFrame() {
  * source is current in the catalogComboBox_.
  */
 void Navigator::createTableListView() {
-    tableListView_ = new TableListView(horizontalSplitter_,
+    tableListView_ = new TableListView(centralWidget_,
         options_->oldStyleNavigator());
     connect(tableListView_, SIGNAL(doubleClicked(Q3ListViewItem*, 
         const QPoint&, int)), this, SLOT(newStudy()));
@@ -732,9 +736,8 @@ void Navigator::updateMenus() {
         EpGui::showSimulatorSettings(options_, user_));
 }
 
-using EpGui::createAction;
-
 void Navigator::createActions() {
+    using EpGui::createAction;    
     // Study menu
     newAct_ = createAction(this, tr("&New..."), tr("New study"),
         SLOT(newStudy()), QKeySequence(tr("Ctrl+N")), "hi32-newstudy.png");
@@ -915,11 +918,12 @@ void Navigator::saveSettings() {
     Settings settings;
     settings.setValue("/navigatorSize", size());
     settings.setValue("/navigatorPos", pos());    
-    settings.setValue("/horizontalSplitter", horizontalSplitter_->saveState());
+    settings.setValue("/navigatorCentralWidget",   
+        centralWidget_->saveState());
 }
 
 /**
- * Read the current settings, including location of the horizontalSplitter_.
+ * Read the current settings, including location of the centralWidget_.
  * This will also read the last "disk" used if optical disk emulation is
  * on.
  */
@@ -931,7 +935,8 @@ void Navigator::readSettings() {
     else {  // but if not initial run, use previous window settings
         resize(size.toSize());
         move(settings.value("/navigatorPos").toPoint());
-        horizontalSplitter_->restoreState(settings.value("/horizontalSplitter").toByteArray());
+        centralWidget_->restoreState(settings.value(
+            "/navigatorCentralWidget").toByteArray());
     }
 }
 
@@ -1003,6 +1008,7 @@ void Navigator::startStudy(Study* s) {
     s->setPath(studyPath);
     s->save();
     QDesktopWidget* desktopWidget = qApp->desktop();
+    using EpRecorder::Recorder;
     if (desktopWidget->numScreens() > 1) {
         /// TODO special handling of 2 screen system here.
         /// Basically, will open another recorder window
@@ -1013,22 +1019,9 @@ void Navigator::startStudy(Study* s) {
         /// window.
     }
     else {
-        // recorder saves pointer to navigator and unhides it when
-        // it "closes" (actually it hides itself too)
-        // We also reuse the same recorder all the time, 
-        // but use lazy initialization
-//         if (!recorder_)
-//             recorder_ = new Recorder(this);
-//         recorder_->setStudy(s);
-//         recorder_->setCurrentDisk(currentDisk_);
-//         recorder_->updateAll(); // show administrator status, etc.
-//         recorder_->show();
-//         // looks better to show new window first, then hide this one,
-//         // and vice versa
-        Recorder* recorder = new Recorder(this);
-        recorder->setStudy(s);
-        recorder->setCurrentDisk(currentDisk_);
-        recorder->updateAll();
+        // looks better to show new window first, then hide this one,
+        // and vice versa
+        Recorder* recorder = new Recorder(this, s, currentDisk_);
         recorder->show();
 
         hide();

@@ -86,6 +86,7 @@ void Options::readSettings() {
     /// settings file, etc.  One problem is all this seems like overkill to prevent users
     /// from having access to some minor setup functions.
     passwordHash_ = settings.value("/passwordHash", "0").toString();
+    autoSaveDiskIcon_ = settings.value("/autoSaveDiskIcon", false).toBool();
     /// TODO other options here...
 }
 
@@ -111,6 +112,7 @@ void Options::writeSettings() {
     settings.setValue("/hideSimulatorMenu", hideSimulatorMenu_);
     settings.setValue("/permanentDelete", permanentDelete_);
     settings.setValue("/passwordHash", passwordHash_);
+    settings.setValue("/autoSaveDiskIcon", autoSaveDiskIcon_);
     /// TODO add other options here...
 }
 

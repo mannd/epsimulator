@@ -59,7 +59,6 @@ void SignalDisplayWindow::nextPage() {
     emit pageChanged(currentPage_);
 }
 
-
 void SignalDisplayWindow::createCentralWidget() {
     QSplitter* centralWidget = new QSplitter(Qt::Horizontal, this);
  
@@ -74,9 +73,8 @@ void SignalDisplayWindow::createCentralWidget() {
         SLOT(changePage(int)));
 }
 
-using EpGui::createAction;
-
 void SignalDisplayWindow::createActions() {
+    using EpGui::createAction;
     previousPageAct_ = createAction(this, tr("Previous Page"),
         0, SLOT(previousPage()),
         QKeySequence(QKeySequence::MoveToPreviousPage));
@@ -86,8 +84,8 @@ void SignalDisplayWindow::createActions() {
     addAction(previousPageAct_);
     addAction(nextPageAct_);
 }
-SignalDisplayWindow::~SignalDisplayWindow() {}
 
+SignalDisplayWindow::~SignalDisplayWindow() {}
 
 ChannelBar::ChannelBar(QWidget* parent) : QFrame(parent) {
     setUp();
