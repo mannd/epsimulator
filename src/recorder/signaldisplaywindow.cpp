@@ -27,8 +27,8 @@
 #include <QSizePolicy>
 #include <QSplitter>
 
-SignalDisplayWindow::SignalDisplayWindow(QWidget *parent)
- : QMainWindow(parent), currentPage_(minPage) {
+SignalDisplayWindow::SignalDisplayWindow(QWidget *parent, Qt::WindowFlags fl)
+ : QMainWindow(parent, fl), currentPage_(minPage) {
     createCentralWidget();
     createActions();
     // note this works in subclasses even though 

@@ -4,13 +4,15 @@ SOURCES += recorder.cpp \
  patientstatusbar.cpp \
  realtimewindow.cpp \
  signaldisplaywindow.cpp \
- reviewwindow.cpp
+ reviewwindow.cpp \
+ logwindow.cpp
 
 HEADERS += recorder.h \
  patientstatusbar.h \
  realtimewindow.h \
  signaldisplaywindow.h \
- reviewwindow.h
+ reviewwindow.h \
+ logwindow.h
 
 INCLUDEPATH += ../gui \
 ../stimulator \

@@ -38,7 +38,7 @@ class SignalArea;
 class SignalDisplayWindow : public QMainWindow  {
     Q_OBJECT
 public:
-    SignalDisplayWindow(QWidget* parent = 0);
+    SignalDisplayWindow(QWidget* parent = 0, Qt::WindowFlags fl = Qt::Window);
 
     void setCurrentPage(int page);
     int currentPage() const {return currentPage_;}

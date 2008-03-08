@@ -15,7 +15,7 @@
     <ignoreparts/>
     <versioncontrol/>
     <projectname>epsimulator</projectname>
-    <defaultencoding></defaultencoding>
+    <defaultencoding/>
   </general>
   <kdevfileview>
     <groups>
@@ -71,12 +71,12 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell></dbgshell>
+      <dbgshell/>
       <programargs/>
-      <gdbpath></gdbpath>
-      <configGdbScript></configGdbScript>
-      <runShellScript></runShellScript>
-      <runGdbScript></runGdbScript>
+      <gdbpath/>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
@@ -97,19 +97,19 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/gui</activedir>
+      <activedir>src/navigator</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
       <customdirectory>/</customdirectory>
       <mainprogram>/home/mannd/dev/local/epsimulator/bin/epsimulator</mainprogram>
-      <programargs></programargs>
+      <programargs/>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars>
         <envvar value="./lib:../lib:../../lib:$LD_LIBRARY_PATH" name="LD_LIBRARY_PATH" />
       </envvars>
-      <globaldebugarguments></globaldebugarguments>
+      <globaldebugarguments/>
       <globalcwd>/home/mannd/dev/local/epsimulator/bin</globalcwd>
       <useglobalprogram>true</useglobalprogram>
       <autoinstall>false</autoinstall>
@@ -120,7 +120,7 @@
         <recorder/>
         <epsimulator/>
         <runner/>
-        <testepsimulator></testepsimulator>
+        <testepsimulator/>
         <main/>
       </runarguments>
       <cwd>
@@ -138,7 +138,7 @@
         <recorder/>
         <epsimulator/>
         <runner/>
-        <testepsimulator></testepsimulator>
+        <testepsimulator/>
         <main/>
       </debugarguments>
     </run>
@@ -147,7 +147,7 @@
       <runmultiplejobs>false</runmultiplejobs>
       <numberofjobs>1</numberofjobs>
       <dontact>false</dontact>
-      <makebin></makebin>
+      <makebin/>
       <prio>0</prio>
       <envvars/>
     </make>
@@ -216,7 +216,7 @@
       <designerpluginpaths/>
     </qt>
     <creategettersetter>
-      <prefixGet></prefixGet>
+      <prefixGet/>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>

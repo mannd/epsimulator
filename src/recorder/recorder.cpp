@@ -21,12 +21,14 @@
 #include "recorder.h"
 
 #include "actions.h"
+#include "logwindow.h"
 #include "navigator.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "patientdialog.h"
 #include "patientstatusbar.h"
 #include "realtimewindow.h"
+#include "reviewwindow.h"
 #include "settings.h"
 #include "satmonitor.h"
 #include "simulatorsettingsdialog.h"
@@ -48,6 +50,7 @@
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QCloseEvent>
+#include <QSplitter>
 #include <QStatusBar>
 #include <QToolBar>
 #include <QVariant>
@@ -67,14 +70,43 @@ Recorder::Recorder(QWidget* parent,
     // when the window closes.  As long as the Navigator window 
     // is first made visible, the application will not close.
     setAttribute(Qt::WA_DeleteOnClose);
-    
-    centralWidget_ = new QMdiArea(this);
+
+    createCentralWidget();
+
+    QMdiSubWindow* msw1 = new QMdiSubWindow; 
+    QMdiSubWindow* msw2 = new QMdiSubWindow;
+    QMdiSubWindow* msw3 = new QMdiSubWindow;
+
+    Qt::WindowFlags flags = msw1->windowFlags();    
+    // all the flags will be the same
+    flags &= ~Qt::WindowMinMaxButtonsHint;
+    flags &= ~Qt::WindowSystemMenuHint;
+    msw1->setWindowFlags(flags);
+    msw2->setWindowFlags(flags);
+    msw3->setWindowFlags(flags);
+
+    centralWidget_ = new QSplitter(Qt::Vertical);
+    upperWindow_ = new QSplitter(centralWidget_);
     realTimeWindow_ = new RealTimeWindow;
-    QMdiSubWindow* msw = new QMdiSubWindow; 
-    msw->setWidget(realTimeWindow_);
-    centralWidget_->addSubWindow(msw);
-    centralWidget_->tileSubWindows();
+    reviewWindow1_ = new ReviewWindow;
+    logWindow_ = new LogWindow;
+
+    msw1->setWidget(realTimeWindow_);
+    msw2->setWidget(reviewWindow1_);
+    msw3->setWidget(logWindow_);
+
+    upperWindow_->addWidget(msw1);
+    upperWindow_->addWidget(msw2);
+    upperWindow_->setStretchFactor(0,1);
+    centralWidget_->addWidget(upperWindow_);
+    centralWidget_->addWidget(msw3);
+    centralWidget_->setStretchFactor(0,1);
+    
+
+
     setCentralWidget(centralWidget_);
+
+
 
     createActions();
     createMenus();
@@ -86,6 +118,8 @@ Recorder::Recorder(QWidget* parent,
     createStatusBar();
     readSettings();    
 
+    msw1->setFocus();
+
     patient_ = new Patient;
     patient_->setPath(study_->path());
     patient_->load();
@@ -96,6 +130,12 @@ Recorder::Recorder(QWidget* parent,
     connect(patientStatusBar_, SIGNAL(manualSave(bool)),
         this, SLOT(setManualSave(bool)));
 }
+
+void Recorder::tileWindows() {
+
+}
+
+void Recorder::createCentralWidget() {}
 
 void Recorder::setManualSave(bool enable) {
     manualSaveAct_->setChecked(enable);
@@ -192,20 +232,31 @@ void Recorder::saveSettings() {
     settings.setValue("/recorderSize", size());
     settings.setValue("/recorderPos", pos()); 
     settings.setValue("/recorderState", saveState());
+    settings.setValue("/recorderUpperWindow",
+        upperWindow_->saveState());    
+    settings.setValue("/recorderCentralWidget",
+         centralWidget_->saveState());
+  
     realTimeWindow_->saveSettings();   
+    reviewWindow1_->saveSettings();
 }
 
 void Recorder::readSettings() {
     realTimeWindow_->readSettings();
+    reviewWindow1_->readSettings();
     Settings settings;
-    restoreState(settings.value("/recorderState").toByteArray());
     QVariant size = settings.value("/recorderSize");
     if (size.isNull()) {
-        showMaximized();
+        setWindowState(Qt::WindowMaximized);
         return;
-    }
+    }    
+    restoreState(settings.value("/recorderState").toByteArray());
     resize(size.toSize());
     move(settings.value("/recorderPos").toPoint());
+    centralWidget_->restoreState(settings.value(
+            "/recorderCentralWidget").toByteArray());
+    upperWindow_->restoreState(settings.value(
+            "/recorderUpperWindow").toByteArray());
 }
 
 void Recorder::login() {

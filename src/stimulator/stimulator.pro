@@ -17,10 +17,12 @@ RESOURCES += ../resources/resources.qrc
 
 
 SOURCES += stimulator.cpp \
- teststimulator.cpp
+ teststimulator.cpp \
+ basicstimulator.cpp
 
 HEADERS += stimulator.h \
- teststimulator.h
+ teststimulator.h \
+ basicstimulator.h
 
 INCLUDEPATH += ../core
 

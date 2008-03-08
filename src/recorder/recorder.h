@@ -36,6 +36,7 @@ class QComboBox;
 class QDockWidget;
 class QMdiArea;
 class QMenu;
+class QSplitter;
 class RealTimeWindow;
 class ReviewWindow;
 class SatMonitor;
@@ -83,8 +84,11 @@ private slots:
     void openSatMonitor();
     void setManualSave(bool);
 
+    void tileWindows();
+
 private:
     void createActions();
+    void createCentralWidget();
     void createMenus();
     void createToolBars();
     void createStatusBar();
@@ -106,11 +110,13 @@ private:
     OpticalDisk* currentDisk_;
 
     // central widget
-    QMdiArea* centralWidget_;
+    //QMdiArea* centralWidget_;
+    QSplitter* centralWidget_;
+    QSplitter* upperWindow_;      // needed to subdivide central window
     RealTimeWindow* realTimeWindow_;
     ReviewWindow* reviewWindow1_;
-    ReviewWindow* reviewWindow2_;
-    // LowWindow* logWindow_;
+    //ReviewWindow* reviewWindow2_;
+    LogWindow* logWindow_;
 
     // patient status bar
     PatientStatusBar* patientStatusBar_;
