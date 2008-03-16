@@ -583,3 +583,15 @@ Sound
 
     And, the sound library files (libaudio.so) are in the /usr/X11R6/lib directory, which is added to the /etc/ld.conf file automatically when nas is installed, but it is necessary as always to run sudo /sbin/ldconfig to get it to work.  See my Linux Tweaks.
 
+Segmentation Faults
+    These are mostly unitialized built-in types.  Unlike user designed classes, built-in types are not initialized automatically, apparently not even with a compiler-made default constructor.  Note that you can "zero" these built-in types either by doing this:
+        e.g. an int named Int, in initialization list can be Int(0) or even Int().
+
+    The other major problems was transitioning from the Recorder window back to the Navigator window.  Calling Navigator functions like regenerateCatalogs() while closing Recorder befor Navigator->show() seems to cause problems.  These segmentation faults are hard to pin down.
+
+Saving SubWindow layout in Recorder.
+
+    The last layout is saved to Settings.  In addition, a map of layouts identified by a unique name can be saved to a file in System dir.  How to save a layout?
+
+    We need to know which screen each subwindow is in, which subwindows are actually present, and their locations.  How to do this without some kind of run-type identification?  One option is to have a lot of if statements, after getting the QList<QMdiSubWindow*> list, going through each possible window to see if the pointer is non-zero.  A map to look up the actual window could give us the window, followed by the screen number and positioning info.
+

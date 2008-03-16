@@ -61,64 +61,29 @@ Recorder::Recorder(QWidget* parent,
                    Study* study, 
                    OpticalDisk* currentDisk): 
                    QMainWindow(parent), 
+                   openDisplayWindowList_(LastDisplayWindow + 1),
                    study_(study), 
                    user_(User::instance()),
                    options_(Options::instance()),
-                   currentDisk_(currentDisk)  {
+                   currentDisk_(currentDisk),
+                   review2Window_(0),
+                   review2SubWindow_(0)  {
     // ensure the Recorder window, PatientStatusBar, floating
     // hardware windows... the whole kit and kaboodle are deleted
     // when the window closes.  As long as the Navigator window 
     // is first made visible, the application will not close.
     setAttribute(Qt::WA_DeleteOnClose);
 
+
     createCentralWidget();
-
-    QMdiSubWindow* msw1 = new QMdiSubWindow; 
-    QMdiSubWindow* msw2 = new QMdiSubWindow;
-    QMdiSubWindow* msw3 = new QMdiSubWindow;
-
-    Qt::WindowFlags flags = msw1->windowFlags();    
-    // all the flags will be the same
-    flags &= ~Qt::WindowMinMaxButtonsHint;
-    flags &= ~Qt::WindowSystemMenuHint;
-    msw1->setWindowFlags(flags);
-    msw2->setWindowFlags(flags);
-    msw3->setWindowFlags(flags);
-
-    centralWidget_ = new QSplitter(Qt::Vertical);
-    upperWindow_ = new QSplitter(centralWidget_);
-    realTimeWindow_ = new RealTimeWindow;
-    reviewWindow1_ = new ReviewWindow;
-    logWindow_ = new LogWindow;
-
-    msw1->setWidget(realTimeWindow_);
-    msw2->setWidget(reviewWindow1_);
-    msw3->setWidget(logWindow_);
-
-    upperWindow_->addWidget(msw1);
-    upperWindow_->addWidget(msw2);
-    upperWindow_->setStretchFactor(0,1);
-    centralWidget_->addWidget(upperWindow_);
-    centralWidget_->addWidget(msw3);
-    centralWidget_->setStretchFactor(0,1);
-    
-
-
-    setCentralWidget(centralWidget_);
-
-
-
     createActions();
     createMenus();
     createToolBars();
 
-    updateAll();
 
     createPatientStatusBar();
     createStatusBar();
     readSettings();    
-
-    msw1->setFocus();
 
     patient_ = new Patient;
     patient_->setPath(study_->path());
@@ -129,13 +94,29 @@ Recorder::Recorder(QWidget* parent,
     patientStatusBar_->start();
     connect(patientStatusBar_, SIGNAL(manualSave(bool)),
         this, SLOT(setManualSave(bool)));
+    connect(centralWidget_, SIGNAL(subWindowActivated(QMdiSubWindow*)),
+        this, SLOT(updateMenus()));
+
+    updateAll();
 }
 
-void Recorder::tileWindows() {
+void Recorder::createCentralWidget() {
+    centralWidget_ = new QMdiArea;
+    realTimeWindow_ = new RealTimeWindow;
+    review1Window_ = new ReviewWindow(1);
+    logWindow_ = new LogWindow;
+    realTimeSubWindow_ = centralWidget_->addSubWindow(realTimeWindow_);
+    review1SubWindow_ = centralWidget_->addSubWindow(review1Window_);
+    logSubWindow_ = centralWidget_->addSubWindow(logWindow_);
+/*
+    displayWindows_[RealTime] = realTimeWindow_;
+    displayWindows_[Review1] = review1Window_;
+    displayWindows_[Review2] = review2Window_;
+    displayWindows_[Log] = logWindow_;*/
+    /// TODO other windows here.
 
+    setCentralWidget(centralWidget_);
 }
-
-void Recorder::createCentralWidget() {}
 
 void Recorder::setManualSave(bool enable) {
     manualSaveAct_->setChecked(enable);
@@ -201,17 +182,36 @@ void Recorder::simulatorSettings() {
     }
 }
 
+void Recorder::realTimeWindowOpen(bool open) {
+    openSubWindow(open, realTimeSubWindow_, realTimeWindow_);
+}
+
+void Recorder::review1WindowOpen(bool open) {
+    openSubWindow(open, review1SubWindow_, review1Window_, 1);
+} 
+
+void Recorder::review2WindowOpen(bool open) {
+    openSubWindow(open, review2SubWindow_, review2Window_, 2);
+} 
+
+void Recorder::logWindowOpen(bool open) {
+    openSubWindow(open, logSubWindow_, logWindow_);
+}
+
 void Recorder::closeEvent(QCloseEvent *event) {
     if (closeStudy()) {
         study_->save();
         patient_->save();
         patientStatusBar_->stop();
         if (Navigator* navigator = dynamic_cast<Navigator*>(parent())) {
-            navigator->regenerateCatalogs();
+            // below is unnecessary I think and causes a segmentation fault
+            // apparently bad things happen when transitioning back to Navigato
+            //navigator->regenerateCatalogs();
+            //navigator->updateAll();   updateAll is now done in Navigator first       
             navigator->show();
-            navigator->updateAll();
+            
         }
-        saveSettings();
+        writeSettings();
         event->accept();
     }
     else
@@ -227,23 +227,49 @@ bool Recorder::closeStudy() {
     return ret == QMessageBox::Yes;
 }
 
-void Recorder::saveSettings() {
+bool Recorder::subWindowIsOpen(QMdiSubWindow* subWindow) {
+    QList<QMdiSubWindow*> windowList = centralWidget_->subWindowList();
+    return windowList.contains(subWindow);
+}
+
+void Recorder::writeSettings() {
     Settings settings;
+    // save overall Recorder size, position and state
     settings.setValue("/recorderSize", size());
     settings.setValue("/recorderPos", pos()); 
     settings.setValue("/recorderState", saveState());
-    settings.setValue("/recorderUpperWindow",
-        upperWindow_->saveState());    
-    settings.setValue("/recorderCentralWidget",
-         centralWidget_->saveState());
-  
-    realTimeWindow_->saveSettings();   
-    reviewWindow1_->saveSettings();
+    // erase previously save list of open display windows
+    settings.remove("/subWindowList"); 
+    // crease empty list of open display window names
+    QStringList subWindowKeys; 
+    // get open windows
+    QList<QMdiSubWindow*> subWindowList =  centralWidget_->subWindowList();
+    DisplayWindow* dw = 0;
+    for (int i = 0; i < subWindowList.size(); ++i) {
+        dw = static_cast<DisplayWindow*>(subWindowList[i]->widget());
+        //dw->writeSettings();
+        subWindowKeys << dw->key();
+        settings.setValue(dw->key() + "/size", subWindowList[i]->size());
+        settings.setValue(dw->key() + "/pos", subWindowList[i]->pos());
+        dw->writeSettings();
+    }
+    settings.setValue("/subWindowList", subWindowKeys);
+}
+
+void Recorder::updateOpenDisplayWindowList() {
+    QList<QMdiSubWindow*> windowList = centralWidget_->subWindowList();
+    openDisplayWindowList_.clear();
+    openDisplayWindowList_[RealTime] = windowList.contains(realTimeSubWindow_);
+    openDisplayWindowList_[Review1] = windowList.contains(review1SubWindow_);
+    openDisplayWindowList_[Review2] = windowList.contains(review2SubWindow_);
+    openDisplayWindowList_[Log] = windowList.contains(logSubWindow_);
+    /// TODO other window types here.
+
 }
 
 void Recorder::readSettings() {
-    realTimeWindow_->readSettings();
-    reviewWindow1_->readSettings();
+    
+//    review1Window_->readSettings();
     Settings settings;
     QVariant size = settings.value("/recorderSize");
     if (size.isNull()) {
@@ -253,10 +279,43 @@ void Recorder::readSettings() {
     restoreState(settings.value("/recorderState").toByteArray());
     resize(size.toSize());
     move(settings.value("/recorderPos").toPoint());
-    centralWidget_->restoreState(settings.value(
-            "/recorderCentralWidget").toByteArray());
-    upperWindow_->restoreState(settings.value(
-            "/recorderUpperWindow").toByteArray());
+    // clear the central widget - close all the subwindows
+    centralWidget_->closeAllSubWindows();
+    // read a list of the saved subwindows and open each one and 
+    // readSettings for each one
+    QStringList subWindowKeys = settings.value("/subWindowList").toStringList();
+    if (subWindowKeys.contains("/realTimeWindow")) {
+        realTimeWindowOpen(true);
+        size = settings.value("/realTimeWindow/size");
+        realTimeSubWindow_->resize(size.toSize());
+        realTimeSubWindow_->move(settings.value("/realTimeWindow/pos").toPoint());
+        realTimeWindow_->readSettings();
+    }
+    if (subWindowKeys.contains("/review1Window")) {
+        review1WindowOpen(true);
+        size = settings.value("/review1Window/size");
+        review1SubWindow_->resize(size.toSize());
+        review1SubWindow_->move(settings.value("/review1Window/pos").toPoint());
+        review1Window_->readSettings();
+    }
+    if (subWindowKeys.contains("/review2Window")) {
+        review2WindowOpen(true);
+        size = settings.value("/review2Window/size");
+        review2SubWindow_->resize(size.toSize());
+        review2SubWindow_->move(settings.value("/review2Window/pos").toPoint());
+        review2Window_->readSettings();
+    }
+    if (subWindowKeys.contains("/logWindow")) {
+        logWindowOpen(true);
+        size = settings.value("/logWindow/size");
+        logSubWindow_->resize(size.toSize());
+        logSubWindow_->move(settings.value("/logWindow/pos").toPoint());
+        logWindow_->readSettings();
+    }
+        
+    
+    
+ 
 }
 
 void Recorder::login() {
@@ -297,6 +356,14 @@ void Recorder::help() {
 
  void Recorder::about() {
     EpGui::about(this);
+}
+
+void Recorder::tileSubWindows() {
+    centralWidget_->tileSubWindows();
+}
+
+void Recorder::cascadeSubWindows() {
+    centralWidget_->cascadeSubWindows();
 }
 
 /**
@@ -418,43 +485,64 @@ void Recorder::createActions()
     realTimeAct_ = createAction(this, tr("Real-Time"),
        tr("Show real-time window"));
     realTimeAct_->setCheckable(true);
-    realTimeAct_->setChecked(true);   // for now, default to on
+    connect(realTimeAct_, SIGNAL(triggered(bool)),
+        this, SLOT(realTimeWindowOpen(bool)));
     review1Act_ = createAction(this, tr("Review 1"),
        tr("Show review 1 window"));
     review1Act_->setCheckable(true);
+    connect(review1Act_, SIGNAL(triggered(bool)),
+        this, SLOT(review1WindowOpen(bool)));
     review2Act_ = createAction(this, tr("Review 2"),
        tr("Show review 2 window"));
     review2Act_->setCheckable(true);
+    connect(review2Act_, SIGNAL(triggered(bool)),
+        this, SLOT(review2WindowOpen(bool)));
     logAct_ = createAction(this, tr("Log"),
        tr("Show log window"));
     logAct_->setCheckable(true);
+    connect(logAct_, SIGNAL(triggered(bool)),
+        this, SLOT(logWindowOpen(bool)));
+    // The windows below will be implemented in later versions of EP Simulator
     ablationAct_ = createAction(this, tr("Ablation"),
        tr("Show ablation window"));
     ablationAct_->setCheckable(true);
+    ablationAct_->setEnabled(false);
     alignmentAct_ = createAction(this, tr("Alignment"),
        tr("Show alignment window"));
     alignmentAct_->setCheckable(true);
+    alignmentAct_->setEnabled(false);
     mapAct_ = createAction(this, tr("Map"),
        tr("Show map window"));
     mapAct_->setCheckable(true);
+    mapAct_->setEnabled(false);
     holterAct_ = createAction(this, tr("Holter"),
        tr("Show holter window"));
     holterAct_->setCheckable(true);
+    holterAct_->setEnabled(false);
     plotAct_ = createAction(this, tr("Plot"),
        tr("Show plot window"));
     plotAct_->setCheckable(true);
+    plotAct_->setEnabled(false);
     macroAct_ = createAction(this, tr("Macro"),
        tr("Show macro window"));
     macroAct_->setCheckable(true);
+    macroAct_->setEnabled(false);
     image1Act_ = createAction(this, tr("Image 1"),
        tr("Show image 1 window"));
     image1Act_->setCheckable(true);
+    image1Act_->setEnabled(false);
     image2Act_ = createAction(this, tr("Image 2"),
        tr("Show image 2 window"));
     image2Act_->setCheckable(true);
+    image2Act_->setEnabled(false);
     imageLibraryAct_ = createAction(this, tr("Image Library"),
        tr("Show image library window"));
     imageLibraryAct_->setCheckable(true);
+    imageLibraryAct_->setEnabled(false);
+    tileAct_ = createAction(this, tr("Tile"),
+        tr("Tile windows"), SLOT(tileSubWindows()));
+    cascadeAct_ = createAction(this, tr("Cascade"),
+        tr("Cascade windows"), SLOT(cascadeSubWindows()));
 
     // Administration menu
     loginAct_= createAction(this, tr("Login..."),
@@ -573,6 +661,9 @@ void Recorder::createMenus() {
     windowsMenu_->addAction(image1Act_);
     windowsMenu_->addAction(image2Act_);
     windowsMenu_->addAction(imageLibraryAct_);
+    windowsMenu_->addSeparator();
+    windowsMenu_->addAction(tileAct_);
+    windowsMenu_->addAction(cascadeAct_);
 
     administrationMenu_ = menuBar()->addMenu(tr("&Administration"));
     securitySubMenu_ = new QMenu(tr("Security"));
@@ -633,6 +724,15 @@ void Recorder::createToolBars() {
 void Recorder::updateMenus() {
     simulatorSettingsAct_->setVisible(
         EpGui::showSimulatorSettings(options_, user_));
+    QList<QMdiSubWindow*> windowList = centralWidget_->subWindowList();
+    bool realTimePresent = windowList.contains(realTimeSubWindow_);
+    bool review1Present = windowList.contains(review1SubWindow_);
+    bool review2Present = windowList.contains(review2SubWindow_);
+    bool logPresent = windowList.contains(logSubWindow_);
+    realTimeAct_->setChecked(realTimePresent);
+    review1Act_->setChecked(review1Present);
+    review2Act_->setChecked(review2Present);
+    logAct_->setChecked(logPresent);
 }
 
 }

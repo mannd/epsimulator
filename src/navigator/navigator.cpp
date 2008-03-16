@@ -97,7 +97,7 @@ Navigator::Navigator(QWidget* parent)
 // protected
 
 void Navigator::closeEvent(QCloseEvent* event) {
-    saveSettings();
+    writeSettings();
     event->accept();
 
 }
@@ -914,7 +914,7 @@ void Navigator::createMenus() {
 
 }
 
-void Navigator::saveSettings() {
+void Navigator::writeSettings() {
     Settings settings;
     settings.setValue("/navigatorSize", size());
     settings.setValue("/navigatorPos", pos());    
@@ -1023,8 +1023,9 @@ void Navigator::startStudy(Study* s) {
         // and vice versa
         Recorder* recorder = new Recorder(this, s, currentDisk_);
         recorder->show();
-
+        
         hide();
+        updateAll();
     }
     /// TODO One other possibility to handle.  If
     /// options_->enableAcquisition() if false, then recorder_

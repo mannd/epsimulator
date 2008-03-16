@@ -17,65 +17,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-#ifndef REVIEWWINDOW_H
-#define REVIEWWINDOW_H
+#ifndef LOGWINDOW_H
+#define LOGWINDOW_H
 
 #include "displaywindow.h"
 
-class QAction;
-class QComboBox;
-
+#include <QTableView>
 
 /**
-This window is used to review already saved signal.  You can scroll through the data, or click on a time-stamp in the log window and bring up a window of signals.  This behaves like the RealTimeWindow, except there is no live updating of signals.
+Horizontally situation window at the bottom of the Central Widget, for logging events.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */
-class ReviewWindow : public SignalDisplayWindow  {
+class LogWindow : public DisplayWindow  {
     Q_OBJECT
 public:
-    ReviewWindow(int number = 1, QWidget *parent = 0);
+    LogWindow(int number = 0, QWidget *parent = 0);
 
-    virtual void writeSettings();
-    virtual void readSettings();
-    virtual QString key() {return QString("/review%1Window").arg(number());}
+    virtual void writeSettings() {}
+    virtual void readSettings() {}
+    virtual QString key() {return "/logWindow";}
 
-    ~ReviewWindow();
-
-    virtual void createToolBars();
-    virtual void createActions();
-
-
-public slots:
-    //virtual void updateWindowTitle();
-    void increaseSweepSpeed();
-    void decreaseSweepSpeed();
-
-private:
-    QComboBox* sweepSpeedComboBox_;
-
-    QAction* minusAct_;
-    QAction* plusAct_;
-    QAction* studyConfigAct_;
-    QAction* timeCalipersAct_;
-    QAction* amplitudeCalipersAct_;
-    QAction* deleteAllCalipersAct_;
-    QAction* msCalipersAct_;
-    QAction* bpmCalipersAct_;
-    QAction* offsetSignalsAct_;
-    QAction* triggeredModeAct_;
-    QAction* toggleAblationWindowAct_;
-    QAction* realTime12LeadAct_;
-    QAction* timerAct_;
-    QAction* stopwatchAct_;  
+    ~LogWindow();
 
 };
 
-// class Review2Window : public ReviewWindow {
-// public:
-//     Review2Window() : ReviewWindow(2) {}
-//     ~Review2Window() {}
-// };
 
 #endif

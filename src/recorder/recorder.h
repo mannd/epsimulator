@@ -18,14 +18,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #ifndef RECORDER_H
 #define RECORDER_H
 
 #include "patient.h"
+#include "recorderdefs.h"
 
 #include <QMainWindow>
+#include <QMdiArea>
+#include <QMdiSubWindow>
 
+#include <map>
+
+class DisplayWindow;
 class LogWindow;
 class OpticalDisk;
 class Options;
@@ -34,24 +39,22 @@ class QAction;
 class QCloseEvent;
 class QComboBox;
 class QDockWidget;
-class QMdiArea;
+//class QMdiArea;
+//class QMdiSubWindow;
 class QMenu;
 class QSplitter;
 class RealTimeWindow;
 class ReviewWindow;
+class Review2Window;
 class SatMonitor;
 class Study;
 class User;
 
 namespace EpRecorder {
-    enum SaveStatus {NoSave, ManualSave, AutoSave, ExitSave};
-
 
 class Recorder : public QMainWindow {
     Q_OBJECT
-
 public:
-
     Recorder(QWidget* parent, 
         Study* study, OpticalDisk* currentDisk);
     
@@ -83,10 +86,24 @@ private slots:
     void openStimulator();
     void openSatMonitor();
     void setManualSave(bool);
+    void updateMenus();
 
-    void tileWindows();
+    void realTimeWindowOpen(bool);
+    void review1WindowOpen(bool);
+    void review2WindowOpen(bool);
+    void logWindowOpen(bool);
+    void tileSubWindows();
+    void cascadeSubWindows();
 
 private:
+ 
+//     typedef std::map<DisplayWindowType, DisplayWindow*> DisplayWindowMap;
+//     DisplayWindowMap displayWindows_;
+
+    std::vector<bool> openDisplayWindowList_;
+
+    void updateOpenDisplayWindowList();    
+
     void createActions();
     void createCentralWidget();
     void createMenus();
@@ -95,11 +112,14 @@ private:
     void createPatientStatusBar();
     void updateWindowTitle();
     void readSettings();
-    void saveSettings();
+    void writeSettings();
     bool administrationAllowed();
-    void updateMenus();
     bool closeStudy();
+    
+    bool subWindowIsOpen(QMdiSubWindow*);
 
+    template<typename T>
+    void openSubWindow(bool, QMdiSubWindow*&, T*&, int number = 0);
 
     Study* study_;
     Patient* patient_;
@@ -110,18 +130,18 @@ private:
     OpticalDisk* currentDisk_;
 
     // central widget
-    //QMdiArea* centralWidget_;
-    QSplitter* centralWidget_;
-    QSplitter* upperWindow_;      // needed to subdivide central window
+    QMdiArea* centralWidget_;
     RealTimeWindow* realTimeWindow_;
-    ReviewWindow* reviewWindow1_;
-    //ReviewWindow* reviewWindow2_;
+    ReviewWindow* review1Window_;
+    ReviewWindow* review2Window_;
     LogWindow* logWindow_;
+    QMdiSubWindow* realTimeSubWindow_;
+    QMdiSubWindow* review1SubWindow_;
+    QMdiSubWindow* review2SubWindow_;
+    QMdiSubWindow* logSubWindow_;
 
     // patient status bar
     PatientStatusBar* patientStatusBar_;
-    
-    
 
     // Study Menu
     QAction* patientInformationAct_;
@@ -179,6 +199,8 @@ private:
     QAction* image1Act_;
     QAction* image2Act_;
     QAction* imageLibraryAct_;
+    QAction* tileAct_;
+    QAction* cascadeAct_;
 
     // Administration Menu
     QAction* loginAct_;
@@ -217,7 +239,27 @@ private:
     QMenu* helpMenu_;
 };
 
+template<typename T> 
+void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow, 
+    T*& internalWidget, int number) {
+    bool alreadyOpen = subWindowIsOpen(subWindow);
+    if (open && alreadyOpen)
+        return;
+    if (!open && !alreadyOpen)
+        return;
+    if (open) {
+        internalWidget = new T(number);
+        subWindow = centralWidget_->addSubWindow(internalWidget);
+        subWindow->show();
+    }
+    else {
+        centralWidget_->removeSubWindow(subWindow);
+        subWindow->close();
+        internalWidget = 0;
+    }
+    updateMenus();
+}
+
 }
 
 #endif
-

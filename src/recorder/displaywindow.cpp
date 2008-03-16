@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "signaldisplaywindow.h"
+#include "displaywindow.h"
 
 #include "actions.h"
 
@@ -27,15 +27,25 @@
 #include <QSizePolicy>
 #include <QSplitter>
 
-SignalDisplayWindow::SignalDisplayWindow(QWidget *parent, Qt::WindowFlags fl)
- : QMainWindow(parent, fl), currentPage_(minPage) {
+SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
+    QWidget *parent, Qt::WindowFlags fl) 
+    : DisplayWindow(name, number, parent, fl),
+    currentPage_(minPage) {
+    
+    // don't keep unused windows in memory
+    setAttribute(Qt::WA_DeleteOnClose);
+
     createCentralWidget();
     createActions();
-    // note this works in subclasses even though 
-    // updateWindowTitle() is a pure virtual function!
     connect(this, SIGNAL(pageChanged(int)), this,
         SLOT(updateWindowTitle()));
 
+}
+
+void SignalDisplayWindow::updateWindowTitle() {
+    QString title = (number() == 0) ? tr("%1: Page %2").arg(name()).arg(currentPage()) 
+        : tr("%1 %2: Page %3").arg(name()).arg(number()).arg(currentPage());
+    setWindowTitle(title);
 }
 
 void SignalDisplayWindow::setCurrentPage(int page) {
@@ -128,5 +138,3 @@ SignalArea::SignalArea(QWidget* parent) : QWidget(parent) {
 void SignalArea::changePage(int) {}
 
 SignalArea::~SignalArea() {}
-
-

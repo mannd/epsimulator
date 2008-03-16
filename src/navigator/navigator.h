@@ -123,7 +123,7 @@ private:
     void createActions();
     void createMenus();
     void createToolBars();
-    void saveSettings();
+    void writeSettings();
     void readSettings();
     void updateStatusBarUserLabel();
     void updateWindowTitle();

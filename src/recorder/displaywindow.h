@@ -18,11 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef SIGNALDISPLAYWINDOW_H
-#define SIGNALDISPLAYWINDOW_H
+#ifndef DISPLAYWINDOW_H
+#define DISPLAYWINDOW_H
+
+//#include "recorderdefs.h"
 
 #include <QFrame>
 #include <QMainWindow>
+//#include <QMdiSubWindow>
+#include <QString>
+
+class DisplayWindow : public QMainWindow {
+    Q_OBJECT
+public:
+    DisplayWindow(const QString& name, int number = 0, 
+        QWidget* parent = 0, Qt::WindowFlags fl = 0) 
+        : QMainWindow(parent, fl), name_(name), number_(number) {}
+
+    virtual void writeSettings() = 0;
+    virtual void readSettings() = 0;
+    virtual QString key() = 0;     // this is the key used to read/write settings
+
+    //void setName(QString name) {name_ = name;}
+
+    QString name() const {return name_;}
+    int number() const {return number_;}
+
+    ~DisplayWindow() {}
+
+private:
+    const QString name_;
+    const int number_;
+};
 
 class ChannelBar;
 class QAction;
@@ -35,12 +62,14 @@ class SignalArea;
  *
  * @author David Mann <mannd@epstudiossoftware.com>
  */
-class SignalDisplayWindow : public QMainWindow  {
+class SignalDisplayWindow : public DisplayWindow  {
     Q_OBJECT
 public:
-    SignalDisplayWindow(QWidget* parent = 0, Qt::WindowFlags fl = Qt::Window);
+    SignalDisplayWindow(const QString& name, int number = 0, 
+        QWidget* parent = 0, Qt::WindowFlags fl = Qt::Window);
 
     void setCurrentPage(int page);
+
     int currentPage() const {return currentPage_;}
 
     void setChannelBar(ChannelBar* cb) {channelBar_ = cb;}
@@ -52,15 +81,12 @@ public:
     virtual void createActions();
     virtual void createToolBars() = 0;
 
-    virtual void saveSettings() = 0;
-    virtual void readSettings() = 0;
-
     ~SignalDisplayWindow();
 
 public slots:
     void previousPage();
     void nextPage();
-    virtual void updateWindowTitle() = 0;
+    void updateWindowTitle();
 
 signals:
     void pageChanged(int newPage);

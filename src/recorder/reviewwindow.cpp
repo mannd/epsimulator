@@ -30,21 +30,32 @@
 #include <QToolBar>
 
 ReviewWindow::ReviewWindow(int number, QWidget *parent)
- : SignalDisplayWindow(parent), number_(number) {
-    updateWindowTitle();
-    //createCentralWidget();
+ : SignalDisplayWindow(tr("Review"), number, parent) {
+    createCentralWidget();
     createActions();
     createToolBars();
+    updateWindowTitle();
 }
 
-void ReviewWindow::updateWindowTitle() {
-    setWindowTitle(tr("Review %1 Page %2").arg(QString::number(number_))
-        .arg(currentPage()));
+void ReviewWindow::increaseSweepSpeed() {
+    int index = sweepSpeedComboBox_->currentIndex();
+    // decreasing index increases number in combobox
+    if (--index < 0)
+        index = 0;
+    sweepSpeedComboBox_->setCurrentIndex(index);
 }
 
-void ReviewWindow::saveSettings() {
+void ReviewWindow::decreaseSweepSpeed() {
+    int index = sweepSpeedComboBox_->currentIndex();
+    int maxIndex = sweepSpeedComboBox_->count() -1;
+    if (++index > maxIndex)  
+        index = maxIndex;
+    sweepSpeedComboBox_-> setCurrentIndex(index);
+}
+
+void ReviewWindow::writeSettings() {
     Settings settings;
-    QString prefix = "/reviewWindow" + QString::number(number_);
+    QString prefix = "/reviewWindow" + QString::number(number());
     settings.setValue(prefix + "Size", size());
     settings.setValue(prefix + "Pos", pos()); 
     settings.setValue(prefix + "State", saveState());
@@ -54,7 +65,7 @@ void ReviewWindow::saveSettings() {
 
 void ReviewWindow::readSettings() {
     Settings settings;
-    QString prefix = "/reviewWindow" + QString::number(number_);
+    QString prefix = "/reviewWindow" + QString::number(number());
     restoreState(settings.value(prefix + "State").toByteArray());
     QVariant size = settings.value(prefix + "Size");
     if (size.isNull()) {

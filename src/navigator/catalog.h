@@ -33,6 +33,7 @@
 #include <QMap>
 #include <QString>
 
+#include <map>
 #include <vector>
 
 class Options;

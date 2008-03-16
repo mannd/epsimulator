@@ -42,6 +42,9 @@ PatientStatusBar::PatientStatusBar(QWidget* parent)
     : QWidget(parent), patient_(0), saveStatus_(NoSave),
     autoSave_(false) {
     setupUi(this);
+    
+    setAttribute(Qt::WA_DeleteOnClose);
+
     timeLabel->setMinimumWidth(100);    // prevent flickering?
     timer_ = new QTimer(this);
     connect(timer_, SIGNAL(timeout()), this, SLOT(update()));

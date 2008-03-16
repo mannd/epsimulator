@@ -17,63 +17,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef REALTIMEWINDOW_H
-#define REALTIMEWINDOW_H
 
-#include "displaywindow.h"
+#include "logwindow.h"
 
-#include <QString>
+//
+LogWindow::LogWindow(int number, QWidget *parent)
+ : DisplayWindow(tr("Log"), number, parent) {
 
-class QAction;
-class QComboBox;
-
-/**
-The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class RealTimeWindow : public SignalDisplayWindow  {
-    Q_OBJECT
-public:
-    RealTimeWindow(int number = 0, QWidget* parent = 0);
-    
-    virtual void writeSettings();
-    virtual void readSettings();
-    virtual QString key() {return "/realTimeWindow";}
-
-    ~RealTimeWindow();
-
-public slots:
-//     virtual void updateWindowTitle();
-
-private slots:
-    void increaseSweepSpeed();
-    void decreaseSweepSpeed();
-    
-
-private:
-    virtual void createActions();
-    virtual void createToolBars();
+        setAttribute(Qt::WA_DeleteOnClose);
+        setWindowTitle(name());
+}
 
 
+LogWindow::~LogWindow() {}
 
-    QComboBox* sweepSpeedComboBox_;
 
-    QAction* minusAct_;
-    QAction* plusAct_;
-    QAction* studyConfigAct_;
-    QAction* timeCalipersAct_;
-    QAction* amplitudeCalipersAct_;
-    QAction* deleteAllCalipersAct_;
-    QAction* msCalipersAct_;
-    QAction* bpmCalipersAct_;
-    QAction* offsetSignalsAct_;
-    QAction* triggeredModeAct_;
-    QAction* toggleAblationWindowAct_;
-    QAction* realTime12LeadAct_;
-    QAction* timerAct_;
-    QAction* stopwatchAct_;  
-
-};
-
-#endif

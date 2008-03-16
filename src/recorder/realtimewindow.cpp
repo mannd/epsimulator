@@ -33,17 +33,13 @@
 
 using EpGui::createAction;
 
-RealTimeWindow::RealTimeWindow(QWidget* parent)
- : SignalDisplayWindow(parent) {
+RealTimeWindow::RealTimeWindow(int number, QWidget* parent)
+ : SignalDisplayWindow(tr("Real-Time"), number, parent) {
     updateWindowTitle();
-    //createCentralWidget();
+    createCentralWidget();
     createActions();
     createToolBars();
 
-}
-
-void RealTimeWindow::updateWindowTitle() {
-    setWindowTitle(tr("Real-Time Page %1").arg(currentPage()));
 }
 
 void RealTimeWindow::increaseSweepSpeed() {
@@ -173,7 +169,7 @@ void RealTimeWindow::createActions() {
 }
 
 /// TODO can move these to superclass, pass prefix (e.g. "/realTimeWindow")
-void RealTimeWindow::saveSettings() {
+void RealTimeWindow::writeSettings() {
     Settings settings;
     settings.setValue("/realTimeWindowSize", size());
     settings.setValue("/realTimeWindowPos", pos()); 

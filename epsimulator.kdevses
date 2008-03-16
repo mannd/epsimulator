@@ -1,43 +1,64 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="12" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.h" >
-   <View0 Encoding="" line="119" Type="Source" />
+ <DocsAndViews NumberOfDocuments="19" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
+   <View0 Encoding="" line="115" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
-   <View0 Encoding="" line="157" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.h" >
+   <View0 Encoding="" line="102" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/reviewwindow.h" >
-   <View0 Encoding="" line="26" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/signaldisplaywindow.cpp" >
+   <View0 Encoding="" line="44" Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.cpp" >
-   <View0 Encoding="" line="46" Type="Source" />
+   <View0 Encoding="" line="184" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/signaldisplaywindow.h" >
+   <View0 Encoding="" line="47" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/signaldisplaywindow.h" >
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.h" >
    <View0 Encoding="" line="40" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/reviewwindow.cpp" >
-   <View0 Encoding="" line="120" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/reviewwindow.h" >
+   <View0 Encoding="" line="77" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/stimulator/stimulator.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/reviewwindow.cpp" >
+   <View0 Encoding="" line="73" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/signaldisplaywindow.cpp" >
-   <View0 Encoding="" line="23" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/logwindow.h" >
+   <View0 Encoding="" line="34" Type="Source" />
   </Doc8>
   <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/logwindow.cpp" >
-   <View0 Encoding="" line="25" Type="Source" />
+   <View0 Encoding="" line="24" Type="Source" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/logwindow.h" >
-   <View0 Encoding="" line="0" Type="Source" />
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/patientstatusbar.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc10>
   <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
-   <View0 Encoding="" line="155" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc11>
+  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/fileutilities.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc12>
+  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/fileutilities.h" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc13>
+  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/doc/notes" >
+   <View0 Encoding="" line="595" Type="Source" />
+  </Doc14>
+  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/catalog.cpp" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc15>
+  <Doc16 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/catalog.h" >
+   <View0 Encoding="" line="35" Type="Source" />
+  </Doc16>
+  <Doc17 NumberOfViews="1" URL="http://www.icce.rug.nl/documents/cplusplus/cplusplus12.html#l162" >
+   <View0 Type="Documentation" />
+  </Doc17>
+  <Doc18 NumberOfViews="1" URL="http://www.icce.rug.nl/documents/cplusplus/cplusplus12.html#l162" >
+   <View0 Type="Documentation" />
+  </Doc18>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -75,15 +96,24 @@
     <breakpoint10 location="/home/mannd/dev/local/epsimulator/src/main/main.cpp:76" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint10>
-    <breakpoint11 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:1099" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint11 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:1100" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint11>
-    <breakpoint12 location="/home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp:219" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint12 location="/home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp:140" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint12>
-    <breakpoint13 location="/home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp:85" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint13 location="/home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp:640" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint13>
+    <breakpoint14 location="/home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp:201" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint14>
+    <breakpoint15 location="/home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp:575" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint15>
+    <breakpoint16 location="/home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp:83" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint16>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>
@@ -101,10 +131,10 @@
      <mark line="915" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="444" />
+     <mark line="437" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="437" />
+     <mark line="444" />
     </bookmark>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/changepassworddialog.h" >
      <mark line="34" />
