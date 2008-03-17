@@ -31,6 +31,8 @@
 class Settings : public QSettings  {
 public:
     Settings();
+    Settings(const QString& fileName, Format format = QSettings::IniFormat,
+        QObject* parent = 0);
 
     ~Settings();
 

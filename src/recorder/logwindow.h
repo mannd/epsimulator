@@ -21,8 +21,10 @@
 #define LOGWINDOW_H
 
 #include "displaywindow.h"
+#include "recorderdefs.h"
 
 #include <QTableView>
+class Settings;
 
 /**
 Horizontally situation window at the bottom of the Central Widget, for logging events.
@@ -34,9 +36,9 @@ class LogWindow : public DisplayWindow  {
 public:
     LogWindow(int number = 0, QWidget *parent = 0);
 
-    virtual void writeSettings() {}
-    virtual void readSettings() {}
-    virtual QString key() {return "/logWindow";}
+    virtual void writeSettings(Settings&) {}
+    virtual void readSettings(const Settings&) {}
+    virtual QString key() {return EpRecorder::logWindowKey;}
 
     ~LogWindow();
 

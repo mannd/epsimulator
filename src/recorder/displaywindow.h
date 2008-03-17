@@ -25,8 +25,9 @@
 
 #include <QFrame>
 #include <QMainWindow>
-//#include <QMdiSubWindow>
 #include <QString>
+
+class Settings;
 
 class DisplayWindow : public QMainWindow {
     Q_OBJECT
@@ -35,8 +36,8 @@ public:
         QWidget* parent = 0, Qt::WindowFlags fl = 0) 
         : QMainWindow(parent, fl), name_(name), number_(number) {}
 
-    virtual void writeSettings() = 0;
-    virtual void readSettings() = 0;
+    virtual void writeSettings(Settings&) = 0;
+    virtual void readSettings(const Settings&) = 0;
     virtual QString key() = 0;     // this is the key used to read/write settings
 
     //void setName(QString name) {name_ = name;}

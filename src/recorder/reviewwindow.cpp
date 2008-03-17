@@ -53,8 +53,7 @@ void ReviewWindow::decreaseSweepSpeed() {
     sweepSpeedComboBox_-> setCurrentIndex(index);
 }
 
-void ReviewWindow::writeSettings() {
-    Settings settings;
+void ReviewWindow::writeSettings(Settings& settings) {
     QString prefix = "/reviewWindow" + QString::number(number());
     settings.setValue(prefix + "Size", size());
     settings.setValue(prefix + "Pos", pos()); 
@@ -63,8 +62,7 @@ void ReviewWindow::writeSettings() {
         static_cast<QSplitter*>(centralWidget())->saveState());   
 }
 
-void ReviewWindow::readSettings() {
-    Settings settings;
+void ReviewWindow::readSettings(const Settings& settings) {
     QString prefix = "/reviewWindow" + QString::number(number());
     restoreState(settings.value(prefix + "State").toByteArray());
     QVariant size = settings.value(prefix + "Size");

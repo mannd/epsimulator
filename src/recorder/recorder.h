@@ -28,8 +28,6 @@
 #include <QMdiArea>
 #include <QMdiSubWindow>
 
-#include <map>
-
 class DisplayWindow;
 class LogWindow;
 class OpticalDisk;
@@ -39,18 +37,18 @@ class QAction;
 class QCloseEvent;
 class QComboBox;
 class QDockWidget;
-//class QMdiArea;
-//class QMdiSubWindow;
 class QMenu;
 class QSplitter;
 class RealTimeWindow;
 class ReviewWindow;
 class Review2Window;
 class SatMonitor;
+class Settings;
 class Study;
 class User;
 
 namespace EpRecorder {
+
 
 class Recorder : public QMainWindow {
     Q_OBJECT
@@ -72,6 +70,7 @@ protected:
 signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
     void autoSave(bool);    // emitted if AutoSave toolbar button changed
+    void updateSimulatorSettings(); // emitted after simulator settings updated
 
 private slots:
     void patientInformation();
@@ -97,12 +96,11 @@ private slots:
 
 private:
  
-//     typedef std::map<DisplayWindowType, DisplayWindow*> DisplayWindowMap;
-//     DisplayWindowMap displayWindows_;
-
     std::vector<bool> openDisplayWindowList_;
 
-    void updateOpenDisplayWindowList();    
+    void updateOpenDisplayWindowList();  
+    void restoreDisplayWindow(const QString& key, 
+        const Settings& settings, QMdiSubWindow*, DisplayWindow*);
 
     void createActions();
     void createCentralWidget();
@@ -112,7 +110,9 @@ private:
     void createPatientStatusBar();
     void updateWindowTitle();
     void readSettings();
+    void readSettings(const Settings&);
     void writeSettings();
+    void writeSettings(Settings&);
     bool administrationAllowed();
     bool closeStudy();
     
@@ -239,6 +239,17 @@ private:
     QMenu* helpMenu_;
 };
 
+/**
+ * Opens a QMdiSubWindow with specific internal widget of type T.
+ * This needs to be a template, because even though all DisplayWindows
+ * are derived from DisplayWindow, specific subclasses must be instantiated.
+ * An alternative here might be a factory method determined by the
+ * DisplayWindowType enum.
+ * @param open Open or close (remove) the subWindow
+ * @param subWindow pointer to subWindow being manipulated
+ * @param internalWidget pointer to a specific type of DisplayWindow
+ * @param number window number, 0 if none, 1 or 2 (e.g. review1Window)
+ */
 template<typename T> 
 void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow, 
     T*& internalWidget, int number) {

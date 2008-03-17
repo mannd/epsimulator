@@ -27,6 +27,20 @@ Settings::Settings() : QSettings("EPStudios", "EPSimulator") {
 }
 
 
+/**
+ * Stores settings to a specific file.  Useful for saving specific
+ * settings, e.g. window layouts.
+ * @param fileName If format is QSettings::IniFormat this is a full
+ * file path, otherwise (QSettings::NativeFormat) system specific
+ * location.
+ * @param format IniFormat or NativeFormat.
+ * @param parent parent of this settings object.
+ */
+Settings::Settings(const QString& fileName, Format format, 
+    QObject* parent) : QSettings(fileName, format, parent) {}
+
+
+
 Settings::~Settings() {
     endGroup();
 }

@@ -21,11 +21,13 @@
 #define REALTIMEWINDOW_H
 
 #include "displaywindow.h"
+#include "recorderdefs.h"
 
 #include <QString>
 
 class QAction;
 class QComboBox;
+class Settings;
 
 /**
 The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
@@ -37,9 +39,9 @@ class RealTimeWindow : public SignalDisplayWindow  {
 public:
     RealTimeWindow(int number = 0, QWidget* parent = 0);
     
-    virtual void writeSettings();
-    virtual void readSettings();
-    virtual QString key() {return "/realTimeWindow";}
+    virtual void writeSettings(Settings&);
+    virtual void readSettings(const Settings&);
+    virtual QString key() {return EpRecorder::realTimeWindowKey;}
 
     ~RealTimeWindow();
 

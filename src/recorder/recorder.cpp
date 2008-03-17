@@ -22,12 +22,12 @@
 
 #include "actions.h"
 #include "logwindow.h"
-#include "navigator.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "patientdialog.h"
 #include "patientstatusbar.h"
 #include "realtimewindow.h"
+#include "recorderdefs.h"
 #include "reviewwindow.h"
 #include "settings.h"
 #include "satmonitor.h"
@@ -55,6 +55,8 @@
 #include <QToolBar>
 #include <QVariant>
 
+#include <cassert>
+
 namespace EpRecorder {
 
 Recorder::Recorder(QWidget* parent, 
@@ -73,6 +75,8 @@ Recorder::Recorder(QWidget* parent,
     // when the window closes.  As long as the Navigator window 
     // is first made visible, the application will not close.
     setAttribute(Qt::WA_DeleteOnClose);
+
+    assert(parent != 0);  // never call Recorder without parent
 
 
     createCentralWidget();
@@ -175,8 +179,10 @@ void Recorder::simulatorSettings() {
         if (simDialog->exec() == QDialog::Accepted) {
             simDialog->setOptions();
             updateMenus();
-            if (Navigator* navigator = dynamic_cast<Navigator*>(parent()))
-                navigator->updateSimulatorSettings();
+            // signal updates simulator settings in Navigator
+            emit updateSimulatorSettings();
+//             if (Navigator* navigator = dynamic_cast<Navigator*>(parent()))
+//                 navigator->updateSimulatorSettings();
         }
         delete simDialog;
     }
@@ -203,14 +209,8 @@ void Recorder::closeEvent(QCloseEvent *event) {
         study_->save();
         patient_->save();
         patientStatusBar_->stop();
-        if (Navigator* navigator = dynamic_cast<Navigator*>(parent())) {
-            // below is unnecessary I think and causes a segmentation fault
-            // apparently bad things happen when transitioning back to Navigato
-            //navigator->regenerateCatalogs();
-            //navigator->updateAll();   updateAll is now done in Navigator first       
-            navigator->show();
-            
-        }
+        if (parentWidget())
+            parentWidget()->show();
         writeSettings();
         event->accept();
     }
@@ -234,6 +234,11 @@ bool Recorder::subWindowIsOpen(QMdiSubWindow* subWindow) {
 
 void Recorder::writeSettings() {
     Settings settings;
+    writeSettings(settings);
+}
+
+void Recorder::writeSettings(Settings& settings) {
+    //Settings settings;
     // save overall Recorder size, position and state
     settings.setValue("/recorderSize", size());
     settings.setValue("/recorderPos", pos()); 
@@ -251,7 +256,7 @@ void Recorder::writeSettings() {
         subWindowKeys << dw->key();
         settings.setValue(dw->key() + "/size", subWindowList[i]->size());
         settings.setValue(dw->key() + "/pos", subWindowList[i]->pos());
-        dw->writeSettings();
+        dw->writeSettings(settings);
     }
     settings.setValue("/subWindowList", subWindowKeys);
 }
@@ -267,10 +272,22 @@ void Recorder::updateOpenDisplayWindowList() {
 
 }
 
+void Recorder::restoreDisplayWindow(const QString& key, const Settings& settings,
+    QMdiSubWindow* sw, DisplayWindow* dw) {
+    sw->resize(settings.value(key + "/size").toSize());
+    sw->move(settings.value(key + "/pos").toPoint());
+    dw->readSettings(settings); 
+}  
+
 void Recorder::readSettings() {
+    Settings settings;
+    readSettings(settings);
+}
+
+void Recorder::readSettings(const Settings& settings) {
     
 //    review1Window_->readSettings();
-    Settings settings;
+    //Settings settings;
     QVariant size = settings.value("/recorderSize");
     if (size.isNull()) {
         setWindowState(Qt::WindowMaximized);
@@ -281,41 +298,32 @@ void Recorder::readSettings() {
     move(settings.value("/recorderPos").toPoint());
     // clear the central widget - close all the subwindows
     centralWidget_->closeAllSubWindows();
-    // read a list of the saved subwindows and open each one and 
-    // readSettings for each one
+    // read a list of the saved subwindows, open each one and 
+    // readSettings for each one.
+    // Note that below is clunky, but seems best solution after
+    // experimenting with less repetitive ways of doing this.
     QStringList subWindowKeys = settings.value("/subWindowList").toStringList();
-    if (subWindowKeys.contains("/realTimeWindow")) {
+    if (subWindowKeys.contains(realTimeWindowKey)) {
         realTimeWindowOpen(true);
-        size = settings.value("/realTimeWindow/size");
-        realTimeSubWindow_->resize(size.toSize());
-        realTimeSubWindow_->move(settings.value("/realTimeWindow/pos").toPoint());
-        realTimeWindow_->readSettings();
+        restoreDisplayWindow(realTimeWindowKey, settings,
+            realTimeSubWindow_, realTimeWindow_);
     }
-    if (subWindowKeys.contains("/review1Window")) {
+    if (subWindowKeys.contains(review1WindowKey)) {
         review1WindowOpen(true);
-        size = settings.value("/review1Window/size");
-        review1SubWindow_->resize(size.toSize());
-        review1SubWindow_->move(settings.value("/review1Window/pos").toPoint());
-        review1Window_->readSettings();
+        restoreDisplayWindow(review1WindowKey, settings,
+            review1SubWindow_, review1Window_);
     }
-    if (subWindowKeys.contains("/review2Window")) {
+    if (subWindowKeys.contains(review2WindowKey)) {
         review2WindowOpen(true);
-        size = settings.value("/review2Window/size");
-        review2SubWindow_->resize(size.toSize());
-        review2SubWindow_->move(settings.value("/review2Window/pos").toPoint());
-        review2Window_->readSettings();
+        restoreDisplayWindow(review2WindowKey, settings,
+            review2SubWindow_, review2Window_);
     }
-    if (subWindowKeys.contains("/logWindow")) {
+    if (subWindowKeys.contains(logWindowKey)) {
         logWindowOpen(true);
-        size = settings.value("/logWindow/size");
-        logSubWindow_->resize(size.toSize());
-        logSubWindow_->move(settings.value("/logWindow/pos").toPoint());
-        logWindow_->readSettings();
+        restoreDisplayWindow(logWindowKey, settings,
+            logSubWindow_, logWindow_);
     }
-        
-    
-    
- 
+    /// TODO again add future DisplayWindow processing here.
 }
 
 void Recorder::login() {

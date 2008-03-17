@@ -26,6 +26,8 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
+#include "recorder.h"
+
 #include <QMainWindow>
 
 class AbstractButtonFrame;
@@ -36,17 +38,18 @@ class FilterCatalogDialog;
 class MoveCopyStudyDialog;
 class OpticalDisk;
 class Options;
+class QAction;
+class QCloseEvent;
+class QMenu;
+class QSplitter;
+class QToolBar;
 //class Recorder;
 class StatusBar;
 class Study;
 class TableListView;
 class User;
 
-class QAction;
-class QCloseEvent;
-class QMenu;
-class QSplitter;
-class QToolBar;
+using EpRecorder::Recorder;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -57,13 +60,13 @@ class Navigator : public QMainWindow {
 public:
     Navigator(QWidget* parent = 0);
 
-    void updateSimulatorSettings();
     void updateAll();   // called by Recorder
 
     ~Navigator();
 
 public slots:
     void regenerateCatalogs();
+    void updateSimulatorSettings();
 
 protected:
     void closeEvent(QCloseEvent*);
@@ -162,7 +165,7 @@ private:
     StatusBar* statusBar_;
     OpticalDisk* currentDisk_;
     User* user_;
-    //Recorder* recorder_;
+    Recorder* recorder_;
 
     // central widget stuff
     QSplitter* centralWidget_;

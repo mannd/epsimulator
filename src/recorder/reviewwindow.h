@@ -25,6 +25,7 @@
 
 class QAction;
 class QComboBox;
+class Settings;
 
 
 /**
@@ -37,8 +38,8 @@ class ReviewWindow : public SignalDisplayWindow  {
 public:
     ReviewWindow(int number = 1, QWidget *parent = 0);
 
-    virtual void writeSettings();
-    virtual void readSettings();
+    virtual void writeSettings(Settings&);
+    virtual void readSettings(const Settings&);
     virtual QString key() {return QString("/review%1Window").arg(number());}
 
     ~ReviewWindow();

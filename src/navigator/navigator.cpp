@@ -75,7 +75,8 @@
 Navigator::Navigator(QWidget* parent)
     : QMainWindow( parent, Qt::WDestructiveClose ),
                    options_(Options::instance()), filterCatalogDialog_(0),
-                   currentDisk_(0), user_(User::instance()) {
+                   currentDisk_(0), user_(User::instance()), recorder_(0)
+                 {
     do {
         createOpticalDrive();
     } while (!currentDisk_);
@@ -88,6 +89,7 @@ Navigator::Navigator(QWidget* parent)
 
     connect(catalogComboBox_, SIGNAL(activated(int)),
         this, SLOT(changeCatalog()));
+
 
     updateWindowTitle();
     readSettings();
@@ -1021,8 +1023,10 @@ void Navigator::startStudy(Study* s) {
     else {
         // looks better to show new window first, then hide this one,
         // and vice versa
-        Recorder* recorder = new Recorder(this, s, currentDisk_);
-        recorder->show();
+        recorder_ = new Recorder(this, s, currentDisk_);
+        recorder_->show();
+        connect(recorder_, SIGNAL(updateSimulatorSettings()),
+            this, SLOT(updateSimulatorSettings()));
         
         hide();
         updateAll();

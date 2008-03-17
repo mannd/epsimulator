@@ -19,7 +19,6 @@ INCLUDEPATH += ../gui \
 ../stimulator \
  ../patient \
  ../core \
- ../navigator \
  ../hardware
 CONFIG -= release
 
