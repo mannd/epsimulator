@@ -103,22 +103,29 @@ void ReviewWindow::createActions() {
     bpmCalipersAct_ = createAction(this, tr("BPM Calipers"),
         tr("Caliper value in BPM"), 0, 0, "hi32-bpmcalipers.png");
     bpmCalipersAct_->setCheckable(true);
+    makeWindowActiveAct_ = createAction(this, tr("Make Window Active"),
+        tr("Toggle between two review windows"), 
+        0, 0, "hi32-makewindowactive.png");
+    updateWindowAct_ = createAction(this, tr("Update Window"),
+        tr("Continuously update the review window"), 
+        0, 0, "hi32-updatewindowtoggle.png");
     offsetSignalsAct_ = createAction(this, tr("Offset Signals"),
         tr("Offset signals"), 0, 0, "hi32-offsetsignals.png");
-    triggeredModeAct_ = createAction(this, tr("Triggered Mode"),
-        tr("Toggle triggered mode"), 0, 0, "hi32-triggeredmode.png");
-    triggeredModeAct_->setCheckable(true);
-    toggleAblationWindowAct_ = createAction(this, 
-        tr("Toggle Ablation Window"),
-        tr("Toggle ablation window"), 0, 0, "hi32-toggleablationwindow.png");
-    toggleAblationWindowAct_->setCheckable(true);
+    snapshotAct_ = createAction(this, tr("Snapshot"), tr("Create a snapshot"),
+        0, 0, "hi32-snapshot.png");
     realTime12LeadAct_ = createAction(this, tr("Real-Time 12-Lead"),
         tr("Print 12-lead of real-time data"), 0, 0, 
         "hi32-realtime12lead.png");
+    printAct_ = createAction(this, tr("Print"), tr("Print the review window"),
+        0, 0, "hi32-printreview.png");
+    createLogEventAct_ = createAction(this, tr("Create Log Event"),
+        tr("Create a log event"), 0, 0, "hi32-createlogevent.png");
     timerAct_ = createAction(this, tr("Timer"),
         tr("Open count down timer"), 0, 0, "hi32-timer.png");
+    timerAct_->setCheckable(true);
     stopwatchAct_ = createAction(this, tr("Stopwatch"),
         tr("Open count up timer"), 0,0, "hi32-stopwatch.png");
+    stopwatchAct_->setCheckable(true);
     
 
 }
@@ -148,11 +155,16 @@ void ReviewWindow::createToolBars() {
     toolBar->addAction(msCalipersAct_);
     toolBar->addAction(bpmCalipersAct_);
     toolBar->addSeparator();
-    toolBar->addAction(offsetSignalsAct_);
-    toolBar->addAction(triggeredModeAct_);
-    toolBar->addAction(toggleAblationWindowAct_);
+    toolBar->addAction(makeWindowActiveAct_);
+    toolBar->addAction(updateWindowAct_);
     toolBar->addSeparator();
+    toolBar->addAction(offsetSignalsAct_);
+    toolBar->addSeparator();
+    toolBar->addAction(snapshotAct_);
     toolBar->addAction(realTime12LeadAct_);
+    toolBar->addAction(printAct_);
+    toolBar->addSeparator();
+    toolBar->addAction(createLogEventAct_);
     toolBar->addSeparator();
     toolBar->addAction(timerAct_);
     toolBar->addAction(stopwatchAct_);

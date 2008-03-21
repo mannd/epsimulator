@@ -24,6 +24,9 @@
 #include "recorderdefs.h"
 
 #include <QTableView>
+
+class QAction;
+class QComboBox;
 class Settings;
 
 /**
@@ -41,6 +44,20 @@ public:
     virtual QString key() {return EpRecorder::logWindowKey;}
 
     ~LogWindow();
+
+private:
+    void createActions();
+    void createToolBars();
+
+    QComboBox* logFilterComboBox_;
+
+    QAction* updateLogWindowAct_;
+    QAction* firstLogEntryAct_;
+    QAction* lastLogEntryAct_;
+    QAction* undoAct_;
+    QAction* redoAct_;
+    QAction* createEventAct_;
+    QAction* printAct_;
 
 };
 

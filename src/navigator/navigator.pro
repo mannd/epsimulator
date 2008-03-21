@@ -53,8 +53,10 @@ LIBS += -L../../lib \
 -lcore \
 -lpatient \
 -lgui \
--lhardware
+-lhardware \
+ -lrecorder
 TARGETDEPS += ../../lib/libcore.so \
 ../../lib/libpatient.so \
 ../../lib/libgui.so \
-../../lib/libhardware.so
+../../lib/libhardware.so \
+ ../../lib/librecorder.so

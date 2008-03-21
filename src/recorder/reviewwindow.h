@@ -53,6 +53,10 @@ public slots:
     void increaseSweepSpeed();
     void decreaseSweepSpeed();
 
+signals:
+    void startTimer(bool);
+    void startStopwatch(bool);
+
 private:
     QComboBox* sweepSpeedComboBox_;
 
@@ -64,10 +68,13 @@ private:
     QAction* deleteAllCalipersAct_;
     QAction* msCalipersAct_;
     QAction* bpmCalipersAct_;
+    QAction* makeWindowActiveAct_;
+    QAction* updateWindowAct_;
     QAction* offsetSignalsAct_;
-    QAction* triggeredModeAct_;
-    QAction* toggleAblationWindowAct_;
+    QAction* snapshotAct_;
     QAction* realTime12LeadAct_;
+    QAction* printAct_;
+    QAction* createLogEventAct_;
     QAction* timerAct_;
     QAction* stopwatchAct_;  
 

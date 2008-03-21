@@ -17,69 +17,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef REALTIMEWINDOW_H
-#define REALTIMEWINDOW_H
 
-#include "displaywindow.h"
-#include "recorderdefs.h"
+#include "stimulator.h"
 
-#include <QString>
+#include <QTimer>
 
-class QAction;
-class QComboBox;
-class Settings;
+namespace EpRecorder {
 
-/**
-The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
+Stimulator::Stimulator(QWidget* parent, Qt::WindowFlags fl)
+    : QWidget(parent, fl), s1S1_(0), s1S2_(0), s2S3_(0),
+    s3S4_(0), s4S5_(0), delay_ (3000), pauseToggle_(false),
+    syncToggle_(false) {
+    timer_ = new QTimer(this);
 
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class RealTimeWindow : public SignalDisplayWindow  {
-    Q_OBJECT
-public:
-    RealTimeWindow(int number = 0, QWidget* parent = 0);
-    
-    virtual void writeSettings(Settings&);
-    virtual void readSettings(const Settings&);
-    virtual QString key() {return EpRecorder::realTimeWindowKey;}
+}
 
-    ~RealTimeWindow();
+Stimulator::~Stimulator() {}
 
-public slots:
-//     virtual void updateWindowTitle();
+void Stimulator::inactivate() {
+    timer_->stop();
+}
 
-signals:
-    void startTimer(bool);
-    void startStopwatch(bool);
+void Stimulator::activate() {
+    connect(timer_, SIGNAL(timeout()), this, SLOT(sendStimulus()));
+    //if (!activeChannels_.empty())
+        timer_->start(s1S1_);
+}
 
-private slots:
-    void increaseSweepSpeed();
-    void decreaseSweepSpeed();
-    
-
-private:
-    virtual void createActions();
-    virtual void createToolBars();
-
-
-
-    QComboBox* sweepSpeedComboBox_;
-
-    QAction* minusAct_;
-    QAction* plusAct_;
-    QAction* studyConfigAct_;
-    QAction* timeCalipersAct_;
-    QAction* amplitudeCalipersAct_;
-    QAction* deleteAllCalipersAct_;
-    QAction* msCalipersAct_;
-    QAction* bpmCalipersAct_;
-    QAction* offsetSignalsAct_;
-    QAction* triggeredModeAct_;
-    QAction* toggleAblationWindowAct_;
-    QAction* realTime12LeadAct_;
-    QAction* timerAct_;
-    QAction* stopwatchAct_;  
-
+void Stimulator::sendStimulus() {
+    emit stimulus(activeChannels_);
 };
 
-#endif
+void Stimulator::activateChannel(Channel c) {
+    activeChannels_.insert(c);
+    
+}
+
+void Stimulator::inactivateChannel(Channel c) {
+    activeChannels_.erase(c);
+}
+
+
+
+/*$SPECIALIZATION$*/
+
+}

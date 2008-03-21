@@ -78,16 +78,16 @@ Recorder::Recorder(QWidget* parent,
 
     assert(parent != 0);  // never call Recorder without parent
 
-
-    createCentralWidget();
+    // must build menus and toolbars before creating the central widget,
+    // since createCentralWidget() updates the menus.
     createActions();
     createMenus();
     createToolBars();
 
+    createCentralWidget();
 
     createPatientStatusBar();
     createStatusBar();
-    readSettings();    
 
     patient_ = new Patient;
     patient_->setPath(study_->path());
@@ -106,12 +106,13 @@ Recorder::Recorder(QWidget* parent,
 
 void Recorder::createCentralWidget() {
     centralWidget_ = new QMdiArea;
-    realTimeWindow_ = new RealTimeWindow;
-    review1Window_ = new ReviewWindow(1);
-    logWindow_ = new LogWindow;
-    realTimeSubWindow_ = centralWidget_->addSubWindow(realTimeWindow_);
-    review1SubWindow_ = centralWidget_->addSubWindow(review1Window_);
-    logSubWindow_ = centralWidget_->addSubWindow(logWindow_);
+    
+//     realTimeWindow_ = new RealTimeWindow;
+//     review1Window_ = new ReviewWindow(1);
+//     logWindow_ = new LogWindow;
+//     realTimeSubWindow_ = centralWidget_->addSubWindow(realTimeWindow_);
+//     review1SubWindow_ = centralWidget_->addSubWindow(review1Window_);
+//     logSubWindow_ = centralWidget_->addSubWindow(logWindow_);
 /*
     displayWindows_[RealTime] = realTimeWindow_;
     displayWindows_[Review1] = review1Window_;
@@ -120,6 +121,22 @@ void Recorder::createCentralWidget() {
     /// TODO other windows here.
 
     setCentralWidget(centralWidget_);
+    readSettings();
+    // deal with no saved settings (first run-through of program)
+    if (centralWidget_->subWindowList().isEmpty()) {
+        if (Options::instance()->enableAcquisition()) {
+            realTimeWindow_ = new RealTimeWindow;
+            realTimeSubWindow_ = centralWidget_->addSubWindow(realTimeWindow_);
+        }
+        else {
+            review1Window_ = new ReviewWindow(1);
+            review1SubWindow_ = centralWidget_->addSubWindow(review1Window_);
+            logWindow_ = new LogWindow;
+            logSubWindow_ = centralWidget_->addSubWindow(logWindow_);
+        } 
+    centralWidget_->tileSubWindows();
+    }
+
 }
 
 void Recorder::setManualSave(bool enable) {
@@ -164,9 +181,13 @@ void Recorder::systemSettings() {
             currentDisk_->translatedSide(), this);
         // I'm not sure what the Prucka does, but it's probably
         // crazy to change filepaths while in the Recorder!
-        systemDialog->removeFilePathsTab();
-        if (systemDialog->exec() == QDialog::Accepted) 
+        //systemDialog->removeFilePathsTab();
+        if (systemDialog->exec() == QDialog::Accepted) {
             systemDialog->setOptions();
+            if (!Options::instance()->enableAcquisition() && 
+                subWindowIsOpen(realTimeSubWindow_))
+                realTimeWindowOpen(false);
+        }
         delete systemDialog;
     }
 }
@@ -272,10 +293,23 @@ void Recorder::updateOpenDisplayWindowList() {
 
 }
 
-void Recorder::restoreDisplayWindow(const QString& key, const Settings& settings,
+void Recorder::restoreDisplayWindow(const QString& key, 
+    void (Recorder::*openFunction) (bool), const Settings& settings,
     QMdiSubWindow* sw, DisplayWindow* dw) {
-    sw->resize(settings.value(key + "/size").toSize());
+    (this->*openFunction)(true);
     sw->move(settings.value(key + "/pos").toPoint());
+    sw->resize(settings.value(key + "/size").toSize());
+    dw->readSettings(settings); 
+}  
+
+void Recorder::restoreDisplayWindow(const QString& key, 
+    const Settings& settings,
+    QMdiSubWindow* sw, DisplayWindow* dw) {
+    //(this->*openFunction)(true);
+    QVariant pos = settings.value(key+"/pos");
+    sw->move(pos.toPoint());
+    QVariant size = settings.value(key + "/size");
+    sw->resize(size.toSize());
     dw->readSettings(settings); 
 }  
 
@@ -303,25 +337,30 @@ void Recorder::readSettings(const Settings& settings) {
     // Note that below is clunky, but seems best solution after
     // experimenting with less repetitive ways of doing this.
     QStringList subWindowKeys = settings.value("/subWindowList").toStringList();
-    if (subWindowKeys.contains(realTimeWindowKey)) {
+    // sorry, no RealTime window if no acquisition
+    if (subWindowKeys.contains(realTimeWindowKey) &&
+        Options::instance()->enableAcquisition()) {
+        // apparently can't use pointer to member function here
+        // because Recorder is not fully constructed yet, so pointer to
+        // member is wild.
         realTimeWindowOpen(true);
-        restoreDisplayWindow(realTimeWindowKey, settings,
-            realTimeSubWindow_, realTimeWindow_);
+        restoreDisplayWindow(realTimeWindowKey, 
+            settings, realTimeSubWindow_, realTimeWindow_);
     }
     if (subWindowKeys.contains(review1WindowKey)) {
         review1WindowOpen(true);
-        restoreDisplayWindow(review1WindowKey, settings,
-            review1SubWindow_, review1Window_);
+        restoreDisplayWindow(review1WindowKey, 
+            settings, review1SubWindow_, review1Window_);
     }
     if (subWindowKeys.contains(review2WindowKey)) {
         review2WindowOpen(true);
-        restoreDisplayWindow(review2WindowKey, settings,
-            review2SubWindow_, review2Window_);
+        restoreDisplayWindow(review2WindowKey, 
+            settings, review2SubWindow_, review2Window_);
     }
     if (subWindowKeys.contains(logWindowKey)) {
         logWindowOpen(true);
-        restoreDisplayWindow(logWindowKey, settings,
-            logSubWindow_, logWindow_);
+        restoreDisplayWindow(logWindowKey, 
+            settings, logSubWindow_, logWindow_);
     }
     /// TODO again add future DisplayWindow processing here.
 }
@@ -741,6 +780,7 @@ void Recorder::updateMenus() {
     review1Act_->setChecked(review1Present);
     review2Act_->setChecked(review2Present);
     logAct_->setChecked(logPresent);
+    realTimeAct_->setEnabled(Options::instance()->enableAcquisition());
 }
 
 }

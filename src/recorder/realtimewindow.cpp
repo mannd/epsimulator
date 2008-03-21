@@ -162,8 +162,14 @@ void RealTimeWindow::createActions() {
         "hi32-realtime12lead.png");
     timerAct_ = createAction(this, tr("Timer"),
         tr("Open count down timer"), 0, 0, "hi32-timer.png");
+    timerAct_->setCheckable(true);
+    connect(timerAct_, SIGNAL(triggered(bool)),
+        this, SIGNAL(startTimer(bool)));
     stopwatchAct_ = createAction(this, tr("Stopwatch"),
         tr("Open count up timer"), 0,0, "hi32-stopwatch.png");
+    stopwatchAct_->setCheckable(true);
+    connect(stopwatchAct_, SIGNAL(triggered(bool)),
+        this, SIGNAL(startStopwatch(bool)));
     
 
 }

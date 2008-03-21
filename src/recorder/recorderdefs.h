@@ -17,69 +17,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef REALTIMEWINDOW_H
-#define REALTIMEWINDOW_H
 
-#include "displaywindow.h"
-#include "recorderdefs.h"
+#ifndef RECORDERDEFS_H
+#define RECORDERDEFS_H
 
 #include <QString>
 
-class QAction;
-class QComboBox;
-class Settings;
+namespace EpRecorder {
 
-/**
-The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
+    enum SaveStatus {NoSave, ManualSave, AutoSave, ExitSave};
+    enum DisplayWindowType {RealTime, Review1, Review2, Log, Ablation, Alignment,
+                        Map, Holter, Plot, Macro, Image1, Image2, ImageLibrary, 
+                        Other, LastDisplayWindow = Other};
 
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class RealTimeWindow : public SignalDisplayWindow  {
-    Q_OBJECT
-public:
-    RealTimeWindow(int number = 0, QWidget* parent = 0);
-    
-    virtual void writeSettings(Settings&);
-    virtual void readSettings(const Settings&);
-    virtual QString key() {return EpRecorder::realTimeWindowKey;}
-
-    ~RealTimeWindow();
-
-public slots:
-//     virtual void updateWindowTitle();
-
-signals:
-    void startTimer(bool);
-    void startStopwatch(bool);
-
-private slots:
-    void increaseSweepSpeed();
-    void decreaseSweepSpeed();
-    
-
-private:
-    virtual void createActions();
-    virtual void createToolBars();
-
-
-
-    QComboBox* sweepSpeedComboBox_;
-
-    QAction* minusAct_;
-    QAction* plusAct_;
-    QAction* studyConfigAct_;
-    QAction* timeCalipersAct_;
-    QAction* amplitudeCalipersAct_;
-    QAction* deleteAllCalipersAct_;
-    QAction* msCalipersAct_;
-    QAction* bpmCalipersAct_;
-    QAction* offsetSignalsAct_;
-    QAction* triggeredModeAct_;
-    QAction* toggleAblationWindowAct_;
-    QAction* realTime12LeadAct_;
-    QAction* timerAct_;
-    QAction* stopwatchAct_;  
-
-};
+    // settings keys for the various display windows
+    const QString realTimeWindowKey = "/realTimeWindow";
+    const QString review1WindowKey = "/review1Window";
+    const QString review2WindowKey = "/review2Window";
+    const QString logWindowKey = "/logWindow";
+    /// TODO add other windows
+}
 
 #endif

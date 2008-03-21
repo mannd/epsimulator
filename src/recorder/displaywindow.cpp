@@ -34,6 +34,8 @@ SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
     
     // don't keep unused windows in memory
     setAttribute(Qt::WA_DeleteOnClose);
+    // probably reasonable initial size for these windows
+    setMinimumSize(QSize(400,200));
 
     createCentralWidget();
     createActions();

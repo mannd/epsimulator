@@ -7,7 +7,12 @@ CONFIG += debug
 TARGET = ../../bin/epsimulator
 
 INCLUDEPATH += ../core \
-../navigator
+../navigator \
+ ../recorder \
+ ../patient \
+ ../gui \
+ ../hardware \
+ ../stimulator
 LIBS += -lpatient \
 -lgui \
 -lcore \

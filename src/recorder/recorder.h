@@ -99,7 +99,10 @@ private:
     std::vector<bool> openDisplayWindowList_;
 
     void updateOpenDisplayWindowList();  
-    void restoreDisplayWindow(const QString& key, 
+    void restoreDisplayWindow(const QString& key, void (Recorder::*) (bool),
+        const Settings& settings, QMdiSubWindow*, DisplayWindow*);
+
+    void restoreDisplayWindow(const QString& key,
         const Settings& settings, QMdiSubWindow*, DisplayWindow*);
 
     void createActions();

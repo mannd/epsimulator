@@ -595,3 +595,28 @@ Saving SubWindow layout in Recorder.
 
     We need to know which screen each subwindow is in, which subwindows are actually present, and their locations.  How to do this without some kind of run-type identification?  One option is to have a lot of if statements, after getting the QList<QMdiSubWindow*> list, going through each possible window to see if the pointer is non-zero.  A map to look up the actual window could give us the window, followed by the screen number and positioning info.
 
+More on Navigator!!
+
+Networking
+	If networking is enabled, system config files are saved to the network
+	location, not the local System dir.  There needs to be a System folder
+	in the network path, if not, the program will create it.  Obviously
+	write permission is necessary or networking will be disallowed.  The
+	network catalog contains the local paths of the studies, just like the
+	system catalog.  If networking is enabled, the System path becomes the
+	network path, so all that is needed is to set the System path to the
+	network path.  Well, not exactly.  It still will be nice to have the
+	System catalog reflect what's in the local System folder.  We need a
+	way to determine the current system path for purposes of config files,
+	etc., named differently from the System path.  Now, if exporting is
+	turned on, study data is exported to the path (really should be the
+	same as the network path, but doesn't have to be, could be a different
+	server, in which case when a study is clicked on in the network
+	catalog for review, it is pulled from the export path instead of the
+	optical disk.  At least the network path is searched first, if the
+	study is not found, see if it is on the optical disk.  
+
+	Regarding the optical disk, there should be a buffer location on the
+	hard drive for actual data acquisition, this is then written from time
+	to time to the optical disk.  This appears to be how the Prucka
+	works.  These buffers are flushed when the study closes.  

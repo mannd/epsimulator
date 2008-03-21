@@ -51,5 +51,12 @@
         <file>images/hi32-realtime12lead.png</file>
         <file>images/hi32-timer.png</file>
         <file>images/hi32-stopwatch.png</file>
+        <file>images/hi32-snapshot.png</file>
+        <file>images/hi32-printreview.png</file>
+        <file>images/hi32-createlogevent.png</file>
+        <file>images/hi32-firstlogentry.png</file>
+        <file>images/hi32-lastlogentry.png</file> 
+        <file>images/hi32-undo.png</file>
+        <file>images/hi32-redo.png</file>       
    </qresource>
 </RCC>
