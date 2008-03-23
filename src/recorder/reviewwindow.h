@@ -24,6 +24,7 @@
 #include "displaywindow.h"
 
 class QAction;
+class QCloseEvent;
 class QComboBox;
 class Settings;
 
@@ -39,8 +40,8 @@ public:
     ReviewWindow(int number = 1, QWidget *parent = 0);
 
     virtual void writeSettings(Settings&);
-    virtual void readSettings(const Settings&);
-    virtual QString key() {return QString("/review%1Window").arg(number());}
+    virtual void readSettings(Settings&);
+    virtual QString key() {return QString("review%1Window").arg(number());}
 
     ~ReviewWindow();
 
@@ -52,12 +53,21 @@ public slots:
     //virtual void updateWindowTitle();
     void increaseSweepSpeed();
     void decreaseSweepSpeed();
+    void makeWindowActive(bool);
+    void otherWindowActive(bool);
+    void updateToolBars();
 
 signals:
     void startTimer(bool);
     void startStopwatch(bool);
+    void windowActivated(bool);
+    void windowClosing(bool);
 
 private:
+    void closeEvent(QCloseEvent*);
+
+    bool windowActive_; // this is window that updates go to
+
     QComboBox* sweepSpeedComboBox_;
 
     QAction* minusAct_;
@@ -79,11 +89,5 @@ private:
     QAction* stopwatchAct_;  
 
 };
-
-// class Review2Window : public ReviewWindow {
-// public:
-//     Review2Window() : ReviewWindow(2) {}
-//     ~Review2Window() {}
-// };
 
 #endif

@@ -139,7 +139,7 @@ QAction* createAction(QWidget* w,
         action->setShortcut(QKeySequence(accelKey));
     action->setStatusTip(statusTip);
     if (slotName)
-        QObject::connect(action, SIGNAL(triggered()), w, slotName);
+        QObject::connect(action, SIGNAL(triggered(bool)), w, slotName);
     return action;
 }
 

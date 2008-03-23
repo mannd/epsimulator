@@ -21,6 +21,7 @@
 #include "logwindow.h"
 
 #include "actions.h"
+#include "settings.h"
 
 #include <QAction>
 #include <QComboBox>
@@ -50,6 +51,14 @@ LogWindow::LogWindow(int number, QWidget *parent)
 
 
 LogWindow::~LogWindow() {}
+
+void LogWindow::writeSettings(Settings& settings) {
+    settings.setValue("state", saveState());
+}
+
+void LogWindow::readSettings(Settings& settings) {
+    restoreState(settings.value("state").toByteArray());
+}
 
 void LogWindow::createActions() {
     using EpGui::createAction;

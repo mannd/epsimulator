@@ -101,7 +101,6 @@ Navigator::Navigator(QWidget* parent)
 void Navigator::closeEvent(QCloseEvent* event) {
     writeSettings();
     event->accept();
-
 }
 
 
@@ -836,6 +835,7 @@ void Navigator::createActions() {
 
 void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator")); 
+    navigatorToolBar_->setObjectName("NavigatorToolBar");
     navigatorToolBar_->setAutoFillBackground(true);
     catalogComboBox_ = new CatalogComboBox();
     navigatorToolBar_->addWidget(catalogComboBox_);
@@ -918,10 +918,13 @@ void Navigator::createMenus() {
 
 void Navigator::writeSettings() {
     Settings settings;
-    settings.setValue("/navigatorSize", size());
-    settings.setValue("/navigatorPos", pos());    
-    settings.setValue("/navigatorCentralWidget",   
+    settings.beginGroup("navigator");
+    settings.setValue("size", size());
+    settings.setValue("pos", pos());
+    settings.setValue("state", saveState());    
+    settings.setValue("centralWidgetState",   
         centralWidget_->saveState());
+    settings.endGroup();
 }
 
 /**
@@ -931,15 +934,18 @@ void Navigator::writeSettings() {
  */
 void Navigator::readSettings() {
     Settings settings;
-    QVariant size = settings.value("/navigatorSize");
+    settings.beginGroup("navigator");
+    QVariant size = settings.value("size");
     if (size.isNull())  // initial run of program, window is maximized by default
         showMaximized();
     else {  // but if not initial run, use previous window settings
         resize(size.toSize());
-        move(settings.value("/navigatorPos").toPoint());
+        move(settings.value("pos").toPoint());
         centralWidget_->restoreState(settings.value(
-            "/navigatorCentralWidget").toByteArray());
+            "centralWidgetState").toByteArray());
+        restoreState(settings.value("state").toByteArray());
     }
+    settings.endGroup();
 }
 
 void Navigator::processFilter() {

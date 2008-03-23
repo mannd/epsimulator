@@ -31,10 +31,10 @@ namespace EpRecorder {
                         Other, LastDisplayWindow = Other};
 
     // settings keys for the various display windows
-    const QString realTimeWindowKey = "/realTimeWindow";
-    const QString review1WindowKey = "/review1Window";
-    const QString review2WindowKey = "/review2Window";
-    const QString logWindowKey = "/logWindow";
+    const QString realTimeWindowKey = "realTimeWindow";
+    const QString review1WindowKey = "review1Window";
+    const QString review2WindowKey = "review2Window";
+    const QString logWindowKey = "logWindow";
     /// TODO add other windows
 }
 

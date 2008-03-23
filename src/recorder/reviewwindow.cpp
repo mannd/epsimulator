@@ -24,6 +24,7 @@
 #include "settings.h"
 
 #include <QAction>
+#include <QCloseEvent>
 #include <QComboBox>
 #include <QIcon>
 #include <QSplitter>
@@ -35,6 +36,11 @@ ReviewWindow::ReviewWindow(int number, QWidget *parent)
     createActions();
     createToolBars();
     updateWindowTitle();
+}
+
+void ReviewWindow::closeEvent(QCloseEvent* event) {
+    emit windowClosing(true);
+    event->accept();
 }
 
 void ReviewWindow::increaseSweepSpeed() {
@@ -53,27 +59,33 @@ void ReviewWindow::decreaseSweepSpeed() {
     sweepSpeedComboBox_-> setCurrentIndex(index);
 }
 
-void ReviewWindow::writeSettings(Settings& settings) {
-    QString prefix = "/reviewWindow" + QString::number(number());
-    settings.setValue(prefix + "Size", size());
-    settings.setValue(prefix + "Pos", pos()); 
-    settings.setValue(prefix + "State", saveState());
-    settings.setValue(prefix + "Splitter", 
-        static_cast<QSplitter*>(centralWidget())->saveState());   
+void ReviewWindow::makeWindowActive(bool enable) {
+    windowActive_ = enable;
+    emit windowActivated(enable);
 }
 
-void ReviewWindow::readSettings(const Settings& settings) {
-    QString prefix = "/reviewWindow" + QString::number(number());
-    restoreState(settings.value(prefix + "State").toByteArray());
-    QVariant size = settings.value(prefix + "Size");
-    if (size.isNull()) {
-        showMaximized();
-        return;
-    }
-    resize(size.toSize());
-    move(settings.value(prefix + "Pos").toPoint());
+void ReviewWindow::otherWindowActive(bool enable) {
+    windowActive_ = !enable;
+    makeWindowActiveAct_->setChecked(!enable);
+}
+
+void ReviewWindow::writeSettings(Settings& settings) {
+    settings.setValue("state", saveState());
+    settings.setValue("splitter", 
+        static_cast<QSplitter*>(centralWidget())->saveState());
+    settings.setValue("windowActive", windowActive_);   
+}
+
+void ReviewWindow::readSettings(Settings& settings) {
+    restoreState(settings.value("state").toByteArray());
     static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
-        prefix + "Splitter").toByteArray());
+        "splitter").toByteArray());
+    windowActive_ = settings.value("windowActive").toBool();
+    updateToolBars();
+}
+
+void ReviewWindow::updateToolBars() {
+    makeWindowActiveAct_->setChecked(windowActive_); 
 }
 
 void ReviewWindow::createActions() {
@@ -105,7 +117,8 @@ void ReviewWindow::createActions() {
     bpmCalipersAct_->setCheckable(true);
     makeWindowActiveAct_ = createAction(this, tr("Make Window Active"),
         tr("Toggle between two review windows"), 
-        0, 0, "hi32-makewindowactive.png");
+        SLOT(makeWindowActive(bool)), 0, "hi32-makewindowactive.png");
+    makeWindowActiveAct_->setCheckable(true);
     updateWindowAct_ = createAction(this, tr("Update Window"),
         tr("Continuously update the review window"), 
         0, 0, "hi32-updatewindowtoggle.png");

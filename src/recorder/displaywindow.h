@@ -37,7 +37,7 @@ public:
         : QMainWindow(parent, fl), name_(name), number_(number) {}
 
     virtual void writeSettings(Settings&) = 0;
-    virtual void readSettings(const Settings&) = 0;
+    virtual void readSettings(Settings&) = 0;
     virtual QString key() = 0;     // this is the key used to read/write settings
 
     //void setName(QString name) {name_ = name;}

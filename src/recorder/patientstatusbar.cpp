@@ -44,6 +44,7 @@ PatientStatusBar::PatientStatusBar(QWidget* parent)
     setupUi(this);
     
     setAttribute(Qt::WA_DeleteOnClose);
+    setWindowTitle(tr("Patient Status"));
 
     timeLabel->setMinimumWidth(100);    // prevent flickering?
     timer_ = new QTimer(this);

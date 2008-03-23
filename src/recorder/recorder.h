@@ -99,11 +99,11 @@ private:
     std::vector<bool> openDisplayWindowList_;
 
     void updateOpenDisplayWindowList();  
-    void restoreDisplayWindow(const QString& key, void (Recorder::*) (bool),
-        const Settings& settings, QMdiSubWindow*, DisplayWindow*);
-
+    void connectReviewWindows();
+    
     void restoreDisplayWindow(const QString& key,
-        const Settings& settings, QMdiSubWindow*, DisplayWindow*);
+        Settings& settings, const QString& currentWindowKey,
+        QMdiSubWindow*, DisplayWindow*, QMdiSubWindow*& currentSubWindow);
 
     void createActions();
     void createCentralWidget();
@@ -113,7 +113,7 @@ private:
     void createPatientStatusBar();
     void updateWindowTitle();
     void readSettings();
-    void readSettings(const Settings&);
+    void readSettings(Settings&);
     void writeSettings();
     void writeSettings(Settings&);
     bool administrationAllowed();

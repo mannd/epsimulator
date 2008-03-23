@@ -40,7 +40,7 @@ public:
     RealTimeWindow(int number = 0, QWidget* parent = 0);
     
     virtual void writeSettings(Settings&);
-    virtual void readSettings(const Settings&);
+    virtual void readSettings(Settings&);
     virtual QString key() {return EpRecorder::realTimeWindowKey;}
 
     ~RealTimeWindow();

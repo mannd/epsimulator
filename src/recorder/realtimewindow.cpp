@@ -176,24 +176,15 @@ void RealTimeWindow::createActions() {
 
 /// TODO can move these to superclass, pass prefix (e.g. "/realTimeWindow")
 void RealTimeWindow::writeSettings(Settings& settings) {
-    settings.setValue("/realTimeWindowSize", size());
-    settings.setValue("/realTimeWindowPos", pos()); 
-    settings.setValue("/realTimeWindowState", saveState());
-    settings.setValue("/realTimeWindowSplitter", 
-        static_cast<QSplitter*>(centralWidget())->saveState());   
+    settings.setValue("state", saveState());
+    settings.setValue("splitter", 
+        static_cast<QSplitter*>(centralWidget())->saveState()); 
 }
 
-void RealTimeWindow::readSettings(const Settings& settings) {
-    restoreState(settings.value("/realTimeWindowState").toByteArray());
-    QVariant size = settings.value("/realTimeWindowSize");
-    if (size.isNull()) {
-        showMaximized();
-        return;
-    }
-    resize(size.toSize());
-    move(settings.value("/realTimeWindowPos").toPoint());
+void RealTimeWindow::readSettings(Settings& settings) {
+    restoreState(settings.value("state").toByteArray());
     static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
-        "/realTimeWindowSplitter").toByteArray());
+        "splitter").toByteArray());
 }
 
 
