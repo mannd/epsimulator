@@ -42,6 +42,11 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     useLabNameCheckBox->setChecked(options_->useLabName());
     labNameLineEdit->setText(options_->labName());
     permanentDeleteCheckBox->setChecked(options_->permanentDelete());
+    autoSaveDiskIconCheckBox->setChecked(options_->autoSaveDiskIcon());
+    immovablePatientStatusBarCheckBox->
+        setChecked(options_->immovablePatientStatusBar());
+    patientStatusBarHasTitleCheckBox->
+        setChecked(options_->patientStatusBarHasTitle());
     connect(emulateOpticalDriveCheckBox, SIGNAL(stateChanged(int)), 
         this, SLOT(enableDriveEmulation())); 
 }
@@ -62,6 +67,11 @@ void SimulatorSettingsDialog::setOptions() {
         options_->setUseLabName(useLabNameCheckBox->isChecked());
         options_->setLabName(labNameLineEdit->text());
         options_->setPermanentDelete(permanentDeleteCheckBox->isChecked());
+        options_->setAutoSaveDiskIcon(autoSaveDiskIconCheckBox->isChecked());
+        options_->setImmovablePatientStatusBar(
+            immovablePatientStatusBarCheckBox->isChecked());
+        options_->setPatientStatusBarHasTitle(
+            patientStatusBarHasTitleCheckBox->isChecked());
 
         options_->writeSettings();
 }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,45 +18,45 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef SIMULATORSETTINGSDIALOG_H
-#define SIMULATORSETTINGSDIALOG_H
+#ifndef TESTSTIMULATOR_H
+#define TESTSTIMULATOR_H
 
-#include "ui_simulatorsettingsdialog.h"
+#include "stimulator.h"
+#include "ui_teststimulator.h"
 
-#include <qcheckbox.h>
-#include <QDialog>
+#include <QWidget>
 
-class Options;
+namespace EpRecorder {
 
-class SimulatorSettingsDialog : public QDialog, 
-				private Ui::SimulatorSettingsDialog
+class TestStimulator : public Stimulator, private Ui::TestStimulator
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    SimulatorSettingsDialog(Options* options, QWidget* parent = 0);
+  TestStimulator(QWidget* parent = 0, Qt::WFlags fl = Qt::Tool);
+  ~TestStimulator();
+  /*$PUBLIC_FUNCTIONS$*/
 
-    void setOptions();
-    void removeNavigatorTab();
-
-    ~SimulatorSettingsDialog();
-    
 public slots:
-    virtual void enableDriveEmulation();
+  /*$PUBLIC_SLOTS$*/
+
+protected:
+  /*$PROTECTED_FUNCTIONS$*/
+
+protected slots:
+  /*$PROTECTED_SLOTS$*/
+
+private slots:
+    void blink();
+    void toggle(bool);
+    void changeS1S1();
 
 private:
-    bool emulateOpticalDrive() const {
-        return emulateOpticalDriveCheckBox->isChecked();}
-    bool dualSidedDrive() const;
-    int emulatedOpticalDriveCapacity() const;
-
-    void setEmulateOpticalDrive(bool);
-    void setDualSidedDrive(bool);
-    void setEmulatedOpticalDriveCapacity(int);
-
-    Options* options_;
+    bool activated_;
 
 };
+
+}
 
 #endif
 

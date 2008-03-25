@@ -75,8 +75,7 @@
 Navigator::Navigator(QWidget* parent)
     : QMainWindow( parent, Qt::WDestructiveClose ),
                    options_(Options::instance()), filterCatalogDialog_(0),
-                   currentDisk_(0), user_(User::instance()), recorder_(0)
-                 {
+                   currentDisk_(0), user_(User::instance()) {
     do {
         createOpticalDrive();
     } while (!currentDisk_);
@@ -90,10 +89,8 @@ Navigator::Navigator(QWidget* parent)
     connect(catalogComboBox_, SIGNAL(activated(int)),
         this, SLOT(changeCatalog()));
 
-
     updateWindowTitle();
     readSettings();
-
 }
 
 // protected
@@ -102,7 +99,6 @@ void Navigator::closeEvent(QCloseEvent* event) {
     writeSettings();
     event->accept();
 }
-
 
 // private slots
 
@@ -136,7 +132,6 @@ void Navigator::continueStudy() {
         return;
     }
     if (study->isPreregisterStudy()) {
-        /// TODO make this a new study, but use original time/date?    
         SelectStudyConfigDialog* selectStudyConfigDialog  = 
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
@@ -565,7 +560,6 @@ void Navigator::exportCatalog() {
 void Navigator::updateSimulatorSettings(){
     try {
         setUpdatesEnabled(false);
-        updateMenus();
         // change type of optical disk if needed
         do {
             createOpticalDrive();
@@ -579,6 +573,7 @@ void Navigator::updateSimulatorSettings(){
         refreshCatalogs();   // This repopulates the TableListView.
         // Need to do below to make sure user label
         // matches Navigator style.
+        updateMenus();
         statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
         updateStatusBarUserLabel();
         /// TODO other effects of changing simulator settings below
@@ -913,7 +908,6 @@ void Navigator::createMenus() {
     helpMenu_->addAction(aboutAct_);
 
     updateMenus();
-
 }
 
 void Navigator::writeSettings() {
@@ -1029,16 +1023,16 @@ void Navigator::startStudy(Study* s) {
     else {
         // looks better to show new window first, then hide this one,
         // and vice versa
-        recorder_ = new Recorder(this, s, currentDisk_);
-        recorder_->show();
-        connect(recorder_, SIGNAL(updateSimulatorSettings()),
+        Recorder* recorder = new Recorder(this, s, currentDisk_);
+        recorder->show();
+        connect(recorder, SIGNAL(updateSimulatorSettings()),
             this, SLOT(updateSimulatorSettings()));
         
         hide();
         updateAll();
     }
     /// TODO One other possibility to handle.  If
-    /// options_->enableAcquisition() if false, then recorder_
+    /// options_->enableAcquisition() if false, then recorder
     /// central widget can only be review screens.  This is also
     /// the case for Review Study blue bar button.  
 }

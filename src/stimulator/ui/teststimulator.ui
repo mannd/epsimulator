@@ -1,0 +1,124 @@
+<ui version="4.0" >
+ <class>TestStimulator</class>
+ <widget class="QWidget" name="TestStimulator" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Test Stimulator</string>
+  </property>
+  <widget class="QSpinBox" name="s1S1SpinBox" >
+   <property name="geometry" >
+    <rect>
+     <x>21</x>
+     <y>124</y>
+     <width>359</width>
+     <height>129</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>68</pointsize>
+    </font>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="buttonSymbols" >
+    <enum>QAbstractSpinBox::PlusMinus</enum>
+   </property>
+   <property name="maximum" >
+    <number>9999</number>
+   </property>
+   <property name="singleStep" >
+    <number>10</number>
+   </property>
+   <property name="value" >
+    <number>600</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label" >
+   <property name="geometry" >
+    <rect>
+     <x>21</x>
+     <y>78</y>
+     <width>359</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>17</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>S1S1</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="buddy" >
+    <cstring>s1S1SpinBox</cstring>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="stimLight" >
+   <property name="geometry" >
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>100</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>stim</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>21</x>
+     <y>260</y>
+     <width>359</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" >
+    <item>
+     <widget class="QLabel" name="label_2" >
+      <property name="text" >
+       <string>Channel</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="channelSpinBox" >
+      <property name="minimum" >
+       <number>1</number>
+      </property>
+      <property name="maximum" >
+       <number>4</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="onOffPushButton" >
+      <property name="text" >
+       <string>On/Off</string>
+      </property>
+      <property name="checkable" >
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

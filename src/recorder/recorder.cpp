@@ -93,15 +93,6 @@ Recorder::Recorder(QWidget* parent,
     createStatusBar();
     createCentralWidget();
 
- 
-
-    patient_ = new Patient;
-    patient_->setPath(study_->path());
-    patient_->load();
-    patientStatusBar_->setPatient(patient_);
-    patientStatusBar_->setPatientInfo(study_->name(), 
-        study_->weight(), study_->bsa());
-    patientStatusBar_->start();
     connect(patientStatusBar_, SIGNAL(manualSave(bool)),
         this, SLOT(setManualSave(bool)));
     connect(centralWidget_, SIGNAL(subWindowActivated(QMdiSubWindow*)),
@@ -158,6 +149,7 @@ void Recorder::updateWindowTitle() {
 void Recorder::updateAll() {
     updateMenus();
     updateWindowTitle();
+    updateSettings();
 }
 
 Recorder::~Recorder() {
@@ -187,7 +179,7 @@ void Recorder::systemSettings() {
         //systemDialog->removeFilePathsTab();
         if (systemDialog->exec() == QDialog::Accepted) {
             systemDialog->setOptions();
-            if (!Options::instance()->enableAcquisition() && 
+            if (!options_->enableAcquisition() && 
                 subWindowIsOpen(realTimeSubWindow_))
                 realTimeWindowOpen(false);
         }
@@ -203,13 +195,25 @@ void Recorder::simulatorSettings() {
         if (simDialog->exec() == QDialog::Accepted) {
             simDialog->setOptions();
             updateMenus();
+            updateSettings();
             // signal updates simulator settings in Navigator
             emit updateSimulatorSettings();
-//             if (Navigator* navigator = dynamic_cast<Navigator*>(parent()))
-//                 navigator->updateSimulatorSettings();
         }
         delete simDialog;
     }
+}
+
+void Recorder::updateSettings() {
+    QDockWidget* dockWidget =
+        qobject_cast<QDockWidget*>(patientStatusBar_->parentWidget());
+    dockWidget->setWindowTitle(options_->patientStatusBarHasTitle()
+        ? tr("Patient Status") : "");
+    if (options_->immovablePatientStatusBar())
+        dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    else
+        dockWidget->setFeatures(QDockWidget::DockWidgetClosable
+            | QDockWidget::DockWidgetMovable 
+            | QDockWidget::DockWidgetFloatable);
 }
 
 void Recorder::connectReviewWindows() {
@@ -473,12 +477,20 @@ void Recorder::createStatusBar() {
 void Recorder::createPatientStatusBar() {
     patientStatusBar_ = new PatientStatusBar(this);
     QDockWidget* bottomDockWidget = new QDockWidget(this);
+    bottomDockWidget->setWindowTitle(tr("Patient Status"));
     bottomDockWidget->setObjectName("bottomDockWidget");
     bottomDockWidget->setWidget(patientStatusBar_);
-    bottomDockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    //bottomDockWidget->setTitleBarWidget(0);
+    //bottomDockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     bottomDockWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
     addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
+
+    patient_ = new Patient;
+    patient_->setPath(study_->path());
+    patient_->load();
+    patientStatusBar_->setPatient(patient_);
+    patientStatusBar_->setPatientInfo(study_->name(), 
+        study_->weight(), study_->bsa());
+    patientStatusBar_->start();
 }
 
 void Recorder::createActions()

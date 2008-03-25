@@ -26,8 +26,6 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include "recorder.h"
-
 #include <QMainWindow>
 
 class AbstractButtonFrame;
@@ -43,13 +41,10 @@ class QCloseEvent;
 class QMenu;
 class QSplitter;
 class QToolBar;
-//class Recorder;
 class StatusBar;
 class Study;
 class TableListView;
 class User;
-
-using EpRecorder::Recorder;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -165,7 +160,6 @@ private:
     StatusBar* statusBar_;
     OpticalDisk* currentDisk_;
     User* user_;
-    Recorder* recorder_;
 
     // central widget stuff
     QSplitter* centralWidget_;
@@ -185,7 +179,6 @@ private:
     QAction* exitAct_;
 
     // Catalog menu
-//    QAction* switchAct_;
     QAction* networkSwitchAct_;
     QAction* systemSwitchAct_;
     QAction* opticalSwitchAct_;

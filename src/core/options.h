@@ -65,6 +65,8 @@ public:
     void setPasswordHash(QString hash) {passwordHash_ = hash;}
 
     void setAutoSaveDiskIcon(bool enable) {autoSaveDiskIcon_ = enable;}
+    void setImmovablePatientStatusBar(bool enable) {immovablePatientStatusBar_ = enable;}
+    void setPatientStatusBarHasTitle(bool enable) {patientStatusBarHasTitle_ = enable;}
 
     QString opticalStudyPath() const {return opticalStudyPath_;}
     QString networkStudyPath() const {return networkStudyPath_;}
@@ -92,6 +94,8 @@ public:
     QString passwordHash() const {return passwordHash_;}
 
     bool autoSaveDiskIcon() const {return autoSaveDiskIcon_;}
+    bool immovablePatientStatusBar() const {return immovablePatientStatusBar_;}
+    bool patientStatusBarHasTitle() const {return patientStatusBarHasTitle_;}
 
     // read and write options to disk
     void readSettings();
@@ -145,6 +149,8 @@ private:
 
     // Recorder options
     bool autoSaveDiskIcon_;
+    bool immovablePatientStatusBar_;
+    bool patientStatusBarHasTitle_;
 };
 
 #endif

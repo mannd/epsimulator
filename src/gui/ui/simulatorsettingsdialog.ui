@@ -56,7 +56,7 @@
     <item row="0" column="0" colspan="3" >
      <widget class="QTabWidget" name="tabCategories" >
       <property name="currentIndex" >
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabGeneral" >
        <attribute name="title" >
@@ -282,7 +282,7 @@
        <attribute name="title" >
         <string>Recorder</string>
        </attribute>
-       <widget class="QCheckBox" name="checkBox" >
+       <widget class="QCheckBox" name="autoSaveDiskIconCheckBox" >
         <property name="geometry" >
          <rect>
           <x>30</x>
@@ -293,6 +293,32 @@
         </property>
         <property name="text" >
          <string>Auto Save Indicator On Disk Icon</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="immovablePatientStatusBarCheckBox" >
+        <property name="geometry" >
+         <rect>
+          <x>30</x>
+          <y>60</y>
+          <width>321</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text" >
+         <string>Immovable Patient Status Bar</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="patientStatusBarHasTitleCheckBox" >
+        <property name="geometry" >
+         <rect>
+          <x>30</x>
+          <y>100</y>
+          <width>391</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text" >
+         <string>Patient Status Bar Has Title</string>
         </property>
        </widget>
       </widget>

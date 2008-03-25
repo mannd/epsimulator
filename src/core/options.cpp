@@ -87,7 +87,11 @@ void Options::readSettings() {
     /// settings file, etc.  One problem is all this seems like overkill to prevent users
     /// from having access to some minor setup functions.
     passwordHash_ = settings.value("passwordHash", "0").toString();
-    autoSaveDiskIcon_ = settings.value("autoSaveDiskIcon", false).toBool();
+    autoSaveDiskIcon_ = settings.value("autoSaveDiskIcon", true).toBool();
+    immovablePatientStatusBar_ = 
+        settings.value("immovablePatientStatusBar", true).toBool();
+    patientStatusBarHasTitle_ = 
+        settings.value("patientStatusBarHasTitle", false).toBool();
     /// TODO other options here...
     settings.endGroup();
 }
@@ -116,6 +120,8 @@ void Options::writeSettings() {
     settings.setValue("permanentDelete", permanentDelete_);
     settings.setValue("passwordHash", passwordHash_);
     settings.setValue("autoSaveDiskIcon", autoSaveDiskIcon_);
+    settings.setValue("immovablePatientStatusBar", immovablePatientStatusBar_);
+    settings.setValue("patientStatusBarHasTitle", patientStatusBarHasTitle_);
     /// TODO add other options here...
     settings.endGroup();
 }

@@ -86,6 +86,7 @@ private slots:
     void openSatMonitor();
     void setManualSave(bool);
     void updateMenus();
+    void updateSettings();
 
     void realTimeWindowOpen(bool);
     void review1WindowOpen(bool);
