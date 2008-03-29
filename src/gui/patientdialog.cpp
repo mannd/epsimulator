@@ -44,6 +44,8 @@ PatientDialog::PatientDialog(QWidget* parent)
         this, SLOT(weightLbsLineEdit_lostFocus()));
     connect(weightKgLineEdit, SIGNAL(lostFocus()),
         this, SLOT(weightKgLineEdit_lostFocus()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 void PatientDialog::accept() {

@@ -134,7 +134,7 @@ void Recorder::createCentralWidget() {
 }
 
 void Recorder::setManualSave(bool enable) {
-    manualSaveAct_->setChecked(enable);
+    manualSaveAction_->setChecked(enable);
 }
 
 void Recorder::updateWindowTitle() {
@@ -493,309 +493,302 @@ void Recorder::createPatientStatusBar() {
     patientStatusBar_->start();
 }
 
-void Recorder::createActions()
-{
-    // It appears the Prucka does not have typical shortcut keys 
-    // and accelerator keys due to keyboard relabeling.  
-    // We'll provide some anyway.
-    // Note that the keyboard hints are totally non-mnemotic.  Should
-    // have a function that delivers the right QString, depending on whether
-    // using Prucka compatible or simplified menu, or just have a separate
-    // set of menus -- probably that is easier -- for each configuration
+void Recorder::createActions() {
     using EpGui::createAction;
-    patientInformationAct_ = createAction(this, tr("Patient Information"), 
+    patientInformationAction_ = createAction(this, tr("Patient Information"), 
         tr("Create and modify patient information"),
         SLOT(patientInformation()));    
-    consciousSedationAct_ = createAction(this, tr("Conscious Sedation"),
+    consciousSedationAction_ = createAction(this, tr("Conscious Sedation"),
         tr("Conscious sedation list"), 0, tr("Alt+A"));
-    complicationsAct_ = createAction(this, tr("Complications"), 
+    complicationsAction_ = createAction(this, tr("Complications"), 
         tr("Complications list"), 0, tr("Alt+M"));
-    radiologyAct_ = createAction(this, tr("Radiology"), 
+    radiologyAction_ = createAction(this, tr("Radiology"), 
         tr("Radiology list"), 0, tr("Alt+N"));
-    medicationAct_ = createAction(this, tr("Medications"), 
+    medicationAction_ = createAction(this, tr("Medications"), 
         tr("Medication list"), 0, tr("Alt+B"));
-    suppliesAct_ = createAction(this, tr("Supplies"),
+    suppliesAction_ = createAction(this, tr("Supplies"),
         tr("Supplies list"), 0, tr("Alt+V"));
-    staffAct_ = createAction(this, tr("Staff"), 
+    staffAction_ = createAction(this, tr("Staff"), 
         tr("Staff list"), 0, tr("Alt+C"));
-    clinicalProceduresAct_ = createAction(this, tr("Clinical Procedures"), 
+    clinicalProceduresAction_ = createAction(this, tr("Clinical Procedures"), 
         tr("Clinical procedures list"), 0, tr("Alt+X"));
-    macrosAct_ = createAction(this, tr("Macros"), 
+    macrosAction_ = createAction(this, tr("Macros"), 
         tr("Macros list"), 0, tr("Alt+Z"));
-    ordersAct_ = createAction(this, tr("Orders"), 
+    ordersAction_ = createAction(this, tr("Orders"), 
         tr("Enter orders"));
-    reportsAct_ = createAction(this, tr("Reports..."), 
+    reportsAction_ = createAction(this, tr("Reports..."), 
         tr("Create procedure reports"));
-    exportDataAct_ = createAction(this, tr("Export Data"), 
+    exportDataAction_ = createAction(this, tr("Export Data"), 
         tr("Export data to external formats"));
-    closeStudyAct_ = createAction(this, tr("Close Study"),
+    closeStudyAction_ = createAction(this, tr("Close Study"),
         tr("Close patient study"), SLOT(close()), 0,
         "hi32-closestudy.png");
     // Study Configuration
-    switchAct_ = createAction(this, tr("Switch..."), 
+    switchAction_ = createAction(this, tr("Switch..."), 
         tr("Switch study configuration"), 0, 
         0, "hi32-switchwindowsettings.png");
-    saveAct_ = createAction(this, tr("Save"),
+    saveAction_ = createAction(this, tr("Save"),
         tr("Save study configuration"));
-    saveAsAct_ = createAction(this, tr("Save As..."), 
+    saveAsAction_ = createAction(this, tr("Save As..."), 
         tr("Save study configuration under different name"));
-    intervalsAct_ = createAction(this, tr("Intervals"), 
+    intervalsAction_ = createAction(this, tr("Intervals"), 
         tr("Configure study intervals"));
-    columnFormatsAct_ = createAction(this, tr("Column Formats"), 
+    columnFormatsAction_ = createAction(this, tr("Column Formats"), 
         tr("Configure column formats"));
-    protocolsAct_ = createAction(this, tr("Protocols"), 
+    protocolsAction_ = createAction(this, tr("Protocols"), 
         tr("Configure protocols"));
     // Measurements
-    conductionIntervalsAct_ = createAction(this, tr("Conduction Intervals..."),
+    conductionIntervalsAction_ = createAction(this, tr("Conduction Intervals..."),
         tr("Measure conduction intervals"), 0, tr("Alt+Q"));
-    snrtAct_ = createAction(this, tr("SNRT..."), 
+    snrtAction_ = createAction(this, tr("SNRT..."), 
         tr("Measure sinus node recover time"), 0, tr("Alt+W"));
-    anteRPsAct_ = createAction(this, tr("Ante RPs..."), 
+    anteRPsAction_ = createAction(this, tr("Ante RPs..."), 
         tr("Measure anterograde refractory periods"), 0, tr("Alt+E"));
-    retroRPsAct_ = createAction(this, tr("Retro RPs..."), 
+    retroRPsAction_ = createAction(this, tr("Retro RPs..."), 
         tr("Measure retrograde refractory periods"), 0, tr("Alt+R"));
-    manualMeasurementsAct_ = createAction(this, tr("Manual Measurements"),
+    manualMeasurementsAction_ = createAction(this, tr("Manual Measurements"),
         tr("Make manual measurements"));
-    statVitalsAct_ = createAction(this, tr("Stat Vitals"),
+    statVitalsAction_ = createAction(this, tr("Stat Vitals"),
         tr("Record stat vital signs"));
-    startStopNBPAct_ = createAction(this, tr("Start/Stop NBP"),
+    startStopNBPAction_ = createAction(this, tr("Start/Stop NBP"),
         tr("Start or stop noninvasive BP measurements"), 0, tr("F8"));
-    autoLogVitalsAct_ = createAction(this, tr("Auto-Log Vitals"),
+    autoLogVitalsAction_ = createAction(this, tr("Auto-Log Vitals"),
         tr("Auto-log vital signs"));
-    autoLogVitalsAct_->setCheckable(true);
-    autoLogNBPAct_ = createAction(this, tr("Auto-Log NBP"),
+    autoLogVitalsAction_->setCheckable(true);
+    autoLogNBPAction_ = createAction(this, tr("Auto-Log NBP"),
         tr("Auto-log noninvasive BP measurements"));
-    autoLogNBPAct_->setCheckable(true);
-    measurementConfigurationAct_ = createAction(this, 
+    autoLogNBPAction_->setCheckable(true);
+    measurementConfigurationAction_ = createAction(this, 
         tr("Measurement Configuration"),
         tr("Configure measurements"));
-    dataExtractionAct_ = createAction(this, tr("Data Extraction"),
+    dataExtractionAction_ = createAction(this, tr("Data Extraction"),
         tr("Extract data"));
     // Windows Menu
-    winSaveAct_ = createAction(this, tr("Save"),
+    winSaveAction_ = createAction(this, tr("Save"),
         tr("Save window configuration"));
-    winSaveAsAct_ = createAction(this, tr("Save As..."),
+    winSaveAsAction_ = createAction(this, tr("Save As..."),
         tr("Save windows configuration as..."));
-    winSwitchAct_ = createAction(this, tr("Switch..."),
+    winSwitchAction_ = createAction(this, tr("Switch..."),
         tr("Switch windows configuration"));
-    winDeleteAct_ = createAction(this, tr("Delete..."),
+    winDeleteAction_ = createAction(this, tr("Delete..."),
         tr("Delete windows configuration"));
-    timerAct_ = createAction(this, tr("Timer"),
+    timerAction_ = createAction(this, tr("Timer"),
         tr("Show timer"));
-    timerAct_->setCheckable(true);
-    stopwatchAct_ = createAction(this, tr("Stopwatch"),
+    timerAction_->setCheckable(true);
+    stopwatchAction_ = createAction(this, tr("Stopwatch"),
         tr("Show stopwatch"));
-    stopwatchAct_->setCheckable(true);
-    realTimeAct_ = createAction(this, tr("Real-Time"),
+    stopwatchAction_->setCheckable(true);
+    realTimeAction_ = createAction(this, tr("Real-Time"),
        tr("Show real-time window"));
-    realTimeAct_->setCheckable(true);
-    connect(realTimeAct_, SIGNAL(triggered(bool)),
+    realTimeAction_->setCheckable(true);
+    connect(realTimeAction_, SIGNAL(triggered(bool)),
         this, SLOT(realTimeWindowOpen(bool)));
-    review1Act_ = createAction(this, tr("Review 1"),
+    review1Action_ = createAction(this, tr("Review 1"),
        tr("Show review 1 window"));
-    review1Act_->setCheckable(true);
-    connect(review1Act_, SIGNAL(triggered(bool)),
+    review1Action_->setCheckable(true);
+    connect(review1Action_, SIGNAL(triggered(bool)),
         this, SLOT(review1WindowOpen(bool)));
-    review2Act_ = createAction(this, tr("Review 2"),
+    review2Action_ = createAction(this, tr("Review 2"),
        tr("Show review 2 window"));
-    review2Act_->setCheckable(true);
-    connect(review2Act_, SIGNAL(triggered(bool)),
+    review2Action_->setCheckable(true);
+    connect(review2Action_, SIGNAL(triggered(bool)),
         this, SLOT(review2WindowOpen(bool)));
-    logAct_ = createAction(this, tr("Log"),
+    logAction_ = createAction(this, tr("Log"),
        tr("Show log window"));
-    logAct_->setCheckable(true);
-    connect(logAct_, SIGNAL(triggered(bool)),
+    logAction_->setCheckable(true);
+    connect(logAction_, SIGNAL(triggered(bool)),
         this, SLOT(logWindowOpen(bool)));
     // The windows below will be implemented in later versions of EP Simulator
-    ablationAct_ = createAction(this, tr("Ablation"),
+    ablationAction_ = createAction(this, tr("Ablation"),
        tr("Show ablation window"));
-    ablationAct_->setCheckable(true);
-    ablationAct_->setEnabled(false);
-    alignmentAct_ = createAction(this, tr("Alignment"),
+    ablationAction_->setCheckable(true);
+    ablationAction_->setEnabled(false);
+    alignmentAction_ = createAction(this, tr("Alignment"),
        tr("Show alignment window"));
-    alignmentAct_->setCheckable(true);
-    alignmentAct_->setEnabled(false);
-    mapAct_ = createAction(this, tr("Map"),
+    alignmentAction_->setCheckable(true);
+    alignmentAction_->setEnabled(false);
+    mapAction_ = createAction(this, tr("Map"),
        tr("Show map window"));
-    mapAct_->setCheckable(true);
-    mapAct_->setEnabled(false);
-    holterAct_ = createAction(this, tr("Holter"),
+    mapAction_->setCheckable(true);
+    mapAction_->setEnabled(false);
+    holterAction_ = createAction(this, tr("Holter"),
        tr("Show holter window"));
-    holterAct_->setCheckable(true);
-    holterAct_->setEnabled(false);
-    plotAct_ = createAction(this, tr("Plot"),
+    holterAction_->setCheckable(true);
+    holterAction_->setEnabled(false);
+    plotAction_ = createAction(this, tr("Plot"),
        tr("Show plot window"));
-    plotAct_->setCheckable(true);
-    plotAct_->setEnabled(false);
-    macroAct_ = createAction(this, tr("Macro"),
+    plotAction_->setCheckable(true);
+    plotAction_->setEnabled(false);
+    macroAction_ = createAction(this, tr("Macro"),
        tr("Show macro window"));
-    macroAct_->setCheckable(true);
-    macroAct_->setEnabled(false);
-    image1Act_ = createAction(this, tr("Image 1"),
+    macroAction_->setCheckable(true);
+    macroAction_->setEnabled(false);
+    image1Action_ = createAction(this, tr("Image 1"),
        tr("Show image 1 window"));
-    image1Act_->setCheckable(true);
-    image1Act_->setEnabled(false);
-    image2Act_ = createAction(this, tr("Image 2"),
+    image1Action_->setCheckable(true);
+    image1Action_->setEnabled(false);
+    image2Action_ = createAction(this, tr("Image 2"),
        tr("Show image 2 window"));
-    image2Act_->setCheckable(true);
-    image2Act_->setEnabled(false);
-    imageLibraryAct_ = createAction(this, tr("Image Library"),
+    image2Action_->setCheckable(true);
+    image2Action_->setEnabled(false);
+    imageLibraryAction_ = createAction(this, tr("Image Library"),
        tr("Show image library window"));
-    imageLibraryAct_->setCheckable(true);
-    imageLibraryAct_->setEnabled(false);
-    tileAct_ = createAction(this, tr("Tile"),
+    imageLibraryAction_->setCheckable(true);
+    imageLibraryAction_->setEnabled(false);
+    tileAction_ = createAction(this, tr("Tile"),
         tr("Tile windows"), SLOT(tileSubWindows()));
-    cascadeAct_ = createAction(this, tr("Cascade"),
+    cascadeAction_ = createAction(this, tr("Cascade"),
         tr("Cascade windows"), SLOT(cascadeSubWindows()));
 
     // Administration menu
-    loginAct_= createAction(this, tr("Login..."),
+    loginAction_= createAction(this, tr("Login..."),
         tr("Login as administrator"), SLOT(login()));
-    logoutAct_= createAction(this, tr("Logout"),
+    logoutAction_= createAction(this, tr("Logout"),
         tr("Logout from administrator"), SLOT(logout()));
-    changePasswordAct_= createAction(this, tr("Change Password..."),
+    changePasswordAction_= createAction(this, tr("Change Password..."),
         tr("Change administrator password"), SLOT(changePassword()));
-    systemSettingsAct_ = createAction(this, tr("System Settings"),
+    systemSettingsAction_ = createAction(this, tr("System Settings"),
         tr("Configure system settings"), SLOT(systemSettings()));
-    printSetupAct_ = createAction(this, tr("Print Setup"),
+    printSetupAction_ = createAction(this, tr("Print Setup"),
         tr("Setup printer"));
-    adminReportsAct_ = createAction(this, tr("Reports"),
+    adminReportsAction_ = createAction(this, tr("Reports"),
         tr("Generate procedure reports"), 0, 0, "hi32-reports.png");
-    compressionRatioAct_ = createAction(this, tr("Compression Ratio"),
+    compressionRatioAction_ = createAction(this, tr("Compression Ratio"),
         tr("Set compression ratio"));
-    amplifierTestAct_ = createAction(this, tr("Amplifier Test..."),
+    amplifierTestAction_ = createAction(this, tr("Amplifier Test..."),
         tr("Test amplifier"));
-    ejectOpticalDiskAct_ = createAction(this, tr("Eject Optical Disk"),
+    ejectOpticalDiskAction_ = createAction(this, tr("Eject Optical Disk"),
         tr("Eject optical disk"));
-    simulatorSettingsAct_ = createAction(this, tr("*Simulator Settings*"),
+    simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Hardware menu -- NB No equivalent in Prucka system
-    stimulatorAct_ = createAction(this, tr("Stimulator"),
+    stimulatorAction_ = createAction(this, tr("Stimulator"),
         tr("Open stimulator"), SLOT(openStimulator()));
-    satMonitorAct_ = createAction(this, tr("Sat Monitor"),
+    satMonitorAction_ = createAction(this, tr("Sat Monitor"),
         tr("Open sat monitor"), SLOT(openSatMonitor()));
 
     // Help menu
-    helpAct_ = createAction(this, tr("EP Simulator Help"),
+    helpAction_ = createAction(this, tr("EP Simulator Help"),
         tr("EP Simulator help"), SLOT(help()), tr("F1"));
-    aboutAct_ = createAction(this, tr("&About EP Simulator"),
+    aboutAction_ = createAction(this, tr("&About EP Simulator"),
         tr("About EP Simulator"), SLOT(about()));
     // only on system toolbar
-    manualSaveAct_ = createAction(this, tr("Manual Save"),
+    manualSaveAction_ = createAction(this, tr("Manual Save"),
         tr("Activate manual saving of data"),
-        0, 0, "hi32-savestudytype.png");
-    manualSaveAct_->setCheckable(true);
-    connect(manualSaveAct_, SIGNAL(triggered(bool)),
-        this, SIGNAL(manualSave(bool)));
+        SIGNAL(manualSave(bool)), tr("F10"), "hi32-savestudytype.png");
+    manualSaveAction_->setCheckable(true);
+    //connect(manualSaveAction_, SIGNAL(triggered(bool)),
+     //   this, SIGNAL(manualSave(bool)));
     // explicitly connect signal/slot to indicate if "checked"
-//     connect(manualSaveAct_, SIGNAL(triggered(bool checked)),
+//     connect(manualSaveAction_, SIGNAL(triggered(bool checked)),
 //         this, SLOT(manualSaveToggle(checked)));
-    autoSaveAct_ = createAction(this, tr("Auto Save"),
-        tr("Toggle Auto Save"), 0, 0, "hi32-autosavetoggle.png");
-    autoSaveAct_->setCheckable(true);
-    connect(autoSaveAct_, SIGNAL(triggered(bool)),
-        this, SIGNAL(autoSave(bool)));
+    autoSaveAction_ = createAction(this, tr("Auto Save"),
+        tr("Toggle Auto Save"), SIGNAL(autoSave(bool)),
+         tr("Shift+F10"), "hi32-autosavetoggle.png");
+    autoSaveAction_->setCheckable(true);
+    //connect(autoSaveAction_, SIGNAL(triggered(bool)),
+    //    this, SIGNAL(autoSave(bool)));
 }
 
 void Recorder::createMenus() {
     studyMenu_ = menuBar()->addMenu(tr("&Study"));
-    studyMenu_->addAction(patientInformationAct_);
+    studyMenu_->addAction(patientInformationAction_);
     studyMenu_->addSeparator();
-    studyMenu_->addAction(consciousSedationAct_);
-    studyMenu_->addAction(complicationsAct_);
-    studyMenu_->addAction(radiologyAct_);
-    studyMenu_->addAction(medicationAct_);
-    studyMenu_->addAction(suppliesAct_);
-    studyMenu_->addAction(staffAct_);
-    studyMenu_->addAction(clinicalProceduresAct_);
-    studyMenu_->addAction(macrosAct_);
-    studyMenu_->addAction(ordersAct_);
+    studyMenu_->addAction(consciousSedationAction_);
+    studyMenu_->addAction(complicationsAction_);
+    studyMenu_->addAction(radiologyAction_);
+    studyMenu_->addAction(medicationAction_);
+    studyMenu_->addAction(suppliesAction_);
+    studyMenu_->addAction(staffAction_);
+    studyMenu_->addAction(clinicalProceduresAction_);
+    studyMenu_->addAction(macrosAction_);
+    studyMenu_->addAction(ordersAction_);
     studyMenu_->addSeparator();
-    studyMenu_->addAction(reportsAct_);
+    studyMenu_->addAction(reportsAction_);
     studyMenu_->addSeparator();
-    studyMenu_->addAction(exportDataAct_);
+    studyMenu_->addAction(exportDataAction_);
     studyMenu_->addSeparator();
-    studyMenu_->addAction(closeStudyAct_);
+    studyMenu_->addAction(closeStudyAction_);
 
     studyConfigurationMenu_ = menuBar()->addMenu(tr("Study &Configuration"));
-    studyConfigurationMenu_->addAction(switchAct_);
-    studyConfigurationMenu_->addAction(saveAct_);
-    studyConfigurationMenu_->addAction(saveAsAct_);
+    studyConfigurationMenu_->addAction(switchAction_);
+    studyConfigurationMenu_->addAction(saveAction_);
+    studyConfigurationMenu_->addAction(saveAsAction_);
     studyConfigurationMenu_->addSeparator();
-    studyConfigurationMenu_->addAction(intervalsAct_);
-    studyConfigurationMenu_->addAction(columnFormatsAct_);
-    studyConfigurationMenu_->addAction(protocolsAct_);
+    studyConfigurationMenu_->addAction(intervalsAction_);
+    studyConfigurationMenu_->addAction(columnFormatsAction_);
+    studyConfigurationMenu_->addAction(protocolsAction_);
 
     measurementsMenu_ = menuBar()->addMenu(tr("&Measurements"));
-    measurementsMenu_->addAction(conductionIntervalsAct_);
-    measurementsMenu_->addAction(snrtAct_);
-    measurementsMenu_->addAction(anteRPsAct_);
-    measurementsMenu_->addAction(retroRPsAct_);
-    measurementsMenu_->addAction(manualMeasurementsAct_);
+    measurementsMenu_->addAction(conductionIntervalsAction_);
+    measurementsMenu_->addAction(snrtAction_);
+    measurementsMenu_->addAction(anteRPsAction_);
+    measurementsMenu_->addAction(retroRPsAction_);
+    measurementsMenu_->addAction(manualMeasurementsAction_);
     measurementsMenu_->addSeparator();
-    measurementsMenu_->addAction(statVitalsAct_);
-    measurementsMenu_->addAction(startStopNBPAct_);
-    measurementsMenu_->addAction(autoLogVitalsAct_);
-    measurementsMenu_->addAction(autoLogNBPAct_);
+    measurementsMenu_->addAction(statVitalsAction_);
+    measurementsMenu_->addAction(startStopNBPAction_);
+    measurementsMenu_->addAction(autoLogVitalsAction_);
+    measurementsMenu_->addAction(autoLogNBPAction_);
     measurementsMenu_->addSeparator();
-    measurementsMenu_->addAction(measurementConfigurationAct_);
+    measurementsMenu_->addAction(measurementConfigurationAction_);
     measurementsMenu_->addSeparator();
-    measurementsMenu_->addAction(dataExtractionAct_);
+    measurementsMenu_->addAction(dataExtractionAction_);
 
     windowsMenu_ = menuBar()->addMenu(tr("&Windows"));
-    windowsMenu_->addAction(winSaveAct_);
-    windowsMenu_->addAction(winSaveAsAct_);
-    windowsMenu_->addAction(winSwitchAct_);
-    windowsMenu_->addAction(winDeleteAct_);
+    windowsMenu_->addAction(winSaveAction_);
+    windowsMenu_->addAction(winSaveAsAction_);
+    windowsMenu_->addAction(winSwitchAction_);
+    windowsMenu_->addAction(winDeleteAction_);
     windowsMenu_->addSeparator();
-    windowsMenu_->addAction(timerAct_);
-    windowsMenu_->addAction(stopwatchAct_);
+    windowsMenu_->addAction(timerAction_);
+    windowsMenu_->addAction(stopwatchAction_);
     windowsMenu_->addSeparator();
-    windowsMenu_->addAction(realTimeAct_);
-    windowsMenu_->addAction(review1Act_);
-    windowsMenu_->addAction(review2Act_);
-    windowsMenu_->addAction(logAct_);
-    windowsMenu_->addAction(ablationAct_);
-    windowsMenu_->addAction(alignmentAct_);
-    windowsMenu_->addAction(mapAct_);
-    windowsMenu_->addAction(holterAct_);
-    windowsMenu_->addAction(plotAct_);
-    windowsMenu_->addAction(macroAct_);
-    windowsMenu_->addAction(image1Act_);
-    windowsMenu_->addAction(image2Act_);
-    windowsMenu_->addAction(imageLibraryAct_);
+    windowsMenu_->addAction(realTimeAction_);
+    windowsMenu_->addAction(review1Action_);
+    windowsMenu_->addAction(review2Action_);
+    windowsMenu_->addAction(logAction_);
+    windowsMenu_->addAction(ablationAction_);
+    windowsMenu_->addAction(alignmentAction_);
+    windowsMenu_->addAction(mapAction_);
+    windowsMenu_->addAction(holterAction_);
+    windowsMenu_->addAction(plotAction_);
+    windowsMenu_->addAction(macroAction_);
+    windowsMenu_->addAction(image1Action_);
+    windowsMenu_->addAction(image2Action_);
+    windowsMenu_->addAction(imageLibraryAction_);
     windowsMenu_->addSeparator();
-    windowsMenu_->addAction(tileAct_);
-    windowsMenu_->addAction(cascadeAct_);
+    windowsMenu_->addAction(tileAction_);
+    windowsMenu_->addAction(cascadeAction_);
 
     administrationMenu_ = menuBar()->addMenu(tr("&Administration"));
     securitySubMenu_ = new QMenu(tr("Security"));
-    securitySubMenu_->addAction(loginAct_);
-    securitySubMenu_->addAction(logoutAct_);
-    securitySubMenu_->addAction(changePasswordAct_);
+    securitySubMenu_->addAction(loginAction_);
+    securitySubMenu_->addAction(logoutAction_);
+    securitySubMenu_->addAction(changePasswordAction_);
     administrationMenu_->addMenu(securitySubMenu_);
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(systemSettingsAct_);
-    administrationMenu_->addAction(printSetupAct_);
-    administrationMenu_->addAction(adminReportsAct_);
+    administrationMenu_->addAction(systemSettingsAction_);
+    administrationMenu_->addAction(printSetupAction_);
+    administrationMenu_->addAction(adminReportsAction_);
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(compressionRatioAct_);
-    administrationMenu_->addAction(amplifierTestAct_);
+    administrationMenu_->addAction(compressionRatioAction_);
+    administrationMenu_->addAction(amplifierTestAction_);
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(ejectOpticalDiskAct_);
+    administrationMenu_->addAction(ejectOpticalDiskAction_);
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(simulatorSettingsAct_);
+    administrationMenu_->addAction(simulatorSettingsAction_);
 
     hardwareMenu_ = menuBar()->addMenu(tr("&Hardware"));
-    hardwareMenu_->addAction(stimulatorAct_);
-    hardwareMenu_->addAction(satMonitorAct_);
+    hardwareMenu_->addAction(stimulatorAction_);
+    hardwareMenu_->addAction(satMonitorAction_);
 
     menuBar()->addSeparator();
 
     helpMenu_ = menuBar()->addMenu(tr("&Help"));
-    helpMenu_->addAction(helpAct_);
-    helpMenu_->addAction(aboutAct_);
+    helpMenu_->addAction(helpAction_);
+    helpMenu_->addAction(aboutAction_);
     
 }
 
@@ -803,11 +796,11 @@ void Recorder::createToolBars() {
     QToolBar* systemToolBar = new QToolBar(tr("System")); 
     systemToolBar->setObjectName("SystemToolBar");
     systemToolBar->setAutoFillBackground(true);
-    systemToolBar->addAction(closeStudyAct_);
-    systemToolBar->addAction(manualSaveAct_);
-    systemToolBar->addAction(autoSaveAct_);
-    systemToolBar->addAction(adminReportsAct_);
-    systemToolBar->addAction(switchAct_);
+    systemToolBar->addAction(closeStudyAction_);
+    systemToolBar->addAction(manualSaveAction_);
+    systemToolBar->addAction(autoSaveAction_);
+    systemToolBar->addAction(adminReportsAction_);
+    systemToolBar->addAction(switchAction_);
     switchedVideoComboBox_ = new QComboBox(this);
     switchedVideoComboBox_->addItem(tr("Real-Time"));
     switchedVideoComboBox_->addItem(tr("Review"));
@@ -826,20 +819,20 @@ void Recorder::createToolBars() {
 }
 
 void Recorder::updateMenus() {
-    simulatorSettingsAct_->setVisible(
+    simulatorSettingsAction_->setVisible(
         EpGui::showSimulatorSettings(options_, user_));
     QList<QMdiSubWindow*> windowList = centralWidget_->subWindowList();
     bool realTimePresent = windowList.contains(realTimeSubWindow_);
     bool review1Present = windowList.contains(review1SubWindow_);
     bool review2Present = windowList.contains(review2SubWindow_);
     bool logPresent = windowList.contains(logSubWindow_);
-    realTimeAct_->setChecked(realTimePresent);
-    review1Act_->setChecked(review1Present);
+    realTimeAction_->setChecked(realTimePresent);
+    review1Action_->setChecked(review1Present);
     // only allow Review2 if there is Review1
-    review2Act_->setEnabled(review1Present); 
-    review2Act_->setChecked(review2Present);
-    logAct_->setChecked(logPresent);
-    realTimeAct_->setEnabled(Options::instance()->enableAcquisition());
+    review2Action_->setEnabled(review1Present); 
+    review2Action_->setChecked(review2Present);
+    logAction_->setChecked(logPresent);
+    realTimeAction_->setEnabled(Options::instance()->enableAcquisition());
 }
 
 }

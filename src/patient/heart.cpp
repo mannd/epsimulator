@@ -20,13 +20,8 @@
 
 #include "heart.h"
 
-Heart::Heart(QString name) : name_(name) {
-}
+Heart::Heart(QString name) : name_(name) {}
 
-Heart::Heart(const Heart& heart) : name_(heart.name_) {
-}
+Heart::Heart(const Heart& heart) : name_(heart.name_) {}
 
-Heart::~Heart() {
-}
-
-
+Heart::~Heart() {}

@@ -17,21 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef USER_H
 #define USER_H
 
-#include <qstring.h>
+#include <QString>
 
 /**
- * Encapsulates info on the program user.  Is singleton class, only 1 user obviously.
+ * Encapsulates info on the program user.  Is singleton class, 
+ * only 1 user obviously.
  * Also, perhaps overambitiously contains host machine info.
- *	@author David Mann <mannd@epstudiossoftware.com>
+ * @author David Mann <mannd@epstudiossoftware.com>
  */
 class User {
+
 public:
     static User* instance();
-    void setAdministrator(bool isAdministrator) 
-        {isAdministrator_ = isAdministrator;}
+    void destroy() {delete instance_; instance_ = 0;}
 
     void makeAdministrator(bool isAdministrator) {
         isAdministrator_ = isAdministrator;}
@@ -41,16 +43,17 @@ public:
     QString name() const;
     QString role() const;  // returns EPSIMUSER or ADMINISTRATOR
 
-    void destroy() {delete instance_; instance_ = 0;}
 
 private:
     User();
     ~User();
+
     static User* instance_;
 
     bool isAdministrator_;
     QString name_;
     QString machineName_;
+
 };
 
 #endif

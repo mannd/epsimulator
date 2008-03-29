@@ -1,59 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="17" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
-   <View0 Encoding="" line="721" Type="Source" />
-  </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.h" >
-   <View0 Encoding="" Type="Source" />
-  </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/systemdialog.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
-  </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
-   <View0 Encoding="" line="216" Type="Source" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/tablelistview.cpp" >
-   <View0 Encoding="" line="249" Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/options.h" >
-   <View0 Encoding="" line="89" Type="Source" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/options.cpp" >
-   <View0 Encoding="" line="118" Type="Source" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/simulatorsettingsdialog.h" >
-   <View0 Encoding="" line="59" Type="Source" />
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/simulatorsettingsdialog.cpp" >
-   <View0 Encoding="" line="52" Type="Source" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/selectstudyconfigdialog.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/systemdialog.h" >
-   <View0 Encoding="" line="27" Type="Source" />
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/ui/systemdialog.ui" >
-   <View0 Encoding="UTF-8" line="0" Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/ui/simulatorsettingsdialog.ui" >
-   <View0 Encoding="UTF-8" line="0" Type="Source" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/ui/patientdialog.ui" >
-   <View0 Encoding="UTF-8" line="0" Type="Source" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/buttonframe.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
-  </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.h" >
-   <View0 Encoding="" line="88" Type="Source" />
-  </Doc15>
-  <Doc16 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/patientstatusbar.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
-  </Doc16>
- </DocsAndViews>
+ <DocsAndViews NumberOfDocuments="0" />
  <pluginList>
   <kdevdebugger>
    <breakpointList>
@@ -99,6 +47,9 @@
     <breakpoint13 location="/home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp:111" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint13>
+    <breakpoint14 location="/home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp:995" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+     <tracedExpressions/>
+    </breakpoint14>
    </breakpointList>
    <showInternalCommands value="0" />
   </kdevdebugger>

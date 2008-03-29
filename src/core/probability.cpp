@@ -28,6 +28,9 @@ Probability::Probability(double value) : delta_(0) {
     srand(time(0));     // initialize random number generator
 }
 
+Probability::~Probability() {
+}
+
 void Probability::setValue(double value) {
     // probabilities are only between 0.0 and 1.0
     value = value > 1.0 ? 1.0 : value;
@@ -38,8 +41,3 @@ void Probability::setValue(double value) {
 bool Probability::result() const {
     return true;
 }
-
-Probability::~Probability() {
-}
-
-

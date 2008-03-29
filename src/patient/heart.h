@@ -20,25 +20,26 @@
 #ifndef HEART_H
 #define HEART_H
 
-#include <qstring.h>
+#include <QString>
 
 #define DEFAULT_HEART "default"
 
 /**
- * Obviously the heart.
- *	@author David Mann <mannd@epstudiossoftware.com>
+ * Heart simulation.  For now essentially an empty class.
+ * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Heart{
+
 public:
     Heart(QString name = DEFAULT_HEART);
     Heart (const Heart& heart);
+    ~Heart();
 
     QString name() {return name_;}
 
-    ~Heart();
-
 private:
     QString name_;
+
 };
 
 #endif

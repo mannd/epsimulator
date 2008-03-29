@@ -17,7 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "settings.h"
+
+#include <QObject>
+#include <QString>
 
 /**
  * Constructor that sets up QSettings.
@@ -25,7 +29,6 @@
 Settings::Settings() : QSettings("EPStudios", "EPSimulator") {
     beginGroup("/EPSimulator");
 }
-
 
 /**
  * Stores settings to a specific file.  Useful for saving specific
@@ -39,10 +42,6 @@ Settings::Settings() : QSettings("EPStudios", "EPSimulator") {
 Settings::Settings(const QString& fileName, Format format, 
     QObject* parent) : QSettings(fileName, format, parent) {}
 
-
-
 Settings::~Settings() {
     endGroup();
 }
-
-

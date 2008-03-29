@@ -23,23 +23,22 @@
 
 #include "ui_simulatorsettingsdialog.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <QDialog>
 
 class Options;
 
 class SimulatorSettingsDialog : public QDialog, 
-				private Ui::SimulatorSettingsDialog
-{
+                                private Ui::SimulatorSettingsDialog {
     Q_OBJECT
 
 public:
     SimulatorSettingsDialog(Options* options, QWidget* parent = 0);
+    ~SimulatorSettingsDialog();
 
     void setOptions();
     void removeNavigatorTab();
 
-    ~SimulatorSettingsDialog();
     
 public slots:
     virtual void enableDriveEmulation();
@@ -47,16 +46,16 @@ public slots:
 private:
     bool emulateOpticalDrive() const {
         return emulateOpticalDriveCheckBox->isChecked();}
-    bool dualSidedDrive() const;
-    int emulatedOpticalDriveCapacity() const;
 
     void setEmulateOpticalDrive(bool);
     void setDualSidedDrive(bool);
     void setEmulatedOpticalDriveCapacity(int);
+
+    bool dualSidedDrive() const;
+    int emulatedOpticalDriveCapacity() const;
 
     Options* options_;
 
 };
 
 #endif
-

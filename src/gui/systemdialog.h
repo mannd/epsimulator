@@ -28,14 +28,11 @@
 
 #include "ui_systemdialog.h"
 
-#include <qcheckbox.h>
-#include <qlineedit.h>
-#include <qstring.h>
+#include <QString>
 
 class Options;
+class QWidget;
 
-// Note private inheritance, to hide all those nasty public data members
-// that Qt Designer makes.  Just need to make base class exec() public.
 class SystemDialog : public QDialog, private Ui::SystemDialog {
     Q_OBJECT
 
@@ -44,11 +41,10 @@ public:
                  const QString& label, 
                  const QString& side,
                  QWidget *parent = 0);
-
-    void setOptions();
-    void removeFilePathsTab();
-
     ~SystemDialog();
+
+    void removeFilePathsTab();
+    void setOptions();
 
 public slots:
     void opticalStudyPathBrowse();

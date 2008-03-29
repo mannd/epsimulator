@@ -167,52 +167,52 @@ private:
     TableListView* tableListView_;
 
     // Study menu
-    QAction* newAct_;
-    QAction* continueAct_;
-    QAction* reviewAct_;
-    QAction* preregisterAct_;
-    QAction* reportsAct_;
-    QAction* copyAct_;
-    QAction* moveAct_;
-    QAction* deleteAct_;
-    QAction* exportAct_;
-    QAction* exitAct_;
+    QAction* newAction_;
+    QAction* continueAction_;
+    QAction* reviewAction_;
+    QAction* preregisterAction_;
+    QAction* reportsAction_;
+    QAction* copyAction_;
+    QAction* moveAction_;
+    QAction* deleteAction_;
+    QAction* exportAction_;
+    QAction* exitAction_;
 
     // Catalog menu
-    QAction* networkSwitchAct_;
-    QAction* systemSwitchAct_;
-    QAction* opticalSwitchAct_;
-    QAction* browseSwitchAct_;
-    QAction* filterStudiesAct_;
-    QAction* removeStudiesFilterAct_;
-    QAction* refreshViewAct_;
-    QAction* regenerateAct_;
-    QAction* relabelDiskAct_;
-    QAction* mergeStudiesAct_;
+    QAction* networkSwitchAction_;
+    QAction* systemSwitchAction_;
+    QAction* opticalSwitchAction_;
+    QAction* browseSwitchAction_;
+    QAction* filterStudiesAction_;
+    QAction* removeStudiesFilterAction_;
+    QAction* refreshViewAction_;
+    QAction* regenerateAction_;
+    QAction* relabelDiskAction_;
+    QAction* mergeStudiesAction_;
 
     // Utilities menu
-    QAction* exportListsAct_;
-    QAction* exportReportFormatsAct_;
-    QAction* importListsAct_;
-    QAction* importReportFormatsAct_;
-    QAction* ejectOpticalDiskAct_;
+    QAction* exportListsAction_;
+    QAction* exportReportFormatsAction_;
+    QAction* importListsAction_;
+    QAction* importReportFormatsAction_;
+    QAction* ejectOpticalDiskAction_;
 
     // Administration menu
-    QAction* loginAct_;
-    QAction* logoutAct_;
-    QAction* changePasswordAct_;
-    QAction* intervalsAct_;
-    QAction* columnFormatsAct_;
-    QAction* protocolsAct_;
-    QAction* studyConfigurationsAct_;
-    QAction* systemSettingsAct_;
+    QAction* loginAction_;
+    QAction* logoutAction_;
+    QAction* changePasswordAction_;
+    QAction* intervalsAction_;
+    QAction* columnFormatsAction_;
+    QAction* protocolsAction_;
+    QAction* studyConfigurationsAction_;
+    QAction* systemSettingsAction_;
     // Not part of the Prucka menu system!
     // Simulator options are set here.
-    QAction* simulatorSettingsAct_;
+    QAction* simulatorSettingsAction_;
 
     // Help menu
-    QAction* epsimulatorHelpAct_;
-    QAction* aboutAct_;
+    QAction* epsimulatorHelpAction_;
+    QAction* aboutAction_;
 
     // menus
     QMenu* studyMenu_;

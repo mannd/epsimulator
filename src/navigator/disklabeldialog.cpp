@@ -29,8 +29,11 @@
 DiskLabelDialog::DiskLabelDialog(QWidget* parent)
 : QDialog(parent) {
     setupUi(this);
-    // do below if using enableCancelButton slot, but shouldn't be necessary.
-//    enableCancelButton();
+    // set Ok button to correct state at the onset
+    on_diskLabelLineEdit_textChanged();
+
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 QString DiskLabelDialog::label() const {
@@ -64,8 +67,9 @@ void DiskLabelDialog::enableNoneButton(bool enable) {
     noneButton->setEnabled(enable);
 }
 
-void DiskLabelDialog::enableCancelButton() {
-    cancelButton->setEnabled(!diskLabelLineEdit->text().isEmpty());
+void DiskLabelDialog::on_diskLabelLineEdit_textChanged() {
+   buttonBox->button(QDialogButtonBox::Ok)->
+        setEnabled(!diskLabelLineEdit->text().isEmpty());
 }
 
 void DiskLabelDialog::accept() {

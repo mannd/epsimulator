@@ -31,6 +31,9 @@ PasswordHandler::PasswordHandler() :
         setPassword(QObject::tr("admin"));
 }
 
+PasswordHandler::~PasswordHandler() {
+}
+
 void PasswordHandler::setPassword(const QString& pw) {    
     hash_.reset();
     hash_.addData(pw.toAscii());
@@ -44,5 +47,3 @@ bool PasswordHandler::testPassword(const QString& pw) {
     return hash_.result() == options_->passwordHash().toAscii();
 }
 
-PasswordHandler::~PasswordHandler() {
-}

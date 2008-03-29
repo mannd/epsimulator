@@ -53,6 +53,7 @@
 #include <QDateTime>
 #include <QDesktopWidget>
 #include <QFileDialog>
+#include <QKeySequence>
 #include <QLabel>
 #include <QMenu>
 #include <QMenuBar>
@@ -346,10 +347,10 @@ void Navigator::unfilterStudies() {
     // do the unfiltering here
     tableListView_->removeFilter();
     statusBar_->updateFilterLabel(false);
-    removeStudiesFilterAct_->setEnabled(false);
-    filterStudiesAct_->setEnabled(true);
-//    refreshViewAct_->setEnabled(true);
-    regenerateAct_->setEnabled(true);
+    removeStudiesFilterAction_->setEnabled(false);
+    filterStudiesAction_->setEnabled(true);
+//    refreshViewAction_->setEnabled(true);
+    regenerateAction_->setEnabled(true);
 }
 
 void Navigator::refreshCatalogs() {
@@ -606,7 +607,7 @@ void Navigator::systemSettings() {
         if (systemDialog->exec() == QDialog::Accepted) {
             systemDialog->setOptions();
             // menu is changed
-            networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
+            networkSwitchAction_->setEnabled(options_->enableNetworkStorage());
             // optical disk, status bar and catalog might be changed 
             do {
                 createOpticalDrive();
@@ -728,103 +729,106 @@ void Navigator::createStatusBar() {
 }
 
 void Navigator::updateMenus() {
-    simulatorSettingsAct_->setVisible(
+    simulatorSettingsAction_->setVisible(
         EpGui::showSimulatorSettings(options_, user_));
 }
 
 void Navigator::createActions() {
     using EpGui::createAction;    
     // Study menu
-    newAct_ = createAction(this, tr("&New..."), tr("New study"),
-        SLOT(newStudy()), QKeySequence(tr("Ctrl+N")), "hi32-newstudy.png");
-    continueAct_ = createAction(this, tr("&Continue"),tr ("Continue study"),
+    newAction_ = createAction(this, tr("&New..."), tr("New study"),
+        SLOT(newStudy()), QKeySequence(QKeySequence::New),
+        "hi32-newstudy.png");
+    continueAction_ = createAction(this, tr("&Continue"), 
+        tr("Continue study"),
         SLOT(continueStudy()), 0, "hi32-continuestudy.png");
-    reviewAct_ = createAction(this, tr("&Review"),
+    reviewAction_ = createAction(this, tr("&Review"),
         tr("Review study"), SLOT(reviewStudy()), 0, "hi32-reviewstudy.png");
-    preregisterAct_= createAction(this, tr("&Pre-Register"),
+    preregisterAction_= createAction(this, tr("&Pre-Register"),
         tr("Pre-register patient"), SLOT(preregisterPatient()), 
         0, "hi32-preregister.png");
-    reportsAct_= createAction(this, tr("R&eports..."),
+    reportsAction_= createAction(this, tr("R&eports..."),
         tr("Procedure reports"), SLOT(reports()), 0,
         "hi32-reports.png" );
-    copyAct_= createAction(this, tr("Copy..."), tr("Copy study"),
+    copyAction_= createAction(this, tr("Copy..."), tr("Copy study"),
         SLOT(copyStudy()));
-    moveAct_ = createAction(this, tr("Move..."), tr("Move study"),
+    moveAction_ = createAction(this, tr("Move..."), tr("Move study"),
         SLOT(moveStudy()));
-    deleteAct_= createAction(this, tr("Delete..."), tr("Delete study"),
+    deleteAction_= createAction(this, tr("Delete..."), tr("Delete study"),
         SLOT(deleteStudy()));
-    exportAct_ = createAction(this, tr("Export..."), tr("Export study"),
+    exportAction_ = createAction(this, tr("Export..."), tr("Export study"),
         SLOT(exportCatalog()), 0, "hi32-exportstudy.png");
-    exitAct_= createAction(this, tr("E&xit"), tr("Exit EP Simulator"),
+    exitAction_= createAction(this, tr("E&xit"), tr("Exit EP Simulator"),
         SLOT(close()), tr("Ctrl+Q"));
     // Catalog menu
     // Submenu of Switch...
     // an action "Achive Server" is skipped here, but is present on Prucka
-    networkSwitchAct_ = createAction(this, tr("Network"),
+    networkSwitchAction_ = createAction(this, tr("Network"),
         tr("Switch to network catalog"), SLOT(setCatalogNetwork()));
-    // networkSwitchAct_ only enabled if set in options
-    networkSwitchAct_->setEnabled(options_->enableNetworkStorage());
-    systemSwitchAct_ = createAction(this, tr("System"),
+    // networkSwitchAction_ only enabled if set in options
+    networkSwitchAction_->setEnabled(options_->enableNetworkStorage());
+    systemSwitchAction_ = createAction(this, tr("System"),
         tr("Switch to system catalog"), SLOT(setCatalogSystem()));
-    opticalSwitchAct_ = createAction(this, tr("Optical"),
+    opticalSwitchAction_ = createAction(this, tr("Optical"),
         tr("Switch to optical catalog"), SLOT(setCatalogOptical()));
     // back to main menu items
-    browseSwitchAct_ = createAction(this, tr("Browse..."),
+    browseSwitchAction_ = createAction(this, tr("Browse..."),
         tr("Browse for catalog files"), SLOT(setCatalogOther()));
-    filterStudiesAct_ = createAction(this, tr("Filter Studies..."),
+    filterStudiesAction_ = createAction(this, tr("Filter Studies..."),
         tr("Filter studies"), SLOT(filterStudies()),
         0, "hi32-filterstudies.png");
-    removeStudiesFilterAct_ = createAction(this, tr("Remove Studies Filter"),
+    removeStudiesFilterAction_ = createAction(this, tr("Remove Studies Filter"),
         tr("Remove studies filter"), SLOT(unfilterStudies()),
         0, "hi32-removefilter.png");
-    // inactivate removeStudiesFilterAct_ by default
-    removeStudiesFilterAct_->setEnabled(false);
-    refreshViewAct_ = createAction(this, tr("Refresh"),
+    // inactivate removeStudiesFilterAction_ by default
+    removeStudiesFilterAction_->setEnabled(false);
+    refreshViewAction_ = createAction(this, tr("Refresh"),
         tr("Refresh the catalog"), SLOT(refreshCatalogs()),
         0, "hi32-refreshcatalog.png");
-    regenerateAct_ = createAction(this, tr("Regenerate"),
+    regenerateAction_ = createAction(this, tr("Regenerate"),
         tr("Regenerate the catalog"), SLOT(regenerateCatalogs()));
-    relabelDiskAct_ = createAction(this, tr("Re-Label Disk..."),
+    relabelDiskAction_ = createAction(this, tr("Re-Label Disk..."),
         tr("Re-label the optical disk"), SLOT(relabelDisk()));
-    mergeStudiesAct_ = createAction(this, tr("Merge Studies..."),
+    mergeStudiesAction_ = createAction(this, tr("Merge Studies..."),
         tr("Merge studies together"));
 
     // Utilities menu
-    exportListsAct_ = createAction(this, tr("Export Lists..."),
+    exportListsAction_ = createAction(this, tr("Export Lists..."),
         tr("Export lists"));
-    exportReportFormatsAct_ = createAction(this, tr("Export Report Formats..."),
+    exportReportFormatsAction_ = createAction(this, tr("Export Report Formats..."),
         tr("Export report formats"));
-    importListsAct_ = createAction(this, tr("Import Lists..."),
+    importListsAction_ = createAction(this, tr("Import Lists..."),
         tr("Import lists"));
-    importReportFormatsAct_ = createAction(this, tr("Import Report Formats..."),
+    importReportFormatsAction_ = createAction(this, tr("Import Report Formats..."),
         tr("Import report formats"));
-    ejectOpticalDiskAct_ = createAction(this, tr("Eject Optical Disk"),
+    ejectOpticalDiskAction_ = createAction(this, tr("Eject Optical Disk"),
         tr("Eject optical disk"), SLOT(ejectDisk()));
 
     // Administration menu
-    loginAct_= createAction(this, tr("Login..."),
+    loginAction_= createAction(this, tr("Login..."),
         tr("Login as administrator"), SLOT(login()));
-    logoutAct_= createAction(this, tr("Logout"),
+    logoutAction_= createAction(this, tr("Logout"),
         tr("Logout from administrator"), SLOT(logout()));
-    changePasswordAct_= createAction(this, tr("Change Password..."),
+    changePasswordAction_= createAction(this, tr("Change Password..."),
         tr("Change administrator password"), SLOT(changePassword()));
-    intervalsAct_= createAction(this, tr("Intervals"),
+    intervalsAction_= createAction(this, tr("Intervals"),
         tr("Intervals"), SLOT(setIntervals()));
-    columnFormatsAct_= createAction(this, tr("Column Formats"),
+    columnFormatsAction_= createAction(this, tr("Column Formats"),
         tr("Column formats"), SLOT(setColumnFormats()));
-    protocolsAct_= createAction(this, tr("Protocols"),
+    protocolsAction_= createAction(this, tr("Protocols"),
         tr("Protocols"), SLOT(setProtocols()));
-    studyConfigurationsAct_= createAction(this, tr("Study Configurations"),
+    studyConfigurationsAction_= createAction(this, tr("Study Configurations"),
         tr("Study configurations"), SLOT(setStudyConfigurations()));
-    systemSettingsAct_= createAction(this, tr("System Settings"),
+    systemSettingsAction_= createAction(this, tr("System Settings"),
         tr("Change system settings"), SLOT(systemSettings()));
-    simulatorSettingsAct_ = createAction(this, tr("*Simulator Settings*"),
+    simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Help menu
-    epsimulatorHelpAct_ = createAction(this, tr("EP Simulator Help..."),
-        tr("Get help for EP Simulator"), SLOT(help()), tr("F1"));
-    aboutAct_= createAction(this, tr("&About EP Simulator"),
+    epsimulatorHelpAction_ = createAction(this, tr("EP Simulator Help..."),
+        tr("Get help for EP Simulator"), SLOT(help()), 
+        QKeySequence::HelpContents);
+    aboutAction_= createAction(this, tr("&About EP Simulator"),
         tr("About EP Simulator"), SLOT(about()));
 }
 
@@ -835,77 +839,77 @@ void Navigator::createToolBars() {
     catalogComboBox_ = new CatalogComboBox();
     navigatorToolBar_->addWidget(catalogComboBox_);
     navigatorToolBar_->addSeparator();
-    navigatorToolBar_->addAction(filterStudiesAct_);
-    navigatorToolBar_->addAction(removeStudiesFilterAct_);
+    navigatorToolBar_->addAction(filterStudiesAction_);
+    navigatorToolBar_->addAction(removeStudiesFilterAction_);
     navigatorToolBar_->addSeparator();
-    navigatorToolBar_->addAction(refreshViewAct_);
+    navigatorToolBar_->addAction(refreshViewAction_);
     navigatorToolBar_->addSeparator();
-    navigatorToolBar_->addAction(exportAct_);
+    navigatorToolBar_->addAction(exportAction_);
     addToolBar(navigatorToolBar_);
 }
 
 void Navigator::createMenus() {
 
     studyMenu_ = menuBar()->addMenu(tr("&Study"));
-    studyMenu_->addAction(newAct_);
-    studyMenu_->addAction(continueAct_);
-    studyMenu_->addAction(reviewAct_);
-    studyMenu_->addAction(preregisterAct_);
-    studyMenu_->addAction(reportsAct_);
+    studyMenu_->addAction(newAction_);
+    studyMenu_->addAction(continueAction_);
+    studyMenu_->addAction(reviewAction_);
+    studyMenu_->addAction(preregisterAction_);
+    studyMenu_->addAction(reportsAction_);
     studyMenu_->addSeparator();
-    studyMenu_->addAction(copyAct_);
-    studyMenu_->addAction(moveAct_);
-    studyMenu_->addAction(deleteAct_);
-    studyMenu_->addAction(exportAct_);
+    studyMenu_->addAction(copyAction_);
+    studyMenu_->addAction(moveAction_);
+    studyMenu_->addAction(deleteAction_);
+    studyMenu_->addAction(exportAction_);
     studyMenu_->addSeparator();
-    studyMenu_->addAction(exitAct_);
+    studyMenu_->addAction(exitAction_);
 
     catalogMenu_ = menuBar()->addMenu(tr("&Catalog"));
     switchSubMenu_ = new QMenu(tr("Switch"));
-    switchSubMenu_->addAction(networkSwitchAct_);
-    switchSubMenu_->addAction(systemSwitchAct_);
-    switchSubMenu_->addAction(opticalSwitchAct_);
-    switchSubMenu_->addAction(browseSwitchAct_);
+    switchSubMenu_->addAction(networkSwitchAction_);
+    switchSubMenu_->addAction(systemSwitchAction_);
+    switchSubMenu_->addAction(opticalSwitchAction_);
+    switchSubMenu_->addAction(browseSwitchAction_);
     catalogMenu_->addMenu(switchSubMenu_);
-    catalogMenu_->addAction(filterStudiesAct_);
-    catalogMenu_->addAction(removeStudiesFilterAct_);
+    catalogMenu_->addAction(filterStudiesAction_);
+    catalogMenu_->addAction(removeStudiesFilterAction_);
     catalogMenu_->addSeparator();
-    catalogMenu_->addAction(refreshViewAct_);
-    catalogMenu_->addAction(regenerateAct_);
-    catalogMenu_->addAction(relabelDiskAct_);
-    catalogMenu_->addAction(mergeStudiesAct_);
+    catalogMenu_->addAction(refreshViewAction_);
+    catalogMenu_->addAction(regenerateAction_);
+    catalogMenu_->addAction(relabelDiskAction_);
+    catalogMenu_->addAction(mergeStudiesAction_);
 
     utilitiesMenu_ = menuBar()->addMenu(tr("&Utilities"));
-    utilitiesMenu_->addAction(exportListsAct_);
-    utilitiesMenu_->addAction(exportReportFormatsAct_);
+    utilitiesMenu_->addAction(exportListsAction_);
+    utilitiesMenu_->addAction(exportReportFormatsAction_);
     utilitiesMenu_->addSeparator();
-    utilitiesMenu_->addAction(importListsAct_);
-    utilitiesMenu_->addAction(importReportFormatsAct_);
+    utilitiesMenu_->addAction(importListsAction_);
+    utilitiesMenu_->addAction(importReportFormatsAction_);
     utilitiesMenu_->addSeparator();
-    utilitiesMenu_->addAction(ejectOpticalDiskAct_);
+    utilitiesMenu_->addAction(ejectOpticalDiskAction_);
 
     administrationMenu_ = menuBar()->addMenu(tr("&Administration"));
     securitySubMenu_ = new QMenu(tr("Security"));
-    securitySubMenu_->addAction(loginAct_);
-    securitySubMenu_->addAction(logoutAct_);
-    securitySubMenu_->addAction(changePasswordAct_);
+    securitySubMenu_->addAction(loginAction_);
+    securitySubMenu_->addAction(logoutAction_);
+    securitySubMenu_->addAction(changePasswordAction_);
     administrationMenu_->addMenu(securitySubMenu_);
     //insert Lists submenu here
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(intervalsAct_);
-    administrationMenu_->addAction(columnFormatsAct_);
-    administrationMenu_->addAction(protocolsAct_);
-    administrationMenu_->addAction(studyConfigurationsAct_);
+    administrationMenu_->addAction(intervalsAction_);
+    administrationMenu_->addAction(columnFormatsAction_);
+    administrationMenu_->addAction(protocolsAction_);
+    administrationMenu_->addAction(studyConfigurationsAction_);
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(systemSettingsAct_);
-    administrationMenu_->addAction(simulatorSettingsAct_);
+    administrationMenu_->addAction(systemSettingsAction_);
+    administrationMenu_->addAction(simulatorSettingsAction_);
     // insert reports submenu here
 
     menuBar()->addSeparator();
 
     helpMenu_ = menuBar()->addMenu(tr("&Help"));
-    helpMenu_->addAction(epsimulatorHelpAct_);
-    helpMenu_->addAction(aboutAct_);
+    helpMenu_->addAction(epsimulatorHelpAction_);
+    helpMenu_->addAction(aboutAction_);
 
     updateMenus();
 }
@@ -983,13 +987,13 @@ void Navigator::processFilter() {
             studyNumberRegExp, studyLocationRegExp, 
             anyDate, startDate, endDate);
         statusBar_->updateFilterLabel(true);
-        filterStudiesAct_->setEnabled(false);
-        removeStudiesFilterAct_->setEnabled(true);
+        filterStudiesAction_->setEnabled(false);
+        removeStudiesFilterAction_->setEnabled(true);
         // only disallow regenerating when catalog is filtered
         /// TODO This may not be necessary.  
         /// Catalog will be refreshed automatically
         /// after it is regenerated.
-        regenerateAct_->setEnabled(false);
+        regenerateAction_->setEnabled(false);
 }
 
 void Navigator::startStudy(Study* s) {

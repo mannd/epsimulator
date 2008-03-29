@@ -620,3 +620,11 @@ Networking
 	hard drive for actual data acquisition, this is then written from time
 	to time to the optical disk.  This appears to be how the Prucka
 	works.  These buffers are flushed when the study closes.  
+
+KDevelop setup for Qt4
+    Yes, after all this time, I've been running KDevelop without it set up properly for Qt4.  Although the Qt4 options are all set right on the projects page, QTDIR is set up for Qt3, and for whatever reason, QTDIR is still being used for uic and qmake.  In particular, uic probably messes up, accounting for some of the segmentation faults I have received???  I set QTDIR to /usr/local/Trolltech/Qt-4.3.2/ in the envirnoment section of Make options on the Project options tab to correct this.
+
+Emulating title bars in a QSplitter central widget
+    To come closest to the Prucka look and feel, the Recorder windows should be divided by splitters, and splitters can be created and deleted as needed (e.g. to add the 2nd Review window).  The problem is that no title bar is available.  To emulate a title bar, we need to use a QLabel, setting its' palette to the title bars palette, adding the icon and the text, and then making sure that the active and inactive colors appear when the main window is activated.  This may be automatic or may require the QLabel picking up the active/inactive signal.  The Qlabel can be fixed at the top of the window, in a layout with the QMainWindow just beneath.  A close box is needed though.  
+
+    After further expermentation, we just have to be satisfied with using the MDI classes of Qt.  There is no way to emulate perfectly the Prucka splitter type window resizing in Qt.  The closest thing would be to use MdiSubWindows attached to the splitter, but as the splitter is the parent widget, when it is active, ALL the subwindows appear active, so that you can't tell which one is really active.  Emulating a title bar like above would require hand drawing a close button, that would not reflect the different styles, and probably changing the bar between active and inactive would be hard.  Using a splitter without title bars would work fine, but it would be tough to tell which window was which.  The current solution,using a QMdiArea is best, and justified by the fact that this will usually be running on a single monitor, so that creative arrangement of the windows will be necessary.

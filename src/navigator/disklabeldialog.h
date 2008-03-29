@@ -23,11 +23,14 @@
 
 #include "ui_disklabeldialog.h"
 
-#include <QString>
-#include <QDialog>
+//#include <QDialog>
+
+class QString;
+class QWidget;
 
 class DiskLabelDialog : public QDialog, private Ui::DiskLabelDialog {
-  Q_OBJECT
+
+    Q_OBJECT
 
 public:
     DiskLabelDialog(QWidget* parent = 0);
@@ -49,7 +52,7 @@ public:
 
 public slots:
     void accept();
-    void enableCancelButton();
+    void on_diskLabelLineEdit_textChanged();
 };
 
 #endif

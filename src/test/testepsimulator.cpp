@@ -372,7 +372,7 @@ void TestEpSimulator::testPasswordHandler() {
 
 void TestEpSimulator::testUser() {
     User* u = User::instance();
-    QVERIFY (!u->machineName().isNull());
+    QVERIFY (!u->machineName().isEmpty());
     QVERIFY (u->role() == QObject::tr("EPSIMUSER"));
     u->makeAdministrator(true);
     QVERIFY(u->role() == QObject::tr("ADMINISTRATOR"));

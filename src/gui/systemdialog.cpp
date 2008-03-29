@@ -22,12 +22,14 @@
 #include "actions.h"
 #include "options.h"
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 #include <QCoreApplication>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
+#include <QDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 
+/// TODO below is Linux/Unix specific, needs generalization.
 #include <sys/vfs.h>
 
 #ifndef NDEBUG
@@ -62,17 +64,25 @@ SystemDialog::SystemDialog(Options* options, const QString& path,
     spaceTimeLabel->setText(spaceTimeLabel->text().arg(space + " " + time));
     sideLabel->setText(sideLabel->text().arg(side.isEmpty() ? 
         tr("None") : side)); 
-    /// TODO connect enable acquisition checkbox to a slot
     connect(opticalPathBrowsePushButton, SIGNAL(clicked()), this,
         SLOT(opticalStudyPathBrowse()));
     connect(networkPathBrowsePushButton, SIGNAL(clicked()), this,
         SLOT(networkStudyPathBrowse()));
     connect(exportPathBrowsePushButton, SIGNAL(clicked()), this,
-        SLOT(exportFilePathBrowse()));    
+        SLOT(exportFilePathBrowse()));
     connect(enableNetworkStorageCheckBox, SIGNAL(stateChanged(int)), 
         this, SLOT(enableNetworkStudyPathLineEdit()));
     connect(enableFileExportCheckBox, SIGNAL(stateChanged(int)), 
         this, SLOT(enableExportFilePathLineEdit()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+}
+
+SystemDialog::~SystemDialog() {}
+
+// This is deprecated, shouldn't be needed.
+void SystemDialog::removeFilePathsTab() {
+    filePathsTabWidget->removeTab(0);
 }
 
 void SystemDialog::setOptions() {
@@ -81,14 +91,12 @@ void SystemDialog::setOptions() {
     options_->setExportFilePath(exportFilePathLineEdit->text());
     options_->setEnableAcquisition(enableAcquisitionCheckBox->isChecked());
     options_->setEnableFileExport(enableFileExportCheckBox->isChecked());
-    options_->setEnableNetworkStorage(
-	enableNetworkStorageCheckBox->isChecked()); 
+    options_->setEnableNetworkStorage(enableNetworkStorageCheckBox->
+                                      isChecked()); 
+
     options_->writeSettings();
 }
 
-void SystemDialog::removeFilePathsTab() {
-    filePathsTabWidget->removeTab(0);
-}
 
 void SystemDialog::opticalStudyPathBrowse() {
     EpGui::browseFilePaths(this, opticalStudyPathLineEdit);
@@ -104,12 +112,15 @@ void SystemDialog::exportFilePathBrowse() {
 
 void SystemDialog::enableExportFilePathLineEdit() {
     exportFilePathLineEdit->setEnabled(enableFileExportCheckBox->isChecked());
-    exportPathBrowsePushButton->setEnabled(enableFileExportCheckBox->isChecked());
+    exportPathBrowsePushButton->setEnabled(enableFileExportCheckBox->
+                                           isChecked());
 }
 
 void SystemDialog::enableNetworkStudyPathLineEdit() {
-    networkStudyPathLineEdit->setEnabled(enableNetworkStorageCheckBox->isChecked());
-    networkPathBrowsePushButton->setEnabled(enableNetworkStorageCheckBox->isChecked());
+    networkStudyPathLineEdit->setEnabled(enableNetworkStorageCheckBox->
+                                         isChecked());
+    networkPathBrowsePushButton->setEnabled(enableNetworkStorageCheckBox->
+                                            isChecked());
 }
 
 void SystemDialog::setEnableNetworkStorage(bool enabled) {
@@ -145,5 +156,4 @@ long SystemDialog::timeRemaining(long kBytes) const {
     return static_cast<long>(secPerKbyte * kBytes / 60);
 }
 
-SystemDialog::~SystemDialog() {
-}
+

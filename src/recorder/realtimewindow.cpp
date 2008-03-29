@@ -62,7 +62,7 @@ void RealTimeWindow::createToolBars() {
     QToolBar* toolBar = new QToolBar(tr("Real-Time Window Tool Bar"));
     toolBar->setObjectName("RealTimeWindowToolBar");
     toolBar->setAutoFillBackground(true);
-    toolBar->addAction(minusAct_);
+    toolBar->addAction(minusAction_);
     toolBar->addSeparator();
     sweepSpeedComboBox_ = new QComboBox(this);
     /// TODO Which direction does the Prucka combobox go?
@@ -74,23 +74,23 @@ void RealTimeWindow::createToolBars() {
     sweepSpeedComboBox_->setCurrentIndex(3);    // 50 sweep speed
     toolBar->addWidget(sweepSpeedComboBox_);
     toolBar->addSeparator();
-    toolBar->addAction(plusAct_);
-    toolBar->addAction(studyConfigAct_);
+    toolBar->addAction(plusAction_);
+    toolBar->addAction(studyConfigAction_);
     toolBar->addSeparator();
-    toolBar->addAction(timeCalipersAct_);
-    toolBar->addAction(amplitudeCalipersAct_);
-    toolBar->addAction(deleteAllCalipersAct_);
-    toolBar->addAction(msCalipersAct_);
-    toolBar->addAction(bpmCalipersAct_);
+    toolBar->addAction(timeCalipersAction_);
+    toolBar->addAction(amplitudeCalipersAction_);
+    toolBar->addAction(deleteAllCalipersAction_);
+    toolBar->addAction(msCalipersAction_);
+    toolBar->addAction(bpmCalipersAction_);
     toolBar->addSeparator();
-    toolBar->addAction(offsetSignalsAct_);
-    toolBar->addAction(triggeredModeAct_);
-    toolBar->addAction(toggleAblationWindowAct_);
+    toolBar->addAction(offsetSignalsAction_);
+    toolBar->addAction(triggeredModeAction_);
+    toolBar->addAction(toggleAblationWindowAction_);
     toolBar->addSeparator();
-    toolBar->addAction(realTime12LeadAct_);
+    toolBar->addAction(realTime12LeadAction_);
     toolBar->addSeparator();
-    toolBar->addAction(timerAct_);
-    toolBar->addAction(stopwatchAct_);
+    toolBar->addAction(timerAction_);
+    toolBar->addAction(stopwatchAction_);
     // add stim buttons
     toolBar->addSeparator();
     QPushButton* toggleStimChannelButton = 
@@ -124,51 +124,51 @@ void RealTimeWindow::createToolBars() {
 }
 
 void RealTimeWindow::createActions() {
-    minusAct_ = createAction(this, tr("Minus"), 
+    minusAction_ = createAction(this, tr("Minus"), 
         tr("Decrease sweep speed"), SLOT(decreaseSweepSpeed()), 
         0, "hi32-minus.png"); 
-    plusAct_ = createAction(this, tr("Plus"),
+    plusAction_ = createAction(this, tr("Plus"),
         tr("Increase sweep speed"), SLOT(increaseSweepSpeed()),
         0, "hi32-plus.png");
-    studyConfigAct_ = createAction(this, tr("Study Configuration"),
+    studyConfigAction_ = createAction(this, tr("Study Configuration"),
         tr("Open study configuration"), 0, 0, "hi32-studyconfig.png");
-    timeCalipersAct_ = createAction(this, tr("Time Calipers"),
+    timeCalipersAction_ = createAction(this, tr("Time Calipers"),
         tr("Time calipers"), 0, 0, "hi32-timecalipers.png");
-    timeCalipersAct_->setCheckable(true);
-    timeCalipersAct_->setChecked(true); // default to time calipers
-    amplitudeCalipersAct_ = createAction(this, tr("Amplitude Calipers"),
+    timeCalipersAction_->setCheckable(true);
+    timeCalipersAction_->setChecked(true); // default to time calipers
+    amplitudeCalipersAction_ = createAction(this, tr("Amplitude Calipers"),
         tr("Amplitude calipers"), 0, 0, "hi32-amplitudecalipers.png");
-    amplitudeCalipersAct_->setCheckable(true);
-    deleteAllCalipersAct_ = createAction(this, tr("Delete All Calipers"),
+    amplitudeCalipersAction_->setCheckable(true);
+    deleteAllCalipersAction_ = createAction(this, tr("Delete All Calipers"),
         tr("Delete all calipers"), 0, 0, "hi32-deleteallcalipers.png");
-    msCalipersAct_ = createAction(this, tr("Millisecond Calipers"),
+    msCalipersAction_ = createAction(this, tr("Millisecond Calipers"),
         tr("Caliper value in milliseconds"), 0, 0, "hi32-mscalipers.png");
-    msCalipersAct_->setCheckable(true);
-    msCalipersAct_->setChecked(true);   // default to ms calipers
-    bpmCalipersAct_ = createAction(this, tr("BPM Calipers"),
+    msCalipersAction_->setCheckable(true);
+    msCalipersAction_->setChecked(true);   // default to ms calipers
+    bpmCalipersAction_ = createAction(this, tr("BPM Calipers"),
         tr("Caliper value in BPM"), 0, 0, "hi32-bpmcalipers.png");
-    bpmCalipersAct_->setCheckable(true);
-    offsetSignalsAct_ = createAction(this, tr("Offset Signals"),
+    bpmCalipersAction_->setCheckable(true);
+    offsetSignalsAction_ = createAction(this, tr("Offset Signals"),
         tr("Offset signals"), 0, 0, "hi32-offsetsignals.png");
-    triggeredModeAct_ = createAction(this, tr("Triggered Mode"),
+    triggeredModeAction_ = createAction(this, tr("Triggered Mode"),
         tr("Toggle triggered mode"), 0, 0, "hi32-triggeredmode.png");
-    triggeredModeAct_->setCheckable(true);
-    toggleAblationWindowAct_ = createAction(this, 
+    triggeredModeAction_->setCheckable(true);
+    toggleAblationWindowAction_ = createAction(this, 
         tr("Toggle Ablation Window"),
         tr("Toggle ablation window"), 0, 0, "hi32-toggleablationwindow.png");
-    toggleAblationWindowAct_->setCheckable(true);
-    realTime12LeadAct_ = createAction(this, tr("Real-Time 12-Lead"),
+    toggleAblationWindowAction_->setCheckable(true);
+    realTime12LeadAction_ = createAction(this, tr("Real-Time 12-Lead"),
         tr("Print 12-lead of real-time data"), 0, 0, 
         "hi32-realtime12lead.png");
-    timerAct_ = createAction(this, tr("Timer"),
+    timerAction_ = createAction(this, tr("Timer"),
         tr("Open count down timer"), 0, 0, "hi32-timer.png");
-    timerAct_->setCheckable(true);
-    connect(timerAct_, SIGNAL(triggered(bool)),
+    timerAction_->setCheckable(true);
+    connect(timerAction_, SIGNAL(triggered(bool)),
         this, SIGNAL(startTimer(bool)));
-    stopwatchAct_ = createAction(this, tr("Stopwatch"),
+    stopwatchAction_ = createAction(this, tr("Stopwatch"),
         tr("Open count up timer"), 0,0, "hi32-stopwatch.png");
-    stopwatchAct_->setCheckable(true);
-    connect(stopwatchAct_, SIGNAL(triggered(bool)),
+    stopwatchAction_->setCheckable(true);
+    connect(stopwatchAction_, SIGNAL(triggered(bool)),
         this, SIGNAL(startStopwatch(bool)));
     
 
@@ -177,14 +177,14 @@ void RealTimeWindow::createActions() {
 /// TODO can move these to superclass, pass prefix (e.g. "/realTimeWindow")
 void RealTimeWindow::writeSettings(Settings& settings) {
     settings.setValue("state", saveState());
-    settings.setValue("splitter", 
-        static_cast<QSplitter*>(centralWidget())->saveState()); 
+    //settings.setValue("splitter", 
+    //    static_cast<QSplitter*>(centralWidget())->saveState()); 
 }
 
 void RealTimeWindow::readSettings(Settings& settings) {
     restoreState(settings.value("state").toByteArray());
-    static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
-        "splitter").toByteArray());
+    //static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
+    //    "splitter").toByteArray());
 }
 
 

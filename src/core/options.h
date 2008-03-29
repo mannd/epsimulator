@@ -21,7 +21,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include <qstring.h>
+#include <QString>
 
 /**
  * Singleton class providing one-stop shopping for all program options.
@@ -30,9 +30,19 @@
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Options {
+
 public:
     static Options* instance();
-    
+
+    // read and write options to disk
+    void readSettings();
+    void writeSettings();
+
+    // call ONLY at end or program
+    // see www.informit.com/guides/content.asp?g=cplusplus&seqNum=148&rl=1
+    void destroy() {delete instance_; instance_ = 0;}    
+
+    // Navigator and general options
     // paths to the main system catalogs
     void setOpticalStudyPath(const QString& opticalStudyPath) {
         opticalStudyPath_ = opticalStudyPath;}
@@ -64,9 +74,12 @@ public:
 
     void setPasswordHash(QString hash) {passwordHash_ = hash;}
 
+    // Recorder options
     void setAutoSaveDiskIcon(bool enable) {autoSaveDiskIcon_ = enable;}
-    void setImmovablePatientStatusBar(bool enable) {immovablePatientStatusBar_ = enable;}
-    void setPatientStatusBarHasTitle(bool enable) {patientStatusBarHasTitle_ = enable;}
+    void setImmovablePatientStatusBar(bool enable) {
+        immovablePatientStatusBar_ = enable;}
+    void setPatientStatusBarHasTitle(bool enable) {
+        patientStatusBarHasTitle_ = enable;}
 
     QString opticalStudyPath() const {return opticalStudyPath_;}
     QString networkStudyPath() const {return networkStudyPath_;}
@@ -97,18 +110,10 @@ public:
     bool immovablePatientStatusBar() const {return immovablePatientStatusBar_;}
     bool patientStatusBarHasTitle() const {return patientStatusBarHasTitle_;}
 
-    // read and write options to disk
-    void readSettings();
-    void writeSettings();
-
-    // call ONLY at end or program
-    // see www.informit.com/guides/content.asp?g=cplusplus&seqNum=148&rl=1
-    void destroy() {delete instance_; instance_ = 0;}
-
-
 protected:
     Options();
     ~Options();
+
     static Options* instance_;
 
 private:
@@ -151,6 +156,7 @@ private:
     bool autoSaveDiskIcon_;
     bool immovablePatientStatusBar_;
     bool patientStatusBarHasTitle_;
+
 };
 
 #endif

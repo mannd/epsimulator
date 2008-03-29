@@ -65,20 +65,20 @@ private:
 
     QComboBox* sweepSpeedComboBox_;
 
-    QAction* minusAct_;
-    QAction* plusAct_;
-    QAction* studyConfigAct_;
-    QAction* timeCalipersAct_;
-    QAction* amplitudeCalipersAct_;
-    QAction* deleteAllCalipersAct_;
-    QAction* msCalipersAct_;
-    QAction* bpmCalipersAct_;
-    QAction* offsetSignalsAct_;
-    QAction* triggeredModeAct_;
-    QAction* toggleAblationWindowAct_;
-    QAction* realTime12LeadAct_;
-    QAction* timerAct_;
-    QAction* stopwatchAct_;  
+    QAction* minusAction_;
+    QAction* plusAction_;
+    QAction* studyConfigAction_;
+    QAction* timeCalipersAction_;
+    QAction* amplitudeCalipersAction_;
+    QAction* deleteAllCalipersAction_;
+    QAction* msCalipersAction_;
+    QAction* bpmCalipersAction_;
+    QAction* offsetSignalsAction_;
+    QAction* triggeredModeAction_;
+    QAction* toggleAblationWindowAction_;
+    QAction* realTime12LeadAction_;
+    QAction* timerAction_;
+    QAction* stopwatchAction_;  
 
 };
 

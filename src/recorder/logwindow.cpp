@@ -63,20 +63,20 @@ void LogWindow::readSettings(Settings& settings) {
 void LogWindow::createActions() {
     using EpGui::createAction;
 
-    updateLogWindowAct_ = createAction(this, tr("Update Log Window On/Off"),
+    updateLogWindowAction_ = createAction(this, tr("Update Log Window On/Off"),
         tr("Toggle log window updating"), 0, 0, "hi32-updatewindowtoggle.png");
-    firstLogEntryAct_ = createAction(this, tr("First Log Entry"),
+    firstLogEntryAction_ = createAction(this, tr("First Log Entry"),
         tr("Go to first log entry"), 0, 0, "hi32-firstlogentry.png");
-    lastLogEntryAct_ = createAction(this, tr("Last Log Entry"),
+    lastLogEntryAction_ = createAction(this, tr("Last Log Entry"),
         tr("Go to last log entry"), 0, 0, "hi32-lastlogentry.png");
-    undoAct_ = createAction(this, tr("Undo"), tr("Undo the last action"),
+    undoAction_ = createAction(this, tr("Undo"), tr("Undo the last action"),
         0, 0, "hi32-undo.png");
-    redoAct_ = createAction(this, tr("Redo"), tr("Redo the last action"),
+    redoAction_ = createAction(this, tr("Redo"), tr("Redo the last action"),
         0, 0, "hi32-redo.png");
-    createEventAct_ = createAction(this, tr("Create Event"),
+    createEventAction_ = createAction(this, tr("Create Event"),
         tr("Insert an event into the log window"), 0, 0,
         "hi32-createlogevent.png");
-    printAct_ = createAction(this, tr("Print"), tr("Print the log"),
+    printAction_ = createAction(this, tr("Print"), tr("Print the log"),
         0, 0, "hi32-printreview.png");
 
  
@@ -91,17 +91,17 @@ void LogWindow::createToolBars() {
     logFilterComboBox_->addItem(tr("All                                  "));
     toolBar->addWidget(logFilterComboBox_);
     toolBar->addSeparator();
-    toolBar->addAction(updateLogWindowAct_);
+    toolBar->addAction(updateLogWindowAction_);
     toolBar->addSeparator();
-    toolBar->addAction(firstLogEntryAct_);
-    toolBar->addAction(lastLogEntryAct_);
+    toolBar->addAction(firstLogEntryAction_);
+    toolBar->addAction(lastLogEntryAction_);
     toolBar->addSeparator();
-    toolBar->addAction(undoAct_);
-    toolBar->addAction(redoAct_);
+    toolBar->addAction(undoAction_);
+    toolBar->addAction(redoAction_);
     toolBar->addSeparator();
-    toolBar->addAction(createEventAct_);
+    toolBar->addAction(createEventAction_);
     toolBar->addSeparator();
-    toolBar->addAction(printAct_);
+    toolBar->addAction(printAction_);
 
     addToolBar(toolBar); 
 }

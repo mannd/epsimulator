@@ -38,10 +38,15 @@ class Heart;
  *  Name has public data members to treat a full name as a unit.
  */
 struct Name {
+
     QString first;
     QString last;
     QString middle;
-    /**
+
+    friend QDataStream& operator<<(QDataStream&, const Name&);
+    friend QDataStream& operator>>(QDataStream&, Name&);   
+
+     /**
      * Generates a full name in various formats.
      * @param lastFirst Format is Last, First (Middle).
      * Defaults to false, i.e. First (Middle) Last.
@@ -50,10 +55,10 @@ struct Name {
      */
     QString fullName(bool lastFirst = false,
                      bool useMiddleName = false) const;
-    friend QDataStream& operator<<(QDataStream&, const Name&);
-    friend QDataStream& operator>>(QDataStream&, Name&);
+
 };
 
+/// TODO ? namespace EpPatient?
 typedef int AutonomicTone;
 
 enum Sex {Male, Female};
@@ -83,13 +88,42 @@ enum Sex {Male, Female};
  * for this specific study.
  */
 class Study {
+
+public:
     friend QDataStream& operator<<(QDataStream&, const Study&);
     friend QDataStream& operator>>(QDataStream&, Study&);
 
-public:
     Study();
     Study(const Study&);
+    ~Study();
+
     Study& operator=(const Study& rhs);
+
+    void resetKey() {key_ = QString();}
+    void load();        // load study.dat file
+    void save();        // save study.dat file
+    // preregistered study has no config info   
+    void makePreregisterStudy() {config_ = QString();}  
+
+    void setBsa(double bsa) {bsa_ = bsa;}
+    void setName(const Name& name);
+    void setMrn(QString mrn) {mrn_ = mrn;}
+    void setDateOfBirth(QDate dateOfBirth) {dateOfBirth_ = dateOfBirth;}
+    void setSex(Sex sex) {sex_ = sex;}
+    void setHeight(double height) {height_ = height;}
+    void setWeight(double weight) {weight_ = weight;}
+    void setHeightIn(double heightIn) {heightIn_ = heightIn;}
+    void setWeightLbs(double weightLbs) {weightLbs_ = weightLbs;}
+    void setBsaManualEdit(bool bsaManualEdit) {
+	bsaManualEdit_ = bsaManualEdit;}
+    void setEf(int ef);
+    void setDateTime(QDateTime dateTime) {dateTime_ = dateTime;}
+    void setNumber(QString number) {number_ = number;}
+    void setIschemia(bool ischemia) {ischemia_ = ischemia;}
+    void setVagalTone(AutonomicTone tone);
+    void setSympatheticTone(AutonomicTone tone);
+    void setPath(QString path) {path_ = path;}
+    void setConfig(QString config) {config_ = config;}
 
     Name name() const {return name_;};
     QString mrn() const {return mrn_;}
@@ -113,41 +147,13 @@ public:
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
-    
+
     // file related members
     QString path() const {return path_;} // returns path to 
                                          // specific study directory
     QString filePath();     // Returns full path of study.dat file, 
     QString dirName() const {return "/study_" + key();}
     QString fileName() const {return fileName_;}
-
-    void setBsa(double bsa) {bsa_ = bsa;}
-    void setName(const Name& name);
-    void setMrn(QString mrn) {mrn_ = mrn;}
-    void setDateOfBirth(QDate dateOfBirth) {dateOfBirth_ = dateOfBirth;}
-    void setSex(Sex sex) {sex_ = sex;}
-    void setHeight(double height) {height_ = height;}
-    void setWeight(double weight) {weight_ = weight;}
-    void setHeightIn(double heightIn) {heightIn_ = heightIn;}
-    void setWeightLbs(double weightLbs) {weightLbs_ = weightLbs;}
-    void setBsaManualEdit(bool bsaManualEdit) {
-	bsaManualEdit_ = bsaManualEdit;}
-    void setEf(int ef);
-    void setDateTime(QDateTime dateTime) {dateTime_ = dateTime;}
-    void setNumber(QString number) {number_ = number;}
-    void setIschemia(bool ischemia) {ischemia_ = ischemia;}
-    void setVagalTone(AutonomicTone tone);
-    void setSympatheticTone(AutonomicTone tone);
-    void setPath(QString path) {path_ = path;}
-    void setConfig(QString config) {config_ = config;}
-    void makePreregisterStudy() {config_ = "";}  // preregistered study has no config info
-
-    void resetKey() {key_ = QString();}
-    void load();        // load study.dat file
-    void save();        // save study.dat file
-
-
-    ~Study();
 
 private:
     enum {MIN_TONE = 0, MAX_TONE = 100};  // min and max autonomic tone
@@ -158,8 +164,10 @@ private:
     void copyStudy(const Study& study);
     AutonomicTone adjustTone(AutonomicTone tone);
 
-    Name name_;
+    static const QString fileName_; // name of studies data file
+
     QDateTime dateTime_;
+    Name name_;
     QDate dateOfBirth_;
     QString mrn_;	// medical record number
     QString number_;
@@ -179,10 +187,8 @@ private:
 
     mutable QString key_;   // unique key for each study
     Heart *heart_;
-    
-    static const QString fileName_; // name of studies data file
-};
 
+};
 
 inline void Study::testInvariant() const {
     assert(vagalTone_ >= MIN_TONE && vagalTone_ <= MAX_TONE);

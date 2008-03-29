@@ -17,15 +17,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "patient.h"
 
 #include "fileutilities.h"
 
 #include <QDataStream>
 #include <QDir>
-#include <QString>
 
 const QString Patient::fileName_ = "patient.dat";
+
+Patient::Patient() : path_(0), 
+    o2Saturation_(0) {}
+
+void Patient::load() {
+    EpCore::loadData(filePath(), MagicNumber, *this);
+}
+
+void Patient::save() {
+    EpCore::saveData(filePath(), MagicNumber, *this);
+}
+
+Saturation Patient::o2Saturation() {
+    /// TODO calculate o2Saturation here
+    o2Saturation_ = o2Saturation_ + 1;
+    return o2Saturation_;
+}
+
+QString Patient::filePath() {
+    return QDir::cleanPath(path_ + "/" + fileName_);
+}
+
+Patient::~Patient() {}
+
+// friends
 
 QDataStream& operator<<(QDataStream& out, const Patient& patient) {
     out << patient.path_ << patient.o2Saturation_;
@@ -36,29 +61,3 @@ QDataStream& operator>>(QDataStream& in, Patient& patient) {
     in >> patient.path_ >> patient.o2Saturation_;
     return in;
 }
-
-Patient::Patient() : path_(0), 
-    o2Saturation_(0) {
-}
-
-Saturation Patient::o2Saturation() {
-    o2Saturation_ = o2Saturation_ + 1;
-    return o2Saturation_;
-}
-
-void Patient::load() {
- EpCore::loadData(filePath(), MagicNumber, *this);
-}
-
-void Patient::save() {
- EpCore::saveData(filePath(), MagicNumber, *this);
-}
-
-QString Patient::filePath() {
-    return QDir::cleanPath(path_ + "/" + fileName_);
-}
-
-Patient::~Patient() {
-}
-
-

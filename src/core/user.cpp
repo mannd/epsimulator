@@ -17,11 +17,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "user.h"
 
-#include <qobject.h>
+#include <QObject>
 
 #include <cstdlib>
+
 // NB: this file is operating system dependent and won't compile on an
 // non-unix system.  
 /// TODO When migrating to Windows, will need to modify this file.
@@ -29,20 +31,20 @@
 
 User* User::instance_ = 0;
 
+/**
+ * A singleton instance of User.
+ * @return pointer to User.
+ */
 User* User::instance() {
     if (instance_ == 0)
         instance_ = new User;
     return instance_;
 }
 
-User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
-    const size_t length = 255;
-    char name[length] = "";
-    machineName_ = gethostname(name, length) == 0 ? QString(name) : QString();
-}
-
-User::~User() {}
-
+/**
+ * The name of the computer running the program.
+ * @return the computer (machine) name.
+ */
 QString User::machineName() const {
     return machineName_;
 }
@@ -65,3 +67,12 @@ QString User::role() const {
         :  QObject::tr("EPSIMUSER");
 }
 
+// protected constructor and destructor
+
+User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
+    const size_t length = 255;
+    char name[length] = "";
+    machineName_ = gethostname(name, length) == 0 ? QString(name) : QString();
+}
+
+User::~User() {}

@@ -17,23 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <qsettings.h>
+#include <QSettings>
+
+class QObject;
+class QString;
 
 /**
  * Derived from QSettings, saves us from initializing QSettings 
  * each time with   company name and program name.
  *
- *	@author David Mann <mannd@epstudiossoftware.com>
+ * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Settings : public QSettings  {
+
 public:
     Settings();
     Settings(const QString& fileName, Format format = QSettings::IniFormat,
         QObject* parent = 0);
-
     ~Settings();
 
 };

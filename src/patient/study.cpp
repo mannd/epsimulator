@@ -20,8 +20,8 @@
 
 #include "study.h"
 
-#include "fileutilities.h"
 #include "error.h"
+#include "fileutilities.h"
 #include "heart.h"
 
 #include <QDir>
@@ -32,17 +32,7 @@ using std::cout;
 using std::endl;
 #endif
 
-// stuct Name
-
-QDataStream& operator<<(QDataStream& out, const Name& name) {
-    out << name.first << name.middle << name.last;
-    return out;
-}
-
-QDataStream& operator>>(QDataStream& in, Name& name) {
-    in >> name.first >> name.middle >> name.last;
-    return in;
-}
+// struct Name
 
 QString Name::fullName(bool lastFirst, bool useMiddleName) const {
     QString middleName;
@@ -56,6 +46,142 @@ QString Name::fullName(bool lastFirst, bool useMiddleName) const {
     else
 	return first.simplified() + middleName + last.simplified();
 }
+
+// friends to Name
+
+QDataStream& operator<<(QDataStream& out, const Name& name) {
+    out << name.first << name.middle << name.last;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, Name& name) {
+    in >> name.first >> name.middle >> name.last;
+    return in;
+}
+
+// class Study
+
+const QString Study::fileName_ = "study.dat";
+
+/**
+ *  Construct a study.  New studies are time-stamped with currentDateTime. 
+ */
+Study::Study() : dateTime_(QDateTime::currentDateTime()),
+                 name_(),
+                 dateOfBirth_(DEFAULT_BIRTH_DATE),
+                 mrn_(), number_(),
+                 sex_(Male), height_(0), weight_(0), 
+                 heightIn_(0), weightLbs_(0), bsa_(0), 
+                 bsaManualEdit_(false), 
+                 vagalTone_(DEFAULT_VAGAL_TONE),
+                 sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), 
+                 ef_(DEFAULT_EF), 
+                 ischemia_(false), 
+                 config_(), path_() {
+    heart_ = new Heart;
+    testInvariant();
+}
+
+
+Study::Study(const Study& study) {
+    copyStudy(study);
+    testInvariant();
+}
+
+Study::~Study() {
+    delete heart_;
+}
+
+Study& Study::operator =(const Study& rhs) {
+    if (this == &rhs)
+        return *this;
+    copyStudy(rhs);
+    testInvariant();
+    return *this;
+}
+
+void Study::load() {
+ EpCore::loadData(filePath(), MagicNumber, *this);
+}
+
+void Study::save() {
+ EpCore::saveData(filePath(), MagicNumber, *this);
+}
+
+void Study::setName(const Name& name) {
+    name_.last = name.last;
+    name_.first = name.first;
+    name_.middle = name.middle;
+}
+
+void Study::setEf(int ef) {
+    ef_ = ef > MAX_EF ? MAX_EF : ef;
+    ef_ = ef < MIN_EF ? MIN_EF : ef;
+}
+
+void Study::setVagalTone(AutonomicTone tone) {
+    vagalTone_ = adjustTone(tone);
+}
+
+void Study::setSympatheticTone(AutonomicTone tone) {
+    sympatheticTone_ = adjustTone(tone);
+}
+
+/**
+ * Generates unique key for each study, to be used for 
+ * searching, etc.  Once generated, will not change,
+ * even if name, study date, etc. change.
+ */
+QString Study::key() const {
+    // Under normal circumstances PatientDialog won't allow a 
+    // blank last name, so shouldn't happen.
+    assert(!name_.last.isEmpty());
+    if (name_.last.isEmpty())
+        return QString();
+    if (key_.isEmpty())
+        key_ = name_.last.simplified() + "_" 
+        + name_.first.simplified()
+        + "_" + dateTime_.toString("ddMMyyyyhhmmsszzz");
+    return key_;
+}
+
+QString Study::filePath() {
+    return QDir::cleanPath(path_ + "/" + fileName_);
+}
+
+// private
+
+AutonomicTone Study::adjustTone(AutonomicTone tone) {
+    tone = tone > MAX_TONE ? MAX_TONE : tone;
+    tone = tone < MIN_TONE ? MIN_TONE : tone;
+    return tone;
+}
+
+void Study::copyStudy(const Study& study) {
+    name_ = study.name_;    // default copy constructor works here
+    dateTime_ = study.dateTime_;
+    dateOfBirth_ = study.dateOfBirth_;
+    mrn_ = study.mrn_;
+    number_ = study.number_;
+    sex_ = study.sex_;
+    height_ = study.height_;
+    weight_ = study.weight_;
+    heightIn_ = study.heightIn_;
+    weightLbs_ = study. weightLbs_;
+    bsa_ = study.bsa_;
+    bsaManualEdit_ = study.bsaManualEdit_;
+    vagalTone_ = study.vagalTone_;
+    sympatheticTone_ = study.sympatheticTone_;
+    ef_ = study.ef_;
+    ischemia_ = study.ischemia_;
+    config_ = study.config_;
+    path_ = study.path_;
+    key_ = study.key_;
+    // copy the heart pointer
+    heart_ = new Heart(*study.heart_);
+}
+
+// friends to Study
 
 QDataStream& operator<<(QDataStream& out, const Study& study) {
     out << study.dateTime_ << study.number_ << study.name_
@@ -86,122 +212,4 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
     study.ef_ = ef;
     study.ischemia_ = ischemia;
     return in;
-}
-
-// class Study
-
-const QString Study::fileName_ = "study.dat";
-
-/**
- *  Study ctor.  New Study is initialized to certain defaults.  
- */
-Study::Study() : dateTime_(QDateTime::currentDateTime()),
-                 dateOfBirth_(DEFAULT_BIRTH_DATE),
-                 sex_(Male), height_(0), weight_(0), 
-                 heightIn_(0), weightLbs_(0), bsa_(0), 
-                 bsaManualEdit_(false), 
-                 vagalTone_(DEFAULT_VAGAL_TONE),
-                 sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), 
-                 ef_(DEFAULT_EF), 
-                 ischemia_(false) {
-    ///TODO need to compute path
-    config_ = path_ = key_ = QString();
-    heart_ = new Heart;
-    testInvariant();
-}
-
-void Study::copyStudy(const Study& study) {
-    name_ = study.name_;    // default copy constructor works here
-    dateTime_ = study.dateTime_;
-    dateOfBirth_ = study.dateOfBirth_;
-    mrn_ = study.mrn_;
-    number_ = study.number_;
-    sex_ = study.sex_;
-    height_ = study.height_;
-    weight_ = study.weight_;
-    heightIn_ = study.heightIn_;
-    weightLbs_ = study. weightLbs_;
-    bsa_ = study.bsa_;
-    bsaManualEdit_ = study.bsaManualEdit_;
-    vagalTone_ = study.vagalTone_;
-    sympatheticTone_ = study.sympatheticTone_;
-    ef_ = study.ef_;
-    ischemia_ = study.ischemia_;
-    config_ = study.config_;
-    path_ = study.path_;
-    key_ = study.key_;
-    // copy the heart pointer
-    heart_ = new Heart(*study.heart_);
-}
-
-Study::Study(const Study& study) {
-    copyStudy(study);
-    testInvariant();
-}
-
-/**
- * Generates unique key for each study, to be used for 
- * searching, etc.  Once generated, will not change,
- * even if name, study date, etc. change.
- */
-QString Study::key() const {
-    // Under normal circumstances PatientDialog won't allow a 
-    // blank last name, so shouldn't happen.
-    assert(!name_.last.isNull());
-    if (name_.last.isNull())
-        return QString();
-    if (key_.isNull())
-        key_ = name_.last.simplified() + "_" 
-        + name_.first.simplified()
-        + "_" + dateTime_.toString("ddMMyyyyhhmmsszzz");
-    return key_;
-}
-
-void Study::setName(const Name& name) {
-    name_.last = name.last;
-    name_.first = name.first;
-    name_.middle = name.middle;
-}
-
-AutonomicTone Study::adjustTone(AutonomicTone tone) {
-    tone = tone > MAX_TONE ? MAX_TONE : tone;
-    tone = tone < MIN_TONE ? MIN_TONE : tone;
-    return tone;
-}
-
-void Study::setVagalTone(AutonomicTone tone) {
-    vagalTone_ = adjustTone(tone);
-}
-
-void Study::setSympatheticTone(AutonomicTone tone) {
-    sympatheticTone_ = adjustTone(tone);
-}
-
-Study& Study::operator =(const Study& rhs) {
-    if (this == &rhs)
-        return *this;
-    copyStudy(rhs);
-    testInvariant();
-    return *this;
-}
-
-void Study::setEf(int ef) {
-    ef_ = ef > MAX_EF ? MAX_EF : ef;
-    ef_ = ef < MIN_EF ? MIN_EF : ef;
-}
-
-QString Study::filePath() {
-    return QDir::cleanPath(path_ + "/" + fileName_);
-}
-
-void Study::save() {
- EpCore::saveData(filePath(), MagicNumber, *this);
-}
-
-void Study::load() {
- EpCore::loadData(filePath(), MagicNumber, *this);
-}
-
-Study::~Study() {
-    delete heart_;
 }

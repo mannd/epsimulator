@@ -23,20 +23,21 @@
 #include <QCryptographicHash>
 
 class Options;
+class QString;
 
 /**
-Encapsulates password alorithm and processing.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
+ * Encapsulates password alorithm and processing.
+ *
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
 class PasswordHandler {
+
 public:
     PasswordHandler();
+    ~PasswordHandler();
 
     void setPassword(const QString&);
     bool testPassword(const QString&);
-
-    ~PasswordHandler();
 
 private:
     Options* options_;

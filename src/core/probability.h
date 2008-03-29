@@ -34,17 +34,11 @@
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Probability {
+
 public:
     Probability(double probability);
     // compiler generated copy constructor and operator= are ok
-
-    void setValue(double);
-    void setDelta(double);
-
-    double value() const {return value_;}
-    double delta() const {return delta_;}
-
-    bool result() const;
+    ~Probability();
 
     friend Probability operator+(const Probability&, const Probability&);
     friend Probability operator-(const Probability&, const Probability&);
@@ -58,9 +52,13 @@ public:
     Probability& operator--();
     Probability operator--(int);
 
-    
+    bool result() const;
 
-    ~Probability();
+    void setValue(double);
+    void setDelta(double);
+
+    double value() const {return value_;}
+    double delta() const {return delta_;}
 
 private:
     double value_;

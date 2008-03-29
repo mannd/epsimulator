@@ -70,23 +70,23 @@ private:
 
     QComboBox* sweepSpeedComboBox_;
 
-    QAction* minusAct_;
-    QAction* plusAct_;
-    QAction* studyConfigAct_;
-    QAction* timeCalipersAct_;
-    QAction* amplitudeCalipersAct_;
-    QAction* deleteAllCalipersAct_;
-    QAction* msCalipersAct_;
-    QAction* bpmCalipersAct_;
-    QAction* makeWindowActiveAct_;
-    QAction* updateWindowAct_;
-    QAction* offsetSignalsAct_;
-    QAction* snapshotAct_;
-    QAction* realTime12LeadAct_;
-    QAction* printAct_;
-    QAction* createLogEventAct_;
-    QAction* timerAct_;
-    QAction* stopwatchAct_;  
+    QAction* minusAction_;
+    QAction* plusAction_;
+    QAction* studyConfigAction_;
+    QAction* timeCalipersAction_;
+    QAction* amplitudeCalipersAction_;
+    QAction* deleteAllCalipersAction_;
+    QAction* msCalipersAction_;
+    QAction* bpmCalipersAction_;
+    QAction* makeWindowActiveAction_;
+    QAction* updateWindowAction_;
+    QAction* offsetSignalsAction_;
+    QAction* snapshotAction_;
+    QAction* realTime12LeadAction_;
+    QAction* printAction_;
+    QAction* createLogEventAction_;
+    QAction* timerAction_;
+    QAction* stopwatchAction_;  
 
 };
 

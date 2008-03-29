@@ -148,87 +148,87 @@ private:
     PatientStatusBar* patientStatusBar_;
 
     // Study Menu
-    QAction* patientInformationAct_;
-    QAction* consciousSedationAct_;
-    QAction* complicationsAct_;
-    QAction* radiologyAct_;
-    QAction* medicationAct_;
-    QAction* suppliesAct_;
-    QAction* staffAct_;
-    QAction* clinicalProceduresAct_;
-    QAction* macrosAct_;
-    QAction* ordersAct_;
-    QAction* reportsAct_;
-    QAction* exportDataAct_;
-    QAction* closeStudyAct_;
+    QAction* patientInformationAction_;
+    QAction* consciousSedationAction_;
+    QAction* complicationsAction_;
+    QAction* radiologyAction_;
+    QAction* medicationAction_;
+    QAction* suppliesAction_;
+    QAction* staffAction_;
+    QAction* clinicalProceduresAction_;
+    QAction* macrosAction_;
+    QAction* ordersAction_;
+    QAction* reportsAction_;
+    QAction* exportDataAction_;
+    QAction* closeStudyAction_;
 
     // Study Configuration
-    QAction* switchAct_;
-    QAction* saveAct_;
-    QAction* saveAsAct_;
-    QAction* intervalsAct_;
-    QAction* columnFormatsAct_;
-    QAction* protocolsAct_;
+    QAction* switchAction_;
+    QAction* saveAction_;
+    QAction* saveAsAction_;
+    QAction* intervalsAction_;
+    QAction* columnFormatsAction_;
+    QAction* protocolsAction_;
 
     // Measurements
-    QAction* conductionIntervalsAct_;
-    QAction* snrtAct_;
-    QAction* anteRPsAct_;
-    QAction* retroRPsAct_;
-    QAction* manualMeasurementsAct_;
-    QAction* statVitalsAct_;
-    QAction* startStopNBPAct_;
-    QAction* autoLogVitalsAct_;
-    QAction* autoLogNBPAct_;
-    QAction* measurementConfigurationAct_;
-    QAction* dataExtractionAct_;
+    QAction* conductionIntervalsAction_;
+    QAction* snrtAction_;
+    QAction* anteRPsAction_;
+    QAction* retroRPsAction_;
+    QAction* manualMeasurementsAction_;
+    QAction* statVitalsAction_;
+    QAction* startStopNBPAction_;
+    QAction* autoLogVitalsAction_;
+    QAction* autoLogNBPAction_;
+    QAction* measurementConfigurationAction_;
+    QAction* dataExtractionAction_;
 
     // Windows
-    QAction* winSaveAct_;   // note that Study Config menu has duplicate names
-    QAction* winSaveAsAct_;
-    QAction* winSwitchAct_;
-    QAction* winDeleteAct_;
-    QAction* timerAct_;
-    QAction* stopwatchAct_;
-    QAction* realTimeAct_;
-    QAction* review1Act_;
-    QAction* review2Act_;
-    QAction* logAct_;
-    QAction* ablationAct_;
-    QAction* alignmentAct_;
-    QAction* mapAct_;
-    QAction* holterAct_;
-    QAction* plotAct_;
-    QAction* macroAct_;
-    QAction* image1Act_;
-    QAction* image2Act_;
-    QAction* imageLibraryAct_;
-    QAction* tileAct_;
-    QAction* cascadeAct_;
+    QAction* winSaveAction_;   // note that Study Config menu has duplicate names
+    QAction* winSaveAsAction_;
+    QAction* winSwitchAction_;
+    QAction* winDeleteAction_;
+    QAction* timerAction_;
+    QAction* stopwatchAction_;
+    QAction* realTimeAction_;
+    QAction* review1Action_;
+    QAction* review2Action_;
+    QAction* logAction_;
+    QAction* ablationAction_;
+    QAction* alignmentAction_;
+    QAction* mapAction_;
+    QAction* holterAction_;
+    QAction* plotAction_;
+    QAction* macroAction_;
+    QAction* image1Action_;
+    QAction* image2Action_;
+    QAction* imageLibraryAction_;
+    QAction* tileAction_;
+    QAction* cascadeAction_;
 
     // Administration Menu
-    QAction* loginAct_;
-    QAction* logoutAct_;
-    QAction* changePasswordAct_;
-    QAction* systemSettingsAct_;
-    QAction* printSetupAct_;
-    QAction* adminReportsAct_;   // there is a Report action in the Study menu too
-    QAction* compressionRatioAct_;
-    QAction* amplifierTestAct_;
-    QAction* ejectOpticalDiskAct_;
-    QAction* simulatorSettingsAct_;
+    QAction* loginAction_;
+    QAction* logoutAction_;
+    QAction* changePasswordAction_;
+    QAction* systemSettingsAction_;
+    QAction* printSetupAction_;
+    QAction* adminReportsAction_;   // there is a Report action in the Study menu too
+    QAction* compressionRatioAction_;
+    QAction* amplifierTestAction_;
+    QAction* ejectOpticalDiskAction_;
+    QAction* simulatorSettingsAction_;
 
     // Hardware Menu
-    QAction* stimulatorAct_;
-    QAction* satMonitorAct_;
+    QAction* stimulatorAction_;
+    QAction* satMonitorAction_;
     
     // Help Menu
-    QAction* helpAct_;
-    QAction* aboutAct_;
+    QAction* helpAction_;
+    QAction* aboutAction_;
 
     // System Toolbar
-    QAction* manualSaveAct_;
-    QAction* autoSaveAct_;
+    QAction* manualSaveAction_;
+    QAction* autoSaveAction_;
     QComboBox* switchedVideoComboBox_;
     QComboBox* protocolComboBox_;
 

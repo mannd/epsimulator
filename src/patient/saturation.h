@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef SATURATION_H
 #define SATURATION_H
 
@@ -30,6 +31,7 @@ class QDataStream;
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Saturation{
+
 public:
     friend QDataStream& operator<<(QDataStream&, const Saturation&);
     friend QDataStream& operator>>(QDataStream&, Saturation&);
@@ -44,11 +46,7 @@ public:
 
     Saturation(int number = 0);
     Saturation(const Saturation&);
-    
-    int number() const {return number_;}
-    QString percent() const;
-
-    void setNumber(int);
+    ~Saturation();
 
     Saturation& operator=(const Saturation& rhs);
     Saturation& operator+=(const Saturation& rhs);
@@ -58,7 +56,11 @@ public:
     Saturation& operator--();
     Saturation operator--(int);
 
-    ~Saturation();
+    void setNumber(int);
+
+    int number() const {return number_;}
+    QString percent() const;
+
 private:
     void testInvariant() const;
 

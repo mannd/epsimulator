@@ -51,13 +51,13 @@ private:
 
     QComboBox* logFilterComboBox_;
 
-    QAction* updateLogWindowAct_;
-    QAction* firstLogEntryAct_;
-    QAction* lastLogEntryAct_;
-    QAction* undoAct_;
-    QAction* redoAct_;
-    QAction* createEventAct_;
-    QAction* printAct_;
+    QAction* updateLogWindowAction_;
+    QAction* firstLogEntryAction_;
+    QAction* lastLogEntryAction_;
+    QAction* undoAction_;
+    QAction* redoAction_;
+    QAction* createEventAction_;
+    QAction* printAction_;
 
 };
 

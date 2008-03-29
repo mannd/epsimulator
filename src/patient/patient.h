@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef PATIENT_H
 #define PATIENT_H
 
@@ -32,29 +33,31 @@ class QDataStream;
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Patient{
+
 public:
     friend QDataStream& operator<<(QDataStream&, const Patient&);
     friend QDataStream& operator>>(QDataStream&, Patient&);
 
     Patient();
-
-    Saturation o2Saturation();
-
-    void setPath(const QString& path) {path_ = path;}
+    ~Patient();
 
     void load();        
     void save();        
 
-    ~Patient();
+    void setPath(const QString& path) {path_ = path;}
+
+    Saturation o2Saturation();
 
 private:
+    enum {MagicNumber = 0x99379335};  // for patient.dat file
+
     QString filePath();  // get full path to patient file
 
     static const QString fileName_;
-    enum {MagicNumber = 0x99379335};  // for patient.dat file
 
     QString path_;      // path to patient.dat file
     Saturation o2Saturation_;
+
 };
 
 #endif

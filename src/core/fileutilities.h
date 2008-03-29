@@ -22,12 +22,12 @@
 #define FILEUTILITIES_H
 
 #include "error.h"
+#include "options.h"
 #include "versioninfo.h"
 
 #include <QDataStream>
 #include <QFile>
 #include <QString>
-
 
 namespace EpCore {
 
@@ -46,6 +46,27 @@ template<typename T>
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data);
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out);
+
+/**
+ * Saves data to both Network and local System paths, if network storage
+ * enabled, otherwise only to local System path.
+ */
+template<typename T>
+void saveSystemData(unsigned int magicNumber, const T& data, 
+    Options* options);
+
+/**
+ * Loads data from the Network path if network storage enabled, otherwise
+ * loads from the System path.
+ */
+template<typename T>
+void loadSystemData(unsigned int magicNumber, 
+    T& data, Options* options);
+
+void deleteDir(const QString& path);
+void copyDir(const QString& sourcePath, const QString& destinationPath);
+
+// definitions
 
 template<typename T> 
 void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
@@ -91,11 +112,22 @@ void saveData(const QString& filePath, unsigned int magicNumber, const T& data) 
     file.close();
 }
 
-void deleteDir(const QString& path);
-void copyDir(const QString& sourcePath, const QString& destinationPath);
+template<typename T>
+void saveSystemData(unsigned int magicNumber, 
+    const T& data, Options* options) {
+    if (options->enableNetworkStorage())
+        saveData(options->networkStudyPath(), magicNumber, data);
+    saveData(options->systemCatalogPath(), magicNumber, data);
+} 
 
-}  // namespace EpCore
+template<typename T>
+void loadSystemData(unsigned int magicNumber, T& data, Options* options) {
+    if (options->enableNetworkStorage())
+        loadData(options->networkStudyPath(), magicNumber, data);
+    else
+        loadData(options->systemCatalogPath(), magicNumber, data);
+}
+
+}
 
 #endif
-
-

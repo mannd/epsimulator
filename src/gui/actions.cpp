@@ -71,47 +71,52 @@ bool showSimulatorSettings(Options* options, User* user) {
 
 void about(QWidget* parent) {
     VersionInfo* info = VersionInfo::instance();
-    QMessageBox::about(parent, QObject::tr("About %1").arg(info->programName()),
-		       QObject::tr("<h2>%1 %2</h2>"
-		          "<p>Copyright &copy; %3 EP Studios, Inc."
-			  "<p>EP Simulator simulates an EP recording "
-			  "system."
-                          "<p><a href=http://www.epstudiossoftware.com> "
-                          "http://www.epstudiossoftware.com</a>")
-                          .arg(info->programName()).arg(info->version())
-                          .arg(info->copyrightYear()));
+    QMessageBox::about(parent, 
+                       QObject::tr("About %1")
+                       .arg(info->programName()),
+                       QObject::tr("<h2>%1 %2</h2>"
+                       "<p>Copyright &copy; %3 EP Studios, Inc."
+                       "<p>EP Simulator simulates an EP recording "
+                       "system."
+                       "<p><a href=http://www.epstudiossoftware.com> "
+                       "http://www.epstudiossoftware.com</a>")
+                       .arg(info->programName()).arg(info->version())
+                       .arg(info->copyrightYear()));
 }
 
 void help(QWidget* parent) {
-    QMessageBox::information(parent, QObject::tr(
-        "%1 Help").arg(VersionInfo::instance()->programName()),
-        QObject::tr(
-        "Help is available from "
-        "<p><a href=http://www.epstudiossoftware.com> "
-        "http://www.epstudiossoftware.com</a>"),
-        QMessageBox::Ok);
+    QMessageBox::information(parent, 
+                             QObject::tr("%1 Help")
+                             .arg(VersionInfo::instance()->programName()),
+                             QObject::tr("Help is available from "
+                             "<p><a href=http://www.epstudiossoftware.com> "
+                             "http://www.epstudiossoftware.com</a>"),
+                             QMessageBox::Ok);
 }
 
 /// This is not for final production, just during development.
 void filler(QWidget* widget) {
-    QMessageBox::information(widget, QObject::tr("FYI"),
-                             QObject::tr("This function is not implemented yet."));
+    QMessageBox::information(widget, 
+                             QObject::tr("FYI"),
+                             QObject::tr("This function is not " 
+                             "implemented yet."));
 }
 
 /**
  * Opens a file dialog and provides a file for the lineEdit.
- * @param parent 
+ * @param parent calling QDialog.
  * @param lineEdit function modifies the Text property of the LineEdit
  * @param defaultPath uses this path if lineEdit text is empty.  Avoids
  * random paths appearing, but is an optional parameter.
  */
 void browseFilePaths(QWidget* parent, QLineEdit* lineEdit,
-    const QString& defaultPath) {
+                     const QString& defaultPath) {
     QString initialPath = defaultPath;
     if (!lineEdit->text().isEmpty())
         initialPath = lineEdit->text();
     QFileDialog *fd = new QFileDialog(parent, 
-        QObject::tr("Select Directory"), initialPath);
+                                      QObject::tr("Select Directory"),
+                                      initialPath);
     fd->setFileMode(QFileDialog::DirectoryOnly);
     if (fd->exec() == QDialog::Accepted) {
         QStringList files = fd->selectedFiles();
@@ -120,17 +125,25 @@ void browseFilePaths(QWidget* parent, QLineEdit* lineEdit,
             fileName = files[0];
         lineEdit->setText(fileName);
     }
+    delete fd;
 }
 
 /**
  * Sets up icon, status tip, and slot for an action.  Note that
  * a slot must be passed as a const char*.
+ * @param w calling QWidget. 
+ * @param name name of action.
+ * @param statusTip status tip.
+ * @param slotName name of slot to be signaled by triggered(bool).
+ * @param accelKey shortcut key,if any.
+ * @param iconName icon, if any.  Just the name, no path.
+ * @return pointer to the created QAction.
  */
 QAction* createAction(QWidget* w,
-		      const QString& name,
-		      const QString& statusTip,
+                      const QString& name,
+                      const QString& statusTip,
                       const char* slotName,
-		      const QKeySequence& accelKey,
+                      const QKeySequence& accelKey,
                       const QString& iconName) {
     QAction* action = new QAction(name, w);
     if (!iconName.isEmpty())

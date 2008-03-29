@@ -23,9 +23,12 @@
 #include "actions.h"
 
 #include <QKeySequence>
+#include <QHBoxLayout>
 #include <QPalette>
+#include <QScrollArea>
 #include <QSizePolicy>
 #include <QSplitter>
+#include <QStackedWidget>
 
 SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
     QWidget *parent, Qt::WindowFlags fl) 
@@ -35,7 +38,7 @@ SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
     // don't keep unused windows in memory
     setAttribute(Qt::WA_DeleteOnClose);
     // probably reasonable initial size for these windows
-    setMinimumSize(QSize(400,200));
+    setMinimumSize(QSize(400,400));
 
     createCentralWidget();
     createActions();
@@ -72,12 +75,17 @@ void SignalDisplayWindow::nextPage() {
 }
 
 void SignalDisplayWindow::createCentralWidget() {
-    QSplitter* centralWidget = new QSplitter(Qt::Horizontal, this);
+
+    //QSplitter* splitter = new QSplitter(Qt::Horizontal);
+    
+    QWidget* centralWidget = new QWidget;
+    QHBoxLayout* layout = new QHBoxLayout;
  
     channelBar_ = new ChannelBar;
     signalArea_ = new SignalArea;
-    centralWidget->addWidget(channelBar_);
-    centralWidget->addWidget(signalArea_);
+    layout->addWidget(channelBar_);
+    layout->addWidget(signalArea_);
+    centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
     connect(this, SIGNAL(pageChanged(int)), channelBar_,
         SLOT(changePage(int)));
@@ -87,24 +95,30 @@ void SignalDisplayWindow::createCentralWidget() {
 
 void SignalDisplayWindow::createActions() {
     using EpGui::createAction;
-    previousPageAct_ = createAction(this, tr("Previous Page"),
+    previousPageAction_ = createAction(this, tr("Previous Page"),
         0, SLOT(previousPage()),
         QKeySequence(QKeySequence::MoveToPreviousPage));
-    nextPageAct_ = createAction(this, tr("Next Page"),
+    nextPageAction_ = createAction(this, tr("Next Page"),
         0, SLOT(nextPage()), QKeySequence(QKeySequence::MoveToNextPage));
 
-    addAction(previousPageAct_);
-    addAction(nextPageAct_);
+    addAction(previousPageAction_);
+    addAction(nextPageAction_);
 }
 
 SignalDisplayWindow::~SignalDisplayWindow() {}
 
+/**
+ * ChannelBar is a QStackedWidget of QFrames, signals and slots
+ * are used to coordinate channel labels and channel signals
+ * in the SignalArea.
+ * @param parent 
+ */
 ChannelBar::ChannelBar(QWidget* parent) : QFrame(parent) {
     setUp();
 }
 
 void ChannelBar::setUp() {
-    QSizePolicy policy(QSizePolicy::Minimum,
+    QSizePolicy policy(QSizePolicy::Preferred,
         QSizePolicy::MinimumExpanding);
     policy.setHorizontalStretch(0);
     policy.setVerticalStretch(0);
@@ -118,23 +132,35 @@ void ChannelBar::setUp() {
     setPalette(palette);
     // necessary to actually apply the Window color to the background
     setAutoFillBackground(true);
-    setMaximumWidth(150);
-    setMinimumWidth(50);
+    setMinimumWidth(150);
 }
 
 void ChannelBar::changePage(int) {}
 
 ChannelBar::~ChannelBar() {}
 
-SignalArea::SignalArea(QWidget* parent) : QWidget(parent) {
+/**
+ * SignalArea is a QScrollArea, wrapping a QStackedWidget of
+ * SignalPages.
+ * @param parent 
+ */
+SignalArea::SignalArea(QWidget* parent) : QScrollArea(parent) {
+    QWidget* w = new QWidget;
+    
     QSizePolicy policy(QSizePolicy::MinimumExpanding,
         QSizePolicy::MinimumExpanding);
     policy.setHorizontalStretch(1);
-    setSizePolicy(policy);
-    setAutoFillBackground(true);
+    w->setSizePolicy(policy);
+    w->setAutoFillBackground(true);
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::black);
     setPalette(palette);
+    // most if not all SignalAreas have a vertical scroll
+    // bar to change pages.  Real-time window does not
+    // have a horizontal scroll bar, but review windows do.
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setAutoFillBackground(true);
+    setWidget(w);
 }
 
 void SignalArea::changePage(int) {}

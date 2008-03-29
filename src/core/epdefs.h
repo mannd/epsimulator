@@ -23,6 +23,10 @@
  * Contains basic electrophysiologic typedefs, enums, etc.
  */
 
+/// Keep these #defines up to date with the version of the code.
+#define VERSION_MAJOR 0
+#define VERSION_MINOR 1
+
 // It seems ok for an application like this to leave these typedefs
 // at global scope, rather than use using declarations all over the place.
 // On the other hand, all could go into EpRecorder namespace, or EpCore,

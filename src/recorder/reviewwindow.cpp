@@ -66,79 +66,79 @@ void ReviewWindow::makeWindowActive(bool enable) {
 
 void ReviewWindow::otherWindowActive(bool enable) {
     windowActive_ = !enable;
-    makeWindowActiveAct_->setChecked(!enable);
+    makeWindowActiveAction_->setChecked(!enable);
 }
 
 void ReviewWindow::writeSettings(Settings& settings) {
     settings.setValue("state", saveState());
-    settings.setValue("splitter", 
-        static_cast<QSplitter*>(centralWidget())->saveState());
+    //settings.setValue("splitter", 
+    //    static_cast<QSplitter*>(centralWidget())->saveState());
     settings.setValue("windowActive", windowActive_);   
 }
 
 void ReviewWindow::readSettings(Settings& settings) {
     restoreState(settings.value("state").toByteArray());
-    static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
-        "splitter").toByteArray());
+    //static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
+    //    "splitter").toByteArray());
     windowActive_ = settings.value("windowActive").toBool();
     updateToolBars();
 }
 
 void ReviewWindow::updateToolBars() {
-    makeWindowActiveAct_->setChecked(windowActive_); 
+    makeWindowActiveAction_->setChecked(windowActive_); 
 }
 
 void ReviewWindow::createActions() {
     using EpGui::createAction;
 
-    minusAct_ = createAction(this, tr("Minus"), 
+    minusAction_ = createAction(this, tr("Minus"), 
         tr("Decrease sweep speed"), SLOT(decreaseSweepSpeed()), 
         0, "hi32-minus.png"); 
-    plusAct_ = createAction(this, tr("Plus"),
+    plusAction_ = createAction(this, tr("Plus"),
         tr("Increase sweep speed"), SLOT(increaseSweepSpeed()),
         0, "hi32-plus.png");
-    studyConfigAct_ = createAction(this, tr("Study Configuration"),
+    studyConfigAction_ = createAction(this, tr("Study Configuration"),
         tr("Open study configuration"), 0, 0, "hi32-studyconfig.png");
-    timeCalipersAct_ = createAction(this, tr("Time Calipers"),
+    timeCalipersAction_ = createAction(this, tr("Time Calipers"),
         tr("Time calipers"), 0, 0, "hi32-timecalipers.png");
-    timeCalipersAct_->setCheckable(true);
-    timeCalipersAct_->setChecked(true); // default to time calipers
-    amplitudeCalipersAct_ = createAction(this, tr("Amplitude Calipers"),
+    timeCalipersAction_->setCheckable(true);
+    timeCalipersAction_->setChecked(true); // default to time calipers
+    amplitudeCalipersAction_ = createAction(this, tr("Amplitude Calipers"),
         tr("Amplitude calipers"), 0, 0, "hi32-amplitudecalipers.png");
-    amplitudeCalipersAct_->setCheckable(true);
-    deleteAllCalipersAct_ = createAction(this, tr("Delete All Calipers"),
+    amplitudeCalipersAction_->setCheckable(true);
+    deleteAllCalipersAction_ = createAction(this, tr("Delete All Calipers"),
         tr("Delete all calipers"), 0, 0, "hi32-deleteallcalipers.png");
-    msCalipersAct_ = createAction(this, tr("Millisecond Calipers"),
+    msCalipersAction_ = createAction(this, tr("Millisecond Calipers"),
         tr("Caliper value in milliseconds"), 0, 0, "hi32-mscalipers.png");
-    msCalipersAct_->setCheckable(true);
-    msCalipersAct_->setChecked(true);   // default to ms calipers
-    bpmCalipersAct_ = createAction(this, tr("BPM Calipers"),
+    msCalipersAction_->setCheckable(true);
+    msCalipersAction_->setChecked(true);   // default to ms calipers
+    bpmCalipersAction_ = createAction(this, tr("BPM Calipers"),
         tr("Caliper value in BPM"), 0, 0, "hi32-bpmcalipers.png");
-    bpmCalipersAct_->setCheckable(true);
-    makeWindowActiveAct_ = createAction(this, tr("Make Window Active"),
+    bpmCalipersAction_->setCheckable(true);
+    makeWindowActiveAction_ = createAction(this, tr("Make Window Active"),
         tr("Toggle between two review windows"), 
         SLOT(makeWindowActive(bool)), 0, "hi32-makewindowactive.png");
-    makeWindowActiveAct_->setCheckable(true);
-    updateWindowAct_ = createAction(this, tr("Update Window"),
+    makeWindowActiveAction_->setCheckable(true);
+    updateWindowAction_ = createAction(this, tr("Update Window"),
         tr("Continuously update the review window"), 
         0, 0, "hi32-updatewindowtoggle.png");
-    offsetSignalsAct_ = createAction(this, tr("Offset Signals"),
+    offsetSignalsAction_ = createAction(this, tr("Offset Signals"),
         tr("Offset signals"), 0, 0, "hi32-offsetsignals.png");
-    snapshotAct_ = createAction(this, tr("Snapshot"), tr("Create a snapshot"),
+    snapshotAction_ = createAction(this, tr("Snapshot"), tr("Create a snapshot"),
         0, 0, "hi32-snapshot.png");
-    realTime12LeadAct_ = createAction(this, tr("Real-Time 12-Lead"),
+    realTime12LeadAction_ = createAction(this, tr("Real-Time 12-Lead"),
         tr("Print 12-lead of real-time data"), 0, 0, 
         "hi32-realtime12lead.png");
-    printAct_ = createAction(this, tr("Print"), tr("Print the review window"),
+    printAction_ = createAction(this, tr("Print"), tr("Print the review window"),
         0, 0, "hi32-printreview.png");
-    createLogEventAct_ = createAction(this, tr("Create Log Event"),
+    createLogEventAction_ = createAction(this, tr("Create Log Event"),
         tr("Create a log event"), 0, 0, "hi32-createlogevent.png");
-    timerAct_ = createAction(this, tr("Timer"),
+    timerAction_ = createAction(this, tr("Timer"),
         tr("Open count down timer"), 0, 0, "hi32-timer.png");
-    timerAct_->setCheckable(true);
-    stopwatchAct_ = createAction(this, tr("Stopwatch"),
+    timerAction_->setCheckable(true);
+    stopwatchAction_ = createAction(this, tr("Stopwatch"),
         tr("Open count up timer"), 0,0, "hi32-stopwatch.png");
-    stopwatchAct_->setCheckable(true);
+    stopwatchAction_->setCheckable(true);
     
 
 }
@@ -147,7 +147,7 @@ void ReviewWindow::createToolBars() {
     QToolBar* toolBar = new QToolBar(tr("Review Window Tool Bar"));
     toolBar->setObjectName("ReviewWindowToolBar");
     toolBar->setAutoFillBackground(true);
-    toolBar->addAction(minusAct_);
+    toolBar->addAction(minusAction_);
     toolBar->addSeparator();
     sweepSpeedComboBox_ = new QComboBox(this);
     /// TODO Which direction does the Prucka combobox go?
@@ -159,28 +159,28 @@ void ReviewWindow::createToolBars() {
     sweepSpeedComboBox_->setCurrentIndex(3);    // 50 sweep speed
     toolBar->addWidget(sweepSpeedComboBox_);
     toolBar->addSeparator();
-    toolBar->addAction(plusAct_);
-    toolBar->addAction(studyConfigAct_);
+    toolBar->addAction(plusAction_);
+    toolBar->addAction(studyConfigAction_);
     toolBar->addSeparator();
-    toolBar->addAction(timeCalipersAct_);
-    toolBar->addAction(amplitudeCalipersAct_);
-    toolBar->addAction(deleteAllCalipersAct_);
-    toolBar->addAction(msCalipersAct_);
-    toolBar->addAction(bpmCalipersAct_);
+    toolBar->addAction(timeCalipersAction_);
+    toolBar->addAction(amplitudeCalipersAction_);
+    toolBar->addAction(deleteAllCalipersAction_);
+    toolBar->addAction(msCalipersAction_);
+    toolBar->addAction(bpmCalipersAction_);
     toolBar->addSeparator();
-    toolBar->addAction(makeWindowActiveAct_);
-    toolBar->addAction(updateWindowAct_);
+    toolBar->addAction(makeWindowActiveAction_);
+    toolBar->addAction(updateWindowAction_);
     toolBar->addSeparator();
-    toolBar->addAction(offsetSignalsAct_);
+    toolBar->addAction(offsetSignalsAction_);
     toolBar->addSeparator();
-    toolBar->addAction(snapshotAct_);
-    toolBar->addAction(realTime12LeadAct_);
-    toolBar->addAction(printAct_);
+    toolBar->addAction(snapshotAction_);
+    toolBar->addAction(realTime12LeadAction_);
+    toolBar->addAction(printAction_);
     toolBar->addSeparator();
-    toolBar->addAction(createLogEventAct_);
+    toolBar->addAction(createLogEventAction_);
     toolBar->addSeparator();
-    toolBar->addAction(timerAct_);
-    toolBar->addAction(stopwatchAct_);
+    toolBar->addAction(timerAction_);
+    toolBar->addAction(stopwatchAction_);
 
     addToolBar(toolBar); 
 }

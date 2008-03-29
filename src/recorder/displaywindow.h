@@ -25,6 +25,7 @@
 
 #include <QFrame>
 #include <QMainWindow>
+#include <QScrollArea>
 #include <QString>
 
 class Settings;
@@ -54,6 +55,7 @@ private:
 
 class ChannelBar;
 class QAction;
+class QScrollArea;
 class SignalArea;
 
 /**
@@ -95,12 +97,13 @@ signals:
 private:
     ChannelBar* channelBar_;
     SignalArea* signalArea_;
+    //QScrollArea* scrollArea_;
 
     enum {minPage = 1, maxPage = 8};
     int currentPage_;
 
-    QAction* previousPageAct_;
-    QAction* nextPageAct_;
+    QAction* previousPageAction_;
+    QAction* nextPageAction_;
     
 };
 
@@ -125,7 +128,7 @@ public slots:
 /**
  * This is the black signal area to the right of the channel bar.
  */
-class SignalArea : public QWidget {
+class SignalArea : public QScrollArea {
     Q_OBJECT
 public:
     SignalArea(QWidget* parent = 0);

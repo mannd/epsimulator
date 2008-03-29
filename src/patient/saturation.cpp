@@ -17,52 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "saturation.h"
 
 #include <QDataStream>
 #include <QObject>
-
-QDataStream& operator<<(QDataStream& out, const Saturation& sat) {
-    out << sat.number_;
-    return out;
-}
-
-QDataStream& operator>>(QDataStream& in, Saturation& sat) {
-    in >> sat.number_;
-    return in;
-}
-
-Saturation operator+(Saturation lhs, const Saturation& rhs) {
-    return lhs += rhs;
-}
-
-Saturation operator-(Saturation lhs, const Saturation& rhs) {
-    return lhs -= rhs;
-}
-
-bool operator==(const Saturation& lhs, const Saturation& rhs) {
-    return lhs.number_ == rhs.number_;
-}
-
-bool operator!=(const Saturation& lhs, const Saturation& rhs) {
-    return lhs.number_ != rhs.number_;
-}
-
-bool operator<(const Saturation& lhs, const Saturation& rhs) {
-    return lhs.number_ < rhs.number_;
-}
-
-bool operator<=(const Saturation& lhs, const Saturation& rhs) {
-    return lhs.number_ <= rhs.number_;
-}
-
-bool operator>(const Saturation& lhs, const Saturation& rhs) {
-    return lhs.number_ > rhs.number_;
-}
-
-bool operator>=(const Saturation& lhs, const Saturation& rhs) {
-    return lhs.number_ >= rhs.number_;
-}
 
 Saturation::Saturation(int number) {
     setNumber(number);
@@ -74,13 +33,7 @@ Saturation::Saturation(const Saturation& sat) {
     testInvariant();
 }
 
-void Saturation::setNumber(int number) {
-    number_ = number > 100 ? 100 : number;
-    number_ = number_ < 0 ? 0 : number_;
-}
-
-QString Saturation::percent() const {
-    return QString::number(number_) + QObject::tr("%");
+Saturation::~Saturation() {
 }
 
 Saturation& Saturation::operator=(const Saturation& rhs) {
@@ -128,7 +81,55 @@ Saturation Saturation::operator--(int) {
     return tmp;
 }
 
-Saturation::~Saturation() {
+void Saturation::setNumber(int number) {
+    number_ = number > 100 ? 100 : number;
+    number_ = number_ < 0 ? 0 : number_;
 }
 
+QString Saturation::percent() const {
+    return QString::number(number_) + QObject::tr("%");
+}
 
+// friends
+
+QDataStream& operator<<(QDataStream& out, const Saturation& sat) {
+    out << sat.number_;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, Saturation& sat) {
+    in >> sat.number_;
+    return in;
+}
+
+Saturation operator+(Saturation lhs, const Saturation& rhs) {
+    return lhs += rhs;
+}
+
+Saturation operator-(Saturation lhs, const Saturation& rhs) {
+    return lhs -= rhs;
+}
+
+bool operator==(const Saturation& lhs, const Saturation& rhs) {
+    return lhs.number_ == rhs.number_;
+}
+
+bool operator!=(const Saturation& lhs, const Saturation& rhs) {
+    return lhs.number_ != rhs.number_;
+}
+
+bool operator<(const Saturation& lhs, const Saturation& rhs) {
+    return lhs.number_ < rhs.number_;
+}
+
+bool operator<=(const Saturation& lhs, const Saturation& rhs) {
+    return lhs.number_ <= rhs.number_;
+}
+
+bool operator>(const Saturation& lhs, const Saturation& rhs) {
+    return lhs.number_ > rhs.number_;
+}
+
+bool operator>=(const Saturation& lhs, const Saturation& rhs) {
+    return lhs.number_ >= rhs.number_;
+}
