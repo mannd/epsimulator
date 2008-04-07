@@ -26,13 +26,13 @@
 #ifndef STUDY_H
 #define STUDY_H
 
-#include <QDataStream>
 #include <QDateTime>
 #include <QString>
 
 #include <cassert> 
 
 class Heart;
+class QDataStream;
 
 /**
  *  Name has public data members to treat a full name as a unit.
@@ -107,8 +107,10 @@ public:
 
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
-    void setMrn(QString mrn) {mrn_ = mrn;}
-    void setDateOfBirth(QDate dateOfBirth) {dateOfBirth_ = dateOfBirth;}
+    void setMrn(const QString& mrn) {mrn_ = mrn;}
+    void setAccountNumber(const QString& num) {accountNumber_ = num;}
+    void setDateOfBirth(const QDate& dateOfBirth) {
+        dateOfBirth_ = dateOfBirth;}
     void setSex(Sex sex) {sex_ = sex;}
     void setHeight(double height) {height_ = height;}
     void setWeight(double weight) {weight_ = weight;}
@@ -117,16 +119,18 @@ public:
     void setBsaManualEdit(bool bsaManualEdit) {
 	bsaManualEdit_ = bsaManualEdit;}
     void setEf(int ef);
-    void setDateTime(QDateTime dateTime) {dateTime_ = dateTime;}
-    void setNumber(QString number) {number_ = number;}
+    void setDateTime(const QDateTime& dateTime) {dateTime_ = dateTime;}
+    void setNumber(const QString& number) {number_ = number;}
     void setIschemia(bool ischemia) {ischemia_ = ischemia;}
     void setVagalTone(AutonomicTone tone);
     void setSympatheticTone(AutonomicTone tone);
-    void setPath(QString path) {path_ = path;}
-    void setConfig(QString config) {config_ = config;}
+    void setPath(const QString& path) {path_ = path;}
+    void setConfig(const QString& config) {config_ = config;}
 
     Name name() const {return name_;};
     QString mrn() const {return mrn_;}
+    QString number() const {return number_;}
+    QString accountNumber() const {return accountNumber_;}
     QDate dateOfBirth() const {return dateOfBirth_;}
     Sex sex() const {return sex_;}
     double height() const {return height_;}
@@ -140,7 +144,6 @@ public:
     AutonomicTone vagalTone() const {return vagalTone_;}
     AutonomicTone sympatheticTone() const {return sympatheticTone_;}
     QDateTime dateTime() const {return dateTime_;}
-    QString number() const {return number_;}
     QString config() const {return config_;}
     QString key() const;    // Generates key based on name and datetime
                             // to identify study uniquely.
@@ -171,6 +174,7 @@ private:
     QDate dateOfBirth_;
     QString mrn_;	// medical record number
     QString number_;
+    QString accountNumber_;     // useless info kept by Prucka
     Sex sex_;
     double height_;	// use metric units: cm for height,
     double weight_;	// in kg

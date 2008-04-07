@@ -54,7 +54,8 @@ class Recorder : public QMainWindow {
     Q_OBJECT
 public:
     Recorder(QWidget* parent, 
-        Study* study, OpticalDisk* currentDisk);
+        Study* study, OpticalDisk* currentDisk, bool allowAcquisition = true,
+        RecorderWindow = Primary);
     
     void updateAll();
 
@@ -132,6 +133,10 @@ private:
 
     // hardware
     OpticalDisk* currentDisk_;
+
+    // types of Recorder window
+    bool allowAcquisition_;
+    RecorderWindow recorderWindow_;
 
     // central widget
     QMdiArea* centralWidget_;

@@ -17,13 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "selectemulateddiskdialog.h"
 
-#include <QStringList>
-
 SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent)
-    : QDialog(parent), select_(false),
-      new_(false), flip_(false) {
+            : QDialog(parent), select_(false),
+              new_(false), flip_(false) {
     setupUi(this);
     // not sure if this is working the same as with qt3
     enableButtons();
@@ -51,6 +50,5 @@ void SelectEmulatedDiskDialog::enableButtons() {
     selectPushButton->setEnabled(labelListWidget->currentItem());
     flipDiskPushButton->setEnabled(labelListWidget->currentItem());
 }
-
 
 

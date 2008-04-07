@@ -69,7 +69,7 @@ const QString Study::fileName_ = "study.dat";
 Study::Study() : dateTime_(QDateTime::currentDateTime()),
                  name_(),
                  dateOfBirth_(DEFAULT_BIRTH_DATE),
-                 mrn_(), number_(),
+                 mrn_(), number_(), accountNumber_(),
                  sex_(Male), height_(0), weight_(0), 
                  heightIn_(0), weightLbs_(0), bsa_(0), 
                  bsaManualEdit_(false), 
@@ -163,6 +163,7 @@ void Study::copyStudy(const Study& study) {
     dateOfBirth_ = study.dateOfBirth_;
     mrn_ = study.mrn_;
     number_ = study.number_;
+    accountNumber_ = study.accountNumber_;
     sex_ = study.sex_;
     height_ = study.height_;
     weight_ = study.weight_;
@@ -185,7 +186,8 @@ void Study::copyStudy(const Study& study) {
 
 QDataStream& operator<<(QDataStream& out, const Study& study) {
     out << study.dateTime_ << study.number_ << study.name_
-        << study.mrn_ << study.dateOfBirth_ << study.config_
+        << study.mrn_ << study.accountNumber_ 
+        << study.dateOfBirth_ << study.config_
         << (qint32)study.sex_ << study.height_ << study.weight_ 
         << study.heightIn_<< study.weightLbs_ << study.bsa_ 
         << (qint32)study.bsaManualEdit_ << (qint32)study.vagalTone_ 
@@ -199,7 +201,8 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
     // Data below is not natively a 32 bit int.
     qint32 sex, bsaManualEdit, vagalTone, sympatheticTone, ef, ischemia;
     in >> study.dateTime_ >> study.number_ >> study.name_
-        >> study.mrn_ >> study.dateOfBirth_ >> study.config_
+        >> study.mrn_ >> study.accountNumber_ 
+        >> study.dateOfBirth_ >> study.config_
         >> sex >> study.height_ >> study.weight_ >> study.heightIn_
         >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
         >> vagalTone >> sympatheticTone >> ef

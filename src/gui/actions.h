@@ -35,7 +35,7 @@ namespace EpGui {
 
 bool login(QWidget*, User*);
 void logout(User*);
-void changePassword(QWidget*, Options*);
+void changePassword(QWidget*);
 bool showSimulatorSettings(Options*, User*);
 void about(QWidget*);
 void help(QWidget*);
@@ -47,18 +47,12 @@ void browseFilePaths(QWidget*, QLineEdit*, const QString& defaultPath =
     QDir::homePath());
 
 QAction* createAction(QWidget*,
-		      const QString& name,
-		      const QString& statusTip,
+                      const QString& name,
+                      const QString& statusTip,
                       const char* slotName = 0,
-		      const QKeySequence& accelKey 
-			= QKeySequence(),
-                      const QString& iconName 
-			= QString());
+                      const QKeySequence& accelKey = QKeySequence(),
+                      const QString& iconName = QString());
 
 }
 
 #endif
-
-
-
-

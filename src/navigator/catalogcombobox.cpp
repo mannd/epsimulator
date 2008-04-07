@@ -20,6 +20,8 @@
 
 #include "catalogcombobox.h"
 
+#include "options.h"
+
 /** 
  * Ctor.  Gets the options_ instance, sets up the combobox.  
  * Default item is 1st, which is either System or Network depending on options.
@@ -27,13 +29,17 @@
  * is selected from the menu, and goes away as soon as possible.  
  * Default is no Network
 */
-CatalogComboBox::CatalogComboBox(QWidget *parent)
- : QComboBox(parent), browse_(false), includeNetwork_(false),
-    options_(Options::instance()) {
+CatalogComboBox::CatalogComboBox(QWidget *parent) : 
+                                 QComboBox(parent), 
+                                 browse_(false), 
+                                 includeNetwork_(false),
+                                 options_(Options::instance()) {
     setup();
     connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));
     setCurrentItem(0);  // will be Network or System depending on options
 }
+
+CatalogComboBox::~CatalogComboBox() {}
 
 /**
  * When the combobox changes, this slot is called.  
@@ -58,14 +64,16 @@ void CatalogComboBox::resetOther() {
  */
 void CatalogComboBox::setSource(Catalog::Source source) {
     // Add the blank Other field to the combobox if not already there;
-    // also take away the blank field if not browsing, and set browse_ correctly.
+    // also take away the blank field if not browsing, 
+    // and set browse_ correctly.
     if (source == Catalog::Other && !browse_)
         setBrowse(true);
     if (source != Catalog::Other && browse_)
         setBrowse(false);
     if (source == Catalog::Network && !includeNetwork_) 
-        source = Catalog::System;  // setSource assumes sourceMap has been setup 
-                          // correctly and this assignment is wrong
+        source = Catalog::System;  // setSource assumes sourceMap has been 
+                                   // setup correctly and 
+                                   // this assignment is wrong.
     setCurrentItem(sourceMap_[source]);
 }
 
@@ -107,7 +115,7 @@ Catalog::Source CatalogComboBox::source() {
     setSource(Catalog::System);
     return Catalog::System;  // safe default
 }
-        
+
 /**
  * Constructs combobox depending on whether network storage is 
  * enabled.  Also if browse_ is true, inserts the funny blank
@@ -130,8 +138,4 @@ void CatalogComboBox::setup() {
         insertItem("");
         sourceMap_[Catalog::Other] = ++index;
     }
-}
-
-CatalogComboBox::~CatalogComboBox() {
-    // DO NOT delete options_!!
 }

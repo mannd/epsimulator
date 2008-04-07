@@ -28,8 +28,8 @@
 
 class OpticalDisk;
 
-
 class StudyListWidgetItem : public QListWidgetItem {
+
 public:
     StudyListWidgetItem(const QString& studyName, 
         const QString& studyPath, QListWidget* parent = 0);
@@ -39,10 +39,9 @@ private:
 
 };
 
-class MoveCopyStudyDialog : public QDialog, 
-    private Ui::MoveCopyStudyDialog {
-    
+class MoveCopyStudyDialog : public QDialog, private Ui::MoveCopyStudyDialog {
     Q_OBJECT
+
 public:
     MoveCopyStudyDialog(QWidget* parent, OpticalDisk*);
     QString sourcePath();
@@ -58,7 +57,7 @@ protected:
 private slots:
     void sourcePathBrowse();
     void destinationPathBrowse();
-    void activateFinishButton();    // will activate if dialog filled out correctly
+    void activateFinishButton();
     void fillStudiesListView();
     void selectAll();
 
@@ -84,4 +83,3 @@ public:
 };
 
 #endif
-

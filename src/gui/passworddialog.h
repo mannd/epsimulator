@@ -23,31 +23,25 @@
 
 #include "ui_passworddialog.h"
 
+#include <QDialog>
+
 class PasswordHandler;
 class QString;
+class QWidget;
 
-class PasswordDialog : public QDialog, 
-    private Ui::PasswordDialog {
+class PasswordDialog : public QDialog, private Ui::PasswordDialog {
     Q_OBJECT
 
 public:
     PasswordDialog(QWidget* parent = 0);
+    ~PasswordDialog();
 
-    /// public function, just for debugging and testing.
+    // public function, just for debugging and testing.
     void setPassword(const QString&); 
     bool testPassword();
 
-    ~PasswordDialog();
-
 public slots:
-    virtual void accept();
-  /*$PUBLIC_SLOTS$*/
-
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-  /*$PROTECTED_SLOTS$*/
+    void accept();
 
 private:
     PasswordHandler* pwHandler_;
@@ -55,4 +49,3 @@ private:
 };
 
 #endif
-

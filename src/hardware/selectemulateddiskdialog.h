@@ -17,20 +17,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef SELECTEMULATEDDISKDIALOG_H
 #define SELECTEMULATEDDISKDIALOG_H
 
 #include "ui_selectemulateddiskdialog.h"
 
+#include <QDialog>
+
 class QStringList;
+class QWidget;
 
 class SelectEmulatedDiskDialog: public QDialog,
-    private Ui::SelectEmulatedDiskDialog {
-Q_OBJECT
-public:
-    SelectEmulatedDiskDialog(QWidget *parent = 0);
+                                private Ui::SelectEmulatedDiskDialog {
+    Q_OBJECT
 
-    void setLabelList(const QStringList& stringList); 
+public:
+    SelectEmulatedDiskDialog(QWidget* parent = 0);
+    ~SelectEmulatedDiskDialog() {}
+
+    void setLabelList(const QStringList&); 
     void setDiskRow(int row) {
         SelectEmulatedDiskDialog::labelListWidget->setCurrentRow(row);}
 
@@ -40,8 +46,6 @@ public:
     bool selectDisk() const {return select_;}
     bool newDisk() const {return new_;}
     bool flipDisk() const {return flip_;}
-
-    virtual ~SelectEmulatedDiskDialog() {}
 
 private slots:
     void enableButtons();

@@ -22,7 +22,6 @@
 
 #include "fileutilities.h"
 
-#include <QDataStream>
 #include <QDir>
 
 const QString Patient::fileName_ = "patient.dat";

@@ -27,7 +27,8 @@
 
 #include <QDataStream>
 #include <QFile>
-#include <QString>
+
+class QString;
 
 namespace EpCore {
 

@@ -17,18 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "changepassworddialog.h"
 
 #include "passwordhandler.h"
 
-#include <QDialog>
-#include <qlineedit.h>
-#include <qmessagebox.h>
+#include <QMessageBox>
 
-ChangePasswordDialog::ChangePasswordDialog(Options* options, QWidget *parent)
-    : QDialog(parent) {
+ChangePasswordDialog::ChangePasswordDialog(QWidget *parent)
+                                          : QDialog(parent) {
     setupUi(this);
-    pwHandler_ = new PasswordHandler();
+    pwHandler_ = new PasswordHandler;
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+}
+
+ChangePasswordDialog::~ChangePasswordDialog() {
+    delete pwHandler_;
 }
 
 bool ChangePasswordDialog::testPasswordsEqual() const {
@@ -36,7 +41,7 @@ bool ChangePasswordDialog::testPasswordsEqual() const {
 }
 
 void ChangePasswordDialog::clear() {
-    oldLineEdit->clear();    
+    oldLineEdit->clear();
     newLineEdit->clear();
     confirmNewLineEdit->clear();
     oldLineEdit->setFocus();
@@ -47,6 +52,12 @@ void ChangePasswordDialog::accept() {
         QMessageBox::warning(this, tr("Wrong Password"),
                              tr("Old password is wrong. "
                                 "Please try again."));
+        clear();
+    }
+    else if (newLineEdit->text().isEmpty()) {
+        QMessageBox::warning(this, tr("Blank Password Not Allowed"),
+                             tr("A blank password is not allowed. "
+                                 "Please try again."));
         clear();
     }
     else if (testPasswordsEqual())    
@@ -63,8 +74,3 @@ void ChangePasswordDialog::accept() {
 void ChangePasswordDialog::changePassword() const {
     pwHandler_->setPassword(newLineEdit->text());
 }
-
-ChangePasswordDialog::~ChangePasswordDialog() {
-    delete pwHandler_;
-}
-

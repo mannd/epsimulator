@@ -20,21 +20,23 @@
 
 #include "disklabeldialog.h"
 
-#include <q3buttongroup.h>
+#include <QGroupBox>
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QRadioButton>
 
-DiskLabelDialog::DiskLabelDialog(QWidget* parent)
-: QDialog(parent) {
+DiskLabelDialog::DiskLabelDialog(QWidget* parent) : QDialog(parent) {
     setupUi(this);
+
     // set Ok button to correct state at the onset
     on_diskLabelLineEdit_textChanged();
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
+
+DiskLabelDialog::~DiskLabelDialog() {}
 
 QString DiskLabelDialog::label() const {
     return diskLabelLineEdit->text();
@@ -82,9 +84,3 @@ void DiskLabelDialog::accept() {
     else 
         QDialog::accept();
 }
-
-DiskLabelDialog::~DiskLabelDialog()
-{
-}
-
-

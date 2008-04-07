@@ -64,6 +64,7 @@ public:
     typedef std::vector<QString> Keys;
 
     Catalog(const QString& path, const QString& fileName = defaultFileName_);
+    virtual ~Catalog(); 
 
     static const QString defaultFileName() {return defaultFileName_;}
 
@@ -76,25 +77,25 @@ public:
     virtual void relabel(const QString& label, const QString& side, 
         const QString& key);
 
-    virtual QString location(const StudyData&); // generates appropriate location format
-                                                // overriden by specific catalog types
+ 
     virtual void addStudy(const Study* study, const QString& location,
                         const QString& side, const QString& labName,
                         const QString& machineName);
     virtual void deleteStudy(const Study*);
 
-    QString path() const {return path_;}
-    QString filePath() const;  // full path including fileName
-    QString fileName() const {return fileName_;}
-
     void setPath(const QString& path) {path_ = path;}
     void setLabel(const QString& label) {studyData_.location = label;}
     void setSide(const QString& side) {studyData_.side = side;}
 
+    QString path() const {return path_;}
+    QString filePath() const;  // full path including fileName
+    QString fileName() const {return fileName_;}
+
+    // generates appropriate location format
+    // overriden by specific catalog types
+    virtual QString location(const StudyData&); 
     bool isEmpty() {return catalog_.empty();}
     virtual bool studyPresent(const Study*);
-
-    virtual ~Catalog(); 
 
 protected:
     // don't allow copying or default constructor
@@ -104,23 +105,24 @@ protected:
     // First bytes of EP Simulator catalog files.
     enum {MagicNumber = 0x99c798f2};    
 
-    virtual void load();
-    virtual void save();
+    void load();
+    void save();
  
     CatalogMap catalog_;
     static const QString defaultFileName_;
 
-private:    
-    QString path_;  // path to catalog file, excluding file name
-    QString fileName_; // file name of catalog
-
-    StudyData studyData_;               // study and location data
+private:
+    QString path_;          // path to catalog file, excluding file name
+    QString fileName_;      // file name of catalog
+    StudyData studyData_;   // study and location data
 
 };
 
 class OpticalCatalog : public Catalog {
+
 public:
     OpticalCatalog(const QString& path, const QString& fileName = defaultFileName_);
+    ~OpticalCatalog() {}
 
     virtual void addStudy(const Study* study, const QString& location,
                         const QString& side, const QString& labName,
@@ -133,30 +135,32 @@ public:
     // relabel below is nonvirtual, only in this class
     void relabel(const QString& label, const QString& side);
     Catalog::Keys getKeys();
-    ~OpticalCatalog() {}
+
 };
 
 class SystemCatalog : public Catalog {
+
 public:
     SystemCatalog(const QString& path, const QString& fileName = defaultFileName_);
-
     ~SystemCatalog() {}
+
 };
 
 class NetworkCatalog : public Catalog {
+
 public:
     NetworkCatalog(const QString& path, const QString& fileName = defaultFileName_);
-
     ~NetworkCatalog() {}
 
     virtual QString location(const StudyData&);
+
 };
 
 // OtherCatalog is a read-only catalog
 class OtherCatalog : public Catalog {
+
 public:
     OtherCatalog(const QString& path, const QString& fileName = defaultFileName_);
-
     ~OtherCatalog() {}
 
     virtual void addStudy(const Study*, const QString&,
@@ -164,13 +168,16 @@ public:
                         const QString&) {}  // don't add studies to Other catalog
     virtual void regenerate(Keys&, Catalog*) {} // don't regenerate Other catalog
     virtual void deleteStudy(const Study*) {}
+
 };
 
 
 // N.B. Catalogs owns the catalog pointers and will delete them.
 class Catalogs {
+
 public:
     Catalogs(Options* options, const QString& opticalDiskPath);
+    ~Catalogs();
 
     // Functions below work on all active catalogs.
     void addStudy(const Study* study, 
@@ -192,7 +199,6 @@ public:
 
     bool studyPresentOnOpticalDisk(const Study*) const;
 
-    ~Catalogs();
 
 protected:
     Catalogs();
@@ -207,6 +213,7 @@ private:
 
     typedef std::map<Catalog::Source, Catalog*> CatalogsMap;
     CatalogsMap catalogs_;
+
 };
 
 #endif

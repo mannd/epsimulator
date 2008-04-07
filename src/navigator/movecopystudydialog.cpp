@@ -18,7 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #include "movecopystudydialog.h"
 
 #include "actions.h"
@@ -34,14 +33,16 @@ StudyListWidgetItem::StudyListWidgetItem(const QString& studyName,
 }
 
 MoveCopyStudyDialog::MoveCopyStudyDialog(QWidget* parent, 
-                                         OpticalDisk* opticalDisk)
-    : QDialog(parent), Ui::MoveCopyStudyDialog(), opticalDisk_(opticalDisk)
-{
+                                         OpticalDisk* opticalDisk) : 
+                                         QDialog(parent), 
+                                         Ui::MoveCopyStudyDialog(),
+                                         opticalDisk_(opticalDisk) {
     setupUi(this);
     sourcePathLineEdit->setText(addOpticalToPath(opticalDisk->path()));
     destinationPathLineEdit->setText(addOpticalToPath(opticalDisk->path()));
     finishButton->setEnabled(false);
     fillStudiesListView();
+
     connect(sourcePathBrowseButton, SIGNAL(clicked()), this,
         SLOT(sourcePathBrowse()));
     connect(destinationPathBrowseButton, SIGNAL(clicked()), this,
@@ -117,7 +118,7 @@ QString MoveCopyStudyDialog::removeOpticalFromPath(const QString& path) {
     else
         return path;
 }
-            
+
 /**
  * Checks to see if there is an entry in the source and finish line edits,
  * and makes sure that there is at least one selected study.  If so,
@@ -138,11 +139,11 @@ void MoveCopyStudyDialog::fillStudiesListView() {
     Catalog catalog(path);
     for (Catalog::CatalogMap::const_iterator it = catalog.begin(); 
         it != catalog.end(); ++it) {
-        StudyListWidgetItem* item = new StudyListWidgetItem(QString(it.data().study.name().fullName(true) + 
+        StudyListWidgetItem* item = 
+            new StudyListWidgetItem(QString(it.data().study.name()
+            .fullName(true) + 
             " [" + it.data().study.dateTime().toString() + "]"),
             it.data().study.path(), studiesListWidget);
- //       studiesListWidget->addItem(QString(it.data().study.name().fullName(true) + 
- //           " [" + it.data().study.dateTime().toString() + "]"));
         studiesListWidget->addItem(item);
     }
 }
@@ -151,22 +152,18 @@ void MoveCopyStudyDialog::selectAll() {
     studiesListWidget->selectAll();
 }
 
-MoveCopyStudyDialog::~MoveCopyStudyDialog() {
-}
+MoveCopyStudyDialog::~MoveCopyStudyDialog() {}
 
 CopyStudyDialog::CopyStudyDialog(QWidget* parent, OpticalDisk* opticalDisk) 
     : MoveCopyStudyDialog(parent, opticalDisk) {
     setUpLabels(tr("Copy"));
 }
 
-CopyStudyDialog::~CopyStudyDialog() {
-}
+CopyStudyDialog::~CopyStudyDialog() {}
 
 MoveStudyDialog::MoveStudyDialog(QWidget* parent, OpticalDisk* opticalDisk) 
     : MoveCopyStudyDialog(parent, opticalDisk) {
     setUpLabels(tr("Move"));
 }
 
-MoveStudyDialog::~MoveStudyDialog() {
-}
-
+MoveStudyDialog::~MoveStudyDialog() {}

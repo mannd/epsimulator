@@ -18,18 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #include "satmonitor.h"
 
 SatMonitor::SatMonitor(QWidget* parent, Qt::WindowFlags fl)
-: QWidget( parent, fl ), Ui::SatMonitor() {
-	setupUi(this);
+                      : QWidget( parent, fl ), Ui::SatMonitor() {
+    setupUi(this);
 }
 
-SatMonitor::~SatMonitor()
-{
-}
-
-/*$SPECIALIZATION$*/
+SatMonitor::~SatMonitor() {}
 
 

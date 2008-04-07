@@ -41,6 +41,7 @@
 
 #include <QAction>
 #include <QComboBox>
+#include <QDesktopWidget>
 #include <QDockWidget>
 #include <QLabel>
 #include <QMainWindow>
@@ -61,13 +62,18 @@ namespace EpRecorder {
 
 Recorder::Recorder(QWidget* parent, 
                    Study* study, 
-                   OpticalDisk* currentDisk): 
+                   OpticalDisk* currentDisk,
+                   bool allowAcquisition,
+                   RecorderWindow recorderWindow)
+                   : 
                    QMainWindow(parent), 
                    openDisplayWindowList_(LastDisplayWindow + 1),
                    study_(study), 
                    user_(User::instance()),
                    options_(Options::instance()),
                    currentDisk_(currentDisk),
+                   allowAcquisition_(allowAcquisition),
+                   recorderWindow_(recorderWindow),
                    realTimeWindow_(0),
                    review1Window_(0),
                    review2Window_(0),
@@ -76,14 +82,15 @@ Recorder::Recorder(QWidget* parent,
                    review1SubWindow_(0),
                    review2SubWindow_(0),
                    logSubWindow_(0) {
-    // ensure the Recorder window, PatientStatusBar, floating
-    // hardware windows... the whole kit and kaboodle are deleted
-    // when the window closes.  As long as the Navigator window 
-    // is first made visible, the application will not close.
+    assert(parent != 0);  // never call Recorder without parent
     setAttribute(Qt::WA_DeleteOnClose);
 
-    assert(parent != 0);  // never call Recorder without parent
-
+    if (recorderWindow_ == Primary && qApp->desktop()->numScreens() > 1) {
+        Recorder* recorder = new Recorder(this, study_, 
+            currentDisk_, false, Secondary);
+        // resize and position recorder
+        recorder->show();
+    }
     // must build menus and toolbars before creating the central widget,
     // since createCentralWidget() updates the menus.
     createActions();
@@ -95,6 +102,8 @@ Recorder::Recorder(QWidget* parent,
 
     connect(patientStatusBar_, SIGNAL(manualSave(bool)),
         this, SLOT(setManualSave(bool)));
+    connect(patientStatusBar_, SIGNAL(showPatientInformation()),
+        this, SLOT(patientInformation()));
     connect(centralWidget_, SIGNAL(subWindowActivated(QMdiSubWindow*)),
         this, SLOT(updateMenus()));
 
@@ -154,6 +163,8 @@ void Recorder::updateAll() {
 
 Recorder::~Recorder() {
     delete patient_;
+    // Recorder took possession of study_, so has to kill it now.
+    delete study_;
 }
 
 void Recorder::patientInformation() {
@@ -173,16 +184,9 @@ void Recorder::systemSettings() {
     if (administrationAllowed()) {
         SystemDialog* systemDialog = new SystemDialog(options_, 
             currentDisk_->studiesPath(), currentDisk_->label(),
-            currentDisk_->translatedSide(), this);
-        // I'm not sure what the Prucka does, but it's probably
-        // crazy to change filepaths while in the Recorder!
-        //systemDialog->removeFilePathsTab();
-        if (systemDialog->exec() == QDialog::Accepted) {
+            currentDisk_->translatedSide(), this, false);
+        if (systemDialog->exec() == QDialog::Accepted)
             systemDialog->setOptions();
-            if (!options_->enableAcquisition() && 
-                subWindowIsOpen(realTimeSubWindow_))
-                realTimeWindowOpen(false);
-        }
         delete systemDialog;
     }
 }
@@ -296,6 +300,8 @@ void Recorder::writeSettings() {
 void Recorder::writeSettings(Settings& settings) {
     //Settings settings;
     // save overall Recorder size, position and state
+    QDesktopWidget* desktop = qApp->desktop();
+    settings.beginGroup(QString("screen%1").arg(desktop->screenNumber(this)));
     settings.beginGroup("recorder");
     settings.setValue("size", size());
     settings.setValue("pos", pos()); 
@@ -320,6 +326,7 @@ void Recorder::writeSettings(Settings& settings) {
         settings.endGroup();
     }
     settings.setValue("subWindowList", subWindowKeys);
+    settings.endGroup();
     settings.endGroup();
 }
 
@@ -357,10 +364,13 @@ void Recorder::readSettings(Settings& settings) {
     
 //    review1Window_->readSettings();
     //Settings settings;
+    QDesktopWidget* desktop = qApp->desktop();
+    settings.beginGroup(QString("screen%1").arg(desktop->screenNumber(this)));
     settings.beginGroup("recorder");
     QVariant size = settings.value("size");
     if (size.isNull()) {
         setWindowState(Qt::WindowMaximized);
+        settings.endGroup();
         settings.endGroup();
         return;
     }    
@@ -407,6 +417,7 @@ void Recorder::readSettings(Settings& settings) {
     }
     /// TODO again add future DisplayWindow processing here.
     settings.endGroup();
+    settings.endGroup();
     if (activeWindow)
         centralWidget_->setActiveSubWindow(activeWindow);
 }
@@ -423,7 +434,7 @@ void Recorder::logout() {
 
 void Recorder::changePassword() {
     if (administrationAllowed())
-        EpGui::changePassword(this, options_);
+        EpGui::changePassword(this);
 }
 
 bool Recorder::administrationAllowed() {

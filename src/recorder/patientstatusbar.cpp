@@ -24,6 +24,8 @@
 #include "study.h"
 
 #include <QDateTime>
+#include <QMouseEvent>
+#include <QRect>
 #include <QTimer>
 #include <QWidget>
 
@@ -46,8 +48,9 @@ PatientStatusBar::PatientStatusBar(QWidget* parent)
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle(tr("Patient Status"));
 
-    timeLabel->setMinimumWidth(100);    // prevent flickering?
+    timeLabel->setMinimumWidth(100);    // prevent flickering
     timer_ = new QTimer(this);
+
     connect(timer_, SIGNAL(timeout()), this, SLOT(update()));
     //timer_->start(updateInterval);
     connect(saveButton, SIGNAL(clicked()), this, SLOT(manualSave()));
@@ -55,16 +58,22 @@ PatientStatusBar::PatientStatusBar(QWidget* parent)
     connect(this, SIGNAL(saveTriggered(SaveStatus)), 
         this, SLOT(changeSaveStatus(SaveStatus)));
     // saveButton also responds to signals from Recorder for autosaving
-    /// TODO
     connect(parent, SIGNAL(manualSave(bool)),
         this, SLOT(manualSave()));
     connect(parent, SIGNAL(autoSave(bool)),
         this, SLOT(autoSave(bool)));
+
     createPalettes();
     changeSaveStatus(saveStatus_);
 }
 
-PatientStatusBar::~PatientStatusBar() {
+PatientStatusBar::~PatientStatusBar() {}
+
+void PatientStatusBar::mousePressEvent(QMouseEvent* event) {
+    QRect rect = patientInformationFrame->frameRect();
+    if (event->button() == Qt::LeftButton 
+        && rect.contains(event->pos()))
+        emit showPatientInformation();
 }
 
 void PatientStatusBar::createPalettes() {}
@@ -120,7 +129,6 @@ void PatientStatusBar::autoSave(bool enable) {
     emit(saveTriggered(saveStatus_));
 }
 
-
 void PatientStatusBar::noSave() {
     changeSaveStatus(NoSave);
 }
@@ -150,8 +158,3 @@ void PatientStatusBar::changeSaveStatus(SaveStatus saveStatus) {
             saveButton->setIcon(QIcon(noSaveIcon));
     }
 }
-    
-
-/*$SPECIALIZATION$*/
-
-

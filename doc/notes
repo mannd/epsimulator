@@ -628,3 +628,65 @@ Emulating title bars in a QSplitter central widget
     To come closest to the Prucka look and feel, the Recorder windows should be divided by splitters, and splitters can be created and deleted as needed (e.g. to add the 2nd Review window).  The problem is that no title bar is available.  To emulate a title bar, we need to use a QLabel, setting its' palette to the title bars palette, adding the icon and the text, and then making sure that the active and inactive colors appear when the main window is activated.  This may be automatic or may require the QLabel picking up the active/inactive signal.  The Qlabel can be fixed at the top of the window, in a layout with the QMainWindow just beneath.  A close box is needed though.  
 
     After further expermentation, we just have to be satisfied with using the MDI classes of Qt.  There is no way to emulate perfectly the Prucka splitter type window resizing in Qt.  The closest thing would be to use MdiSubWindows attached to the splitter, but as the splitter is the parent widget, when it is active, ALL the subwindows appear active, so that you can't tell which one is really active.  Emulating a title bar like above would require hand drawing a close button, that would not reflect the different styles, and probably changing the bar between active and inactive would be hard.  Using a splitter without title bars would work fine, but it would be tough to tell which window was which.  The current solution,using a QMdiArea is best, and justified by the fact that this will usually be running on a single monitor, so that creative arrangement of the windows will be necessary.
+
+Recorder and Screens
+    Various configurations are possible:
+
+    Screens: 1 or 2 or more (determined by QDesktopWidget class)
+    Acquisition: enabled or disabled (selected on System Settings)
+    Study type: New/Continue or Review (selected on Navigator)
+    Window settings: saved or new (default settings 1st time around)
+
+    Here are the various combinations:
+
+    System changes from 1 screen to 2 or vice-versa:
+        Default settings used. (last position saved not used)
+        Loading settings will be by screen (window settings are saved
+            under screen0 and screen1)
+    
+    One screen:
+        Obviously everything on this screen.  
+        Acquisition enabled and new/continue study type & default settings:
+            
+            Real-time   |   Review1
+            _______________________
+                        Log
+
+        Real-time window can't be closed (no system icon, close box) but can
+         be resized/repositioned (this is true of all the configurations?).
+
+        Acquisition disabled and/or review study type and default settings:
+
+                Review1 (| Review2)
+              _____________
+                Log
+
+        Review2 can be openned only if Review1 present, and Review1 can't be closed
+        if Review2 is open.  Saved window settings are specific to this mode, e.g.
+        you can't open a saved window setting with a real-time window in this circumstance.
+        Thus, window settings also need to save acquistion state and the list of
+        saved windows settings must be filtered on this state.
+
+        Two screens:
+
+        Screen 0 is always the RealTime window, and no other window can be opened on 
+        this screen.
+
+        Screen 1 is:
+
+             Review1 (| Review2)
+              _____________
+                Log
+
+        Acquisition disabled and/or review study type, default settings:
+
+        Screen 0 is the same as Screen 1 above.
+
+        Screen 1 is not used.  (need to check what Prucka actually does, maybe
+            uses Screen 1 for review screens and screen 0 is blank or empty RealTime
+            window).
+
+        Saved settings: Again filtered on acquisition enabled or not.  There is a different
+        list of saved windows for acquisition enabled and disabled.
+
+        

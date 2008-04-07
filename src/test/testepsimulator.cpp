@@ -577,10 +577,8 @@ void TestEpSimulator::testStudiesSimilar(const Study& s1, const Study& s2) {
 }
 
 void TestEpSimulator::completePatientDialog(PatientDialog* p) {
-    p->weightKgLineEdit_lostFocus();
-    p->weightLbsLineEdit_lostFocus();
-    p->heightCmLineEdit_lostFocus();
-    p->heightInLineEdit_lostFocus();
+    p->on_weightLbsLineEdit_textEdited();
+    p->on_heightInLineEdit_textEdited();
 }
 
 

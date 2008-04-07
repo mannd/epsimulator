@@ -17,37 +17,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef PATIENTDIALOG_H
 #define PATIENTDIALOG_H
 
 #include "ui_patientdialog.h"
-#include "study.h"
 
+#include "study.h"      // for Sex definition
+
+#include <QDialog>
+
+class QDate;
+class QWidget;
 
 /// TODO Consider not allowing any edits of study date and time in PatientDialogBase.ui
 class PatientDialog: public QDialog, private Ui::PatientDialog {
     Q_OBJECT
+
 public:
     PatientDialog(QWidget *parent = 0);
+    ~PatientDialog() {}
+
     void setFields(const Study* study);
     void getFields(Study* study) const;
    
 public slots:
-    virtual void manualEditBsaCheckBox_toggled(int);
-    virtual void weightKgLineEdit_lostFocus();
-    virtual void weightLbsLineEdit_lostFocus();
-    virtual void heightCmLineEdit_lostFocus();
-    virtual void heightInLineEdit_lostFocus();
-    virtual void accept();
+    void on_manualEditBsaCheckBox_stateChanged(int);
+    void on_weightKgLineEdit_textEdited();
+    void on_weightLbsLineEdit_textEdited();
+    void on_heightCmLineEdit_textEdited();
+    void on_heightInLineEdit_textEdited();
+    void on_dobDateEdit_dateChanged(const QDate&);
+    void on_studyDateTimeEdit_dateChanged(const QDate&);
+    void accept();
 
 private:
+    void setBsaText();
+    void calculateAge();
+
     double inchesToCentimeters(double) const;
     double centimetersToInches(double) const;
     double poundsToKilograms(double) const;
     double kilogramsToPounds(double) const;
     double bsa();
-    void setBsaText();
-    Sex getSex() const;
+    Sex sex() const;
 
     double metricHeight_;
     double metricWeight_;

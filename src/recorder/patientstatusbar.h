@@ -23,11 +23,12 @@
 
 #include "ui_patientstatusbar.h"
 
-#include "recorder.h"
+#include "recorderdefs.h"
 #include "saturation.h"
 
 struct Name;
 class Patient;
+class QMouseEvent;
 class QPalette;
 class QTimer;
 class QWidget;
@@ -36,19 +37,18 @@ using EpRecorder::SaveStatus;
 
 class PatientStatusBar : public QWidget, private Ui::PatientStatusBar {
     Q_OBJECT
+
 public:
-
-
     PatientStatusBar(QWidget* parent = 0);
     ~PatientStatusBar();
 
-    void setPatient(Patient* patient) {patient_ = patient;} 
-    
-    void setPatientInfo(const Name&, double kg, double bsa);
-    void displayO2Sat();
-
-    void stop();
     void start();
+    void stop();
+
+    void setPatient(Patient* patient) {patient_ = patient;} 
+    void setPatientInfo(const Name&, double kg, double bsa);
+
+    void displayO2Sat();
 
     static void setWarningO2Sat(const Saturation& sat) {
         warningO2Sat_ = sat;}
@@ -57,10 +57,6 @@ public:
     static void setmalfunctionO2Sat(const Saturation& sat) {
         malfunctionO2Sat_ = sat;}
 
-signals:
-    void saveTriggered(SaveStatus);
-    void manualSave(bool);
-
 public slots:
     void update();
     void manualSave();
@@ -68,10 +64,12 @@ public slots:
     void autoSave(bool);
 
 protected:
-  /*$PROTECTED_FUNCTIONS$*/
+    void mousePressEvent(QMouseEvent*);
 
-protected slots:
-  /*$PROTECTED_SLOTS$*/
+signals:
+    void saveTriggered(SaveStatus);
+    void manualSave(bool);
+    void showPatientInformation();
 
 private slots:
     void noSave();

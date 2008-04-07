@@ -18,21 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #include "passworddialog.h"
 
 #include "passwordhandler.h"
 
-#include <qlineedit.h>
-#include <qmessagebox.h>
-
+#include <QMessageBox>
 
 PasswordDialog::PasswordDialog(QWidget* parent)
     : QDialog(parent) {
     setupUi(this);
-    // must set default password of blank
     passwordLineEdit->setText("");
     pwHandler_ = new PasswordHandler();
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+}
+
+PasswordDialog::~PasswordDialog() {
+    delete pwHandler_;
 }
 
 void PasswordDialog::setPassword(const QString& pw) {
@@ -44,7 +46,7 @@ bool PasswordDialog::testPassword() {
 }
 
 void PasswordDialog::accept() {
-    if (testPassword())    
+    if (testPassword())
         QDialog::accept();
     else {
         QMessageBox::warning(this, tr("Wrong Password"),
@@ -52,11 +54,3 @@ void PasswordDialog::accept() {
         passwordLineEdit->clear();
     }
 }
-
-PasswordDialog::~PasswordDialog() {
-    delete pwHandler_;
-}
-
-/*$SPECIALIZATION$*/
-
-

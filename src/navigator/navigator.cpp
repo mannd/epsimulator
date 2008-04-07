@@ -51,7 +51,6 @@
 #include <QAction>
 #include <QCloseEvent>
 #include <QDateTime>
-#include <QDesktopWidget>
 #include <QFileDialog>
 #include <QKeySequence>
 #include <QLabel>
@@ -73,10 +72,12 @@
 /**
  * Navigator constructor
  */
-Navigator::Navigator(QWidget* parent)
-    : QMainWindow( parent, Qt::WDestructiveClose ),
-                   options_(Options::instance()), filterCatalogDialog_(0),
-                   currentDisk_(0), user_(User::instance()) {
+Navigator::Navigator(QWidget* parent) : QMainWindow(parent), 
+                                        options_(Options::instance()),
+                                        filterCatalogDialog_(0),
+                                        currentDisk_(0),
+                                        user_(User::instance()) {
+    setAttribute(Qt::WA_DeleteOnClose);
     do {
         createOpticalDrive();
     } while (!currentDisk_);
@@ -87,6 +88,11 @@ Navigator::Navigator(QWidget* parent)
     createCentralWidget();
     createStatusBar();
 
+    // NB: activated(), not currentIndexChanged() is required here,
+    // as currentIndexChanged() is sent when the combobox is 
+    // programmatically changed as well as changed by the user and
+    // that will cause duplicate entries in the combobox when the
+    // Other catalog is selected.
     connect(catalogComboBox_, SIGNAL(activated(int)),
         this, SLOT(changeCatalog()));
 
@@ -165,7 +171,6 @@ void Navigator::reviewStudy() {
     }
     else
         noStudySelectedError();
-    delete study;
 }
 
 void Navigator::preregisterPatient() {
@@ -193,7 +198,6 @@ void Navigator::reports()  {
     }
     else
         noStudySelectedError();
-    delete study;
 }
 
 void Navigator::moveCopyStudyMessageBox(bool move) {
@@ -375,7 +379,7 @@ void Navigator::changeCatalog() {
      // reapply filter if present
      if (tableListView_->filtered())
          processFilter();
-    statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
+     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
 void Navigator::ejectDisk() {
@@ -469,7 +473,7 @@ void Navigator::logout() {
 
 void Navigator::changePassword() {
     if (administrationAllowed())
-        EpGui::changePassword(this, options_);
+        EpGui::changePassword(this);
 }
 
 /// Checks to see if administrator access if required, if it is,
@@ -507,40 +511,41 @@ void Navigator::setStudyConfigurations() {
         EpGui::filler(this);
 }
 
-void Navigator::setCatalogNetwork() {
-    catalogComboBox_->setSource(Catalog::Network);
+void Navigator::setCatalog(Catalog::Source source) {
+    catalogComboBox_->setSource(source);
     changeCatalog();
+}
+
+void Navigator::setCatalogNetwork() {
+    setCatalog(Catalog::Network);
 }
 
 void Navigator::setCatalogSystem() {
-    catalogComboBox_->setSource(Catalog::System);
-    changeCatalog();
+    setCatalog(Catalog::System);
 }
 
 void Navigator::setCatalogOptical() {
-    catalogComboBox_->setSource(Catalog::Optical);
-    changeCatalog();
+    setCatalog(Catalog::Optical);
 }
 
 void Navigator::setCatalogOther() {
-    QFileDialog* fd = new QFileDialog(this, tr("Select Catalog"),
+    QFileDialog fd(this, tr("Select Catalog"),
         options_->systemCatalogPath(), Catalog::defaultFileName());
-    if (fd->exec() == QDialog::Accepted) {
-        catalogs_->setCatalogPath(Catalog::Other, fd->directory().path());
+    if (fd.exec() == QDialog::Accepted) {
+        catalogs_->setCatalogPath(Catalog::Other, fd.directory().path());
         catalogs_->refresh();   // to reload Other catalog
         catalogComboBox_->setSource(Catalog::Other);
         changeCatalog();
     }
-    delete fd;
 }
 
 void Navigator::exportCatalog() {
-    QFileDialog* fd = new QFileDialog(this, tr("Export Catalog"),
+    QFileDialog fd(this, tr("Export Catalog"),
         QDir::homeDirPath(), tr("Comma-delimited (*.csv)"));
-    fd->setMode(QFileDialog::AnyFile);
-    fd->setAcceptMode(QFileDialog::AcceptSave);
-    if (fd->exec() == QDialog::Accepted) {
-        QStringList files = fd->selectedFiles();
+    fd.setMode(QFileDialog::AnyFile);
+    fd.setAcceptMode(QFileDialog::AcceptSave);
+    if (fd.exec() == QDialog::Accepted) {
+        QStringList files = fd.selectedFiles();
         QString fileName = QString();
         if (!files.isEmpty())
             fileName = files[0];
@@ -555,7 +560,6 @@ void Navigator::exportCatalog() {
             }
         }
     }
-    delete fd;
 }
 
 void Navigator::updateSimulatorSettings(){
@@ -996,10 +1000,13 @@ void Navigator::processFilter() {
         regenerateAction_->setEnabled(false);
 }
 
-void Navigator::startStudy(Study* s) {
+void Navigator::startStudy(Study* s, bool review) {
     // write study files
     QString studiesPath = currentDisk_->studiesPath();
     QDir studiesDir(studiesPath);
+    /// FIXME note possible memory leak if exception thrown.
+    /// s will not be deleted.  Right now these exceptions are
+    /// not caught, so it doesn't matter too much.
     if (!studiesDir.exists()) {
         if (!studiesDir.mkdir(studiesPath))
             throw EpCore::IoError(studiesPath, "could not create studiesPath");
@@ -1013,38 +1020,19 @@ void Navigator::startStudy(Study* s) {
     }
     s->setPath(studyPath);
     s->save();
-    QDesktopWidget* desktopWidget = qApp->desktop();
     using EpRecorder::Recorder;
-    if (desktopWidget->numScreens() > 1) {
-        /// TODO special handling of 2 screen system here.
-        /// Basically, will open another recorder window
-        /// on the second screen, with the review window on
-        /// it.  Real-time window will not be allowed on the
-        /// second screen.  With just one screen, review
-        /// window has to be spit screen with the real-time
-        /// window.
-    }
-    else {
-        // looks better to show new window first, then hide this one,
-        // and vice versa
-        Recorder* recorder = new Recorder(this, s, currentDisk_);
-        recorder->show();
-        connect(recorder, SIGNAL(updateSimulatorSettings()),
-            this, SLOT(updateSimulatorSettings()));
-        
-        hide();
-        updateAll();
-    }
-    /// TODO One other possibility to handle.  If
-    /// options_->enableAcquisition() if false, then recorder
-    /// central widget can only be review screens.  This is also
-    /// the case for Review Study blue bar button.  
+    bool allowAcquisition = options_->enableAcquisition() && !review;
+    Recorder* recorder = new Recorder(this, s, currentDisk_, 
+        allowAcquisition);
+    recorder->show();
+    connect(recorder, SIGNAL(updateSimulatorSettings()),
+        this, SLOT(updateSimulatorSettings()));    
+    hide();
+    updateAll();
 }
 
-void Navigator::reviewStudy(Study*) {
-    QMessageBox::information(this, tr("Starting Review Simulation"),
-        tr("The Review simulation is not implemented yet.\n"
-           "Will return to Navigator."));
+void Navigator::reviewStudy(Study* s) {
+    startStudy(s, true);
 }
 
 void Navigator::reports(Study*) {
@@ -1080,8 +1068,12 @@ Study* Navigator::getNewStudy() {
     if (study) {
         // A new study must have a current date time.
         study->setDateTime(QDateTime::currentDateTime());
-        // study number will be set to blank also.
-        study->setNumber(QString());
+        // study number will be set to blank, 
+        // or advanced automatically if an int.
+        if (int num = study->number().toInt())
+            study->setNumber(QString::number(++num));
+        else
+            study->setNumber(QString());
         // need a new key for a new study.
         study->resetKey(); 
         return study;

@@ -39,7 +39,15 @@
 #include <iostream>
 #endif
 
-// LabelData operators.
+// struct LabelData
+
+bool LabelData::operator==(const LabelData& rhs) const {
+    return rhs.label == label && rhs.side == side;
+}
+
+bool LabelData::operator!=(const LabelData& rhs) const {
+    return !(rhs == *this);
+}
 
 QDataStream& operator<<(QDataStream& out, const LabelData& labelData) {
     out << labelData.label << labelData.side;
@@ -51,15 +59,7 @@ QDataStream& operator>>(QDataStream& in, LabelData& labelData) {
     return in;
 }
 
-bool LabelData::operator==(const LabelData& rhs) const {
-    return rhs.label == label && rhs.side == side;
-}
-
-bool LabelData::operator!=(const LabelData& rhs) const {
-    return !(rhs == *this);
-}
-
-// class OpticalDisk.
+// class OpticalDisk
 
 const QString OpticalDisk::labelFileName_ = "label.dat";
 const QString OpticalDisk::studiesDirName_ = "studies";
@@ -67,6 +67,8 @@ const QString OpticalDisk::studiesDirName_ = "studies";
 OpticalDisk::OpticalDisk(const QString& path) 
     : path_(path), isLabeled_(false) {
 }
+
+OpticalDisk::~OpticalDisk() {}
 
 QString OpticalDisk::makeStudiesPath(const QString& path) {
     return QDir::cleanDirPath(path + "/" + studiesDirName_);
@@ -161,8 +163,7 @@ QString OpticalDisk::translateSide(const QString& side) {
     return (side == "A" ? QObject::tr("A") : QObject::tr("B"));
 }
 
-OpticalDisk::~OpticalDisk() {
-}
+// class EmulatedOpticalDisk
 
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
                                          bool isTwoSided) 
@@ -174,10 +175,12 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
 //    saveLastDisk();  // this must be done by calling function
 }
 
-EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, const QString& diskName)
-    : OpticalDisk(path), diskName_(diskName) {}
-    
+EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
+                                         const QString& diskName)
+                                         : OpticalDisk(path), 
+                                         diskName_(diskName) {}
 
+EmulatedOpticalDisk::~EmulatedOpticalDisk() {}
 
 /**
  * static function to get the last disk used, 0 if none.
@@ -222,7 +225,6 @@ int EmulatedOpticalDisk::makeLabel(const QString& diskName,
             ++row;            
             if (diskName_ == diskName && side() == labelData.side)
                 currentDiskRow = row;
-            
         }
     }
     return currentDiskRow;
@@ -357,7 +359,4 @@ void EmulatedOpticalDisk::saveLastDisk() {
     settings.writeEntry("/lastDisk", diskName_);
     settings.writeEntry("/isTwoSided", isTwoSided_);
     settings.writeEntry("/lastSide", side());
-}
-
-EmulatedOpticalDisk::~EmulatedOpticalDisk() {
 }

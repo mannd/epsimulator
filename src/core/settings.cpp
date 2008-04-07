@@ -20,9 +20,6 @@
 
 #include "settings.h"
 
-#include <QObject>
-#include <QString>
-
 /**
  * Constructor that sets up QSettings.
  */

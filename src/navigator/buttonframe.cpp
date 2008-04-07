@@ -90,6 +90,8 @@ void AbstractButtonFrame::setupButton(QAbstractButton* button,
         QSpacerItem* spacer = new QSpacerItem( 20, 40, 
             QSizePolicy::Minimum, QSizePolicy::Expanding );
         buttonFrameLayout_->addItem( spacer, row, 0 );
+        // set row back to 0 in case we recreate the blue bar
+        row = 0;
     }
 }
 

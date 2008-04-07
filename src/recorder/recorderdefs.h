@@ -29,8 +29,13 @@ namespace EpRecorder {
     enum DisplayWindowType {RealTime, Review1, Review2, Log, Ablation, Alignment,
                         Map, Holter, Plot, Macro, Image1, Image2, ImageLibrary, 
                         Other, LastDisplayWindow = Other};
+    /// Determines if the recorder is in the primary or secondary screen.
+    enum RecorderWindow {Primary, Secondary};
+    /// Determines if Recorder window is used as 
+    /// Monitor or Review window only.
+    enum RecorderType {Mixed, MonitorOnly, ReviewOnly};
 
-    // settings keys for the various display windows
+    /// Keys for the various display windows.
     const QString realTimeWindowKey = "realTimeWindow";
     const QString review1WindowKey = "review1Window";
     const QString review2WindowKey = "review2Window";

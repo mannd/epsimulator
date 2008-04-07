@@ -54,13 +54,12 @@ QDataStream& operator>>(QDataStream& in, StudyData& studyData) {
 
 const QString Catalog::defaultFileName_ = "catalog.dat";
 
-Catalog::Catalog(const QString& path, 
-                 const QString& fileName) : path_(path), fileName_(fileName) {
+Catalog::Catalog(const QString& path, const QString& fileName) :
+                 path_(path), fileName_(fileName) {
         load();
 }
 
-Catalog::~Catalog() {
-}
+Catalog::~Catalog() {}
 
 void Catalog::addStudy(const Study* study, const QString& location,
                        const QString& side, const QString& labName,
@@ -79,7 +78,6 @@ void Catalog::deleteStudy(const Study* study) {
 }
 
 void Catalog::refresh() {
-    /// NOTE below added for testing
     catalog_.clear();
     load();
 }
@@ -129,7 +127,7 @@ void Catalog::load() {
 }
 
 void Catalog::save() {
- EpCore::saveData(filePath(), MagicNumber, catalog_);
+    EpCore::saveData(filePath(), MagicNumber, catalog_);
 }
 
 QString Catalog::filePath() const {
@@ -141,7 +139,6 @@ QString Catalog::filePath() const {
 OpticalCatalog::OpticalCatalog(const QString& path, 
                  const QString& fileName) : Catalog(path, fileName) {
 }
-
 
 void OpticalCatalog::addStudy(const Study* study, const QString& location,
                       const QString& side, const QString& labName,

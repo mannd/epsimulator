@@ -18,19 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/** 
- *  @file header file for the Navigator classs,
- *  which is the main window for the program.
- */
-
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
+
+#include "catalog.h"
 
 #include <QMainWindow>
 
 class AbstractButtonFrame;
-class Catalog;
-class Catalogs;
 class CatalogComboBox;
 class FilterCatalogDialog;
 class MoveCopyStudyDialog;
@@ -54,9 +49,6 @@ class Navigator : public QMainWindow {
 
 public:
     Navigator(QWidget* parent = 0);
-
-    void updateAll();   // called by Recorder
-
     ~Navigator();
 
 public slots:
@@ -77,7 +69,7 @@ private slots:
     void deleteStudy();
     void filterStudies();
     void unfilterStudies();
-    void refreshCatalogs();        
+    void refreshCatalogs();
     void changeCatalog();
     void ejectDisk();
     void relabelDisk();
@@ -89,10 +81,8 @@ private slots:
     void setColumnFormats();
     void setProtocols();
     void setStudyConfigurations();
-    
     void systemSettings();
     void simulatorSettings();    
-
     void help();
     void about();
 
@@ -103,12 +93,6 @@ private slots:
     void setCatalogOptical();
     void setCatalogOther();
 
-    // This is a slot, but so far I am just using it as a regular function,
-    // as it only affects the simulator settings dialog so far.  
-    // This may change in the future.
-    /// updates menus (hides/disables, etc.) as needed.
-    void updateMenus();
-
 private:
     // Functions to set up the Navigator main window.
     void createOpticalDrive();
@@ -116,15 +100,15 @@ private:
     void createButtonFrame();
     void createTableListView();
     void createStatusBar();
-    void setupAction(QAction* action, QString statusTip,
-                     const char* slotName, const char* iconName = 0);
     void createActions();
     void createMenus();
     void createToolBars();
     void writeSettings();
     void readSettings();
+    void updateMenus();
     void updateStatusBarUserLabel();
     void updateWindowTitle();
+    void updateAll();
 
     // Optical disk related
     void labelDisk(bool reLabel, OpticalDisk* disk);
@@ -132,8 +116,11 @@ private:
     // Filtering
     void processFilter();
 
+    // Catalog related
+    void setCatalog(Catalog::Source);
+
     // Study related
-    void startStudy(Study*);
+    void startStudy(Study*, bool review = false);
     void reviewStudy(Study*);
     void reports(Study*);
     bool getStudyInformation(Study*);

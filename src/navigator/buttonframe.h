@@ -26,6 +26,7 @@
 class QGridLayout;
 class QLabel;
 class QAbstractButton;
+class QPixmap;
 class QString;
 
 /**
@@ -35,31 +36,40 @@ class QString;
  * buttons is different in the derived classes.
  */
 class AbstractButtonFrame : public QFrame {
+//    Q_OBJECT
+
 public:
     virtual void addButton(const QString& name, const QString& pixmapName, 
-                   const char* slotName, bool lastButton = false) = 0; 
+                           const char* slotName, bool lastButton = false) = 0;
+ 
 protected:
     AbstractButtonFrame(QWidget* parent = 0);
-    ~AbstractButtonFrame() {}
+    virtual ~AbstractButtonFrame() {}
 
     void setupButton(QAbstractButton* button, const QPixmap& pixmap,
                      QLabel* label, const char* slotName, 
                      bool lastButton);
+
 private:
-    QGridLayout* buttonFrameLayout_;
     static const int buttonHeight = 60;
     static const int buttonWidth = 70;   // size of square buttons in blue panel
+
+    QGridLayout* buttonFrameLayout_;
+
 };
 
 /**
  * The "Old Style" uses raised buttons.
  */
 class OldStyleButtonFrame : public AbstractButtonFrame {
+
 public:
     OldStyleButtonFrame(QWidget* parent = 0);
     ~OldStyleButtonFrame() {}
+
     virtual void addButton(const QString& name, const QString& pixmapName, 
                    const char* slotName, bool lastButton = false);
+
 }; 
 
 /**
@@ -69,8 +79,10 @@ class NewStyleButtonFrame : public AbstractButtonFrame {
 public:
     NewStyleButtonFrame(QWidget* parent = 0);
     ~NewStyleButtonFrame() {}
+
     virtual void addButton(const QString& name, const QString& pixmapName, 
                    const char* slotName, bool lastButton = false);
+
 };
 
 #endif

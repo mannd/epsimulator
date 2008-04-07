@@ -22,29 +22,32 @@
 #define CATALOGCOMBOBOX_H
 
 #include "catalog.h"
-#include "options.h"
 
 #include <QComboBox>
 
 #include <map>
 
+class Options;
+
 /**
  * Encapsulates specific behavior of the catalog combo box in Navigator.
  *
- *	@author David Mann <mannd@epstudiossoftware.com>
+ * @author David Mann <mannd@epstudiossoftware.com>
  */
 class CatalogComboBox : public QComboBox {
     Q_OBJECT
+
 public:
     CatalogComboBox(QWidget *parent = 0);
-    
-    void setSource(Catalog::Source source); 
+    ~CatalogComboBox();
+
     void refresh();
 
-    // return catalog ComboBox is pointing too
+    void setSource(Catalog::Source source); 
+
+    // return type of  catalog ComboBox is pointing too
     Catalog::Source source(); 
 
-    ~CatalogComboBox();
 
 private slots:
     void resetOther();

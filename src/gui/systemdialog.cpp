@@ -17,17 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "systemdialog.h"
 
 #include "actions.h"
 #include "options.h"
-
-#include <QCheckBox>
-#include <QCoreApplication>
-#include <QDialog>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
 
 /// TODO below is Linux/Unix specific, needs generalization.
 #include <sys/vfs.h>
@@ -39,7 +33,8 @@
 SystemDialog::SystemDialog(Options* options, const QString& path,
                            const QString& label, 
                            const QString& side,
-                           QWidget *parent)
+                           QWidget *parent,
+                           bool allowAcquisitionChange)
                            : QDialog(parent),
                            options_(options), path_(path) {
     setupUi(this);
@@ -50,6 +45,8 @@ SystemDialog::SystemDialog(Options* options, const QString& path,
     networkStudyPathLineEdit->setText(options_->networkStudyPath());
     exportFilePathLineEdit->setText(options_->exportFilePath());
     enableAcquisitionCheckBox->setChecked(options_->enableAcquisition());
+    // don't allow change of acquistion mode from Recorder window
+    enableAcquisitionCheckBox->setEnabled(allowAcquisitionChange);
     setEnableFileExport(options_->enableFileExport());
     setEnableNetworkStorage(options_->enableNetworkStorage());
     studyPathLabel->setText(studyPathLabel->text().arg(path));
@@ -155,5 +152,4 @@ long SystemDialog::timeRemaining(long kBytes) const {
     const double secPerKbyte = 0.1;
     return static_cast<long>(secPerKbyte * kBytes / 60);
 }
-
 

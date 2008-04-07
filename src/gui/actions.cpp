@@ -28,11 +28,9 @@
 
 #include <QAction>
 #include <QFileDialog>
-#include <QLineEdit>
 #include <QMessageBox>
 #include <QObject>
 #include <QStringList>
-#include <QWidget>
 
 /**
  * @namespace EpGui program functions that require QtGui
@@ -42,13 +40,11 @@ namespace EpGui {
 bool login(QWidget* parent, User* user) {
     bool success = false;
     if (!user->isAdministrator()) {
-        PasswordDialog* pwDialog = 
-            new PasswordDialog(parent);
-        if (pwDialog->exec() == QDialog::Accepted) {
+        PasswordDialog pwDialog(parent);
+        if (pwDialog.exec() == QDialog::Accepted) {
             user->makeAdministrator(true);
             success = true;
         }
-        delete pwDialog;
     }
     return success;
 }
@@ -57,12 +53,10 @@ void logout(User* user) {
     user->makeAdministrator(false);
 }
 
-void changePassword(QWidget* parent, Options* options) {
-    ChangePasswordDialog* cpDialog = 
-        new ChangePasswordDialog(options, parent);
-    if (cpDialog->exec() == QDialog::Accepted) 
-        cpDialog->changePassword();
-    delete cpDialog;   
+void changePassword(QWidget* parent) {
+    ChangePasswordDialog cpDialog(parent);
+    if (cpDialog.exec() == QDialog::Accepted) 
+        cpDialog.changePassword();
 }
 
 bool showSimulatorSettings(Options* options, User* user) {
@@ -114,18 +108,16 @@ void browseFilePaths(QWidget* parent, QLineEdit* lineEdit,
     QString initialPath = defaultPath;
     if (!lineEdit->text().isEmpty())
         initialPath = lineEdit->text();
-    QFileDialog *fd = new QFileDialog(parent, 
-                                      QObject::tr("Select Directory"),
-                                      initialPath);
-    fd->setFileMode(QFileDialog::DirectoryOnly);
-    if (fd->exec() == QDialog::Accepted) {
-        QStringList files = fd->selectedFiles();
+    QFileDialog fd(parent, QObject::tr("Select Directory"),
+                   initialPath);
+    fd.setFileMode(QFileDialog::DirectoryOnly);
+    if (fd.exec() == QDialog::Accepted) {
+        QStringList files = fd.selectedFiles();
         QString fileName = QString();
         if (!files.isEmpty())
             fileName = files[0];
         lineEdit->setText(fileName);
     }
-    delete fd;
 }
 
 /**

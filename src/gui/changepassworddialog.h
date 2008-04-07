@@ -17,30 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef CHANGEPASSWORDDIALOG_H
 #define CHANGEPASSWORDDIALOG_H
 
 #include "ui_changepassworddialog.h"
 
-class Options;
+#include <QDialog>
+
 class PasswordHandler;
+class QWidget;
 
 class ChangePasswordDialog: public QDialog, private Ui::ChangePasswordDialog {
     Q_OBJECT
+
 public:
-    ChangePasswordDialog(Options* options, QWidget *parent = 0);
+    ChangePasswordDialog(QWidget *parent = 0);
+    ~ChangePasswordDialog();
 
     void changePassword() const;
     void clear();
 
-    ~ChangePasswordDialog();
-
 public slots:
-    virtual void accept();
+    void accept();
 
 private:
     bool testPasswordsEqual() const;
     PasswordHandler* pwHandler_;
+
 };
 
 #endif

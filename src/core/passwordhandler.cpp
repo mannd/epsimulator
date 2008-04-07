@@ -17,12 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "passwordhandler.h"
 
 #include "options.h"
 
 #include <QObject>
-#include <QString>
 
 PasswordHandler::PasswordHandler() :
     options_(Options::instance()), hash_(QCryptographicHash::Sha1){
@@ -31,8 +31,7 @@ PasswordHandler::PasswordHandler() :
         setPassword(QObject::tr("admin"));
 }
 
-PasswordHandler::~PasswordHandler() {
-}
+PasswordHandler::~PasswordHandler() {}
 
 void PasswordHandler::setPassword(const QString& pw) {    
     hash_.reset();

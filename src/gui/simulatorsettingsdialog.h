@@ -23,10 +23,10 @@
 
 #include "ui_simulatorsettingsdialog.h"
 
-#include <QCheckBox>
 #include <QDialog>
 
 class Options;
+class QWidget;
 
 class SimulatorSettingsDialog : public QDialog, 
                                 private Ui::SimulatorSettingsDialog {
@@ -39,9 +39,9 @@ public:
     void setOptions();
     void removeNavigatorTab();
 
-    
+
 public slots:
-    virtual void enableDriveEmulation();
+    void enableDriveEmulation();
 
 private:
     bool emulateOpticalDrive() const {

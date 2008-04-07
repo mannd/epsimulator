@@ -18,16 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/**
- *  \file systemdialog.h
- *  Sets file paths, etc.
- */
-
 #ifndef SYSTEMSETTINGS_H
 #define SYSTEMSETTINGS_H
 
 #include "ui_systemdialog.h"
 
+#include <QDialog>
 #include <QString>
 
 class Options;
@@ -40,7 +36,8 @@ public:
     SystemDialog(Options* options, const QString& path, 
                  const QString& label, 
                  const QString& side,
-                 QWidget *parent = 0);
+                 QWidget* parent = 0,
+                 bool allowAcquisitionChange = true);
     ~SystemDialog();
 
     void removeFilePathsTab();
@@ -62,6 +59,7 @@ private:
 
     Options* options_;
     QString path_;
+
 };
 
 #endif

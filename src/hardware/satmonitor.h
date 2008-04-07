@@ -21,28 +21,23 @@
 #ifndef SATMONITOR_H
 #define SATMONITOR_H
 
-#include <QWidget>
 #include "ui_satmonitor.h"
 
-class SatMonitor : public QWidget, private Ui::SatMonitor
-{
-  Q_OBJECT
+#include <QWidget>
+
+class SatMonitor : public QWidget, private Ui::SatMonitor {
+    Q_OBJECT
 
 public:
-  SatMonitor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::Tool );
-  ~SatMonitor();
-  /*$PUBLIC_FUNCTIONS$*/
+    SatMonitor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::Tool );
+    ~SatMonitor();
 
 public slots:
-  /*$PUBLIC_SLOTS$*/
 
 protected:
-  /*$PROTECTED_FUNCTIONS$*/
 
 protected slots:
-  /*$PROTECTED_SLOTS$*/
 
 };
 
 #endif
-

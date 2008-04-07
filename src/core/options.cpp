@@ -18,12 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #include "options.h"
 #include "settings.h"
 
+
 #include <QCoreApplication>
-#include <qdir.h>
+#include <QDir>
 
 Options* Options::instance_ = 0;
 

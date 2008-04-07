@@ -45,5 +45,4 @@ RESOURCES += ../resources/resources.qrc
 
 
 
-QT += qt3support
 

@@ -20,8 +20,7 @@
 
 #include "filtercatalogdialog.h"
 
-FilterCatalogDialog::FilterCatalogDialog(QWidget *parent)
-    : QDialog(parent) {
+FilterCatalogDialog::FilterCatalogDialog(QWidget* parent) : QDialog(parent) {
     setupUi(this);
     setDefaultDates();
     connect(clearFormButton, SIGNAL(clicked()), this, SLOT(clearForm()));
@@ -64,10 +63,10 @@ void FilterCatalogDialog::enableDateRange() {
 
 void FilterCatalogDialog::setDefaultDates() {
     todayLabel->setText(QDate::currentDate().toString());
-    thisWeekLabel->setText(tr("%1 to %2")
-			    .arg(QDate::currentDate()
-				 .addDays(-7).toString())
-			    .arg(QDate::currentDate().toString()));
+    thisWeekLabel->setText(tr("%1 to %2").arg(QDate::currentDate()
+                                         .addDays(-7).toString())
+                                         .arg(QDate::currentDate()
+                                         .toString()));
     // Set default begin and end dates to a "month" (30 days).
     beginDateEdit->setDate(QDate::currentDate().addDays(-30));
     endDateEdit->setDate(QDate::currentDate());
