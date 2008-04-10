@@ -31,7 +31,7 @@ StatusBar::StatusBar(const QString& catalogPath, QWidget *parent)
 
     userLabel_ = new QLabel(this);
     userLabel_->setAlignment(Qt::AlignHCenter);
- 
+
     sourceLabel_ = new QLabel(this);
     sourceLabel_->setAlignment(Qt::AlignHCenter);
     updateSourceLabel(catalogPath);

@@ -32,7 +32,7 @@ namespace EpCore {
  */
 class IoError : public std::runtime_error {
 public:
-    explicit IoError(const QString& fileName = "", 
+    IoError(const QString& fileName = "", 
                      const char* msg = "general IOError")
                      : std::runtime_error(msg), fileName_(fileName) {}
     virtual ~IoError() throw() {}

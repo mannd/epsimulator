@@ -31,6 +31,7 @@ class FilterCatalogDialog : public QDialog, private Ui::FilterCatalogDialog {
 
 public:
     enum DateRange {AnyDate, Today, LastWeek, SpecificDates};
+
     FilterCatalogDialog(QWidget *parent = 0);
     ~FilterCatalogDialog() {}
 
@@ -59,7 +60,8 @@ public slots:
 
 private:
     void setDefaultDates();
-    QString makeFilter(QString text) const {return text.isEmpty() ? "*" : text;}
+    QString makeFilter(QString text) const {
+        return text.isEmpty() ? "*" : text;}
 
 };
 

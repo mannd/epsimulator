@@ -21,12 +21,12 @@
 #include "reviewwindow.h"
 
 #include "actions.h"
-#include "settings.h"
 
 #include <QAction>
 #include <QCloseEvent>
 #include <QComboBox>
 #include <QIcon>
+#include <QSettings>
 #include <QSplitter>
 #include <QToolBar>
 
@@ -69,14 +69,14 @@ void ReviewWindow::otherWindowActive(bool enable) {
     makeWindowActiveAction_->setChecked(!enable);
 }
 
-void ReviewWindow::writeSettings(Settings& settings) {
+void ReviewWindow::writeSettings(QSettings& settings) {
     settings.setValue("state", saveState());
     //settings.setValue("splitter", 
     //    static_cast<QSplitter*>(centralWidget())->saveState());
     settings.setValue("windowActive", windowActive_);   
 }
 
-void ReviewWindow::readSettings(Settings& settings) {
+void ReviewWindow::readSettings(QSettings& settings) {
     restoreState(settings.value("state").toByteArray());
     //static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
     //    "splitter").toByteArray());

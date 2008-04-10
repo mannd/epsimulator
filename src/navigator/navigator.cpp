@@ -39,7 +39,6 @@
 #include "patientdialog.h"
 #include "recorder.h"
 #include "selectstudyconfigdialog.h"
-#include "settings.h"
 #include "simulatorsettingsdialog.h"
 #include "statusbar.h"
 #include "study.h"
@@ -58,6 +57,7 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QRegExp>
+#include <QSettings>
 #include <QSplitter>
 #include <QToolBar>
 #include <QVariant>
@@ -823,9 +823,9 @@ void Navigator::createActions() {
         tr("Protocols"), SLOT(setProtocols()));
     studyConfigurationsAction_= createAction(this, tr("Study Configurations"),
         tr("Study configurations"), SLOT(setStudyConfigurations()));
-    systemSettingsAction_= createAction(this, tr("System Settings"),
+    systemSettingsAction_= createAction(this, tr("System QSettings"),
         tr("Change system settings"), SLOT(systemSettings()));
-    simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
+    simulatorSettingsAction_ = createAction(this, tr("*Simulator QSettings*"),
         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Help menu
@@ -919,7 +919,7 @@ void Navigator::createMenus() {
 }
 
 void Navigator::writeSettings() {
-    Settings settings;
+    QSettings settings;
     settings.beginGroup("navigator");
     settings.setValue("size", size());
     settings.setValue("pos", pos());
@@ -935,7 +935,7 @@ void Navigator::writeSettings() {
  * on.
  */
 void Navigator::readSettings() {
-    Settings settings;
+    QSettings settings;
     settings.beginGroup("navigator");
     QVariant size = settings.value("size");
     if (size.isNull())  // initial run of program, window is maximized by default

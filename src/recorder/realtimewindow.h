@@ -27,7 +27,7 @@
 
 class QAction;
 class QComboBox;
-class Settings;
+class QSettings;
 
 /**
 The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
@@ -39,8 +39,8 @@ class RealTimeWindow : public SignalDisplayWindow  {
 public:
     RealTimeWindow(int number = 0, QWidget* parent = 0);
     
-    virtual void writeSettings(Settings&);
-    virtual void readSettings(Settings&);
+    virtual void writeSettings(QSettings&);
+    virtual void readSettings(QSettings&);
     virtual QString key() {return EpRecorder::realTimeWindowKey;}
 
     ~RealTimeWindow();

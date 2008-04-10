@@ -29,7 +29,6 @@
 #include "realtimewindow.h"
 #include "recorderdefs.h"
 #include "reviewwindow.h"
-#include "settings.h"
 #include "satmonitor.h"
 #include "simulatorsettingsdialog.h"
 #include "stimulator.h"
@@ -51,6 +50,7 @@
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QCloseEvent>
+#include <QSettings>
 #include <QSplitter>
 #include <QStatusBar>
 #include <QToolBar>
@@ -106,7 +106,8 @@ Recorder::Recorder(QWidget* parent,
         this, SLOT(patientInformation()));
     connect(centralWidget_, SIGNAL(subWindowActivated(QMdiSubWindow*)),
         this, SLOT(updateMenus()));
-
+    connect(this, SIGNAL(patientInformationClosed()),
+        patientStatusBar_, SLOT(patientInformationClosed()));
 
     updateAll();
 }
@@ -162,6 +163,13 @@ void Recorder::updateAll() {
 }
 
 Recorder::~Recorder() {
+    /// FIXME
+    /// The primary Recorder window owns the pointers below
+    /// and so only it can delete them.  In addition
+    /// The primary Recorder window created the patient_
+    /// pointer, it could pass null pointers to the secondary
+    /// Recorder to solve this, and not create a new patient_.
+    /// NEED to FIX this!!!!!!!!!!!!!!
     delete patient_;
     // Recorder took possession of study_, so has to kill it now.
     delete study_;
@@ -178,6 +186,7 @@ void Recorder::patientInformation() {
 
     }
     delete patientDialog;
+    emit patientInformationClosed();
 }
 
 void Recorder::systemSettings() {
@@ -293,12 +302,12 @@ bool Recorder::subWindowIsOpen(QMdiSubWindow* subWindow) {
 }
 
 void Recorder::writeSettings() {
-    Settings settings;
+    QSettings settings;
     writeSettings(settings);
 }
 
-void Recorder::writeSettings(Settings& settings) {
-    //Settings settings;
+void Recorder::writeSettings(QSettings& settings) {
+    //QSettings settings;
     // save overall Recorder size, position and state
     QDesktopWidget* desktop = qApp->desktop();
     settings.beginGroup(QString("screen%1").arg(desktop->screenNumber(this)));
@@ -342,7 +351,7 @@ void Recorder::updateOpenDisplayWindowList() {
 }
 
 void Recorder::restoreDisplayWindow(const QString& key, 
-    Settings& settings, const QString& currentWindowKey,
+    QSettings& settings, const QString& currentWindowKey,
     QMdiSubWindow* sw, DisplayWindow* dw, 
     QMdiSubWindow*& currentSubWindow) {
     //(this->*openFunction)(true);
@@ -356,14 +365,14 @@ void Recorder::restoreDisplayWindow(const QString& key,
 }  
 
 void Recorder::readSettings() {
-    Settings settings;
+    QSettings settings;
     readSettings(settings);
 }
 
-void Recorder::readSettings(Settings& settings) {
+void Recorder::readSettings(QSettings& settings) {
     
 //    review1Window_->readSettings();
-    //Settings settings;
+    //QSettings settings;
     QDesktopWidget* desktop = qApp->desktop();
     settings.beginGroup(QString("screen%1").arg(desktop->screenNumber(this)));
     settings.beginGroup("recorder");
@@ -658,7 +667,7 @@ void Recorder::createActions() {
         tr("Logout from administrator"), SLOT(logout()));
     changePasswordAction_= createAction(this, tr("Change Password..."),
         tr("Change administrator password"), SLOT(changePassword()));
-    systemSettingsAction_ = createAction(this, tr("System Settings"),
+    systemSettingsAction_ = createAction(this, tr("System QSettings"),
         tr("Configure system settings"), SLOT(systemSettings()));
     printSetupAction_ = createAction(this, tr("Print Setup"),
         tr("Setup printer"));
@@ -670,7 +679,7 @@ void Recorder::createActions() {
         tr("Test amplifier"));
     ejectOpticalDiskAction_ = createAction(this, tr("Eject Optical Disk"),
         tr("Eject optical disk"));
-    simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
+    simulatorSettingsAction_ = createAction(this, tr("*Simulator QSettings*"),
         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Hardware menu -- NB No equivalent in Prucka system

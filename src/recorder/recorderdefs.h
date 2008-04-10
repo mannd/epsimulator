@@ -41,6 +41,7 @@ namespace EpRecorder {
     const QString review2WindowKey = "review2Window";
     const QString logWindowKey = "logWindow";
     /// TODO add other windows
+
 }
 
 #endif

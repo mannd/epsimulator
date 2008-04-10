@@ -28,7 +28,7 @@
 #include <QScrollArea>
 #include <QString>
 
-class Settings;
+class QSettings;
 
 class DisplayWindow : public QMainWindow {
     Q_OBJECT
@@ -37,8 +37,8 @@ public:
         QWidget* parent = 0, Qt::WindowFlags fl = 0) 
         : QMainWindow(parent, fl), name_(name), number_(number) {}
 
-    virtual void writeSettings(Settings&) = 0;
-    virtual void readSettings(Settings&) = 0;
+    virtual void writeSettings(QSettings&) = 0;
+    virtual void readSettings(QSettings&) = 0;
     virtual QString key() = 0;     // this is the key used to read/write settings
 
     //void setName(QString name) {name_ = name;}

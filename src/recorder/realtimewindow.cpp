@@ -21,13 +21,13 @@
 #include "realtimewindow.h"
 
 #include "actions.h"
-#include "settings.h"
 
 #include <QAction>
 #include <QComboBox>
 #include <QIcon>
 #include <QPalette>
 #include <QPushButton>
+#include <QSettings>
 #include <QSplitter>
 #include <QToolBar>
 
@@ -175,13 +175,13 @@ void RealTimeWindow::createActions() {
 }
 
 /// TODO can move these to superclass, pass prefix (e.g. "/realTimeWindow")
-void RealTimeWindow::writeSettings(Settings& settings) {
+void RealTimeWindow::writeSettings(QSettings& settings) {
     settings.setValue("state", saveState());
     //settings.setValue("splitter", 
     //    static_cast<QSplitter*>(centralWidget())->saveState()); 
 }
 
-void RealTimeWindow::readSettings(Settings& settings) {
+void RealTimeWindow::readSettings(QSettings& settings) {
     restoreState(settings.value("state").toByteArray());
     //static_cast<QSplitter*>(centralWidget())->restoreState(settings.value(
     //    "splitter").toByteArray());

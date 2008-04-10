@@ -22,19 +22,19 @@
 
 #include "ui_selectstudyconfigdialog.h"
 
+#include <QDialog>
 
-#include <q3listbox.h>
-#include <qstring.h>
+class QString;
 
 class SelectStudyConfigDialog: public QDialog, 
     private Ui::SelectStudyConfigDialog {
     Q_OBJECT
+
 public:
     SelectStudyConfigDialog(QWidget *parent = 0);
+    ~SelectStudyConfigDialog();
 
     QString config() const {return configListWidget->currentItem()->text();}
-
-    ~SelectStudyConfigDialog();
 
 private slots:
     void enableOkButton();

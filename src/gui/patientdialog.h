@@ -50,6 +50,7 @@ public slots:
     void on_dobDateEdit_dateChanged(const QDate&);
     void on_studyDateTimeEdit_dateChanged(const QDate&);
     void accept();
+    void reject();
 
 private:
     void setBsaText();

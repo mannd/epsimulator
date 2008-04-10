@@ -1,8 +1,6 @@
 TEMPLATE = app
 
-CONFIG -= release
 
-CONFIG += debug
 
 TARGET = ../../bin/epsimulator
 
@@ -35,4 +33,8 @@ RESOURCES += ../resources/resources.qrc
 
 
 QT += qt3support
+
+CONFIG -= release
+
+CONFIG += debug
 

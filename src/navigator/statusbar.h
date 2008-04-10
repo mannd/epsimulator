@@ -26,26 +26,26 @@ class QLabel;
 class QString;
 
 /**
-Provides status bar functionality for the Navigator window.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
+ * Provides status bar functionality for the Navigator window.
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
 class StatusBar : public QStatusBar  {
     Q_OBJECT
+
 public:
     StatusBar(const QString& catalogPath, QWidget *parent = 0);
-    
+    ~StatusBar();
+
     void updateSourceLabel(const QString&);
     void updateFilterLabel(bool filtered);
     void updateUserLabel(const QString&);
-
-    ~StatusBar();
 
 private:
     QLabel* messageLabel_;
     QLabel* userLabel_;
     QLabel* sourceLabel_;
     QLabel* filterLabel_;
+
 };
 
 #endif

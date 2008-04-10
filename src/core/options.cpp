@@ -19,11 +19,10 @@
  ***************************************************************************/
 
 #include "options.h"
-#include "settings.h"
-
 
 #include <QCoreApplication>
 #include <QDir>
+#include <QSettings>
 
 Options* Options::instance_ = 0;
 
@@ -43,7 +42,7 @@ Options::Options() : tempStudyPath_(""),
  * Reads options from QSetting (platform-dependent location).
  */
 void Options::readSettings() {
-    Settings settings;
+    QSettings settings;
     settings.beginGroup("options");
     enableAcquisition_ = settings.value("enableAcquisition",
                                         true).toBool();
@@ -100,7 +99,7 @@ void Options::readSettings() {
  * Writes options to QSetting (platform-dependent location).
  */
 void Options::writeSettings() {
-    Settings settings;
+    QSettings settings;
     settings.beginGroup("options");
     settings.setValue("enableAcquisition", enableAcquisition_);
     settings.setValue("enableFileExport", enableFileExport_);

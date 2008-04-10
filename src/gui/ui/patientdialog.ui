@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>735</width>
-    <height>313</height>
+    <height>383</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -26,53 +26,49 @@
        <string>Case</string>
       </attribute>
       <layout class="QGridLayout" >
-       <item row="0" column="0" colspan="8" >
-        <layout class="QHBoxLayout" >
-         <item>
-          <widget class="QLabel" name="textLabel1" >
-           <property name="text" >
-            <string>&amp;Last Name</string>
-           </property>
-           <property name="buddy" >
-            <cstring>lastNameLineEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lastNameLineEdit" />
-         </item>
-         <item>
-          <widget class="QLabel" name="textLabel2" >
-           <property name="text" >
-            <string>&amp;First Name</string>
-           </property>
-           <property name="buddy" >
-            <cstring>firstNameLineEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="firstNameLineEdit" />
-         </item>
-         <item>
-          <widget class="QLabel" name="textLabel3" >
-           <property name="text" >
-            <string>&amp;Middle Name</string>
-           </property>
-           <property name="alignment" >
-            <set>Qt::AlignVCenter</set>
-           </property>
-           <property name="buddy" >
-            <cstring>middleNameLineEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="middleNameLineEdit" />
-         </item>
-        </layout>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="textLabel1" >
+         <property name="text" >
+          <string>&amp;Last Name</string>
+         </property>
+         <property name="buddy" >
+          <cstring>lastNameLineEdit</cstring>
+         </property>
+        </widget>
        </item>
-       <item row="1" column="0" >
+       <item row="0" column="1" colspan="3" >
+        <widget class="QLineEdit" name="lastNameLineEdit" />
+       </item>
+       <item row="0" column="4" >
+        <widget class="QLabel" name="textLabel2" >
+         <property name="text" >
+          <string>&amp;First Name</string>
+         </property>
+         <property name="buddy" >
+          <cstring>firstNameLineEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5" colspan="3" >
+        <widget class="QLineEdit" name="firstNameLineEdit" />
+       </item>
+       <item row="0" column="8" colspan="2" >
+        <widget class="QLabel" name="textLabel3" >
+         <property name="text" >
+          <string>&amp;Middle Name</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignVCenter</set>
+         </property>
+         <property name="buddy" >
+          <cstring>middleNameLineEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="10" colspan="2" >
+        <widget class="QLineEdit" name="middleNameLineEdit" />
+       </item>
+       <item row="1" column="0" colspan="2" >
         <widget class="QLabel" name="textLabel2_2" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
@@ -94,7 +90,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2" >
+       <item row="1" column="2" colspan="4" >
         <widget class="QLineEdit" name="mrnLineEdit" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -110,7 +106,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="3" >
+       <item row="1" column="6" >
         <widget class="QLabel" name="textLabel6" >
          <property name="minimumSize" >
           <size>
@@ -126,7 +122,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="4" >
+       <item row="1" column="7" colspan="2" >
         <widget class="QLineEdit" name="heightInLineEdit" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -142,7 +138,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="5" >
+       <item row="1" column="9" >
         <widget class="QLabel" name="textLabel1_3" >
          <property name="minimumSize" >
           <size>
@@ -155,7 +151,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="6" >
+       <item row="1" column="10" >
         <widget class="QLineEdit" name="heightCmLineEdit" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -171,7 +167,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="7" >
+       <item row="1" column="11" >
         <widget class="QLabel" name="textLabel3_2" >
          <property name="minimumSize" >
           <size>
@@ -184,7 +180,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
+       <item row="2" column="0" colspan="2" >
         <widget class="QLabel" name="textLabel1_5" >
          <property name="minimumSize" >
           <size>
@@ -200,7 +196,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2" >
+       <item row="2" column="2" colspan="4" >
         <widget class="QDateTimeEdit" name="studyDateTimeEdit" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -214,9 +210,12 @@
            <height>0</height>
           </size>
          </property>
+         <property name="displayFormat" >
+          <string>M/d/yyyy h:mm AP</string>
+         </property>
         </widget>
        </item>
-       <item row="2" column="3" >
+       <item row="2" column="6" >
         <widget class="QLabel" name="textLabel11" >
          <property name="minimumSize" >
           <size>
@@ -232,7 +231,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="4" >
+       <item row="2" column="7" colspan="2" >
         <widget class="QLineEdit" name="weightLbsLineEdit" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -248,7 +247,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="5" >
+       <item row="2" column="9" >
         <widget class="QLabel" name="textLabel2_3" >
          <property name="minimumSize" >
           <size>
@@ -261,7 +260,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="6" >
+       <item row="2" column="10" >
         <widget class="QLineEdit" name="weightKgLineEdit" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -277,7 +276,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="7" >
+       <item row="2" column="11" >
         <widget class="QLabel" name="textLabel4_2" >
          <property name="minimumSize" >
           <size>
@@ -290,7 +289,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0" >
+       <item row="3" column="0" colspan="2" >
         <widget class="QLabel" name="textLabel2_4" >
          <property name="minimumSize" >
           <size>
@@ -306,7 +305,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1" colspan="2" >
+       <item row="3" column="2" colspan="4" >
         <widget class="QLineEdit" name="studyNumberLineEdit" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -322,7 +321,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="3" >
+       <item row="3" column="6" >
         <widget class="QLabel" name="textLabel12" >
          <property name="minimumSize" >
           <size>
@@ -338,7 +337,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="4" >
+       <item row="3" column="7" colspan="2" >
         <widget class="QLineEdit" name="bsaLineEdit" >
          <property name="enabled" >
           <bool>false</bool>
@@ -357,7 +356,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="5" >
+       <item row="3" column="9" >
         <widget class="QLabel" name="textLabel5_2" >
          <property name="minimumSize" >
           <size>
@@ -370,7 +369,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="6" >
+       <item row="3" column="10" >
         <widget class="QCheckBox" name="manualEditBsaCheckBox" >
          <property name="text" >
           <string>Manual &amp;Edit</string>
@@ -380,7 +379,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0" >
+       <item row="4" column="0" colspan="2" >
         <widget class="QLabel" name="label" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
@@ -402,7 +401,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1" colspan="2" >
+       <item row="4" column="2" colspan="4" >
         <widget class="QLineEdit" name="accountNumberLineEdit" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -418,7 +417,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="3" >
+       <item row="4" column="6" >
         <widget class="QLabel" name="textLabel1_4" >
          <property name="minimumSize" >
           <size>
@@ -434,7 +433,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="4" colspan="2" >
+       <item row="4" column="7" colspan="3" >
         <widget class="QComboBox" name="sexComboBox" >
          <item>
           <property name="text" >
@@ -448,7 +447,7 @@
          </item>
         </widget>
        </item>
-       <item row="5" column="0" >
+       <item row="5" column="0" colspan="2" >
         <widget class="QLabel" name="textLabel4" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
@@ -470,7 +469,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1" >
+       <item row="5" column="2" >
         <widget class="QDateEdit" name="dobDateEdit" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -484,10 +483,19 @@
            <height>0</height>
           </size>
          </property>
+         <property name="displayFormat" >
+          <string>M/d/yyyy</string>
+         </property>
         </widget>
        </item>
-       <item row="5" column="2" >
+       <item row="5" column="3" colspan="3" >
         <widget class="QLabel" name="dobLabel" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize" >
           <size>
            <width>100</width>
@@ -497,9 +505,12 @@
          <property name="text" >
           <string/>
          </property>
+         <property name="alignment" >
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
         </widget>
        </item>
-       <item row="6" column="0" >
+       <item row="6" column="0" colspan="2" >
         <widget class="QLabel" name="label_2" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
@@ -521,7 +532,7 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="1" >
+       <item row="6" column="2" >
         <widget class="QLineEdit" name="ageLineEdit" >
          <property name="enabled" >
           <bool>false</bool>
@@ -531,6 +542,9 @@
            <width>100</width>
            <height>0</height>
           </size>
+         </property>
+         <property name="autoFillBackground" >
+          <bool>false</bool>
          </property>
         </widget>
        </item>

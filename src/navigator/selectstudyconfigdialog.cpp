@@ -17,11 +17,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "selectstudyconfigdialog.h"
+
+#include <QListWidgetItem>
+#include <QPushButton>
 
 SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     : QDialog(parent) {
     setupUi(this);
+    enableOkButton();
+
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(configListWidget, SIGNAL(itemClicked(QListWidgetItem*)), 
         this, SLOT(enableOkButton()));
     connect(configListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
@@ -31,8 +39,9 @@ SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     /// file in System dir.
 }
 
-void SelectStudyConfigDialog::enableOkButton() {
-    okButton->setEnabled(configListWidget->currentItem());
-}
-
 SelectStudyConfigDialog::~SelectStudyConfigDialog() {}
+
+void SelectStudyConfigDialog::enableOkButton() {
+    buttonBox->button(QDialogButtonBox::Ok)->
+        setEnabled(configListWidget->currentItem());
+}

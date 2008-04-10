@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>System Settings</string>
+   <string>System QSettings</string>
   </property>
   <property name="sizeGripEnabled" >
    <bool>true</bool>

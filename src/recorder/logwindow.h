@@ -27,7 +27,7 @@
 
 class QAction;
 class QComboBox;
-class Settings;
+class QSettings;
 
 /**
 Horizontally situation window at the bottom of the Central Widget, for logging events.
@@ -39,8 +39,8 @@ class LogWindow : public DisplayWindow  {
 public:
     LogWindow(int number = 0, QWidget *parent = 0);
 
-    virtual void writeSettings(Settings&);
-    virtual void readSettings(Settings&);
+    virtual void writeSettings(QSettings&);
+    virtual void readSettings(QSettings&);
     virtual QString key() {return EpRecorder::logWindowKey;}
 
     ~LogWindow();

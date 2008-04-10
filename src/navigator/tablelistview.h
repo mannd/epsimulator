@@ -19,28 +19,31 @@
  ***************************************************************************/
 
 /** @file
-    Contains TableListView and TableListViewItem classes.
-*/
+ *  Contains TableListView and TableListViewItem classes.
+ */
 
 #ifndef TABLELISTVIEW_H
 #define TABLELISTVIEW_H
 
-#include <qdatetime.h>
-#include <q3listview.h>
-#include <qstring.h>
+#include <QDateTime>
+#include <Q3ListView>
+#include <QString>
 
 class Catalog;
 class Options;
 class Study;
+struct StudyData;
 
 class QRegExp;
 
-struct StudyData;
 /**
-	@author David Mann <mannd@epstudiossoftware.com>
-        TableListView lists studies from the catalogs in Navigator.
-*/
+ * @author David Mann <mannd@epstudiossoftware.com>
+ * TableListView lists studies from the catalogs in Navigator.
+ * Note that this class is a Qt3 derived class and
+ * requires -DQT3_SUPPORT and Qt3Support include files.
+ */
 class TableListView : public Q3ListView {
+
 public:
     enum ColumnName {FirstCol = 0, StudyTypeCol = FirstCol, LastNameCol,
                      FirstNameCol, FullNameCol, MRNCol, DateTimeCol, 
@@ -51,14 +54,7 @@ public:
     TableListView(QWidget* parent, bool oldStyle);
     ~TableListView();
 
-    void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
-    bool filtered() const {return filtered_;}
-
     void load(Catalog*);
-
-    Study* study() const; // returns currently selected study 
-                          // or 0 if none selected
-
     void applyFilter(FilterStudyType filterStudyType,
                     const QRegExp& lastName,
                     const QRegExp& firstName,
@@ -72,11 +68,16 @@ public:
     void removeFilter();
     void showTable();
     void adjustColumns(bool clearTable = false);
-
     void exportCSV(const QString& fileName);
+
+    void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
+    bool filtered() const {return filtered_;}
+    Study* study() const; // returns currently selected study 
+                          // or 0 if none selected
 
 private:
     class TableListViewItem;
+
     void addStudy(const Study& study, const QString& location);
 
     bool filtered_;
@@ -93,19 +94,19 @@ public:
                       const QDateTime& dateTime, bool isPreregisterStudy);
     ~TableListViewItem();
 
-    QString key() const {return key_;}
-    QDateTime dateTime() const {return dateTime_;}
-    bool isPreregisterStudy() const {return isPreregisterStudy_;}
-
     void setFilteredOut(bool filteredOut) {filteredOut_ = filteredOut;}
 
     bool filteredOut() const {return filteredOut_;}
+    QString key() const {return key_;}
+    QDateTime dateTime() const {return dateTime_;}
+    bool isPreregisterStudy() const {return isPreregisterStudy_;}
 
 private:
     QString key_;
     QDateTime dateTime_;
     bool isPreregisterStudy_;
     bool filteredOut_;
+
 }; // TableListViewItem
 
 #endif

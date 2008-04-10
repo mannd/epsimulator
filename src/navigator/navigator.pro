@@ -28,12 +28,11 @@ SOURCES += navigator.cpp \
  filtercatalogdialog.cpp \
  movecopystudydialog.cpp
 TEMPLATE = lib
-CONFIG += debug \
-warn_on \
+CONFIG += warn_on \
 thread \
 qt \
- dll
-CONFIG -= release
+ dll \
+ debug
 
 
 INCLUDEPATH += ../gui \
@@ -60,3 +59,5 @@ TARGETDEPS += ../../lib/libcore.so \
 ../../lib/libgui.so \
 ../../lib/libhardware.so \
  ../../lib/librecorder.so
+CONFIG -= release
+

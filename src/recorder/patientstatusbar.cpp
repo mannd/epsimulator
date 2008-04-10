@@ -72,8 +72,16 @@ PatientStatusBar::~PatientStatusBar() {}
 void PatientStatusBar::mousePressEvent(QMouseEvent* event) {
     QRect rect = patientInformationFrame->frameRect();
     if (event->button() == Qt::LeftButton 
-        && rect.contains(event->pos()))
+        && rect.contains(event->pos())) {
+        patientInformationFrame->
+            setFrameStyle(QFrame::Panel | QFrame::Sunken);
         emit showPatientInformation();
+    }
+}
+
+void PatientStatusBar::patientInformationClosed() {
+    patientInformationFrame->
+        setFrameStyle(QFrame::Panel | QFrame::Raised);
 }
 
 void PatientStatusBar::createPalettes() {}

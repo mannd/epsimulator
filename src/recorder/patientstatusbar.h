@@ -62,6 +62,7 @@ public slots:
     void manualSave();
     void changeSaveStatus(SaveStatus);
     void autoSave(bool);
+    void patientInformationClosed();
 
 protected:
     void mousePressEvent(QMouseEvent*);

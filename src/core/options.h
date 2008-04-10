@@ -26,7 +26,7 @@
 /**
  * Singleton class providing one-stop shopping for all program options.
  * These are set both in SystemDialog and SimulatorSettingsDialog.
- * Options are stored on disk as Settings, subclassed from QSettings.
+ * Options are stored on disk as QSettings.
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Options {

@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Simulator Settings</string>
+   <string>Simulator QSettings</string>
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" >
@@ -36,7 +36,7 @@
        <item row="1" column="0" >
         <widget class="QCheckBox" name="hideSimulatorMenuCheckBox" >
          <property name="text" >
-          <string>Hide Simulator Settings &amp;Menu Item From Users</string>
+          <string>Hide Simulator QSettings &amp;Menu Item From Users</string>
          </property>
          <property name="shortcut" >
           <string>Alt+M</string>

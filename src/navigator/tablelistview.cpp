@@ -25,23 +25,17 @@
 #include "options.h"
 #include "study.h"
 
-#include <qdatastream.h>
-#include <qfile.h>
-#include <q3header.h>
-#include <qregexp.h>
-//Added by qt3to4:
+#include <QFile>
+#include <Q3Header>
+#include <QRegExp>
 #include <QTextStream>
-
-#ifndef NDEBUG
-#include <iostream>
-#endif
 
 // uncomment below to show a key column in the table
 // #define DEBUGKEYS 1
 
 /**
  * Constructor for TableListViewItem subclass of Navigator
- * @param parent = TableListView. 
+ * @param parent = TableListView.
  * @param key = unique index key for each study.
  * @param dateTime = keeping track of study dateTime allows easier filtering.
  * @param isPreregisterStudy = ditto above.
@@ -49,12 +43,9 @@
 TableListView::TableListViewItem::TableListViewItem(TableListView* parent, 
     const QString& key, const QDateTime& dateTime, bool isPreregisterStudy)
     : Q3ListViewItem(parent), key_(key), dateTime_(dateTime), 
-      isPreregisterStudy_(isPreregisterStudy), filteredOut_(false) {
-}
+      isPreregisterStudy_(isPreregisterStudy), filteredOut_(false) {}
 
-TableListView::TableListViewItem::~TableListViewItem() {
-}
-
+TableListView::TableListViewItem::~TableListViewItem() {}
 
 /**
  * Constructor for TableListView.
@@ -71,8 +62,7 @@ TableListView::TableListView(QWidget* parent, bool oldStyle)
     setShowSortIndicator(true);
 }
 
-TableListView::~TableListView() {
-}
+TableListView::~TableListView() {}
 
 /**
  * Sets up the columns according to oldStyle.
@@ -150,25 +140,33 @@ void TableListView::load(Catalog* catalog) {
 }
 
 /**
- * Returns pointer to Study at selected TableListView row
+ * Returns a pointer to a copy of the Study at selected TableListView row.
+ * Note that TableListView owns its pointers, and so this returns a
+ * new pointer to a copy of the study from the underlying catalog.
+ * Catalogs keep their study members on the stack.  Sooo... the Study
+ * pointer returned by this function is owned by the calling function,
+ * which needs to delete it.
  * @return Study pointer, 0 if no row selected.
  */
 Study* TableListView::study() const {
-    if (TableListViewItem* item = dynamic_cast<TableListViewItem*>(selectedItem())) 
+    if (TableListViewItem* item = 
+        dynamic_cast<TableListViewItem*>(selectedItem())) 
         return new Study((*catalog_)[item->key()].study);
     else
         return 0;
 }
 
 void TableListView::addStudy(const Study& study, const QString& location) {
-        TableListViewItem* t = new TableListViewItem(this, study.key(), study.dateTime(),
-            study.isPreregisterStudy());
-        t->setText(StudyTypeCol, study.isPreregisterStudy() ? tr("Pre-Register") : tr("Study"));
+        TableListViewItem* t = new TableListViewItem(this, study.key(), 
+            study.dateTime(), study.isPreregisterStudy());
+        t->setText(StudyTypeCol, study.isPreregisterStudy() 
+            ? tr("Pre-Register") : tr("Study"));
         t->setText(LastNameCol, study.name().last);
         t->setText(FirstNameCol, study.name().first);
         t->setText(FullNameCol, study.name().fullName(true, true));
         t->setText(MRNCol, study.mrn());
-        t->setText(DateTimeCol, study.dateTime().toString("yyyy/MM/dd hh:mm:ss"));
+        t->setText(DateTimeCol, 
+            study.dateTime().toString("yyyy/MM/dd hh:mm:ss"));
         t->setText(ConfigCol, study.config());
         t->setText(NumberCol, study.number());
         t->setText(LocationCol, location); 
@@ -241,7 +239,6 @@ void TableListView::applyFilter( FilterStudyType filterStudyType,
     }
     filtered_ = true;
     showTable();
-
 }
 
 void TableListView::removeFilter() {

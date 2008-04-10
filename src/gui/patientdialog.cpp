@@ -45,6 +45,18 @@ void PatientDialog::accept() {
         QDialog::accept();
 }
 
+void PatientDialog::reject() {
+    // Actual Prucka shows idiotic Dialog box informing you that
+    // cancelling Patient Information Dialog will cause loss
+    // of your changes, but then only shows Ok button, so you
+    // have no choice but to lose the changes anyway.
+    // Most people understand what cancelling a dialog means,
+    // and there is no mandate that every idiotic design used
+    // in the Prucka system be slavishly followed.  If you
+    // ever want to implement this "feature" do so here.
+    QDialog::reject();
+}
+
 double PatientDialog::inchesToCentimeters(double inches) const {
     return inches * 2.54;
 }
@@ -103,9 +115,9 @@ void PatientDialog::on_weightKgLineEdit_textEdited() {
     setBsaText();
 }
 
-void PatientDialog::on_dobDateEdit_dateChanged(const QDate&) {
+void PatientDialog::on_dobDateEdit_dateChanged(const QDate& date) {
     calculateAge();
-    dobLabel->setText(dobDateEdit->date().toString("MMM d yyyy"));
+    dobLabel->setText(date.toString("MMM d yyyy"));
 }
 
 void PatientDialog::on_studyDateTimeEdit_dateChanged(const QDate&) {

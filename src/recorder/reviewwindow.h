@@ -26,7 +26,7 @@
 class QAction;
 class QCloseEvent;
 class QComboBox;
-class Settings;
+class QSettings;
 
 
 /**
@@ -39,8 +39,8 @@ class ReviewWindow : public SignalDisplayWindow  {
 public:
     ReviewWindow(int number = 1, QWidget *parent = 0);
 
-    virtual void writeSettings(Settings&);
-    virtual void readSettings(Settings&);
+    virtual void writeSettings(QSettings&);
+    virtual void readSettings(QSettings&);
     virtual QString key() {return QString("review%1Window").arg(number());}
 
     ~ReviewWindow();

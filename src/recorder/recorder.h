@@ -43,7 +43,7 @@ class RealTimeWindow;
 class ReviewWindow;
 class Review2Window;
 class SatMonitor;
-class Settings;
+class QSettings;
 class Study;
 class User;
 
@@ -72,6 +72,7 @@ signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
     void autoSave(bool);    // emitted if AutoSave toolbar button changed
     void updateSimulatorSettings(); // emitted after simulator settings updated
+    void patientInformationClosed();    // emitted when Patient Info Dialog closed
 
 private slots:
     void patientInformation();
@@ -104,7 +105,7 @@ private:
     void connectReviewWindows();
     
     void restoreDisplayWindow(const QString& key,
-        Settings& settings, const QString& currentWindowKey,
+        QSettings& settings, const QString& currentWindowKey,
         QMdiSubWindow*, DisplayWindow*, QMdiSubWindow*& currentSubWindow);
 
     void createActions();
@@ -115,9 +116,9 @@ private:
     void createPatientStatusBar();
     void updateWindowTitle();
     void readSettings();
-    void readSettings(Settings&);
+    void readSettings(QSettings&);
     void writeSettings();
-    void writeSettings(Settings&);
+    void writeSettings(QSettings&);
     bool administrationAllowed();
     bool closeStudy();
     

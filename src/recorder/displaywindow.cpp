@@ -26,6 +26,7 @@
 #include <QHBoxLayout>
 #include <QPalette>
 #include <QScrollArea>
+#include <QSettings>
 #include <QSizePolicy>
 #include <QSplitter>
 #include <QStackedWidget>

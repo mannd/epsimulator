@@ -23,13 +23,13 @@
 #include "fileutilities.h"
 #include "error.h"
 #include "selectemulateddiskdialog.h"
-#include "settings.h"
 
 #include <QDataStream>
 #include <QDateTime>
 #include <QDir>
 #include <QMessageBox>
 #include <QObject>
+#include <QSettings>
 #include <QStringList>
 
 #include <vector>
@@ -348,14 +348,14 @@ void EmulatedOpticalDisk::writeLabel() const {
 }
 
 void EmulatedOpticalDisk::lastDisk() {
-    Settings settings;
+    QSettings settings;
     diskName_ = settings.readEntry("/lastDisk", "");
     isTwoSided_ = settings.readBoolEntry("/isTwoSided", false);
     setSide(settings.readEntry("/lastSide", QString()));
 }
 
 void EmulatedOpticalDisk::saveLastDisk() {
-    Settings settings;
+    QSettings settings;
     settings.writeEntry("/lastDisk", diskName_);
     settings.writeEntry("/isTwoSided", isTwoSided_);
     settings.writeEntry("/lastSide", side());

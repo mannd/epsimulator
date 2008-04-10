@@ -21,10 +21,10 @@
 #include "logwindow.h"
 
 #include "actions.h"
-#include "settings.h"
 
 #include <QAction>
 #include <QComboBox>
+#include <QSettings>
 #include <QToolBar>
 
 //
@@ -52,11 +52,11 @@ LogWindow::LogWindow(int number, QWidget *parent)
 
 LogWindow::~LogWindow() {}
 
-void LogWindow::writeSettings(Settings& settings) {
+void LogWindow::writeSettings(QSettings& settings) {
     settings.setValue("state", saveState());
 }
 
-void LogWindow::readSettings(Settings& settings) {
+void LogWindow::readSettings(QSettings& settings) {
     restoreState(settings.value("state").toByteArray());
 }
 

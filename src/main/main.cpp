@@ -47,11 +47,14 @@
 #define ENGLISH
 
 #ifndef ENGLISH
-#include <qtranslator.h>
+#include <QTranslator>
 #endif
 
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
+    app.setOrganizationName("EPStudios");
+    app.setOrganizationDomain("epstudiossoftware.com");
+    app.setApplicationName("EPSimulator");
 
 // International stuff below
 #ifndef ENGLISH
@@ -66,12 +69,10 @@ int main(int argc, char **argv) {
 #endif
 
     VersionInfo* versionInfo = VersionInfo::instance();
-    //Options* options = Options::instance();
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
     Navigator* mainWin = new Navigator;
     mainWin->show();
     return app.exec();
     // delete the singletons -- only need to do here at end of program!
-    //options->destroy();
     versionInfo->destroy();
 }
