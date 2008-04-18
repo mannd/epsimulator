@@ -823,7 +823,7 @@ void Navigator::createActions() {
         tr("Protocols"), SLOT(setProtocols()));
     studyConfigurationsAction_= createAction(this, tr("Study Configurations"),
         tr("Study configurations"), SLOT(setStudyConfigurations()));
-    systemSettingsAction_= createAction(this, tr("System QSettings"),
+    systemSettingsAction_= createAction(this, tr("System Settings"),
         tr("Change system settings"), SLOT(systemSettings()));
     simulatorSettingsAction_ = createAction(this, tr("*Simulator QSettings*"),
         tr("Change simulator settings"), SLOT(simulatorSettings()));

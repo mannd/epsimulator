@@ -21,6 +21,7 @@
 #ifndef USER_H
 #define USER_H
 
+#include <QCoreApplication>
 #include <QString>
 
 /**
@@ -30,6 +31,7 @@
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class User {
+    Q_DECLARE_TR_FUNCTIONS(User)
 
 public:
     static User* instance();

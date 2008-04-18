@@ -91,6 +91,7 @@ void Options::readSettings() {
         settings.value("immovablePatientStatusBar", true).toBool();
     patientStatusBarHasTitle_ = 
         settings.value("patientStatusBarHasTitle", false).toBool();
+    numChannels_ = settings.value("numChannels", 48).toUInt();
     /// TODO other options here...
     settings.endGroup();
 }
@@ -121,6 +122,7 @@ void Options::writeSettings() {
     settings.setValue("autoSaveDiskIcon", autoSaveDiskIcon_);
     settings.setValue("immovablePatientStatusBar", immovablePatientStatusBar_);
     settings.setValue("patientStatusBarHasTitle", patientStatusBarHasTitle_);
+    settings.setValue("numChannels", numChannels_);
     /// TODO add other options here...
     settings.endGroup();
 }

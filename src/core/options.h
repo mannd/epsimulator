@@ -81,6 +81,9 @@ public:
     void setPatientStatusBarHasTitle(bool enable) {
         patientStatusBarHasTitle_ = enable;}
 
+    // Amplifier
+    void setNumChannels(unsigned int n) {numChannels_ = n;}
+
     QString opticalStudyPath() const {return opticalStudyPath_;}
     QString networkStudyPath() const {return networkStudyPath_;}
     QString exportFilePath() const {return exportFilePath_;}
@@ -109,6 +112,8 @@ public:
     bool autoSaveDiskIcon() const {return autoSaveDiskIcon_;}
     bool immovablePatientStatusBar() const {return immovablePatientStatusBar_;}
     bool patientStatusBarHasTitle() const {return patientStatusBarHasTitle_;}
+
+    unsigned int numChannels() const {return numChannels_;}
 
 protected:
     Options();
@@ -156,6 +161,9 @@ private:
     bool autoSaveDiskIcon_;
     bool immovablePatientStatusBar_;
     bool patientStatusBarHasTitle_;
+
+    // Amplifier
+    unsigned int numChannels_;
 
 };
 

@@ -21,6 +21,7 @@
 #ifndef VERSIONINFO_H
 #define VERSIONINFO_H
 
+#include <QCoreApplication>
 #include <QString>
 
 /**
@@ -29,6 +30,7 @@
  *	@author David Mann <mannd@epstudiossoftware.com>
  */
 class VersionInfo{
+    Q_DECLARE_TR_FUNCTIONS(VersionInfo)
 
 public:
     static VersionInfo* instance();

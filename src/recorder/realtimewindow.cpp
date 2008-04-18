@@ -21,6 +21,7 @@
 #include "realtimewindow.h"
 
 #include "actions.h"
+#include "studyconfigurationdialog.h"
 
 #include <QAction>
 #include <QComboBox>
@@ -39,7 +40,6 @@ RealTimeWindow::RealTimeWindow(int number, QWidget* parent)
     createCentralWidget();
     createActions();
     createToolBars();
-
 }
 
 void RealTimeWindow::increaseSweepSpeed() {
@@ -55,7 +55,13 @@ void RealTimeWindow::decreaseSweepSpeed() {
     int maxIndex = sweepSpeedComboBox_->count() -1;
     if (++index > maxIndex)  
         index = maxIndex;
-    sweepSpeedComboBox_-> setCurrentIndex(index);
+    sweepSpeedComboBox_->setCurrentIndex(index);
+}
+
+void RealTimeWindow::studyConfiguration() {
+    StudyConfigurationDialog dialog;
+    if (dialog.exec())
+        ;   // do something
 }
 
 void RealTimeWindow::createToolBars() {
@@ -131,7 +137,8 @@ void RealTimeWindow::createActions() {
         tr("Increase sweep speed"), SLOT(increaseSweepSpeed()),
         0, "hi32-plus.png");
     studyConfigAction_ = createAction(this, tr("Study Configuration"),
-        tr("Open study configuration"), 0, 0, "hi32-studyconfig.png");
+        tr("Open study configuration"), SLOT(studyConfiguration()),
+        0, "hi32-studyconfig.png");
     timeCalipersAction_ = createAction(this, tr("Time Calipers"),
         tr("Time calipers"), 0, 0, "hi32-timecalipers.png");
     timeCalipersAction_->setCheckable(true);

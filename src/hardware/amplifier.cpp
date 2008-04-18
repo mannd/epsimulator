@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,29 +18,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "passwordhandler.h"
+#include "amplifier.h"
 
-#include "options.h"
+#include <cassert>
 
-PasswordHandler::PasswordHandler() :
-    options_(Options::instance()), hash_(QCryptographicHash::Sha1){
-    // set original password to "admin"
-    if (options_->passwordHash() == "0")
-        setPassword(tr("admin"));
+Amplifier::Amplifier(int n) : numChannels_(n) {
+    assert(n == 48 || n == 64 || n == 96 || n == 128);
+    switch (numChannels_) {
+        case 64 : numCIMConnections_ = 3; break;
+        case 96 : numCIMConnections_ = 5; break;
+        case 128 : numCIMConnections_ = 7; break;
+        case 48 : 
+        default: numCIMConnections_ = 2;
+    }
 }
 
-PasswordHandler::~PasswordHandler() {}
-
-void PasswordHandler::setPassword(const QString& pw) {    
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    options_->setPasswordHash(hash_.result());
-    options_->writeSettings();
-}
-
-bool PasswordHandler::testPassword(const QString& pw) {
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    return hash_.result() == options_->passwordHash().toAscii();
-}
-
+Amplifier::~Amplifier() {}

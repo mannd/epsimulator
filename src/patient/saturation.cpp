@@ -21,7 +21,6 @@
 #include "saturation.h"
 
 #include <QDataStream>
-#include <QObject>
 
 Saturation::Saturation(int number) {
     setNumber(number);
@@ -82,12 +81,11 @@ Saturation Saturation::operator--(int) {
 }
 
 void Saturation::setNumber(int number) {
-    number_ = number > 100 ? 100 : number;
-    number_ = number_ < 0 ? 0 : number_;
+    number_ = qBound(0, number, 100);
 }
 
 QString Saturation::percent() const {
-    return QString::number(number_) + QObject::tr("%");
+    return QString::number(number_) + tr("%");
 }
 
 // friends

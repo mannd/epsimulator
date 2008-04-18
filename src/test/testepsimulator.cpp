@@ -20,6 +20,7 @@
 
 #include "testepsimulator.h"
 
+#include "amplifier.h"
 #include "catalog.h"
 #include "catalogcombobox.h"
 #include "fileutilities.h"
@@ -373,18 +374,18 @@ void TestEpSimulator::testPasswordHandler() {
 void TestEpSimulator::testUser() {
     User* u = User::instance();
     QVERIFY (!u->machineName().isEmpty());
-    QVERIFY (u->role() == QObject::tr("EPSIMUSER"));
+    QVERIFY (u->role() == tr("EPSIMUSER"));
     u->makeAdministrator(true);
-    QVERIFY(u->role() == QObject::tr("ADMINISTRATOR"));
-    QVERIFY(u->name() == QObject::tr("ADMINISTRATOR"));
+    QVERIFY(u->role() == tr("ADMINISTRATOR"));
+    QVERIFY(u->name() == tr("ADMINISTRATOR"));
     u->makeAdministrator(false);
-    QVERIFY(u->role() == QObject::tr("EPSIMUSER"));
+    QVERIFY(u->role() == tr("EPSIMUSER"));
     u->destroy();
 }
     
 void TestEpSimulator::testVersionInfo() {
     VersionInfo* v = VersionInfo::instance();
-    QVERIFY(v->programName() == QObject::tr("EP Simulator"));
+    QVERIFY(v->programName() == tr("EP Simulator"));
     QVERIFY(v->appName() == "epsimulator");
     v->destroy();
 }
@@ -525,6 +526,15 @@ void TestEpSimulator::testSaturation() {
     QVERIFY(sat2 == sat);
     ++sat2;
     QVERIFY(sat2 != sat);
+}
+
+void TestEpSimulator::testAmplifier() {
+    Amplifier amp;  // default is 48 channels
+    QVERIFY(amp.numCIMConnections() == 2);
+    Amplifier amp2(128);
+    QVERIFY(amp2.numCIMConnections() == 7);
+    Amplifier amp3(64);
+    QVERIFY(amp3.numCIMConnections() == 3);
 }
 
 void TestEpSimulator::cleanupTestCase() {

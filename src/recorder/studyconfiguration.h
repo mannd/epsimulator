@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,30 +17,53 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef STUDYCONFIGURATION_H
+#define STUDYCONFIGURATION_H
 
-#include "passwordhandler.h"
+#include <QColor>
+#include <QString>
 
-#include "options.h"
+#include <bitset>
 
-PasswordHandler::PasswordHandler() :
-    options_(Options::instance()), hash_(QCryptographicHash::Sha1){
-    // set original password to "admin"
-    if (options_->passwordHash() == "0")
-        setPassword(tr("admin"));
-}
+/**
+ *Emulates all the study configuration settings seen on the Study Configuration Dialog.  
+ *
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
+class StudyConfiguration {
 
-PasswordHandler::~PasswordHandler() {}
+public:
+    StudyConfiguration();
 
-void PasswordHandler::setPassword(const QString& pw) {    
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    options_->setPasswordHash(hash_.result());
-    options_->writeSettings();
-}
+    ~StudyConfiguration();
 
-bool PasswordHandler::testPassword(const QString& pw) {
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    return hash_.result() == options_->passwordHash().toAscii();
-}
+};
 
+class Channel {
+
+public:
+    enum Clip {NoClip, C1, C2};
+    enum Type {Bipolar, UnipolarWCT, UnipolarAuxRef, 
+                      AblateRecord, NotUsed};
+
+    Channel();
+    ~Channel();
+
+private:
+    int number_;
+    QString label_;
+    Clip clip_;
+    QColor color_; 
+    std::bitset<8> displayPages_;
+    bool allwaysSave_;
+    Type type_;
+    int posInput_;
+    int negInput_;
+    int gain_;
+    double highPassFilter_;
+    double lowPassFilter_;
+    bool notchFilter_;
+    
+};
+
+#endif

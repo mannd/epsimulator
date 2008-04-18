@@ -21,6 +21,7 @@
 #ifndef OPTICALDISK_H
 #define OPTICALDISK_H
 
+#include <QCoreApplication>
 #include <QString>
 
 #include <vector>
@@ -44,6 +45,7 @@ struct LabelData {
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class OpticalDisk {
+    Q_DECLARE_TR_FUNCTIONS(OpticalDisk)
 
 public:
     OpticalDisk(const QString& path);

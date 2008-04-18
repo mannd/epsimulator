@@ -28,7 +28,6 @@
 #include <QDateTime>
 #include <QDir>
 #include <QMessageBox>
-#include <QObject>
 #include <QSettings>
 #include <QStringList>
 
@@ -82,8 +81,8 @@ QString OpticalDisk::makeStudiesPath(const QString& path) {
  * @param w This is the parent window calling this function.
  */
 void OpticalDisk::eject(QWidget* w) {
-    QMessageBox::information( w, QObject::tr("Eject Disk"),
-                              QObject::tr("Change Disk and select OK when done." ));
+    QMessageBox::information( w, tr("Eject Disk"),
+                              tr("Change Disk and select OK when done." ));
     // Would be nice to mechanically eject disk here.
 }
 
@@ -154,13 +153,13 @@ QString OpticalDisk::side() const {
 }
 
 QString OpticalDisk::translatedSide() const {
-    return QObject::tr(labelData_.side);    
+    return tr(labelData_.side);    
 }
 
 QString OpticalDisk::translateSide(const QString& side) {
     if (side.isEmpty())
         return side;
-    return (side == "A" ? QObject::tr("A") : QObject::tr("B"));
+    return (side == "A" ? tr("A") : tr("B"));
 }
 
 // class EmulatedOpticalDisk

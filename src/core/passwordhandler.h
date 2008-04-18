@@ -20,6 +20,7 @@
 #ifndef PASSWORDHANDLER_H
 #define PASSWORDHANDLER_H
 
+#include <QCoreApplication>
 #include <QCryptographicHash>
 
 class Options;
@@ -31,6 +32,7 @@ class QString;
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class PasswordHandler {
+    Q_DECLARE_TR_FUNCTIONS(PasswordHandler)
 
 public:
     PasswordHandler();

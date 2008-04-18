@@ -5,7 +5,9 @@ SOURCES += recorder.cpp \
  realtimewindow.cpp \
  displaywindow.cpp \
  reviewwindow.cpp \
- logwindow.cpp
+ logwindow.cpp \
+ studyconfiguration.cpp \
+ studyconfigurationdialog.cpp
 
 HEADERS += recorder.h \
  patientstatusbar.h \
@@ -13,7 +15,9 @@ HEADERS += recorder.h \
  displaywindow.h \
  reviewwindow.h \
  logwindow.h \
- recorderdefs.h
+ recorderdefs.h \
+ studyconfiguration.h \
+ studyconfigurationdialog.h
 
 INCLUDEPATH += ../gui \
 ../stimulator \
@@ -38,7 +42,8 @@ DESTDIR = ../../lib
 RESOURCES += ../resources/resources.qrc
 
 
-FORMS += ui/patientstatusbar.ui
+FORMS += ui/patientstatusbar.ui \
+ ui/studyconfigurationdialog.ui
 
 LIBS += -L../../lib \
 -lcore \

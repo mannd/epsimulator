@@ -22,8 +22,6 @@
 
 #include "epdefs.h"
 
-#include <QObject>
-
 VersionInfo* VersionInfo::instance_ = 0;
 
 VersionInfo* VersionInfo::instance() {
@@ -43,7 +41,7 @@ bool VersionInfo::versionOk(int major, int minor) {
 
 VersionInfo::VersionInfo(): appName_("epsimulator"), 
                             shortAppName_("epsim"),
-                            programName_(QObject::tr("EP Simulator")), 
-                            copyrightYear_(QObject::tr("2006")), 
+                            programName_(tr("EP Simulator")), 
+                            copyrightYear_(tr("2006")), 
                             versionMajor_(VERSION_MAJOR),
                             versionMinor_(VERSION_MINOR) {}

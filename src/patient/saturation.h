@@ -21,6 +21,7 @@
 #ifndef SATURATION_H
 #define SATURATION_H
 
+#include <QCoreApplication>
 #include <QString>
 
 #include <cassert>
@@ -31,6 +32,7 @@ class QDataStream;
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Saturation{
+    Q_DECLARE_TR_FUNCTIONS(Saturation)
 
 public:
     friend QDataStream& operator<<(QDataStream&, const Saturation&);

@@ -667,7 +667,7 @@ void Recorder::createActions() {
         tr("Logout from administrator"), SLOT(logout()));
     changePasswordAction_= createAction(this, tr("Change Password..."),
         tr("Change administrator password"), SLOT(changePassword()));
-    systemSettingsAction_ = createAction(this, tr("System QSettings"),
+    systemSettingsAction_ = createAction(this, tr("System Settings"),
         tr("Configure system settings"), SLOT(systemSettings()));
     printSetupAction_ = createAction(this, tr("Print Setup"),
         tr("Setup printer"));

@@ -69,6 +69,8 @@ private slots:
     void testCopyDir();
     // class Saturation
     void testSaturation();
+    // class Amplifier
+    void testAmplifier();
 
     void cleanupTestCase();
 

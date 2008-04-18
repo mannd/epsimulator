@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,30 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include "studyconfiguration.h"
 
-#include "passwordhandler.h"
-
-#include "options.h"
-
-PasswordHandler::PasswordHandler() :
-    options_(Options::instance()), hash_(QCryptographicHash::Sha1){
-    // set original password to "admin"
-    if (options_->passwordHash() == "0")
-        setPassword(tr("admin"));
+StudyConfiguration::StudyConfiguration() {
 }
 
-PasswordHandler::~PasswordHandler() {}
 
-void PasswordHandler::setPassword(const QString& pw) {    
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    options_->setPasswordHash(hash_.result());
-    options_->writeSettings();
-}
-
-bool PasswordHandler::testPassword(const QString& pw) {
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    return hash_.result() == options_->passwordHash().toAscii();
-}
-
+StudyConfiguration::~StudyConfiguration() {}

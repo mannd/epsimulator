@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/main</activedir>
+      <activedir>src/test</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -118,7 +118,7 @@
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
         <testepsimulator/>
         <main/>
@@ -136,7 +136,7 @@
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
         <testepsimulator/>
         <main/>

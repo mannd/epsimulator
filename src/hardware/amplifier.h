@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,29 +18,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "passwordhandler.h"
+#ifndef AMPLIFIER_H
+#define AMPLIFIER_H
 
-#include "options.h"
+/**
+ * Emulates the amplifier, with different number of 
+ * catheter input blocks and channels.
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
+class Amplifier {
 
-PasswordHandler::PasswordHandler() :
-    options_(Options::instance()), hash_(QCryptographicHash::Sha1){
-    // set original password to "admin"
-    if (options_->passwordHash() == "0")
-        setPassword(tr("admin"));
-}
+public:
+    explicit Amplifier(int numChannels = 48);
+    ~Amplifier();
 
-PasswordHandler::~PasswordHandler() {}
+    int numChannels() const {return numChannels_;}
+    unsigned int numCIMConnections() const {return numCIMConnections_;}
 
-void PasswordHandler::setPassword(const QString& pw) {    
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    options_->setPasswordHash(hash_.result());
-    options_->writeSettings();
-}
+private:
+    int numChannels_;
+    int numCIMConnections_;
 
-bool PasswordHandler::testPassword(const QString& pw) {
-    hash_.reset();
-    hash_.addData(pw.toAscii());
-    return hash_.result() == options_->passwordHash().toAscii();
-}
+};
 
+#endif

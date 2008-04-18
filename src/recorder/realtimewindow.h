@@ -55,6 +55,7 @@ signals:
 private slots:
     void increaseSweepSpeed();
     void decreaseSweepSpeed();
+    void studyConfiguration();
     
 
 private:

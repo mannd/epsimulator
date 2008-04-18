@@ -20,8 +20,6 @@
 
 #include "user.h"
 
-#include <QObject>
-
 #include <cstdlib>
 
 // NB: this file is operating system dependent and won't compile on an
@@ -54,7 +52,7 @@ QString User::machineName() const {
  * @return either ADMINISTRATOR or the user's login name.
  */
 QString User::name() const {
-    return isAdministrator_ ? QObject::tr("ADMINISTRATOR") 
+    return isAdministrator_ ? tr("ADMINISTRATOR") 
         :  name_;
 }
 
@@ -63,8 +61,8 @@ QString User::name() const {
  * @return ADMINSTRATOR or EPSIMUSER.
  */
 QString User::role() const {
-    return isAdministrator_ ? QObject::tr("ADMINISTRATOR") 
-        :  QObject::tr("EPSIMUSER");
+    return isAdministrator_ ? tr("ADMINISTRATOR") 
+        :  tr("EPSIMUSER");
 }
 
 // protected constructor and destructor

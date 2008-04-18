@@ -21,8 +21,6 @@
 #ifndef DISPLAYWINDOW_H
 #define DISPLAYWINDOW_H
 
-//#include "recorderdefs.h"
-
 #include <QFrame>
 #include <QMainWindow>
 #include <QScrollArea>
@@ -32,10 +30,12 @@ class QSettings;
 
 class DisplayWindow : public QMainWindow {
     Q_OBJECT
+
 public:
     DisplayWindow(const QString& name, int number = 0, 
         QWidget* parent = 0, Qt::WindowFlags fl = 0) 
         : QMainWindow(parent, fl), name_(name), number_(number) {}
+    ~DisplayWindow() {}
 
     virtual void writeSettings(QSettings&) = 0;
     virtual void readSettings(QSettings&) = 0;
@@ -46,17 +46,18 @@ public:
     QString name() const {return name_;}
     int number() const {return number_;}
 
-    ~DisplayWindow() {}
 
 private:
     const QString name_;
     const int number_;
+
 };
 
 class ChannelBar;
 class QAction;
 class QScrollArea;
 class SignalArea;
+class SignalWidget;
 
 /**
  * Abstract base class for RealTimeWindow and ReviewWindow.  Implements common 
@@ -67,9 +68,11 @@ class SignalArea;
  */
 class SignalDisplayWindow : public DisplayWindow  {
     Q_OBJECT
+
 public:
     SignalDisplayWindow(const QString& name, int number = 0, 
         QWidget* parent = 0, Qt::WindowFlags fl = Qt::Window);
+    ~SignalDisplayWindow();
 
     void setCurrentPage(int page);
 
@@ -84,7 +87,6 @@ public:
     virtual void createActions();
     virtual void createToolBars() = 0;
 
-    ~SignalDisplayWindow();
 
 public slots:
     void previousPage();
@@ -97,6 +99,7 @@ signals:
 private:
     ChannelBar* channelBar_;
     SignalArea* signalArea_;
+    SignalWidget* signalWidget_;
     //QScrollArea* scrollArea_;
 
     enum {minPage = 1, maxPage = 8};
@@ -104,32 +107,78 @@ private:
 
     QAction* previousPageAction_;
     QAction* nextPageAction_;
-    
+
+};
+
+/*
+Here is the logic for below.  For each display window that shows EGMs, 
+there is a blue channel bar containing a set of channel labels to the 
+right, and a black signal display area to the left.  A ChannelPage 
+and a SignalPage are combined in a single QWidget to form a SignalAreaPage.
+8 SignalAreaPages are added to a QStackedWidget to form a 
+SignalStackedWidget, which then is added to a QScrollBarArea to 
+form the final SignalWidget.  The SignalWidget by default has
+a vertical scrollbar, implemented to change pages.  
+The RealTimeWindow has no system menu (can't be closed by default) 
+and only the vertical scrollbar.  ReviewWindows
+have a horizontal scrollbar as well, implemented to scroll the SignalPages 
+only.
+
+The SignalWidget is the central widget for the SignalDisplayWindows.
+*/
+
+/**
+ * A ChannelPage is one page of channel labels, a page of the ChannelBar
+ * to the right of the SignalArea.
+ */
+class ChannelPage : public QFrame {
+    Q_OBJECT
+
+public:
+    ChannelPage(QWidget* parent = 0);
+    ~ChannelPage() {};
+
 };
 
 /**
- * This is the channel label area.  This is an ABC, mostly so that
+ * A SignalPage is one page of the black (by default) SignalArea, where
+ * the signals are drawn.
+ */
+class SignalPage: public QWidget {
+    Q_OBJECT
+
+public:
+    SignalPage(QWidget* parent = 0);
+    ~SignalPage() {}
+
+};
+
+/**
+ * This is the channel label area.    This is an ABC, mostly so that
  * the right click menu can be overriden, as it is different on 
  * the real-time vs the review window.
  */
 class ChannelBar : public QFrame {
     Q_OBJECT
+
 public:
     ChannelBar(QWidget* parent = 0);
+    ~ChannelBar();
 
     void setUp();
 
-    ~ChannelBar();
-
 public slots:
     void changePage(int newPage);
+
 };
+
 
 /**
  * This is the black signal area to the right of the channel bar.
  */
-class SignalArea : public QScrollArea {
+class SignalArea : public QWidget {
     Q_OBJECT
+
 public:
     SignalArea(QWidget* parent = 0);
 
@@ -137,6 +186,24 @@ public:
 
 public slots:
     void changePage(int newPage);
+
+};
+
+/**
+ * This is the central widget of the SignalDisplayWindow, contains
+ * the ChannelBar with the SignalArea and scrollbar(s).
+ */
+class SignalWidget : public QScrollArea {
+    Q_OBJECT
+
+public:
+    SignalWidget(QWidget* parent = 0);
+    ~SignalWidget() {}
+
+private:
+    ChannelBar* channelBar_;
+    SignalArea* signalArea_;
+
 };
 
 #endif

@@ -89,8 +89,8 @@ void PatientStatusBar::createPalettes() {}
 void PatientStatusBar::setPatientInfo(const Name& name, 
     double kg, double bsa) {
     nameLabel->setText(name.fullName(true));    // lastname, firstname
-    kgLabel->setText(QObject::tr("Kg ") + QString::number(kg, 'f', 1));
-    bsaLabel->setText(QObject::tr("BSA ") + QString::number(bsa, 'f', 2));
+    kgLabel->setText(tr("Kg ") + QString::number(kg, 'f', 1));
+    bsaLabel->setText(tr("BSA ") + QString::number(bsa, 'f', 2));
 }
 
 void PatientStatusBar::displayO2Sat() {

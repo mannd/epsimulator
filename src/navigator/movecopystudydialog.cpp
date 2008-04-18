@@ -107,7 +107,7 @@ void MoveCopyStudyDialog::setUpLabels(const QString& label) {
 QString MoveCopyStudyDialog::addOpticalToPath(const QString& path) {
     if (path == opticalDisk_->path())
         return QDir::cleanDirPath(opticalDisk_->path() + "/" 
-            + QObject::tr("(Optical)"));
+            + tr("(Optical)"));
     else
         return path;
 }

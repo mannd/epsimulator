@@ -25,11 +25,12 @@
 #include <QKeySequence>
 #include <QHBoxLayout>
 #include <QPalette>
-#include <QScrollArea>
 #include <QSettings>
 #include <QSizePolicy>
 #include <QSplitter>
 #include <QStackedWidget>
+
+class QScrollArea;
 
 SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
     QWidget *parent, Qt::WindowFlags fl) 
@@ -145,23 +146,21 @@ ChannelBar::~ChannelBar() {}
  * SignalPages.
  * @param parent 
  */
-SignalArea::SignalArea(QWidget* parent) : QScrollArea(parent) {
-    QWidget* w = new QWidget;
-    
+SignalArea::SignalArea(QWidget* parent) : QWidget(parent) {
     QSizePolicy policy(QSizePolicy::MinimumExpanding,
         QSizePolicy::MinimumExpanding);
     policy.setHorizontalStretch(1);
-    w->setSizePolicy(policy);
-    w->setAutoFillBackground(true);
+    setSizePolicy(policy);
+    setAutoFillBackground(true);
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::black);
     setPalette(palette);
     // most if not all SignalAreas have a vertical scroll
     // bar to change pages.  Real-time window does not
     // have a horizontal scroll bar, but review windows do.
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setAutoFillBackground(true);
-    setWidget(w);
+    //setWidget(w);
 }
 
 void SignalArea::changePage(int) {}
