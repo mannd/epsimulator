@@ -20,6 +20,8 @@
 
 #include "heart.h"
 
+using EpPatient::Heart;
+
 Heart::Heart(QString name) : name_(name) {}
 
 Heart::Heart(const Heart& heart) : name_(heart.name_) {}

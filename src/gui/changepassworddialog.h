@@ -25,8 +25,17 @@
 
 #include <QDialog>
 
-class PasswordHandler;
 class QWidget;
+
+namespace EpCore {
+
+class PasswordHandler;
+
+}
+
+namespace EpGui {
+
+using EpCore::PasswordHandler;
 
 class ChangePasswordDialog: public QDialog, private Ui::ChangePasswordDialog {
     Q_OBJECT
@@ -44,7 +53,8 @@ public slots:
 private:
     bool testPasswordsEqual() const;
     PasswordHandler* pwHandler_;
-
 };
+
+}
 
 #endif

@@ -22,6 +22,9 @@
 
 #include "options.h"
 
+using EpNavigator::CatalogComboBox;
+using EpNavigator::Catalog;
+
 /** 
  * Ctor.  Gets the options_ instance, sets up the combobox.  
  * Default item is 1st, which is either System or Network depending on options.

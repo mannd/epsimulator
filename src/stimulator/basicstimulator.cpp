@@ -20,7 +20,7 @@
 
 #include "basicstimulator.h"
 
-namespace EpRecorder {
+using EpHardware::EpStimulator::BasicStimulator;
 
 BasicStimulator::BasicStimulator(QWidget* parent, Qt::WindowFlags fl)
 : Stimulator(parent, fl), Ui::BasicStimulator() {
@@ -31,4 +31,3 @@ BasicStimulator::~BasicStimulator()
 {
 }
 
-}

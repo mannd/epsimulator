@@ -33,10 +33,7 @@
 
 #include <vector>
 
-// for debug
-#ifndef NDEBUG
-#include <iostream>
-#endif
+namespace EpHardware { namespace EpOpticalDisk {
 
 // struct LabelData
 
@@ -359,3 +356,6 @@ void EmulatedOpticalDisk::saveLastDisk() {
     settings.writeEntry("/isTwoSided", isTwoSided_);
     settings.writeEntry("/lastSide", side());
 }
+
+}}
+

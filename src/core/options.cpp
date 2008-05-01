@@ -24,6 +24,8 @@
 #include <QDir>
 #include <QSettings>
 
+using EpCore::Options;
+
 Options* Options::instance_ = 0;
 
 Options* Options::instance() {

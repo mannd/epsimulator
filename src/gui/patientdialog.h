@@ -30,6 +30,12 @@
 class QDate;
 class QWidget;
 
+namespace EpGui {
+
+using EpPatient::Study;
+using EpPatient::Name;
+using EpPatient::Sex;
+
 /// TODO Consider not allowing any edits of study date and time in PatientDialogBase.ui
 class PatientDialog: public QDialog, private Ui::PatientDialog {
     Q_OBJECT
@@ -66,5 +72,7 @@ private:
     double metricHeight_;
     double metricWeight_;
 };
+
+}
 
 #endif

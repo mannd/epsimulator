@@ -27,7 +27,15 @@
 
 #include <map>
 
+namespace EpCore {
+
 class Options;
+
+}
+
+namespace EpNavigator {
+
+using EpCore::Options;
 
 /**
  * Encapsulates specific behavior of the catalog combo box in Navigator.
@@ -62,5 +70,7 @@ private:
     typedef std::map<Catalog::Source, int> CatalogMap;
     CatalogMap sourceMap_;
 };
+
+}
 
 #endif

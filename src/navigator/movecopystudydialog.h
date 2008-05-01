@@ -26,7 +26,15 @@
 #include <QDialog>
 #include <QString>
 
-class OpticalDisk;
+namespace EpHardware {
+    namespace EpOpticalDisk {
+        class OpticalDisk;
+    }
+}
+
+namespace EpNavigator {
+
+using EpHardware::EpOpticalDisk::OpticalDisk;
 
 class StudyListWidgetItem : public QListWidgetItem {
 
@@ -79,7 +87,8 @@ class MoveStudyDialog : public MoveCopyStudyDialog {
 public:
     MoveStudyDialog(QWidget* parent, OpticalDisk*);
     ~MoveStudyDialog();
-
 };
+
+}
 
 #endif

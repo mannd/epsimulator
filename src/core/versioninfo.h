@@ -24,6 +24,8 @@
 #include <QCoreApplication>
 #include <QString>
 
+namespace EpCore {
+
 /**
  * Provides version and application information for a program.
  *
@@ -68,5 +70,7 @@ private:
     int versionMinor_;
 
 };
+
+}
 
 #endif

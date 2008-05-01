@@ -24,6 +24,9 @@
 
 #include <QDir>
 
+using EpPatient::Patient;
+using EpPatient::Saturation;
+
 const QString Patient::fileName_ = "patient.dat";
 
 Patient::Patient() : path_(0), 
@@ -49,6 +52,8 @@ QString Patient::filePath() {
 
 Patient::~Patient() {}
 
+namespace EpPatient {
+
 // friends
 
 QDataStream& operator<<(QDataStream& out, const Patient& patient) {
@@ -59,4 +64,6 @@ QDataStream& operator<<(QDataStream& out, const Patient& patient) {
 QDataStream& operator>>(QDataStream& in, Patient& patient) {
     in >> patient.path_ >> patient.o2Saturation_;
     return in;
+}
+
 }

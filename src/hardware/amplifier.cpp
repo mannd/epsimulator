@@ -20,10 +20,12 @@
 
 #include "amplifier.h"
 
-#include <cassert>
+#include <QtGlobal>
+
+using EpHardware::EpAmplifier::Amplifier;
 
 Amplifier::Amplifier(int n) : numChannels_(n) {
-    assert(n == 48 || n == 64 || n == 96 || n == 128);
+    Q_ASSERT(n == 48 || n == 64 || n == 96 || n == 128);
     switch (numChannels_) {
         case 64 : numCIMConnections_ = 3; break;
         case 96 : numCIMConnections_ = 5; break;

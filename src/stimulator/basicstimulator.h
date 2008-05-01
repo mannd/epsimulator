@@ -24,7 +24,7 @@
 
 #include "ui_basicstimulator.h"
 
-namespace EpRecorder {
+namespace EpHardware { namespace EpStimulator {
 
 /**
 	@author David Mann <mannd@epstudiossoftware.com>
@@ -49,6 +49,6 @@ protected slots:
 
 };
 
-}
+}}
 
 #endif

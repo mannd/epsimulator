@@ -33,6 +33,8 @@
 #include <QToolBar>
 
 using EpGui::createAction;
+using EpGui::StudyConfigurationDialog;
+using EpRecorder::RealTimeWindow;
 
 RealTimeWindow::RealTimeWindow(int number, QWidget* parent)
  : SignalDisplayWindow(tr("Real-Time"), number, parent) {

@@ -33,6 +33,9 @@
 // uncomment below to show a key column in the table
 // #define DEBUGKEYS 1
 
+using EpNavigator::TableListView;
+using EpPatient::Study;
+
 /**
  * Constructor for TableListViewItem subclass of Navigator
  * @param parent = TableListView.

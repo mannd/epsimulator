@@ -22,6 +22,8 @@
 
 #include "epdefs.h"
 
+using EpCore::VersionInfo;
+
 VersionInfo* VersionInfo::instance_ = 0;
 
 VersionInfo* VersionInfo::instance() {

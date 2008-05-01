@@ -23,8 +23,11 @@
 #include <QCoreApplication>
 #include <QCryptographicHash>
 
-class Options;
 class QString;
+
+namespace EpCore {
+
+class Options;
 
 /**
  * Encapsulates password alorithm and processing.
@@ -44,7 +47,8 @@ public:
 private:
     Options* options_;
     QCryptographicHash hash_;
-
 };
+
+}
 
 #endif

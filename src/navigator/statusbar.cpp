@@ -24,6 +24,8 @@
 #include <QLabel>
 #include <QString>
 
+using EpNavigator::StatusBar;
+
 StatusBar::StatusBar(const QString& catalogPath, QWidget *parent) 
     : QStatusBar(parent) {
     messageLabel_ = new QLabel(tr("For Help, press %1")

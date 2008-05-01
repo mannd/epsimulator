@@ -25,8 +25,15 @@
 
 #include <QDialog>
 
-class Options;
 class QWidget;
+
+namespace EpCore {
+class Options;
+}
+
+namespace EpGui {
+
+using EpCore::Options;
 
 class SimulatorSettingsDialog : public QDialog, 
                                 private Ui::SimulatorSettingsDialog {
@@ -57,5 +64,7 @@ private:
     Options* options_;
 
 };
+
+}
 
 #endif

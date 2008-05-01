@@ -22,7 +22,7 @@
 
 #include <QTimer>
 
-namespace EpRecorder {
+using EpHardware::EpStimulator::Stimulator;
 
 Stimulator::Stimulator(QWidget* parent, Qt::WindowFlags fl)
     : QWidget(parent, fl), s1S1_(0), s1S2_(0), s2S3_(0),
@@ -50,15 +50,8 @@ void Stimulator::sendStimulus() {
 
 void Stimulator::activateChannel(Channel c) {
     activeChannels_.insert(c);
-    
 }
 
 void Stimulator::inactivateChannel(Channel c) {
     activeChannels_.erase(c);
-}
-
-
-
-/*$SPECIALIZATION$*/
-
 }

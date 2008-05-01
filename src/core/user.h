@@ -24,6 +24,8 @@
 #include <QCoreApplication>
 #include <QString>
 
+namespace EpCore {
+
 /**
  * Encapsulates info on the program user.  Is singleton class, 
  * only 1 user obviously.
@@ -57,5 +59,7 @@ private:
     QString machineName_;
 
 };
+
+}
 
 #endif

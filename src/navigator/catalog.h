@@ -36,9 +36,15 @@
 #include <map>
 #include <vector>
 
-class Options;
 class QDataStream;
 class QFile;
+
+namespace EpCore { class Options; }
+
+namespace EpNavigator {
+
+using EpCore::Options;
+using EpPatient::Study;
 
 struct StudyData {
     friend QDataStream& operator<<(QDataStream&, const StudyData&);
@@ -215,5 +221,7 @@ private:
     CatalogsMap catalogs_;
 
 };
+
+}
 
 #endif

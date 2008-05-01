@@ -31,6 +31,7 @@
 // at global scope, rather than use using declarations all over the place.
 // On the other hand, all could go into EpRecorder namespace, or EpCore,
 // or, finally, there could be a Ep namespace for stuff like this.
+namespace Ep {
 
 typedef unsigned int msec;
 typedef msec CI;
@@ -43,8 +44,4 @@ typedef unsigned int Interval;  // time in msec resolution
 typedef double Duration;  // time in finer resolution, e.g. stimulus PW
 typedef double Amplitude;   // amplitude in mAmp
 
-
-
-
-
-
+}

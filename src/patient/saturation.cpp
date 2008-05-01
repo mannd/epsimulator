@@ -22,6 +22,8 @@
 
 #include <QDataStream>
 
+namespace EpPatient {
+
 Saturation::Saturation(int number) {
     setNumber(number);
     testInvariant();
@@ -130,4 +132,6 @@ bool operator>(const Saturation& lhs, const Saturation& rhs) {
 
 bool operator>=(const Saturation& lhs, const Saturation& rhs) {
     return lhs.number_ >= rhs.number_;
+}
+
 }

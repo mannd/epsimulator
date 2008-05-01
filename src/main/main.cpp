@@ -50,6 +50,9 @@
 #include <QTranslator>
 #endif
 
+using EpNavigator::Navigator;
+using EpCore::VersionInfo;
+
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     app.setOrganizationName("EPStudios");

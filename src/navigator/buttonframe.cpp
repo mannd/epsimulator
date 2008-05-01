@@ -28,6 +28,10 @@
 #include <QPixmap>
 #include <QGridLayout>
 
+using EpNavigator::AbstractButtonFrame;
+using EpNavigator::OldStyleButtonFrame;
+using EpNavigator::NewStyleButtonFrame;
+
 const int AbstractButtonFrame::buttonHeight;
 const int AbstractButtonFrame::buttonWidth;
 

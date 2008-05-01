@@ -28,6 +28,8 @@
 class QStringList;
 class QWidget;
 
+namespace EpHardware { namespace EpOpticalDisk {
+
 class SelectEmulatedDiskDialog: public QDialog,
                                 private Ui::SelectEmulatedDiskDialog {
     Q_OBJECT
@@ -58,7 +60,8 @@ private:
     bool select_;
     bool new_;
     bool flip_;
-
 };
+
+}}
 
 #endif

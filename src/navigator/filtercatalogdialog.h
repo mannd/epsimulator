@@ -26,7 +26,10 @@
 
 #include <QDialog>
 
-class FilterCatalogDialog : public QDialog, private Ui::FilterCatalogDialog {
+namespace EpNavigator {
+
+class FilterCatalogDialog : public QDialog, 
+                            private Ui::FilterCatalogDialog {
     Q_OBJECT
 
 public:
@@ -64,5 +67,7 @@ private:
         return text.isEmpty() ? "*" : text;}
 
 };
+
+}
 
 #endif

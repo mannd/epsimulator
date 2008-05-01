@@ -24,6 +24,8 @@
 
 #define DEFAULT_HEART "default"
 
+namespace EpPatient {
+
 /**
  * Heart simulation.  For now essentially an empty class.
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -39,7 +41,8 @@ public:
 
 private:
     QString name_;
-
 };
+
+}
 
 #endif

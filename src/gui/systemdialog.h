@@ -26,8 +26,15 @@
 #include <QDialog>
 #include <QString>
 
-class Options;
 class QWidget;
+
+namespace EpCore {
+class Options;
+}
+
+namespace EpGui {
+
+using EpCore::Options;
 
 class SystemDialog : public QDialog, private Ui::SystemDialog {
     Q_OBJECT
@@ -61,5 +68,7 @@ private:
     QString path_;
 
 };
+
+}
 
 #endif

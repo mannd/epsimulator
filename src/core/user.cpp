@@ -27,6 +27,8 @@
 /// TODO When migrating to Windows, will need to modify this file.
 #include <unistd.h>
 
+using EpCore::User;
+
 User* User::instance_ = 0;
 
 /**

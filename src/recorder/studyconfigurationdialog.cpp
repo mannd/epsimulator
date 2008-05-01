@@ -23,6 +23,8 @@
 #include <QHeaderView>
 #include <QStandardItemModel>
 
+using EpGui::StudyConfigurationDialog;
+
 StudyConfigurationDialog::StudyConfigurationDialog(QWidget* parent)
     : QDialog(parent), Ui::StudyConfigurationDialog() {
     setupUi(this);

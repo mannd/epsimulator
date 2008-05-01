@@ -25,21 +25,38 @@
 
 #include <QMainWindow>
 
-class AbstractButtonFrame;
-class CatalogComboBox;
-class FilterCatalogDialog;
-class MoveCopyStudyDialog;
-class OpticalDisk;
-class Options;
 class QAction;
 class QCloseEvent;
 class QMenu;
 class QSplitter;
 class QToolBar;
-class StatusBar;
-class Study;
-class TableListView;
+
+namespace EpCore {
+
+class Options;
 class User;
+
+}
+
+namespace EpHardware { namespace EpOpticalDisk { class OpticalDisk; }}
+
+namespace EpPatient { class Study; }
+
+namespace EpNavigator {
+
+class AbstractButtonFrame;
+class CatalogComboBox;
+class FilterCatalogDialog;
+class MoveCopyStudyDialog;
+class StatusBar;
+class TableListView;
+
+using EpCore::Options;
+using EpCore::User;
+
+using EpHardware::EpOpticalDisk::OpticalDisk;
+
+using EpPatient::Study;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -131,7 +148,7 @@ private:
     void moveCopyStudyMessageBox(bool move = false);
     void copyStudy(bool);
     void doStudyCopy(MoveCopyStudyDialog&, bool move);
-    bool studyOnDisk(const Study*) const; // make sure study is on current disk
+    bool studyOnDisk(const Study*) const; // make sure study on current disk
     void studyNotOnDiskError();  // report study not on current disk
 
     // Administration related
@@ -213,7 +230,8 @@ private:
     // toolbars
     QToolBar* navigatorToolBar_;
     CatalogComboBox* catalogComboBox_;
-
 };
+
+}
 
 #endif

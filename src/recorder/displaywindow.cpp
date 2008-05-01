@@ -32,6 +32,8 @@
 
 class QScrollArea;
 
+using namespace EpRecorder;
+
 SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
     QWidget *parent, Qt::WindowFlags fl) 
     : DisplayWindow(name, number, parent, fl),

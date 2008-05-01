@@ -26,13 +26,23 @@
 #include "recorderdefs.h"
 #include "saturation.h"
 
-struct Name;
-class Patient;
 class QMouseEvent;
 class QPalette;
 class QTimer;
 class QWidget;
 
+namespace EpPatient {
+
+struct Name;
+class Patient;
+
+}
+
+namespace EpRecorder {
+
+using EpPatient::Name;
+using EpPatient::Patient;
+using EpPatient::Saturation;
 using EpRecorder::SaveStatus;
 
 class PatientStatusBar : public QWidget, private Ui::PatientStatusBar {
@@ -93,6 +103,8 @@ private:
     QPalette* warningPalette_;
 
 };
+
+}
 
 #endif
 

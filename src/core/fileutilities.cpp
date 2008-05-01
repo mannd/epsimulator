@@ -26,7 +26,6 @@
 /**
  * @namespace EpCore Program functions that only require QtCore, not QtGui.
  */
-namespace EpCore {
 
 /**
  * Writes unique integer and version numbers to datastream, to insure only
@@ -34,7 +33,7 @@ namespace EpCore {
  * @param magicNumber Unique int for each file type.
  * @param out QDataStream written to.
  */
-void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
+void EpCore::saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
     out << static_cast<quint32>(magicNumber);
     VersionInfo* v = VersionInfo::instance();
     out << static_cast<quint32>(v->versionMajor())
@@ -46,7 +45,7 @@ void saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
  * @param path Path to dir to be deleted.
  * Note path MUST be a directory, not a file.
  */
-void deleteDir(const QString& path) {
+void EpCore::deleteDir(const QString& path) {
     QDir d(path);
     if (!d.exists())
         throw FileNotFoundError(path);
@@ -80,7 +79,7 @@ void deleteDir(const QString& path) {
  * @param destinationPath the destination directory, where the copied directory
  * will end up.
  */
-void copyDir(const QString& sourcePath, 
+void EpCore::copyDir(const QString& sourcePath, 
              const QString& destinationPath) {
     QDir source(sourcePath);
     if (!source.exists())
@@ -102,6 +101,4 @@ void copyDir(const QString& sourcePath,
             QFile::copy(fileInfo.filePath(), destination.path() + "/"
                 + fileInfo.fileName());
     }
-}
-
 }

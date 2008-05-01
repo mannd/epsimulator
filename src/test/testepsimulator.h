@@ -20,8 +20,11 @@
 
 #include <QtTest/QtTest>
 
-class Study;
-class PatientDialog;
+namespace EpPatient { class Study; }
+namespace EpGui { class PatientDialog; }
+
+using EpPatient::Study;
+using EpGui::PatientDialog;
 
 class TestEpSimulator : public QObject {
     Q_OBJECT

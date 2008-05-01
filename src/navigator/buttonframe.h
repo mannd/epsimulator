@@ -29,6 +29,8 @@ class QAbstractButton;
 class QPixmap;
 class QString;
 
+namespace EpNavigator {
+
 /**
  * AbstractButtonFrame is an ABC for the "blue bar" located vertically to
  * the left of the Navigator window.  The width of the fram can be changed
@@ -40,7 +42,8 @@ class AbstractButtonFrame : public QFrame {
 
 public:
     virtual void addButton(const QString& name, const QString& pixmapName, 
-                           const char* slotName, bool lastButton = false) = 0;
+                           const char* slotName, 
+                           bool lastButton = false) = 0;
  
 protected:
     AbstractButtonFrame(QWidget* parent = 0);
@@ -84,5 +87,7 @@ public:
                    const char* slotName, bool lastButton = false);
 
 };
+
+}
 
 #endif

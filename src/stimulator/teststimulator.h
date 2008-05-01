@@ -26,7 +26,9 @@
 
 #include <QWidget>
 
-namespace EpRecorder {
+namespace EpHardware { namespace EpStimulator {
+
+using namespace Ep;
 
 class TestStimulator : public Stimulator, private Ui::TestStimulator
 {
@@ -56,7 +58,6 @@ private:
 
 };
 
-}
+}}
 
 #endif
-

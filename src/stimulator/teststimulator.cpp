@@ -26,7 +26,7 @@
 #include <QSound>
 #include <QTimer>
 
-namespace EpRecorder {
+using EpHardware::EpStimulator::TestStimulator;
 
 TestStimulator::TestStimulator(QWidget* parent, Qt::WFlags fl)
 : Stimulator( parent, fl ), Ui::TestStimulator(), activated_(false) {
@@ -70,9 +70,3 @@ void TestStimulator::changeS1S1() {
 
 TestStimulator::~TestStimulator() {
 }
-
-/*$SPECIALIZATION$*/
-
-}
-
-

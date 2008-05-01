@@ -30,6 +30,8 @@
 #include <QSplitter>
 #include <QToolBar>
 
+using EpRecorder::ReviewWindow;
+
 ReviewWindow::ReviewWindow(int number, QWidget *parent)
  : SignalDisplayWindow(tr("Review"), number, parent) {
     createCentralWidget();

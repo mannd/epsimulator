@@ -26,11 +26,7 @@
 
 #include <QDir>
 
-#ifndef NDEBUG
-#include <iostream>
-using std::cout;
-using std::endl;
-#endif
+namespace EpPatient {
 
 // struct Name
 
@@ -215,4 +211,6 @@ QDataStream& operator>>(QDataStream& in, Study& study) {
     study.ef_ = ef;
     study.ischemia_ = ischemia;
     return in;
+}
+
 }

@@ -27,7 +27,6 @@
 
 #include "actions.h"
 #include "buttonframe.h"
-#include "catalog.h"
 #include "catalogcombobox.h"
 #include "disklabeldialog.h"
 #include "error.h"
@@ -65,9 +64,14 @@
 #include <algorithm>
 #include <memory>
 
-#ifndef NDEBUG
-#include <iostream> // for debugging
-#endif
+using EpGui::PatientDialog;
+using EpGui::SimulatorSettingsDialog;
+using EpGui::SystemDialog;
+using EpPatient::Study;
+using EpNavigator::Navigator;
+using EpNavigator::StatusBar;
+
+using namespace EpHardware::EpOpticalDisk;
 
 /**
  * Navigator constructor
@@ -242,7 +246,8 @@ void Navigator::doStudyCopy(MoveCopyStudyDialog& dialog, bool move) {
             // if labels the same, throw sourcedestinationsameerror
             if (sourceLabel == currentDisk_->label())
                 throw EpCore::SourceDestinationSameError(dialog.sourcePath());
-            // now copy from the tmp dir to the destination (optical disk or hard drive)
+            // now copy from the tmp dir to the destination 
+            // (optical disk or hard drive)
             EpCore::copyDir(tmpDir.absolutePath(), currentDisk_->labelPath());
             // make/update catalog on destination, don't update system catalogs
             OpticalCatalog c(currentDisk_->labelPath());
@@ -410,7 +415,8 @@ void Navigator::ejectDisk() {
  *               three buttons are always available. 
  *           Emulated disk:
  *               New disk: Only allow side change if isTwoSided()
- *               Flipping a disk: allow side change (don't allow flipping 1 sided disks)
+ *               Flipping a disk: allow side change (don't allow 
+ *                  flipping 1 sided disks)
  *               Relabeling: don't allow any side changes at all
  *           OpticalDisk::allowSideChange() will set itself appropriately
  * 
@@ -444,7 +450,7 @@ void Navigator::relabelDisk() {
 
 void Navigator::updateWindowTitle() {
     QString title = tr("%1 Navigator")
-        .arg(VersionInfo::instance()->programName());
+        .arg(EpCore::VersionInfo::instance()->programName());
     title = user_->isAdministrator() ? 
         QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
     setWindowTitle(title);
@@ -554,7 +560,7 @@ void Navigator::exportCatalog() {
                 tableListView_->exportCSV(fileName);
             }
             catch (EpCore::IoError& e) {
-                std::cerr << e.what() << std::endl;
+                qDebug(e.what());
                 QMessageBox::warning(this, tr("Error"),
                     tr("Could not export Catalog to %1").arg(e.fileName()));
             }
@@ -611,7 +617,8 @@ void Navigator::systemSettings() {
         if (systemDialog->exec() == QDialog::Accepted) {
             systemDialog->setOptions();
             // menu is changed
-            networkSwitchAction_->setEnabled(options_->enableNetworkStorage());
+            networkSwitchAction_->setEnabled(options_
+                ->enableNetworkStorage());
             // optical disk, status bar and catalog might be changed 
             do {
                 createOpticalDrive();
@@ -620,7 +627,8 @@ void Navigator::systemSettings() {
             /// TODO change current disk here
             catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
             refreshCatalogs();
-            statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
+            statusBar_->updateSourceLabel(catalogs_
+                ->currentCatalog()->path());
         }
         delete systemDialog;
     }
@@ -766,7 +774,7 @@ void Navigator::createActions() {
         SLOT(close()), tr("Ctrl+Q"));
     // Catalog menu
     // Submenu of Switch...
-    // an action "Achive Server" is skipped here, but is present on Prucka
+    // an action "Archive Server" is skipped here, but is present on Prucka
     networkSwitchAction_ = createAction(this, tr("Network"),
         tr("Switch to network catalog"), SLOT(setCatalogNetwork()));
     // networkSwitchAction_ only enabled if set in options
@@ -781,7 +789,8 @@ void Navigator::createActions() {
     filterStudiesAction_ = createAction(this, tr("Filter Studies..."),
         tr("Filter studies"), SLOT(filterStudies()),
         0, "hi32-filterstudies.png");
-    removeStudiesFilterAction_ = createAction(this, tr("Remove Studies Filter"),
+    removeStudiesFilterAction_ = createAction(this, 
+        tr("Remove Studies Filter"),
         tr("Remove studies filter"), SLOT(unfilterStudies()),
         0, "hi32-removefilter.png");
     // inactivate removeStudiesFilterAction_ by default
@@ -799,11 +808,13 @@ void Navigator::createActions() {
     // Utilities menu
     exportListsAction_ = createAction(this, tr("Export Lists..."),
         tr("Export lists"));
-    exportReportFormatsAction_ = createAction(this, tr("Export Report Formats..."),
+    exportReportFormatsAction_ = createAction(this, 
+        tr("Export Report Formats..."),
         tr("Export report formats"));
     importListsAction_ = createAction(this, tr("Import Lists..."),
         tr("Import lists"));
-    importReportFormatsAction_ = createAction(this, tr("Import Report Formats..."),
+    importReportFormatsAction_ = createAction(this, 
+        tr("Import Report Formats..."),
         tr("Import report formats"));
     ejectOpticalDiskAction_ = createAction(this, tr("Eject Optical Disk"),
         tr("Eject optical disk"), SLOT(ejectDisk()));
@@ -853,7 +864,6 @@ void Navigator::createToolBars() {
 }
 
 void Navigator::createMenus() {
-
     studyMenu_ = menuBar()->addMenu(tr("&Study"));
     studyMenu_->addAction(newAction_);
     studyMenu_->addAction(continueAction_);
@@ -938,7 +948,7 @@ void Navigator::readSettings() {
     QSettings settings;
     settings.beginGroup("navigator");
     QVariant size = settings.value("size");
-    if (size.isNull())  // initial run of program, window is maximized by default
+    if (size.isNull())  // initial run, window is maximized by default
         showMaximized();
     else {  // but if not initial run, use previous window settings
         resize(size.toSize());
@@ -1026,7 +1036,7 @@ void Navigator::startStudy(Study* s, bool review) {
         allowAcquisition);
     recorder->show();
     connect(recorder, SIGNAL(updateSimulatorSettings()),
-        this, SLOT(updateSimulatorSettings()));    
+        this, SLOT(updateSimulatorSettings()));
     hide();
     updateAll();
 }
@@ -1085,8 +1095,8 @@ Study* Navigator::getNewStudy() {
 
 /// This checks to make sure the selected study is on the optical disk catalog.
 /// If something is wrong with the catalog and the study is not physically present
-/// on disk, despite being in the catalog, the actual disk processing should raise
-/// an exception.
+/// on disk, despite being in the catalog, the actual disk processing 
+/// should raise an exception.
 bool Navigator::studyOnDisk(const Study* s) const {
     return catalogs_->studyPresentOnOpticalDisk(s);
 }
@@ -1102,5 +1112,4 @@ Navigator::~Navigator() {
     delete currentDisk_;
     user_->destroy();
     options_->destroy();
-    //versionInfo_->destroy();
 }

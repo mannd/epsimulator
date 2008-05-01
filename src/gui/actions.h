@@ -25,13 +25,19 @@
 #include <QKeySequence>
 #include <QString>
 
-class Options;
 class QAction;
 class QLineEdit;
 class QWidget;
+
+namespace EpCore {
+class Options;
 class User;
+}
 
 namespace EpGui {
+
+using EpCore::Options;
+using EpCore::User;
 
 bool login(QWidget*, User*);
 void logout(User*);

@@ -22,6 +22,8 @@
 
 #include "options.h"
 
+using EpGui::SimulatorSettingsDialog;
+
 SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options, 
                                                  QWidget* parent) :
                                                  QDialog(parent),

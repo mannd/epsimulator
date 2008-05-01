@@ -29,6 +29,8 @@ class QAction;
 class QComboBox;
 class QSettings;
 
+namespace EpRecorder {
+
 /**
 The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
 
@@ -80,7 +82,8 @@ private:
     QAction* realTime12LeadAction_;
     QAction* timerAction_;
     QAction* stopwatchAction_;  
-
 };
+
+}
 
 #endif

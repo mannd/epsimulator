@@ -32,9 +32,19 @@
 
 #include <vector>
 
-#ifndef NDEBUG
-#include <iostream>
-#endif
+using EpCore::Options;
+using EpHardware::EpOpticalDisk::OpticalDisk;
+//using EpNavigator::StudyData;
+using EpNavigator::Catalog;
+using EpNavigator::OpticalCatalog;
+using EpNavigator::OtherCatalog;
+using EpNavigator::SystemCatalog;
+using EpNavigator::NetworkCatalog;
+using EpNavigator::Catalogs;
+
+
+
+namespace EpNavigator {
 
 // struct StudyData
 
@@ -48,6 +58,8 @@ QDataStream& operator>>(QDataStream& in, StudyData& studyData) {
     in >> studyData.study >> studyData.location >> studyData.side 
         >> studyData.labName >> studyData.machineName;
     return in;
+}
+
 }
 
 // class Catalog

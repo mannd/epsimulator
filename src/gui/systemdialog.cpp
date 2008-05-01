@@ -26,9 +26,7 @@
 /// TODO below is Linux/Unix specific, needs generalization.
 #include <sys/vfs.h>
 
-#ifndef NDEBUG
-#include <iostream>
-#endif
+using EpGui::SystemDialog;
 
 SystemDialog::SystemDialog(Options* options, const QString& path,
                            const QString& label, 

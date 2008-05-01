@@ -24,6 +24,7 @@
 #include "logwindow.h"
 #include "opticaldisk.h"
 #include "options.h"
+#include "patient.h"
 #include "patientdialog.h"
 #include "patientstatusbar.h"
 #include "realtimewindow.h"
@@ -56,9 +57,14 @@
 #include <QToolBar>
 #include <QVariant>
 
-#include <cassert>
+using EpGui::PatientDialog;
+using EpGui::SimulatorSettingsDialog;
+using EpGui::SystemDialog;
+using EpRecorder::Recorder;
 
-namespace EpRecorder {
+using namespace EpHardware;
+using namespace EpHardware::EpOpticalDisk;
+using namespace EpHardware::EpStimulator;
 
 Recorder::Recorder(QWidget* parent, 
                    Study* study, 
@@ -82,7 +88,7 @@ Recorder::Recorder(QWidget* parent,
                    review1SubWindow_(0),
                    review2SubWindow_(0),
                    logSubWindow_(0) {
-    assert(parent != 0);  // never call Recorder without parent
+    Q_ASSERT(parent != 0);  // never call Recorder without parent
     setAttribute(Qt::WA_DeleteOnClose);
 
     if (recorderWindow_ == Primary && qApp->desktop()->numScreens() > 1) {
@@ -149,7 +155,7 @@ void Recorder::setManualSave(bool enable) {
 
 void Recorder::updateWindowTitle() {
     QString title = tr("%1")
-        .arg(VersionInfo::instance()->programName());
+        .arg(EpCore::VersionInfo::instance()->programName());
     /// TODO need to have user stuff in Recorder
     title = User::instance()->isAdministrator() ? 
         QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
@@ -855,4 +861,3 @@ void Recorder::updateMenus() {
     realTimeAction_->setEnabled(Options::instance()->enableAcquisition());
 }
 
-}

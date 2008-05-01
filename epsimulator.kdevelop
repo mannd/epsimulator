@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/test</activedir>
+      <activedir>src/stimulator</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -171,6 +171,8 @@
       <subclass uifile="src/stimulator/ui/stimulator.ui" sourcefile="ui/stimulator.h" />
       <subclass uifile="src/stimulator/ui/teststimulator.ui" sourcefile="ui/teststimulator.cpp" />
       <subclass uifile="src/stimulator/ui/teststimulator.ui" sourcefile="ui/teststimulator.h" />
+      <subclass uifile="src/recorder/ui/studyconfigurationdialog.ui" sourcefile="ui/studyconfigurationdialog.cpp" />
+      <subclass uifile="src/recorder/ui/studyconfigurationdialog.ui" sourcefile="ui/studyconfigurationdialog.h" />
     </subclassing>
   </kdevtrollproject>
   <kdevcppsupport>

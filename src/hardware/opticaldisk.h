@@ -31,6 +31,8 @@ class QFile;
 class QStringList;
 class QWidget;
 
+namespace EpHardware { namespace EpOpticalDisk {
+
 struct LabelData {
     QString label;
     QString side;
@@ -175,7 +177,8 @@ private:
 
     bool isTwoSided_;
     QString diskName_;
-
 };
+
+}}
 
 #endif

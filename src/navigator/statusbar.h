@@ -25,6 +25,8 @@
 class QLabel;
 class QString;
 
+namespace EpNavigator {
+
 /**
  * Provides status bar functionality for the Navigator window.
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -45,7 +47,8 @@ private:
     QLabel* userLabel_;
     QLabel* sourceLabel_;
     QLabel* filterLabel_;
-
 };
+
+}
 
 #endif

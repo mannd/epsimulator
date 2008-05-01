@@ -24,6 +24,8 @@
 
 #include <QMessageBox>
 
+using EpGui::PasswordDialog;
+
 PasswordDialog::PasswordDialog(QWidget* parent)
     : QDialog(parent) {
     setupUi(this);

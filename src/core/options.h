@@ -23,6 +23,8 @@
 
 #include <QString>
 
+namespace EpCore {
+
 /**
  * Singleton class providing one-stop shopping for all program options.
  * These are set both in SystemDialog and SimulatorSettingsDialog.
@@ -166,5 +168,7 @@ private:
     unsigned int numChannels_;
 
 };
+
+}
 
 #endif

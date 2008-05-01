@@ -24,9 +24,9 @@
 #include <QCoreApplication>
 #include <QString>
 
-#include <cassert>
-
 class QDataStream;
+
+namespace EpPatient {
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -71,7 +71,9 @@ private:
 };
 
 inline void Saturation::testInvariant() const {
-    assert(number_ >= 0 && number_ <= 100);
+    Q_ASSERT(number_ >= 0 && number_ <= 100);
+}
+
 }
 
 #endif

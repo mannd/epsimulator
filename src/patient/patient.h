@@ -27,6 +27,8 @@
 
 class QDataStream;
 
+namespace EpPatient {
+
 /**
  * real-time patient simulation
  *
@@ -57,7 +59,8 @@ private:
 
     QString path_;      // path to patient.dat file
     Saturation o2Saturation_;
-
 };
+
+}
 
 #endif

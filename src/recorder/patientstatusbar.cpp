@@ -29,10 +29,7 @@
 #include <QTimer>
 #include <QWidget>
 
-using EpRecorder::NoSave;
-using EpRecorder::ManualSave;
-using EpRecorder::ExitSave;
-using EpRecorder::AutoSave;
+namespace EpRecorder {
 
 const int PatientStatusBar::updateInterval;
 
@@ -165,4 +162,6 @@ void PatientStatusBar::changeSaveStatus(SaveStatus saveStatus) {
         default:
             saveButton->setIcon(QIcon(noSaveIcon));
     }
+}
+
 }

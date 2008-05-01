@@ -21,34 +21,56 @@
 #ifndef RECORDER_H
 #define RECORDER_H
 
-#include "patient.h"
 #include "recorderdefs.h"
 
 #include <QMainWindow>
 #include <QMdiArea>
 #include <QMdiSubWindow>
 
-class DisplayWindow;
-class LogWindow;
-class OpticalDisk;
-class Options;
-class PatientStatusBar;
+
+//class OpticalDisk;
 class QAction;
 class QCloseEvent;
 class QComboBox;
 class QDockWidget;
 class QMenu;
 class QSplitter;
-class RealTimeWindow;
-class ReviewWindow;
-class Review2Window;
-class SatMonitor;
+
+//class SatMonitor;
 class QSettings;
-class Study;
-class User;
+
+namespace EpCore {
+    class Options;
+    class User;
+}
+
+namespace EpHardware { 
+    namespace EpOpticalDisk {
+        class OpticalDisk;
+    }
+    class SatMonitor;
+}
+
+namespace EpPatient {
+    class Patient;
+    class Study;
+}
 
 namespace EpRecorder {
 
+using EpCore::Options;
+using EpCore::User;
+using EpHardware::EpOpticalDisk::OpticalDisk;
+using EpHardware::SatMonitor;
+using EpPatient::Patient;
+using EpPatient::Study;
+
+class DisplayWindow;
+class LogWindow;
+class PatientStatusBar;
+class RealTimeWindow;
+class ReviewWindow;
+class Review2Window;
 
 class Recorder : public QMainWindow {
     Q_OBJECT

@@ -37,6 +37,10 @@
  */
 namespace EpGui {
 
+using EpCore::Options;
+using EpCore::User;
+using EpCore::VersionInfo;
+
 bool login(QWidget* parent, User* user) {
     bool success = false;
     if (!user->isAdministrator()) {

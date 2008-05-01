@@ -27,7 +27,8 @@
 #include <QSettings>
 #include <QToolBar>
 
-//
+using EpRecorder::LogWindow;
+
 LogWindow::LogWindow(int number, QWidget *parent)
  : DisplayWindow(tr("Log"), number, parent) {
 

@@ -25,6 +25,8 @@
 
 #include <bitset>
 
+namespace EpGui {
+
 /**
  *Emulates all the study configuration settings seen on the Study Configuration Dialog.  
  *
@@ -63,7 +65,8 @@ private:
     double highPassFilter_;
     double lowPassFilter_;
     bool notchFilter_;
-    
 };
+
+}
 
 #endif

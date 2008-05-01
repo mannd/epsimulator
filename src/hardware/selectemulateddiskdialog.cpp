@@ -20,6 +20,8 @@
 
 #include "selectemulateddiskdialog.h"
 
+using EpHardware::EpOpticalDisk::SelectEmulatedDiskDialog;
+
 SelectEmulatedDiskDialog::SelectEmulatedDiskDialog(QWidget *parent)
             : QDialog(parent), select_(false),
               new_(false), flip_(false) {

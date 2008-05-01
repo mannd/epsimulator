@@ -689,4 +689,39 @@ Recorder and Screens
         Saved settings: Again filtered on acquisition enabled or not.  There is a different
         list of saved windows for acquisition enabled and disabled.
 
-        
+More Namespace issues
+
+    Since the program involves several modules, and since we will probably allow plugins for physiology, possibly even gui plugins, it makes sense to namespace everything.  Namespaces generally correspond with libraries, but possibly not.  There may be a patient library and a physiology library, both under EpPatient namespace.  We won't bother with namespaces for unit tests, and of course all the Qt classes are in the global namespace (and begin with Q).  Hereis a namespace subtlety:
+
+// fileA.h
+namespace A {
+
+class X {};
+
+}
+
+// fileB.h
+
+class X;    // forward definition won't work
+
+class A::X; // this won't work either
+
+namespace A { class X; }    // this is what you must do
+
+namespace B {
+
+class Y {
+    X x;
+};
+
+}
+
+Namespaces in use now are:
+    Ep      basic typedefs and enums
+    EpCore  nonmember functions, error classes
+    EpGui   shared classes between Navigator and Recorder
+    EpHardware
+    EpPatient
+    EpNavigator
+    EpRecorder
+

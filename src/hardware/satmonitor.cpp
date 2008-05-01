@@ -20,11 +20,11 @@
 
 #include "satmonitor.h"
 
+using EpHardware::SatMonitor;
+
 SatMonitor::SatMonitor(QWidget* parent, Qt::WindowFlags fl)
                       : QWidget( parent, fl ), Ui::SatMonitor() {
     setupUi(this);
 }
 
 SatMonitor::~SatMonitor() {}
-
-

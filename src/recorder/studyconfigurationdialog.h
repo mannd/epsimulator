@@ -27,6 +27,8 @@
 
 class QStandardItemModel;
 
+namespace EpGui {
+
 class StudyConfigurationDialog : public QDialog, 
     private Ui::StudyConfigurationDialog {
     Q_OBJECT
@@ -43,7 +45,8 @@ protected slots:
 
 private:
     QStandardItemModel* model_;
-
 };
+
+}
 
 #endif

@@ -20,6 +20,8 @@
 
 #include "filtercatalogdialog.h"
 
+using EpNavigator::FilterCatalogDialog;
+
 FilterCatalogDialog::FilterCatalogDialog(QWidget* parent) : QDialog(parent) {
     setupUi(this);
     setDefaultDates();

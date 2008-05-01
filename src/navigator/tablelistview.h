@@ -29,12 +29,24 @@
 #include <Q3ListView>
 #include <QString>
 
-class Catalog;
-class Options;
+//class Catalog;
+namespace EpCore { class Options; }
+
+namespace EpPatient {
+
 class Study;
-struct StudyData;
+
+}
 
 class QRegExp;
+
+namespace EpNavigator {
+
+struct StudyData;
+class Catalog;
+
+using EpCore::Options;
+using EpPatient::Study;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -108,5 +120,7 @@ private:
     bool filteredOut_;
 
 }; // TableListViewItem
+
+}
 
 #endif

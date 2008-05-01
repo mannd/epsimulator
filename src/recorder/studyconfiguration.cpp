@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "studyconfiguration.h"
 
+using EpGui::StudyConfiguration;
+
 StudyConfiguration::StudyConfiguration() {
 }
 

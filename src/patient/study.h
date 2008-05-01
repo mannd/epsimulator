@@ -31,8 +31,11 @@
 
 #include <cassert> 
 
-class Heart;
+namespace EpPatient { class Heart; }
+
 class QDataStream;
+
+namespace EpPatient {
 
 /**
  *  Name has public data members to treat a full name as a unit.
@@ -58,7 +61,6 @@ struct Name {
 
 };
 
-/// TODO ? namespace EpPatient?
 typedef int AutonomicTone;
 
 enum Sex {Male, Female};
@@ -199,6 +201,8 @@ inline void Study::testInvariant() const {
     assert(sympatheticTone_ >= MIN_TONE && sympatheticTone_ <= MAX_TONE);
     assert (sex_ == Male || sex_ == Female);
     assert (ef_ >= MIN_EF && ef_ <= MAX_EF);
+}
+
 }
 
 #endif

@@ -21,6 +21,8 @@
 #ifndef AMPLIFIER_H
 #define AMPLIFIER_H
 
+namespace EpHardware { namespace EpAmplifier {
+
 /**
  * Emulates the amplifier, with different number of 
  * catheter input blocks and channels.
@@ -38,7 +40,8 @@ public:
 private:
     int numChannels_;
     int numCIMConnections_;
-
 };
+
+}}
 
 #endif

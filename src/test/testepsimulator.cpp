@@ -36,7 +36,17 @@
 #include "versioninfo.h"
 
 #include <cmath>
-#include <iostream>
+
+// import all the namespaces, why not?
+//using namespace Ep;
+using namespace EpCore;
+using namespace EpGui;
+using namespace EpPatient;
+using namespace EpNavigator;
+using namespace EpHardware;
+using namespace EpHardware::EpOpticalDisk;
+using namespace EpHardware::EpAmplifier;
+//using namespace EpRecorder;
 
 void TestEpSimulator::testStudyConstructor() {
     Study s;

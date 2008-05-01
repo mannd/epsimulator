@@ -29,6 +29,8 @@ class QAction;
 class QComboBox;
 class QSettings;
 
+namespace EpRecorder {
+
 /**
 Horizontally situation window at the bottom of the Central Widget, for logging events.
 
@@ -58,8 +60,8 @@ private:
     QAction* redoAction_;
     QAction* createEventAction_;
     QAction* printAction_;
-
 };
 
+}
 
 #endif

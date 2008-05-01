@@ -25,6 +25,8 @@
 
 #include <QWidget>
 
+namespace EpHardware {
+
 class SatMonitor : public QWidget, private Ui::SatMonitor {
     Q_OBJECT
 
@@ -39,5 +41,7 @@ protected:
 protected slots:
 
 };
+
+}
 
 #endif

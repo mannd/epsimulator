@@ -27,6 +27,13 @@
 #include <QList>
 #include <QListWidgetItem>
 
+using EpHardware::EpOpticalDisk::OpticalDisk;
+
+using EpNavigator::MoveCopyStudyDialog;
+using EpNavigator::CopyStudyDialog;
+using EpNavigator::MoveStudyDialog;
+using EpNavigator::StudyListWidgetItem;
+
 StudyListWidgetItem::StudyListWidgetItem(const QString& studyName, 
     const QString& studyPath, QListWidget* parent) 
     : QListWidgetItem(studyName, parent), studyPath_(studyPath) {

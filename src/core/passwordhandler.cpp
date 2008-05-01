@@ -22,6 +22,8 @@
 
 #include "options.h"
 
+using EpCore::PasswordHandler;
+
 PasswordHandler::PasswordHandler() :
     options_(Options::instance()), hash_(QCryptographicHash::Sha1){
     // set original password to "admin"

@@ -26,7 +26,15 @@
 #include <QScrollArea>
 #include <QString>
 
+class QAction;
+class QScrollArea;
 class QSettings;
+
+namespace EpRecorder {
+
+class ChannelBar;
+class SignalArea;
+class SignalWidget;
 
 class DisplayWindow : public QMainWindow {
     Q_OBJECT
@@ -53,11 +61,7 @@ private:
 
 };
 
-class ChannelBar;
-class QAction;
-class QScrollArea;
-class SignalArea;
-class SignalWidget;
+
 
 /**
  * Abstract base class for RealTimeWindow and ReviewWindow.  Implements common 
@@ -203,7 +207,8 @@ public:
 private:
     ChannelBar* channelBar_;
     SignalArea* signalArea_;
-
 };
+
+}
 
 #endif
