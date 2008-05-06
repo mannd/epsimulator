@@ -40,7 +40,7 @@ class User;
 
 namespace EpHardware { namespace EpOpticalDisk { class OpticalDisk; }}
 
-namespace EpPatient { class Study; }
+namespace EpStudy { class Study; }
 
 namespace EpNavigator {
 
@@ -56,7 +56,7 @@ using EpCore::User;
 
 using EpHardware::EpOpticalDisk::OpticalDisk;
 
-using EpPatient::Study;
+using EpStudy::Study;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -111,6 +111,10 @@ private slots:
     void setCatalogOther();
 
 private:
+    // disallowed
+    Navigator(const Navigator&);
+    Navigator& operator=(const Navigator&);
+
     // Functions to set up the Navigator main window.
     void createOpticalDrive();
     void createCentralWidget();

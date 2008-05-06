@@ -34,7 +34,7 @@
 // #define DEBUGKEYS 1
 
 using EpNavigator::TableListView;
-using EpPatient::Study;
+using EpStudy::Study;
 
 /**
  * Constructor for TableListViewItem subclass of Navigator

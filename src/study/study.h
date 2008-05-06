@@ -35,7 +35,9 @@ namespace EpPatient { class Heart; }
 
 class QDataStream;
 
-namespace EpPatient {
+namespace EpStudy {
+
+using EpPatient::Heart;
 
 /**
  *  Name has public data members to treat a full name as a unit.

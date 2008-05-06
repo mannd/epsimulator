@@ -22,6 +22,7 @@
 #define ERROR_H
 
 #include <QString>
+#include <QtDebug>
 
 #include <stdexcept>
 
@@ -34,7 +35,9 @@ class IoError : public std::runtime_error {
 public:
     IoError(const QString& fileName = "", 
                      const char* msg = "general IOError")
-                     : std::runtime_error(msg), fileName_(fileName) {}
+                     : std::runtime_error(msg), fileName_(fileName) {
+        qDebug() << "File " << fileName_ << " caused " << msg;
+    }
     virtual ~IoError() throw() {}
     
     virtual const char* what() const throw() {return std::runtime_error::what();} 
@@ -81,14 +84,22 @@ public:
                   : IoError(fileName, msg) {}
 };
 
+class WrongQtVersionError : public IoError {
+public:
+    WrongQtVersionError(const QString& fileName,
+                        const char* msg = "file from later version of Qt")
+                        : IoError(fileName, msg) {}
+};
+
 
 /**
  * Incompatible file from earlier version of epsimulator.
  */
 class WrongEpSimVersionError : public IoError {
 public:
-    WrongEpSimVersionError(const char* msg = "wrong EP Simulator version")
-                           : IoError("", msg) {}
+    WrongEpSimVersionError(const QString& fileName,
+                           const char* msg = "wrong EP Simulator version")
+                           : IoError(fileName, msg) {}
 };
 
 class DeleteError : public IoError {

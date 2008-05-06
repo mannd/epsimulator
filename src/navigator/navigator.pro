@@ -39,7 +39,8 @@ INCLUDEPATH += ../gui \
  ../recorder \
  ../patient \
  ../core \
- ../hardware
+ ../hardware \
+ ../study
 
 #The following line was inserted by qt3to4
 QT +=  qt3support 
@@ -53,11 +54,13 @@ LIBS += -L../../lib \
 -lpatient \
 -lgui \
 -lhardware \
- -lrecorder
+ -lrecorder \
+ -lstudy
 TARGETDEPS += ../../lib/libcore.so \
 ../../lib/libpatient.so \
 ../../lib/libgui.so \
 ../../lib/libhardware.so \
- ../../lib/librecorder.so
+ ../../lib/librecorder.so \
+ ../../lib/libstudy.so
 CONFIG -= release
 

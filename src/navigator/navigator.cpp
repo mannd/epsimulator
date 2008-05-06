@@ -67,7 +67,7 @@
 using EpGui::PatientDialog;
 using EpGui::SimulatorSettingsDialog;
 using EpGui::SystemDialog;
-using EpPatient::Study;
+using EpStudy::Study;
 using EpNavigator::Navigator;
 using EpNavigator::StatusBar;
 
@@ -836,7 +836,7 @@ void Navigator::createActions() {
         tr("Study configurations"), SLOT(setStudyConfigurations()));
     systemSettingsAction_= createAction(this, tr("System Settings"),
         tr("Change system settings"), SLOT(systemSettings()));
-    simulatorSettingsAction_ = createAction(this, tr("*Simulator QSettings*"),
+    simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Help menu
@@ -1010,39 +1010,37 @@ void Navigator::processFilter() {
         regenerateAction_->setEnabled(false);
 }
 
-void Navigator::startStudy(Study* s, bool review) {
+void Navigator::startStudy(Study* study, bool review) {
     // write study files
     QString studiesPath = currentDisk_->studiesPath();
     QDir studiesDir(studiesPath);
-    /// FIXME note possible memory leak if exception thrown.
-    /// s will not be deleted.  Right now these exceptions are
-    /// not caught, so it doesn't matter too much.
-    if (!studiesDir.exists()) {
-        if (!studiesDir.mkdir(studiesPath))
+    if (!studiesDir.exists() && !studiesDir.mkdir(studiesPath)) {
+            delete study;
             throw EpCore::IoError(studiesPath, "could not create studiesPath");
     }
     // create study directory and write study.dat file
-    QString studyPath = studiesPath + s->dirName();
+    QString studyPath = studiesPath + study->dirName();
     QDir studyDir(studyPath);
-    if (!studyDir.exists()) {
-        if (!studyDir.mkdir(studyPath))
+    if (!studyDir.exists() && !studyDir.mkdir(studyPath)) {
+            delete study;
             throw EpCore::IoError(studyPath, "could not create studyPath");
     }
-    s->setPath(studyPath);
-    s->save();
+    study->setPath(studyPath);
+    study->save();
     using EpRecorder::Recorder;
     bool allowAcquisition = options_->enableAcquisition() && !review;
-    Recorder* recorder = new Recorder(this, s, currentDisk_, 
+    Recorder* recorder = new Recorder(this, study, currentDisk_, 
         allowAcquisition);
     recorder->show();
     connect(recorder, SIGNAL(updateSimulatorSettings()),
         this, SLOT(updateSimulatorSettings()));
+    recorder->setupInitialScreen();
     hide();
     updateAll();
 }
 
-void Navigator::reviewStudy(Study* s) {
-    startStudy(s, true);
+void Navigator::reviewStudy(Study* study) {
+    startStudy(study, true);
 }
 
 void Navigator::reports(Study*) {

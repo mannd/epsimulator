@@ -82,6 +82,8 @@ public:
         immovablePatientStatusBar_ = enable;}
     void setPatientStatusBarHasTitle(bool enable) {
         patientStatusBarHasTitle_ = enable;}
+    void setEmulateTwoScreens(bool enable) {
+        emulateTwoScreens_ = enable;}
 
     // Amplifier
     void setNumChannels(unsigned int n) {numChannels_ = n;}
@@ -114,6 +116,7 @@ public:
     bool autoSaveDiskIcon() const {return autoSaveDiskIcon_;}
     bool immovablePatientStatusBar() const {return immovablePatientStatusBar_;}
     bool patientStatusBarHasTitle() const {return patientStatusBarHasTitle_;}
+    bool emulateTwoScreens() const {return emulateTwoScreens_;}
 
     unsigned int numChannels() const {return numChannels_;}
 
@@ -163,6 +166,7 @@ private:
     bool autoSaveDiskIcon_;
     bool immovablePatientStatusBar_;
     bool patientStatusBarHasTitle_;
+    bool emulateTwoScreens_;
 
     // Amplifier
     unsigned int numChannels_;

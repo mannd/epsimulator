@@ -25,9 +25,9 @@
 #include <math.h>
 
 using EpGui::PatientDialog;
-using EpPatient::Sex;
-using EpPatient::Male;
-using EpPatient::Female;
+using EpStudy::Sex;
+using EpStudy::Male;
+using EpStudy::Female;
 
 PatientDialog::PatientDialog(QWidget* parent) :
             QDialog(parent), metricHeight_(0.0),

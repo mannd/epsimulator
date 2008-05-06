@@ -37,7 +37,8 @@ void EpCore::saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
     out << static_cast<quint32>(magicNumber);
     VersionInfo* v = VersionInfo::instance();
     out << static_cast<quint32>(v->versionMajor())
-        << static_cast<quint32>(v->versionMinor());
+        << static_cast<quint32>(v->versionMinor())
+        << static_cast<quint16>(out.version());
 }
 
 /**

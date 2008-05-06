@@ -29,16 +29,15 @@
 #include <Q3ListView>
 #include <QString>
 
-//class Catalog;
-namespace EpCore { class Options; }
+class QRegExp;
 
-namespace EpPatient {
-
-class Study;
-
+namespace EpCore { 
+    class Options; 
 }
 
-class QRegExp;
+namespace EpStudy {
+    class Study;
+}
 
 namespace EpNavigator {
 
@@ -46,7 +45,7 @@ struct StudyData;
 class Catalog;
 
 using EpCore::Options;
-using EpPatient::Study;
+using EpStudy::Study;
 
 /**
  * @author David Mann <mannd@epstudiossoftware.com>

@@ -47,6 +47,7 @@ using namespace EpHardware;
 using namespace EpHardware::EpOpticalDisk;
 using namespace EpHardware::EpAmplifier;
 //using namespace EpRecorder;
+using namespace EpStudy;
 
 void TestEpSimulator::testStudyConstructor() {
     Study s;

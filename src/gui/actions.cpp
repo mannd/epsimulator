@@ -27,6 +27,7 @@
 #include "versioninfo.h"
 
 #include <QAction>
+#include <QDir>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QObject>
@@ -120,7 +121,7 @@ void browseFilePaths(QWidget* parent, QLineEdit* lineEdit,
         QString fileName = QString();
         if (!files.isEmpty())
             fileName = files[0];
-        lineEdit->setText(fileName);
+        lineEdit->setText(QDir::toNativeSeparators(fileName));
     }
 }
 

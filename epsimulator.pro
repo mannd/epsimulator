@@ -6,6 +6,7 @@
 QT += qt3support
 
 SUBDIRS += src/core \
+           src/study \
            src/patient \
            src/gui \
            src/hardware \
@@ -13,8 +14,9 @@ SUBDIRS += src/core \
 	   src/recorder \
            src/navigator \
            src/main \
-           src/test 
- 
+           src/test
+
+
 
 
 TEMPLATE = subdirs

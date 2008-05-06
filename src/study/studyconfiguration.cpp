@@ -17,12 +17,58 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "studyconfiguration.h"
 
-using EpGui::StudyConfiguration;
+#include <QDataStream>
 
-StudyConfiguration::StudyConfiguration() {
+using EpStudy::StudyConfiguration;
+
+namespace EpStudy {
+
+QDataStream& operator<<(QDataStream& out, const Channel&) {
+    return out;
 }
+
+QDataStream& operator>>(QDataStream& in, Channel&) {
+    return in;
+}
+
+QDataStream& operator<<(QDataStream& out, const Protocol&) {
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, Protocol&) {
+    return in;
+}
+
+// QDataStream& operator<<(QDataStream&, const Channel&) {
+//     return out;
+// }
+// 
+// QDataStream& operator>>(QDataStream&, Channel&) {
+//     return in;
+// }
+
+
+QDataStream& operator<<(QDataStream& out, const StudyConfiguration& studyConfig) {
+    out << studyConfig.name_ << studyConfig.protocolList_ 
+        << studyConfig.channelList_;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
+    in >> studyConfig.channelList_>> studyConfig.protocolList_
+        >> studyConfig.name_;
+    return in;
+}
+
+}
+
+const QString configFileName_ = "config.dat";
+
+
+StudyConfiguration::StudyConfiguration(const QString& name) : name_(name) {}
 
 
 StudyConfiguration::~StudyConfiguration() {}

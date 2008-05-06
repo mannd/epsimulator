@@ -6,7 +6,6 @@ SOURCES += recorder.cpp \
  displaywindow.cpp \
  reviewwindow.cpp \
  logwindow.cpp \
- studyconfiguration.cpp \
  studyconfigurationdialog.cpp
 
 HEADERS += recorder.h \
@@ -16,14 +15,14 @@ HEADERS += recorder.h \
  reviewwindow.h \
  logwindow.h \
  recorderdefs.h \
- studyconfiguration.h \
  studyconfigurationdialog.h
 
 INCLUDEPATH += ../gui \
 ../stimulator \
  ../patient \
  ../core \
- ../hardware
+ ../hardware \
+ ../study
 CONFIG -= release
 
 CONFIG += debug \
@@ -50,9 +49,11 @@ LIBS += -L../../lib \
 -lpatient \
 -lgui \
 -lhardware \
- ../../lib/libstimulator.a
+ ../../lib/libstimulator.a \
+ -lstudy
 TARGETDEPS += ../../lib/libcore.so \
 ../../lib/libpatient.so \
 ../../lib/libgui.so \
 ../../lib/libhardware.so \
- ../../lib/libstimulator.a
+ ../../lib/libstimulator.a \
+ ../../lib/libstudy.so

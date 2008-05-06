@@ -26,7 +26,7 @@
 
 #include <QDir>
 
-namespace EpPatient {
+namespace EpStudy {
 
 // struct Name
 

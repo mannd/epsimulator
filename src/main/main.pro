@@ -10,7 +10,8 @@ INCLUDEPATH += ../core \
  ../patient \
  ../gui \
  ../hardware \
- ../stimulator
+ ../stimulator \
+ ../study
 LIBS += -lpatient \
 -lgui \
 -lcore \
@@ -18,14 +19,16 @@ LIBS += -lpatient \
  -lrecorder \
  -lhardware \
  ../../lib/libstimulator.a \
- -lnavigator
+ -lnavigator \
+ -lstudy
 TARGETDEPS += ../../lib/libcore.so \
 ../../lib/libpatient.so \
 ../../lib/libgui.so \
 ../../lib/librecorder.so \
  ../../lib/libhardware.so \
  ../../lib/libstimulator.a \
- ../../lib/libnavigator.so
+ ../../lib/libnavigator.so \
+ ../../lib/libstudy.so
 SOURCES += main.cpp
 
 

@@ -31,9 +31,9 @@ namespace EpHardware { namespace EpStimulator {
 
 using namespace Ep;
 
-    enum Stimulus {S1 = 1, S2, S3, S4, S5};
-    enum StimulusPair {S1S1, S1S2, S2S3, S3S4, S4S5};
-    typedef unsigned int ChannelNumber;
+enum Stimulus {S1 = 1, S2, S3, S4, S5};
+enum StimulusPair {S1S1, S1S2, S2S3, S3S4, S4S5};
+typedef unsigned int ChannelNumber;
 
 /**
  * @class Channel

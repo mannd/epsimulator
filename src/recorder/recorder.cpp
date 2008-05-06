@@ -57,6 +57,8 @@
 #include <QToolBar>
 #include <QVariant>
 
+#include <QtDebug>
+
 using EpGui::PatientDialog;
 using EpGui::SimulatorSettingsDialog;
 using EpGui::SystemDialog;
@@ -118,56 +120,6 @@ Recorder::Recorder(QWidget* parent,
     updateAll();
 }
 
-void Recorder::createCentralWidget() {
-    centralWidget_ = new QMdiArea;
-    setCentralWidget(centralWidget_);
-    readSettings();
-    // deal with no saved settings (first run-through of program).
-    ///  TODO this must be altered for multihead system.
-    if (centralWidget_->subWindowList().isEmpty()) {
-        if (Options::instance()->enableAcquisition()) {
-            realTimeWindow_ = new RealTimeWindow;
-            realTimeSubWindow_ = centralWidget_->addSubWindow(realTimeWindow_);
-            centralWidget_->tileSubWindows();
-        }
-        else {
-            review1Window_ = new ReviewWindow(1);
-            review1SubWindow_ = centralWidget_->addSubWindow(review1Window_);
-            logWindow_ = new LogWindow;
-            logSubWindow_ = centralWidget_->addSubWindow(logWindow_);
-            // trying to approximate a good layout for review1 and log windows.
-            // Unfortunately centralWidget_ does not give accurate height()
-            // and width() values at this stage of construction.
-            int w = width();
-            int h = height();            
-            review1SubWindow_->move(0, 0);
-            review1SubWindow_->resize(w, 5 * h / 8);
-            logSubWindow_->move(0, 5 * h / 8);
-            logSubWindow_->resize(w, h / 4);
-        } 
-    }
-
-}
-
-void Recorder::setManualSave(bool enable) {
-    manualSaveAction_->setChecked(enable);
-}
-
-void Recorder::updateWindowTitle() {
-    QString title = tr("%1")
-        .arg(EpCore::VersionInfo::instance()->programName());
-    /// TODO need to have user stuff in Recorder
-    title = User::instance()->isAdministrator() ? 
-        QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
-    setWindowTitle(title);
-}
-
-void Recorder::updateAll() {
-    updateMenus();
-    updateWindowTitle();
-    updateSettings();
-}
-
 Recorder::~Recorder() {
     /// FIXME
     /// The primary Recorder window owns the pointers below
@@ -180,6 +132,110 @@ Recorder::~Recorder() {
     // Recorder took possession of study_, so has to kill it now.
     delete study_;
 }
+
+void Recorder::createCentralWidget() {
+    centralWidget_ = new QMdiArea;
+    setCentralWidget(centralWidget_);
+    readSettings();
+//     // deal with no saved settings (first run-through of program).
+//     ///  TODO this must be altered for multihead system.
+//     if (centralWidget_->subWindowList().isEmpty()) {
+//         if (Options::instance()->enableAcquisition()) {
+//             realTimeWindow_ = new RealTimeWindow;
+//             realTimeSubWindow_ = centralWidget_->addSubWindow(realTimeWindow_);
+//             centralWidget_->tileSubWindows();
+//         }
+//         else {
+//             review1Window_ = new ReviewWindow(1);
+//             review1SubWindow_ = centralWidget_->addSubWindow(review1Window_);
+//             logWindow_ = new LogWindow;
+//             logSubWindow_ = centralWidget_->addSubWindow(logWindow_);
+//             centralWidget_->tileSubWindows();
+//             // trying to approximate a good layout for review1 and log windows.
+//             // Unfortunately centralWidget_ does not give accurate height()
+//             // and width() values at this stage of construction.
+//             //int w = width();
+// //             int h = height();            
+// //             review1SubWindow_->move(0, 0);
+// //             review1SubWindow_->resize(w, h * 2 / 3);
+// //             logSubWindow_->move(0, h * 2 / 3);
+// //             logSubWindow_->resize(w, h / 3);
+//         } 
+//     }
+
+}
+
+/**
+ * Sets up the screens when application first run, or number of screens
+ * or emulateTwoScreens option or enableAcquisition options change, 
+ * or if selected window settings doesn't match number of screens
+ * (e.g. window setting alpha is chosen, but was saved in a one
+ * screen system, and now there are 2 screens.  setupInitialScreen is
+ * run in this situation to generate a standard screen appearance, that
+ * can then be changes and saved as the 2 screen version of alpha).
+ * @param tile set to true if "tiling" an already setup screen.
+ */
+void Recorder::setupInitialScreen(bool tile) {
+    centralWidget_->closeAllSubWindows();
+    if (qApp->desktop()->numScreens() > 1 || options_->emulateTwoScreens()) { 
+        if (recorderWindow_ == Primary && allowAcquisition_) {
+            realTimeWindowOpen(true);
+            centralWidget_->tileSubWindows();
+        }
+        else { // recorderWindow_ == Secondary or no Acquistion
+            review1WindowOpen(true);
+            logWindowOpen(true);
+            centralWidget_->tileSubWindows();       
+        }
+    }
+    else {  // only one screen, should just be the Primary screen
+        review1WindowOpen(true);
+        logWindowOpen(true);
+        // trying to approximate a good layout for review1 and log windows.
+        int w = centralWidget()->width();
+        int h = centralWidget()->height();
+        // on initial setup, for some reason the central widget height
+        // is not properly setup, the status bar height is not accounted
+        // for.  This doesn't happen again after the initial setup.
+        if (!tile)
+            h -= statusBar()->height();
+        if (allowAcquisition_) {
+            realTimeWindowOpen(true);
+            realTimeSubWindow_->move(0,0);
+            realTimeSubWindow_->resize(w / 2, h * 2 /3);
+            review1SubWindow_->move(w / 2, 0);
+            review1SubWindow_->resize(w / 2, h * 2 / 3);
+            centralWidget_->setActiveSubWindow(realTimeSubWindow_);
+        }
+        else {
+            review1SubWindow_->move(0,0);
+            review1SubWindow_->resize(w, h * 2 / 3);
+            centralWidget_->setActiveSubWindow(review1SubWindow_);
+        }   // logSubWindow_ always same position
+        logSubWindow_->move(0, h * 2 / 3);
+        logSubWindow_->resize(w, (h / 3));
+    }
+}
+
+void Recorder::setManualSave(bool enable) {
+    manualSaveAction_->setChecked(enable);
+}
+
+void Recorder::updateWindowTitle() {
+    QString title = tr("%1")
+        .arg(EpCore::VersionInfo::instance()->programName());
+    title = User::instance()->isAdministrator() ? 
+        QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
+    setWindowTitle(title);
+}
+
+void Recorder::updateAll() {
+    updateMenus();
+    updateWindowTitle();
+    updateSettings();
+}
+
+
 
 void Recorder::patientInformation() {
     PatientDialog* patientDialog = new PatientDialog(this);
@@ -293,6 +349,10 @@ void Recorder::closeEvent(QCloseEvent *event) {
         event->ignore();
 }
 
+// void Recorder::resizeEvent(QResizeEvent* event) {
+//     event->accept();
+// }
+
 bool Recorder::closeStudy() {
     int ret = QMessageBox::question(this,
         tr("Close Study?"),
@@ -393,48 +453,48 @@ void Recorder::readSettings(QSettings& settings) {
     move(settings.value("pos").toPoint());
     restoreState(settings.value("state").toByteArray());
     // clear the central widget - close all the subwindows
-    centralWidget_->closeAllSubWindows();
-    // read a list of the saved subwindows, open each one and 
-    // readSettings for each one.
-    // Note that below is clunky, but seems best solution after
-    // experimenting with less repetitive ways of doing this.
-    QStringList subWindowKeys = settings.value("subWindowList").toStringList();
-    QString currentWindowKey = settings.value("currentWindowKey").toString();
-    QMdiSubWindow* activeWindow = 0;
-    // sorry, no RealTime window if no acquisition
-    if (subWindowKeys.contains(realTimeWindowKey) &&
-        Options::instance()->enableAcquisition()) {
-        // apparently can't use pointer to member function here
-        // because Recorder is not fully constructed yet, so pointer to
-        // member is wild.
-        realTimeWindowOpen(true);
-        restoreDisplayWindow(realTimeWindowKey, 
-            settings, currentWindowKey, realTimeSubWindow_, 
-            realTimeWindow_, activeWindow);
-    }
-    if (subWindowKeys.contains(review1WindowKey)) {
-        review1WindowOpen(true);
-        restoreDisplayWindow(review1WindowKey, 
-            settings, currentWindowKey, review1SubWindow_, 
-            review1Window_, activeWindow);
-    }
-    if (subWindowKeys.contains(review2WindowKey)) {
-        review2WindowOpen(true);
-        restoreDisplayWindow(review2WindowKey, 
-            settings, currentWindowKey, review2SubWindow_, 
-            review2Window_, activeWindow);
-    }
-    if (subWindowKeys.contains(logWindowKey)) {
-        logWindowOpen(true);
-        restoreDisplayWindow(logWindowKey, 
-            settings, currentWindowKey, logSubWindow_, 
-            logWindow_, activeWindow);
-    }
-    /// TODO again add future DisplayWindow processing here.
-    settings.endGroup();
-    settings.endGroup();
-    if (activeWindow)
-        centralWidget_->setActiveSubWindow(activeWindow);
+//     centralWidget_->closeAllSubWindows();
+//     // read a list of the saved subwindows, open each one and 
+//     // readSettings for each one.
+//     // Note that below is clunky, but seems best solution after
+//     // experimenting with less repetitive ways of doing this.
+//     QStringList subWindowKeys = settings.value("subWindowList").toStringList();
+//     QString currentWindowKey = settings.value("currentWindowKey").toString();
+//     QMdiSubWindow* activeWindow = 0;
+//     // sorry, no RealTime window if no acquisition
+//     if (subWindowKeys.contains(realTimeWindowKey) &&
+//         Options::instance()->enableAcquisition()) {
+//         // apparently can't use pointer to member function here
+//         // because Recorder is not fully constructed yet, so pointer to
+//         // member is wild.
+//         realTimeWindowOpen(true);
+//         restoreDisplayWindow(realTimeWindowKey, 
+//             settings, currentWindowKey, realTimeSubWindow_, 
+//             realTimeWindow_, activeWindow);
+//     }
+//     if (subWindowKeys.contains(review1WindowKey)) {
+//         review1WindowOpen(true);
+//         restoreDisplayWindow(review1WindowKey, 
+//             settings, currentWindowKey, review1SubWindow_, 
+//             review1Window_, activeWindow);
+//     }
+//     if (subWindowKeys.contains(review2WindowKey)) {
+//         review2WindowOpen(true);
+//         restoreDisplayWindow(review2WindowKey, 
+//             settings, currentWindowKey, review2SubWindow_, 
+//             review2Window_, activeWindow);
+//     }
+//     if (subWindowKeys.contains(logWindowKey)) {
+//         logWindowOpen(true);
+//         restoreDisplayWindow(logWindowKey, 
+//             settings, currentWindowKey, logSubWindow_, 
+//             logWindow_, activeWindow);
+//     }
+//     /// TODO again add future DisplayWindow processing here.
+//     settings.endGroup();
+//     settings.endGroup();
+//     if (activeWindow)
+//         centralWidget_->setActiveSubWindow(activeWindow);
 }
 
 void Recorder::login() {
@@ -478,7 +538,12 @@ void Recorder::help() {
 }
 
 void Recorder::tileSubWindows() {
-    centralWidget_->tileSubWindows();
+    /// TODO option to control regular tiling vs 
+    /// return to initial window settings
+    // regular tiling
+    // centralWidget_->tileSubWindows();
+    setupInitialScreen(true);
+    // need to emit signals to other Recorder window
 }
 
 void Recorder::cascadeSubWindows() {
@@ -685,7 +750,7 @@ void Recorder::createActions() {
         tr("Test amplifier"));
     ejectOpticalDiskAction_ = createAction(this, tr("Eject Optical Disk"),
         tr("Eject optical disk"));
-    simulatorSettingsAction_ = createAction(this, tr("*Simulator QSettings*"),
+    simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Hardware menu -- NB No equivalent in Prucka system

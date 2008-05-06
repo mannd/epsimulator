@@ -37,14 +37,13 @@
 #include <vector>
 
 class QDataStream;
-class QFile;
 
 namespace EpCore { class Options; }
 
 namespace EpNavigator {
 
 using EpCore::Options;
-using EpPatient::Study;
+using EpStudy::Study;
 
 struct StudyData {
     friend QDataStream& operator<<(QDataStream&, const StudyData&);

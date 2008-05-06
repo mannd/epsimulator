@@ -76,14 +76,12 @@ void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
         if (!file.open(QIODevice::WriteOnly))
             throw OpenWriteError(file.fileName());
         QDataStream out(&file);
-        out.setVersion(5);
         saveMagicNumber(magicNumber, out);
         file.close();
     }
     if (!file.open(QIODevice::ReadOnly))
         throw OpenReadError(file.fileName());
     QDataStream in(&file);
-    in.setVersion(5);
     quint32 magic;
     in >> magic;
     if (magic != magicNumber)
@@ -91,7 +89,11 @@ void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
     quint32 versionMajor, versionMinor;
     in >> versionMajor >> versionMinor;
     if (!VersionInfo::versionOk(versionMajor, versionMinor))
-        throw WrongEpSimVersionError();
+        throw WrongEpSimVersionError(file.fileName());
+    quint16 streamVersion;
+    in >> streamVersion;
+    if (streamVersion > in.version())
+        throw WrongQtVersionError(file.fileName());
     if (!in.atEnd())
         in >> data;
     if (file.error() != QFile::NoError)
@@ -105,7 +107,6 @@ void saveData(const QString& filePath, unsigned int magicNumber, const T& data) 
     if (!file.open(QIODevice::WriteOnly))
         throw OpenWriteError(file.fileName());
     QDataStream out(&file);
-    out.setVersion(5);
     saveMagicNumber(magicNumber, out);
     out << data;
     if (file.error() != QFile::NoError)

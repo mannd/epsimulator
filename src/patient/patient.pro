@@ -7,12 +7,10 @@ CONFIG -= release
 DESTDIR = ../../lib/
 
 SOURCES += heart.cpp \
-study.cpp \
- saturation.cpp \
+saturation.cpp \
  patient.cpp
 HEADERS += heart.h \
-study.h \
- saturation.h \
+saturation.h \
  patient.h
 INCLUDEPATH += ../core
 

@@ -8,7 +8,8 @@ CONFIG += dll \
 DESTDIR = ../../lib
 
 INCLUDEPATH += ../patient \
- ../core
+ ../core \
+ ../study
 
 SOURCES += simulatorsettingsdialog.cpp \
  patientdialog.cpp \
@@ -37,9 +38,11 @@ DISTFILES += .
 
 LIBS += -lpatient \
  -lcore \
- -L../../lib
+ -L../../lib \
+ -lstudy
 TARGETDEPS += ../../lib/libpatient.so \
- ../../lib/libcore.so
+ ../../lib/libcore.so \
+ ../../lib/libstudy.so
 
 RESOURCES += ../resources/resources.qrc
 

@@ -32,15 +32,16 @@ class QTimer;
 class QWidget;
 
 namespace EpPatient {
+    class Patient;
+}
 
-struct Name;
-class Patient;
-
+namespace EpStudy {
+    struct Name;
 }
 
 namespace EpRecorder {
 
-using EpPatient::Name;
+using EpStudy::Name;
 using EpPatient::Patient;
 using EpPatient::Saturation;
 using EpRecorder::SaveStatus;

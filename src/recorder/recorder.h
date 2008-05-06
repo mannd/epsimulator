@@ -53,6 +53,9 @@ namespace EpHardware {
 
 namespace EpPatient {
     class Patient;
+}
+
+namespace EpStudy {
     class Study;
 }
 
@@ -63,7 +66,7 @@ using EpCore::User;
 using EpHardware::EpOpticalDisk::OpticalDisk;
 using EpHardware::SatMonitor;
 using EpPatient::Patient;
-using EpPatient::Study;
+using EpStudy::Study;
 
 class DisplayWindow;
 class LogWindow;
@@ -79,6 +82,7 @@ public:
         Study* study, OpticalDisk* currentDisk, bool allowAcquisition = true,
         RecorderWindow = Primary);
     
+    void setupInitialScreen(bool tile = false);  // the default screen setup
     void updateAll();
 
     ~Recorder();
@@ -87,8 +91,9 @@ public slots:
 //    void manualSave();  // starts manual saving, depresses Save button
 
 protected:
-    void closeEvent(QCloseEvent * event);
+    void closeEvent(QCloseEvent* event);
     //    void contextMenuEvent(QContextMenuEvent * event);
+   // void resizeEvent(QResizeEvent* event);
 
 signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
@@ -120,6 +125,9 @@ private slots:
     void cascadeSubWindows();
 
 private:
+    // disallowed
+    Recorder(const Recorder&);
+    Recorder& operator=(const Recorder&);
  
     std::vector<bool> openDisplayWindowList_;
 
@@ -129,6 +137,8 @@ private:
     void restoreDisplayWindow(const QString& key,
         QSettings& settings, const QString& currentWindowKey,
         QMdiSubWindow*, DisplayWindow*, QMdiSubWindow*& currentSubWindow);
+
+    void arrangeSubWindows();
 
     void createActions();
     void createCentralWidget();
