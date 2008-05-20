@@ -117,17 +117,17 @@ void saveData(const QString& filePath, unsigned int magicNumber, const T& data) 
 template<typename T>
 void saveSystemData(unsigned int magicNumber, 
     const T& data, Options* options) {
-    if (options->enableNetworkStorage())
-        saveData(options->networkStudyPath(), magicNumber, data);
-    saveData(options->systemCatalogPath(), magicNumber, data);
+    if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
+        saveData(options->networkStudyPath, magicNumber, data);
+    saveData(options->systemCatalogPath, magicNumber, data);
 } 
 
 template<typename T>
 void loadSystemData(unsigned int magicNumber, T& data, Options* options) {
-    if (options->enableNetworkStorage())
-        loadData(options->networkStudyPath(), magicNumber, data);
+    if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
+        loadData(options->networkStudyPath, magicNumber, data);
     else
-        loadData(options->systemCatalogPath(), magicNumber, data);
+        loadData(options->systemCatalogPath, magicNumber, data);
 }
 
 }

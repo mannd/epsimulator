@@ -35,7 +35,12 @@
 #include "user.h"
 #include "versioninfo.h"
 
+#include <QDir>
+#include <QtDebug>
+
 #include <cmath>
+
+// note: tests depend on working directory == .../epsimulator/src/test
 
 // import all the namespaces, why not?
 //using namespace Ep;
@@ -226,11 +231,26 @@ void TestEpSimulator::testStudyLoadSave() {
 
 void TestEpSimulator::testOptions() {
     Options* o = Options::instance();
-    QString s = o->opticalStudyPath();
-    QVERIFY(s == o->opticalStudyPath());
-    o->setOpticalStudyPath(s);
-    QVERIFY(s == o->opticalStudyPath());
-    o->destroy();
+    QString s = o->opticalStudyPath;
+    QVERIFY(s == o->opticalStudyPath);
+    o->opticalStudyPath = s;
+    QVERIFY(s == o->opticalStudyPath);
+    //o->destroy();
+    Options* o2 = Options::instance();
+    QVERIFY(o == o2);    // confirm all options identical
+}
+
+void TestEpSimulator::testOptionsFlags() {
+    Options* o = Options::instance();
+    setFlag(o->filePathFlags, Options::EnableAcquisition);
+    QVERIFY(o->filePathFlags.testFlag(Options::EnableAcquisition));
+    clearFlag(o->filePathFlags, Options::EnableAcquisition);
+    QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
+    o->writeSettings();
+    setFlag(o->filePathFlags, Options::EnableAcquisition);
+    QVERIFY(o->filePathFlags.testFlag(Options::EnableAcquisition));
+    o->readSettings();  // enable acquisition should be off again
+    QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
 }
 
 void TestEpSimulator::testOpticalDisk() {
@@ -411,8 +431,9 @@ void TestEpSimulator::testVersionOk() {
 }
 
 void TestEpSimulator::testCatalog() {
-    Catalog c("../System", "catalog.dat");
-    QVERIFY(c.filePath() == "../System/catalog.dat");
+    Catalog c("../../System", "catalog.dat");
+    //qDebug() << "Working Dir = " << QDir::current();
+    QVERIFY(c.filePath() == "../../System/catalog.dat");
     c.setPath("/testpath/");
     // make sure no duplicate backslashes
     QVERIFY(c.filePath() == "/testpath/catalog.dat");
@@ -424,16 +445,16 @@ void TestEpSimulator::testCatalog() {
 
 void TestEpSimulator::testCatalogs() {
     Options* o = Options::instance();
-    Catalogs* c1 = new Catalogs(o, "");
-    c1->setCatalogPath(Catalog::Other, "/tmp/test");
+    Catalogs* c1 = new Catalogs(o, "../../tmp/");
+    c1->setCatalogPath(Catalog::Other, "../../tmp/test2");
     c1->setCurrentCatalog(Catalog::Other);
-    QVERIFY(c1->currentCatalog()->path() == "/tmp/test");
+    QVERIFY(c1->currentCatalog()->path() == "../../tmp/test2");
     delete c1;
 }
 
 void TestEpSimulator::testCatalogAddStudy() {
     Options* o = Options::instance();
-    Catalogs* cats = new Catalogs(o, o->opticalStudyPath());
+    Catalogs* cats = new Catalogs(o, o->opticalStudyPath);
     Study* s = new Study;
     Name n = {"Doe", "John", "E"};
     s->setName(n);
@@ -451,18 +472,19 @@ void TestEpSimulator::testCatalogAddStudy() {
 void TestEpSimulator::testCatalogComboBox() {
     CatalogComboBox* c = new CatalogComboBox;
     Options* o = Options::instance();
-    bool originalEnableNetwork = o->enableNetworkStorage();
-    o->setEnableNetworkStorage(false);
+    bool originalEnableNetwork =
+        o->filePathFlags.testFlag(Options::EnableNetworkStorage);
+    clearFlag(o->filePathFlags, Options::EnableNetworkStorage);
     // must refresh catalogcombobox after system options changed!
     c->refresh();
     QVERIFY(c->source() == Catalog::System);
     QVERIFY(c->currentItem() == 0);   // there should be no Network
     c->setSource(Catalog::Network);  // should not work because of above
-    QVERIFY(!o->enableNetworkStorage());
+    QVERIFY(!o->filePathFlags.testFlag(Options::EnableNetworkStorage));
     QVERIFY(c->currentItem() == 0);
     QVERIFY(c->source() != Catalog::Network);
     // should be System
-    o->setEnableNetworkStorage(true);
+    setFlag(o->filePathFlags, Options::EnableNetworkStorage, true);
     c->refresh();
     QVERIFY(c->source() == Catalog::System);
     c->setSource(Catalog::Network);
@@ -474,7 +496,8 @@ void TestEpSimulator::testCatalogComboBox() {
     c->setSource(Catalog::System);
     QVERIFY(c->source() == Catalog::System);
     // reset options
-    o->setEnableNetworkStorage(originalEnableNetwork);
+    setFlag(o->filePathFlags, Options::EnableNetworkStorage, 
+        originalEnableNetwork);
     delete c;
 }
     

@@ -29,7 +29,7 @@
 class QWidget;
 
 namespace EpCore {
-class Options;
+    class Options;
 }
 
 namespace EpGui {

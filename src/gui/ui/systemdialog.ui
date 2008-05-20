@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>System QSettings</string>
+   <string>System Settings</string>
   </property>
   <property name="sizeGripEnabled" >
    <bool>true</bool>
@@ -24,6 +24,14 @@
         <number>0</number>
        </property>
        <widget class="QWidget" name="filePathsTab" >
+        <property name="geometry" >
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>829</width>
+          <height>463</height>
+         </rect>
+        </property>
         <attribute name="title" >
          <string>File Paths</string>
         </attribute>
@@ -271,26 +279,22 @@
         </layout>
        </widget>
        <widget class="QWidget" name="diskInformationTab" >
+        <property name="geometry" >
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>829</width>
+          <height>463</height>
+         </rect>
+        </property>
         <attribute name="title" >
          <string>Dis&amp;k Information</string>
         </attribute>
         <layout class="QGridLayout" >
-         <property name="leftMargin" >
+         <property name="margin" >
           <number>0</number>
          </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
-         </property>
-         <property name="horizontalSpacing" >
-          <number>6</number>
-         </property>
-         <property name="verticalSpacing" >
+         <property name="spacing" >
           <number>6</number>
          </property>
          <item row="0" column="0" >
@@ -324,6 +328,14 @@
         </layout>
        </widget>
        <widget class="QWidget" name="printFormatTab" >
+        <property name="geometry" >
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>829</width>
+          <height>463</height>
+         </rect>
+        </property>
         <attribute name="title" >
          <string>Print Format</string>
         </attribute>
@@ -333,7 +345,7 @@
      <item row="1" column="0" >
       <widget class="QDialogButtonBox" name="buttonBox" >
        <property name="standardButtons" >
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
        </property>
       </widget>
      </item>

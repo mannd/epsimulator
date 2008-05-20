@@ -246,14 +246,14 @@ OtherCatalog::OtherCatalog(const QString& path, const QString& fileName)
  * @param path = path to optical disk.
  */
 Catalogs::Catalogs(Options* options, const QString& path) {
-    systemCatalog_ = new SystemCatalog(options->systemCatalogPath());
+    systemCatalog_ = new SystemCatalog(options->systemCatalogPath);
     opticalCatalog_ = new OpticalCatalog(path);
-    otherCatalog_ = new OtherCatalog(options->systemCatalogPath());
+    otherCatalog_ = new OtherCatalog(options->systemCatalogPath);
     catalogs_[Catalog::System] = systemCatalog_;
     catalogs_[Catalog::Optical] = opticalCatalog_;
     catalogs_[Catalog::Other] = otherCatalog_;
-    if (options->enableNetworkStorage()) {
-        networkCatalog_ = new NetworkCatalog(options->networkStudyPath());
+    if (options->filePathFlags.testFlag(Options::EnableNetworkStorage)) {
+        networkCatalog_ = new NetworkCatalog(options->networkStudyPath);
         catalogs_[Catalog::Network] = networkCatalog_;
         currentCatalog_ = networkCatalog_;
     }

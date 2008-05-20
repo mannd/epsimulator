@@ -91,9 +91,10 @@ public slots:
 //    void manualSave();  // starts manual saving, depresses Save button
 
 protected:
-    void closeEvent(QCloseEvent* event);
+    bool eventFilter(QObject*, QEvent*);
+    void closeEvent(QCloseEvent*);
     //    void contextMenuEvent(QContextMenuEvent * event);
-   // void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent*);
 
 signals:
     void manualSave(bool);  // emitted if Save toolbar button changed

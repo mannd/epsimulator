@@ -26,11 +26,14 @@
 #include <QAction>
 #include <QComboBox>
 #include <QIcon>
+#include <QMouseEvent>
 #include <QPalette>
 #include <QPushButton>
 #include <QSettings>
 #include <QSplitter>
 #include <QToolBar>
+
+#include <QtDebug>
 
 using EpGui::createAction;
 using EpGui::StudyConfigurationDialog;
@@ -43,6 +46,8 @@ RealTimeWindow::RealTimeWindow(int number, QWidget* parent)
     createActions();
     createToolBars();
 }
+
+
 
 void RealTimeWindow::increaseSweepSpeed() {
     int index = sweepSpeedComboBox_->currentIndex();

@@ -128,7 +128,8 @@ void CatalogComboBox::setup() {
     clear();
     sourceMap_.clear();
     int index = 0;
-    includeNetwork_ = options_->enableNetworkStorage();
+    includeNetwork_ = options_->
+        filePathFlags.testFlag(Options::EnableNetworkStorage);
     if (includeNetwork_) {
         insertItem(tr("Network"));
         sourceMap_[Catalog::Network] = index++;

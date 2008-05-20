@@ -38,7 +38,6 @@ SOURCES += testepsimulator.cpp
 
 HEADERS += testepsimulator.h
 
-QMAKE_CXXFLAGS_RELEASE += -L../navigator
 
 TARGET = ../../bin/testepsimulator
 

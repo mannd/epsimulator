@@ -32,10 +32,8 @@ class QSplitter;
 class QToolBar;
 
 namespace EpCore {
-
-class Options;
-class User;
-
+    class Options;
+    class User;
 }
 
 namespace EpHardware { namespace EpOpticalDisk { class OpticalDisk; }}

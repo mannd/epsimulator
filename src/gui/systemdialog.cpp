@@ -23,6 +23,8 @@
 #include "actions.h"
 #include "options.h"
 
+#include <QtDebug>
+
 /// TODO below is Linux/Unix specific, needs generalization.
 #include <sys/vfs.h>
 
@@ -39,17 +41,24 @@ SystemDialog::SystemDialog(Options* options, const QString& path,
     enableExportFilePathLineEdit();
     enableNetworkStudyPathLineEdit();
     // set up dialog here, from system settings on disk
-    opticalStudyPathLineEdit->setText(options_->opticalStudyPath());
-    networkStudyPathLineEdit->setText(options_->networkStudyPath());
-    exportFilePathLineEdit->setText(options_->exportFilePath());
-    enableAcquisitionCheckBox->setChecked(options_->enableAcquisition());
-    // don't allow change of acquistion mode from Recorder window
+    opticalStudyPathLineEdit->setText(options_->opticalStudyPath);
+    networkStudyPathLineEdit->setText(options_->networkStudyPath);
+    exportFilePathLineEdit->setText(options_->exportFilePath);
+    //qDebug() << "Options::EnableAcquisition " << options_->
+    //    filePathFlags.testFlag(Options::EnableAcquisition);
+    enableAcquisitionCheckBox->setChecked(options_->
+        filePathFlags.testFlag(Options::EnableAcquisition));
+    // don't allow change of acquisition mode from Recorder window
     enableAcquisitionCheckBox->setEnabled(allowAcquisitionChange);
-    setEnableFileExport(options_->enableFileExport());
-    setEnableNetworkStorage(options_->enableNetworkStorage());
+
+    setEnableFileExport(options_->filePathFlags.testFlag(
+        Options::EnableFileExport));
+    setEnableNetworkStorage(options_->filePathFlags.testFlag(
+        Options::EnableNetworkStorage));
+
     studyPathLabel->setText(studyPathLabel->text().arg(path));
     diskLabel->setText(diskLabel->text().arg(label));
-    long kBytes = diskFreeSpace(options_->opticalStudyPath());
+    long kBytes = diskFreeSpace(options_->opticalStudyPath);
     QString space;
     space.setNum(kBytes);
     space += "K";
@@ -81,13 +90,20 @@ void SystemDialog::removeFilePathsTab() {
 }
 
 void SystemDialog::setOptions() {
-    options_->setOpticalStudyPath(opticalStudyPathLineEdit->text());
-    options_->setNetworkStudyPath(networkStudyPathLineEdit->text());
-    options_->setExportFilePath(exportFilePathLineEdit->text());
-    options_->setEnableAcquisition(enableAcquisitionCheckBox->isChecked());
-    options_->setEnableFileExport(enableFileExportCheckBox->isChecked());
-    options_->setEnableNetworkStorage(enableNetworkStorageCheckBox->
-                                      isChecked()); 
+    options_->opticalStudyPath = opticalStudyPathLineEdit->text();
+    options_->networkStudyPath = networkStudyPathLineEdit->text();
+    options_->exportFilePath = exportFilePathLineEdit->text();
+    setFlag(options_->filePathFlags, Options::EnableAcquisition,
+        enableAcquisitionCheckBox->isChecked());
+//    options_->setEnableAcquisition(enableAcquisitionCheckBox->isChecked());
+    setFlag(options_->filePathFlags, Options::EnableFileExport,
+        enableFileExportCheckBox->isChecked());
+    setFlag(options_->filePathFlags, Options::EnableNetworkStorage,
+        enableNetworkStorageCheckBox->isChecked());
+
+//     options_->setEnableFileExport(enableFileExportCheckBox->isChecked());
+//     options_->setEnableNetworkStorage(enableNetworkStorageCheckBox->
+//                                       isChecked()); 
 
     options_->writeSettings();
 }

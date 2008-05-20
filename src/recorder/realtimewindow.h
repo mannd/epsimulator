@@ -50,6 +50,8 @@ public:
 public slots:
 //     virtual void updateWindowTitle();
 
+protected:
+
 signals:
     void startTimer(bool);
     void startStopwatch(bool);

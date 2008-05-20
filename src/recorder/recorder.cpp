@@ -108,6 +108,7 @@ Recorder::Recorder(QWidget* parent,
     createStatusBar();
     createCentralWidget();
 
+
     connect(patientStatusBar_, SIGNAL(manualSave(bool)),
         this, SLOT(setManualSave(bool)));
     connect(patientStatusBar_, SIGNAL(showPatientInformation()),
@@ -131,6 +132,27 @@ Recorder::~Recorder() {
     delete patient_;
     // Recorder took possession of study_, so has to kill it now.
     delete study_;
+}
+
+bool Recorder::eventFilter(QObject* target, QEvent* event) {
+    // logic here is dependent on SubWindow type.
+    // If RealTimeWindow and 2 screens, then no movement allowed.
+    // If RealTimeWindow and 1 screen, then on movement of right edge
+    // and bottom allowed.
+    // Review1Window by itself only allows movement of bottom edge,
+    // otherwise if paired with RealTimeWindow, only left edge and
+    // bottom, if with Review2Window only right edge and bottom,
+    // and if all 3 windows (Realtime, Review1, Review2) then both
+    // edges and bottom.  Review2 can only move left edge and bottom.
+    // LogWindow can only move top.
+    if (event->type() == QEvent::MouseMove) {
+        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+        if (mouseEvent->buttons() & Qt::LeftButton) {
+            qDebug() << mouseEvent->pos();
+            return true;
+        }
+    }
+    return QMainWindow::eventFilter(target, event);
 }
 
 void Recorder::createCentralWidget() {
@@ -164,6 +186,11 @@ void Recorder::createCentralWidget() {
 //     }
 
 }
+
+// bool Recorder::useOneScreen() {
+//     if (options_->useOneScreen())
+//         return true;
+//     
 
 /**
  * Sets up the screens when application first run, or number of screens
@@ -215,6 +242,16 @@ void Recorder::setupInitialScreen(bool tile) {
         logSubWindow_->move(0, h * 2 / 3);
         logSubWindow_->resize(w, (h / 3));
     }
+    if (realTimeSubWindow_)
+        realTimeSubWindow_->setOption(QMdiSubWindow::RubberBandResize);
+//     if (realTimeSubWindow_)
+//         realTimeSubWindow_->installEventFilter(this);
+    if (review1SubWindow_)
+        review1SubWindow_->installEventFilter(this);
+    if (logSubWindow_)
+        logSubWindow_->installEventFilter(this);
+    
+
 }
 
 void Recorder::setManualSave(bool enable) {
@@ -349,9 +386,10 @@ void Recorder::closeEvent(QCloseEvent *event) {
         event->ignore();
 }
 
-// void Recorder::resizeEvent(QResizeEvent* event) {
-//     event->accept();
-// }
+void Recorder::resizeEvent(QResizeEvent*) {
+    if (options_->emulateWindowsManager())
+        tileSubWindows();
+}
 
 bool Recorder::closeStudy() {
     int ret = QMessageBox::question(this,
@@ -444,7 +482,7 @@ void Recorder::readSettings(QSettings& settings) {
     settings.beginGroup("recorder");
     QVariant size = settings.value("size");
     if (size.isNull()) {
-        setWindowState(Qt::WindowMaximized);
+        setWindowState(windowState() ^ Qt::WindowMaximized);
         settings.endGroup();
         settings.endGroup();
         return;
@@ -561,7 +599,7 @@ void Recorder::cascadeSubWindows() {
  * only appear when the option below is set.
  */
 void Recorder::createStatusBar() {
-    //. if (options_->recorderStatusBar())
+    if (options_->recorderStatusBar())
         statusBar()->showMessage(QString());
 }
 
@@ -923,6 +961,7 @@ void Recorder::updateMenus() {
     review2Action_->setEnabled(review1Present); 
     review2Action_->setChecked(review2Present);
     logAction_->setChecked(logPresent);
-    realTimeAction_->setEnabled(Options::instance()->enableAcquisition());
+    realTimeAction_->setEnabled(options_->
+        filePathFlags.testFlag(Options::EnableAcquisition));
 }
 

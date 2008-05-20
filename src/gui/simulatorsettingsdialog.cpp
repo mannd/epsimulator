@@ -37,7 +37,10 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     setDualSidedDrive(options_->dualSidedDrive());
     setEmulatedOpticalDriveCapacity(options_->emulatedOpticalDriveCapacity());
     oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator());
-    newStyleBlueBarCheckBox->setChecked(options_->newStyleBlueBar());
+    //newStyleBlueBarCheckBox->setChecked(options_->newStyleBlueBar());
+    newStyleBlueBarCheckBox->setChecked(options_->bluePanelStyle == 
+        Options::TransparentButtons);
+
     useLabNameCheckBox->setChecked(options_->useLabName());
     labNameLineEdit->setText(options_->labName());
     permanentDeleteCheckBox->setChecked(options_->permanentDelete());
@@ -67,7 +70,10 @@ void SimulatorSettingsDialog::setOptions() {
         emulatedOpticalDriveCapacity() / 16) * 16); 
     options_->setOldStyleNavigator(oldStyleNavigatorCheckBox->
         isChecked());
-    options_->setNewStyleBlueBar(newStyleBlueBarCheckBox->isChecked());
+    //options_->setNewStyleBlueBar(newStyleBlueBarCheckBox->isChecked());
+    options_->bluePanelStyle = newStyleBlueBarCheckBox->isChecked() ?
+        Options::TransparentButtons : Options::OpaqueButtons;
+    
     options_->setUseLabName(useLabNameCheckBox->isChecked());
     options_->setLabName(labNameLineEdit->text());
     options_->setPermanentDelete(permanentDeleteCheckBox->isChecked());

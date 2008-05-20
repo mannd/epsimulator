@@ -10,15 +10,23 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Simulator QSettings</string>
+   <string>Simulator Settings</string>
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" >
     <widget class="QTabWidget" name="tabCategories" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabGeneral" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>472</width>
+        <height>417</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>&amp;General</string>
       </attribute>
@@ -46,6 +54,14 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tabNavigator" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>472</width>
+        <height>417</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>Navigator</string>
       </attribute>
@@ -99,7 +115,7 @@
          <property name="sizeType" >
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0" >
           <size>
            <width>40</width>
            <height>20</height>
@@ -163,6 +179,14 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>800</width>
+        <height>480</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>Recorder</string>
       </attribute>
@@ -195,7 +219,7 @@
    <item row="1" column="0" >
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>

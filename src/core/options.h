@@ -21,6 +21,8 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
+#include <QFlags>
+#include <QSettings>
 #include <QString>
 
 namespace EpCore {
@@ -29,45 +31,75 @@ namespace EpCore {
  * Singleton class providing one-stop shopping for all program options.
  * These are set both in SystemDialog and SimulatorSettingsDialog.
  * Options are stored on disk as QSettings.
+ * As there seems little point to "protect" option data members
+ * behind setter and getter functions, we will break an OOP rule
+ * and make the data members private.  Options is basically a POD
+ * class with the means to read and write itself to disk, so this
+ * should be ok.
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Options {
 
 public:
+    enum ScreenFlag {
+        NoScreenEmulation       = 0x000000,
+        EmulateOneScreen        = 0x000001,
+        EmulateTwoScreens       = 0x000002,
+        EmulateWindowsManager   = 0x000004
+    };
+    Q_DECLARE_FLAGS(ScreenFlags, ScreenFlag)
+    ScreenFlags screenFlags;
+
+    enum BluePanelStyle {
+        OpaqueButtons       = 0,
+        TransparentButtons  = 1
+    } bluePanelStyle;
+
+    enum OpticalDiskFlag {
+        NoOpticalDiskFlags      = 0x000000,
+        Emulation               = 0x000001,
+        DualSided               = 0x000002,
+    };
+    Q_DECLARE_FLAGS(OpticalDiskFlags, OpticalDiskFlag)
+    OpticalDiskFlags opticalDiskFlags;
+
+    int emulatedOpticalDiskCapacity;    // in megabytes
+
+    // paths
+
+    QString opticalStudyPath;
+    QString networkStudyPath;
+    QString exportFilePath;
+    QString tempStudyPath;
+    QString systemCatalogPath;
+
+    enum FilePathFlag {
+        EnableAcquisition       = 0x000001,
+        EnableFileExport        = 0x000002,
+        EnableNetworkStorage    = 0x000004
+    };
+    Q_DECLARE_FLAGS(FilePathFlags, FilePathFlag)
+    FilePathFlags filePathFlags;
+
     static Options* instance();
 
     // read and write options to disk
     void readSettings();
     void writeSettings();
-
     // call ONLY at end or program
     // see www.informit.com/guides/content.asp?g=cplusplus&seqNum=148&rl=1
     void destroy() {delete instance_; instance_ = 0;}    
 
-    // Navigator and general options
-    // paths to the main system catalogs
-    void setOpticalStudyPath(const QString& opticalStudyPath) {
-        opticalStudyPath_ = opticalStudyPath;}
-    void setNetworkStudyPath(const QString& networkStudyPath) {
-        networkStudyPath_ = networkStudyPath;}
-    void setExportFilePath(const QString& exportFilePath) {
-        exportFilePath_ = exportFilePath;}
-    void setTempStudyPath(const QString& tempStudyPath) {
-        tempStudyPath_ = tempStudyPath;}
 
     void setLabName(const QString& labName) {labName_ = labName;}
     void setUseLabName(bool useLabName) {useLabName_ = useLabName;}
 
-    void setEnableAcquisition(bool enable) {enableAcquisition_ = enable;}
-    void setEnableFileExport(bool enable) {enableFileExport_ = enable;}
-    void setEnableNetworkStorage(bool enable) { enableNetworkStorage_ = enable;}
     void setEmulateOpticalDrive(bool emulate) {emulateOpticalDrive_ = emulate;}
     void setDualSidedDrive(bool emulate) {dualSidedDrive_ = emulate;}
     void setEmulatedOpticalDriveCapacity(int capacity) {
         emulatedOpticalDriveCapacity_ = capacity;}
     void setOldStyleNavigator(bool isOldStyle) {
         oldStyleNavigator_ = isOldStyle;}
-    void setNewStyleBlueBar(bool isNewStyle) {newStyleBlueBar_ = isNewStyle;}
     void setAdministratorAccountRequired(bool isRequired) {
         administratorAccountRequired_ = isRequired;}
     void setHideSimulatorMenu(bool hideMenu) {hideSimulatorMenu_ = hideMenu;}
@@ -84,28 +116,27 @@ public:
         patientStatusBarHasTitle_ = enable;}
     void setEmulateTwoScreens(bool enable) {
         emulateTwoScreens_ = enable;}
+    void setEmulateWindowsManager(bool enable) {
+        emulateWindowsManager_ = enable;}
+    void setHasStatusBar(bool enable) {
+        recorderStatusBar_ = enable;}
 
     // Amplifier
     void setNumChannels(unsigned int n) {numChannels_ = n;}
 
-    QString opticalStudyPath() const {return opticalStudyPath_;}
-    QString networkStudyPath() const {return networkStudyPath_;}
-    QString exportFilePath() const {return exportFilePath_;}
-    QString tempStudyPath() const {return tempStudyPath_;}
-    QString systemCatalogPath() const {return systemCatalogPath_;}
+    //QString systemCatalogPath() const {return systemCatalogPath_;}
 
     QString labName() const {return labName_;}
     bool useLabName() const {return useLabName_;}
 
-    bool enableAcquisition() const {return enableAcquisition_;}
-    bool enableFileExport() const {return enableFileExport_;}
-    bool enableNetworkStorage() const {return enableNetworkStorage_;}
+//    bool enableAcquisition() const {return enableAcquisition_;}
+//    bool enableFileExport() const {return enableFileExport_;}
+//    bool enableNetworkStorage() const {return enableNetworkStorage_;}
     bool emulateOpticalDrive() const {return emulateOpticalDrive_;}
     bool dualSidedDrive() const {return dualSidedDrive_;}
     int emulatedOpticalDriveCapacity() const {
         return emulatedOpticalDriveCapacity_;} 
     bool oldStyleNavigator() const {return oldStyleNavigator_;}
-    bool newStyleBlueBar() const {return newStyleBlueBar_;}
     bool administratorAccountRequired() const {
         return administratorAccountRequired_;}
     bool hideSimulatorMenu() const {return hideSimulatorMenu_;}
@@ -117,6 +148,8 @@ public:
     bool immovablePatientStatusBar() const {return immovablePatientStatusBar_;}
     bool patientStatusBarHasTitle() const {return patientStatusBarHasTitle_;}
     bool emulateTwoScreens() const {return emulateTwoScreens_;}
+    bool emulateWindowsManager() const {return emulateWindowsManager_;}
+    bool recorderStatusBar() const {return recorderStatusBar_;}
 
     unsigned int numChannels() const {return numChannels_;}
 
@@ -127,16 +160,9 @@ protected:
     static Options* instance_;
 
 private:
-    QString opticalStudyPath_;
-    QString networkStudyPath_;
-    QString tempStudyPath_;
-    QString exportFilePath_;
-    QString systemCatalogPath_;
+    //QString systemCatalogPath_;
     QString labName_;   // name of ep lab study for this computer
-    bool enableAcquisition_;
-    bool enableFileExport_;
-    bool enableNetworkStorage_;
-    
+
     // some simulator specific options
     // related to Optical drive emulation
     bool emulateOpticalDrive_;
@@ -148,7 +174,6 @@ private:
 
     // determines if last name and first name are displayed separately
     bool oldStyleNavigator_;
-    bool newStyleBlueBar_;  // flat buttons in Navigator Blue Bar
     
     bool useLabName_;   // use lab name in location column of TableListView 
                         // for for Network, if false or if lab name is empty,
@@ -167,11 +192,38 @@ private:
     bool immovablePatientStatusBar_;
     bool patientStatusBarHasTitle_;
     bool emulateTwoScreens_;
+    bool emulateWindowsManager_;    // emulate the CardioLab windows manager
+    bool recorderStatusBar_;
 
     // Amplifier
     unsigned int numChannels_;
 
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(Options::ScreenFlags)
+Q_DECLARE_OPERATORS_FOR_FLAGS(Options::OpticalDiskFlags)
+Q_DECLARE_OPERATORS_FOR_FLAGS(Options::FilePathFlags)
+
+
+
+template<typename T, typename K>
+inline T readFlags(const QString& name, const K& defaultValue, 
+            const QSettings& settings) {
+    return static_cast<T>(settings.value(name, int(defaultValue)).toInt());
+}
+
+template<typename T, typename K>
+inline void setFlag(T& flags, const K& flag, bool enable = true) {
+    if (enable)
+        flags |= flag;
+    else
+        flags &= ~flag;
+}
+
+template<typename T, typename K>
+inline void clearFlag(T& flags, const K& flag) {
+    setFlag(flags, flag, false);
+}
 
 }
 

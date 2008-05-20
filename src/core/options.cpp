@@ -22,7 +22,8 @@
 
 #include <QCoreApplication>
 #include <QDir>
-#include <QSettings>
+
+#include <QtDebug>
 
 using EpCore::Options;
 
@@ -34,9 +35,10 @@ Options* Options::instance() {
     return instance_;
 }
 
-Options::Options() : tempStudyPath_(""),
-    systemCatalogPath_(QDir::cleanPath(
-        QCoreApplication::applicationDirPath() + "/../System")) {
+Options::Options() :  tempStudyPath(""),
+                      systemCatalogPath(QDir::cleanPath(
+                      QCoreApplication::applicationDirPath() 
+                      + "/../System")) {
     readSettings();
 }
 
@@ -46,22 +48,21 @@ Options::Options() : tempStudyPath_(""),
 void Options::readSettings() {
     QSettings settings;
     settings.beginGroup("options");
-    enableAcquisition_ = settings.value("enableAcquisition",
-                                        true).toBool();
-    enableFileExport_ = settings.value("enableFileExport", 
-                                       false).toBool();
-    enableNetworkStorage_ = settings.value("enableNetworkStorage", 
-                                           false).toBool();
+
+//     enableFileExport_ = settings.value("enableFileExport", 
+//                                        false).toBool();
+//     enableNetworkStorage_ = settings.value("enableNetworkStorage", 
+//                                            false).toBool();
     // Non-emulated drive is the default for the program.
     emulateOpticalDrive_ = settings.value("emulateOpticalDrive", 
                                           false).toBool();
     QString defaultOpticalPath = QDir::cleanPath(QDir::homePath() 
                                  + "/MyStudies");   
-    opticalStudyPath_ = settings.value("opticalStudyPath",
+    opticalStudyPath = settings.value("opticalStudyPath",
                                        defaultOpticalPath).toString();
-    networkStudyPath_ = settings.value("networkStudyPath", 
+    networkStudyPath = settings.value("networkStudyPath", 
                                        "").toString();
-    exportFilePath_ = settings.value("exportFilePath", 
+    exportFilePath = settings.value("exportFilePath", 
                                      "").toString();
     labName_ = settings.value("labName", "").toString();
     dualSidedDrive_ = settings.value("dualSidedDrive", 
@@ -71,8 +72,7 @@ void Options::readSettings() {
                                     0).toInt();
     oldStyleNavigator_ = settings.value("oldStyleNavigator", 
                                         false).toBool();
-    newStyleBlueBar_ = settings.value("newStyleBlueBar", 
-                                      false).toBool();
+
     useLabName_ = settings.value("useLabName", 
                                  false).toBool();
     administratorAccountRequired_ = settings.value(
@@ -95,8 +95,22 @@ void Options::readSettings() {
         settings.value("patientStatusBarHasTitle", false).toBool();
     emulateTwoScreens_ =
         settings.value("emulateTwoScreens", false).toBool();
+    emulateWindowsManager_ = 
+        settings.value("emulateWindowsManager", true).toBool();
+    recorderStatusBar_ = settings.value("recorderStatusBar", true).toBool();
     numChannels_ = settings.value("numChannels", 48).toUInt();
     /// TODO other options here...
+
+    screenFlags = readFlags<ScreenFlags>("screenFlags", 
+        NoScreenEmulation, settings);
+    bluePanelStyle = readFlags<BluePanelStyle>("bluePanelStyle", 
+        OpaqueButtons, settings);
+    opticalDiskFlags = readFlags<OpticalDiskFlags>("opticalDiskFlags",
+        NoOpticalDiskFlags, settings);
+
+    filePathFlags = readFlags<FilePathFlags>("filePathFlags",
+        EnableAcquisition, settings);
+
     settings.endGroup();
 }
 
@@ -106,18 +120,15 @@ void Options::readSettings() {
 void Options::writeSettings() {
     QSettings settings;
     settings.beginGroup("options");
-    settings.setValue("enableAcquisition", enableAcquisition_);
-    settings.setValue("enableFileExport", enableFileExport_);
-    settings.setValue("enableNetworkStorage", enableNetworkStorage_);
-    settings.setValue("opticalStudyPath", opticalStudyPath_);
-    settings.setValue("networkStudyPath", networkStudyPath_);
-    settings.setValue("exportFilePath", exportFilePath_);
+    
+    settings.setValue("opticalStudyPath", opticalStudyPath);
+    settings.setValue("networkStudyPath", networkStudyPath);
+    settings.setValue("exportFilePath", exportFilePath);
     settings.setValue("labName", labName_);
     settings.setValue("emulateOpticalDrive", emulateOpticalDrive_);
     settings.setValue("dualSidedDrive", dualSidedDrive_);
     settings.setValue("emulatedOpticalDriveCapacity", emulatedOpticalDriveCapacity_);
     settings.setValue("oldStyleNavigator", oldStyleNavigator_);
-    settings.setValue("newStyleBlueBar", newStyleBlueBar_);
     settings.setValue("useLabName", useLabName_);
     settings.setValue("administratorAccountRequired", administratorAccountRequired_);
     settings.setValue("hideSimulatorMenu", hideSimulatorMenu_);
@@ -127,8 +138,16 @@ void Options::writeSettings() {
     settings.setValue("immovablePatientStatusBar", immovablePatientStatusBar_);
     settings.setValue("patientStatusBarHasTitle", patientStatusBarHasTitle_);
     settings.setValue("emulateTwoScreens", emulateTwoScreens_);
+    settings.setValue("emulateWindowsManager", emulateWindowsManager_);
+    settings.setValue("recorderStatusBar", recorderStatusBar_);
     settings.setValue("numChannels", numChannels_);
     /// TODO add other options here...
+
+    settings.setValue("screenFlags", int(screenFlags));
+    settings.setValue("bluePanelStyle", bluePanelStyle);
+    settings.setValue("opticalDiskFlags", int(opticalDiskFlags));
+    settings.setValue("filePathFlags", int(filePathFlags));
+
     settings.endGroup();
 }
 

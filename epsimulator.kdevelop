@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/recorder</activedir>
+      <activedir></activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -118,9 +118,9 @@
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
-        <testepsimulator></testepsimulator>
+        <testepsimulator/>
         <main/>
       </runarguments>
       <cwd>
@@ -136,9 +136,9 @@
         <test/>
         <monitor/>
         <recorder/>
-        <epsimulator></epsimulator>
+        <epsimulator/>
         <runner/>
-        <testepsimulator></testepsimulator>
+        <testepsimulator/>
         <main/>
       </debugarguments>
     </run>
@@ -150,7 +150,7 @@
       <makebin/>
       <prio>0</prio>
       <envvars>
-        <envvar value="/usr/local/Trolltech/Qt-4.3.2/" name="QTDIR" />
+        <envvar value="/usr/local/Trolltech/Qt-4.4.0/" name="QTDIR" />
       </envvars>
     </make>
     <qmake>
@@ -215,8 +215,8 @@
       <root>/usr/lib/qt3</root>
       <includestyle>4</includestyle>
       <designerintegration>ExternalDesigner</designerintegration>
-      <qmake>/usr/local/Trolltech/Qt-4.3.2/bin/qmake</qmake>
-      <designer>/usr/local/Trolltech/Qt-4.3.2/bin/designer</designer>
+      <qmake>/usr/local/Trolltech/Qt-4.4.0/bin/qmake</qmake>
+      <designer>/usr/local/Trolltech/Qt-4.4.0/bin/designer</designer>
       <designerpluginpaths/>
     </qt>
     <creategettersetter>

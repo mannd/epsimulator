@@ -54,7 +54,6 @@ public:
     QString name() const {return name_;}
     int number() const {return number_;}
 
-
 private:
     const QString name_;
     const int number_;
