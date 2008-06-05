@@ -28,6 +28,7 @@
 #include <QDataStream>
 #include <QFile>
 
+class QDir;
 class QString;
 
 namespace EpCore {

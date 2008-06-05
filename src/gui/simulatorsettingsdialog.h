@@ -48,18 +48,18 @@ public:
 
 
 public slots:
-    void enableDriveEmulation();
+    void enableDiskEmulation();
 
 private:
-    bool emulateOpticalDrive() const {
-        return emulateOpticalDriveCheckBox->isChecked();}
+    bool emulateOpticalDisk() const {
+        return emulateOpticalDiskCheckBox->isChecked();}
 
-    void setEmulateOpticalDrive(bool);
-    void setDualSidedDrive(bool);
-    void setEmulatedOpticalDriveCapacity(int);
+    void setEmulateOpticalDisk(bool);
+    void setDualSidedDisk(bool);
+    void setEmulatedOpticalDiskCapacity(int);
 
-    bool dualSidedDrive() const;
-    int emulatedOpticalDriveCapacity() const;
+    bool dualSidedDisk() const;
+    int emulatedOpticalDiskCapacity() const;
 
     Options* options_;
 

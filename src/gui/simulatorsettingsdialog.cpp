@@ -30,27 +30,27 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
                                                  options_(options) {
     setupUi(this);
     administratorAccountRequiredCheckBox->setChecked(
-        options_->administratorAccountRequired());
+        options_->administratorAccountRequired);
     hideSimulatorMenuCheckBox->setChecked(
-        options_->hideSimulatorMenu());
-    setEmulateOpticalDrive(options_->emulateOpticalDrive());
-    setDualSidedDrive(options_->dualSidedDrive());
-    setEmulatedOpticalDriveCapacity(options_->emulatedOpticalDriveCapacity());
-    oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator());
-    //newStyleBlueBarCheckBox->setChecked(options_->newStyleBlueBar());
+        options_->hideSimulatorMenu);
+    setEmulateOpticalDisk(options_->
+        opticalDiskFlags.testFlag(Options::Emulation));
+    setDualSidedDisk(options_->
+        opticalDiskFlags.testFlag(Options::DualSided));
+    setEmulatedOpticalDiskCapacity(options_->emulatedOpticalDiskCapacity);
+    oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator);
     newStyleBlueBarCheckBox->setChecked(options_->bluePanelStyle == 
         Options::TransparentButtons);
 
-    useLabNameCheckBox->setChecked(options_->useLabName());
-    labNameLineEdit->setText(options_->labName());
-    permanentDeleteCheckBox->setChecked(options_->permanentDelete());
-    autoSaveDiskIconCheckBox->setChecked(options_->autoSaveDiskIcon());
+    useLabNameCheckBox->setChecked(options_->useLabName);
+    labNameLineEdit->setText(options_->labName);
+    permanentDeleteCheckBox->setChecked(options_->permanentDelete);
     immovablePatientStatusBarCheckBox->
-        setChecked(options_->immovablePatientStatusBar());
+        setChecked(options_->recorderFlags.testFlag(Options::ImmovablePatientStatusBar));
     patientStatusBarHasTitleCheckBox->
-        setChecked(options_->patientStatusBarHasTitle());
-    connect(emulateOpticalDriveCheckBox, SIGNAL(stateChanged(int)), 
-        this, SLOT(enableDriveEmulation())); 
+        setChecked(options_->recorderFlags.testFlag(Options::PatientStatusBarHasTitle));
+    connect(emulateOpticalDiskCheckBox, SIGNAL(stateChanged(int)), 
+        this, SLOT(enableDiskEmulation())); 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
@@ -58,29 +58,29 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
 SimulatorSettingsDialog::~SimulatorSettingsDialog() {}
 
 void SimulatorSettingsDialog::setOptions() {
-    options_->setAdministratorAccountRequired(
-        administratorAccountRequiredCheckBox->isChecked());
-    options_->setHideSimulatorMenu(
-        hideSimulatorMenuCheckBox->isChecked());
-    options_->setEmulateOpticalDrive(emulateOpticalDrive());
-    options_->setDualSidedDrive(dualSidedDrive());
+    options_->administratorAccountRequired =
+        administratorAccountRequiredCheckBox->isChecked();
+    options_->hideSimulatorMenu =
+        hideSimulatorMenuCheckBox->isChecked();
+    setFlag(options_->opticalDiskFlags, Options::Emulation, 
+        emulateOpticalDisk());;
+    setFlag(options_->opticalDiskFlags, Options::DualSided, 
+        dualSidedDisk());
     // we will force the drive capacity to be a multiple of 16,
     // it's more computery that way.
-    options_->setEmulatedOpticalDriveCapacity((
-        emulatedOpticalDriveCapacity() / 16) * 16); 
-    options_->setOldStyleNavigator(oldStyleNavigatorCheckBox->
-        isChecked());
-    //options_->setNewStyleBlueBar(newStyleBlueBarCheckBox->isChecked());
+    options_->emulatedOpticalDiskCapacity = 
+        (emulatedOpticalDiskCapacity() / 16) * 16; 
+    options_->oldStyleNavigator = oldStyleNavigatorCheckBox->
+        isChecked();
     options_->bluePanelStyle = newStyleBlueBarCheckBox->isChecked() ?
         Options::TransparentButtons : Options::OpaqueButtons;
     
-    options_->setUseLabName(useLabNameCheckBox->isChecked());
-    options_->setLabName(labNameLineEdit->text());
-    options_->setPermanentDelete(permanentDeleteCheckBox->isChecked());
-    options_->setAutoSaveDiskIcon(autoSaveDiskIconCheckBox->isChecked());
-    options_->setImmovablePatientStatusBar(
+    options_->useLabName = useLabNameCheckBox->isChecked();
+    options_->labName = labNameLineEdit->text();
+    options_->permanentDelete = permanentDeleteCheckBox->isChecked();
+    setFlag(options_->recorderFlags, Options::ImmovablePatientStatusBar,
         immovablePatientStatusBarCheckBox->isChecked());
-    options_->setPatientStatusBarHasTitle(
+    setFlag(options_->recorderFlags, Options::PatientStatusBarHasTitle,
         patientStatusBarHasTitleCheckBox->isChecked());
 
     options_->writeSettings();
@@ -90,37 +90,37 @@ void SimulatorSettingsDialog::removeNavigatorTab() {
     tabCategories->removeTab(1);
 }
 
-void SimulatorSettingsDialog::setEmulateOpticalDrive(bool emulate) {
-    emulateOpticalDriveCheckBox->setChecked(emulate);
-    enableDriveEmulation();
+void SimulatorSettingsDialog::setEmulateOpticalDisk(bool emulate) {
+    emulateOpticalDiskCheckBox->setChecked(emulate);
+    enableDiskEmulation();
 }
 
-void SimulatorSettingsDialog::setDualSidedDrive(bool emulate) {
-    if (emulateOpticalDrive())
-        dualSidedDriveCheckBox->setChecked(emulate);
+void SimulatorSettingsDialog::setDualSidedDisk(bool emulate) {
+    if (emulateOpticalDisk())
+        dualSidedDiskCheckBox->setChecked(emulate);
 }
 
-void SimulatorSettingsDialog::setEmulatedOpticalDriveCapacity(int capacity) {
-    if (emulateOpticalDrive())
-        emulatedOpticalDriveCapacitySpinBox->setValue(capacity);
+void SimulatorSettingsDialog::setEmulatedOpticalDiskCapacity(int capacity) {
+    if (emulateOpticalDisk())
+        emulatedOpticalDiskCapacitySpinBox->setValue(capacity);
 }
 
-bool SimulatorSettingsDialog::dualSidedDrive() const {
-    return dualSidedDriveCheckBox->isEnabled() && 
-	    dualSidedDriveCheckBox->isChecked();
+bool SimulatorSettingsDialog::dualSidedDisk() const {
+    return dualSidedDiskCheckBox->isEnabled() && 
+	    dualSidedDiskCheckBox->isChecked();
 }
 
-int SimulatorSettingsDialog::emulatedOpticalDriveCapacity() const {
-    if (emulatedOpticalDriveCapacitySpinBox->isEnabled())
-        return emulatedOpticalDriveCapacitySpinBox->value();
+int SimulatorSettingsDialog::emulatedOpticalDiskCapacity() const {
+    if (emulatedOpticalDiskCapacitySpinBox->isEnabled())
+        return emulatedOpticalDiskCapacitySpinBox->value();
     else
         return 0;
 }
 
-void SimulatorSettingsDialog::enableDriveEmulation() {
-    bool driveEmulation = emulateOpticalDriveCheckBox->isChecked();
-    dualSidedDriveCheckBox->setEnabled(driveEmulation);
-    emulatedOpticalDriveCapacitySpinBox->setEnabled(driveEmulation);
-    if (!driveEmulation)
-         setEmulatedOpticalDriveCapacity(0);
+void SimulatorSettingsDialog::enableDiskEmulation() {
+    bool diskEmulation = emulateOpticalDiskCheckBox->isChecked();
+    dualSidedDiskCheckBox->setEnabled(diskEmulation);
+    emulatedOpticalDiskCapacitySpinBox->setEnabled(diskEmulation);
+    if (!diskEmulation)
+         setEmulatedOpticalDiskCapacity(0);
 }

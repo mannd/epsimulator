@@ -54,6 +54,10 @@ using namespace EpHardware::EpAmplifier;
 //using namespace EpRecorder;
 using namespace EpStudy;
 
+void TestEpSimulator::initTestCase() {
+    qDebug() << "Working dir = " << QDir::currentPath();
+}
+
 void TestEpSimulator::testStudyConstructor() {
     Study s;
     testStudyDefaults(s);
@@ -181,12 +185,12 @@ void TestEpSimulator::testStudyFileName() {
 
 void TestEpSimulator::testStudyLoadSave() {
     Study s;
-    s.setPath("../tmp");
+    s.setPath("../../tmp");
     Name name = {"Doe", "James", ""};
     s.setName(name);
     s.save();
     Study s1;
-    s1.setPath("../tmp");
+    s1.setPath("../../tmp");
     s1.load();
     QCOMPARE(s.key(), s1.key());
     Study s2 = s1;
@@ -204,7 +208,7 @@ void TestEpSimulator::testStudyLoadSave() {
     Study* sp = new Study;
     sp->setName(name);
     QString originalKey = sp->key();
-    sp->setPath("../tmp"); 
+    sp->setPath("../../tmp"); 
     sp->save();
     sp->load();
     QCOMPARE(sp->key(), originalKey);
@@ -213,7 +217,7 @@ void TestEpSimulator::testStudyLoadSave() {
     name.last = "NewName";
     s4.setName(name);
     QString key1 = s4.key();
-    s4.setPath("../tmp");
+    s4.setPath("../../tmp");
     s4.save();
     s4.load();
     name.last = "AnotherNewName";
@@ -223,7 +227,7 @@ void TestEpSimulator::testStudyLoadSave() {
     QCOMPARE(key1, s4.key());
     QVERIFY(s4.key() != s1.key());
     Study s5;
-    s5.setPath("../tmp");
+    s5.setPath("../../tmp");
     s5.load();
     // key should be same as the s4 key if loading is actually loading the key
     QCOMPARE(s4.key(), s5.key());    
@@ -378,9 +382,9 @@ void TestEpSimulator::testPasswordDialog() {
     QVERIFY(!d1->testPassword());
     // need way to set password to do more testing
     d1->setPassword("");
-    QString emptyPasswordHash = o->passwordHash();
+    QString emptyPasswordHash = o->passwordHash;
     d1->setPassword("admin");   // should be same as empty pw
-    QString adminPasswordHash = o->passwordHash();
+    QString adminPasswordHash = o->passwordHash;
     QCOMPARE(emptyPasswordHash, adminPasswordHash);   
     delete d1;
     o->destroy();
@@ -391,13 +395,13 @@ void TestEpSimulator::testPasswordHandler() {
     PasswordHandler* ph = new PasswordHandler();
     QString s = "password1";
     ph->setPassword(s);
-    QString testPasswordHash = o->passwordHash();
+    QString testPasswordHash = o->passwordHash;
     QVERIFY(ph->testPassword(s));
     QVERIFY(!ph->testPassword("wrongpassword"));
     // tests for non-zero password hash    
-    QVERIFY(!o->passwordHash().isEmpty());
+    QVERIFY(!o->passwordHash.isEmpty());
     ph->setPassword("random");
-    QVERIFY(testPasswordHash != o->passwordHash());
+    QVERIFY(testPasswordHash != o->passwordHash);
     delete ph;
     o->destroy();
 }

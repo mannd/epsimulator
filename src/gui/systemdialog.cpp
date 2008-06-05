@@ -145,7 +145,7 @@ void SystemDialog::setEnableFileExport(bool enabled) {
 }
 
 long SystemDialog::diskFreeSpace(const QString& path) const {
-    int emulatedDiskMBytes = options_->emulatedOpticalDriveCapacity();
+    int emulatedDiskMBytes = options_->emulatedOpticalDiskCapacity;
     if (emulatedDiskMBytes  > 0) 
         return emulatedDiskMBytes * 1024;
     struct statfs s;

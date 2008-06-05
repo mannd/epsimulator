@@ -224,7 +224,7 @@ NetworkCatalog::NetworkCatalog(const QString& path,
 QString NetworkCatalog::location(const StudyData& sd) {
     if (sd.study.isPreregisterStudy())
         return QString();
-    if (Options::instance()->useLabName()) {
+    if (Options::instance()->useLabName) {
         if (!sd.labName.isEmpty())
             return sd.labName + " - " + Catalog::location(sd);
     }

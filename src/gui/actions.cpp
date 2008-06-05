@@ -65,7 +65,7 @@ void changePassword(QWidget* parent) {
 }
 
 bool showSimulatorSettings(Options* options, User* user) {
-    return !options->hideSimulatorMenu() || user->isAdministrator();
+    return !options->hideSimulatorMenu || user->isAdministrator();
 }
 
 void about(QWidget* parent) {

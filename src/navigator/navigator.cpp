@@ -82,6 +82,7 @@ Navigator::Navigator(QWidget* parent) : QMainWindow(parent),
                                         currentDisk_(0),
                                         user_(User::instance()) {
     setAttribute(Qt::WA_DeleteOnClose);
+    createDefaultDataDir();
     do {
         createOpticalDrive();
     } while (!currentDisk_);
@@ -133,7 +134,7 @@ void Navigator::newStudy() {
             if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),
-                                    options_->labName(), user_->machineName());
+                                    options_->labName, user_->machineName());
                 refreshCatalogs();
                 startStudy(study);
             }
@@ -156,7 +157,7 @@ void Navigator::continueStudy() {
             catalogs_->deleteStudy(study);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),
-                    options_->labName(), user_->machineName());
+                    options_->labName, user_->machineName());
             refreshCatalogs();
             startStudy(study);
         }
@@ -262,12 +263,12 @@ void Navigator::doStudyCopy(MoveCopyStudyDialog& dialog, bool move) {
                 regenerateCatalogs();
             else
                 c.create(currentDisk_->label(), currentDisk_->side(), 
-                          options_->labName(), user_->machineName());
+                          options_->labName, user_->machineName());
         }
         else {    // we are copying from disk or dir to dir
             EpCore::copyDir(tmpDir.absolutePath(), dialog.destinationPath());
             OpticalCatalog c(dialog.destinationPath());
-            c.create(dialog.destinationPath(), QString(), options_->labName(),
+            c.create(dialog.destinationPath(), QString(), options_->labName,
                 user_->machineName());   
         }
     }
@@ -330,7 +331,7 @@ void Navigator::deleteStudy() {
                 refreshCatalogs();
                 // delete item;
                 if (!study->isPreregisterStudy() 
-                    && options_->permanentDelete())
+                    && options_->permanentDelete)
                     EpCore::deleteDir(currentDisk_->studiesPath() 
                         + study->dirName());
             }
@@ -380,7 +381,7 @@ void Navigator::refreshCatalogs() {
 
 void Navigator::regenerateCatalogs() {
     catalogs_->regenerate(currentDisk_->label(), currentDisk_->side(), 
-                          options_->labName(), user_->machineName());
+                          options_->labName, user_->machineName());
     refreshCatalogs();
 }
 
@@ -410,8 +411,45 @@ void Navigator::ejectDisk() {
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
+/**
+ * When the program starts for the first time, there needs to be a default
+ * location for data storage. This function creates a "MyStudies"
+ * directory in the user home directory for this purpose,
+ * unless it already exists. It will not overwrite it if the
+ * directory already exists.
+ * 
+ * TODO An alternative design would be to 
+ * defer this until an optical disk is chosen, in other words, default
+ * to no optical disk until studies are created.
+ */
+void Navigator::createDefaultDataDir() {
+    QString defaultDataDirName = "MyStudies";
+    if (!QDir::home().exists(defaultDataDirName))
+        if (!QDir::home().mkdir(defaultDataDirName)) {
+            QMessageBox::warning(this, 
+                                 tr("Could Not Create Data Directory"),
+                                 tr("The default data directory, %1"
+                                    " could not be created. Setting"
+                                    " default data directory to %2.")
+                                 .arg(QDir::home()
+                                 .filePath(defaultDataDirName))
+                                 .arg(QDir::homePath()));
+            options_->opticalStudyPath = QDir::homePath();
+        }
+        else {
+            QMessageBox::information(this,
+                                     tr("Default Data Directory Created"),
+                                     tr("A default data directory, %1"
+                                        " has been created.  Change this"
+                                        " in the System Options dialog to"
+                                        " the path to your optical disk.")
+                                     .arg(QDir::home()
+                                     .filePath(defaultDataDirName)));
+        }
+}
+
 /** 
- * Label the optical disk.  Opens a dialog to get the label and side,
+ * Label the optical disk. Opens a dialog to get the label and side,
  * then writes both to the label.dat file in the catalog directory
  * of the disk.  Not that the catalog directory is NOT necessarily the
  * root directory of the disk; with emulated optical disks they are
@@ -463,7 +501,7 @@ void Navigator::updateWindowTitle() {
 }
 
 void Navigator::updateStatusBarUserLabel() {
-    statusBar_->updateUserLabel(options_->oldStyleNavigator() ?
+    statusBar_->updateUserLabel(options_->oldStyleNavigator ?
         user_->role() : user_->name());
 }
 
@@ -492,7 +530,7 @@ void Navigator::changePassword() {
 /// and not logged in as administrator, will do a login, then
 /// will allow adminstration if user successfully logged in.
 bool Navigator::administrationAllowed() {
-    if (!options_->administratorAccountRequired())
+    if (!options_->administratorAccountRequired)
         return true;
     login();
     return user_->isAdministrator();
@@ -587,7 +625,7 @@ void Navigator::updateSimulatorSettings(){
         readSettings(); // put the splitter back where it was
         delete catalogs_;
         catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
-        tableListView_->setOldStyle(options_->oldStyleNavigator());
+        tableListView_->setOldStyle(options_->oldStyleNavigator);
         tableListView_->adjustColumns(true);
         refreshCatalogs();   // This repopulates the TableListView.
         // Need to do below to make sure user label
@@ -659,13 +697,13 @@ void Navigator::createOpticalDrive() {
  //           currentDisk_->writeLabel();
         delete currentDisk_;
         currentDisk_ = 0;
-        if (options_->emulateOpticalDrive()) {
+        if (options_->opticalDiskFlags.testFlag(Options::Emulation)) {
             currentDisk_ = EmulatedOpticalDisk::getLastDisk(
                 options_->opticalStudyPath);
             if (!currentDisk_) {
                 currentDisk_ = new EmulatedOpticalDisk(
                     options_->opticalStudyPath,
-                    options_->dualSidedDrive());
+                    options_->opticalDiskFlags.testFlag(Options::DualSided));
                 currentDisk_->saveLastDisk();
             }
         }
@@ -739,7 +777,7 @@ void Navigator::createButtonFrame() {
  */
 void Navigator::createTableListView() {
     tableListView_ = new TableListView(centralWidget_,
-        options_->oldStyleNavigator());
+        options_->oldStyleNavigator);
     connect(tableListView_, SIGNAL(doubleClicked(Q3ListViewItem*, 
         const QPoint&, int)), this, SLOT(newStudy()));
 }

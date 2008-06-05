@@ -204,7 +204,8 @@ void Recorder::createCentralWidget() {
  */
 void Recorder::setupInitialScreen(bool tile) {
     centralWidget_->closeAllSubWindows();
-    if (qApp->desktop()->numScreens() > 1 || options_->emulateTwoScreens()) { 
+    if (qApp->desktop()->numScreens() > 1 || 
+        options_->screenFlags.testFlag(Options::EmulateTwoScreens)) { 
         if (recorderWindow_ == Primary && allowAcquisition_) {
             realTimeWindowOpen(true);
             centralWidget_->tileSubWindows();
@@ -318,9 +319,9 @@ void Recorder::simulatorSettings() {
 void Recorder::updateSettings() {
     QDockWidget* dockWidget =
         qobject_cast<QDockWidget*>(patientStatusBar_->parentWidget());
-    dockWidget->setWindowTitle(options_->patientStatusBarHasTitle()
+    dockWidget->setWindowTitle(options_->recorderFlags.testFlag(Options::PatientStatusBarHasTitle)
         ? tr("Patient Status") : "");
-    if (options_->immovablePatientStatusBar())
+    if (options_->recorderFlags.testFlag(Options::ImmovablePatientStatusBar))
         dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     else
         dockWidget->setFeatures(QDockWidget::DockWidgetClosable
@@ -387,7 +388,7 @@ void Recorder::closeEvent(QCloseEvent *event) {
 }
 
 void Recorder::resizeEvent(QResizeEvent*) {
-    if (options_->emulateWindowsManager())
+    if (options_->screenFlags.testFlag(Options::EmulateWindowsManager))
         tileSubWindows();
 }
 
@@ -551,7 +552,7 @@ void Recorder::changePassword() {
 }
 
 bool Recorder::administrationAllowed() {
-    if (!options_->administratorAccountRequired())
+    if (!options_->administratorAccountRequired)
         return true;
     login();
     return user_->isAdministrator();
@@ -599,7 +600,7 @@ void Recorder::cascadeSubWindows() {
  * only appear when the option below is set.
  */
 void Recorder::createStatusBar() {
-    if (options_->recorderStatusBar())
+    if (options_->recorderFlags.testFlag(Options::RecorderHasStatusBar))
         statusBar()->showMessage(QString());
 }
 

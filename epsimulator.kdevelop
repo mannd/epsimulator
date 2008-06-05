@@ -73,7 +73,7 @@
     <general>
       <dbgshell/>
       <programargs/>
-      <gdbpath/>
+      <gdbpath>gdb</gdbpath>
       <configGdbScript/>
       <runShellScript/>
       <runGdbScript/>
@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir></activedir>
+      <activedir>src/test</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -144,8 +144,8 @@
     </run>
     <make>
       <abortonerror>true</abortonerror>
-      <runmultiplejobs>false</runmultiplejobs>
-      <numberofjobs>1</numberofjobs>
+      <runmultiplejobs>true</runmultiplejobs>
+      <numberofjobs>5</numberofjobs>
       <dontact>false</dontact>
       <makebin/>
       <prio>0</prio>

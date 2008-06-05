@@ -30,6 +30,7 @@ class TestEpSimulator : public QObject {
     Q_OBJECT
 
 private slots:
+    void initTestCase();
     // class Study
     void testStudyConstructor();
     void testStudyCopyConstructor();

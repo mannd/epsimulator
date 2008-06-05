@@ -130,6 +130,7 @@ private:
     void updateAll();
 
     // Optical disk related
+    void createDefaultDataDir();    // creates ~/MyStudies if it doesn't exist
     void labelDisk(bool reLabel, OpticalDisk* disk);
 
     // Filtering

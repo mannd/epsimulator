@@ -24,7 +24,7 @@
         <x>0</x>
         <y>0</y>
         <width>472</width>
-        <height>417</height>
+        <height>420</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -44,7 +44,7 @@
        <item row="1" column="0" >
         <widget class="QCheckBox" name="hideSimulatorMenuCheckBox" >
          <property name="text" >
-          <string>Hide Simulator QSettings &amp;Menu Item From Users</string>
+          <string>Hide Simulator Settings &amp;Menu Item From Users</string>
          </property>
          <property name="shortcut" >
           <string>Alt+M</string>
@@ -59,7 +59,7 @@
         <x>0</x>
         <y>0</y>
         <width>472</width>
-        <height>417</height>
+        <height>420</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -67,9 +67,9 @@
       </attribute>
       <layout class="QGridLayout" >
        <item row="0" column="0" colspan="4" >
-        <widget class="QCheckBox" name="emulateOpticalDriveCheckBox" >
+        <widget class="QCheckBox" name="emulateOpticalDiskCheckBox" >
          <property name="text" >
-          <string>Emulate &amp;Optical Drive</string>
+          <string>Emulate &amp;Optical Disk</string>
          </property>
          <property name="shortcut" >
           <string>Alt+O</string>
@@ -77,9 +77,9 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="4" >
-        <widget class="QCheckBox" name="dualSidedDriveCheckBox" >
+        <widget class="QCheckBox" name="dualSidedDiskCheckBox" >
          <property name="text" >
-          <string>Dual Sided Drive</string>
+          <string>Dual Sided Disk</string>
          </property>
          <property name="shortcut" >
           <string/>
@@ -87,7 +87,7 @@
         </widget>
        </item>
        <item row="2" column="0" >
-        <widget class="QSpinBox" name="emulatedOpticalDriveCapacitySpinBox" >
+        <widget class="QSpinBox" name="emulatedOpticalDiskCapacitySpinBox" >
          <property name="maximum" >
           <number>1028</number>
          </property>
@@ -99,11 +99,11 @@
        <item row="2" column="1" colspan="2" >
         <widget class="QLabel" name="textLabel1_2_2" >
          <property name="text" >
-          <string>Emulated Optical Drive Capacity 
+          <string>Emulated Optical Disk Capacity 
 (MB, &amp;0 = unlimited)</string>
          </property>
          <property name="buddy" >
-          <cstring>emulatedOpticalDriveCapacitySpinBox</cstring>
+          <cstring>emulatedOpticalDiskCapacitySpinBox</cstring>
          </property>
         </widget>
        </item>
@@ -183,8 +183,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>800</width>
-        <height>480</height>
+        <width>472</width>
+        <height>420</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -192,20 +192,13 @@
       </attribute>
       <layout class="QGridLayout" >
        <item row="0" column="0" >
-        <widget class="QCheckBox" name="autoSaveDiskIconCheckBox" >
-         <property name="text" >
-          <string>Auto Save Indicator On Disk Icon</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" >
         <widget class="QCheckBox" name="immovablePatientStatusBarCheckBox" >
          <property name="text" >
           <string>Immovable Patient Status Bar</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
+       <item row="1" column="0" >
         <widget class="QCheckBox" name="patientStatusBarHasTitleCheckBox" >
          <property name="text" >
           <string>Patient Status Bar Has Title</string>
@@ -230,9 +223,9 @@
  <tabstops>
   <tabstop>administratorAccountRequiredCheckBox</tabstop>
   <tabstop>hideSimulatorMenuCheckBox</tabstop>
-  <tabstop>emulateOpticalDriveCheckBox</tabstop>
-  <tabstop>dualSidedDriveCheckBox</tabstop>
-  <tabstop>emulatedOpticalDriveCapacitySpinBox</tabstop>
+  <tabstop>emulateOpticalDiskCheckBox</tabstop>
+  <tabstop>dualSidedDiskCheckBox</tabstop>
+  <tabstop>emulatedOpticalDiskCapacitySpinBox</tabstop>
   <tabstop>oldStyleNavigatorCheckBox</tabstop>
   <tabstop>newStyleBlueBarCheckBox</tabstop>
   <tabstop>labNameLineEdit</tabstop>
