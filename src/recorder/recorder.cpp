@@ -159,38 +159,7 @@ void Recorder::createCentralWidget() {
     centralWidget_ = new QMdiArea;
     setCentralWidget(centralWidget_);
     readSettings();
-//     // deal with no saved settings (first run-through of program).
-//     ///  TODO this must be altered for multihead system.
-//     if (centralWidget_->subWindowList().isEmpty()) {
-//         if (Options::instance()->enableAcquisition()) {
-//             realTimeWindow_ = new RealTimeWindow;
-//             realTimeSubWindow_ = centralWidget_->addSubWindow(realTimeWindow_);
-//             centralWidget_->tileSubWindows();
-//         }
-//         else {
-//             review1Window_ = new ReviewWindow(1);
-//             review1SubWindow_ = centralWidget_->addSubWindow(review1Window_);
-//             logWindow_ = new LogWindow;
-//             logSubWindow_ = centralWidget_->addSubWindow(logWindow_);
-//             centralWidget_->tileSubWindows();
-//             // trying to approximate a good layout for review1 and log windows.
-//             // Unfortunately centralWidget_ does not give accurate height()
-//             // and width() values at this stage of construction.
-//             //int w = width();
-// //             int h = height();            
-// //             review1SubWindow_->move(0, 0);
-// //             review1SubWindow_->resize(w, h * 2 / 3);
-// //             logSubWindow_->move(0, h * 2 / 3);
-// //             logSubWindow_->resize(w, h / 3);
-//         } 
-//     }
-
 }
-
-// bool Recorder::useOneScreen() {
-//     if (options_->useOneScreen())
-//         return true;
-//     
 
 /**
  * Sets up the screens when application first run, or number of screens
@@ -203,6 +172,30 @@ void Recorder::createCentralWidget() {
  * @param tile set to true if "tiling" an already setup screen.
  */
 void Recorder::setupInitialScreen(bool tile) {
+    // The beginning and ending lines of this routine, and the 
+    // need for bool tile are a KLUDGE, possibly only required
+    // with X11, because of difficult X11 window manager features,
+    // but not tested on the other platforms so who knows?
+    // The problem is the first time the Recorder central widget
+    // is set up, the value for height() is different from
+    // subsequent times, so that the subwindows move slightly
+    // between the initial appearance and any time retiling
+    // occurs.  The heights are different too depending
+    // on whether the status bar is shown or not.
+    // SO... the sequence is:
+    // call the Recorder constructor in Navigator
+    // recorder->show() in Navigator
+    // recorder->setupInitialScreen(false) in Navigator
+    // Then setupInitialScreen() draws the subwindows
+    // with the wrong height while the screen is hidden
+    // and then calls itself with tile = true
+    // to draw itself all over again with correct height.
+    // This works, with some minor screen flashing; the
+    // subwindows don't shift position.
+    /// TODO test this function in Windows and Mac Os.
+    if (!tile)
+        hide();
+    centralWidget_->update();
     centralWidget_->closeAllSubWindows();
     if (qApp->desktop()->numScreens() > 1 || 
         options_->screenFlags.testFlag(Options::EmulateTwoScreens)) { 
@@ -219,16 +212,12 @@ void Recorder::setupInitialScreen(bool tile) {
     else {  // only one screen, should just be the Primary screen
         review1WindowOpen(true);
         logWindowOpen(true);
+        if (allowAcquisition_)
+            realTimeWindowOpen(true);
         // trying to approximate a good layout for review1 and log windows.
         int w = centralWidget()->width();
         int h = centralWidget()->height();
-        // on initial setup, for some reason the central widget height
-        // is not properly setup, the status bar height is not accounted
-        // for.  This doesn't happen again after the initial setup.
-        if (!tile)
-            h -= statusBar()->height();
         if (allowAcquisition_) {
-            realTimeWindowOpen(true);
             realTimeSubWindow_->move(0,0);
             realTimeSubWindow_->resize(w / 2, h * 2 /3);
             review1SubWindow_->move(w / 2, 0);
@@ -239,10 +228,11 @@ void Recorder::setupInitialScreen(bool tile) {
             review1SubWindow_->move(0,0);
             review1SubWindow_->resize(w, h * 2 / 3);
             centralWidget_->setActiveSubWindow(review1SubWindow_);
-        }   // logSubWindow_ always same position
+        }   
+        // logSubWindow_ always same position
         logSubWindow_->move(0, h * 2 / 3);
-        logSubWindow_->resize(w, (h / 3));
-    }
+        logSubWindow_->resize(w, h / 3);
+   }
     if (realTimeSubWindow_)
         realTimeSubWindow_->setOption(QMdiSubWindow::RubberBandResize);
 //     if (realTimeSubWindow_)
@@ -251,8 +241,10 @@ void Recorder::setupInitialScreen(bool tile) {
         review1SubWindow_->installEventFilter(this);
     if (logSubWindow_)
         logSubWindow_->installEventFilter(this);
-    
-
+    if (!tile) {
+        show();
+        setupInitialScreen(true);   // run recursively first go-around
+    }
 }
 
 void Recorder::setManualSave(bool enable) {
@@ -602,6 +594,8 @@ void Recorder::cascadeSubWindows() {
 void Recorder::createStatusBar() {
     if (options_->recorderFlags.testFlag(Options::RecorderHasStatusBar))
         statusBar()->showMessage(QString());
+    else
+        statusBar()->hide();
 }
 
 void Recorder::createPatientStatusBar() {

@@ -44,8 +44,17 @@ struct Options {
 public:
     enum ScreenFlag {
         NoScreenEmulation       = 0x000000,
+        // Puts everything on the left-hand screen, even if dual monitors,
+        // no effect if only one monitor.
         EmulateOneScreen        = 0x000001,
+        // Emulates dual monitors on a single monitor,
+        // no effect if dual monitors.  If both EmulateOneScreen 
+        // and EmulateTwoScreens selected and dual monitors,
+        // ignore the 2nd monitor and act like EmulateTwoScreens
+        // on a single monitor.  If single monitor,
+        // same as EmulateTwoScreens alone.
         EmulateTwoScreens       = 0x000002,
+        // Right now this retiles Recorder subwindows when Recorder resized.
         EmulateWindowsManager   = 0x000004
     };
     Q_DECLARE_FLAGS(ScreenFlags, ScreenFlag)

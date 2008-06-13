@@ -1079,7 +1079,6 @@ void Navigator::startStudy(Study* study, bool review) {
     using EpRecorder::Recorder;
     bool allowAcquisition = options_->
         filePathFlags.testFlag(Options::EnableAcquisition) && !review;
-    //bool allowAcquisition = options_->enableAcquisition() && !review;
     Recorder* recorder = new Recorder(this, study, currentDisk_, 
         allowAcquisition);
     recorder->show();

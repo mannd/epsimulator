@@ -49,18 +49,18 @@ RESOURCES += ../resources/resources.qrc
 
 DESTDIR = ../../lib/
 
-LIBS += -L../../lib \
--lcore \
+LIBS += -lcore \
 -lpatient \
 -lgui \
 -lhardware \
+ -lstudy \
  -lrecorder \
- -lstudy
+ -L../../lib
 TARGETDEPS += ../../lib/libcore.so \
 ../../lib/libpatient.so \
 ../../lib/libgui.so \
 ../../lib/libhardware.so \
- ../../lib/librecorder.so \
- ../../lib/libstudy.so
+ ../../lib/libstudy.so \
+ ../../lib/librecorder.so
 CONFIG -= release
 

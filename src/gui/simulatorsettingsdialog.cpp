@@ -45,10 +45,18 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     useLabNameCheckBox->setChecked(options_->useLabName);
     labNameLineEdit->setText(options_->labName);
     permanentDeleteCheckBox->setChecked(options_->permanentDelete);
+    emulateTwoScreensCheckBox->setChecked(options_->screenFlags.testFlag(
+        Options::EmulateTwoScreens));
+    emulateOneScreenCheckBox->setChecked(options_->screenFlags.testFlag(
+        Options::EmulateOneScreen));
+    emulateWindowsManagerCheckBox->setChecked(options_->screenFlags.testFlag(
+        Options::EmulateWindowsManager));
     immovablePatientStatusBarCheckBox->
         setChecked(options_->recorderFlags.testFlag(Options::ImmovablePatientStatusBar));
     patientStatusBarHasTitleCheckBox->
         setChecked(options_->recorderFlags.testFlag(Options::PatientStatusBarHasTitle));
+    recorderHasStatusBarCheckBox->setChecked(options_->recorderFlags.testFlag(
+        Options::RecorderHasStatusBar));
     connect(emulateOpticalDiskCheckBox, SIGNAL(stateChanged(int)), 
         this, SLOT(enableDiskEmulation())); 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
@@ -78,10 +86,18 @@ void SimulatorSettingsDialog::setOptions() {
     options_->useLabName = useLabNameCheckBox->isChecked();
     options_->labName = labNameLineEdit->text();
     options_->permanentDelete = permanentDeleteCheckBox->isChecked();
+    setFlag(options_->screenFlags, Options::EmulateTwoScreens,
+        emulateTwoScreensCheckBox->isChecked());
+    setFlag(options_->screenFlags, Options::EmulateOneScreen,
+        emulateOneScreenCheckBox->isChecked());
+    setFlag(options_->screenFlags, Options::EmulateWindowsManager,
+        emulateWindowsManagerCheckBox->isChecked());
     setFlag(options_->recorderFlags, Options::ImmovablePatientStatusBar,
         immovablePatientStatusBarCheckBox->isChecked());
     setFlag(options_->recorderFlags, Options::PatientStatusBarHasTitle,
         patientStatusBarHasTitleCheckBox->isChecked());
+    setFlag(options_->recorderFlags, Options::RecorderHasStatusBar,
+        recorderHasStatusBarCheckBox->isChecked());
 
     options_->writeSettings();
 }
