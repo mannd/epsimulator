@@ -49,6 +49,7 @@ public:
 
 public slots:
     void enableDiskEmulation();
+    void on_emulateWindowsManagerCheckBox_stateChanged(int);
 
 private:
     bool emulateOpticalDisk() const {

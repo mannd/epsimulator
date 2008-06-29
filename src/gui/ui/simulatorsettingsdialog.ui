@@ -24,7 +24,7 @@
         <x>0</x>
         <y>0</y>
         <width>472</width>
-        <height>420</height>
+        <height>424</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -59,7 +59,7 @@
         <x>0</x>
         <y>0</y>
         <width>472</width>
-        <height>420</height>
+        <height>424</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -184,49 +184,56 @@
         <x>0</x>
         <y>0</y>
         <width>472</width>
-        <height>420</height>
+        <height>424</height>
        </rect>
       </property>
       <attribute name="title" >
        <string>Recorder</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout" >
-       <item>
+      <layout class="QGridLayout" name="gridLayout" >
+       <item row="0" column="0" >
         <widget class="QCheckBox" name="emulateTwoScreensCheckBox" >
          <property name="text" >
           <string>Emulate 2 Screens</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="1" column="0" >
         <widget class="QCheckBox" name="emulateOneScreenCheckBox" >
          <property name="text" >
           <string>Emulate 1 Screen</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="2" column="0" >
         <widget class="QCheckBox" name="emulateWindowsManagerCheckBox" >
          <property name="text" >
           <string>Emulate CardioLab Windows Manager</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="3" column="0" >
+        <widget class="QCheckBox" name="emulatePruckaTilingCheckBox" >
+         <property name="text" >
+          <string>Tiling Using CardioLab Layout</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" >
         <widget class="QCheckBox" name="immovablePatientStatusBarCheckBox" >
          <property name="text" >
           <string>Immovable Patient Status Bar</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="5" column="0" >
         <widget class="QCheckBox" name="patientStatusBarHasTitleCheckBox" >
          <property name="text" >
           <string>Patient Status Bar Has Title</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="6" column="0" >
         <widget class="QCheckBox" name="recorderHasStatusBarCheckBox" >
          <property name="text" >
           <string>Recorder Window Has Status Bar</string>

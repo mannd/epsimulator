@@ -81,7 +81,7 @@ void Options::readSettings() {
     passwordHash = settings.value("passwordHash", "0").toString();
     numChannels = settings.value("numChannels", 48).toUInt();
     screenFlags = readFlags<ScreenFlags>("screenFlags", 
-        NoScreenEmulation, settings);
+        DefaultScreenFlags, settings);
     bluePanelStyle = readFlags<BluePanelStyle>("bluePanelStyle", 
         OpaqueButtons, settings);
     opticalDiskFlags = readFlags<OpticalDiskFlags>("opticalDiskFlags",

@@ -51,6 +51,8 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
         Options::EmulateOneScreen));
     emulateWindowsManagerCheckBox->setChecked(options_->screenFlags.testFlag(
         Options::EmulateWindowsManager));
+    emulatePruckaTilingCheckBox->setChecked(options_->screenFlags.testFlag(
+        Options::EmulatePruckaTiling));
     immovablePatientStatusBarCheckBox->
         setChecked(options_->recorderFlags.testFlag(Options::ImmovablePatientStatusBar));
     patientStatusBarHasTitleCheckBox->
@@ -92,6 +94,8 @@ void SimulatorSettingsDialog::setOptions() {
         emulateOneScreenCheckBox->isChecked());
     setFlag(options_->screenFlags, Options::EmulateWindowsManager,
         emulateWindowsManagerCheckBox->isChecked());
+    setFlag(options_->screenFlags, Options::EmulatePruckaTiling,
+        emulatePruckaTilingCheckBox->isChecked());
     setFlag(options_->recorderFlags, Options::ImmovablePatientStatusBar,
         immovablePatientStatusBarCheckBox->isChecked());
     setFlag(options_->recorderFlags, Options::PatientStatusBarHasTitle,
@@ -139,4 +143,16 @@ void SimulatorSettingsDialog::enableDiskEmulation() {
     emulatedOpticalDiskCapacitySpinBox->setEnabled(diskEmulation);
     if (!diskEmulation)
          setEmulatedOpticalDiskCapacity(0);
+}
+
+void SimulatorSettingsDialog::on_emulateWindowsManagerCheckBox_stateChanged(int state) {
+    // Prucka tiling happens with Prucka windows manager emulation
+    // so show it and make it unchangable.
+    if (state == Qt::Checked) {
+        emulatePruckaTilingCheckBox->setChecked(true);
+        emulatePruckaTilingCheckBox->setEnabled(false);
+    }
+    else 
+        // enable Prucka tiling check box, should be whatever it last was set as. 
+        emulatePruckaTilingCheckBox->setEnabled(true);
 }

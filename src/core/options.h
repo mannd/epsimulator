@@ -54,8 +54,15 @@ public:
         // on a single monitor.  If single monitor,
         // same as EmulateTwoScreens alone.
         EmulateTwoScreens       = 0x000002,
+        // This emulates the Prucka windows manager, i.e. automatic layout of
+        // windows.  If not set, traditional tile and cascade menu items appear.
+        // However, note next option too.
         // Right now this retiles Recorder subwindows when Recorder resized.
-        EmulateWindowsManager   = 0x000004
+        EmulateWindowsManager   = 0x000004,
+        // Tiling uses Prucka layout if set, otherwise tradition MDA tiling.
+        // Ignored if EmulateWindowsManager set.
+        EmulatePruckaTiling     = 0x000008,
+        DefaultScreenFlags      = EmulateWindowsManager
     };
     Q_DECLARE_FLAGS(ScreenFlags, ScreenFlag)
     ScreenFlags screenFlags;

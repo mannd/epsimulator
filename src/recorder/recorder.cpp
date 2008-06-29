@@ -145,7 +145,9 @@ bool Recorder::eventFilter(QObject* target, QEvent* event) {
     // and if all 3 windows (Realtime, Review1, Review2) then both
     // edges and bottom.  Review2 can only move left edge and bottom.
     // LogWindow can only move top.
-    if (event->type() == QEvent::MouseMove) {
+    // Only applies if Prucka windows emulation is turned on.
+    if (event->type() == QEvent::MouseMove  
+        && options_->screenFlags.testFlag(Options::EmulateWindowsManager)) {
         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
         if (mouseEvent->buttons() & Qt::LeftButton) {
             qDebug() << mouseEvent->pos();
@@ -319,6 +321,9 @@ void Recorder::updateSettings() {
         dockWidget->setFeatures(QDockWidget::DockWidgetClosable
             | QDockWidget::DockWidgetMovable 
             | QDockWidget::DockWidgetFloatable);
+    // fix any weird windows arrangement if changing to Prucka windows management
+    if (options_->screenFlags.testFlag(Options::EmulateWindowsManager))
+        tileSubWindows();
 }
 
 void Recorder::connectReviewWindows() {
@@ -569,16 +574,19 @@ void Recorder::help() {
 }
 
 void Recorder::tileSubWindows() {
-    /// TODO option to control regular tiling vs 
-    /// return to initial window settings
-    // regular tiling
-    // centralWidget_->tileSubWindows();
-    setupInitialScreen(true);
+    if (options_->screenFlags.testFlag(Options::EmulateWindowsManager) ||
+        options_->screenFlags.testFlag(Options::EmulatePruckaTiling))
+        // Prucka-like tiling
+        setupInitialScreen(true);
+    else
+        // regular tiling        
+        centralWidget_->tileSubWindows();
     // need to emit signals to other Recorder window
 }
 
 void Recorder::cascadeSubWindows() {
     centralWidget_->cascadeSubWindows();
+    // emit cascade signal to other Recorder window
 }
 
 /**
@@ -958,5 +966,8 @@ void Recorder::updateMenus() {
     logAction_->setChecked(logPresent);
     realTimeAction_->setEnabled(options_->
         filePathFlags.testFlag(Options::EnableAcquisition));
+    // Tile and cascade menu items only appear if Prucka windows manager emulation is off
+    tileAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
+    cascadeAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
 }
 
