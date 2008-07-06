@@ -148,31 +148,43 @@ inline bool Recorder::noMansZone(const QPoint& p) {
 }
 
 bool Recorder::eventFilter(QObject* target, QEvent* event) {
-    // logic here is dependent on SubWindow type.
-    // If RealTimeWindow and 2 screens, then no movement allowed.
-    // If RealTimeWindow and 1 screen, then on movement of right edge
-    // and bottom allowed.
-    // Review1Window by itself only allows movement of bottom edge,
-    // otherwise if paired with RealTimeWindow, only left edge and
-    // bottom, if with Review2Window only right edge and bottom,
-    // and if all 3 windows (Realtime, Review1, Review2) then both
-    // edges and bottom.  Review2 can only move left edge and bottom.
-    // LogWindow can only move top.
-    // Only applies if Prucka windows emulation is turned on.
+    // if we are emulating the windows event manager then we must:
+    //     1) prevent moving the mdisubwindows around in the central widget
+    //     2) prevent resizing the outside edges of the mdisubwindows
+    //     3) retile the mdisubwindows when the mouse if released
 
-    // This works to prevent all movement of the subwindows.
+    /// FIXME Goals 1 and 2 work now, at least in KDE and Linux.
+    /// Need to retile based on window positions when mouse button released.
+    /// One way to do this would be to take the sizes of the focus window,
+    /// if it is the log window, change the other windows' height to that
+    /// of the central widget - the log window height, otherwise
+    /// change the log window top position to the bottom of the resized
+    /// window and change the other windows accordingly.
+
+    // no event filtering unless we are emulating the Prucka windows manager
+    if (!options_->screenFlags.testFlag(Options::EmulateWindowsManager))
+        return QMainWindow::eventFilter(target, event);
     static bool inNoMansZone = false;
-    if (event->type() == QEvent::MouseMove  
-         && options_->screenFlags.testFlag(Options::EmulateWindowsManager)) {
+    static bool atStartPosition = true;
+    if (event->type() == QEvent::MouseMove) {
          QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
          if (mouseEvent->buttons() & Qt::LeftButton)   {
-            if (!inNoMansZone) // once in NoMansZone you stay in it until the button released
-                inNoMansZone = noMansZone(mouseEvent->globalPos());
-             if (inNoMansZone)
+            if (atStartPosition) {
+                qDebug() << "mouseEvent->y() = " << mouseEvent->y();
+                qDebug() << "inNoMansZone = " << inNoMansZone;
+                inNoMansZone = noMansZone(mouseEvent->globalPos()) ||
+                  (6 < mouseEvent->y() && mouseEvent->y() < 30);
+                qDebug() << "mouse globalPos() = " << mouseEvent->globalPos()
+                         << " mouse pos() = " << mouseEvent->pos();
+                atStartPosition = false;
+            }
+            if (inNoMansZone)
                 return true;
          }
-        else
+        else {
             inNoMansZone = false;   // reset this
+            atStartPosition = true;
+        }
     }
     return QMainWindow::eventFilter(target, event);
 }
@@ -182,6 +194,29 @@ void Recorder::createCentralWidget() {
     setCentralWidget(centralWidget_);
     readSettings();
 }
+
+/// TODO Further complexities:
+/** Tiling is really different from the initial setup.  If we are not
+ using the Prucka windows manager, then opening and closing subwindows,
+ tiling, cascading, etc. should be totally adlib.  The only exception
+ is that you should not be able to ever open the realtimewindows
+ if enable acquisition is not enabled.  We'll also limit review2 opening
+ to having review1 present.  That means you can't close review1 if 
+ review2 is open...
+
+ With windows manager emulation, tiling will depend on the windows open.
+ The only way to implement that is to manage the close buttons, the
+ system menus and disabling and enabling the Window menu items.  We should
+ allow closing the log and Review1 windows in emulation mode with 1 screen.
+ Tiling in windows emulation mode will need to account for that.
+*/ 
+
+/// FIXME  Because of above, closing mdisubwindows doesn't work.
+
+/// FIXME resizing screen forces extra setupInitialScreen(true) when
+/// recorder is opened.  It should just do tiling.
+
+/// TODO need to be able to save and restore windows arrangements.
 
 /**
  * Sets up the screens when application first run, or number of screens
@@ -223,12 +258,10 @@ void Recorder::setupInitialScreen(bool tile) {
         options_->screenFlags.testFlag(Options::EmulateTwoScreens)) { 
         if (recorderWindow_ == Primary && allowAcquisition_) {
             realTimeWindowOpen(true);
-            centralWidget_->tileSubWindows();
         }
         else { // recorderWindow_ == Secondary or no Acquistion
             review1WindowOpen(true);
             logWindowOpen(true);
-            centralWidget_->tileSubWindows();       
         }
     }
     else {  // only one screen, should just be the Primary screen
@@ -254,14 +287,6 @@ void Recorder::setupInitialScreen(bool tile) {
         // logSubWindow_ always same position
         logSubWindow_->move(0, h * 2 / 3);
         logSubWindow_->resize(w, h / 3);
-    }
-    QMdiSubWindow* subWindow;
-    QList<QMdiSubWindow*> subWindowList = centralWidget_->subWindowList();
-    foreach (subWindow, subWindowList) {
-        subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
-            screenFlags.testFlag(Options::EmulateWindowsManager));
-        subWindow->installEventFilter(this);
-        qDebug() << "Installing Event Filter";
     }
     if (!tile) {
         qDebug() << "Before setupInitialScreen()";
@@ -298,8 +323,6 @@ void Recorder::updateAll() {
     updateSettings();
 }
 
-
-
 void Recorder::patientInformation() {
     PatientDialog* patientDialog = new PatientDialog(this);
     patientDialog->setFields(study_);
@@ -334,6 +357,7 @@ void Recorder::simulatorSettings() {
             simDialog->setOptions();
             updateMenus();
             updateSettings();
+            setupInitialScreen(true);
             // signal updates simulator settings in Navigator
             emit updateSimulatorSettings();
         }
@@ -352,14 +376,6 @@ void Recorder::updateSettings() {
         dockWidget->setFeatures(QDockWidget::DockWidgetClosable
             | QDockWidget::DockWidgetMovable 
             | QDockWidget::DockWidgetFloatable);
-    // fix any weird windows arrangement if changing to Prucka windows management
-    if (options_->screenFlags.testFlag(Options::EmulateWindowsManager))
-        tileSubWindows();   
-    QMdiSubWindow* subWindow;
-    QList<QMdiSubWindow*> subWindowList = centralWidget_->subWindowList();
-    foreach (subWindow, subWindowList) 
-        subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
-            screenFlags.testFlag(Options::EmulateWindowsManager));
 }
 
 void Recorder::connectReviewWindows() {
@@ -376,8 +392,10 @@ void Recorder::connectReviewWindows() {
 
 void Recorder::realTimeWindowOpen(bool open) {
     openSubWindow(open, realTimeSubWindow_, realTimeWindow_);
-    realTimeSubWindow_->setWindowFlags(realTimeSubWindow_->windowFlags() 
-        & ~Qt::WindowSystemMenuHint);
+    // no system menu or close button if we are emulating Prucka
+    if (open && options_->screenFlags.testFlag(Options::EmulateWindowsManager))
+        realTimeSubWindow_->setWindowFlags(realTimeSubWindow_->windowFlags() 
+            & ~Qt::WindowSystemMenuHint);
 }
 
 void Recorder::review1WindowOpen(bool open) {
@@ -389,7 +407,6 @@ void Recorder::review1WindowOpen(bool open) {
         connectReviewWindows();
         review1Window_->makeWindowActive(true);
     }
-    updateMenus();  // opening review windows affects menu
 } 
 
 void Recorder::review2WindowOpen(bool open) {
@@ -401,7 +418,6 @@ void Recorder::review2WindowOpen(bool open) {
         connectReviewWindows();
         review2Window_->makeWindowActive(false);
     }
-    updateMenus();
 } 
 
 void Recorder::logWindowOpen(bool open) {
@@ -502,7 +518,7 @@ void Recorder::restoreDisplayWindow(const QString& key,
     settings.endGroup(); 
     if (currentWindowKey == key)
         currentSubWindow = sw;
-}  
+}
 
 void Recorder::readSettings() {
     QSettings settings;
@@ -510,9 +526,6 @@ void Recorder::readSettings() {
 }
 
 void Recorder::readSettings(QSettings& settings) {
-    
-//    review1Window_->readSettings();
-    //QSettings settings;
     QDesktopWidget* desktop = qApp->desktop();
     settings.beginGroup(QString("screen%1").arg(desktop->screenNumber(this)));
     settings.beginGroup("recorder");
@@ -522,53 +535,10 @@ void Recorder::readSettings(QSettings& settings) {
         settings.endGroup();
         settings.endGroup();
         return;
-    }    
+    }
     resize(size.toSize());
     move(settings.value("pos").toPoint());
     restoreState(settings.value("state").toByteArray());
-    // clear the central widget - close all the subwindows
-//     centralWidget_->closeAllSubWindows();
-//     // read a list of the saved subwindows, open each one and 
-//     // readSettings for each one.
-//     // Note that below is clunky, but seems best solution after
-//     // experimenting with less repetitive ways of doing this.
-//     QStringList subWindowKeys = settings.value("subWindowList").toStringList();
-//     QString currentWindowKey = settings.value("currentWindowKey").toString();
-//     QMdiSubWindow* activeWindow = 0;
-//     // sorry, no RealTime window if no acquisition
-//     if (subWindowKeys.contains(realTimeWindowKey) &&
-//         Options::instance()->enableAcquisition()) {
-//         // apparently can't use pointer to member function here
-//         // because Recorder is not fully constructed yet, so pointer to
-//         // member is wild.
-//         realTimeWindowOpen(true);
-//         restoreDisplayWindow(realTimeWindowKey, 
-//             settings, currentWindowKey, realTimeSubWindow_, 
-//             realTimeWindow_, activeWindow);
-//     }
-//     if (subWindowKeys.contains(review1WindowKey)) {
-//         review1WindowOpen(true);
-//         restoreDisplayWindow(review1WindowKey, 
-//             settings, currentWindowKey, review1SubWindow_, 
-//             review1Window_, activeWindow);
-//     }
-//     if (subWindowKeys.contains(review2WindowKey)) {
-//         review2WindowOpen(true);
-//         restoreDisplayWindow(review2WindowKey, 
-//             settings, currentWindowKey, review2SubWindow_, 
-//             review2Window_, activeWindow);
-//     }
-//     if (subWindowKeys.contains(logWindowKey)) {
-//         logWindowOpen(true);
-//         restoreDisplayWindow(logWindowKey, 
-//             settings, currentWindowKey, logSubWindow_, 
-//             logWindow_, activeWindow);
-//     }
-//     /// TODO again add future DisplayWindow processing here.
-//     settings.endGroup();
-//     settings.endGroup();
-//     if (activeWindow)
-//         centralWidget_->setActiveSubWindow(activeWindow);
 }
 
 void Recorder::login() {
@@ -1003,7 +973,8 @@ void Recorder::updateMenus() {
     review2Action_->setChecked(review2Present);
     logAction_->setChecked(logPresent);
     realTimeAction_->setEnabled(options_->
-        filePathFlags.testFlag(Options::EnableAcquisition));
+        filePathFlags.testFlag(Options::EnableAcquisition)  &&
+        !options_->screenFlags.testFlag(Options::EmulateWindowsManager));
     // Tile and cascade menu items only appear if Prucka windows manager emulation is off
     tileAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
     cascadeAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));

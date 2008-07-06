@@ -1,55 +1,34 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="16" >
+ <DocsAndViews NumberOfDocuments="9" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
-   <View0 Encoding="" Type="Source" />
+   <View0 Encoding="" line="166" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/options.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.h" >
+   <View0 Encoding="" line="51" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/options.cpp" >
-   <View0 Encoding="" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.cpp" >
+   <View0 Encoding="" line="26" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/simulatorsettingsdialog.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.h" >
+   <View0 Encoding="" line="131" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/simulatorsettingsdialog.cpp" >
-   <View0 Encoding="" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
+   <View0 Encoding="" line="1061" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.cpp" >
-   <View0 Encoding="" line="0" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///usr/local/Trolltech/Qt-4.4.0/include/QtGui/qmainwindow.h" >
+   <View0 Encoding="" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.h" >
-   <View0 Encoding="" line="57" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///usr/local/Trolltech/Qt-4.4.0/include/QtGui/qaction.h" >
+   <View0 Encoding="" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.cpp" >
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/main/main.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.h" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/patientdialog.h" >
-   <View0 Encoding="" Type="Source" />
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/patientdialog.cpp" >
-   <View0 Encoding="" Type="Source" />
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/logwindow.cpp" >
-   <View0 Encoding="" Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorderdefs.h" >
-   <View0 Encoding="" Type="Source" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.h" >
-   <View0 Encoding="" Type="Source" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/logwindow.h" >
-   <View0 Encoding="" Type="Source" />
-  </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
-   <View0 Encoding="" line="1060" Type="Source" />
-  </Doc15>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

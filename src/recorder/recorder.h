@@ -21,6 +21,7 @@
 #ifndef RECORDER_H
 #define RECORDER_H
 
+#include "options.h"
 #include "recorderdefs.h"
 
 #include <QAction>
@@ -29,21 +30,16 @@
 #include <QMdiSubWindow>
 #include <QMenu>
 
-
-
-//class OpticalDisk;
 class QAction;
 class QCloseEvent;
 class QComboBox;
 class QDockWidget;
 class QMenu;
+class QSettings;
 class QSplitter;
 
-//class SatMonitor;
-class QSettings;
-
 namespace EpCore {
-    class Options;
+//    class Options;
     class User;
 }
 
@@ -133,7 +129,7 @@ private:
     Recorder(const Recorder&);
     Recorder& operator=(const Recorder&);
 
-    static const int edgeWidth = 200;    // width of edges that are ignored by mouse
+    static const int edgeWidth = 80;    // width of edges that are ignored by mouse
     bool noMansZone(const QPoint& p);
  
     std::vector<bool> openDisplayWindowList_;
@@ -317,6 +313,9 @@ void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow,
         connect(closeAct, SIGNAL(triggered()), subWindow, SLOT(close()));
         systemMenu->addAction(closeAct);
         subWindow->setSystemMenu(systemMenu);
+        subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
+            screenFlags.testFlag(Options::EmulateWindowsManager));
+        subWindow->installEventFilter(this);
         subWindow->show();
     }
     else {

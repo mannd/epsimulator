@@ -24,7 +24,6 @@
 
 #include <QKeySequence>
 #include <QHBoxLayout>
-#include <QMouseEvent>
 #include <QPalette>
 #include <QSettings>
 #include <QSizePolicy>
@@ -37,10 +36,7 @@ using namespace EpRecorder;
 
 DisplayWindow::DisplayWindow(const QString& name, int number, 
         QWidget* parent, Qt::WindowFlags fl) 
-        : QMainWindow(parent, fl), name_(name), number_(number) {
-//     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint 
-//         );
-}
+        : QMainWindow(parent, fl), name_(name), number_(number) {}
 
 SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
     QWidget *parent, Qt::WindowFlags fl) 
