@@ -68,6 +68,8 @@ using namespace EpHardware;
 using namespace EpHardware::EpOpticalDisk;
 using namespace EpHardware::EpStimulator;
 
+const int Recorder::edgeWidth;  // if address not taken don't really need this storage
+
 Recorder::Recorder(QWidget* parent, 
                    Study* study, 
                    OpticalDisk* currentDisk,
@@ -108,7 +110,6 @@ Recorder::Recorder(QWidget* parent,
     createStatusBar();
     createCentralWidget();
 
-
     connect(patientStatusBar_, SIGNAL(manualSave(bool)),
         this, SLOT(setManualSave(bool)));
     connect(patientStatusBar_, SIGNAL(showPatientInformation()),
@@ -134,6 +135,18 @@ Recorder::~Recorder() {
     delete study_;
 }
 
+
+/**
+ * Defines area in central Widget that mouse can't drag.
+ * @return true if in the edges of the central Widget.
+ */
+inline bool Recorder::noMansZone(const QPoint& p) {
+    return (p.x() < centralWidget_->x() + edgeWidth) ||
+           (p.x() > centralWidget_->width() - edgeWidth) ||
+           (p.y() < centralWidget_->y() + edgeWidth) ||
+           (p.y() > centralWidget_->height() - edgeWidth);
+}
+
 bool Recorder::eventFilter(QObject* target, QEvent* event) {
     // logic here is dependent on SubWindow type.
     // If RealTimeWindow and 2 screens, then no movement allowed.
@@ -146,13 +159,20 @@ bool Recorder::eventFilter(QObject* target, QEvent* event) {
     // edges and bottom.  Review2 can only move left edge and bottom.
     // LogWindow can only move top.
     // Only applies if Prucka windows emulation is turned on.
+
+    // This works to prevent all movement of the subwindows.
+    static bool inNoMansZone = false;
     if (event->type() == QEvent::MouseMove  
-        && options_->screenFlags.testFlag(Options::EmulateWindowsManager)) {
-        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
-        if (mouseEvent->buttons() & Qt::LeftButton) {
-            qDebug() << mouseEvent->pos();
-            return true;
-        }
+         && options_->screenFlags.testFlag(Options::EmulateWindowsManager)) {
+         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+         if (mouseEvent->buttons() & Qt::LeftButton)   {
+            if (!inNoMansZone) // once in NoMansZone you stay in it until the button released
+                inNoMansZone = noMansZone(mouseEvent->globalPos());
+             if (inNoMansZone)
+                return true;
+         }
+        else
+            inNoMansZone = false;   // reset this
     }
     return QMainWindow::eventFilter(target, event);
 }
@@ -234,18 +254,29 @@ void Recorder::setupInitialScreen(bool tile) {
         // logSubWindow_ always same position
         logSubWindow_->move(0, h * 2 / 3);
         logSubWindow_->resize(w, h / 3);
-   }
-    if (realTimeSubWindow_)
-        realTimeSubWindow_->setOption(QMdiSubWindow::RubberBandResize);
-//     if (realTimeSubWindow_)
-//         realTimeSubWindow_->installEventFilter(this);
-    if (review1SubWindow_)
-        review1SubWindow_->installEventFilter(this);
-    if (logSubWindow_)
-        logSubWindow_->installEventFilter(this);
+    }
+    QMdiSubWindow* subWindow;
+    QList<QMdiSubWindow*> subWindowList = centralWidget_->subWindowList();
+    foreach (subWindow, subWindowList) {
+        subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
+            screenFlags.testFlag(Options::EmulateWindowsManager));
+        subWindow->installEventFilter(this);
+        qDebug() << "Installing Event Filter";
+    }
     if (!tile) {
+        qDebug() << "Before setupInitialScreen()";
+        qDebug() << "centralWidget_->pos() = " << centralWidget_->pos() 
+             << " centralWidget_->width() = " << centralWidget_->width() 
+             << " centralWidget_->height() = " << centralWidget_->height(); 
+
         show();
         setupInitialScreen(true);   // run recursively first go-around
+    }
+    else {  // demonstrates unexplained change in central widget height 2nd time around.
+        qDebug() << "After setupInitialScreen()";
+        qDebug() << "centralWidget_->pos() = " << centralWidget_->pos() 
+             << " centralWidget_->width() = " << centralWidget_->width() 
+             << " centralWidget_->height() = " << centralWidget_->height(); 
     }
 }
 
@@ -323,7 +354,12 @@ void Recorder::updateSettings() {
             | QDockWidget::DockWidgetFloatable);
     // fix any weird windows arrangement if changing to Prucka windows management
     if (options_->screenFlags.testFlag(Options::EmulateWindowsManager))
-        tileSubWindows();
+        tileSubWindows();   
+    QMdiSubWindow* subWindow;
+    QList<QMdiSubWindow*> subWindowList = centralWidget_->subWindowList();
+    foreach (subWindow, subWindowList) 
+        subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
+            screenFlags.testFlag(Options::EmulateWindowsManager));
 }
 
 void Recorder::connectReviewWindows() {
@@ -340,6 +376,8 @@ void Recorder::connectReviewWindows() {
 
 void Recorder::realTimeWindowOpen(bool open) {
     openSubWindow(open, realTimeSubWindow_, realTimeWindow_);
+    realTimeSubWindow_->setWindowFlags(realTimeSubWindow_->windowFlags() 
+        & ~Qt::WindowSystemMenuHint);
 }
 
 void Recorder::review1WindowOpen(bool open) {

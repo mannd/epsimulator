@@ -24,6 +24,7 @@
 
 #include <QKeySequence>
 #include <QHBoxLayout>
+#include <QMouseEvent>
 #include <QPalette>
 #include <QSettings>
 #include <QSizePolicy>
@@ -33,6 +34,13 @@
 class QScrollArea;
 
 using namespace EpRecorder;
+
+DisplayWindow::DisplayWindow(const QString& name, int number, 
+        QWidget* parent, Qt::WindowFlags fl) 
+        : QMainWindow(parent, fl), name_(name), number_(number) {
+//     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint 
+//         );
+}
 
 SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
     QWidget *parent, Qt::WindowFlags fl) 

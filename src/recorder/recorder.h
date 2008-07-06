@@ -23,9 +23,12 @@
 
 #include "recorderdefs.h"
 
+#include <QAction>
 #include <QMainWindow>
 #include <QMdiArea>
 #include <QMdiSubWindow>
+#include <QMenu>
+
 
 
 //class OpticalDisk;
@@ -129,6 +132,9 @@ private:
     // disallowed
     Recorder(const Recorder&);
     Recorder& operator=(const Recorder&);
+
+    static const int edgeWidth = 200;    // width of edges that are ignored by mouse
+    bool noMansZone(const QPoint& p);
  
     std::vector<bool> openDisplayWindowList_;
 
@@ -303,7 +309,14 @@ void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow,
         return;
     if (open) {
         internalWidget = new T(number);
-        subWindow = centralWidget_->addSubWindow(internalWidget);
+        subWindow = centralWidget_->addSubWindow(internalWidget, 
+            Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
+        QMenu* systemMenu = new QMenu(subWindow);
+        QAction* closeAct = new QAction(tr("Close"), subWindow);
+        closeAct->setShortcut(tr("Ctrl+W"));
+        connect(closeAct, SIGNAL(triggered()), subWindow, SLOT(close()));
+        systemMenu->addAction(closeAct);
+        subWindow->setSystemMenu(systemMenu);
         subWindow->show();
     }
     else {

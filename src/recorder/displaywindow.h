@@ -27,6 +27,7 @@
 #include <QString>
 
 class QAction;
+class QEvent;
 class QScrollArea;
 class QSettings;
 
@@ -41,8 +42,7 @@ class DisplayWindow : public QMainWindow {
 
 public:
     DisplayWindow(const QString& name, int number = 0, 
-        QWidget* parent = 0, Qt::WindowFlags fl = 0) 
-        : QMainWindow(parent, fl), name_(name), number_(number) {}
+        QWidget* parent = 0, Qt::WindowFlags fl = 0); 
     ~DisplayWindow() {}
 
     virtual void writeSettings(QSettings&) = 0;
@@ -57,7 +57,6 @@ public:
 private:
     const QString name_;
     const int number_;
-
 };
 
 
