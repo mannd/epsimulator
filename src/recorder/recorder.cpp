@@ -48,8 +48,6 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QMenuBar>
-#include <QMdiArea>
-#include <QMdiSubWindow>
 #include <QCloseEvent>
 #include <QSettings>
 #include <QSplitter>
@@ -58,6 +56,8 @@
 #include <QVariant>
 
 #include <QtDebug>
+
+#include <QMouseEvent>
 
 using EpGui::PatientDialog;
 using EpGui::SimulatorSettingsDialog;
@@ -141,10 +141,11 @@ Recorder::~Recorder() {
  * @return true if in the edges of the central Widget.
  */
 inline bool Recorder::noMansZone(const QPoint& p) {
-    return (p.x() < centralWidget_->x() + edgeWidth) ||
-           (p.x() > centralWidget_->width() - edgeWidth) ||
-           (p.y() < centralWidget_->y() + edgeWidth) ||
-           (p.y() > centralWidget_->height() - edgeWidth);
+    QPoint origin = centralWidget_->mapToGlobal(QPoint(0,0));
+    return (p.x() < origin.x() + edgeWidth) ||
+           (p.x() > origin.x() + centralWidget_->width() - edgeWidth) ||
+           (p.y() < origin.y() + edgeWidth) ||
+           (p.y() > origin.y() + centralWidget_->height() - edgeWidth);
 }
 
 bool Recorder::eventFilter(QObject* target, QEvent* event) {
@@ -170,14 +171,16 @@ bool Recorder::eventFilter(QObject* target, QEvent* event) {
          QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
          if (mouseEvent->buttons() & Qt::LeftButton)   {
             if (atStartPosition) {
-                qDebug() << "mouseEvent->y() = " << mouseEvent->y();
-                qDebug() << "inNoMansZone = " << inNoMansZone;
+                //qDebug() << "mouseEvent->y() = " << mouseEvent->y();
                 inNoMansZone = noMansZone(mouseEvent->globalPos()) ||
-                  (6 < mouseEvent->y() && mouseEvent->y() < 30);
-                qDebug() << "mouse globalPos() = " << mouseEvent->globalPos()
-                         << " mouse pos() = " << mouseEvent->pos();
+                  (4 < mouseEvent->y() && mouseEvent->y() < 30);
+                //qDebug() << "inNoMansZone = " << inNoMansZone;
+                //qDebug() << "mouse globalPos() = " << mouseEvent->globalPos()
+                //         << " mouse pos() = " << mouseEvent->pos();
                 atStartPosition = false;
-            }
+                if (inNoMansZone)
+                    QApplication::setOverrideCursor(QCursor(Qt::ForbiddenCursor));
+           }
             if (inNoMansZone)
                 return true;
          }
@@ -186,6 +189,7 @@ bool Recorder::eventFilter(QObject* target, QEvent* event) {
             atStartPosition = true;
         }
     }
+    QApplication::restoreOverrideCursor();
     return QMainWindow::eventFilter(target, event);
 }
 
@@ -289,19 +293,19 @@ void Recorder::setupInitialScreen(bool tile) {
         logSubWindow_->resize(w, h / 3);
     }
     if (!tile) {
-        qDebug() << "Before setupInitialScreen()";
-        qDebug() << "centralWidget_->pos() = " << centralWidget_->pos() 
-             << " centralWidget_->width() = " << centralWidget_->width() 
-             << " centralWidget_->height() = " << centralWidget_->height(); 
+//         qDebug() << "Before setupInitialScreen()";
+//         qDebug() << "centralWidget_->pos() = " << centralWidget_->pos() 
+//              << " centralWidget_->width() = " << centralWidget_->width() 
+//              << " centralWidget_->height() = " << centralWidget_->height(); 
 
         show();
         setupInitialScreen(true);   // run recursively first go-around
     }
     else {  // demonstrates unexplained change in central widget height 2nd time around.
-        qDebug() << "After setupInitialScreen()";
-        qDebug() << "centralWidget_->pos() = " << centralWidget_->pos() 
-             << " centralWidget_->width() = " << centralWidget_->width() 
-             << " centralWidget_->height() = " << centralWidget_->height(); 
+//         qDebug() << "After setupInitialScreen()";
+//         qDebug() << "centralWidget_->pos() = " << centralWidget_->pos() 
+//              << " centralWidget_->width() = " << centralWidget_->width() 
+//              << " centralWidget_->height() = " << centralWidget_->height(); 
     }
 }
 
@@ -399,14 +403,14 @@ void Recorder::realTimeWindowOpen(bool open) {
 }
 
 void Recorder::review1WindowOpen(bool open) {
-    // if closing and review2 is open, close that too
+     // if closing and review2 is open, close that too
     if (!open && subWindowIsOpen(review2SubWindow_))
         review2WindowOpen(false);
     openSubWindow(open, review1SubWindow_, review1Window_, 1);
     if (open) {
         connectReviewWindows();
         review1Window_->makeWindowActive(true);
-    }
+   }
 } 
 
 void Recorder::review2WindowOpen(bool open) {
@@ -977,6 +981,7 @@ void Recorder::updateMenus() {
         !options_->screenFlags.testFlag(Options::EmulateWindowsManager));
     // Tile and cascade menu items only appear if Prucka windows manager emulation is off
     tileAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
-    cascadeAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
+    cascadeAction_->setVisible(!options_->screenFlags.testFlag
+                              (Options::EmulateWindowsManager));
 }
 

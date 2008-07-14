@@ -5,3 +5,5 @@ Note to developers:
 Here is the command line generated when I run the program (all one line):
 
 LD_LIBRARY_PATH=./lib:../lib:../../lib:$LD_LIBRARY_PATH /home/mannd/dev/local/epsimulator/bin/epsimulator
+
+Note that there is a space between the 2nd LD_LIBRARY_PATH and the executable path (/home/mannd/dev/...etc).

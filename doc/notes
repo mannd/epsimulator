@@ -725,3 +725,7 @@ Namespaces in use now are:
     EpNavigator
     EpRecorder
 
+
+Mouse Tracking
+
+    Turning on mouse tracking in Recorder is proving to be very difficult.  It doesn't seem to work.  I think the QMdiArea is sucking up the mouse movement and ignoring it, unless the left button is clicked.  I note now that QMdiArea is a subclass of QAbstractScrollArea, and to enable mouse tracking in a scroll area you must do viewport()->setMouseTracking(true), not just setMouseTracking(true).  But still no dice.  I am trying to emulate the Prucka way of opening a new window.  A horizontal or vertical dashed line splits the window the mouse is in.  Clicking in the mode opens the window in whatever side of the line you are in, the original window is halved and ends up on the other side of the dotted line.  

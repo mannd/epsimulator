@@ -316,6 +316,7 @@ void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow,
         subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
             screenFlags.testFlag(Options::EmulateWindowsManager));
         subWindow->installEventFilter(this);
+        subWindow->setMouseTracking(true);
         subWindow->show();
     }
     else {

@@ -1,34 +1,43 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="9" >
+ <DocsAndViews NumberOfDocuments="12" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
-   <View0 Encoding="" line="166" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.h" >
-   <View0 Encoding="" line="51" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.cpp" >
-   <View0 Encoding="" line="26" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.h" >
-   <View0 Encoding="" line="131" Type="Source" />
+   <View0 Encoding="" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
-   <View0 Encoding="" line="1061" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.h" >
+   <View0 Encoding="" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///usr/local/Trolltech/Qt-4.4.0/include/QtGui/qmainwindow.h" >
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///usr/local/Trolltech/Qt-4.4.0/include/QtGui/qaction.h" >
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/main/main.cpp" >
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/patientdialog.h" >
    <View0 Encoding="" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.h" >
-   <View0 Encoding="" line="0" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/patientdialog.cpp" >
+   <View0 Encoding="" Type="Source" />
   </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/main/main.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///usr/local/Trolltech/Qt-4.4.0/include/QtCore/qchar.h" >
+   <View0 Encoding="" Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/doc/notes" >
+   <View0 Encoding="" line="730" Type="Source" />
+  </Doc11>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -48,14 +57,14 @@
      <mark line="925" />
      <mark line="915" />
     </bookmark>
-    <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="444" />
+    <bookmark url="/home/mannd/dev/local/epsimulator/src/hardware/opticaldisk.h" >
+     <mark line="51" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
      <mark line="437" />
     </bookmark>
-    <bookmark url="/home/mannd/dev/local/epsimulator/src/hardware/opticaldisk.h" >
-     <mark line="51" />
+    <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+     <mark line="444" />
     </bookmark>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/changepassworddialog.h" >
      <mark line="34" />

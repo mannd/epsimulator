@@ -9,6 +9,9 @@
     <height>383</height>
    </rect>
   </property>
+  <property name="mouseTracking" >
+   <bool>false</bool>
+  </property>
   <property name="windowTitle" >
    <string>Patient Information</string>
   </property>
@@ -18,10 +21,21 @@
   <layout class="QGridLayout" >
    <item row="0" column="0" >
     <widget class="QTabWidget" name="tabWidget" >
+     <property name="mouseTracking" >
+      <bool>true</bool>
+     </property>
      <property name="currentIndex" >
       <number>0</number>
      </property>
      <widget class="QWidget" name="caseTab" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>713</width>
+        <height>305</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>Case</string>
       </attribute>
@@ -551,6 +565,14 @@
       </layout>
      </widget>
      <widget class="QWidget" name="physiologyTab" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>713</width>
+        <height>305</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>Physiology</string>
       </attribute>
@@ -693,7 +715,7 @@
    <item row="1" column="0" >
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>

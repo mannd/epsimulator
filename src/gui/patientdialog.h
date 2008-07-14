@@ -30,6 +30,8 @@
 class QDate;
 class QWidget;
 
+class QMouseEvent;
+
 namespace EpGui {
 
 using EpStudy::Study;

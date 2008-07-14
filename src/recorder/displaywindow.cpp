@@ -22,13 +22,16 @@
 
 #include "actions.h"
 
+#include <QDebug>
 #include <QKeySequence>
 #include <QHBoxLayout>
+#include <QPainter>
 #include <QPalette>
 #include <QSettings>
 #include <QSizePolicy>
-#include <QSplitter>
 #include <QStackedWidget>
+
+#include <QMouseEvent>
 
 class QScrollArea;
 
@@ -36,13 +39,13 @@ using namespace EpRecorder;
 
 DisplayWindow::DisplayWindow(const QString& name, int number, 
         QWidget* parent, Qt::WindowFlags fl) 
-        : QMainWindow(parent, fl), name_(name), number_(number) {}
+        : QMainWindow(parent, fl), name_(name), number_(number) {
+}
 
 SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
-    QWidget *parent, Qt::WindowFlags fl) 
-    : DisplayWindow(name, number, parent, fl),
-    currentPage_(minPage) {
-    
+                                         QWidget *parent,
+                                         Qt::WindowFlags fl) 
+    : DisplayWindow(name, number, parent, fl), currentPage_(minPage) {
     // don't keep unused windows in memory
     setAttribute(Qt::WA_DeleteOnClose);
     // probably reasonable initial size for these windows
@@ -52,8 +55,8 @@ SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
     createActions();
     connect(this, SIGNAL(pageChanged(int)), this,
         SLOT(updateWindowTitle()));
-
 }
+
 
 void SignalDisplayWindow::updateWindowTitle() {
     QString title = (number() == 0) ? tr("%1: Page %2").arg(name()).arg(currentPage()) 
@@ -83,9 +86,6 @@ void SignalDisplayWindow::nextPage() {
 }
 
 void SignalDisplayWindow::createCentralWidget() {
-
-    //QSplitter* splitter = new QSplitter(Qt::Horizontal);
-    
     QWidget* centralWidget = new QWidget;
     QHBoxLayout* layout = new QHBoxLayout;
  
@@ -167,8 +167,17 @@ SignalArea::SignalArea(QWidget* parent) : QWidget(parent) {
     //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setAutoFillBackground(true);
     //setWidget(w);
+    setMouseTracking(true);
+}
+
+void SignalArea::mouseMoveEvent(QMouseEvent* event) {
+    qDebug() << event->pos();
 }
 
 void SignalArea::changePage(int) {}
 
 SignalArea::~SignalArea() {}
+
+SignalWidget::SignalWidget(QWidget* parent) : 
+    QScrollArea(parent) {
+} 

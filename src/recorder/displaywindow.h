@@ -23,13 +23,15 @@
 
 #include <QFrame>
 #include <QMainWindow>
+#include <QMdiArea>
 #include <QScrollArea>
 #include <QString>
 
 class QAction;
-class QEvent;
 class QScrollArea;
 class QSettings;
+
+class QMouseEvent;
 
 namespace EpRecorder {
 
@@ -52,7 +54,12 @@ public:
     QString name() const {return name_;}
     int number() const {return number_;}
 
+// protected:
+//     void mouseMoveEvent(QMouseEvent*);
+
 private:
+    void drawLine();
+
     const QString name_;
     const int number_;
 };
@@ -169,7 +176,6 @@ public:
 
 public slots:
     void changePage(int newPage);
-
 };
 
 
@@ -187,6 +193,9 @@ public:
 public slots:
     void changePage(int newPage);
 
+protected:
+    void mouseMoveEvent(QMouseEvent*);
+
 };
 
 /**
@@ -199,6 +208,7 @@ class SignalWidget : public QScrollArea {
 public:
     SignalWidget(QWidget* parent = 0);
     ~SignalWidget() {}
+
 
 private:
     ChannelBar* channelBar_;
