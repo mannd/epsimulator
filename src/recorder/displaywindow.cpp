@@ -21,84 +21,60 @@
 #include "displaywindow.h"
 
 #include "actions.h"
+#include "signalwidget.h"
 
-#include <QDebug>
 #include <QKeySequence>
-#include <QHBoxLayout>
-#include <QPainter>
-#include <QPalette>
 #include <QSettings>
-#include <QSizePolicy>
-#include <QStackedWidget>
-
-#include <QMouseEvent>
-
-class QScrollArea;
 
 using namespace EpRecorder;
 
-DisplayWindow::DisplayWindow(const QString& name, int number, 
-        QWidget* parent, Qt::WindowFlags fl) 
-        : QMainWindow(parent, fl), name_(name), number_(number) {
-}
-
-SignalDisplayWindow::SignalDisplayWindow(const QString& name, int number,
-                                         QWidget *parent,
-                                         Qt::WindowFlags fl) 
-    : DisplayWindow(name, number, parent, fl), currentPage_(minPage) {
+DisplayWindow::DisplayWindow(const QString& name, 
+                             int number, 
+                             QWidget* parent) 
+    : QMainWindow(parent), name_(name), number_(number) {
     // don't keep unused windows in memory
     setAttribute(Qt::WA_DeleteOnClose);
     // probably reasonable initial size for these windows
     setMinimumSize(QSize(400,400));
+}
 
+const int SignalDisplayWindow::minPage;
+const int SignalDisplayWindow::maxPage;
+
+SignalDisplayWindow::SignalDisplayWindow(const QString& name, 
+                                         int number,
+                                         QWidget *parent) 
+    : DisplayWindow(name, number, parent), currentPage_(minPage) {
     createCentralWidget();
     createActions();
     connect(this, SIGNAL(pageChanged(int)), this,
         SLOT(updateWindowTitle()));
 }
 
-
 void SignalDisplayWindow::updateWindowTitle() {
-    QString title = (number() == 0) ? tr("%1: Page %2").arg(name()).arg(currentPage()) 
+    QString title = (number() == 0) ? 
+        tr("%1: Page %2").arg(name()).arg(currentPage()) 
         : tr("%1 %2: Page %3").arg(name()).arg(number()).arg(currentPage());
     setWindowTitle(title);
 }
 
 void SignalDisplayWindow::setCurrentPage(int page) {
-    if (page < minPage)
-        currentPage_ = minPage;
-    else if (page > maxPage)
-        currentPage_ = maxPage;
-    else
-        currentPage_ = page;
+    currentPage_ = qBound(minPage, page, maxPage);
 }
 
 void SignalDisplayWindow::previousPage() {
-    if (--currentPage_ < minPage)
-        currentPage_ = minPage;
+    currentPage_ = qMax(--currentPage_, minPage);
     emit pageChanged(currentPage_);
 }
 
 void SignalDisplayWindow::nextPage() {
-    if (++currentPage_ > maxPage)
-        currentPage_ = maxPage;
+    currentPage_ = qMin(++currentPage_, maxPage); 
     emit pageChanged(currentPage_);
 }
 
 void SignalDisplayWindow::createCentralWidget() {
-    QWidget* centralWidget = new QWidget;
-    QHBoxLayout* layout = new QHBoxLayout;
- 
-    channelBar_ = new ChannelBar;
-    signalArea_ = new SignalArea;
-    layout->addWidget(channelBar_);
-    layout->addWidget(signalArea_);
-    centralWidget->setLayout(layout);
-    setCentralWidget(centralWidget);
-    connect(this, SIGNAL(pageChanged(int)), channelBar_,
-        SLOT(changePage(int)));
-    connect(this, SIGNAL(pageChanged(int)), signalArea_,
-        SLOT(changePage(int)));
+    signalWidget_ = new SignalWidget;
+    setCentralWidget(signalWidget_);
 }
 
 void SignalDisplayWindow::createActions() {
@@ -112,72 +88,3 @@ void SignalDisplayWindow::createActions() {
     addAction(previousPageAction_);
     addAction(nextPageAction_);
 }
-
-SignalDisplayWindow::~SignalDisplayWindow() {}
-
-/**
- * ChannelBar is a QStackedWidget of QFrames, signals and slots
- * are used to coordinate channel labels and channel signals
- * in the SignalArea.
- * @param parent 
- */
-ChannelBar::ChannelBar(QWidget* parent) : QFrame(parent) {
-    setUp();
-}
-
-void ChannelBar::setUp() {
-    QSizePolicy policy(QSizePolicy::Preferred,
-        QSizePolicy::MinimumExpanding);
-    policy.setHorizontalStretch(0);
-    policy.setVerticalStretch(0);
-    //policy.setHeightForWidth(false);
-    setSizePolicy(policy);
-    setFrameShape(QFrame::StyledPanel);
-    QPalette palette;
-    palette.setColor(QPalette::Window, Qt::darkBlue);
-    palette.setColor(QPalette::Button, Qt::white);
-    palette.setColor(QPalette::WindowText, Qt::white);
-    setPalette(palette);
-    // necessary to actually apply the Window color to the background
-    setAutoFillBackground(true);
-    setMinimumWidth(150);
-}
-
-void ChannelBar::changePage(int) {}
-
-ChannelBar::~ChannelBar() {}
-
-/**
- * SignalArea is a QScrollArea, wrapping a QStackedWidget of
- * SignalPages.
- * @param parent 
- */
-SignalArea::SignalArea(QWidget* parent) : QWidget(parent) {
-    QSizePolicy policy(QSizePolicy::MinimumExpanding,
-        QSizePolicy::MinimumExpanding);
-    policy.setHorizontalStretch(1);
-    setSizePolicy(policy);
-    setAutoFillBackground(true);
-    QPalette palette;
-    palette.setColor(QPalette::Window, Qt::black);
-    setPalette(palette);
-    // most if not all SignalAreas have a vertical scroll
-    // bar to change pages.  Real-time window does not
-    // have a horizontal scroll bar, but review windows do.
-    //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    setAutoFillBackground(true);
-    //setWidget(w);
-    setMouseTracking(true);
-}
-
-void SignalArea::mouseMoveEvent(QMouseEvent* event) {
-    qDebug() << event->pos();
-}
-
-void SignalArea::changePage(int) {}
-
-SignalArea::~SignalArea() {}
-
-SignalWidget::SignalWidget(QWidget* parent) : 
-    QScrollArea(parent) {
-} 

@@ -22,7 +22,7 @@
 
 #include <QtGlobal>
 
-using EpHardware::EpAmplifier::Amplifier;
+using namespace EpHardware::EpAmplifier;
 
 Amplifier::Amplifier(int n) : numChannels_(n) {
     Q_ASSERT(n == 48 || n == 64 || n == 96 || n == 128);
@@ -33,6 +33,40 @@ Amplifier::Amplifier(int n) : numChannels_(n) {
         case 48 : 
         default: numCIMConnections_ = 2;
     }
+    // first 12 channels are hardwired as ECG channels.
+    channels_.append(new EcgChannel(1, tr("I")));
+    channels_.append(new EcgChannel(2, tr("II")));
+    channels_.append(new EcgChannel(3, tr("III")));
+    channels_.append(new EcgChannel(4, tr("avR")));
+    channels_.append(new EcgChannel(5, tr("avL")));
+    channels_.append(new EcgChannel(6, tr("avF")));
+    channels_.append(new EcgChannel(7, tr("V1")));
+    channels_.append(new EcgChannel(8, tr("V2")));
+    channels_.append(new EcgChannel(9, tr("V3")));
+    channels_.append(new EcgChannel(10, tr("V4")));
+    channels_.append(new EcgChannel(11, tr("V5")));
+    channels_.append(new EcgChannel(12, tr("V6")));
 }
 
 Amplifier::~Amplifier() {}
+
+Channel::Channel(int n) : number_(n), label_(QString()),
+                          channelType_(NotUsed), negInput_(0),
+                          posInput_(0), gain_(500), highPassFilter_(30.0),
+                          lowPassFilter_(500), notchFilter_(false),
+                          clip_(None), // displayPages(??),
+                          alwaysSave_(false) {
+}
+
+EcgChannel::EcgChannel(int n, QString label) 
+    : Channel(n) {
+    setLabel(label);
+    displayPages()[1] = true;
+    setHighPassFilter(0.05);
+    setLowPassFilter(150);
+    setNotchFilter(true);
+}
+
+
+
+

@@ -59,6 +59,23 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
         setChecked(options_->recorderFlags.testFlag(Options::PatientStatusBarHasTitle));
     recorderHasStatusBarCheckBox->setChecked(options_->recorderFlags.testFlag(
         Options::RecorderHasStatusBar));
+    int index = 0;
+    switch (options_->numChannels) {
+        case 64 : 
+            index = 1;
+            break;
+        case 96 : 
+            index = 2;
+            break;
+        case 128 : 
+            index = 3;
+            break;
+        case 48 :
+        default : 
+            index = 0;
+    }
+    amplifierTypeComboBox->setCurrentIndex(index);
+
     connect(emulateOpticalDiskCheckBox, SIGNAL(stateChanged(int)), 
         this, SLOT(enableDiskEmulation())); 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
@@ -102,6 +119,21 @@ void SimulatorSettingsDialog::setOptions() {
         patientStatusBarHasTitleCheckBox->isChecked());
     setFlag(options_->recorderFlags, Options::RecorderHasStatusBar,
         recorderHasStatusBarCheckBox->isChecked());
+    int index = amplifierTypeComboBox->currentIndex();
+    switch (index) {
+        case 1 :
+            options_->numChannels = 64;
+            break;
+        case 2 :
+            options_->numChannels = 96;
+            break;
+        case 3 :
+            options_->numChannels = 128;
+            break;
+        case 0 :
+        default :
+            options_->numChannels = 48;
+    }
 
     options_->writeSettings();
 }

@@ -43,7 +43,7 @@ public:
     
     virtual void writeSettings(QSettings&);
     virtual void readSettings(QSettings&);
-    virtual QString key() {return EpRecorder::realTimeWindowKey;}
+    virtual QString key() const {return EpRecorder::realTimeWindowKey;}
 
     ~RealTimeWindow();
 

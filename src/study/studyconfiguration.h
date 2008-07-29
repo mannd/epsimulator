@@ -117,9 +117,31 @@ private:
 };
 
 /**
- *Emulates all the study configuration settings seen on the Study Configuration Dialog.  
- *
+ * A StudyConfiguration contains all the study settings that can
+ * be manipulated by the StudyConfigurationDialog.  The StudyConfiguration
+ * controls the settings of the Ampifier, and the Recorder display.
  * @author David Mann <mannd@epstudiossoftware.com>
+   Here are the settings:
+        Real Time Window
+            Channels
+                ECG                 12 channels
+                Pressure             4 channels
+                Catheter Block A    16 channels
+                Catherer Block B    16 channels
+                etc. up to G        etc.
+                Stim                4 stim channels
+
+
+
+
+
+
+
+
+
+
+
+
  */
 class StudyConfiguration {
 

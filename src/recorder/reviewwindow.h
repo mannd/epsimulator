@@ -42,7 +42,7 @@ public:
 
     virtual void writeSettings(QSettings&);
     virtual void readSettings(QSettings&);
-    virtual QString key() {return QString("review%1Window").arg(number());}
+    virtual QString key() const {return QString("review%1Window").arg(number());}
 
     ~ReviewWindow();
 
