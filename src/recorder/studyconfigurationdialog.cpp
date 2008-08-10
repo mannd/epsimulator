@@ -20,10 +20,15 @@
 
 #include "studyconfigurationdialog.h"
 
+#include "amplifier.h"
+#include "options.h"
+
 #include <QHeaderView>
 #include <QStandardItemModel>
 
+using EpCore::Options;
 using EpGui::StudyConfigurationDialog;
+using EpHardware::EpAmplifier::Amplifier;
 
 StudyConfigurationDialog::StudyConfigurationDialog(QWidget* parent)
     : QDialog(parent), Ui::StudyConfigurationDialog() {
@@ -39,9 +44,10 @@ StudyConfigurationDialog::StudyConfigurationDialog(QWidget* parent)
     QStandardItem* pressureItem = new QStandardItem(tr("Pressure"));
     amplifierItem->appendRow(ecgItem);
     amplifierItem->appendRow(pressureItem);
-    /// TODO change this to check number of blocks in amplifier
-    for (char c = 'A'; c <= 'G'; ++c) {
-        QStandardItem* block = new QStandardItem(tr("Catheter Block %1").arg(c));
+    char c = 'A';
+    for (int i = 0; 
+         i < Amplifier::numCIMConnections(Options::instance()->numChannels); ++i) {
+        QStandardItem* block = new QStandardItem(tr("Catheter Block %1").arg(c++));
         amplifierItem->appendRow(block);
     }
     QStandardItem* stimItem = new QStandardItem(tr("Stim"));

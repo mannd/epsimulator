@@ -731,4 +731,8 @@ Mouse Tracking
     Turning on mouse tracking in Recorder is proving to be very difficult.  It doesn't seem to work.  I think the QMdiArea is sucking up the mouse movement and ignoring it, unless the left button is clicked.  I note now that QMdiArea is a subclass of QAbstractScrollArea, and to enable mouse tracking in a scroll area you must do viewport()->setMouseTracking(true), not just setMouseTracking(true).  But still no dice.  I am trying to emulate the Prucka way of opening a new window.  A horizontal or vertical dashed line splits the window the mouse is in.  Clicking in the mode opens the window in whatever side of the line you are in, the original window is halved and ends up on the other side of the dotted line.
     UPDATE: as long as mouse-tracking is turned on at the level of the child widget, under the mouse, it works.  This is possibly all moot due to changing the central widget of SignalDisplayWindows to a QGraphicsWidget, which will display a QGraphicsScene.
 
+Propagating simulator options
+
+    Options are applied when Navigator and Recorder are constructed, also when options are changed via the SimulatorSettingsDialog.  There can be a SLOT in both Navigator and Recorder: void updateSimulatorSettings().  This can be connected to an updateSimulatorSettings() signal.  The slot can be called directly in the the constructor of Navigator and Recorder, possible other modules.  The slot is different in the different modules, depending on what is affected by changing the settings.  The Recorder window is not present when Navigator is open, so only Recorder needs to send the change signal.  If 2 Recorder windows are open, then the signal can be sent from one to the other, to update the settings.
+
   

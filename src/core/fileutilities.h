@@ -54,7 +54,7 @@ void saveMagicNumber(unsigned int magicNumber, QDataStream& out);
  * enabled, otherwise only to local System path.
  */
 template<typename T>
-void saveSystemData(unsigned int magicNumber, const T& data, 
+void saveSystemData(unsigned int magicNumber, const QString& fileName, const T& data, 
     Options* options);
 
 /**
@@ -62,7 +62,7 @@ void saveSystemData(unsigned int magicNumber, const T& data,
  * loads from the System path.
  */
 template<typename T>
-void loadSystemData(unsigned int magicNumber, 
+void loadSystemData(unsigned int magicNumber, const QString& fileName, 
     T& data, Options* options);
 
 void deleteDir(const QString& path);
@@ -116,19 +116,20 @@ void saveData(const QString& filePath, unsigned int magicNumber, const T& data) 
 }
 
 template<typename T>
-void saveSystemData(unsigned int magicNumber, 
+void saveSystemData(unsigned int magicNumber, const QString& fileName,
     const T& data, Options* options) {
+    QString filePath = options->systemCatalogPath;
     if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
-        saveData(options->networkStudyPath, magicNumber, data);
-    saveData(options->systemCatalogPath, magicNumber, data);
+        filePath = options->networkStudyPath;
+    saveData(filePath + "/" + fileName, magicNumber, data);
 } 
 
 template<typename T>
-void loadSystemData(unsigned int magicNumber, T& data, Options* options) {
+void loadSystemData(unsigned int magicNumber, const QString& fileName, T& data, Options* options) {
+    QString filePath = options->systemCatalogPath;
     if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
-        loadData(options->networkStudyPath, magicNumber, data);
-    else
-        loadData(options->systemCatalogPath, magicNumber, data);
+        filePath = options->networkStudyPath;
+    loadData(filePath + "/" + fileName, magicNumber, data);
 }
 
 }

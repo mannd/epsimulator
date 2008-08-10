@@ -1,31 +1,55 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="8" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.cpp" >
-   <View0 Encoding="" Type="Source" />
+ <DocsAndViews NumberOfDocuments="16" >
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/study/studyconfiguration.h" >
+   <View0 Encoding="" line="166" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.h" >
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/hardware/amplifier.h" >
    <View0 Encoding="" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/doc/notes" >
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/hardware/amplifier.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/hardware/amplifier.h" >
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/test/testepsimulator.h" >
    <View0 Encoding="" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/hardware/amplifier.cpp" >
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/test/testepsimulator.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/buttonframe.cpp" >
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/gui/simulatorsettingsdialog.cpp" >
    <View0 Encoding="" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/signalwidget.cpp" >
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/studyconfigurationdialog.h" >
    <View0 Encoding="" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/signalwidget.h" >
-   <View0 Encoding="" line="31" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/studyconfigurationdialog.cpp" >
+   <View0 Encoding="" line="80" Type="Source" />
   </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.h" >
+   <View0 Encoding="" Type="Source" />
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.h" >
+   <View0 Encoding="" Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/core/options.h" >
+   <View0 Encoding="" line="127" Type="Source" />
+  </Doc11>
+  <Doc12 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/main/main.cpp" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc12>
+  <Doc13 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
+   <View0 Encoding="" line="634" Type="Source" />
+  </Doc13>
+  <Doc14 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.h" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc14>
+  <Doc15 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
+   <View0 Encoding="" line="479" Type="Source" />
+  </Doc15>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

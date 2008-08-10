@@ -41,6 +41,7 @@
 #include "simulatorsettingsdialog.h"
 #include "statusbar.h"
 #include "study.h"
+#include "studyconfiguration.h"
 #include "systemdialog.h"
 #include "tablelistview.h"
 #include "user.h"
@@ -68,6 +69,7 @@ using EpGui::PatientDialog;
 using EpGui::SimulatorSettingsDialog;
 using EpGui::SystemDialog;
 using EpStudy::Study;
+using EpStudy::StudyConfiguration;
 using EpNavigator::Navigator;
 using EpNavigator::StatusBar;
 
@@ -130,7 +132,7 @@ void Navigator::newStudy() {
         SelectStudyConfigDialog* selectStudyConfigDialog  = 
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
-            study->setConfig(selectStudyConfigDialog->config());
+            study->setConfig(selectStudyConfigDialog->config().name());
             if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),
@@ -153,7 +155,7 @@ void Navigator::continueStudy() {
         SelectStudyConfigDialog* selectStudyConfigDialog  = 
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
-            study->setConfig(selectStudyConfigDialog->config());
+            study->setConfig(selectStudyConfigDialog->config().name());
             catalogs_->deleteStudy(study);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),
@@ -622,7 +624,6 @@ void Navigator::updateSimulatorSettings(){
         } while (!currentDisk_);
         delete centralWidget_;
         createCentralWidget();
-        readSettings(); // put the splitter back where it was
         delete catalogs_;
         catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
         tableListView_->setOldStyle(options_->oldStyleNavigator);
@@ -633,6 +634,7 @@ void Navigator::updateSimulatorSettings(){
         updateMenus();
         statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
         updateStatusBarUserLabel();
+        readSettings(); // restore the window settings, splitter position
         /// TODO other effects of changing simulator settings below
         setUpdatesEnabled(true);
     }
@@ -980,6 +982,8 @@ void Navigator::createMenus() {
 void Navigator::writeSettings() {
     QSettings settings;
     settings.beginGroup("navigator");
+    settings.setValue("geometry", saveGeometry());
+    // size and pos not used but might be needed for some OSes.
     settings.setValue("size", size());
     settings.setValue("pos", pos());
     settings.setValue("state", saveState());    
@@ -1000,8 +1004,11 @@ void Navigator::readSettings() {
     if (size.isNull())  // initial run, window is maximized by default
         setWindowState(windowState() ^ Qt::WindowMaximized);
     else {  // but if not initial run, use previous window settings
-        resize(size.toSize());
-        move(settings.value("pos").toPoint());
+        // this seems to work with X11, probably don't need
+        // resize() and move().
+        restoreGeometry(settings.value("geometry").toByteArray());
+        //resize(size.toSize());
+        //move(settings.value("pos").toPoint());
         centralWidget_->restoreState(settings.value(
             "centralWidgetState").toByteArray());
         restoreState(settings.value("state").toByteArray());
@@ -1083,7 +1090,7 @@ void Navigator::startStudy(Study* study, bool review) {
         allowAcquisition);
     recorder->show();
     recorder->setupInitialScreen();
-    connect(recorder, SIGNAL(updateSimulatorSettings()),
+    connect(recorder, SIGNAL(simulatorSettingsChanged()),
         this, SLOT(updateSimulatorSettings()));
     hide();
     updateAll();

@@ -68,7 +68,7 @@ using namespace EpHardware;
 using namespace EpHardware::EpOpticalDisk;
 using namespace EpHardware::EpStimulator;
 
-const int Recorder::edgeWidth;  // if address not taken don't really need this storage
+const int Recorder::edgeWidth;
 
 Recorder::Recorder(QWidget* parent, 
                    Study* study, 
@@ -82,6 +82,7 @@ Recorder::Recorder(QWidget* parent,
                    user_(User::instance()),
                    options_(Options::instance()),
                    currentDisk_(currentDisk),
+                   amplifier_(0),
                    allowAcquisition_(allowAcquisition),
                    recorderWindow_(recorderWindow),
                    realTimeWindow_(0),
@@ -324,7 +325,7 @@ void Recorder::updateWindowTitle() {
 void Recorder::updateAll() {
     updateMenus();
     updateWindowTitle();
-    updateSettings();
+    updateSimulatorSettings();
 }
 
 void Recorder::patientInformation() {
@@ -360,16 +361,16 @@ void Recorder::simulatorSettings() {
         if (simDialog->exec() == QDialog::Accepted) {
             simDialog->setOptions();
             updateMenus();
-            updateSettings();
+            updateSimulatorSettings();
             setupInitialScreen(true);
             // signal updates simulator settings in Navigator
-            emit updateSimulatorSettings();
+            emit simulatorSettingsChanged();
         }
         delete simDialog;
     }
 }
 
-void Recorder::updateSettings() {
+void Recorder::updateSimulatorSettings() {
     QDockWidget* dockWidget =
         qobject_cast<QDockWidget*>(patientStatusBar_->parentWidget());
     dockWidget->setWindowTitle(options_->recorderFlags.testFlag(Options::PatientStatusBarHasTitle)
@@ -472,6 +473,7 @@ void Recorder::writeSettings(QSettings& settings) {
     QDesktopWidget* desktop = qApp->desktop();
     settings.beginGroup(QString("screen%1").arg(desktop->screenNumber(this)));
     settings.beginGroup("recorder");
+    settings.setValue("geometry", saveGeometry());
     settings.setValue("size", size());
     settings.setValue("pos", pos()); 
     settings.setValue("state", saveState());
@@ -489,6 +491,7 @@ void Recorder::writeSettings(QSettings& settings) {
         if (subWindowList[i] == activeSubWindow)
             settings.setValue("currentWindowKey", dw->key());
         settings.beginGroup(dw->key());
+        settings.setValue("geometry", subWindowList[i]->saveGeometry());
         settings.setValue("size", subWindowList[i]->size());
         settings.setValue("pos", subWindowList[i]->pos());
         dw->writeSettings(settings);
@@ -540,8 +543,9 @@ void Recorder::readSettings(QSettings& settings) {
         settings.endGroup();
         return;
     }
-    resize(size.toSize());
-    move(settings.value("pos").toPoint());
+    restoreGeometry(settings.value("geometry").toByteArray());
+    //resize(size.toSize());
+    //move(settings.value("pos").toPoint());
     restoreState(settings.value("state").toByteArray());
 }
 

@@ -22,6 +22,8 @@
 
 #include "ui_selectstudyconfigdialog.h"
 
+#include "studyconfiguration.h"
+
 #include <QDialog>
 
 class QString;
@@ -34,10 +36,13 @@ public:
     SelectStudyConfigDialog(QWidget *parent = 0);
     ~SelectStudyConfigDialog();
 
-    QString config() const {return configListWidget->currentItem()->text();}
+    EpStudy::StudyConfiguration config() const {return configList_[configListWidget->currentRow()];}
 
 private slots:
     void enableOkButton();
+
+private:
+    EpStudy::StudyConfigList configList_;
 
 };
 

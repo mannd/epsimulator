@@ -568,11 +568,12 @@ void TestEpSimulator::testSaturation() {
 
 void TestEpSimulator::testAmplifier() {
     Amplifier amp;  // default is 48 channels
-    QVERIFY(amp.numCIMConnections() == 2);
+    QCOMPARE(amp.numChannels(), 48);
+    QCOMPARE(amp.numCIMConnections(), 2);
     Amplifier amp2(128);
-    QVERIFY(amp2.numCIMConnections() == 7);
+    QCOMPARE(amp2.numCIMConnections(), 7);
     Amplifier amp3(64);
-    QVERIFY(amp3.numCIMConnections() == 3);
+    QCOMPARE(amp3.numCIMConnections(), 3);
 }
 
 void TestEpSimulator::cleanupTestCase() {

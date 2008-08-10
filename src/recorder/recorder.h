@@ -39,13 +39,15 @@ class QSettings;
 class QSplitter;
 
 namespace EpCore {
-//    class Options;
     class User;
 }
 
 namespace EpHardware { 
     namespace EpOpticalDisk {
         class OpticalDisk;
+    }
+    namespace EpAmplifier {
+        class Amplifier;
     }
     class SatMonitor;
 }
@@ -63,6 +65,7 @@ namespace EpRecorder {
 using EpCore::Options;
 using EpCore::User;
 using EpHardware::EpOpticalDisk::OpticalDisk;
+using EpHardware::EpAmplifier::Amplifier;
 using EpHardware::SatMonitor;
 using EpPatient::Patient;
 using EpStudy::Study;
@@ -98,7 +101,7 @@ protected:
 signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
     void autoSave(bool);    // emitted if AutoSave toolbar button changed
-    void updateSimulatorSettings(); // emitted after simulator settings updated
+    void simulatorSettingsChanged(); // emitted after simulator settings changed
     void patientInformationClosed();    // emitted when Patient Info Dialog closed
 
 private slots:
@@ -115,7 +118,7 @@ private slots:
     void openSatMonitor();
     void setManualSave(bool);
     void updateMenus();
-    void updateSettings();
+    void updateSimulatorSettings();
 
     void realTimeWindowOpen(bool);
     void review1WindowOpen(bool);
@@ -169,6 +172,7 @@ private:
 
     // hardware
     OpticalDisk* currentDisk_;
+    Amplifier* amplifier_;
 
     // types of Recorder window
     bool allowAcquisition_;

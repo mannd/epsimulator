@@ -61,16 +61,19 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
         Options::RecorderHasStatusBar));
     int index = 0;
     switch (options_->numChannels) {
-        case 64 : 
+        case 48 :
             index = 1;
             break;
-        case 96 : 
+        case 64 : 
             index = 2;
             break;
-        case 128 : 
+        case 96 : 
             index = 3;
             break;
-        case 48 :
+        case 128 : 
+            index = 4;
+            break;
+        case 32 :
         default : 
             index = 0;
     }
@@ -122,17 +125,19 @@ void SimulatorSettingsDialog::setOptions() {
     int index = amplifierTypeComboBox->currentIndex();
     switch (index) {
         case 1 :
+            options_->numChannels = 48;
+        case 2 :
             options_->numChannels = 64;
             break;
-        case 2 :
+        case 3 :
             options_->numChannels = 96;
             break;
-        case 3 :
+        case 4 :
             options_->numChannels = 128;
             break;
         case 0 :
         default :
-            options_->numChannels = 48;
+            options_->numChannels = 32;
     }
 
     options_->writeSettings();

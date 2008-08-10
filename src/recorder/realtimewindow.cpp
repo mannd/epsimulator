@@ -66,7 +66,7 @@ void RealTimeWindow::decreaseSweepSpeed() {
 }
 
 void RealTimeWindow::studyConfiguration() {
-    StudyConfigurationDialog dialog;
+    StudyConfigurationDialog dialog(this);
     if (dialog.exec())
         ;   // do something
 }
@@ -184,8 +184,6 @@ void RealTimeWindow::createActions() {
     stopwatchAction_->setCheckable(true);
     connect(stopwatchAction_, SIGNAL(triggered(bool)),
         this, SIGNAL(startStopwatch(bool)));
-    
-
 }
 
 /// TODO can move these to superclass, pass prefix (e.g. "/realTimeWindow")

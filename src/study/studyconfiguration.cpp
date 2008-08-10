@@ -20,9 +20,10 @@
 
 #include "studyconfiguration.h"
 
-#include <QDataStream>
+#include "fileutilities.h"
+#include "options.h"
 
-using EpStudy::StudyConfiguration;
+#include <QDataStream>
 
 namespace EpStudy {
 
@@ -42,33 +43,44 @@ QDataStream& operator>>(QDataStream& in, Protocol&) {
     return in;
 }
 
-// QDataStream& operator<<(QDataStream&, const Channel&) {
-//     return out;
-// }
-// 
-// QDataStream& operator>>(QDataStream&, Channel&) {
-//     return in;
-// }
-
-
 QDataStream& operator<<(QDataStream& out, const StudyConfiguration& studyConfig) {
-    out << studyConfig.name_ << studyConfig.protocolList_ 
-        << studyConfig.channelList_;
+    out << studyConfig.name_;
+    //<< studyConfig.protocolList_ << studyConfig.channelList_;
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
-    in >> studyConfig.channelList_>> studyConfig.protocolList_
-        >> studyConfig.name_;
+    //in >> studyConfig.channelList_>> studyConfig.protocolList_
+    in >> studyConfig.name_;
     return in;
 }
 
-}
-
-const QString configFileName_ = "config.dat";
-
+/// TODO StudyConfiguration in Study class is just the config.name(), i.e. a QString.
+/// We can continue this, but we need to write the configuration to a file
+/// in the Study file folder.  That way the configuration can be changed on the fly
+/// during the procedure without necessarily saving a new System study configuration.
+/// So, when a study configuration is chosen, it must be written to disk.
+/// Need saveStudyConfiguration and loadStudyConfiguration functions in Study.
 
 StudyConfiguration::StudyConfiguration(const QString& name) : name_(name) {}
 
-
 StudyConfiguration::~StudyConfiguration() {}
+
+StudyConfigList readStudyConfigurations() {
+    StudyConfigList configList;
+    EpCore::loadSystemData(magicNumber, configFileName_, 
+                           configList, EpCore::Options::instance());
+    if (configList.isEmpty()) {
+        StudyConfiguration config;
+        configList.append(config);
+        writeStudyConfigurations(configList);
+    }
+    return configList;
+}
+
+void writeStudyConfigurations(StudyConfigList configList) {
+    EpCore::saveSystemData(magicNumber, configFileName_, 
+                           configList, EpCore::Options::instance());
+}
+
+}

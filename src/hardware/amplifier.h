@@ -41,12 +41,19 @@ public:
     explicit Amplifier(int numChannels = 48);
     ~Amplifier();
 
+    // overloaded function to calculate number of amplifier blocks.
+    // there are 12 ECG channels and 4 pressure channels = 16.
+    // the rest are intracardiac channels, with 16 per input block.
+    // first 12 channels are hardwired as ECG channels.
+    static int numCIMConnections(int numChannels) {
+        return (numChannels - 16) / 16;}
+
     int numChannels() const {return numChannels_;}
-    unsigned int numCIMConnections() const {return numCIMConnections_;}
+    int numCIMConnections() const {
+        return numCIMConnections(numChannels_);}
 
 private:
     int numChannels_;
-    int numCIMConnections_;
     double scale_;  // 1/16 is default
     
     QList<Channel*> channels_;

@@ -17,71 +17,47 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef REALTIMEWINDOW_H
-#define REALTIMEWINDOW_H
 
-#include "displaywindow.h"
-#include "recorderdefs.h"
+#ifndef EPRECORDERSIGNALWIDGET_H
+#define EPRECORDERSIGNALWIDGET_H
 
-#include <QString>
+#include "amplifier.h"
 
-class QAction;
-class QComboBox;
-class QSettings;
+#include <QLabel>
+#include <QList>
+#include <QScrollArea>
+
+class QFrame;
 
 namespace EpRecorder {
 
+using EpHardware::EpAmplifier::Channel;
+
 /**
-The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
-class RealTimeWindow : public SignalDisplayWindow  {
-    Q_OBJECT
+ * Channel label in Channel Label Area of SignalWidget.
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
+class ChannelLabel : public QLabel {
 public:
-    RealTimeWindow(int number = 0, QWidget* parent = 0);
-    
-    virtual void writeSettings(QSettings&);
-    virtual void readSettings(QSettings&);
-    virtual QString key() const {return EpRecorder::realTimeWindowKey;}
-
-    ~RealTimeWindow();
-
-public slots:
-//     virtual void updateWindowTitle();
-
-protected:
-
-signals:
-    void startTimer(bool);
-    void startStopwatch(bool);
-
-private slots:
-    void increaseSweepSpeed();
-    void decreaseSweepSpeed();
-    void studyConfiguration();
-    
+    ChannelLabel(int number, QWidget* parent = 0);
 
 private:
-    virtual void createActions();
-    virtual void createToolBars();
+    Channel channel_;
+};
 
-    QComboBox* sweepSpeedComboBox_;
+/**
+ * Central widget of SignalDisplayWindow, 
+ * used by RealTimeWindow, ReviewWindow, etc.
+ * @author David Mann <mannd@epstudiossoftware.com>
+ */
+class SignalWidget : public QScrollArea {
+public:
+    SignalWidget(QWidget* parent = 0);
 
-    QAction* minusAction_;
-    QAction* plusAction_;
-    QAction* studyConfigAction_;
-    QAction* timeCalipersAction_;
-    QAction* amplitudeCalipersAction_;
-    QAction* deleteAllCalipersAction_;
-    QAction* msCalipersAction_;
-    QAction* bpmCalipersAction_;
-    QAction* offsetSignalsAction_;
-    QAction* triggeredModeAction_;
-    QAction* toggleAblationWindowAction_;
-    QAction* realTime12LeadAction_;
-    QAction* timerAction_;
-    QAction* stopwatchAction_;  
+private:
+    QList<ChannelLabel*> channelLabels_;
+    QFrame* channelLabelArea_;
+    QFrame* signalArea_;
 };
 
 }
