@@ -8,3 +8,4 @@ rm -f ~/.config/EPStudios/EPSimulator.conf
 rm -fr ~/MyStudies/*
 rm -f ~/dev/local/epsimulator/test/catalog.dat
 rm -f ~/dev/local/epsimulator/System/catalog.dat
+rm -f ~/dev/local/epsimulator/System/config.dat

@@ -23,6 +23,7 @@
 #include "error.h"
 #include "fileutilities.h"
 #include "heart.h"
+#include "studyconfiguration.h"
 
 #include <QDir>
 
@@ -58,6 +59,7 @@ QDataStream& operator>>(QDataStream& in, Name& name) {
 // class Study
 
 const QString Study::fileName_ = "study.dat";
+const QString Study::configFileName_ = "config.dat";
 
 /**
  *  Construct a study.  New studies are time-stamped with currentDateTime. 
@@ -73,8 +75,10 @@ Study::Study() : dateTime_(QDateTime::currentDateTime()),
                  sympatheticTone_(DEFAULT_SYMPATHETIC_TONE), 
                  ef_(DEFAULT_EF), 
                  ischemia_(false), 
-                 config_(), path_() {
+                 config_(), path_(),
+                 studyConfiguration_(0) {
     heart_ = new Heart;
+    studyConfiguration_ = new StudyConfiguration;
     testInvariant();
 }
 
@@ -86,6 +90,7 @@ Study::Study(const Study& study) {
 
 Study::~Study() {
     delete heart_;
+    delete studyConfiguration_;
 }
 
 Study& Study::operator =(const Study& rhs) {
@@ -97,11 +102,22 @@ Study& Study::operator =(const Study& rhs) {
 }
 
 void Study::load() {
- EpCore::loadData(filePath(), MagicNumber, *this);
+    EpCore::loadData(filePath(), MagicNumber, *this);
 }
 
 void Study::save() {
- EpCore::saveData(filePath(), MagicNumber, *this);
+    EpCore::saveData(filePath(), MagicNumber, *this);
+}
+
+void Study::loadStudyConfiguration() {
+    qDebug() << configFilePath();
+    delete studyConfiguration_;
+    studyConfiguration_ = new StudyConfiguration;
+    EpCore::loadData(configFilePath(), MagicNumber, *studyConfiguration_);
+}
+
+void Study::saveStudyConfiguration() {
+    EpCore::saveData(configFilePath(), MagicNumber, *studyConfiguration_);
 }
 
 void Study::setName(const Name& name) {
@@ -145,6 +161,10 @@ QString Study::filePath() {
     return QDir::cleanPath(path_ + "/" + fileName_);
 }
 
+QString Study::configFilePath() {
+    return QDir::cleanPath(path_ + "/" + configFileName_);
+}
+
 // private
 
 AutonomicTone Study::adjustTone(AutonomicTone tone) {
@@ -176,6 +196,7 @@ void Study::copyStudy(const Study& study) {
     key_ = study.key_;
     // copy the heart pointer
     heart_ = new Heart(*study.heart_);
+    studyConfiguration_ = new StudyConfiguration(*study.studyConfiguration_);
 }
 
 // friends to Study

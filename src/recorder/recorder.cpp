@@ -94,6 +94,7 @@ Recorder::Recorder(QWidget* parent,
                    review2SubWindow_(0),
                    logSubWindow_(0) {
     Q_ASSERT(parent != 0);  // never call Recorder without parent
+    Q_ASSERT(study_ != 0);  // should never be called with a null Study
     setAttribute(Qt::WA_DeleteOnClose);
 
     if (recorderWindow_ == Primary && qApp->desktop()->numScreens() > 1) {
@@ -102,6 +103,8 @@ Recorder::Recorder(QWidget* parent,
         // resize and position recorder
         recorder->show();
     }
+
+
     // must build menus and toolbars before creating the central widget,
     // since createCentralWidget() updates the menus.
     createActions();
@@ -120,7 +123,8 @@ Recorder::Recorder(QWidget* parent,
     connect(this, SIGNAL(patientInformationClosed()),
         patientStatusBar_, SLOT(patientInformationClosed()));
 
-    updateAll();
+    updateAll();    
+    study_->loadStudyConfiguration();
 }
 
 Recorder::~Recorder() {

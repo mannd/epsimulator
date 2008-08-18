@@ -39,6 +39,8 @@ namespace EpStudy {
 
 using EpPatient::Heart;
 
+class StudyConfiguration;
+
 /**
  *  Name has public data members to treat a full name as a unit.
  */
@@ -109,6 +111,9 @@ public:
     // preregistered study has no config info   
     void makePreregisterStudy() {config_ = QString();}  
 
+    void loadStudyConfiguration();
+    void saveStudyConfiguration();
+
     void setBsa(double bsa) {bsa_ = bsa;}
     void setName(const Name& name);
     void setMrn(const QString& mrn) {mrn_ = mrn;}
@@ -159,6 +164,7 @@ public:
     QString path() const {return path_;} // returns path to 
                                          // specific study directory
     QString filePath();     // Returns full path of study.dat file, 
+    QString configFilePath();   // returns full path of config.dat file
     QString dirName() const {return "/study_" + key();}
     QString fileName() const {return fileName_;}
 
@@ -172,6 +178,7 @@ private:
     AutonomicTone adjustTone(AutonomicTone tone);
 
     static const QString fileName_; // name of studies data file
+    static const QString configFileName_; // name of study config file
 
     QDateTime dateTime_;
     Name name_;
@@ -194,7 +201,8 @@ private:
     QString path_;      // full path to study directory
 
     mutable QString key_;   // unique key for each study
-    Heart *heart_;
+    Heart* heart_;
+    StudyConfiguration* studyConfiguration_;
 
 };
 

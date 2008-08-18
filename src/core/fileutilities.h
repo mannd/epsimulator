@@ -115,21 +115,24 @@ void saveData(const QString& filePath, unsigned int magicNumber, const T& data) 
     file.close();
 }
 
+// System data is always saved to both the local System dir and
+// the Network study path, if network storage is enabled.
 template<typename T>
 void saveSystemData(unsigned int magicNumber, const QString& fileName,
     const T& data, Options* options) {
-    QString filePath = options->systemCatalogPath;
+    saveData(options->systemCatalogPath + "/" + fileName, magicNumber, data);
     if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
-        filePath = options->networkStudyPath;
-    saveData(filePath + "/" + fileName, magicNumber, data);
+        saveData(options->networkStudyPath + "/" + fileName, magicNumber, data);
 } 
 
+// System data is read from the Network study path, if network storage
+// is enabled, otherwise the System dir is used.
 template<typename T>
 void loadSystemData(unsigned int magicNumber, const QString& fileName, T& data, Options* options) {
-    QString filePath = options->systemCatalogPath;
     if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
-        filePath = options->networkStudyPath;
-    loadData(filePath + "/" + fileName, magicNumber, data);
+        loadData(options->networkStudyPath + "/" + fileName, magicNumber, data);
+    else
+        loadData(options->systemCatalogPath + "/" + fileName, magicNumber, data);
 }
 
 }
