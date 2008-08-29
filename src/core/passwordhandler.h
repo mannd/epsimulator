@@ -23,8 +23,6 @@
 #include <QCoreApplication>
 #include <QCryptographicHash>
 
-class QString;
-
 namespace EpCore {
 
 class Options;
@@ -45,6 +43,8 @@ public:
     bool testPassword(const QString&);
 
 private:
+    enum {MagicNumber = 0x33f788f6};  // for study.dat file
+
     Options* options_;
     QCryptographicHash hash_;
 };

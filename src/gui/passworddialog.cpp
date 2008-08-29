@@ -30,13 +30,13 @@ PasswordDialog::PasswordDialog(QWidget* parent)
     : QDialog(parent) {
     setupUi(this);
     passwordLineEdit->setText("");
-    pwHandler_ = new PasswordHandler();
+    pwHandler_ = new PasswordHandler;
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 PasswordDialog::~PasswordDialog() {
-    delete pwHandler_;
+    //delete pwHandler_;
 }
 
 void PasswordDialog::setPassword(const QString& pw) {

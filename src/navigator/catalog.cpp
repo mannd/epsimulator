@@ -212,9 +212,9 @@ SystemCatalog::SystemCatalog(const QString& path,
 
 // class NetworkCatalog
 
-NetworkCatalog::NetworkCatalog(const QString& path, 
-                 const QString& fileName) : Catalog(path, fileName){
-}
+NetworkCatalog::NetworkCatalog(bool useLabName, const QString& path, 
+                 const QString& fileName) 
+    : Catalog(path, fileName), useLabName_(useLabName) {}
 
 /**
  * 
@@ -224,7 +224,7 @@ NetworkCatalog::NetworkCatalog(const QString& path,
 QString NetworkCatalog::location(const StudyData& sd) {
     if (sd.study.isPreregisterStudy())
         return QString();
-    if (Options::instance()->useLabName) {
+    if (useLabName_) {
         if (!sd.labName.isEmpty())
             return sd.labName + " - " + Catalog::location(sd);
     }
@@ -253,7 +253,8 @@ Catalogs::Catalogs(Options* options, const QString& path) {
     catalogs_[Catalog::Optical] = opticalCatalog_;
     catalogs_[Catalog::Other] = otherCatalog_;
     if (options->filePathFlags.testFlag(Options::EnableNetworkStorage)) {
-        networkCatalog_ = new NetworkCatalog(options->networkStudyPath);
+        networkCatalog_ = new NetworkCatalog(options->useLabName,
+                                             options->networkStudyPath);
         catalogs_[Catalog::Network] = networkCatalog_;
         currentCatalog_ = networkCatalog_;
     }

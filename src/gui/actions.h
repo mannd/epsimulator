@@ -30,13 +30,15 @@ class QLineEdit;
 class QWidget;
 
 namespace EpCore {
-class Options;
-class User;
+    class Options;
+    class PasswordHandler;
+    class User;
 }
 
 namespace EpGui {
 
 using EpCore::Options;
+using EpCore::PasswordHandler;
 using EpCore::User;
 
 bool login(QWidget*, User*);

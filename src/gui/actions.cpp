@@ -23,6 +23,7 @@
 #include "changepassworddialog.h"
 #include "options.h"
 #include "passworddialog.h"
+#include "passwordhandler.h"
 #include "user.h"
 #include "versioninfo.h"
 
@@ -39,6 +40,7 @@
 namespace EpGui {
 
 using EpCore::Options;
+using EpCore::PasswordHandler;
 using EpCore::User;
 using EpCore::VersionInfo;
 

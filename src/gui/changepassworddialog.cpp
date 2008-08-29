@@ -27,7 +27,7 @@
 using EpGui::ChangePasswordDialog;
 
 ChangePasswordDialog::ChangePasswordDialog(QWidget *parent)
-                                          : QDialog(parent) {
+    : QDialog(parent) {
     setupUi(this);
     pwHandler_ = new PasswordHandler;
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));

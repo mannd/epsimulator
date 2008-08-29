@@ -154,10 +154,15 @@ public:
 class NetworkCatalog : public Catalog {
 
 public:
-    NetworkCatalog(const QString& path, const QString& fileName = defaultFileName_);
+    NetworkCatalog(bool useLabName, 
+                   const QString& path, 
+                   const QString& fileName = defaultFileName_);
     ~NetworkCatalog() {}
 
     virtual QString location(const StudyData&);
+
+private:
+   bool useLabName_;
 
 };
 

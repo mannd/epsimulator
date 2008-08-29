@@ -29,9 +29,7 @@ class QString;
 class QWidget;
 
 namespace EpCore {
-
-class PasswordHandler;
-
+    class PasswordHandler;
 }
 
 namespace EpGui {

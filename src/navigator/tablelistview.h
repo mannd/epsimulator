@@ -31,10 +31,6 @@
 
 class QRegExp;
 
-namespace EpCore { 
-    class Options; 
-}
-
 namespace EpStudy {
     class Study;
 }
@@ -44,7 +40,6 @@ namespace EpNavigator {
 struct StudyData;
 class Catalog;
 
-using EpCore::Options;
 using EpStudy::Study;
 
 /**

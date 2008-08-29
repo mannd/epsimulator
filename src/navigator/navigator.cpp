@@ -523,6 +523,8 @@ void Navigator::logout() {
     updateAll();
 }
 
+
+/// FIXME think this out better: where should PasswordHandler live??
 void Navigator::changePassword() {
     if (administrationAllowed())
         EpGui::changePassword(this);
@@ -902,7 +904,7 @@ void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator")); 
     navigatorToolBar_->setObjectName("NavigatorToolBar");
     navigatorToolBar_->setAutoFillBackground(true);
-    catalogComboBox_ = new CatalogComboBox();
+    catalogComboBox_ = new CatalogComboBox(options_);
     navigatorToolBar_->addWidget(catalogComboBox_);
     navigatorToolBar_->addSeparator();
     navigatorToolBar_->addAction(filterStudiesAction_);

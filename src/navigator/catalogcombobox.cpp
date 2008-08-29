@@ -32,11 +32,11 @@ using EpNavigator::Catalog;
  * is selected from the menu, and goes away as soon as possible.  
  * Default is no Network
 */
-CatalogComboBox::CatalogComboBox(QWidget *parent) : 
+CatalogComboBox::CatalogComboBox(Options* o, QWidget *parent) : 
                                  QComboBox(parent), 
                                  browse_(false), 
                                  includeNetwork_(false),
-                                 options_(Options::instance()) {
+                                 options_(o) {
     setup();
     connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));
     setCurrentItem(0);  // will be Network or System depending on options

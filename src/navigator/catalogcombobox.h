@@ -46,7 +46,7 @@ class CatalogComboBox : public QComboBox {
     Q_OBJECT
 
 public:
-    CatalogComboBox(QWidget *parent = 0);
+    CatalogComboBox(Options*, QWidget *parent = 0);
     ~CatalogComboBox();
 
     void refresh();

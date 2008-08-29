@@ -22,7 +22,6 @@
 
 #include "catalog.h"
 #include "error.h"
-#include "options.h"
 #include "study.h"
 
 #include <QFile>
