@@ -31,9 +31,7 @@
  *   normal cardiac electrophysiology and arrhythmias.
  */
 
-//#include "options.h"
 #include "navigator.h"
-#include "versioninfo.h"
 
 #include <QApplication>
 #include <QIcon>
@@ -51,7 +49,6 @@
 #endif
 
 using EpNavigator::Navigator;
-using EpCore::VersionInfo;
 
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
@@ -71,11 +68,8 @@ int main(int argc, char **argv) {
     app.installTranslator( &translator );
 #endif
 
-    VersionInfo* versionInfo = VersionInfo::instance();
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
     Navigator* mainWin = new Navigator;
     mainWin->show();
     return app.exec();
-    // delete the singletons -- only need to do here at end of program!
-    versionInfo->destroy();
 }

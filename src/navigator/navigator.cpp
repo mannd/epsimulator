@@ -65,6 +65,7 @@
 #include <algorithm>
 #include <memory>
 
+//using EpGui::AbstractMainWindow;
 using EpGui::PatientDialog;
 using EpGui::SimulatorSettingsDialog;
 using EpGui::SystemDialog;
@@ -78,13 +79,15 @@ using namespace EpHardware::EpOpticalDisk;
 /**
  * Navigator constructor
  */
-Navigator::Navigator(QWidget* parent) : QMainWindow(parent), 
+Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent), 
                                         options_(Options::instance()),
                                         filterCatalogDialog_(0),
                                         currentDisk_(0),
                                         user_(User::instance()) {
     setAttribute(Qt::WA_DeleteOnClose);
     createDefaultDataDir();
+    // if optical drive path not set up right, the loop below will
+    // keep trying until it works or the user quits.
     do {
         createOpticalDrive();
     } while (!currentDisk_);
@@ -495,11 +498,7 @@ void Navigator::relabelDisk() {
 }
 
 void Navigator::updateWindowTitle() {
-    QString title = tr("%1 Navigator")
-        .arg(EpCore::VersionInfo::instance()->programName());
-    title = user_->isAdministrator() ? 
-        QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
-    setWindowTitle(title);
+    EpGui::updateWindowTitle(this, tr("Navigator"), user_);
 }
 
 void Navigator::updateStatusBarUserLabel() {
@@ -547,22 +546,22 @@ void Navigator::noStudySelectedError() {
 
 void Navigator::setIntervals() {
     if (administrationAllowed())
-        EpGui::filler(this);
+        filler();
 }
 
 void Navigator::setColumnFormats() {
     if (administrationAllowed())
-        EpGui::filler(this);
+        filler();
 }
 
 void Navigator::setProtocols() {
     if (administrationAllowed())
-        EpGui::filler(this);
+        filler();
 }
 
 void Navigator::setStudyConfigurations() {
     if (administrationAllowed())
-        EpGui::filler(this);
+        filler();
 }
 
 void Navigator::setCatalog(Catalog::Source source) {
@@ -684,21 +683,10 @@ void Navigator::systemSettings() {
     }
 }
 
-void Navigator::help() {
-    EpGui::help(this);
-}
-
-void Navigator::about() {
-    EpGui::about(this);
-}
-
 // private
 
 void Navigator::createOpticalDrive() {
     try {
-        // make sure any old disk info is saved and then delete disk
- //       if (currentDisk_)
- //           currentDisk_->writeLabel();
         delete currentDisk_;
         currentDisk_ = 0;
         if (options_->opticalDiskFlags.testFlag(Options::Emulation)) {
@@ -1088,12 +1076,14 @@ void Navigator::startStudy(Study* study, bool review) {
     using EpRecorder::Recorder;
     bool allowAcquisition = options_->
         filePathFlags.testFlag(Options::EnableAcquisition) && !review;
-    Recorder* recorder = new Recorder(this, study, currentDisk_, 
+    Recorder* recorder = new Recorder(this, study, currentDisk_, user_, 
         allowAcquisition);
     recorder->show();
     recorder->setupInitialScreen();
     connect(recorder, SIGNAL(simulatorSettingsChanged()),
-        this, SLOT(updateSimulatorSettings()));
+            this, SLOT(updateSimulatorSettings()));
+    connect(recorder, SIGNAL(destroyed()), 
+            this, SLOT(updateAll()));
     hide();
     updateAll();
 }
@@ -1167,6 +1157,7 @@ void Navigator::studyNotOnDiskError() {
 Navigator::~Navigator() {
     delete catalogs_;
     delete currentDisk_;
-    user_->destroy();
+    delete user_;
     options_->destroy();
+    EpCore::VersionInfo::destroy();
 }

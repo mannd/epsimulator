@@ -27,9 +27,13 @@
 namespace EpCore {
 
 /**
- * Encapsulates info on the program user.  Is singleton class, 
- * only 1 user obviously.
- * Also, perhaps overambitiously contains host machine info.
+ * The user of the program.  In CardioLab V5 there are 2 users, the
+ * regular user and the administrator.  In V6, there are apparently
+ * multiple users, with different roles, and probably simultaneous
+ * logins from multiple terminals in a single study.  Given this,
+ * and the disadvantages of Singletons, User is no longer a 
+ * Singleton class, though I am still using the factory method.
+ * Also, perhaps contains host machine info.
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class User {
@@ -37,7 +41,7 @@ class User {
 
 public:
     static User* instance();
-    void destroy() {delete instance_; instance_ = 0;}
+    ~User();
 
     void makeAdministrator(bool isAdministrator) {
         isAdministrator_ = isAdministrator;}
@@ -50,14 +54,10 @@ public:
 
 private:
     User();
-    ~User();
-
-    static User* instance_;
 
     bool isAdministrator_;
     QString name_;
     QString machineName_;
-
 };
 
 }

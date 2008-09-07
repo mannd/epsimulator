@@ -415,23 +415,23 @@ void TestEpSimulator::testUser() {
     QVERIFY(u->name() == tr("ADMINISTRATOR"));
     u->makeAdministrator(false);
     QVERIFY(u->role() == tr("EPSIMUSER"));
-    u->destroy();
+    delete u;
 }
     
 void TestEpSimulator::testVersionInfo() {
-    VersionInfo* v = VersionInfo::instance();
+    const VersionInfo* v = VersionInfo::instance();
     QVERIFY(v->programName() == tr("EP Simulator"));
     QVERIFY(v->appName() == "epsimulator");
-    v->destroy();
+    //v->destroy();
 }
     
 void TestEpSimulator::testVersionOk() {
-    VersionInfo* v = VersionInfo::instance();
+    const VersionInfo* v = VersionInfo::instance();
     QVERIFY(VersionInfo::versionOk(v->versionMajor(), v->versionMinor()));
     QVERIFY(!VersionInfo::versionOk(-99999,0));
     QVERIFY(!VersionInfo::versionOk(-99999,-999999));
     QVERIFY(!VersionInfo::versionOk(0,-999999));
-    v->destroy();
+    //v->destroy();
 }
 
 void TestEpSimulator::testCatalog() {

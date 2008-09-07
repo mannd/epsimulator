@@ -21,11 +21,12 @@
 #ifndef RECORDER_H
 #define RECORDER_H
 
+#include "abstractmainwindow.h"
 #include "options.h"
 #include "recorderdefs.h"
 
-#include <QAction>
-#include <QMainWindow>
+//#include <QAction>
+//#include <QMainWindow>
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QMenu>
@@ -64,6 +65,7 @@ namespace EpRecorder {
 
 using EpCore::Options;
 using EpCore::User;
+using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
 using EpHardware::EpAmplifier::Amplifier;
 using EpHardware::SatMonitor;
@@ -77,11 +79,12 @@ class RealTimeWindow;
 class ReviewWindow;
 class Review2Window;
 
-class Recorder : public QMainWindow {
+class Recorder : public AbstractMainWindow {
     Q_OBJECT
 public:
     Recorder(QWidget* parent, 
-        Study* study, OpticalDisk* currentDisk, bool allowAcquisition = true,
+        Study* study, OpticalDisk* currentDisk, User* user,
+        bool allowAcquisition = true,
         RecorderWindow = Primary);
     
     void setupInitialScreen(bool tile = false);  // the default screen setup
@@ -98,6 +101,8 @@ protected:
     //    void contextMenuEvent(QContextMenuEvent * event);
     void resizeEvent(QResizeEvent*);
 
+    virtual User* user() {return user_;}
+
 signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
     void autoSave(bool);    // emitted if AutoSave toolbar button changed
@@ -110,8 +115,6 @@ private slots:
     void login();
     void logout();
     void changePassword();
-    void about();
-    void help(); 
     void systemSettings();
     void simulatorSettings();
     void openStimulator();

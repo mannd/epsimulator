@@ -37,7 +37,6 @@
 #include "study.h"
 #include "systemdialog.h"
 #include "user.h"
-#include "versioninfo.h"
 
 #include <QAction>
 #include <QComboBox>
@@ -59,6 +58,7 @@
 
 #include <QMouseEvent>
 
+using EpGui::AbstractMainWindow;
 using EpGui::PatientDialog;
 using EpGui::SimulatorSettingsDialog;
 using EpGui::SystemDialog;
@@ -73,13 +73,14 @@ const int Recorder::edgeWidth;
 Recorder::Recorder(QWidget* parent, 
                    Study* study, 
                    OpticalDisk* currentDisk,
+                   User* user,
                    bool allowAcquisition,
                    RecorderWindow recorderWindow)
                    : 
-                   QMainWindow(parent), 
+                   AbstractMainWindow(parent), 
                    openDisplayWindowList_(LastDisplayWindow + 1),
                    study_(study), 
-                   user_(User::instance()),
+                   user_(user),
                    options_(Options::instance()),
                    currentDisk_(currentDisk),
                    amplifier_(0),
@@ -99,7 +100,7 @@ Recorder::Recorder(QWidget* parent,
 
     if (recorderWindow_ == Primary && qApp->desktop()->numScreens() > 1) {
         Recorder* recorder = new Recorder(this, study_, 
-            currentDisk_, false, Secondary);
+            currentDisk_, user_, false, Secondary);
         // resize and position recorder
         recorder->show();
     }
@@ -319,11 +320,7 @@ void Recorder::setManualSave(bool enable) {
 }
 
 void Recorder::updateWindowTitle() {
-    QString title = tr("%1")
-        .arg(EpCore::VersionInfo::instance()->programName());
-    title = User::instance()->isAdministrator() ? 
-        QString("%1 %2").arg(title).arg(tr("[Administrator]")) : title;
-    setWindowTitle(title);
+    EpGui::updateWindowTitle(this, QString(), user_);
 }
 
 void Recorder::updateAll() {
@@ -583,14 +580,6 @@ void Recorder::openStimulator() {
 void Recorder::openSatMonitor() {
        SatMonitor* satMonitor = new SatMonitor(this);
        satMonitor->show();
-}
-
-void Recorder::help() {
-    EpGui::help(this);
-}
-
- void Recorder::about() {
-    EpGui::about(this);
 }
 
 void Recorder::tileSubWindows() {

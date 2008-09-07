@@ -26,9 +26,10 @@
 namespace EpRecorder {
 
     enum SaveStatus {NoSave, ManualSave, AutoSave, ExitSave};
-    enum DisplayWindowType {RealTime, Review1, Review2, Log, Ablation, Alignment,
-                        Map, Holter, Plot, Macro, Image1, Image2, ImageLibrary, 
-                        Other, LastDisplayWindow = Other};
+    enum DisplayWindowType {RealTime, Review1, Review2, Log, Ablation, 
+                            Alignment, Map, Holter, Plot, Macro, Image1, 
+                            Image2, ImageLibrary, Other, 
+                            LastDisplayWindow = Other};
     /// Determines if the recorder is in the primary or secondary screen.
     enum RecorderWindow {Primary, Secondary};
     /// Determines if Recorder window is used as 

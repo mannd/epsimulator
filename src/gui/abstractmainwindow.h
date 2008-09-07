@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,41 +17,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef ABSTRACTMAINWINDOW_H
+#define ABSTRACTMAINWINDOW_H
 
-#include "versioninfo.h"
+#include <QMainWindow>
 
-#include "epdefs.h"
+namespace EpCore {
+    class User;
+    class VersionInfo;
+}
 
-#include <QStringList>
-
-/// Keep this #define up to date with the version of the code.
-#define VERSION "0.1"
-
+using EpCore::User;
 using EpCore::VersionInfo;
 
-VersionInfo* VersionInfo::instance_ = 0;
+namespace EpGui {
 
-const VersionInfo* VersionInfo::instance() {
-    if (instance_ == 0)
-        instance_ = new VersionInfo;
-    return instance_;
+/**
+Contains methods and actions common to both the Navigator and Recorder windows.
+
+	@author David Mann <mannd@epstudiossoftware.com>
+*/
+class AbstractMainWindow : public QMainWindow {
+    Q_OBJECT
+public:
+    AbstractMainWindow(QWidget *parent = 0);
+
+    ~AbstractMainWindow();
+
+protected:
+    virtual User* user() = 0;
+    void filler();
+
+protected slots:
+    void about();
+    void help();
+
+private:
+    const VersionInfo* versionInfo_;
+};
+
 }
 
-bool VersionInfo::versionOk(int major, int minor) {
-    if (major == BadTestVersion || minor == BadTestVersion)
-        return false;
-    return (major >= GoodMajorVersion 
-        && minor >= GoodMinorVersion);
-}
-
-// protected constructor
-
-VersionInfo::VersionInfo(): appName_("epsimulator"), 
-                            shortAppName_("epsim"),
-                            programName_(tr("EP Simulator")), 
-                            copyrightYear_(tr("2006")),
-                            version_(VERSION) {
-    QStringList list = version_.split(".");
-    versionMajor_ = list[0].toInt();
-    versionMinor_ = list[1].toInt();
-}
+#endif

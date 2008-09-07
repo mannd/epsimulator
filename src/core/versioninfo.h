@@ -28,6 +28,11 @@ namespace EpCore {
 
 /**
  * Provides version and application information for a program.
+ * This is a Singleton class, and instances are forced to be
+ * const due to a factory method that returns a const instance.
+ * It should be ok to let this be a Singleton; there can
+ * only be one instance, it is const, and we'll let it
+ * be globally available.
  *
  *	@author David Mann <mannd@epstudiossoftware.com>
  */
@@ -35,8 +40,10 @@ class VersionInfo{
     Q_DECLARE_TR_FUNCTIONS(VersionInfo)
 
 public:
-    static VersionInfo* instance();
-    void destroy() {delete instance_; instance_ = 0;}
+    static const VersionInfo* instance();
+    // destroy() is static so it can be called as VersionInfo::destroy()
+    // without an object.
+    static void destroy() {delete instance_; instance_ = 0;}
 
     static bool versionOk(int major, int minor);
 
@@ -45,8 +52,7 @@ public:
     QString programName() const {return programName_;}
     int versionMajor() const {return versionMajor_;}
     int versionMinor() const {return versionMinor_;}
-    QString version() const {return QString("%1.%2")
-        .arg(versionMajor_).arg(versionMinor_);}
+    QString version() const {return version_;}
     QString copyrightYear() const {return copyrightYear_;}
 
 protected:
@@ -62,13 +68,13 @@ private:
 
     static VersionInfo* instance_;
 
-    QString appName_;
-    QString shortAppName_;
-    QString programName_;
-    QString copyrightYear_;
+    const QString appName_;
+    const QString shortAppName_;
+    const QString programName_;
+    const QString copyrightYear_;
+    const QString version_;
     int versionMajor_;
     int versionMinor_;
-
 };
 
 }

@@ -21,9 +21,10 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
+#include "abstractmainwindow.h"
 #include "catalog.h"
 
-#include <QMainWindow>
+//#include <QMainWindow>
 
 class QAction;
 class QCloseEvent;
@@ -52,6 +53,8 @@ class TableListView;
 using EpCore::Options;
 using EpCore::User;
 
+using EpGui::AbstractMainWindow;
+
 using EpHardware::EpOpticalDisk::OpticalDisk;
 
 using EpStudy::Study;
@@ -59,7 +62,7 @@ using EpStudy::Study;
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
  */
-class Navigator : public QMainWindow {
+class Navigator : public AbstractMainWindow {
     Q_OBJECT
 
 public:
@@ -72,6 +75,7 @@ public slots:
 
 protected:
     void closeEvent(QCloseEvent*);
+    virtual User* user() {return user_;}
 
 private slots:
     void newStudy();
@@ -98,8 +102,6 @@ private slots:
     void setStudyConfigurations();
     void systemSettings();
     void simulatorSettings();    
-    void help();
-    void about();
 
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
@@ -107,6 +109,8 @@ private slots:
     void setCatalogSystem();
     void setCatalogOptical();
     void setCatalogOther();
+
+    void updateAll();
 
 private:
     // disallowed
@@ -127,7 +131,6 @@ private:
     void updateMenus();
     void updateStatusBarUserLabel();
     void updateWindowTitle();
-    void updateAll();
 
     // Optical disk related
     void createDefaultDataDir();    // creates ~/MyStudies if it doesn't exist

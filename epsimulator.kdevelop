@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/navigator</activedir>
+      <activedir>src/test</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>
@@ -144,7 +144,7 @@
     </run>
     <make>
       <abortonerror>true</abortonerror>
-      <runmultiplejobs>true</runmultiplejobs>
+      <runmultiplejobs>false</runmultiplejobs>
       <numberofjobs>5</numberofjobs>
       <dontact>false</dontact>
       <makebin/>

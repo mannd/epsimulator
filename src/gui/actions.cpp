@@ -30,9 +30,7 @@
 #include <QAction>
 #include <QDir>
 #include <QFileDialog>
-#include <QMessageBox>
 #include <QObject>
-#include <QStringList>
 
 /**
  * @namespace EpGui program functions that require QtGui
@@ -43,6 +41,15 @@ using EpCore::Options;
 using EpCore::PasswordHandler;
 using EpCore::User;
 using EpCore::VersionInfo;
+
+void updateWindowTitle(QWidget* window, const QString& title, const User* user) {
+    QString windowTitle = title.isEmpty() ? VersionInfo::instance()->programName() :
+        QString("%1 %2").arg(VersionInfo::instance()->programName()).arg(title);
+    windowTitle = user->isAdministrator() ? 
+        QString("%1 %2").arg(windowTitle).arg(QObject::tr("[Administrator]")) : windowTitle;
+    window->setWindowTitle(windowTitle);
+}
+
 
 bool login(QWidget* parent, User* user) {
     bool success = false;
@@ -68,39 +75,6 @@ void changePassword(QWidget* parent) {
 
 bool showSimulatorSettings(Options* options, User* user) {
     return !options->hideSimulatorMenu || user->isAdministrator();
-}
-
-void about(QWidget* parent) {
-    VersionInfo* info = VersionInfo::instance();
-    QMessageBox::about(parent, 
-                       QObject::tr("About %1")
-                       .arg(info->programName()),
-                       QObject::tr("<h2>%1 %2</h2>"
-                       "<p>Copyright &copy; %3 EP Studios, Inc."
-                       "<p>EP Simulator simulates an EP recording "
-                       "system."
-                       "<p><a href=http://www.epstudiossoftware.com> "
-                       "http://www.epstudiossoftware.com</a>")
-                       .arg(info->programName()).arg(info->version())
-                       .arg(info->copyrightYear()));
-}
-
-void help(QWidget* parent) {
-    QMessageBox::information(parent, 
-                             QObject::tr("%1 Help")
-                             .arg(VersionInfo::instance()->programName()),
-                             QObject::tr("Help is available from "
-                             "<p><a href=http://www.epstudiossoftware.com> "
-                             "http://www.epstudiossoftware.com</a>"),
-                             QMessageBox::Ok);
-}
-
-/// This is not for final production, just during development.
-void filler(QWidget* widget) {
-    QMessageBox::information(widget, 
-                             QObject::tr("FYI"),
-                             QObject::tr("This function is not " 
-                             "implemented yet."));
 }
 
 /**

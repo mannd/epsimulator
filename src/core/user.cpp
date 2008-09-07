@@ -29,16 +29,12 @@
 
 using EpCore::User;
 
-User* User::instance_ = 0;
-
 /**
  * A singleton instance of User.
  * @return pointer to User.
  */
 User* User::instance() {
-    if (instance_ == 0)
-        instance_ = new User;
-    return instance_;
+    return new User;
 }
 
 /**
@@ -66,8 +62,6 @@ QString User::role() const {
     return isAdministrator_ ? tr("ADMINISTRATOR") 
         :  tr("EPSIMUSER");
 }
-
-// protected constructor and destructor
 
 User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
     const size_t length = 255;

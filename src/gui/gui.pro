@@ -16,14 +16,16 @@ SOURCES += simulatorsettingsdialog.cpp \
  changepassworddialog.cpp \
  systemdialog.cpp \
  passworddialog.cpp \
- actions.cpp
+ actions.cpp \
+ abstractmainwindow.cpp
 
 HEADERS += simulatorsettingsdialog.h \
  patientdialog.h \
  changepassworddialog.h \
  systemdialog.h \
  passworddialog.h \
- actions.h
+ actions.h \
+ abstractmainwindow.h
 
 
 CONFIG -= release
