@@ -20,6 +20,7 @@
 
 #include "studyconfiguration.h"
 
+#include "amplifier.h"
 #include "fileutilities.h"
 #include "options.h"
 
@@ -27,33 +28,25 @@
 
 namespace EpStudy {
 
+using EpCore::Options;
+
 QDataStream& operator<<(QDataStream& out, const Channel& channel) {
-    out << (qint32)channel.number_ << channel.label_ << (qint16)channel.clip_ 
-        << channel.displayPages_ << channel.alwaysSave_ << (qint16)channel.type_ 
-        << (qint32)channel.posInput_ << (qint32)channel.negInput_ 
-        << (qint32)channel.gain_ << channel.highPassFilter_ 
-        << channel.lowPassFilter_ 
-        << channel.notchFilter_;
+    out << (qint32)channel.number_ << (qint16)channel.clip_ 
+        << channel.displayPages_ << channel.alwaysSave_; 
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Channel& channel) {
-    qint16 clip, type;
-    in >> channel.number_ >> channel.label_ >> clip 
-       >> channel.displayPages_ >> channel.alwaysSave_ >> type 
-       >> channel.posInput_ >> channel.negInput_ 
-       >> channel.gain_ >> channel.highPassFilter_ 
-       >> channel.lowPassFilter_ 
-       >> channel.notchFilter_;
+    qint16 clip;
+    in >> channel.number_ >> clip 
+       >> channel.displayPages_ >> channel.alwaysSave_;
     channel.clip_ = static_cast<Channel::Clip>(clip);
-    channel.type_ = static_cast<Channel::Type>(type);
     return in;
 }
 
-Channel::Channel(int number) : number_(number), label_(QString()),
-    clip_(NoClip), color_(Qt::white), displayPages_(QBitArray()),
-    alwaysSave_(false), type_(NotUsed), posInput_(0), negInput_(0),
-    gain_(500), highPassFilter_(0), lowPassFilter_(0), notchFilter_(false) {} 
+Channel::Channel(int number) : number_(number), clip_(NoClip), 
+			       color_(Qt::white), displayPages_(QBitArray()),
+			       alwaysSave_(false) {} 
 
 QDataStream& operator<<(QDataStream& out, const ColumnFormat& format) {
     out << format.name_;
@@ -121,20 +114,41 @@ QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
 const QString StudyConfiguration::configFileName_ = "config.dat";
 
 
-StudyConfiguration::StudyConfiguration(const QString& name) : name_(name) {}
-
-StudyConfiguration::StudyConfiguration(const StudyConfiguration& config) {
-    name_ = config.name_;
-    protocolList_ = config.protocolList_;
-    channelList_ = config.channelList_;
+StudyConfiguration::StudyConfiguration(const QString& name) : name_(name) {
+    amplifier_ = new Amplifier(Options::instance()->numChannels);
 }
 
-//StudyConfiguration::~StudyConfiguration() {}
+StudyConfiguration::StudyConfiguration(const StudyConfiguration& rhs) {
+    copyStudyConfiguration(rhs);
+}
+
+StudyConfiguration::~StudyConfiguration() {
+    delete amplifier_;
+}
+
+StudyConfiguration& StudyConfiguration::operator=(const StudyConfiguration& rhs) {
+    if (this == &rhs)
+        return *this;
+    copyStudyConfiguration(rhs);
+    return *this;
+}
+
+Channel& StudyConfiguration::channel(int n) {
+    n = qBound(1, n, amplifier_->numChannels());
+    return channelList_[n-1];
+}
+
+void StudyConfiguration::copyStudyConfiguration(const StudyConfiguration& rhs) {
+    name_ = rhs.name_;
+    protocolList_ = rhs.protocolList_;
+    channelList_ = rhs.channelList_;
+    amplifier_ = new Amplifier(*rhs.amplifier_);
+}
 
 StudyConfigList readStudyConfigurations() {
     StudyConfigList configList;
     EpCore::loadSystemData(StudyConfiguration::MagicNumber, 
-                           StudyConfiguration::configFileName_, 
+                           StudyConfiguration::configFileName(), 
                            configList, EpCore::Options::instance());
     if (configList.isEmpty()) {
         StudyConfiguration config;
@@ -146,7 +160,7 @@ StudyConfigList readStudyConfigurations() {
 
 void writeStudyConfigurations(StudyConfigList configList) {
     EpCore::saveSystemData(StudyConfiguration::MagicNumber, 
-                           StudyConfiguration::configFileName_, 
+                           StudyConfiguration::configFileName(), 
                            configList, EpCore::Options::instance());
 }
 

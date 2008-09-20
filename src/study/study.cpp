@@ -113,11 +113,16 @@ void Study::loadStudyConfiguration() {
     qDebug() << configFilePath();
     delete studyConfiguration_;
     studyConfiguration_ = new StudyConfiguration;
-    EpCore::loadData(configFilePath(), MagicNumber, *studyConfiguration_);
+    EpCore::loadData(configFilePath(), 
+		     StudyConfiguration::MagicNumber, 
+		     *studyConfiguration_);
+    qDebug() << studyConfiguration_->name();
 }
 
 void Study::saveStudyConfiguration() {
-    EpCore::saveData(configFilePath(), MagicNumber, *studyConfiguration_);
+    EpCore::saveData(configFilePath(), 
+		     StudyConfiguration::MagicNumber, 
+		     *studyConfiguration_);
 }
 
 void Study::setName(const Name& name) {

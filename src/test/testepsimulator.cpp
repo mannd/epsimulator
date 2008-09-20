@@ -32,6 +32,7 @@
 #include "patientdialog.h"
 #include "saturation.h"
 #include "study.h"
+#include "studyconfiguration.h"
 #include "user.h"
 #include "versioninfo.h"
 
@@ -574,6 +575,30 @@ void TestEpSimulator::testAmplifier() {
     QCOMPARE(amp2.numCIMConnections(), 7);
     Amplifier amp3(64);
     QCOMPARE(amp3.numCIMConnections(), 3);
+    EpAmplifier::Channel* c1 = amp3.channel(1);
+    // 1st 12 channels are ECG channels always
+    QCOMPARE(c1->channelType(), EpAmplifier::Channel::ECG);
+    QVERIFY(c1->channelType() == EpAmplifier::Channel::ECG);
+    QVERIFY(c1->label() == tr("I"));
+    QVERIFY(c1->highPassFilter() == 0.05);
+    QVERIFY(c1->lowPassFilter() == 150);
+    QVERIFY(c1->notchFilter() == true);
+    EpAmplifier::Channel* c12 = amp2.channel(12);
+    QVERIFY(c12->label() == tr("V6"));
+    EpAmplifier::Channel* c13 = amp.channel(13);
+    QVERIFY(c13->channelType() == EpAmplifier::Channel::Pressure);
+    QVERIFY(c13->label() == tr("P1"));
+    EpAmplifier::Channel* c17 = amp.channel(17);
+    QVERIFY(c17->channelType() == EpAmplifier::Channel::NotUsed);
+    QVERIFY(c17->label().isEmpty());
+    EpAmplifier::Channel* clast = amp3.channel(amp3.numChannels());
+    QVERIFY(clast->channelType() == EpAmplifier::Channel::Stim2);
+}
+
+void TestEpSimulator::testStudyConfigurations() {
+    StudyConfigList list = readStudyConfigurations();
+    QVERIFY(list[0].name() == tr("<default>"));
+    QVERIFY(list[0].amplifier()->channel(1)->label() == tr("I"));
 }
 
 void TestEpSimulator::cleanupTestCase() {

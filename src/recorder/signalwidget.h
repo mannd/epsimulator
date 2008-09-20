@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <QList>
 #include <QScrollArea>
+#include <QSplitter>
 
 class QFrame;
 
@@ -50,9 +51,10 @@ private:
  * used by RealTimeWindow, ReviewWindow, etc.
  * @author David Mann <mannd@epstudiossoftware.com>
  */
-class SignalWidget : public QScrollArea {
+class SignalWidget : public QSplitter {
 public:
     SignalWidget(QWidget* parent = 0);
+    ~SignalWidget() {}
 
 private:
     QList<ChannelLabel*> channelLabels_;

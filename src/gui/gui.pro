@@ -9,7 +9,8 @@ DESTDIR = ../../lib
 
 INCLUDEPATH += ../patient \
  ../core \
- ../study
+ ../study \
+ ../hardware
 
 SOURCES += simulatorsettingsdialog.cpp \
  patientdialog.cpp \

@@ -26,25 +26,38 @@
 #include <QList>
 #include <QString>
 
+class QDataStream;
+
 namespace EpHardware { 
     namespace EpAmplifier {
-        class Channel;
+
+class Channel;
 
 /**
  * Emulates the amplifier, with different number of 
- * catheter input blocks and channels.
+ * catheter input blocks and channels.  Hardware
+ * channel settings are all here.  Software settings
+ * (such as Clip level) are in StudyConfiguration.
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Amplifier {
     Q_DECLARE_TR_FUNCTIONS(Amplifier)
 public:
     explicit Amplifier(int numChannels = 48);
+    Amplifier(const Amplifier&);
     ~Amplifier();
+
+    friend QDataStream& operator<<(QDataStream&, const Amplifier&);
+    friend QDataStream& operator>>(QDataStream&, Amplifier&);
+
+    Amplifier& operator=(const Amplifier&);
 
     // overloaded function to calculate number of amplifier blocks.
     // there are 12 ECG channels and 4 pressure channels = 16.
     // the rest are intracardiac channels, with 16 per input block.
     // first 12 channels are hardwired as ECG channels.
+    // Next 4 are pressure channels.  
+    // The rest are plain intracardiac channels.
     static int numCIMConnections(int numChannels) {
         return (numChannels - 16) / 16;}
 
@@ -52,51 +65,55 @@ public:
     int numCIMConnections() const {
         return numCIMConnections(numChannels_);}
 
+    Channel* channel(int n);  // return channel number n
+
 private:
+    void copyAmplifier(const Amplifier&);
+
     int numChannels_;
-    double scale_;  // 1/16 is default
-    
     QList<Channel*> channels_;
 };
 
+/// This is the hardware channel, Channel in StudyConfiguration includes this
+/// and software settings.
 class Channel {
 
 public:
-    enum ChannelType { NotUsed, ECG, Bipolar, UnipolarWCT, UnipolarAuxRef,
+    enum ChannelType { NotUsed, ECG, Pressure, Bipolar, 
+                       UnipolarWCT, UnipolarAuxRef,
                        AblateRecord, Stim1, Stim2, Stim3, Stim4 };
-    enum ClipLevel { None, C1, C2 };
-    explicit Channel(int number);
+    Channel(int number = 1, QString label = QString());
     virtual ~Channel() {}
 
+    friend QDataStream& operator<<(QDataStream&, const Channel&);
+    friend QDataStream& operator>>(QDataStream&, Channel&);
+
+    // determines if the channel type can be changed
+    virtual bool typeModifiable() const {return true;}
+    virtual Channel* clone() const {return new Channel(*this);}
+
+    virtual ChannelType channelType() const {return channelType_;}
     int number() const {return number_;}
-    QString label() const {return label_;}
-    ChannelType channelType() const {return channelType_;}
+    QString label() const {return label_;} 
     int negInput() const {return negInput_;}
     int posInput() const {return posInput_;}
     int gain() const {return gain_;}
     double highPassFilter() const {return highPassFilter_;}
     double lowPassFilter() const {return lowPassFilter_;}
     bool notchFilter() const {return notchFilter_;}
-    ClipLevel clip() const {return clip_;} 
-    bool alwaysSave() const {return alwaysSave_;}
-    
-    QList<bool>& displayPages() {return displayPages_;}
 
+    virtual void setChannelType(const ChannelType& type) {channelType_ = type;}
     void setLabel(const QString& label) {label_ = label;}
-    void setChannelType(const ChannelType& type) {channelType_ = type;}
     void setNegInput(int n) {negInput_ = n;}
     void setPosInput(int n) {posInput_ = n;}
     void setGain(int gain) {gain_ = gain;}
     void setHighPassFilter(double freq) {highPassFilter_ = freq;}
     void setLowPassFilter(double freq) {lowPassFilter_ = freq;}
     void setNotchFilter(bool enable) {notchFilter_ = enable;}
-    void setClip(ClipLevel level) {clip_ = level;}
-    void setAlwaysSave(bool save) {alwaysSave_ = save;}
 
 private:
-    // hardware settings
     int number_;
-    QString label_;
+    QString label_; // label is the term used by Prucka, not name
     ChannelType channelType_;
     int negInput_;
     int posInput_;
@@ -104,18 +121,42 @@ private:
     double highPassFilter_;
     double lowPassFilter_;
     bool notchFilter_;
-    // display settings
-    ClipLevel clip_;
-    QList<bool> displayPages_;
-    bool alwaysSave_;
 };
 
 class EcgChannel : public Channel {
 public:
-    EcgChannel(int number, QString label);
+    EcgChannel(int number, const QString& label);
+    ~EcgChannel() {}
+    
+    virtual bool typeModifiable() const {return false;}
+    virtual EcgChannel* clone() const {return new EcgChannel(*this);} 
+
+    virtual ChannelType channelType() const {return ECG;}
+
+    virtual void setChannelType(const ChannelType&) {}  // noop
 };
 
-class PressureChannel : public Channel {};
+class PressureChannel : public Channel {
+public:
+    PressureChannel(int number, const QString& label);
+    ~PressureChannel() {}
+
+    virtual bool typeModifiable() const {return false;}
+    virtual PressureChannel* clone() const {return new PressureChannel(*this);}
+
+    virtual ChannelType channelType() const {return Pressure;}
+
+    virtual void setChannelType(const ChannelType&) {}  // noop
+
+};
+
+class StimChannel : public Channel {
+public:
+    StimChannel(int number, const QString& label, ChannelType type);
+    ~StimChannel() {}
+
+    virtual StimChannel* clone() const {return new StimChannel(*this);}
+};
 
 }}
 

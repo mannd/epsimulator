@@ -76,6 +76,8 @@ private slots:
     void testSaturation();
     // class Amplifier
     void testAmplifier();
+    // class StudyConfiguration
+    void testStudyConfigurations();
 
     void cleanupTestCase();
 

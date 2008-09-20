@@ -21,6 +21,8 @@
 #ifndef STUDYCONFIGURATION_H
 #define STUDYCONFIGURATION_H
 
+#include "amplifier.h"
+
 #include <QBitArray>
 #include <QColor>
 #include <QCoreApplication>
@@ -30,7 +32,15 @@
 
 class QDataStream;
 
+namespace EpHardware {
+    namespace EpAmplifier {
+        class Amplifier;
+    }
+}
+
 namespace EpStudy {
+
+using EpHardware::EpAmplifier::Amplifier;
 
 class Channel {
 
@@ -39,54 +49,28 @@ public:
     friend QDataStream& operator>>(QDataStream&, Channel&);
 
     enum Clip {NoClip, C1, C2};
-    enum Type {Bipolar, UnipolarWCT, UnipolarAuxRef, 
-               AblateRecord, NotUsed};
 
-    explicit Channel(int number = 0);
+    Channel(int number = 1);
     ~Channel() {};
 
     void setNumber(int n) {number_ = n;}
-    void setLabel(const QString& label) {label_ = label;}
     void setClip(Clip clip) {clip_ = clip;}
     void setColor(const QColor& color) {color_ = color;}
     void setDisplayPages(const QBitArray& pages) {displayPages_ = pages;}
     void setAlwaysSave(bool enable) {alwaysSave_ = enable;}
-    void setType(Type type) {type_ = type;}
-    void setPosInput(int input) {posInput_ = input;}
-    void setNegInput(int input) {negInput_ = input;}
-    void setGain(int gain) {gain_ = gain;}
-    void setHighPassFilter(double filter) {highPassFilter_ = filter;}
-    void setLowPassFilter(double filter) {lowPassFilter_ = filter;}
-    void setNotchFilter(bool enable) {notchFilter_ = enable;}
 
     int number() const {return number_;}
-    QString label() const {return label_;}
     Clip clip() const {return clip_;}
     QColor color() const {return color_;}
     QBitArray displayPages() const {return displayPages_;}
     bool alwaysSave() const {return alwaysSave_;}
-    Type type() const {return type_;}
-    int posInput() const {return posInput_;}
-    int negInput() const {return negInput_;}
-    int gain() const {return gain_;}
-    double highPassFilter() {return highPassFilter_;}
-    double lowPassFilter() {return lowPassFilter_;}
-    bool notchFilter() {return notchFilter_;}
 
 private:
     int number_;
-    QString label_;
     Clip clip_;
     QColor color_; 
     QBitArray displayPages_;
     bool alwaysSave_;
-    Type type_;
-    int posInput_;
-    int negInput_;
-    int gain_;
-    double highPassFilter_;
-    double lowPassFilter_;
-    bool notchFilter_;
 };
 
 class ColumnFormat {
@@ -191,31 +175,35 @@ class StudyConfiguration {
     Q_DECLARE_TR_FUNCTIONS(StudyConfiguration)
 
 public:
-    friend QDataStream& operator<<(QDataStream&, const StudyConfiguration&);
-    friend QDataStream& operator>>(QDataStream&, StudyConfiguration&);
-
-    friend StudyConfigList readStudyConfigurations();
-    friend void writeStudyConfigurations(StudyConfigList);
-
     enum {MagicNumber = 0x88827393};
 
     StudyConfiguration(const QString& name = tr("<default>"));
     StudyConfiguration(const StudyConfiguration&);
-    //~StudyConfiguration();
+    ~StudyConfiguration();
 
-    void load();
-    void save();
+    friend QDataStream& operator<<(QDataStream&, const StudyConfiguration&);
+    friend QDataStream& operator>>(QDataStream&, StudyConfiguration&);
+
+    StudyConfiguration& operator=(const StudyConfiguration&);
+
+    static const QString configFileName() {return configFileName_;}
+
+    Channel& channel(int n);
 
     void setName(const QString& name) {name_ = name;}
 
     QString name() const {return name_;}
+    Amplifier* amplifier() const {return amplifier_;}
 
 private:
+    void copyStudyConfiguration(const StudyConfiguration&);
+
     static const QString configFileName_;
 
     QString name_;
     QList<Protocol> protocolList_;
     QList<Channel> channelList_;
+    Amplifier* amplifier_;
 };
 
 StudyConfigList readStudyConfigurations();

@@ -62,7 +62,7 @@ public:
         // Tiling uses Prucka layout if set, otherwise tradition MDA tiling.
         // Ignored if EmulateWindowsManager set.
         EmulatePruckaTiling     = 0x000008,
-        DefaultScreenFlags      = EmulateWindowsManager
+        DefaultScreenFlags      = EmulateWindowsManager | EmulatePruckaTiling
     };
     Q_DECLARE_FLAGS(ScreenFlags, ScreenFlag)
     ScreenFlags screenFlags;

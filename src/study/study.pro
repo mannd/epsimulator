@@ -5,12 +5,15 @@ CONFIG += debug \
 CONFIG -= release
 
 INCLUDEPATH += ../core \
-../patient
+../patient \
+ ../hardware
 LIBS += -L../../lib \
 -lcore \
--lpatient
+-lpatient \
+ -lhardware
 TARGETDEPS += ../../lib/libcore.so \
-../../lib/libpatient.so
+../../lib/libpatient.so \
+ ../../lib/libhardware.so
 SOURCES += study.cpp \
  studyconfiguration.cpp
 

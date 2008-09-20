@@ -23,15 +23,35 @@
 #include "amplifier.h"
 
 #include <QFrame>
+#include <QGridLayout>
+#include <QPalette>
 
 namespace EpRecorder {
 
 using EpHardware::EpAmplifier::Channel;
 
 ChannelLabel::ChannelLabel(int number, QWidget* parent)
-    : QLabel(parent), channel_(number) {}
+    : QLabel(parent), channel_(number) {
+    setText(QString("%1 His P").arg(number));
+}
 
 SignalWidget::SignalWidget(QWidget* parent)
-    : QScrollArea(parent) {}
+    : QSplitter(parent) {
+    QPalette palette;
+    channelLabels_.append(new ChannelLabel(1, this));
+    channelLabelArea_ = new QFrame(this);
+    palette.setColor(QPalette::Window, Qt::darkBlue);
+    palette.setColor(QPalette::WindowText, Qt::white);
+    channelLabelArea_->setPalette(palette);
+    channelLabelArea_->setAutoFillBackground(true);
+    channelLabelArea_->setMaximumWidth(100);
+    QGridLayout* layout = new QGridLayout(channelLabelArea_);
+    layout->addWidget(channelLabels_[0]);
+    signalArea_ = new QFrame(this);
+    palette.setColor(QPalette::Window, Qt::black);
+    signalArea_->setPalette(palette);
+    signalArea_->setAutoFillBackground(true);
+    
+}
 
 }

@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
 #endif
 
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
-    Navigator* mainWin = new Navigator;
-    mainWin->show();
+    Navigator* navigator = new Navigator;
+    navigator->restore();
     return app.exec();
 }

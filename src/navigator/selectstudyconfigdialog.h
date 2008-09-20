@@ -36,7 +36,8 @@ public:
     SelectStudyConfigDialog(QWidget *parent = 0);
     ~SelectStudyConfigDialog();
 
-    EpStudy::StudyConfiguration config() const {return configList_[configListWidget->currentRow()];}
+    EpStudy::StudyConfiguration config() const {
+        return configList_[configListWidget->currentRow()];}
 
 private slots:
     void enableOkButton();

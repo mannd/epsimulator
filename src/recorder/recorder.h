@@ -25,8 +25,6 @@
 #include "options.h"
 #include "recorderdefs.h"
 
-//#include <QAction>
-//#include <QMainWindow>
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QMenu>
@@ -35,9 +33,7 @@ class QAction;
 class QCloseEvent;
 class QComboBox;
 class QDockWidget;
-class QMenu;
 class QSettings;
-class QSplitter;
 
 namespace EpCore {
     class User;
@@ -86,42 +82,48 @@ public:
         Study* study, OpticalDisk* currentDisk, User* user,
         bool allowAcquisition = true,
         RecorderWindow = Primary);
+    ~Recorder();
     
+    Amplifier* amplifier() const {return amplifier_;}
+
     void setupInitialScreen(bool tile = false);  // the default screen setup
     void updateAll();
 
-    ~Recorder();
-
 public slots:
-//    void manualSave();  // starts manual saving, depresses Save button
+    void changeOpticalDisk(OpticalDisk* disk) {currentDisk_ = disk;}
 
 protected:
+    // these are definitions of abstract virtual functions in AbstractMainWindow
+    virtual User* user() const {return user_;}
+    virtual OpticalDisk* currentDisk() const {return currentDisk_;}
+
     bool eventFilter(QObject*, QEvent*);
     void closeEvent(QCloseEvent*);
     //    void contextMenuEvent(QContextMenuEvent * event);
     void resizeEvent(QResizeEvent*);
 
-    virtual User* user() {return user_;}
-
 signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
     void autoSave(bool);    // emitted if AutoSave toolbar button changed
-    void simulatorSettingsChanged(); // emitted after simulator settings changed
+    void emergencySave(bool);   // emitted if Emergency Save key activated
     void patientInformationClosed();    // emitted when Patient Info Dialog closed
 
+    // these signals let Navigator and any other Recorder windows know
+    // that important settings have changed.
+    void simulatorSettingsChanged(); // emitted after simulator settings changed
+    void systemSettingsChanged();   // emitted after system settings changed
+
 private slots:
+    // these are redefinitions of abstract virtual functions in AbstractMainWindow
+    virtual void updateSimulatorSettings();
+    virtual void updateSystemSettings();
+
     void patientInformation();
-    //void autoSaveToggle(bool on);
-    void login();
-    void logout();
-    void changePassword();
-    void systemSettings();
-    void simulatorSettings();
     void openStimulator();
     void openSatMonitor();
     void setManualSave(bool);
+    void setEmergencySave(bool);
     void updateMenus();
-    void updateSimulatorSettings();
 
     void realTimeWindowOpen(bool);
     void review1WindowOpen(bool);
@@ -155,12 +157,12 @@ private:
     void createToolBars();
     void createStatusBar();
     void createPatientStatusBar();
+    void createAmplifier();
     void updateWindowTitle();
-    void readSettings();
+    virtual void readSettings();
     void readSettings(QSettings&);
     void writeSettings();
     void writeSettings(QSettings&);
-    bool administrationAllowed();
     bool closeStudy();
     
     bool subWindowIsOpen(QMdiSubWindow*);
@@ -214,6 +216,7 @@ private:
     QAction* switchAction_;
     QAction* saveAction_;
     QAction* saveAsAction_;
+    QAction* emergencySaveAction_;
     QAction* intervalsAction_;
     QAction* columnFormatsAction_;
     QAction* protocolsAction_;
@@ -255,24 +258,21 @@ private:
     QAction* cascadeAction_;
 
     // Administration Menu
-    QAction* loginAction_;
-    QAction* logoutAction_;
     QAction* changePasswordAction_;
-    QAction* systemSettingsAction_;
+    //QAction* systemSettingsAction_;
     QAction* printSetupAction_;
     QAction* adminReportsAction_;   // there is a Report action in the Study menu too
     QAction* compressionRatioAction_;
     QAction* amplifierTestAction_;
     QAction* ejectOpticalDiskAction_;
-    QAction* simulatorSettingsAction_;
+    //QAction* simulatorSettingsAction_;
 
     // Hardware Menu
     QAction* stimulatorAction_;
     QAction* satMonitorAction_;
     
     // Help Menu
-    QAction* helpAction_;
-    QAction* aboutAction_;
+    // Actions are in AbstractMainWindow
 
     // System Toolbar
     QAction* manualSaveAction_;

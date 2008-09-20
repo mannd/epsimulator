@@ -21,6 +21,7 @@
 #include "recorder.h"
 
 #include "actions.h"
+#include "amplifier.h"
 #include "logwindow.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -31,11 +32,9 @@
 #include "recorderdefs.h"
 #include "reviewwindow.h"
 #include "satmonitor.h"
-#include "simulatorsettingsdialog.h"
 #include "stimulator.h"
 #include "teststimulator.h"
 #include "study.h"
-#include "systemdialog.h"
 #include "user.h"
 
 #include <QAction>
@@ -49,7 +48,6 @@
 #include <QMenuBar>
 #include <QCloseEvent>
 #include <QSettings>
-#include <QSplitter>
 #include <QStatusBar>
 #include <QToolBar>
 #include <QVariant>
@@ -60,11 +58,10 @@
 
 using EpGui::AbstractMainWindow;
 using EpGui::PatientDialog;
-using EpGui::SimulatorSettingsDialog;
-using EpGui::SystemDialog;
 using EpRecorder::Recorder;
 
 using namespace EpHardware;
+using namespace EpHardware::EpAmplifier;
 using namespace EpHardware::EpOpticalDisk;
 using namespace EpHardware::EpStimulator;
 
@@ -83,7 +80,6 @@ Recorder::Recorder(QWidget* parent,
                    user_(user),
                    options_(Options::instance()),
                    currentDisk_(currentDisk),
-                   amplifier_(0),
                    allowAcquisition_(allowAcquisition),
                    recorderWindow_(recorderWindow),
                    realTimeWindow_(0),
@@ -102,7 +98,7 @@ Recorder::Recorder(QWidget* parent,
         Recorder* recorder = new Recorder(this, study_, 
             currentDisk_, user_, false, Secondary);
         // resize and position recorder
-        recorder->show();
+        recorder->restore();
     }
 
 
@@ -114,9 +110,14 @@ Recorder::Recorder(QWidget* parent,
     createPatientStatusBar();
     createStatusBar();
     createCentralWidget();
+    createAmplifier();
 
+    connect(parent, SIGNAL(opticalDiskChanged(OpticalDisk*)),
+        this, SLOT(changeOpticalDisk(OpticalDisk*)));
     connect(patientStatusBar_, SIGNAL(manualSave(bool)),
         this, SLOT(setManualSave(bool)));
+    connect(this, SIGNAL(emergencySave(bool)),
+        this, SLOT(setEmergencySave(bool)));
     connect(patientStatusBar_, SIGNAL(showPatientInformation()),
         this, SLOT(patientInformation()));
     connect(centralWidget_, SIGNAL(subWindowActivated(QMdiSubWindow*)),
@@ -124,7 +125,7 @@ Recorder::Recorder(QWidget* parent,
     connect(this, SIGNAL(patientInformationClosed()),
         patientStatusBar_, SLOT(patientInformationClosed()));
 
-    updateAll();    
+    updateAll();
     study_->loadStudyConfiguration();
 }
 
@@ -139,8 +140,8 @@ Recorder::~Recorder() {
     delete patient_;
     // Recorder took possession of study_, so has to kill it now.
     delete study_;
+    delete amplifier_;
 }
-
 
 /**
  * Defines area in central Widget that mouse can't drag.
@@ -202,7 +203,7 @@ bool Recorder::eventFilter(QObject* target, QEvent* event) {
 void Recorder::createCentralWidget() {
     centralWidget_ = new QMdiArea;
     setCentralWidget(centralWidget_);
-    readSettings();
+    //readSettings();
 }
 
 /// TODO Further complexities:
@@ -319,8 +320,13 @@ void Recorder::setManualSave(bool enable) {
     manualSaveAction_->setChecked(enable);
 }
 
+void Recorder::setEmergencySave(bool enable) {
+    // save emergency save buffer to disk
+    emit manualSave(enable);
+}
+
 void Recorder::updateWindowTitle() {
-    EpGui::updateWindowTitle(this, QString(), user_);
+    AbstractMainWindow::updateWindowTitle(QString());
 }
 
 void Recorder::updateAll() {
@@ -343,32 +349,9 @@ void Recorder::patientInformation() {
     emit patientInformationClosed();
 }
 
-void Recorder::systemSettings() {
-    if (administrationAllowed()) {
-        SystemDialog* systemDialog = new SystemDialog(options_, 
-            currentDisk_->studiesPath(), currentDisk_->label(),
-            currentDisk_->translatedSide(), this, false);
-        if (systemDialog->exec() == QDialog::Accepted)
-            systemDialog->setOptions();
-        delete systemDialog;
-    }
-}
-
-void Recorder::simulatorSettings() {
-    if (administrationAllowed()) {
-        SimulatorSettingsDialog* simDialog = 
-            new SimulatorSettingsDialog(options_, this);
-        //simDialog->removeNavigatorTab();
-        if (simDialog->exec() == QDialog::Accepted) {
-            simDialog->setOptions();
-            updateMenus();
-            updateSimulatorSettings();
-            setupInitialScreen(true);
-            // signal updates simulator settings in Navigator
-            emit simulatorSettingsChanged();
-        }
-        delete simDialog;
-    }
+void Recorder::updateSystemSettings() {
+    /// TODO change optical drive, whatever
+    emit systemSettingsChanged();   // let Navigator know
 }
 
 void Recorder::updateSimulatorSettings() {
@@ -382,6 +365,10 @@ void Recorder::updateSimulatorSettings() {
         dockWidget->setFeatures(QDockWidget::DockWidgetClosable
             | QDockWidget::DockWidgetMovable 
             | QDockWidget::DockWidgetFloatable);
+    updateMenus();
+    setupInitialScreen(true);
+    // signal update simulator settings in Navigator
+    emit simulatorSettingsChanged();
 }
 
 void Recorder::connectReviewWindows() {
@@ -550,28 +537,6 @@ void Recorder::readSettings(QSettings& settings) {
     restoreState(settings.value("state").toByteArray());
 }
 
-void Recorder::login() {
-    EpGui::login(this, user_);
-    updateAll();
-}
-
-void Recorder::logout() {
-    EpGui::logout(user_);
-    updateAll();
-}
-
-void Recorder::changePassword() {
-    if (administrationAllowed())
-        EpGui::changePassword(this);
-}
-
-bool Recorder::administrationAllowed() {
-    if (!options_->administratorAccountRequired)
-        return true;
-    login();
-    return user_->isAdministrator();
-}
-
 void Recorder::openStimulator() {
     Stimulator* stimulator = new TestStimulator(this);
     stimulator->show();
@@ -632,6 +597,18 @@ void Recorder::createPatientStatusBar() {
     patientStatusBar_->setPatientInfo(study_->name(), 
         study_->weight(), study_->bsa());
     patientStatusBar_->start();
+}
+
+void Recorder::createAmplifier() {
+    if (recorderWindow_ == Primary)
+        amplifier_ = new Amplifier(options_->numChannels);
+    else if (Recorder* recorder = qobject_cast<Recorder*>(parentWidget()))
+        amplifier_ = recorder->amplifier();
+    else {
+        amplifier_ = 0;
+        // throw something
+        qDebug() << "Couldn't create amplifier.";
+    }
 }
 
 void Recorder::createActions() {
@@ -782,14 +759,14 @@ void Recorder::createActions() {
         tr("Cascade windows"), SLOT(cascadeSubWindows()));
 
     // Administration menu
-    loginAction_= createAction(this, tr("Login..."),
-        tr("Login as administrator"), SLOT(login()));
-    logoutAction_= createAction(this, tr("Logout"),
-        tr("Logout from administrator"), SLOT(logout()));
+//     loginAction_= createAction(this, tr("Login..."),
+//         tr("Login as administrator"), SLOT(login()));
+//     logoutAction_= createAction(this, tr("Logout"),
+//         tr("Logout from administrator"), SLOT(logout()));
     changePasswordAction_= createAction(this, tr("Change Password..."),
         tr("Change administrator password"), SLOT(changePassword()));
-    systemSettingsAction_ = createAction(this, tr("System Settings"),
-        tr("Configure system settings"), SLOT(systemSettings()));
+//     systemSettingsAction_ = createAction(this, tr("System Settings"),
+//         tr("Configure system settings"), SLOT(systemSettings()));
     printSetupAction_ = createAction(this, tr("Print Setup"),
         tr("Setup printer"));
     adminReportsAction_ = createAction(this, tr("Reports"),
@@ -800,8 +777,8 @@ void Recorder::createActions() {
         tr("Test amplifier"));
     ejectOpticalDiskAction_ = createAction(this, tr("Eject Optical Disk"),
         tr("Eject optical disk"));
-    simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
-        tr("Change simulator settings"), SLOT(simulatorSettings()));
+//     simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
+//         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Hardware menu -- NB No equivalent in Prucka system
     stimulatorAction_ = createAction(this, tr("Stimulator"),
@@ -810,14 +787,12 @@ void Recorder::createActions() {
         tr("Open sat monitor"), SLOT(openSatMonitor()));
 
     // Help menu
-    helpAction_ = createAction(this, tr("EP Simulator Help"),
-        tr("EP Simulator help"), SLOT(help()), tr("F1"));
-    aboutAction_ = createAction(this, tr("&About EP Simulator"),
-        tr("About EP Simulator"), SLOT(about()));
+    // in AbstractMainWindow
+
     // only on system toolbar
     manualSaveAction_ = createAction(this, tr("Manual Save"),
         tr("Activate manual saving of data"),
-        SIGNAL(manualSave(bool)), tr("F10"), "hi32-savestudytype.png");
+        SIGNAL(manualSave(bool)), tr("F11"), "hi32-savestudytype.png");
     manualSaveAction_->setCheckable(true);
     //connect(manualSaveAction_, SIGNAL(triggered(bool)),
      //   this, SIGNAL(manualSave(bool)));
@@ -826,10 +801,15 @@ void Recorder::createActions() {
 //         this, SLOT(manualSaveToggle(checked)));
     autoSaveAction_ = createAction(this, tr("Auto Save"),
         tr("Toggle Auto Save"), SIGNAL(autoSave(bool)),
-         tr("Shift+F10"), "hi32-autosavetoggle.png");
+         tr("Shift+F11"), "hi32-autosavetoggle.png");
     autoSaveAction_->setCheckable(true);
     //connect(autoSaveAction_, SIGNAL(triggered(bool)),
     //    this, SIGNAL(autoSave(bool)));
+    emergencySaveAction_ = createAction(this, tr("Emergency Save"),
+        tr("Toggle emergency save"), SIGNAL(emergencySave(bool)),
+        tr("F12"));
+    emergencySaveAction_->setCheckable(true);   // makes this toggle
+    addAction(emergencySaveAction_); // added to Recorder, not on menu or toolbar
 }
 
 void Recorder::createMenus() {
@@ -905,12 +885,12 @@ void Recorder::createMenus() {
 
     administrationMenu_ = menuBar()->addMenu(tr("&Administration"));
     securitySubMenu_ = new QMenu(tr("Security"));
-    securitySubMenu_->addAction(loginAction_);
-    securitySubMenu_->addAction(logoutAction_);
+    securitySubMenu_->addAction(loginAction());
+    securitySubMenu_->addAction(logoutAction());
     securitySubMenu_->addAction(changePasswordAction_);
     administrationMenu_->addMenu(securitySubMenu_);
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(systemSettingsAction_);
+    administrationMenu_->addAction(systemSettingsAction());
     administrationMenu_->addAction(printSetupAction_);
     administrationMenu_->addAction(adminReportsAction_);
     administrationMenu_->addSeparator();
@@ -919,7 +899,7 @@ void Recorder::createMenus() {
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(ejectOpticalDiskAction_);
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(simulatorSettingsAction_);
+    administrationMenu_->addAction(simulatorSettingsAction());
 
     hardwareMenu_ = menuBar()->addMenu(tr("&Hardware"));
     hardwareMenu_->addAction(stimulatorAction_);
@@ -928,8 +908,8 @@ void Recorder::createMenus() {
     menuBar()->addSeparator();
 
     helpMenu_ = menuBar()->addMenu(tr("&Help"));
-    helpMenu_->addAction(helpAction_);
-    helpMenu_->addAction(aboutAction_);
+    helpMenu_->addAction(helpAction());
+    helpMenu_->addAction(aboutAction());
     
 }
 
@@ -960,8 +940,7 @@ void Recorder::createToolBars() {
 }
 
 void Recorder::updateMenus() {
-    simulatorSettingsAction_->setVisible(
-        EpGui::showSimulatorSettings(options_, user_));
+    simulatorSettingsAction()->setVisible(showSimulatorSettings());
     QList<QMdiSubWindow*> windowList = centralWidget_->subWindowList();
     bool realTimePresent = windowList.contains(realTimeSubWindow_);
     bool review1Present = windowList.contains(review1SubWindow_);

@@ -24,8 +24,6 @@
 #include "abstractmainwindow.h"
 #include "catalog.h"
 
-//#include <QMainWindow>
-
 class QAction;
 class QCloseEvent;
 class QMenu;
@@ -52,11 +50,8 @@ class TableListView;
 
 using EpCore::Options;
 using EpCore::User;
-
 using EpGui::AbstractMainWindow;
-
 using EpHardware::EpOpticalDisk::OpticalDisk;
-
 using EpStudy::Study;
 
 /**
@@ -71,11 +66,21 @@ public:
 
 public slots:
     void regenerateCatalogs();
-    void updateSimulatorSettings();
+
+    // these are redefinitions of abstract virtual functions in AbstractMainWindow
+    virtual void updateSimulatorSettings();
+    virtual void updateSystemSettings();
 
 protected:
     void closeEvent(QCloseEvent*);
-    virtual User* user() {return user_;}
+
+    // these are redefinitions of abstract virtual functions in AbstractMainWindow
+    virtual User* user() const {return user_;}
+    virtual OpticalDisk* currentDisk() const {return currentDisk_;}
+
+signals:
+    // let Recorder know the disk is changed and what the new disk is
+    void opticalDiskChanged(OpticalDisk*);
 
 private slots:
     void newStudy();
@@ -93,15 +98,10 @@ private slots:
     void ejectDisk();
     void relabelDisk();
     void exportCatalog();
-    void login();
-    void logout();
-    void changePassword();
     void setIntervals();
     void setColumnFormats();
     void setProtocols();
     void setStudyConfigurations();
-    void systemSettings();
-    void simulatorSettings();    
 
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
@@ -118,7 +118,9 @@ private:
     Navigator& operator=(const Navigator&);
 
     // Functions to set up the Navigator main window.
+    void initializeOpticalDisk();
     void createOpticalDrive();
+    void createCatalogs();
     void createCentralWidget();
     void createButtonFrame();
     void createTableListView();
@@ -127,7 +129,7 @@ private:
     void createMenus();
     void createToolBars();
     void writeSettings();
-    void readSettings();
+    virtual void readSettings();
     void updateMenus();
     void updateStatusBarUserLabel();
     void updateWindowTitle();
@@ -156,9 +158,6 @@ private:
     void doStudyCopy(MoveCopyStudyDialog&, bool move);
     bool studyOnDisk(const Study*) const; // make sure study on current disk
     void studyNotOnDiskError();  // report study not on current disk
-
-    // Administration related
-    bool administrationAllowed();
 
     // misc
     void noStudySelectedError();
@@ -208,21 +207,14 @@ private:
     QAction* ejectOpticalDiskAction_;
 
     // Administration menu
-    QAction* loginAction_;
-    QAction* logoutAction_;
     QAction* changePasswordAction_;
     QAction* intervalsAction_;
     QAction* columnFormatsAction_;
     QAction* protocolsAction_;
     QAction* studyConfigurationsAction_;
-    QAction* systemSettingsAction_;
-    // Not part of the Prucka menu system!
-    // Simulator options are set here.
-    QAction* simulatorSettingsAction_;
 
     // Help menu
-    QAction* epsimulatorHelpAction_;
-    QAction* aboutAction_;
+    // Actions returned by AbstractMainWindow
 
     // menus
     QMenu* studyMenu_;

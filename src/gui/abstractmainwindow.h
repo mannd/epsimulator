@@ -17,43 +17,85 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef ABSTRACTMAINWINDOW_H
 #define ABSTRACTMAINWINDOW_H
 
 #include <QMainWindow>
 
+class QAction;
+
 namespace EpCore {
+    class Options;
     class User;
     class VersionInfo;
 }
 
+namespace EpHardware { namespace EpOpticalDisk { class OpticalDisk; }}
+
+using EpCore::Options;
 using EpCore::User;
 using EpCore::VersionInfo;
 
+using EpHardware::EpOpticalDisk::OpticalDisk;
+
 namespace EpGui {
 
-/**
-Contains methods and actions common to both the Navigator and Recorder windows.
-
-	@author David Mann <mannd@epstudiossoftware.com>
-*/
+/** Contains methods and actions common to both the 
+ *  Navigator and Recorder windows.
+ *  @author David Mann <mannd@epstudiossoftware.com>
+ */
 class AbstractMainWindow : public QMainWindow {
     Q_OBJECT
 public:
     AbstractMainWindow(QWidget *parent = 0);
-
     ~AbstractMainWindow();
 
+    void restore();
+
+public slots:
+    virtual void updateAll() = 0;
+
 protected:
-    virtual User* user() = 0;
+    virtual User* user() const = 0;
+    virtual OpticalDisk* currentDisk() const = 0;
+    virtual void updateSimulatorSettings() = 0;
+    virtual void updateSystemSettings() = 0;
+
+    virtual void readSettings() = 0;
+
     void filler();
+    bool showSimulatorSettings();
+    void updateWindowTitle(const QString& title);
+    bool administrationAllowed();
+
+    QAction* loginAction() {return loginAction_;}
+    QAction* logoutAction() {return logoutAction_;}
+    QAction* helpAction() {return helpAction_;}
+    QAction* aboutAction() {return aboutAction_;}
+    QAction* simulatorSettingsAction() {return simulatorSettingsAction_;}
+    QAction* systemSettingsAction() {return systemSettingsAction_;}
 
 protected slots:
     void about();
     void help();
+    void login();
+    void logout();
+    void changePassword();
+    void simulatorSettings();
+    void systemSettings();
 
 private:
+    void createActions();
+
     const VersionInfo* versionInfo_;
+    Options* options_;
+    QAction* loginAction_;
+    QAction* logoutAction_;
+    QAction* helpAction_;
+    QAction* aboutAction_;
+    QAction* simulatorSettingsAction_;
+    QAction* systemSettingsAction_;
 };
 
 }

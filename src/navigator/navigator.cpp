@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by David Mann   *
- *   mannd@epstudiossoftware.com   *
+ *   Copyright (C) 2006 by David Mann                                      *
+ *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -38,11 +38,9 @@
 #include "patientdialog.h"
 #include "recorder.h"
 #include "selectstudyconfigdialog.h"
-#include "simulatorsettingsdialog.h"
 #include "statusbar.h"
 #include "study.h"
 #include "studyconfiguration.h"
-#include "systemdialog.h"
 #include "tablelistview.h"
 #include "user.h"
 #include "versioninfo.h"
@@ -67,8 +65,6 @@
 
 //using EpGui::AbstractMainWindow;
 using EpGui::PatientDialog;
-using EpGui::SimulatorSettingsDialog;
-using EpGui::SystemDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 using EpNavigator::Navigator;
@@ -76,22 +72,18 @@ using EpNavigator::StatusBar;
 
 using namespace EpHardware::EpOpticalDisk;
 
-/**
- * Navigator constructor
- */
+// note that user_ is not a Singleton, but the single instance is owned
+// by Navigator, passed to Recorder.
 Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent), 
                                         options_(Options::instance()),
                                         filterCatalogDialog_(0),
                                         currentDisk_(0),
                                         user_(User::instance()) {
     setAttribute(Qt::WA_DeleteOnClose);
+
     createDefaultDataDir();
-    // if optical drive path not set up right, the loop below will
-    // keep trying until it works or the user quits.
-    do {
-        createOpticalDrive();
-    } while (!currentDisk_);
-    catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
+    createOpticalDrive();
+    createCatalogs();    
     createActions();
     createMenus();
     createToolBars();
@@ -107,7 +99,15 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent),
         this, SLOT(changeCatalog()));
 
     updateWindowTitle();
-    readSettings();
+    //readSettings();
+}
+
+Navigator::~Navigator() {
+    delete catalogs_;
+    delete currentDisk_;
+    delete user_;
+    options_->destroy();
+    EpCore::VersionInfo::destroy();
 }
 
 // protected
@@ -411,7 +411,7 @@ void Navigator::ejectDisk() {
     if (!currentDisk_->isLabeled())
         labelDisk(false, currentDisk_);
     delete catalogs_;
-    catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
+    createCatalogs();
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
@@ -498,7 +498,7 @@ void Navigator::relabelDisk() {
 }
 
 void Navigator::updateWindowTitle() {
-    EpGui::updateWindowTitle(this, tr("Navigator"), user_);
+    AbstractMainWindow::updateWindowTitle(tr("Navigator"));
 }
 
 void Navigator::updateStatusBarUserLabel() {
@@ -510,33 +510,6 @@ void Navigator::updateAll() {
     updateStatusBarUserLabel();
     updateWindowTitle();
     updateMenus();
-}
-
-void Navigator::login() {
-    if (EpGui::login(this, user_))
-         updateAll();
-}
-
-void Navigator::logout() {
-    EpGui::logout(user_);
-    updateAll();
-}
-
-
-/// FIXME think this out better: where should PasswordHandler live??
-void Navigator::changePassword() {
-    if (administrationAllowed())
-        EpGui::changePassword(this);
-}
-
-/// Checks to see if administrator access if required, if it is,
-/// and not logged in as administrator, will do a login, then
-/// will allow adminstration if user successfully logged in.
-bool Navigator::administrationAllowed() {
-    if (!options_->administratorAccountRequired)
-        return true;
-    login();
-    return user_->isAdministrator();
 }
 
 void Navigator::noStudySelectedError() {
@@ -620,13 +593,11 @@ void Navigator::updateSimulatorSettings(){
         writeSettings();    // preserve window status
         setUpdatesEnabled(false);
         // change type of optical disk if needed
-        do {
-            createOpticalDrive();
-        } while (!currentDisk_);
+        createOpticalDrive();
         delete centralWidget_;
         createCentralWidget();
         delete catalogs_;
-        catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
+        createCatalogs();
         tableListView_->setOldStyle(options_->oldStyleNavigator);
         tableListView_->adjustColumns(true);
         refreshCatalogs();   // This repopulates the TableListView.
@@ -645,48 +616,22 @@ void Navigator::updateSimulatorSettings(){
     }
 }
 
-void Navigator::simulatorSettings() {
-    if (administrationAllowed()) {
-        SimulatorSettingsDialog* simDialog = 
-            new SimulatorSettingsDialog(options_, this);
-        if (simDialog->exec() == QDialog::Accepted) {
-            simDialog->setOptions();
-            updateSimulatorSettings();
-        }
-        delete simDialog;
-    }
-}
-
-void Navigator::systemSettings() {
-    if (administrationAllowed()) {
-        /// FIXME Need disk space-time function.
-        SystemDialog* systemDialog = new SystemDialog(options_, 
-            currentDisk_->studiesPath(), currentDisk_->label(),
-            currentDisk_->translatedSide(), this);
-        if (systemDialog->exec() == QDialog::Accepted) {
-            systemDialog->setOptions();
-            // menu is changed
-            networkSwitchAction_->setEnabled(options_
-                ->filePathFlags.testFlag(Options::EnableNetworkStorage));
-            // optical disk, status bar and catalog might be changed 
-            do {
-                createOpticalDrive();
-            } while (!currentDisk_);
-            delete catalogs_;
-            /// TODO change current disk here
-            catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
-            refreshCatalogs();
-            statusBar_->updateSourceLabel(catalogs_
-                ->currentCatalog()->path());
-        }
-        delete systemDialog;
-    }
+void Navigator::updateSystemSettings() {
+    networkSwitchAction_->setEnabled(options_
+        ->filePathFlags.testFlag(Options::EnableNetworkStorage));
+    // optical disk, status bar and catalog might be changed 
+    createOpticalDrive();
+    delete catalogs_;
+    createCatalogs();
+    refreshCatalogs();
+    statusBar_->updateSourceLabel(catalogs_
+        ->currentCatalog()->path());
 }
 
 // private
 
-void Navigator::createOpticalDrive() {
-    try {
+void Navigator::initializeOpticalDisk() {
+   try {
         delete currentDisk_;
         currentDisk_ = 0;
         if (options_->opticalDiskFlags.testFlag(Options::Emulation)) {
@@ -730,6 +675,18 @@ void Navigator::createOpticalDrive() {
     }
 }
 
+void Navigator::createOpticalDrive() {
+    do {
+        initializeOpticalDisk();
+    } while (!currentDisk_);
+    // let Recorder (if it is there) know what the new disk is
+    emit opticalDiskChanged(currentDisk_);
+}
+
+void Navigator::createCatalogs() {
+    catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
+}
+ 
 void Navigator::createCentralWidget() {
     centralWidget_ = new QSplitter(Qt::Horizontal, this);
     setCentralWidget(centralWidget_);
@@ -781,8 +738,7 @@ void Navigator::createStatusBar() {
 }
 
 void Navigator::updateMenus() {
-    simulatorSettingsAction_->setVisible(
-        EpGui::showSimulatorSettings(options_, user_));
+    simulatorSettingsAction()->setVisible(showSimulatorSettings());
 }
 
 void Navigator::createActions() {
@@ -861,10 +817,10 @@ void Navigator::createActions() {
         tr("Eject optical disk"), SLOT(ejectDisk()));
 
     // Administration menu
-    loginAction_= createAction(this, tr("Login..."),
-        tr("Login as administrator"), SLOT(login()));
-    logoutAction_= createAction(this, tr("Logout"),
-        tr("Logout from administrator"), SLOT(logout()));
+//     loginAction_= createAction(this, tr("Login..."),
+//         tr("Login as administrator"), SLOT(login()));
+//     logoutAction_= createAction(this, tr("Logout"),
+//         tr("Logout from administrator"), SLOT(logout()));
     changePasswordAction_= createAction(this, tr("Change Password..."),
         tr("Change administrator password"), SLOT(changePassword()));
     intervalsAction_= createAction(this, tr("Intervals"),
@@ -875,17 +831,17 @@ void Navigator::createActions() {
         tr("Protocols"), SLOT(setProtocols()));
     studyConfigurationsAction_= createAction(this, tr("Study Configurations"),
         tr("Study configurations"), SLOT(setStudyConfigurations()));
-    systemSettingsAction_= createAction(this, tr("System Settings"),
-        tr("Change system settings"), SLOT(systemSettings()));
-    simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
-        tr("Change simulator settings"), SLOT(simulatorSettings()));
+//     systemSettingsAction_= createAction(this, tr("System Settings"),
+//         tr("Change system settings"), SLOT(systemSettings()));
+//     simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
+//         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Help menu
-    epsimulatorHelpAction_ = createAction(this, tr("EP Simulator Help..."),
-        tr("Get help for EP Simulator"), SLOT(help()), 
-        QKeySequence::HelpContents);
-    aboutAction_= createAction(this, tr("&About EP Simulator"),
-        tr("About EP Simulator"), SLOT(about()));
+//     epsimulatorHelpAction_ = createAction(this, tr("EP Simulator Help..."),
+//         tr("Get help for EP Simulator"), SLOT(help()), 
+//         QKeySequence::HelpContents);
+//     aboutAction_= createAction(this, tr("&About EP Simulator"),
+//         tr("About EP Simulator"), SLOT(about()));
 }
 
 void Navigator::createToolBars() {
@@ -945,8 +901,8 @@ void Navigator::createMenus() {
 
     administrationMenu_ = menuBar()->addMenu(tr("&Administration"));
     securitySubMenu_ = new QMenu(tr("Security"));
-    securitySubMenu_->addAction(loginAction_);
-    securitySubMenu_->addAction(logoutAction_);
+    securitySubMenu_->addAction(loginAction());
+    securitySubMenu_->addAction(logoutAction());
     securitySubMenu_->addAction(changePasswordAction_);
     administrationMenu_->addMenu(securitySubMenu_);
     //insert Lists submenu here
@@ -956,15 +912,15 @@ void Navigator::createMenus() {
     administrationMenu_->addAction(protocolsAction_);
     administrationMenu_->addAction(studyConfigurationsAction_);
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(systemSettingsAction_);
-    administrationMenu_->addAction(simulatorSettingsAction_);
+    administrationMenu_->addAction(systemSettingsAction());
+    administrationMenu_->addAction(simulatorSettingsAction());
     // insert reports submenu here
 
     menuBar()->addSeparator();
 
     helpMenu_ = menuBar()->addMenu(tr("&Help"));
-    helpMenu_->addAction(epsimulatorHelpAction_);
-    helpMenu_->addAction(aboutAction_);
+    helpMenu_->addAction(helpAction());
+    helpMenu_->addAction(aboutAction());
 
     updateMenus();
 }
@@ -1078,10 +1034,12 @@ void Navigator::startStudy(Study* study, bool review) {
         filePathFlags.testFlag(Options::EnableAcquisition) && !review;
     Recorder* recorder = new Recorder(this, study, currentDisk_, user_, 
         allowAcquisition);
-    recorder->show();
+    recorder->restore();
     recorder->setupInitialScreen();
     connect(recorder, SIGNAL(simulatorSettingsChanged()),
             this, SLOT(updateSimulatorSettings()));
+    connect(recorder, SIGNAL(systemSettingsChanged()),
+            this, SLOT(updateSystemSettings()));
     connect(recorder, SIGNAL(destroyed()), 
             this, SLOT(updateAll()));
     hide();
@@ -1154,10 +1112,3 @@ void Navigator::studyNotOnDiskError() {
     ejectDisk();
 }
 
-Navigator::~Navigator() {
-    delete catalogs_;
-    delete currentDisk_;
-    delete user_;
-    options_->destroy();
-    EpCore::VersionInfo::destroy();
-}

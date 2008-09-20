@@ -736,3 +736,10 @@ Propagating simulator options
     Options are applied when Navigator and Recorder are constructed, also when options are changed via the SimulatorSettingsDialog.  There can be a SLOT in both Navigator and Recorder: void updateSimulatorSettings().  This can be connected to an updateSimulatorSettings() signal.  The slot can be called directly in the the constructor of Navigator and Recorder, possible other modules.  The slot is different in the different modules, depending on what is affected by changing the settings.  The Recorder window is not present when Navigator is open, so only Recorder needs to send the change signal.  If 2 Recorder windows are open, then the signal can be sent from one to the other, to update the settings.
 
   
+AbstactMainWindow
+
+	Common commands used to be raw functions in the actions.h file (EpGui
+	namespace).  I have created a base class to both Navigator and
+	Recorder that contain the functions common to both.  I use some
+	abstract virtual functions to form fillers for functions that are
+	redefined in the two concrete classes.

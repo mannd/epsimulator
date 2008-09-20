@@ -17,9 +17,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "abstractmainwindow.h"
 
 #include "actions.h"
+#include "changepassworddialog.h"
+#include "opticaldisk.h"
+#include "options.h"
+#include "passworddialog.h"
+#include "simulatorsettingsdialog.h"
+#include "systemdialog.h"
 #include "user.h"
 #include "versioninfo.h"
 
@@ -28,11 +35,37 @@
 namespace EpGui {
 
 using EpCore::VersionInfo;
+using EpHardware::EpOpticalDisk::OpticalDisk;
 
 AbstractMainWindow::AbstractMainWindow(QWidget *parent)
- : QMainWindow(parent), versionInfo_(VersionInfo::instance()) {}
+    : QMainWindow(parent), versionInfo_(VersionInfo::instance()),
+      options_(Options::instance()) {
+    createActions();
+}
 
 AbstractMainWindow::~AbstractMainWindow() {}
+
+void AbstractMainWindow::simulatorSettings() {
+    if (administrationAllowed()) {
+        SimulatorSettingsDialog simDialog(options_, this);
+        if (simDialog.exec() == QDialog::Accepted) {
+            simDialog.setOptions();
+            updateSimulatorSettings();
+        }
+    }
+}
+
+void AbstractMainWindow::systemSettings() {
+    if (administrationAllowed()) {
+        SystemDialog systemDialog(options_, 
+            currentDisk()->studiesPath(), currentDisk()->label(),
+            currentDisk()->translatedSide(), this);
+        if (systemDialog.exec() == QDialog::Accepted) {
+            systemDialog.setOptions();
+            updateSystemSettings();
+        }
+    }
+}
 
 void AbstractMainWindow::help() {
     QMessageBox::information(this, 
@@ -59,12 +92,79 @@ void AbstractMainWindow::about() {
                        .arg(versionInfo_->copyrightYear()));
 }
 
+void AbstractMainWindow::login() {
+    if (!user()->isAdministrator()) {
+        PasswordDialog pwDialog(this);
+        if (pwDialog.exec() == QDialog::Accepted) {
+            user()->makeAdministrator(true);
+            updateAll();
+        }
+    }
+}
+
+void AbstractMainWindow::logout() {
+    user()->makeAdministrator(false);
+    updateAll();
+}
+
+void AbstractMainWindow::changePassword() {
+    if (administrationAllowed()) {
+        ChangePasswordDialog cpDialog(this);
+        if (cpDialog.exec() == QDialog::Accepted) 
+            cpDialog.changePassword();
+    }
+}
+
+/// Checks to see if administrator access if required, if it is,
+/// and not logged in as administrator, will do a login, then
+/// will allow adminstration if user successfully logged in.
+bool AbstractMainWindow::administrationAllowed() {
+    if (!options_->administratorAccountRequired)
+        return true;
+    login();
+    return user()->isAdministrator();
+}
+
+/// Shows the *Simulator Settings* menu item.
+bool AbstractMainWindow::showSimulatorSettings() {
+    return !options_->hideSimulatorMenu || user()->isAdministrator();
+}
+
+void AbstractMainWindow::updateWindowTitle(const QString& title) {
+    QString windowTitle = title.isEmpty() ? VersionInfo::instance()->programName() :
+        QString("%1 %2").arg(VersionInfo::instance()->programName()).arg(title);
+    windowTitle = user()->isAdministrator() ? 
+        QString("%1 %2").arg(windowTitle).arg(QObject::tr("[Administrator]")) : windowTitle;
+    setWindowTitle(windowTitle);
+}
+
+void AbstractMainWindow::restore() {
+    readSettings();
+    show();
+}
+
 /// This is not for final production, just during development.
 void AbstractMainWindow::filler() {
     QMessageBox::information(this, 
                              QObject::tr("FYI"),
                              QObject::tr("This function is not " 
                              "implemented yet."));
+}
+
+void AbstractMainWindow::createActions() {
+    loginAction_ = createAction(this, tr("Login..."),
+        tr("Login as administrator"), SLOT(login()));
+    logoutAction_ = createAction(this, tr("Logout"),
+        tr("Logout from administrator"), SLOT(logout()));
+    aboutAction_ = createAction(this, tr("&About EP Simulator"),
+        tr("About EP Simulator"), SLOT(about()));
+    helpAction_ = createAction(this, tr("EP Simulator Help..."),
+        tr("Get help for EP Simulator"), SLOT(help()), 
+        QKeySequence::HelpContents);
+    systemSettingsAction_ = createAction(this, tr("System Settings"),
+        tr("Change system settings"), SLOT(systemSettings()));
+    simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"), 
+        tr("Change simulator settings"), SLOT(simulatorSettings()));
 }
 
 }

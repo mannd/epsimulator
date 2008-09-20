@@ -144,7 +144,7 @@
     </run>
     <make>
       <abortonerror>true</abortonerror>
-      <runmultiplejobs>false</runmultiplejobs>
+      <runmultiplejobs>true</runmultiplejobs>
       <numberofjobs>5</numberofjobs>
       <dontact>false</dontact>
       <makebin/>

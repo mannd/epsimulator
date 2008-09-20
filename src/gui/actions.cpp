@@ -20,16 +20,11 @@
 
 #include "actions.h"
 
-#include "changepassworddialog.h"
 #include "options.h"
-#include "passworddialog.h"
-#include "passwordhandler.h"
-#include "user.h"
-#include "versioninfo.h"
 
 #include <QAction>
-#include <QDir>
 #include <QFileDialog>
+#include <QLineEdit>
 #include <QObject>
 
 /**
@@ -38,44 +33,6 @@
 namespace EpGui {
 
 using EpCore::Options;
-using EpCore::PasswordHandler;
-using EpCore::User;
-using EpCore::VersionInfo;
-
-void updateWindowTitle(QWidget* window, const QString& title, const User* user) {
-    QString windowTitle = title.isEmpty() ? VersionInfo::instance()->programName() :
-        QString("%1 %2").arg(VersionInfo::instance()->programName()).arg(title);
-    windowTitle = user->isAdministrator() ? 
-        QString("%1 %2").arg(windowTitle).arg(QObject::tr("[Administrator]")) : windowTitle;
-    window->setWindowTitle(windowTitle);
-}
-
-
-bool login(QWidget* parent, User* user) {
-    bool success = false;
-    if (!user->isAdministrator()) {
-        PasswordDialog pwDialog(parent);
-        if (pwDialog.exec() == QDialog::Accepted) {
-            user->makeAdministrator(true);
-            success = true;
-        }
-    }
-    return success;
-}
-
-void logout(User* user) {
-    user->makeAdministrator(false);
-}
-
-void changePassword(QWidget* parent) {
-    ChangePasswordDialog cpDialog(parent);
-    if (cpDialog.exec() == QDialog::Accepted) 
-        cpDialog.changePassword();
-}
-
-bool showSimulatorSettings(Options* options, User* user) {
-    return !options->hideSimulatorMenu || user->isAdministrator();
-}
 
 /**
  * Opens a file dialog and provides a file for the lineEdit.

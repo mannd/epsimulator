@@ -29,25 +29,7 @@ class QAction;
 class QLineEdit;
 class QWidget;
 
-namespace EpCore {
-    class Options;
-    class PasswordHandler;
-    class User;
-    class VersionInfo;
-}
-
 namespace EpGui {
-
-using EpCore::Options;
-using EpCore::PasswordHandler;
-using EpCore::User;
-using EpCore::VersionInfo;
-
-void updateWindowTitle(QWidget* window, const QString& title, const User* user);
-bool login(QWidget*, User*);
-void logout(User*);
-void changePassword(QWidget*);
-bool showSimulatorSettings(Options*, User*);
 
 // Gives "not implemented yet" error message.
 void filler(QWidget*);
