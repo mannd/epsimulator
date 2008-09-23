@@ -1,9 +1,9 @@
 Developer notes
 
-Problem with ui.h file.  Adding code to Form::Init() did nothing.  I had to add
-a new slot to the form called init(), and this was added to the end of the
-constructor of the Form in the generated Form.cpp file.  I still needed to have
-the Form::Init() function in the ui.h file.
+Problem with ui.h file.  Adding code to Form::Init() did nothing.  I had to
+add a new slot to the form called init(), and this was added to the end of the
+constructor of the Form in the generated Form.cpp file.  I still needed to
+have the Form::Init() function in the ui.h file.
 
 Ok, in KDevelop, add a public slot called init().  When asked for
 implementation class for the dialog, hit cancel.  This will create the
@@ -12,39 +12,29 @@ Form.ui.h file.  Everything seems to work ok now.
 Source code formatting
 
 Will stick to Bruce Eckel convention of starting brace always at end of line.
-indent with spaces 4 spaces.
-Header files go from most specific to general as in Eckel.
-Will use the get and set convention for member functions.
-     Note it is possible to avoid get, for example:
+indent with spaces 4 spaces.  Header files go from most specific to general as
+in Eckel.  Will use the get and set convention for member functions.  Note it
+is possible to avoid get, for example:
 
-Class Fruit {
-      public:
-            Fruit(string banana);
-	    void setBanana(string banana);
-	    string banana();
-      private:
-	    string banana_;
-}
+Class Fruit { public: Fruit(string banana); void setBanana(string banana);
+      string banana(); private: string banana_; }
 
 Actually I have now changed to the above style.
 
-private variables will end in underscore.
-//enums, consts and defines will be all caps.
-enums, consts and typedefs will be UpperCamelCase
-defines will be all caps with underscores
+private variables will end in underscore.  //enums, consts and defines will be
+all caps.  enums, consts and typedefs will be UpperCamelCase defines will be
+all caps with underscores
 
 
-Unit Testing
-For now will use cxxtest.  Run ./maketests from epsimulator/src to generate the
-runner program.  Edit maketests to add dependencies, and MyTestSuite.h contains
-the tests.  The tests HAVE to be in the src directory to compile, and so tests
-are not a subproject.  Need to make the test suite into a make file, using a
-different makefile name than Makefile, e.g. maketests and invoke as make
--fmaketests, e.g.  Could make a link to this named maketests to keep everything
-the same.
+Unit Testing For now will use cxxtest.  Run ./maketests from epsimulator/src
+to generate the runner program.  Edit maketests to add dependencies, and
+MyTestSuite.h contains the tests.  The tests HAVE to be in the src directory
+to compile, and so tests are not a subproject.  Need to make the test suite
+into a make file, using a different makefile name than Makefile,
+e.g. maketests and invoke as make -fmaketests, e.g.  Could make a link to this
+named maketests to keep everything the same.
 
-Unique identifier for each study
-A key for each study can be constructed by
+Unique identifier for each study A key for each study can be constructed by
 lastName+"_"+firstName+"_"+date/time.  Use this for the file name of the data
 files and use this to locate the study data in the studieslist (? Make this a
 map between the key and the data?)
@@ -53,8 +43,8 @@ Use QString QDateTime::toString(const QString& format) const to generate the
 date time of the study.  This format string should work:
 
 
-dd.MM.yyyy.hh.mm.ss // This has been changed to ddMMyyyyhhmmss, without the dots
-in between.
+dd.MM.yyyy.hh.mm.ss // This has been changed to ddMMyyyyhhmmss, without the
+dots in between.
 
 ? add millisecs: zzz
 
@@ -70,95 +60,90 @@ map key.
 
 FIX FOR CXXTEST PROBLEM
 
-Merely including ALL the *.o files needed all Qt-specific tests to compile. 
+Merely including ALL the *.o files needed all Qt-specific tests to compile.
 That is, to test PatientDialog, must include in linked files patientdialog.o,
 moc_patientdialog.o, patientdialogbase.o and moc_patientdialog.o.  (Actually
-maybe the non-moc ones are needed -- will test: no all the above mentioned files
-are needed.)
+maybe the non-moc ones are needed -- will test: no all the above mentioned
+files are needed.)
 
-MORE FORMATTING WOES
-    Objects in .ui files are actually public data members; therefore should not
-end in _.  Menu items, etc. are private and should end in _.
+MORE FORMATTING WOES Objects in .ui files are actually public data members;
+    therefore should not end in _.  Menu items, etc. are private and should
+    end in _.
 
-How the Catalog Works
-    There is only one catalog.  This resides in the program subdirectory system:
- i.e.  epsimulator/system.  This catalog contains all study info.  Studies can
-be in the following places:
-        Local       This is by default the epsimulator/studies directory, but
-can be changed in the systemdialog.
-        Optical     This is by default whereever the optical drive is.  We need
-some sophisticated programming to get this right on program installation.
-                        Will set it to /dev/cdrom for now.  Obviously not right
-for Windows.
-        Other       This will by default equal the Local directory, but can be
-changed to another directory with a file dialog.
-        Network     This is a network directory.  This will be by default be
-blank.  Any blank directory will get an error message that the directory needs
-to be setup.
+How the Catalog Works There is only one catalog.  This resides in the program
+    subdirectory system: i.e.  epsimulator/system.  This catalog contains all
+    study info.  Studies can be in the following places: Local This is by
+    default the epsimulator/studies directory, but can be changed in the
+    systemdialog.  Optical This is by default whereever the optical drive is.
+    We need some sophisticated programming to get this right on program
+    installation.  Will set it to /dev/cdrom for now.  Obviously not right for
+    Windows.  Other This will by default equal the Local directory, but can be
+    changed to another directory with a file dialog.  Network This is a
+    network directory.  This will be by default be blank.  Any blank directory
+    will get an error message that the directory needs to be setup.
 
     When the catalogComboBox is set to System, all known studies will be
 displayed.  When set to any of the others, only the studies in that particular
-directory will be displayed.  When Other is selected, a file dialog will always
-come up, set to the last Other location, to allow changing on the fly.  Again,
-an empty path will display and error message, except with Other, when a file
-dialog will come up.  Other than Other, the paths need to be set with the
-systemdialog, and this can be an administrator function, password protected. 
-Also consider disabling the Other option via the systemdialog.  
+directory will be displayed.  When Other is selected, a file dialog will
+always come up, set to the last Other location, to allow changing on the fly.
+Again, an empty path will display and error message, except with Other, when a
+file dialog will come up.  Other than Other, the paths need to be set with the
+systemdialog, and this can be an administrator function, password protected.
+Also consider disabling the Other option via the systemdialog.
 
     The StatusBar will display the current source: epsimulator/system for
-System, local path for others, consider (Optical) for Optical.    Refresh
+System, local path for others, consider (Optical) for Optical.  Refresh
 rereads the studies.eps file.  Regenerate needs to go through each path, make
-sure each study in each path has a catalog entry, and generate one if not.  The
-TableList is filtered based on the catalogComboBox.  Any filter on top of that
-is done separately.  Refresh can be done on a filtered list (by rereading the
-catalog and reapplying the filter).  Regenerate needs an unfiltered list.  Note
-that Regenerate when applied to anything other than System will just look at
-that pwhere to put data files qt applicationarticular path (E.g. the Local
+sure each study in each path has a catalog entry, and generate one if not.
+The TableList is filtered based on the catalogComboBox.  Any filter on top of
+that is done separately.  Refresh can be done on a filtered list (by rereading
+the catalog and reapplying the filter).  Regenerate needs an unfiltered list.
+Note that Regenerate when applied to anything other than System will just look
+at that pwhere to put data files qt applicationarticular path (E.g. the Local
 path).
 
-Some problems:
-    There is no easy way to find the application directory in Linux.  Data files
-should go to standard Linux File System locations.  These might depend on where
-the application is installed (to /usr/local/bin or to ~/bin???).  If the system
-and data directories don't exist they must be created initially.  This is not
-hard to do, but does need to be done.  Qt doesn't use the ./configure
---path=whatever so no easy way to determine where the app was installed. 
-Hmmm.........
-    For now we will be lazy and put the studies.eps catalog in the home
-directory, and the actual studies in ~/MyStudies.
+Some problems: There is no easy way to find the application directory in
+    Linux.  Data files should go to standard Linux File System locations.
+    These might depend on where the application is installed (to
+    /usr/local/bin or to ~/bin???).  If the system and data directories don't
+    exist they must be created initially.  This is not hard to do, but does
+    need to be done.  Qt doesn't use the ./configure --path=whatever so no
+    easy way to determine where the app was installed.  Hmmm.........  For now
+    we will be lazy and put the studies.eps catalog in the home directory, and
+    the actual studies in ~/MyStudies.
 
-More on Catalog
-    Studies should either be in the MyStudies directory, or can be moved to
-other directories.  studies.eps keeps track of all study locations.  Studies
-generated from another system really should be imported into the studies.eps
-catalog.  E.g. You have a study someone else made on a CD.  You want to review
-it.  Import it in: it's location appears as the path of the CD-rom.  You can now
-review the study.  If the CD is removed and the file can't be found, the program
-prompts for inserting the correct CD.  So there should be a System and a Local
-selection in catalogComboBox.  System shows all, and Local shows only studies on
-MyStudies (which should be most of them anyway).  
+More on Catalog Studies should either be in the MyStudies directory, or can be
+    moved to other directories.  studies.eps keeps track of all study
+    locations.  Studies generated from another system really should be
+    imported into the studies.eps catalog.  E.g. You have a study someone else
+    made on a CD.  You want to review it.  Import it in: it's location appears
+    as the path of the CD-rom.  You can now review the study.  If the CD is
+    removed and the file can't be found, the program prompts for inserting the
+    correct CD.  So there should be a System and a Local selection in
+    catalogComboBox.  System shows all, and Local shows only studies on
+    MyStudies (which should be most of them anyway).
 
-    Need to check into data streaming for R/W CD-roms.  Should I have an optical
-drive in the system, which could be set to a hard drive path if desired?  Then
-each disk would have a label, stored in a file on the disk, which would appear
-in the location column of catalog: e.g. D:/(Optical)/Disk23.  In Linux would be
-/media/cdrom0/Disk23.  Each disk would have a study catalog, and System and the
-disk catalog would be updated simultaneously.  Refreshing should just reread the
-catalog, regenerating only applies to single disks and rebuilds the catalog(s)
-from the studies on disk.  The network has its own catalog and studies are
-exported to the network.  The System catalog keeps track of what it has exported
-to the network, but the network catalog contains all the networked items.  This
-is a major reworking, but similar to the functionality of the Prucka system.
+    Need to check into data streaming for R/W CD-roms.  Should I have an
+optical drive in the system, which could be set to a hard drive path if
+desired?  Then each disk would have a label, stored in a file on the disk,
+which would appear in the location column of catalog:
+e.g. D:/(Optical)/Disk23.  In Linux would be /media/cdrom0/Disk23.  Each disk
+would have a study catalog, and System and the disk catalog would be updated
+simultaneously.  Refreshing should just reread the catalog, regenerating only
+applies to single disks and rebuilds the catalog(s) from the studies on disk.
+The network has its own catalog and studies are exported to the network.  The
+System catalog keeps track of what it has exported to the network, but the
+network catalog contains all the networked items.  This is a major reworking,
+but similar to the functionality of the Prucka system.
 
-How Prucka does it.
-    Prucka maintains a "maximum of 3 catalogs."  These are, in order Network,
-    System, and Optical.  In addition the Switch menu adds an Archive Server
-    item (presumably allowing retrieval of archived studies) and a
-    Browse... item, allowing the opening of any catalog file.  The catalog
-    files are all called study.dat, and there is one on each optical disk, one
-    in the System submenu of the Prucka directory, and one on the network.
-    When a study is added, ALL 3 of the catalog files are updated.  The
-    Location column in the catalog actually just contains disk labels.
+How Prucka does it.  Prucka maintains a "maximum of 3 catalogs."  These are,
+    in order Network, System, and Optical.  In addition the Switch menu adds
+    an Archive Server item (presumably allowing retrieval of archived studies)
+    and a Browse... item, allowing the opening of any catalog file.  The
+    catalog files are all called study.dat, and there is one on each optical
+    disk, one in the System submenu of the Prucka directory, and one on the
+    network.  When a study is added, ALL 3 of the catalog files are updated.
+    The Location column in the catalog actually just contains disk labels.
     Presumably the reason for the 3 catalogs is to have a way to identify
     studies on each particular disk (that is the only catalog that can be
     regenerated), to track studies on a specific machine, and to have a
@@ -177,64 +162,61 @@ How Prucka does it.
 
     The Export menu item exports a *.txt file of the catalog.
 
-    Also, see the EPMed system for a software stimulator.  
+    Also, see the EPMed system for a software stimulator.
 
-More on Catalog/TableListView/OpticalDiskDrive/OpticalDisk...
-    This is totally confused now.  When a catalog is selected, it is read from
-the disk.  In the case of the System and Network catalogs, these are in fixed
-locations.  When the Optical catalog is read, there must be a disk in the drive,
-etc.  If a new patient is selected, the Location of the study depends on if a
-disk is in the drive, and the disk label.  So there must be a process to insert
-a new disk or identify the current disk, if not present on initiation of
-Navigator, present when any of the above happens.  It might be better to defer
-the drive stuff until it is needed, not when the central widget is set up.  So
-everytime optical is selected, this has to be confirmed.  
+More on Catalog/TableListView/OpticalDiskDrive/OpticalDisk...  This is totally
+    confused now.  When a catalog is selected, it is read from the disk.  In
+    the case of the System and Network catalogs, these are in fixed locations.
+    When the Optical catalog is read, there must be a disk in the drive, etc.
+    If a new patient is selected, the Location of the study depends on if a
+    disk is in the drive, and the disk label.  So there must be a process to
+    insert a new disk or identify the current disk, if not present on
+    initiation of Navigator, present when any of the above happens.  It might
+    be better to defer the drive stuff until it is needed, not when the
+    central widget is set up.  So everytime optical is selected, this has to
+    be confirmed.
     
     So, Navigator starts up.  nothing is done with optical disk.  Switch to
 optical catalog.  Check if diskdrive is setup.  If not error message, set up
 disk drive, or create directory that needs to be created.  Check if disk in
-drive.  If not, "insert" disk, create label.  This is current disk, and includes
-the directory, etc.  Same thing if a button (like new patient) is pushed.  If
-catalog saved, save to disk if it is there, otherwise forget about it.  Now what
-are the routines, and where are they?
+drive.  If not, "insert" disk, create label.  This is current disk, and
+includes the directory, etc.  Same thing if a button (like new patient) is
+pushed.  If catalog saved, save to disk if it is there, otherwise forget about
+it.  Now what are the routines, and where are they?
 
-    OpticalDiskDrive
-        bool checkDrive()
-        bool setupDrive()
-        bool ejectDisk()    // ? in OpticalDisk
+    OpticalDiskDrive bool checkDrive() bool setupDrive() bool ejectDisk() // ?
+        in OpticalDisk
 
-    OpticalDisk
-        void labelDisk(QString)
-        void setDiskSide(bool sideA)
+    OpticalDisk void labelDisk(QString) void setDiskSide(bool sideA)
 
-Note on disk labels and sides:
-     With optical disk emulation, the "disk drive" is the .../MyStudies
-directory.  The "disk" in the drive is a directory with format "Disk11B", i.e.
-"Disk" + label + side.  So the path to the catalog file for disk 11, side B
-would be .../MyStudies/Disk11B/catalog.eps.  The study data for each study is in
-a unique directory labeled by the generated key() for the study.  The structure
-below that is unknown at present.  OpticalDiskDrive is responsible for making
-sure a disk is in the drive, it is readable, etc.  OpticalDiskDrive stores the
-real path to the real or emulated drive.  OpticalDrive has it's own path, which
-is null for a real optical drive, and is generated from the label and side as
-above.  
+Note on disk labels and sides: With optical disk emulation, the "disk drive"
+     is the .../MyStudies directory.  The "disk" in the drive is a directory
+     with format "Disk11B", i.e.  "Disk" + label + side.  So the path to the
+     catalog file for disk 11, side B would be
+     .../MyStudies/Disk11B/catalog.eps.  The study data for each study is in a
+     unique directory labeled by the generated key() for the study.  The
+     structure below that is unknown at present.  OpticalDiskDrive is
+     responsible for making sure a disk is in the drive, it is readable, etc.
+     OpticalDiskDrive stores the real path to the real or emulated drive.
+     OpticalDrive has it's own path, which is null for a real optical drive,
+     and is generated from the label and side as above.
 
-Simplified version of above.
-    OpticalDiskDrive is unnecessary.  All you need is the path to the drive. 
-The simplist emulated optical disk is just using a directory such as MyStudies
-as the path to the optical drive.  This "drive" will fill up until limited by
-the hard drive space.  But it works exactly like a path to a real optical disk
-otherwise.  But the OpticalDisk class can keep the path private, based on the
-system setting for optical drive path.  The class can then have a writeLabel()
-and readLabel() virtual function, a writeCatalog(), addStudy(), readCatalog()
-function, etc.  EmulatedOpticalDrive has the same functions, but internally
-keeps track of subdirectories for each drive.  
+Simplified version of above.  OpticalDiskDrive is unnecessary.  All you need
+    is the path to the drive.  The simplist emulated optical disk is just
+    using a directory such as MyStudies as the path to the optical drive.
+    This "drive" will fill up until limited by the hard drive space.  But it
+    works exactly like a path to a real optical disk otherwise.  But the
+    OpticalDisk class can keep the path private, based on the system setting
+    for optical drive path.  The class can then have a writeLabel() and
+    readLabel() virtual function, a writeCatalog(), addStudy(), readCatalog()
+    function, etc.  EmulatedOpticalDrive has the same functions, but
+    internally keeps track of subdirectories for each drive.
         
 
 Note on vtable errors: after adding classes, or editing the src.pro file, you
-must rerun qmake, or your class doesn't get run through moc, or the moc_version
-of your class is not linked.  This causes those unable to find vtable errors by
-linker.
+must rerun qmake, or your class doesn't get run through moc, or the
+moc_version of your class is not linked.  This causes those unable to find
+vtable errors by linker.
 
 
 Certain options are Simulator options.  There is a special Menu Item,
@@ -242,7 +224,7 @@ Certain options are Simulator options.  There is a special Menu Item,
 make the interface closer to the actual Prucka system.  For example, The
 navigator table can have columns for last name and first name, like the Prucka
 does, as clunky as this is.  Emulate optical drive is also a simulator
-specific item. 
+specific item.
 
 The Simulator options dialog is a large tabbed dialog, with tabs for different
 sections of the simulator.  Perhaps we can subclass menuitem and allow
@@ -261,26 +243,19 @@ network catalog, even if system options show there is no network storage, and
 this throws and exception.  Need to check out what is happening with catalogs
 when there is no network catalog.
 
-Regenerating:
-	We will read the current disk label, and, if this is an optical disk, we
-will read
-	each study file and write the study data to the new, blank catalog.dat
-file and 
-	then write the label as the study location.  Then regenerate the other
-catalogs,
-	which will write the correct info plus the label.  When relabeling a
-disk 
-	(not a new disk, an old one), regenerate to make the above happen.  Note
-that
-	the key() for each study never changes!!!!!, this is the only way to
-have
+Regenerating: We will read the current disk label, and, if this is an optical
+	disk, we will read each study file and write the study data to the
+	new, blank catalog.dat file and then write the label as the study
+	location.  Then regenerate the other catalogs, which will write the
+	correct info plus the label.  When relabeling a disk (not a new disk,
+	an old one), regenerate to make the above happen.  Note that the key()
+	for each study never changes!!!!!, this is the only way to have
 	identify studies when everthing else changes.
 	
-Study files
-	An "optical disk" is set up like this:
+Study files An "optical disk" is set up like this:
 	
-	With plain optical disk, /(diskpath) is path to the disk.
-	This can be something like /media/cdrom or /home/MyHome/MyStudies.
+	With plain optical disk, /(diskpath) is path to the disk.  This can be
+	something like /media/cdrom or /home/MyHome/MyStudies.
 	
 	With emulated optical disk, /(diskpath) is the above plus the
 	directory /disks/ plus the name for each disk.  This diskName is NOT
@@ -288,19 +263,17 @@ Study files
 	disk is first used.  It is disk_XXXXXXXX, where the XXs are the
 	date/time when it is created.  Within this diskName directory is the
 	label.dat, catalog.dat and data files.  To account for 2 sided disks,
-	There are 1 or 2 directories within the disk_XXXXXXXX directory:
-	A/ or B/.  One-sided disks just use A/ and don't need a B/.  Having A/
+	There are 1 or 2 directories within the disk_XXXXXXXX directory: A/ or
+	B/.  One-sided disks just use A/ and don't need a B/.  Having A/
 	present in all disks allows the user to change his mind and switch
 	from a one to two-sided emulated optical disk without losing data on
-	the first side.  If B/ is not present, it can be created at that
-	time.  If a user changes from 2 to 1 sided disks, he will be warned
-	that he will lose the 2nd side information (this is only fair).
-	Certainly users should not be changing disk emulation willy-nilly.
-	Thus, example diskpaths:
+	the first side.  If B/ is not present, it can be created at that time.
+	If a user changes from 2 to 1 sided disks, he will be warned that he
+	will lose the 2nd side information (this is only fair).  Certainly
+	users should not be changing disk emulation willy-nilly.  Thus,
+	example diskpaths:
 
-	~/MyStudies/
-	/media/cdrom/
-	~/MyStudies/disks/disk_XXXXXXX/A/
+	~/MyStudies/ /media/cdrom/ ~/MyStudies/disks/disk_XXXXXXX/A/
 	~/MyStudies/disks/disk_XXXXXXX/B/
 	
 	
@@ -313,11 +286,8 @@ Study files
 
 	Thus:
 
-	/(diskpath)/
-	/(diskpath)/catalog.dat
-	/(diskpath)/label.dat
-	/(diskpath)/data/
-	/(diskpath)/data/study_XXXXXXX/study.dat 
+	/(diskpath)/ /(diskpath)/catalog.dat /(diskpath)/label.dat
+	/(diskpath)/data/ /(diskpath)/data/study_XXXXXXX/study.dat
 
 	Using an emulated two-sided disk:
 
@@ -325,35 +295,32 @@ Study files
 	~/MyStudies/disks/disk_XXXXXXX/A/data/study_XXXXXXXXXX/study.dat
 
 
-TODO: extract common menu actions and make a concrete base class to hold them. 
+TODO: extract common menu actions and make a concrete base class to hold them.
 Derive the navigator, stimulator, recorder actions from this class.  e.g.
-    class Actions {};
-    class NavigatorActions : public Actions {};
-    class EpSimulatorActions : public Actions ();
-    etc.
-Actually it is better just to put the common actions in a struct, with public
-    QAction data members.
+class Actions {}; class NavigatorActions : public Actions {}; class
+EpSimulatorActions : public Actions (); etc.  Actually it is better just to
+put the common actions in a struct, with public QAction data members.
 
 
-On labels, sides, locations.
-   We have removed location, side, epLab and machineName from Study and placed
-   in the catalogs, using struct StudyData.  TableListView lists the location
-   in a format that depends on the catalog.  The optical catalog does not list
-   pre-registered studies.  A warning might need to be issued when one is in
-   the optical catalog when entering a pre-register study, or the catalog
-   could automatically (and maybe disconcertingly ) change to System or
-   Network if this is the case, OR, we could leave the preregister studies in
-   the optical catalog, although there will be no actual study on the disk.
-   Need to decide, perhaps see what Prucka does.
+On labels, sides, locations.  We have removed location, side, epLab and
+   machineName from Study and placed in the catalogs, using struct StudyData.
+   TableListView lists the location in a format that depends on the catalog.
+   The optical catalog does not list pre-registered studies.  A warning might
+   need to be issued when one is in the optical catalog when entering a
+   pre-register study, or the catalog could automatically (and maybe
+   disconcertingly ) change to System or Network if this is the case, OR, we
+   could leave the preregister studies in the optical catalog, although there
+   will be no actual study on the disk.  Need to decide, perhaps see what
+   Prucka does.
 
    A non-emulated optical disk is just a directory.  If it is removable media,
    the catalog.dat file will disappear or change when the disk is changed, and
-   if it disappears, the program will prompt for a new label for the new
-   disk.  If you just store all your studies in a hard drive directory
-   (MyStudies), then even if you click on eject disk, the catalog will always
-   be there unchanged, and all the studies will stay in the same directory.
-   Of course you can change the default studies directory, and a new catalog
-   will be written, etc.
+   if it disappears, the program will prompt for a new label for the new disk.
+   If you just store all your studies in a hard drive directory (MyStudies),
+   then even if you click on eject disk, the catalog will always be there
+   unchanged, and all the studies will stay in the same directory.  Of course
+   you can change the default studies directory, and a new catalog will be
+   written, etc.
 
    When you label a new disk (non-emulated) you can arbitrarilly add a side (A
    or B) to the label (stored though separately as StudyData.side).  For
@@ -366,7 +333,7 @@ On labels, sides, locations.
    tree changes.
 
    Given this, it makes sense to have 3 options for side in the disk label
-   dialog: None, A, or B.  
+   dialog: None, A, or B.
 
    Emulated Disks are trickier.  The Side is part of the directory tree, so
    once it is picked out, it cannot change.  The label though is not part of
@@ -380,9 +347,9 @@ On labels, sides, locations.
    button group is disabled.  However, then all study data goes into the A
    subdirectory and there is no B subdirectory.
 
-   Relabeling emulated disks:  You can change the label, but not the side!
-   The side button group is greyed out, whether emulate dual sided disks is
-   checked or not.  
+   Relabeling emulated disks: You can change the label, but not the side!  The
+   side button group is greyed out, whether emulate dual sided disks is
+   checked or not.
 
    Other circumstances:
 
@@ -401,40 +368,48 @@ On labels, sides, locations.
    This should be ok.  All studies previously stored will appear on side A,
    later studies added will be on A or B.
 
-Further elaboration:
-    The label.dat file must contain both the actual disk label AND the side.
-    Side can be null for non dual side drives.  Otherwise 2 sides of the same
-    drive will have the same label.
+Further elaboration: The label.dat file must contain both the actual disk
+    label AND the side.  Side can be null for non dual side drives.  Otherwise
+    2 sides of the same drive will have the same label.
 
-Regenerating Catalogs
-    The Regenerate method rebuilds the set of Catalogs, from the study.dat
-files.  It must start with the current optical disk.  The path to the studies
-folders is, for example, .../MyStudies/studies/.  There are a number of studies
-folders (0 or more), all beginning with study*.  Thus
-.../MyStudies/studies/studyxxxx, .../MyStudies/studies/studyyyyy, etc.  Inside
-each folder is a study.dat file.  Read each one into the optical disk catalog
-and replace the current optical disk catalog, catalog.dat.  Then get the study
-keys from that catalog.  Read each of the other catalogs, and if there is a
-match, replace the data in the catalog.  If no match, add the data to the
-catalog.  Save all the catalogs.
+Regenerating Catalogs The Regenerate method rebuilds the set of Catalogs, from
+    the study.dat files.  It must start with the current optical disk.  The
+    path to the studies folders is, for example, .../MyStudies/studies/.
+    There are a number of studies folders (0 or more), all beginning with
+    study*.  Thus .../MyStudies/studies/studyxxxx,
+    .../MyStudies/studies/studyyyyy, etc.  Inside each folder is a study.dat
+    file.  Read each one into the optical disk catalog and replace the current
+    optical disk catalog, catalog.dat.  Then get the study keys from that
+    catalog.  Read each of the other catalogs, and if there is a match,
+    replace the data in the catalog.  If no match, add the data to the
+    catalog.  Save all the catalogs.
 
-Style Note:
-    struct data members will have no ending underscore.  Underscores indicate private data members.
+Style Note: struct data members will have no ending underscore.  Underscores
+    indicate private data members.
 
-More on Sides:
-    isTwoSided function doesn't apply to the "regular" optical disks.  Changing the side with relabel, from none to A to B will always be reflected in the catalog listing.
+More on Sides: isTwoSided function doesn't apply to the "regular" optical
+    disks.  Changing the side with relabel, from none to A to B will always be
+    reflected in the catalog listing.
 
-    Emulated optical disks are one sided or 2 sided.  A one sided disk has a side of none (QString::null).  A 2 sided disk has a side of A or B.  This will automatically be shown correctly in the catalog by the same mechanism as above.  The difference is, a one-sided disk still has its data in the A subdirectory, just like a 2 sided disk using side A.  AND, emulated optical disks cannot be relabeled to a different side!  That would mess up the location of the study files.  When a new emulated optical disk is labelled, if options are set to one sided disks, the side choice is none and disabled on the disk label dialog.  If set to 2 sided disks, the none option is disabled from the dialog.
+    Emulated optical disks are one sided or 2 sided.  A one sided disk has a
+    side of none (QString::null).  A 2 sided disk has a side of A or B.  This
+    will automatically be shown correctly in the catalog by the same mechanism
+    as above.  The difference is, a one-sided disk still has its data in the A
+    subdirectory, just like a 2 sided disk using side A.  AND, emulated
+    optical disks cannot be relabeled to a different side!  That would mess up
+    the location of the study files.  When a new emulated optical disk is
+    labelled, if options are set to one sided disks, the side choice is none
+    and disabled on the disk label dialog.  If set to 2 sided disks, the none
+    option is disabled from the dialog.
 
 
-Copy/Moving study data:
-	    All directories holding study data are treated as optical disks.
-	    There must be a label and a catalog file in each such directory.
-	    The tracking catalogs (System and Network) hold the one official
-	    location of the study data.  If copy is used, this doesn't change,
-	    if move is used, the new location is used as the official one in
-	    the tracking catalogs.  There are no other tracking catalogs than
-	    those two.  
+Copy/Moving study data: All directories holding study data are treated as
+	    optical disks.  There must be a label and a catalog file in each
+	    such directory.  The tracking catalogs (System and Network) hold
+	    the one official location of the study data.  If copy is used,
+	    this doesn't change, if move is used, the new location is used as
+	    the official one in the tracking catalogs.  There are no other
+	    tracking catalogs than those two.
 	    
 	    So, to move/copy a study, you must go to a directory that is
 	    already set up as a disk, or set up the new directory as a disk.
@@ -447,128 +422,248 @@ Copy/Moving study data:
 
 	    So, copy first (easier, no updating of catalogs):
 
-	    No disk emulation:
-	       Pick out a directory.  If not initialized do so, i.e. label it,
-	       set up catalog.  Copy study folder.  Update local catalog.
-	       Move: do above, then update tracking catalogs.
+	    No disk emulation: Pick out a directory.  If not initialized do
+	       so, i.e. label it, set up catalog.  Copy study folder.  Update
+	       local catalog.  Move: do above, then update tracking catalogs.
 
-	    Disk emulation:
-		 Use select disk dialog to select disk.  Do above to selected disk.
+	    Disk emulation: Use select disk dialog to select disk.  Do above
+		 to selected disk.
 
 Source Code Reorganization
 
-    I need to use libraries in order to link properly, now that modules are in their own directories.  Modules shared between navigator and recorder should be in a shared library.  During installation these libraries can be installed in the usual library locations in linux.  During development, I have added a relative path to the LD_LIBRARY_PATH environment variable in the kdevelop project file.  The new variable is ./../../lib:$LD_LIBRARY_PATH.  This is a relative path, so it should work regardless of the absolute path to the sandbox.  Modules that are not shared (such as stimulator) can be static libraries, which are linked at compile time.  They still should end up in the lib directory.
+    I need to use libraries in order to link properly, now that modules are in
+    their own directories.  Modules shared between navigator and recorder
+    should be in a shared library.  During installation these libraries can be
+    installed in the usual library locations in linux.  During development, I
+    have added a relative path to the LD_LIBRARY_PATH environment variable in
+    the kdevelop project file.  The new variable is
+    ./../../lib:$LD_LIBRARY_PATH.  This is a relative path, so it should work
+    regardless of the absolute path to the sandbox.  Modules that are not
+    shared (such as stimulator) can be static libraries, which are linked at
+    compile time.  They still should end up in the lib directory.
 
-    All image files (icons, etc) will be in the src/images directory.  There is enough overlap that it doesn't make sense to have individual subdirectories in each module for images.  ui files though may need to be in 2 possible locations.  The ones that are not shared can be in each module directory.  The shared ones should be in a src/ui or src/commondialogs directory.  I think that Patient Information is the only shared dialog that I know of.
+    All image files (icons, etc) will be in the src/images directory.  There
+    is enough overlap that it doesn't make sense to have individual
+    subdirectories in each module for images.  ui files though may need to be
+    in 2 possible locations.  The ones that are not shared can be in each
+    module directory.  The shared ones should be in a src/ui or
+    src/commondialogs directory.  I think that Patient Information is the only
+    shared dialog that I know of.
 
-    The test modules: should they be in test or src/test?  They should not be in the individual module directories because they can't be compiled as a subproject then.  Should there be more than one test program (navigator vs recorder?).  Probably not.
+    The test modules: should they be in test or src/test?  They should not be
+    in the individual module directories because they can't be compiled as a
+    subproject then.  Should there be more than one test program (navigator vs
+    recorder?).  Probably not.
 
 Namespaces
 
-    Source code modules (or subprojects) have been reorganized.  Basic functions and classes used by all parts of the program are in src/core, and basic gui classes and functions are in src/gui.  Analagous to the QtCore and QtGui namespaces in Qt4, the corresponding namespaces are EpCore and EpGui.  I am also thinking of using a Ep namespace for very basic stuff, like the error handling functions.  *.ui files are now in ui subdirectories beneath the source code directories.  Common ui files are in the gui/ui directory.  Files specific to a module, e.g. the Navigator module are in a ui subdir of that module, e.g. navigator/ui.  To allow unit testing, all modules except main will be shared libaries.  This includes navigator.
+    Source code modules (or subprojects) have been reorganized.  Basic
+    functions and classes used by all parts of the program are in src/core,
+    and basic gui classes and functions are in src/gui.  Analagous to the
+    QtCore and QtGui namespaces in Qt4, the corresponding namespaces are
+    EpCore and EpGui.  I am also thinking of using a Ep namespace for very
+    basic stuff, like the error handling functions.  *.ui files are now in ui
+    subdirectories beneath the source code directories.  Common ui files are
+    in the gui/ui directory.  Files specific to a module, e.g. the Navigator
+    module are in a ui subdir of that module, e.g. navigator/ui.  To allow
+    unit testing, all modules except main will be shared libaries.  This
+    includes navigator.
 
-Note that TableListView will stay a Q3ListView derived class, as the closest class in Qt4, QTableWidget is very different and finding equivalent functions between the 2 classes is very hard (I tried).  Thus Navigator will require Q3Support to compile.
+Note that TableListView will stay a Q3ListView derived class, as the closest
+class in Qt4, QTableWidget is very different and finding equivalent functions
+between the 2 classes is very hard (I tried).  Thus Navigator will require
+Q3Support to compile.
 
-Copying/Moving Studies
-    Studies can be on an optical disk or in a directory of the hard drive.  The location of a study is either from the label of an optical disk of a hard drive directory.  We'll consider copying and moving equivalent, the only difference being that the 2 non-optical disk catalogs (System and Network) are updated with the new location of the study files.  Whereever a study is copied or moved, a catalog is created or updated in that directory.  The local catalog always reflects the location of the local copy, whereas the System and Network catalogs show the "official" location of the study.  
+Copying/Moving Studies Studies can be on an optical disk or in a directory of
+    the hard drive.  The location of a study is either from the label of an
+    optical disk of a hard drive directory.  We'll consider copying and moving
+    equivalent, the only difference being that the 2 non-optical disk catalogs
+    (System and Network) are updated with the new location of the study files.
+    Whereever a study is copied or moved, a catalog is created or updated in
+    that directory.  The local catalog always reflects the location of the
+    local copy, whereas the System and Network catalogs show the "official"
+    location of the study.
 
-    Several possible types of copying are possible.  Assume first traditional (not emulated) optical disks.  One can copy from one optical disk to another.  In this case source and destination are the same (the text in the sourcePathLineEdit will be, assuming a path to the optical drive of /dev/hdc, /dev/hdc/(Optical)).  In this circumstance, the studies will be copying to the temp folder, and the "insert new disk" dialog will appear.  After clicking OK, there will be a check to make sure the labels are different, or the new disk is unlabeled.  If the latter, a new label will be generated (it can't equal the source label), and then the studies will be copying from the Temp folder to the new disk.  The new disk catalog will have the original location, though obviously there is a copy of the new disk too.  With moving, all the catalogs will be changed to the new disk location.  If the source and destination labels are the same (didn't really change the disk, or pretending the hard drive is an optical disk), an error will be thrown and the whole process cancelled.  If copying to a hard disk directory, a catalog will be created there, but no label.dat file; label.dat is only on optical disks.  
+    Several possible types of copying are possible.  Assume first traditional
+    (not emulated) optical disks.  One can copy from one optical disk to
+    another.  In this case source and destination are the same (the text in
+    the sourcePathLineEdit will be, assuming a path to the optical drive of
+    /dev/hdc, /dev/hdc/(Optical)).  In this circumstance, the studies will be
+    copying to the temp folder, and the "insert new disk" dialog will appear.
+    After clicking OK, there will be a check to make sure the labels are
+    different, or the new disk is unlabeled.  If the latter, a new label will
+    be generated (it can't equal the source label), and then the studies will
+    be copying from the Temp folder to the new disk.  The new disk catalog
+    will have the original location, though obviously there is a copy of the
+    new disk too.  With moving, all the catalogs will be changed to the new
+    disk location.  If the source and destination labels are the same (didn't
+    really change the disk, or pretending the hard drive is an optical disk),
+    an error will be thrown and the whole process cancelled.  If copying to a
+    hard disk directory, a catalog will be created there, but no label.dat
+    file; label.dat is only on optical disks.
 
-    With emulated optical disks, all the above must hold true, but with the usual emulated disk stuff behind the scenes.  To construct the study list, the dialog must know both the path() and the fullPath() (these are equal for optical disks, not equal for emulated disks).  So, pass both values?  Or just have the dialog read the current disk path -- it needs to know if it is an emulated disk or not???  Probably need to pass the opticalDisk* to the dialog, and should allow disk ejection in the dialog box, so that emulated disks work too.
+    With emulated optical disks, all the above must hold true, but with the
+    usual emulated disk stuff behind the scenes.  To construct the study list,
+    the dialog must know both the path() and the fullPath() (these are equal
+    for optical disks, not equal for emulated disks).  So, pass both values?
+    Or just have the dialog read the current disk path -- it needs to know if
+    it is an emulated disk or not???  Probably need to pass the opticalDisk*
+    to the dialog, and should allow disk ejection in the dialog box, so that
+    emulated disks work too.
 
-Re Terminology
-    To attain uniform terminology, use the file terminology used in Qt classes.  Here's an example:
-        file = /home/user/MyStudies/studies/study1/study.dat
-        directory = /home/user/MyStudies
+Re Terminology To attain uniform terminology, use the file terminology used in
+    Qt classes.  Here's an example: file =
+    /home/user/MyStudies/studies/study1/study.dat directory =
+    /home/user/MyStudies
 
-    path() for a file is the path of the file, excluding the file name. 
-        file.path() == /home/user/MyStudies/studies/study1
-    path() for a directory is the whole path, including the directory.
-        directory.path() == /home/user/MyStudies
-    fileName() for the file is the file name without the path.
-        file.fileName() == study.dat
-    dirName() for the name of the directory without the path.
-        directory.dirName() == MyStudies
-    filePath() for the name of the file including the path.
-        file.filePath() == /home/user/MyStudies/studies/study1/study.dat
+    path() for a file is the path of the file, excluding the file name.
+        file.path() == /home/user/MyStudies/studies/study1 path() for a
+        directory is the whole path, including the directory.
+        directory.path() == /home/user/MyStudies fileName() for the file is
+        the file name without the path.  file.fileName() == study.dat
+        dirName() for the name of the directory without the path.
+        directory.dirName() == MyStudies filePath() for the name of the file
+        including the path.  file.filePath() ==
+        /home/user/MyStudies/studies/study1/study.dat
     
 Doxygen usage
 
-    Some conventions for using the Doxygen system.  Will use the JAVADOC style:
+    Some conventions for using the Doxygen system.  Will use the JAVADOC
+    style:
 
-/**
- * @file filename.cpp
- * Comment.
- */
+/** * @file filename.cpp * Comment.  */
 
-    That means key words with be preceded by @, not \, e.g. @class.  Will put all Doxygen comments for member functions into the source file, not the header file.  Class comments must be in the header.
+    That means key words with be preceded by @, not \, e.g. @class.  Will put
+    all Doxygen comments for member functions into the source file, not the
+    header file.  Class comments must be in the header.
 
 Patient classes
 
-    Study contains basic study and baseline patient information.  The goal is to "setup" the simulation.  Thus we have sex, weight, BSA, baseline autonomic tone, possibly drugs, etc.  This is used to initialize the Patient object.  As a study can be continued, the Patient object must also be saveable to disk.  The file should be patient.dat, and be unique for each study directory.  When a study is ended, the current status of the Patient is saved into this file, allowing continuation without reinitializing a new patient.  
+    Study contains basic study and baseline patient information.  The goal is
+    to "setup" the simulation.  Thus we have sex, weight, BSA, baseline
+    autonomic tone, possibly drugs, etc.  This is used to initialize the
+    Patient object.  As a study can be continued, the Patient object must also
+    be saveable to disk.  The file should be patient.dat, and be unique for
+    each study directory.  When a study is ended, the current status of the
+    Patient is saved into this file, allowing continuation without
+    reinitializing a new patient.
 
-    What is in the Patient class?  First, outside the class there must be some physiology classes, e.g. an O2Saturation class, a Pressure class (holding arterial, other blood pressures), possibly some typedefs, eg. Respiration, Pulse, etc.  AutonomicTone (with subclasses SympatheticTone, ParasympatheticTone, etc.  Drugs need to be handled too, with drug effects translated to effects on physiology.
+    What is in the Patient class?  First, outside the class there must be some
+    physiology classes, e.g. an O2Saturation class, a Pressure class (holding
+    arterial, other blood pressures), possibly some typedefs, eg. Respiration,
+    Pulse, etc.  AutonomicTone (with subclasses SympatheticTone,
+    ParasympatheticTone, etc.  Drugs need to be handled too, with drug effects
+    translated to effects on physiology.
 
-    Inside Patient: various subclasses for systems: respiratory rate, O2 sat (with interactions between them, and between external O2 as a drug), BP, autonomic tone (with net effects on conduction, refractoriness, automaticity), and most importantly the Heart class.  The Heart class will generate the heart rate, and the actual simulation of electrical activity.
+    Inside Patient: various subclasses for systems: respiratory rate, O2 sat
+    (with interactions between them, and between external O2 as a drug), BP,
+    autonomic tone (with net effects on conduction, refractoriness,
+    automaticity), and most importantly the Heart class.  The Heart class will
+    generate the heart rate, and the actual simulation of electrical activity.
 
 Hardware classes
 
-    Include the stimulator (a floating dockable window), catheters, junction box, amplifier.
+    Include the stimulator (a floating dockable window), catheters, junction
+    box, amplifier.
 
 Multiple desktops
 
-QApplication::display() returns a QDesktopWiget*.  From this, number of windows and which is the primary window can be obtained.  Presumably if there are 2 displays, the review window can be placed there.
+QApplication::display() returns a QDesktopWiget*.  From this, number of
+windows and which is the primary window can be obtained.  Presumably if there
+are 2 displays, the review window can be placed there.
 
-Randomizing patient data.
-    When time passes and a study is resumed, the patient data is loaded, then there should be some randomization.  There should be some randomization at the start too.  During the simulation, in addition to the factors that have a deterministic effect on physiologic parameters (e.g. low resp rate should lower O2 sat, there is a "jiggle" effect.  jiggle() should be a template function that takes the type of data (e.g. Saturation) and applies random fluctuations.  This should include short term and long term fluctuations, with a standard deviation for both.  E.g. O2Saturation on a short term basis (i.e. each time the function is called, could occasionally go up or down 1 or 2 percentage points, and randomly occasionally there is a greater shift.  
+Randomizing patient data.  When time passes and a study is resumed, the
+    patient data is loaded, then there should be some randomization.  There
+    should be some randomization at the start too.  During the simulation, in
+    addition to the factors that have a deterministic effect on physiologic
+    parameters (e.g. low resp rate should lower O2 sat, there is a "jiggle"
+    effect.  jiggle() should be a template function that takes the type of
+    data (e.g. Saturation) and applies random fluctuations.  This should
+    include short term and long term fluctuations, with a standard deviation
+    for both.  E.g. O2Saturation on a short term basis (i.e. each time the
+    function is called, could occasionally go up or down 1 or 2 percentage
+    points, and randomly occasionally there is a greater shift.
 
-Probability
-    Relevant to the preceding paragraph, certain events occur randomly.  E.g., the O2Sat probe falls off the finger.  Maybe the chance of this increases if the patient is not adequately sedated and is moving around.  It happens once in a while anyway.  A Probability class represents the chance (a double from 0.0 to 1.0) that and event will happen per unit time (maybe standardize the updating of patient data to once a second).  A random number will be generated each second, and all probabilities less than that number will come true.  An event like the probe falling off will be permanent until it is fixed (there will be a way to do this).  Maybe the prob should go down after it is fixed (it is put on more carefully the second time perhaps!).  
+Probability Relevant to the preceding paragraph, certain events occur
+    randomly.  E.g., the O2Sat probe falls off the finger.  Maybe the chance
+    of this increases if the patient is not adequately sedated and is moving
+    around.  It happens once in a while anyway.  A Probability class
+    represents the chance (a double from 0.0 to 1.0) that and event will
+    happen per unit time (maybe standardize the updating of patient data to
+    once a second).  A random number will be generated each second, and all
+    probabilities less than that number will come true.  An event like the
+    probe falling off will be permanent until it is fixed (there will be a way
+    to do this).  Maybe the prob should go down after it is fixed (it is put
+    on more carefully the second time perhaps!).
 
-Hardware
-    src/hardware contains the emulated hardware, e.g. the opticaldisk, a sat monitor, the catheters, junction box, amplifier, etc.  Maybe also the stimulator.  We need a menu item Hardware (not present on the real Prucka unfortunately).  This is used to bring up the floating windows that are the hardware items.  On the other hand, these items could be added to the Windows menu item.  Probably better though to keep them separate and add the menu item, or add a toolbar icon like the study configuration one.  
-
-
-More On Navigator
-     It appears that if a networked system is used, then studies are copied to
-     the network server.  It also appears that when this is done, the study no
-     longer appears in the System catalog.  You can open a study for review,
-     possibly also for continuation from the network catalog.  It may be that
-     you can also use the network catalog as a sort of master catalog, without
-     necessarily copying studies there.  You would then still need the optical
-     disk.  Once a study is begun, it is possible to continue the study to
-     another disk or directory.  The only way I can think of doing this would
-     be to insert a link in the original directory (link.dat??) that would
-     direct one to change disks when reviewing the study.
-
-REVELATION
-    Non-class data members (e.g. int and pointers) MUST be initialized in the constructor.  There is no default initialization (e.g. to 0) for them.  This may be true for a compiler generated default constructor too, not sure.  Class members with default constructors don't have to be initialized in constructor initialization lists.  So, an uninitialized pointer in a constructor is a potential disaster!
+Hardware src/hardware contains the emulated hardware, e.g. the opticaldisk, a
+    sat monitor, the catheters, junction box, amplifier, etc.  Maybe also the
+    stimulator.  We need a menu item Hardware (not present on the real Prucka
+    unfortunately).  This is used to bring up the floating windows that are
+    the hardware items.  On the other hand, these items could be added to the
+    Windows menu item.  Probably better though to keep them separate and add
+    the menu item, or add a toolbar icon like the study configuration one.
 
 
-Data saving signals and slots
-    There are several different data saving states.  If no data is being saved, the autosave state may still be toggled on.  Later versions of the Prucka system indicate autosaving on not only by the toolbar icon being on but also the disk save icon has a circular arrow in it.  There are thus 2 sets of disk save icons, with and without the circular arrow icon.  Manual save is turned on by clicking the system toolbar save icon, or by clicking the disk icon.  The disk turns red.  This overrides all other save states.  This is only turned off by clicking the disk icon again or by toggling off the system toolbar save icon.  There is a transient change of color of the disk icon to light blue for a few secs whenever any save state goes off.  During that period, Recorder could conceivably turn save back on by detecting the need to autosave.  During active autosaving, the disk icon is dark blue.  
+More On Navigator It appears that if a networked system is used, then studies
+     are copied to the network server.  It also appears that when this is
+     done, the study no longer appears in the System catalog.  You can open a
+     study for review, possibly also for continuation from the network
+     catalog.  It may be that you can also use the network catalog as a sort
+     of master catalog, without necessarily copying studies there.  You would
+     then still need the optical disk.  Once a study is begun, it is possible
+     to continue the study to another disk or directory.  The only way I can
+     think of doing this would be to insert a link in the original directory
+     (link.dat??) that would direct one to change disks when reviewing the
+     study.
 
-    The save states are an enum.  This needs to be defined publically in namespace EpRecorder:
+REVELATION Non-class data members (e.g. int and pointers) MUST be initialized
+    in the constructor.  There is no default initialization (e.g. to 0) for
+    them.  This may be true for a compiler generated default constructor too,
+    not sure.  Class members with default constructors don't have to be
+    initialized in constructor initialization lists.  So, an uninitialized
+    pointer in a constructor is a potential disaster!
 
-    namespace EpRecorder {
-    enum SaveStatus {NoSave, ManualSave, AutoSave, ExitSave};
-    }
+
+Data saving signals and slots There are several different data saving states.
+    If no data is being saved, the autosave state may still be toggled on.
+    Later versions of the Prucka system indicate autosaving on not only by the
+    toolbar icon being on but also the disk save icon has a circular arrow in
+    it.  There are thus 2 sets of disk save icons, with and without the
+    circular arrow icon.  Manual save is turned on by clicking the system
+    toolbar save icon, or by clicking the disk icon.  The disk turns red.
+    This overrides all other save states.  This is only turned off by clicking
+    the disk icon again or by toggling off the system toolbar save icon.
+    There is a transient change of color of the disk icon to light blue for a
+    few secs whenever any save state goes off.  During that period, Recorder
+    could conceivably turn save back on by detecting the need to autosave.
+    During active autosaving, the disk icon is dark blue.
+
+    The save states are an enum.  This needs to be defined publically in
+    namespace EpRecorder:
+
+    namespace EpRecorder { enum SaveStatus {NoSave, ManualSave, AutoSave,
+    ExitSave}; }
 
     Whether autosave is turned on is a bool:
 
-    public:
-    bool autoSaveToggle() const;
+    public: bool autoSaveToggle() const;
 
-    Toggling the auto save tool button must send a signal which sets the autoSaveEnabled_ data member and initiates the check to see if data needs to be autosaved.  This also connects to a slot in PatientStatusBar which will change the disk icon if that option is set.  The routine that checks to see if autosave needs to be on or off is driven by heart rate, pacing and RFA, and is triggered by a QTimer, e.g.:
+    Toggling the auto save tool button must send a signal which sets the
+    autoSaveEnabled_ data member and initiates the check to see if data needs
+    to be autosaved.  This also connects to a slot in PatientStatusBar which
+    will change the disk icon if that option is set.  The routine that checks
+    to see if autosave needs to be on or off is driven by heart rate, pacing
+    and RFA, and is triggered by a QTimer, e.g.:
 
     void Recorder::monitorAutoSave();
 
     This routine will use a signal to turn on or off autosaving:
 
-    signal:
-        autoSave(bool enable);
+    signal: autoSave(bool enable);
 
-    PatientStatusBar feeds the signal into a slot that changes the disk icon appearance appropriately.
+    PatientStatusBar feeds the signal into a slot that changes the disk icon
+    appearance appropriately.
 
     void PatientStatusBar::setAutoSave(bool enable);
 
@@ -576,125 +671,169 @@ Data saving signals and slots
 
     void PatientStatusBar::setAutoSaveToggle(bool enable);
 
-Sound
-    QSound uses nas (Network Audio System) only on X11 systems.  I installed nas from source.  However, Qt must be compiled with sound support (type ./configure --help in the Qt source directory to see the option that needs to be enabled.  Sound is not enabled by default in Qt.  Finally, you must make sure the nasd daemon is running:
+Sound QSound uses nas (Network Audio System) only on X11 systems.  I installed
+    nas from source.  However, Qt must be compiled with sound support (type
+    ./configure --help in the Qt source directory to see the option that needs
+    to be enabled.  Sound is not enabled by default in Qt.  Finally, you must
+    make sure the nasd daemon is running:
 
     sudo nasd -aa -b
 
-    And, the sound library files (libaudio.so) are in the /usr/X11R6/lib directory, which is added to the /etc/ld.conf file automatically when nas is installed, but it is necessary as always to run sudo /sbin/ldconfig to get it to work.  See my Linux Tweaks.
+    And, the sound library files (libaudio.so) are in the /usr/X11R6/lib
+    directory, which is added to the /etc/ld.conf file automatically when nas
+    is installed, but it is necessary as always to run sudo /sbin/ldconfig to
+    get it to work.  See my Linux Tweaks.
 
-Segmentation Faults
-    These are mostly unitialized built-in types.  Unlike user designed classes, built-in types are not initialized automatically, apparently not even with a compiler-made default constructor.  Note that you can "zero" these built-in types either by doing this:
-        e.g. an int named Int, in initialization list can be Int(0) or even Int().
+Segmentation Faults These are mostly unitialized built-in types.  Unlike user
+    designed classes, built-in types are not initialized automatically,
+    apparently not even with a compiler-made default constructor.  Note that
+    you can "zero" these built-in types either by doing this: e.g. an int
+    named Int, in initialization list can be int(0) or even int().
 
-    The other major problems was transitioning from the Recorder window back to the Navigator window.  Calling Navigator functions like regenerateCatalogs() while closing Recorder befor Navigator->show() seems to cause problems.  These segmentation faults are hard to pin down.
+    The other major problems was transitioning from the Recorder window back
+    to the Navigator window.  Calling Navigator functions like
+    regenerateCatalogs() while closing Recorder befor Navigator->show() seems
+    to cause problems.  These segmentation faults are hard to pin down.
 
 Saving SubWindow layout in Recorder.
 
-    The last layout is saved to Settings.  In addition, a map of layouts identified by a unique name can be saved to a file in System dir.  How to save a layout?
+    The last layout is saved to Settings.  In addition, a map of layouts
+    identified by a unique name can be saved to a file in System dir.  How to
+    save a layout?
 
-    We need to know which screen each subwindow is in, which subwindows are actually present, and their locations.  How to do this without some kind of run-type identification?  One option is to have a lot of if statements, after getting the QList<QMdiSubWindow*> list, going through each possible window to see if the pointer is non-zero.  A map to look up the actual window could give us the window, followed by the screen number and positioning info.
+    We need to know which screen each subwindow is in, which subwindows are
+    actually present, and their locations.  How to do this without some kind
+    of run-type identification?  One option is to have a lot of if statements,
+    after getting the QList<QMdiSubWindow*> list, going through each possible
+    window to see if the pointer is non-zero.  A map to look up the actual
+    window could give us the window, followed by the screen number and
+    positioning info.
 
 More on Navigator!!
 
-Networking
-	If networking is enabled, system config files are saved to the network
-	location, not the local System dir.  There needs to be a System folder
-	in the network path, if not, the program will create it.  Obviously
-	write permission is necessary or networking will be disallowed.  The
-	network catalog contains the local paths of the studies, just like the
-	system catalog.  If networking is enabled, the System path becomes the
-	network path, so all that is needed is to set the System path to the
-	network path.  Well, not exactly.  It still will be nice to have the
-	System catalog reflect what's in the local System folder.  We need a
-	way to determine the current system path for purposes of config files,
-	etc., named differently from the System path.  Now, if exporting is
-	turned on, study data is exported to the path (really should be the
-	same as the network path, but doesn't have to be, could be a different
-	server, in which case when a study is clicked on in the network
-	catalog for review, it is pulled from the export path instead of the
-	optical disk.  At least the network path is searched first, if the
-	study is not found, see if it is on the optical disk.  
+Networking If networking is enabled, system config files are saved to the
+	network location, not the local System dir.  There needs to be a
+	System folder in the network path, if not, the program will create it.
+	Obviously write permission is necessary or networking will be
+	disallowed.  The network catalog contains the local paths of the
+	studies, just like the system catalog.  If networking is enabled, the
+	System path becomes the network path, so all that is needed is to set
+	the System path to the network path.  Well, not exactly.  It still
+	will be nice to have the System catalog reflect what's in the local
+	System folder.  We need a way to determine the current system path for
+	purposes of config files, etc., named differently from the System
+	path.  Now, if exporting is turned on, study data is exported to the
+	path (really should be the same as the network path, but doesn't have
+	to be, could be a different server, in which case when a study is
+	clicked on in the network catalog for review, it is pulled from the
+	export path instead of the optical disk.  At least the network path is
+	searched first, if the study is not found, see if it is on the optical
+	disk.
 
 	Regarding the optical disk, there should be a buffer location on the
 	hard drive for actual data acquisition, this is then written from time
-	to time to the optical disk.  This appears to be how the Prucka
-	works.  These buffers are flushed when the study closes.  
+	to time to the optical disk.  This appears to be how the Prucka works.
+	These buffers are flushed when the study closes.
 
-KDevelop setup for Qt4
-    Yes, after all this time, I've been running KDevelop without it set up properly for Qt4.  Although the Qt4 options are all set right on the projects page, QTDIR is set up for Qt3, and for whatever reason, QTDIR is still being used for uic and qmake.  In particular, uic probably messes up, accounting for some of the segmentation faults I have received???  I set QTDIR to /usr/local/Trolltech/Qt-4.3.2/ in the envirnoment section of Make options on the Project options tab to correct this.
+KDevelop setup for Qt4 Yes, after all this time, I've been running KDevelop
+    without it set up properly for Qt4.  Although the Qt4 options are all set
+    right on the projects page, QTDIR is set up for Qt3, and for whatever
+    reason, QTDIR is still being used for uic and qmake.  In particular, uic
+    probably messes up, accounting for some of the segmentation faults I have
+    received???  I set QTDIR to /usr/local/Trolltech/Qt-4.3.2/ in the
+    envirnoment section of Make options on the Project options tab to correct
+    this.
 
-Emulating title bars in a QSplitter central widget
-    To come closest to the Prucka look and feel, the Recorder windows should be divided by splitters, and splitters can be created and deleted as needed (e.g. to add the 2nd Review window).  The problem is that no title bar is available.  To emulate a title bar, we need to use a QLabel, setting its' palette to the title bars palette, adding the icon and the text, and then making sure that the active and inactive colors appear when the main window is activated.  This may be automatic or may require the QLabel picking up the active/inactive signal.  The Qlabel can be fixed at the top of the window, in a layout with the QMainWindow just beneath.  A close box is needed though.  
+Emulating title bars in a QSplitter central widget To come closest to the
+    Prucka look and feel, the Recorder windows should be divided by splitters,
+    and splitters can be created and deleted as needed (e.g. to add the 2nd
+    Review window).  The problem is that no title bar is available.  To
+    emulate a title bar, we need to use a QLabel, setting its' palette to the
+    title bars palette, adding the icon and the text, and then making sure
+    that the active and inactive colors appear when the main window is
+    activated.  This may be automatic or may require the QLabel picking up the
+    active/inactive signal.  The Qlabel can be fixed at the top of the window,
+    in a layout with the QMainWindow just beneath.  A close box is needed
+    though.
 
-    After further expermentation, we just have to be satisfied with using the MDI classes of Qt.  There is no way to emulate perfectly the Prucka splitter type window resizing in Qt.  The closest thing would be to use MdiSubWindows attached to the splitter, but as the splitter is the parent widget, when it is active, ALL the subwindows appear active, so that you can't tell which one is really active.  Emulating a title bar like above would require hand drawing a close button, that would not reflect the different styles, and probably changing the bar between active and inactive would be hard.  Using a splitter without title bars would work fine, but it would be tough to tell which window was which.  The current solution,using a QMdiArea is best, and justified by the fact that this will usually be running on a single monitor, so that creative arrangement of the windows will be necessary.
+    After further expermentation, we just have to be satisfied with using the
+    MDI classes of Qt.  There is no way to emulate perfectly the Prucka
+    splitter type window resizing in Qt.  The closest thing would be to use
+    MdiSubWindows attached to the splitter, but as the splitter is the parent
+    widget, when it is active, ALL the subwindows appear active, so that you
+    can't tell which one is really active.  Emulating a title bar like above
+    would require hand drawing a close button, that would not reflect the
+    different styles, and probably changing the bar between active and
+    inactive would be hard.  Using a splitter without title bars would work
+    fine, but it would be tough to tell which window was which.  The current
+    solution,using a QMdiArea is best, and justified by the fact that this
+    will usually be running on a single monitor, so that creative arrangement
+    of the windows will be necessary.
 
-Recorder and Screens
-    Various configurations are possible:
+Recorder and Screens Various configurations are possible:
 
-    Screens: 1 or 2 or more (determined by QDesktopWidget class)
-    Acquisition: enabled or disabled (selected on System Settings)
-    Study type: New/Continue or Review (selected on Navigator)
-    Window settings: saved or new (default settings 1st time around)
+    Screens: 1 or 2 or more (determined by QDesktopWidget class) Acquisition:
+    enabled or disabled (selected on System Settings) Study type: New/Continue
+    or Review (selected on Navigator) Window settings: saved or new (default
+    settings 1st time around)
 
     Here are the various combinations:
 
-    System changes from 1 screen to 2 or vice-versa:
-        Default settings used. (last position saved not used)
-        Loading settings will be by screen (window settings are saved
-            under screen0 and screen1)
+    System changes from 1 screen to 2 or vice-versa: Default settings
+        used. (last position saved not used) Loading settings will be by
+        screen (window settings are saved under screen0 and screen1)
     
-    One screen:
-        Obviously everything on this screen.  
-        Acquisition enabled and new/continue study type & default settings:
+    One screen: Obviously everything on this screen.  Acquisition enabled and
+        new/continue study type & default settings:
             
-            Real-time   |   Review1
-            _______________________
-                        Log
+            Real-time | Review1 _______________________ Log
 
         Real-time window can't be closed (no system icon, close box) but can
          be resized/repositioned (this is true of all the configurations?).
 
         Acquisition disabled and/or review study type and default settings:
 
-                Review1 (| Review2)
-              _____________
-                Log
+                Review1 (| Review2) _____________ Log
 
-        Review2 can be openned only if Review1 present, and Review1 can't be closed
-        if Review2 is open.  Saved window settings are specific to this mode, e.g.
-        you can't open a saved window setting with a real-time window in this circumstance.
-        Thus, window settings also need to save acquistion state and the list of
-        saved windows settings must be filtered on this state.
+        Review2 can be openned only if Review1 present, and Review1 can't be
+        closed if Review2 is open.  Saved window settings are specific to this
+        mode, e.g.  you can't open a saved window setting with a real-time
+        window in this circumstance.  Thus, window settings also need to save
+        acquistion state and the list of saved windows settings must be
+        filtered on this state.
 
         Two screens:
 
-        Screen 0 is always the RealTime window, and no other window can be opened on 
-        this screen.
+        Screen 0 is always the RealTime window, and no other window can be
+        opened on this screen.
 
         Screen 1 is:
 
-             Review1 (| Review2)
-              _____________
-                Log
+             Review1 (| Review2) _____________ Log
 
         Acquisition disabled and/or review study type, default settings:
 
         Screen 0 is the same as Screen 1 above.
 
         Screen 1 is not used.  (need to check what Prucka actually does, maybe
-            uses Screen 1 for review screens and screen 0 is blank or empty RealTime
-            window).
+            uses Screen 1 for review screens and screen 0 is blank or empty
+            RealTime window).
 
-        Saved settings: Again filtered on acquisition enabled or not.  There is a different
-        list of saved windows for acquisition enabled and disabled.
+        Saved settings: Again filtered on acquisition enabled or not.  There
+        is a different list of saved windows for acquisition enabled and
+        disabled.
 
 More Namespace issues
 
-    Since the program involves several modules, and since we will probably allow plugins for physiology, possibly even gui plugins, it makes sense to namespace everything.  Namespaces generally correspond with libraries, but possibly not.  There may be a patient library and a physiology library, both under EpPatient namespace.  We won't bother with namespaces for unit tests, and of course all the Qt classes are in the global namespace (and begin with Q).  Hereis a namespace subtlety:
+    Since the program involves several modules, and since we will probably
+    allow plugins for physiology, possibly even gui plugins, it makes sense to
+    namespace everything.  Namespaces generally correspond with libraries, but
+    possibly not.  There may be a patient library and a physiology library,
+    both under EpPatient namespace.  We won't bother with namespaces for unit
+    tests, and of course all the Qt classes are in the global namespace (and
+    begin with Q).  Hereis a namespace subtlety:
 
-// fileA.h
-namespace A {
+// fileA.h namespace A {
 
 class X {};
 
@@ -702,38 +841,52 @@ class X {};
 
 // fileB.h
 
-class X;    // forward definition won't work
+class X; // forward definition won't work
 
 class A::X; // this won't work either
 
-namespace A { class X; }    // this is what you must do
+namespace A { class X; } // this is what you must do
 
 namespace B {
 
-class Y {
-    X x;
-};
+class Y { X x; };
 
 }
 
-Namespaces in use now are:
-    Ep      basic typedefs and enums
-    EpCore  nonmember functions, error classes
-    EpGui   shared classes between Navigator and Recorder
-    EpHardware
-    EpPatient
-    EpNavigator
-    EpRecorder
+Namespaces in use now are: Ep basic typedefs and enums EpCore nonmember
+    functions, error classes EpGui shared classes between Navigator and
+    Recorder EpHardware EpPatient EpNavigator EpRecorder
 
 
 Mouse Tracking
 
-    Turning on mouse tracking in Recorder is proving to be very difficult.  It doesn't seem to work.  I think the QMdiArea is sucking up the mouse movement and ignoring it, unless the left button is clicked.  I note now that QMdiArea is a subclass of QAbstractScrollArea, and to enable mouse tracking in a scroll area you must do viewport()->setMouseTracking(true), not just setMouseTracking(true).  But still no dice.  I am trying to emulate the Prucka way of opening a new window.  A horizontal or vertical dashed line splits the window the mouse is in.  Clicking in the mode opens the window in whatever side of the line you are in, the original window is halved and ends up on the other side of the dotted line.
-    UPDATE: as long as mouse-tracking is turned on at the level of the child widget, under the mouse, it works.  This is possibly all moot due to changing the central widget of SignalDisplayWindows to a QGraphicsWidget, which will display a QGraphicsScene.
+    Turning on mouse tracking in Recorder is proving to be very difficult.  It
+    doesn't seem to work.  I think the QMdiArea is sucking up the mouse
+    movement and ignoring it, unless the left button is clicked.  I note now
+    that QMdiArea is a subclass of QAbstractScrollArea, and to enable mouse
+    tracking in a scroll area you must do viewport()->setMouseTracking(true),
+    not just setMouseTracking(true).  But still no dice.  I am trying to
+    emulate the Prucka way of opening a new window.  A horizontal or vertical
+    dashed line splits the window the mouse is in.  Clicking in the mode opens
+    the window in whatever side of the line you are in, the original window is
+    halved and ends up on the other side of the dotted line.  UPDATE: as long
+    as mouse-tracking is turned on at the level of the child widget, under the
+    mouse, it works.  This is possibly all moot due to changing the central
+    widget of SignalDisplayWindows to a QGraphicsWidget, which will display a
+    QGraphicsScene.
 
 Propagating simulator options
 
-    Options are applied when Navigator and Recorder are constructed, also when options are changed via the SimulatorSettingsDialog.  There can be a SLOT in both Navigator and Recorder: void updateSimulatorSettings().  This can be connected to an updateSimulatorSettings() signal.  The slot can be called directly in the the constructor of Navigator and Recorder, possible other modules.  The slot is different in the different modules, depending on what is affected by changing the settings.  The Recorder window is not present when Navigator is open, so only Recorder needs to send the change signal.  If 2 Recorder windows are open, then the signal can be sent from one to the other, to update the settings.
+    Options are applied when Navigator and Recorder are constructed, also when
+    options are changed via the SimulatorSettingsDialog.  There can be a SLOT
+    in both Navigator and Recorder: void updateSimulatorSettings().  This can
+    be connected to an updateSimulatorSettings() signal.  The slot can be
+    called directly in the the constructor of Navigator and Recorder, possible
+    other modules.  The slot is different in the different modules, depending
+    on what is affected by changing the settings.  The Recorder window is not
+    present when Navigator is open, so only Recorder needs to send the change
+    signal.  If 2 Recorder windows are open, then the signal can be sent from
+    one to the other, to update the settings.
 
   
 AbstactMainWindow
@@ -743,3 +896,43 @@ AbstactMainWindow
 	Recorder that contain the functions common to both.  I use some
 	abstract virtual functions to form fillers for functions that are
 	redefined in the two concrete classes.
+
+StudyConfiguration
+
+	What to do with StudyConfiguration in which the number of channels
+	doesn't match the current amplifier numChannels()?  Options:
+
+	1.  Never change the amplifier.  This is most in accord with reality.
+	In reality you certainly would never have the option to change the
+	amplifier.  So what happens if you load a study configuration with too
+	few or too many channels?  One option would be that the missing blocks
+	would just never appear, would not be editable, but would not
+	disappear when you saved/edited the configuration.  This would imply
+	that all configurations contain the maximum number of channels, to
+	avoid having 2 configurations that look the same but are different.  
+
+	2.  Give a warning if the StudyConfiguration number of channels
+	doesn't match the amplifier number of channels.  You could then either
+	abort or load the StudyConfiguration, possibly expanding or truncating
+	channels as in 1.
+
+	3.  Don't permit it.  Force a change in the Amplifier if this is the
+	case.
+
+	4.  Change the amplifier without further ado if the amplifier in the
+	new StudyConfiguration is different from the one in Options.  
+
+	5.  Filter the StudyConfigurations according to the current
+	amplifier.  This would require a <default> for each amplifier.  This
+	is easy if <default> just includes the usual ECG, pressure, stim
+	channels and the other channels are NotUsed.  There is still a problem
+	if you decide to Continue a study and have changed amplifiers in the
+	meantime.  
+
+	My choice: Hey, it's a simulator after all!
+	Options::instance()->amplifier is used for a new study configuration,
+	unless you are copying a study configuration, in which case the
+	amplifier type from the original configuration is used.  Regardless of
+	what the Options setting is, whatever is stored with the study is
+	used with the study.  And whatever configuration you use, that is the
+	type of amplifier you get.  So

@@ -104,15 +104,7 @@ QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
     return in;
 }
 
-/// TODO StudyConfiguration in Study class is just the config.name(), i.e. a QString.
-/// We can continue this, but we need to write the configuration to a file
-/// in the Study file folder.  That way the configuration can be changed on the fly
-/// during the procedure without necessarily saving a new System study configuration.
-/// So, when a study configuration is chosen, it must be written to disk.
-/// Need saveStudyConfiguration and loadStudyConfiguration functions in Study.
-
 const QString StudyConfiguration::configFileName_ = "config.dat";
-
 
 StudyConfiguration::StudyConfiguration(const QString& name) : name_(name) {
     amplifier_ = new Amplifier(Options::instance()->numChannels);

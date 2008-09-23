@@ -27,9 +27,15 @@
 class QAction;
 class QSettings;
 
+namespace EpGui {
+    class StudyConfigurationDialog;
+}
+
 namespace EpRecorder {
 
 class SignalWidget;
+
+using EpGui::StudyConfigurationDialog;
 
 /**
  * Abstract base class for all MdiSubWindows in Recorder MdiArea.
@@ -79,6 +85,7 @@ public slots:
     void nextPage();
     void updateWindowTitle();
     //void setSweepSpeed(int);
+    void studyConfiguration();
 
 signals:
     void pageChanged(int newPage);
@@ -86,6 +93,7 @@ signals:
 protected:
     SignalDisplayWindow(const QString& name, int number = 0, 
         QWidget* parent = 0);
+    virtual StudyConfigurationDialog* studyConfigurationDialog() = 0;
 
 private:
     SignalWidget* signalWidget_;

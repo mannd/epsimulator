@@ -125,7 +125,7 @@ public:
     // not a real option, but convenient to have the password hash here
     QString passwordHash;
 
-    unsigned int numChannels;
+    int numChannels;
 
     static Options* instance();
 

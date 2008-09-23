@@ -110,7 +110,6 @@ Recorder::Recorder(QWidget* parent,
     createPatientStatusBar();
     createStatusBar();
     createCentralWidget();
-    createAmplifier();
 
     connect(parent, SIGNAL(opticalDiskChanged(OpticalDisk*)),
         this, SLOT(changeOpticalDisk(OpticalDisk*)));
@@ -140,7 +139,6 @@ Recorder::~Recorder() {
     delete patient_;
     // Recorder took possession of study_, so has to kill it now.
     delete study_;
-    delete amplifier_;
 }
 
 /**
@@ -597,18 +595,6 @@ void Recorder::createPatientStatusBar() {
     patientStatusBar_->setPatientInfo(study_->name(), 
         study_->weight(), study_->bsa());
     patientStatusBar_->start();
-}
-
-void Recorder::createAmplifier() {
-    if (recorderWindow_ == Primary)
-        amplifier_ = new Amplifier(options_->numChannels);
-    else if (Recorder* recorder = qobject_cast<Recorder*>(parentWidget()))
-        amplifier_ = recorder->amplifier();
-    else {
-        amplifier_ = 0;
-        // throw something
-        qDebug() << "Couldn't create amplifier.";
-    }
 }
 
 void Recorder::createActions() {

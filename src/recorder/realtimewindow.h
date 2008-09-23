@@ -29,7 +29,13 @@ class QAction;
 class QComboBox;
 class QSettings;
 
+namespace EpGui {
+    class RealTimeStudyConfigurationDialog;
+}
+
 namespace EpRecorder {
+
+using EpGui::StudyConfigurationDialog;
 
 /**
 The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
@@ -51,6 +57,7 @@ public slots:
 //     virtual void updateWindowTitle();
 
 protected:
+    virtual StudyConfigurationDialog* studyConfigurationDialog();
 
 signals:
     void startTimer(bool);
@@ -59,8 +66,6 @@ signals:
 private slots:
     void increaseSweepSpeed();
     void decreaseSweepSpeed();
-    void studyConfiguration();
-    
 
 private:
     virtual void createActions();

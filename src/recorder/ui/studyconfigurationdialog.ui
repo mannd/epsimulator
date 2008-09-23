@@ -5,14 +5,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>953</width>
+    <width>951</width>
     <height>843</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Study Configuration</string>
   </property>
-  <layout class="QGridLayout" >
+  <layout class="QGridLayout" name="gridLayout_2" >
    <item row="0" column="0" colspan="2" >
     <widget class="QTreeView" name="treeView" >
      <property name="sizePolicy" >
@@ -23,21 +23,176 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2" >
+   <item row="0" column="2" colspan="2" >
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>9</number>
+      <number>0</number>
      </property>
-     <widget class="QWidget" name="ecgPage" />
-     <widget class="QWidget" name="pressurePage" />
-     <widget class="QWidget" name="catheterBlockAPage" />
-     <widget class="QWidget" name="catheterBlockBPage" />
-     <widget class="QWidget" name="catheterBlockCPage" />
-     <widget class="QWidget" name="catheterBlockDPage" />
-     <widget class="QWidget" name="catheterBlockEPage" />
-     <widget class="QWidget" name="catheterBlockFPage" />
-     <widget class="QWidget" name="catheterBlockGPage" />
-     <widget class="QWidget" name="stimPage" />
+     <widget class="QWidget" name="amplifierPage" >
+      <layout class="QGridLayout" name="gridLayout" >
+       <item row="0" column="0" >
+        <widget class="QTabWidget" name="amplifierHardwareTab" >
+         <property name="currentIndex" >
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="tab" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>649</width>
+            <height>747</height>
+           </rect>
+          </property>
+          <attribute name="title" >
+           <string>Hardware</string>
+          </attribute>
+          <widget class="QPushButton" name="pushButton" >
+           <property name="geometry" >
+            <rect>
+             <x>170</x>
+             <y>90</y>
+             <width>331</width>
+             <height>101</height>
+            </rect>
+           </property>
+           <property name="text" >
+            <string>Amplifier Hardware Reset</string>
+           </property>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+      <zorder>pushButton</zorder>
+      <zorder>amplifierHardwareTab</zorder>
+     </widget>
+     <widget class="QWidget" name="ecgPage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+      <widget class="QLabel" name="label" >
+       <property name="geometry" >
+        <rect>
+         <x>210</x>
+         <y>150</y>
+         <width>63</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text" >
+        <string>ECG</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="pressurePage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+      <widget class="QLabel" name="label_2" >
+       <property name="geometry" >
+        <rect>
+         <x>70</x>
+         <y>210</y>
+         <width>201</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text" >
+        <string>Pressure Page</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="catheterBlockAPage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="catheterBlockBPage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="catheterBlockCPage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="catheterBlockDPage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="catheterBlockEPage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="catheterBlockFPage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="catheterBlockGPage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="stimPage" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>292</width>
+        <height>791</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </item>
    <item row="1" column="0" >
@@ -54,19 +209,6 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="1" column="3" >
     <widget class="QPushButton" name="closeButton" >
      <property name="text" >
@@ -74,8 +216,38 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="2" >
+    <spacer name="horizontalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>closeButton</sender>
+   <signal>clicked()</signal>
+   <receiver>StudyConfigurationDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>910</x>
+     <y>826</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>846</x>
+     <y>416</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

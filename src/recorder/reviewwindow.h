@@ -28,7 +28,13 @@ class QCloseEvent;
 class QComboBox;
 class QSettings;
 
+namespace EpGui {
+    class StudyConfigurationDialog;
+}
+
 namespace EpRecorder {
+
+using EpGui::StudyConfigurationDialog;
 
 /**
 This window is used to review already saved signal.  You can scroll through the data, or click on a time-stamp in the log window and bring up a window of signals.  This behaves like the RealTimeWindow, except there is no live updating of signals.
@@ -57,6 +63,9 @@ public slots:
     void makeWindowActive(bool);
     void otherWindowActive(bool);
     void updateToolBars();
+
+protected:
+    virtual StudyConfigurationDialog* studyConfigurationDialog();
 
 signals:
     void startTimer(bool);

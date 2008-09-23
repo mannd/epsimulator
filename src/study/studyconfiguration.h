@@ -148,29 +148,24 @@ private:
  * controls the settings of the Ampifier, and the Recorder display.
  * @author David Mann <mannd@epstudiossoftware.com>
  * Here are the settings:
- *      Real Time Window
- *          Channels
- *              ECG                 12 channels
- *              Pressure             4 channels
- *              Catheter Block A    16 channels
- *              Catherer Block B    16 channels
- *              etc. up to G        etc.
- *              Stim                4 stim channels
- *              Input Channel       4 analog inputs
- *              Imaging             configuration settings for images
- *              Analog Out          configuration settings for analog out
- *              Ablation            configuration settings for ablation
- *       Measurements               configuration settings for computer
+ *      - Real Time Window
+ *          - Channels
+ *              - ECG                 12 channels
+ *              - Pressure             4 channels
+ *              - Catheter Block A    16 channels
+ *              - Catherer Block B    16 channels
+ *              - etc. up to G        etc.
+ *              - Stim                4 stim channels
+ *              - Input Channel       4 analog inputs
+ *              - Imaging             configuration settings for images
+ *              - Analog Out          configuration settings for analog out
+ *              - Ablation            configuration settings for ablation
+ *       - Measurements               configuration settings for computer
  *                                      assisted measurements
- *       Protocol List              list of protocols available in the study
- *       Activation Alignment       configuration for activation alignment
- *       Mapping                    mapping configuration 
+ *       - Protocol List              list of protocols available in the study
+ *       - Activation Alignment       configuration for activation alignment
+ *       - Mapping                    mapping configuration 
  */
-
-class StudyConfiguration;
-
-typedef QList<StudyConfiguration> StudyConfigList;
-
 class StudyConfiguration {
     Q_DECLARE_TR_FUNCTIONS(StudyConfiguration)
 
@@ -205,6 +200,8 @@ private:
     QList<Channel> channelList_;
     Amplifier* amplifier_;
 };
+
+typedef QList<StudyConfiguration> StudyConfigList;
 
 StudyConfigList readStudyConfigurations();
 void writeStudyConfigurations(StudyConfigList);

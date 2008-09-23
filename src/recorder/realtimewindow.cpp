@@ -36,6 +36,7 @@
 #include <QtDebug>
 
 using EpGui::createAction;
+using EpGui::RealTimeStudyConfigurationDialog;
 using EpGui::StudyConfigurationDialog;
 using EpRecorder::RealTimeWindow;
 
@@ -46,8 +47,6 @@ RealTimeWindow::RealTimeWindow(int number, QWidget* parent)
     createActions();
     createToolBars();
 }
-
-
 
 void RealTimeWindow::increaseSweepSpeed() {
     int index = sweepSpeedComboBox_->currentIndex();
@@ -65,10 +64,8 @@ void RealTimeWindow::decreaseSweepSpeed() {
     sweepSpeedComboBox_->setCurrentIndex(index);
 }
 
-void RealTimeWindow::studyConfiguration() {
-    StudyConfigurationDialog dialog(this);
-    if (dialog.exec())
-        ;   // do something
+StudyConfigurationDialog* RealTimeWindow::studyConfigurationDialog() {
+    return new RealTimeStudyConfigurationDialog(this);
 }
 
 void RealTimeWindow::createToolBars() {

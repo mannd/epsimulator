@@ -2,38 +2,38 @@
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="11" >
-  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/studyconfigurationdialog.h" >
+   <View0 Encoding="" line="42" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.cpp" >
-   <View0 Encoding="" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/studyconfigurationdialog.cpp" >
+   <View0 Encoding="" line="37" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/signalwidget.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorder.cpp" >
+   <View0 Encoding="" line="127" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/signalwidget.cpp" >
-   <View0 Encoding="" Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/realtimewindow.cpp" >
+   <View0 Encoding="" line="70" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/study/studyconfiguration.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.cpp" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/hardware/amplifier.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/displaywindow.h" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/study/studyconfiguration.cpp" >
-   <View0 Encoding="" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/recorderdefs.h" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/test/testepsimulator.h" >
-   <View0 Encoding="" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/selectstudyconfigdialog.cpp" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/test/testepsimulator.cpp" >
-   <View0 Encoding="" Type="Source" />
+  <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/navigator/navigator.cpp" >
+   <View0 Encoding="" line="157" Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/hardware/amplifier.cpp" >
-   <View0 Encoding="" Type="Source" />
+  <Doc9 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/study/studyconfiguration.cpp" >
+   <View0 Encoding="" line="0" Type="Source" />
   </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///usr/local/Trolltech/Qt-4.4.0/include/QtCore/qdatastream.h" >
-   <View0 Encoding="" line="237" Type="Source" />
+  <Doc10 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/hardware/amplifier.h" >
+   <View0 Encoding="" line="54" Type="Source" />
   </Doc10>
  </DocsAndViews>
  <pluginList>
@@ -54,14 +54,14 @@
      <mark line="925" />
      <mark line="915" />
     </bookmark>
-    <bookmark url="/home/mannd/dev/local/epsimulator/src/hardware/opticaldisk.h" >
-     <mark line="51" />
+    <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+     <mark line="437" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
      <mark line="444" />
     </bookmark>
-    <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="437" />
+    <bookmark url="/home/mannd/dev/local/epsimulator/src/hardware/opticaldisk.h" >
+     <mark line="51" />
     </bookmark>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/changepassworddialog.h" >
      <mark line="34" />

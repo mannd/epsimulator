@@ -96,6 +96,7 @@ public:
     QString filePath() const;  // full path including fileName
     QString fileName() const {return fileName_;}
 
+
     // generates appropriate location format
     // overriden by specific catalog types
     virtual QString location(const StudyData&); 

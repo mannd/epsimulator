@@ -25,26 +25,46 @@
 
 #include <QDialog>
 
+class QModelIndex;
 class QStandardItemModel;
 
 namespace EpGui {
 
 class StudyConfigurationDialog : public QDialog, 
-    private Ui::StudyConfigurationDialog {
+    protected Ui::StudyConfigurationDialog {
     Q_OBJECT
 
 public:
     StudyConfigurationDialog(QWidget* parent = 0);
-    ~StudyConfigurationDialog();
+    ~StudyConfigurationDialog() = 0;
 
 public slots:
 
 protected:
-
+    void setModel(QStandardItemModel* model) {model_ = model;}
+    QStandardItemModel* model() const {return model_;}
+    
 protected slots:
+    void changePage(const QModelIndex&);
+    void save();
+    void saveAs();
 
 private:
     QStandardItemModel* model_;
+};
+
+class RealTimeStudyConfigurationDialog : public StudyConfigurationDialog {
+    Q_OBJECT
+
+public:
+    RealTimeStudyConfigurationDialog(QWidget* parent = 0);
+};
+
+class ReviewStudyConfigurationDialog: public StudyConfigurationDialog {
+    Q_OBJECT
+
+public:
+    ReviewStudyConfigurationDialog(QWidget* parent = 0, int windowNum = 1);
 };
 
 }

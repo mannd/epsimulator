@@ -436,9 +436,9 @@ void TestEpSimulator::testVersionOk() {
 }
 
 void TestEpSimulator::testCatalog() {
-    Catalog c("../../System", "catalog.dat");
+    Catalog c(Options::instance()->systemCatalogPath, "catalog.dat");
     //qDebug() << "Working Dir = " << QDir::current();
-    QVERIFY(c.filePath() == "../../System/catalog.dat");
+    QVERIFY(c.filePath() == Options::instance()->systemCatalogPath + "/catalog.dat");
     c.setPath("/testpath/");
     // make sure no duplicate backslashes
     QVERIFY(c.filePath() == "/testpath/catalog.dat");
@@ -599,6 +599,8 @@ void TestEpSimulator::testStudyConfigurations() {
     StudyConfigList list = readStudyConfigurations();
     QVERIFY(list[0].name() == tr("<default>"));
     QVERIFY(list[0].amplifier()->channel(1)->label() == tr("I"));
+    QVERIFY(list[0].amplifier()->numChannels() 
+	    == Options::instance()->numChannels);
 }
 
 void TestEpSimulator::cleanupTestCase() {

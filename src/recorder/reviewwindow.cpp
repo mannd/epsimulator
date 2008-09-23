@@ -21,6 +21,7 @@
 #include "reviewwindow.h"
 
 #include "actions.h"
+#include "studyconfigurationdialog.h"
 
 #include <QAction>
 #include <QCloseEvent>
@@ -30,6 +31,8 @@
 #include <QSplitter>
 #include <QToolBar>
 
+using EpGui::ReviewStudyConfigurationDialog;
+using EpGui::StudyConfigurationDialog;
 using EpRecorder::ReviewWindow;
 
 ReviewWindow::ReviewWindow(int number, QWidget *parent)
@@ -71,6 +74,11 @@ void ReviewWindow::otherWindowActive(bool enable) {
     makeWindowActiveAction_->setChecked(!enable);
 }
 
+
+StudyConfigurationDialog* ReviewWindow::studyConfigurationDialog() {
+    return new ReviewStudyConfigurationDialog(this, number());
+}
+
 void ReviewWindow::writeSettings(QSettings& settings) {
     settings.setValue("state", saveState());
     //settings.setValue("splitter", 
@@ -100,7 +108,9 @@ void ReviewWindow::createActions() {
         tr("Increase sweep speed"), SLOT(increaseSweepSpeed()),
         0, "hi32-plus.png");
     studyConfigAction_ = createAction(this, tr("Study Configuration"),
-        tr("Open study configuration"), 0, 0, "hi32-studyconfig.png");
+				      tr("Open study configuration"), 
+				      SLOT(studyConfiguration()), 
+				      0, "hi32-studyconfig.png");
     timeCalipersAction_ = createAction(this, tr("Time Calipers"),
         tr("Time calipers"), 0, 0, "hi32-timecalipers.png");
     timeCalipersAction_->setCheckable(true);

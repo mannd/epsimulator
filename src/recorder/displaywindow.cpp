@@ -22,6 +22,7 @@
 
 #include "actions.h"
 #include "signalwidget.h"
+#include "studyconfigurationdialog.h"
 
 #include <QKeySequence>
 #include <QSettings>
@@ -57,6 +58,14 @@ void SignalDisplayWindow::updateWindowTitle() {
         : tr("%1 %2: Page %3").arg(name()).arg(number()).arg(currentPage());
     setWindowTitle(title);
 }
+
+void SignalDisplayWindow::studyConfiguration() {
+    EpGui::StudyConfigurationDialog* dialog  = studyConfigurationDialog();
+    if (dialog->exec())
+        ;   // do something
+    delete dialog;
+}
+
 
 void SignalDisplayWindow::setCurrentPage(int page) {
     currentPage_ = qBound(minPage, page, maxPage);

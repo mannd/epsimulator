@@ -84,8 +84,6 @@ public:
         RecorderWindow = Primary);
     ~Recorder();
     
-    Amplifier* amplifier() const {return amplifier_;}
-
     void setupInitialScreen(bool tile = false);  // the default screen setup
     void updateAll();
 
@@ -157,7 +155,6 @@ private:
     void createToolBars();
     void createStatusBar();
     void createPatientStatusBar();
-    void createAmplifier();
     void updateWindowTitle();
     virtual void readSettings();
     void readSettings(QSettings&);
@@ -177,7 +174,6 @@ private:
 
     // hardware
     OpticalDisk* currentDisk_;
-    Amplifier* amplifier_;
 
     // types of Recorder window
     bool allowAcquisition_;
