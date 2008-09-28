@@ -159,6 +159,8 @@ public:
     bool isPreregisterStudy() const {return config_.isEmpty();}
                             // Preregistered study has no config
                             // Must disallow empty configs!
+    StudyConfiguration* studyConfiguration() const {
+        return studyConfiguration_;}
 
     // file related members
     QString path() const {return path_;} // returns path to 

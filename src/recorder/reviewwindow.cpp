@@ -21,6 +21,7 @@
 #include "reviewwindow.h"
 
 #include "actions.h"
+#include "study.h"
 #include "studyconfigurationdialog.h"
 
 #include <QAction>
@@ -34,9 +35,10 @@
 using EpGui::ReviewStudyConfigurationDialog;
 using EpGui::StudyConfigurationDialog;
 using EpRecorder::ReviewWindow;
+using EpStudy::Study;
 
-ReviewWindow::ReviewWindow(int number, QWidget *parent)
- : SignalDisplayWindow(tr("Review"), number, parent) {
+ReviewWindow::ReviewWindow(Study* study, int number, QWidget *parent)
+ : SignalDisplayWindow(tr("Review"), study, number, parent) {
     createCentralWidget();
     createActions();
     createToolBars();
@@ -61,7 +63,7 @@ void ReviewWindow::decreaseSweepSpeed() {
     int maxIndex = sweepSpeedComboBox_->count() -1;
     if (++index > maxIndex)  
         index = maxIndex;
-    sweepSpeedComboBox_-> setCurrentIndex(index);
+    sweepSpeedComboBox_->setCurrentIndex(index);
 }
 
 void ReviewWindow::makeWindowActive(bool enable) {
@@ -76,7 +78,8 @@ void ReviewWindow::otherWindowActive(bool enable) {
 
 
 StudyConfigurationDialog* ReviewWindow::studyConfigurationDialog() {
-    return new ReviewStudyConfigurationDialog(this, number());
+    return new ReviewStudyConfigurationDialog(study()->studyConfiguration(), 
+                                              this, number());
 }
 
 void ReviewWindow::writeSettings(QSettings& settings) {

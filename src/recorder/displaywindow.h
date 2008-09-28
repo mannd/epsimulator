@@ -31,11 +31,16 @@ namespace EpGui {
     class StudyConfigurationDialog;
 }
 
+namespace EpStudy {
+    class Study;
+}
+
 namespace EpRecorder {
 
 class SignalWidget;
 
 using EpGui::StudyConfigurationDialog;
+using EpStudy::Study;
 
 /**
  * Abstract base class for all MdiSubWindows in Recorder MdiArea.
@@ -54,12 +59,14 @@ public:
     int number() const {return number_;}
 
 protected:
-    DisplayWindow(const QString& name, 
+    DisplayWindow(const QString& name, Study* study, 
                   int number = 0, 
                   QWidget* parent = 0); 
+    Study* study() const {return study_;}
 
 private:
     const QString name_;
+    Study* study_;
     const int number_;
 };
 
@@ -91,8 +98,8 @@ signals:
     void pageChanged(int newPage);
 
 protected:
-    SignalDisplayWindow(const QString& name, int number = 0, 
-        QWidget* parent = 0);
+    SignalDisplayWindow(const QString& name, Study* study,
+        int number = 0, QWidget* parent = 0);
     virtual StudyConfigurationDialog* studyConfigurationDialog() = 0;
 
 private:

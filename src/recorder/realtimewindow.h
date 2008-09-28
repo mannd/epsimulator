@@ -45,7 +45,7 @@ The real-time recording window, central widget of recorder.  Uses multiple inher
 class RealTimeWindow : public SignalDisplayWindow  {
     Q_OBJECT
 public:
-    RealTimeWindow(int number = 0, QWidget* parent = 0);
+    RealTimeWindow(Study* study, int number = 0, QWidget* parent = 0);
     
     virtual void writeSettings(QSettings&);
     virtual void readSettings(QSettings&);

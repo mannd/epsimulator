@@ -165,7 +165,7 @@ private:
     bool subWindowIsOpen(QMdiSubWindow*);
 
     template<typename T>
-    void openSubWindow(bool, QMdiSubWindow*&, T*&, int number = 0);
+    void openSubWindow(bool, QMdiSubWindow*&, T*&, Study*, int number = 0);
 
     Study* study_;
     Patient* patient_;
@@ -300,14 +300,14 @@ private:
  */
 template<typename T> 
 void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow, 
-    T*& internalWidget, int number) {
+    T*& internalWidget, Study* study, int number) {
     bool alreadyOpen = subWindowIsOpen(subWindow);
     if (open && alreadyOpen)
         return;
     if (!open && !alreadyOpen)
         return;
     if (open) {
-        internalWidget = new T(number);
+        internalWidget = new T(study, number);
         subWindow = centralWidget_->addSubWindow(internalWidget, 
             Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
         QMenu* systemMenu = new QMenu(subWindow);

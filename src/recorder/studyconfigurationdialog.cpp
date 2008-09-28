@@ -22,8 +22,10 @@
 
 #include "amplifier.h"
 #include "options.h"
+#include "studyconfiguration.h"
 
 #include <QHeaderView>
+#include <QMessageBox>
 #include <QStandardItemModel>
 
 namespace EpGui {
@@ -31,10 +33,12 @@ namespace EpGui {
 using EpCore::Options;
 using EpHardware::EpAmplifier::Amplifier;
 
-StudyConfigurationDialog::StudyConfigurationDialog(QWidget* parent)
+StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
+    QWidget* parent)
     : QDialog(parent), Ui::StudyConfigurationDialog(),
-      model_(new QStandardItemModel) {
+      model_(new QStandardItemModel), studyConfiguration_(config) {
     setupUi(this);
+
     connect(saveButton, SIGNAL(clicked()),
         this, SLOT(save()));
     connect(saveAsButton, SIGNAL(clicked()),
@@ -59,14 +63,23 @@ void StudyConfigurationDialog::saveAs() {
 
 }
 
+void StudyConfigurationDialog::amplifierReset() {
+    studyConfiguration_->amplifier()->reset();
+    QMessageBox::information(this, tr("Amplifier Reset"),
+			     tr("Amplifier successfully reset"));
+}
+
 RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
-    QWidget* parent) : StudyConfigurationDialog(parent) {
+    StudyConfiguration* config, QWidget* parent) 
+    : StudyConfigurationDialog(config, parent) {
     QStandardItem* rootItem = new QStandardItem(tr("EP Simulator"));
+    int pageNum = 0;
+    rootItem->setData(pageNum);
     model()->appendRow(rootItem);
     QStandardItem* realTimeItem = new QStandardItem(tr("Real Time"));
+    realTimeItem->setData(pageNum++);
     rootItem->appendRow(realTimeItem);
     QStandardItem* amplifierItem = new QStandardItem(tr("EP Sim Amplifier"));
-    int pageNum = 0;
     amplifierItem->setData(pageNum++);
     realTimeItem->appendRow(amplifierItem);
     QStandardItem* ecgItem = new QStandardItem(tr("ECG"));
@@ -83,6 +96,8 @@ RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
         amplifierItem->appendRow(block);
     }
     QStandardItem* stimItem = new QStandardItem(tr("Stim"));
+    /// TODO a hack
+    pageNum = 11;   // stimPage
     stimItem->setData(pageNum++);
     amplifierItem->appendRow(stimItem);
     QStandardItem* inputItem = new QStandardItem(tr("Input"));
@@ -132,18 +147,24 @@ RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
         this, SLOT(changePage(QModelIndex)));
     connect(treeView, SIGNAL(clicked(QModelIndex)),
         this, SLOT(changePage(QModelIndex)));
+    connect(amplifierResetButton, SIGNAL(clicked()),
+        this, SLOT(amplifierReset()));
 }
 
 ReviewStudyConfigurationDialog::ReviewStudyConfigurationDialog(
-    QWidget* parent, int windowNum) : StudyConfigurationDialog(parent) {
+    StudyConfiguration* config, QWidget* parent, int windowNum) 
+    : StudyConfigurationDialog(config, parent) {
     Q_ASSERT(windowNum == 1 || windowNum == 2);
     QStandardItem* rootItem = new QStandardItem(tr("EP Simulator"));
+    int pageNum = 0;  // blank page
+    rootItem->setData(pageNum);
     model()->appendRow(rootItem);
     QStandardItem* reviewItem = 
 	new QStandardItem(tr("Review %1").arg(QString::number(windowNum)));
+    reviewItem->setData(pageNum);  // blank page
     rootItem->appendRow(reviewItem);
     QStandardItem* ecgItem = new QStandardItem(tr("ECG"));
-    int pageNum = 1;  // skip amplifier page
+    pageNum = 2;  // skip amplifier page
     ecgItem->setData(pageNum++);
     reviewItem->appendRow(ecgItem);
     QStandardItem* pressureItem = new QStandardItem(tr("Pressure"));
@@ -156,6 +177,7 @@ ReviewStudyConfigurationDialog::ReviewStudyConfigurationDialog(
         block->setData(pageNum++);
         reviewItem->appendRow(block);
     }
+    pageNum = 11;   // stimPage
     QStandardItem* stimItem = new QStandardItem(tr("Stim"));
     stimItem->setData(pageNum++);
     reviewItem->appendRow(stimItem);
@@ -177,6 +199,9 @@ ReviewStudyConfigurationDialog::ReviewStudyConfigurationDialog(
     QItemSelection selection(defaultIndex, defaultIndex);
     selectionModel->select(selection, QItemSelectionModel::Select);
     changePage(defaultIndex);
+
+    saveButton->hide();
+    saveAsButton->hide();
 
     connect(treeView, SIGNAL(activated(QModelIndex)),
         this, SLOT(changePage(QModelIndex)));

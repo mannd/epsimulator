@@ -21,6 +21,7 @@
 #include "realtimewindow.h"
 
 #include "actions.h"
+#include "study.h"
 #include "studyconfigurationdialog.h"
 
 #include <QAction>
@@ -39,9 +40,10 @@ using EpGui::createAction;
 using EpGui::RealTimeStudyConfigurationDialog;
 using EpGui::StudyConfigurationDialog;
 using EpRecorder::RealTimeWindow;
+using EpStudy::Study;
 
-RealTimeWindow::RealTimeWindow(int number, QWidget* parent)
- : SignalDisplayWindow(tr("Real-Time"), number, parent) {
+RealTimeWindow::RealTimeWindow(Study* study, int number, QWidget* parent)
+ : SignalDisplayWindow(tr("Real-Time"), study,number, parent) {
     updateWindowTitle();
     createCentralWidget();
     createActions();
@@ -65,7 +67,8 @@ void RealTimeWindow::decreaseSweepSpeed() {
 }
 
 StudyConfigurationDialog* RealTimeWindow::studyConfigurationDialog() {
-    return new RealTimeStudyConfigurationDialog(this);
+    return new RealTimeStudyConfigurationDialog(study()->studyConfiguration(), 
+                                                this);
 }
 
 void RealTimeWindow::createToolBars() {

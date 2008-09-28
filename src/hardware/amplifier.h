@@ -24,7 +24,6 @@
 #include <QColor>
 #include <QCoreApplication>
 #include <QList>
-#include <QString>
 
 class QDataStream;
 
@@ -42,6 +41,7 @@ class Channel;
  */
 class Amplifier {
     Q_DECLARE_TR_FUNCTIONS(Amplifier)
+
 public:
     explicit Amplifier(int numChannels = 48);
     Amplifier(const Amplifier&);
@@ -60,6 +60,7 @@ public:
     // The rest are plain intracardiac channels.
     static int numCIMConnections(int numChannels) {
         return (numChannels - 16) / 16;}
+    void reset();  // perform hardware reset
 
     int numChannels() const {return numChannels_;}
     int numCIMConnections() const {

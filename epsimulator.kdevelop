@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>src/hardware</activedir>
+      <activedir>src/recorder</activedir>
     </general>
     <run>
       <directoryradio>executable</directoryradio>

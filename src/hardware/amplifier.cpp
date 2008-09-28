@@ -20,7 +20,9 @@
 
 #include "amplifier.h"
 
+#include <QApplication>
 #include <QDataStream>
+#include <QMessageBox>
 #include <QtGlobal>
 
 namespace EpHardware { namespace EpAmplifier {
@@ -85,6 +87,10 @@ Amplifier& Amplifier::operator =(const Amplifier& rhs) {
 
 Amplifier::~Amplifier() {
     qDeleteAll(channels_);
+}
+
+void Amplifier::reset() {
+   QApplication::beep(); 
 }
 
 Channel* Amplifier::channel(int n) {

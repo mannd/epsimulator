@@ -44,7 +44,7 @@ This window is used to review already saved signal.  You can scroll through the 
 class ReviewWindow : public SignalDisplayWindow  {
     Q_OBJECT
 public:
-    ReviewWindow(int number = 1, QWidget *parent = 0);
+    ReviewWindow(Study*, int number = 1, QWidget *parent = 0);
 
     virtual void writeSettings(QSettings&);
     virtual void readSettings(QSettings&);
