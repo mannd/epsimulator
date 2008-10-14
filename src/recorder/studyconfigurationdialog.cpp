@@ -182,9 +182,9 @@ ReviewStudyConfigurationDialog::ReviewStudyConfigurationDialog(
     stimItem->setData(pageNum++);
     reviewItem->appendRow(stimItem);
     /// TODO is this actually Analog In in review screen?
-    QStandardItem* analogOutItem = new QStandardItem(tr("Analog Out"));
-    analogOutItem->setData(pageNum++);
-    reviewItem->appendRow(analogOutItem);
+    QStandardItem* analogInItem = new QStandardItem(tr("Analog In"));
+    analogInItem->setData(pageNum++);
+    reviewItem->appendRow(analogInItem);
 
     treeView->setModel(model());
     treeView->header()->hide();
