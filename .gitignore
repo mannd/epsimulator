@@ -1,0 +1,9 @@
+*.[oa]
+*~
+moc_*
+ui_*
+qrc_*
+Makefile
+lib/*
+epsimulator
+testepsimulator

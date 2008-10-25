@@ -207,7 +207,6 @@ private:
     QAction* ejectOpticalDiskAction_;
 
     // Administration menu
-    QAction* changePasswordAction_;
     QAction* intervalsAction_;
     QAction* columnFormatsAction_;
     QAction* protocolsAction_;

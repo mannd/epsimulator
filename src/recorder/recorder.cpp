@@ -454,7 +454,6 @@ void Recorder::writeSettings() {
 }
 
 void Recorder::writeSettings(QSettings& settings) {
-    //QSettings settings;
     // save overall Recorder size, position and state
     QDesktopWidget* desktop = qApp->desktop();
     settings.beginGroup(QString("screen%1").arg(desktop->screenNumber(this)));
@@ -530,8 +529,6 @@ void Recorder::readSettings(QSettings& settings) {
         return;
     }
     restoreGeometry(settings.value("geometry").toByteArray());
-    //resize(size.toSize());
-    //move(settings.value("pos").toPoint());
     restoreState(settings.value("state").toByteArray());
 }
 
@@ -745,14 +742,6 @@ void Recorder::createActions() {
         tr("Cascade windows"), SLOT(cascadeSubWindows()));
 
     // Administration menu
-//     loginAction_= createAction(this, tr("Login..."),
-//         tr("Login as administrator"), SLOT(login()));
-//     logoutAction_= createAction(this, tr("Logout"),
-//         tr("Logout from administrator"), SLOT(logout()));
-    changePasswordAction_= createAction(this, tr("Change Password..."),
-        tr("Change administrator password"), SLOT(changePassword()));
-//     systemSettingsAction_ = createAction(this, tr("System Settings"),
-//         tr("Configure system settings"), SLOT(systemSettings()));
     printSetupAction_ = createAction(this, tr("Print Setup"),
         tr("Setup printer"));
     adminReportsAction_ = createAction(this, tr("Reports"),
@@ -873,7 +862,7 @@ void Recorder::createMenus() {
     securitySubMenu_ = new QMenu(tr("Security"));
     securitySubMenu_->addAction(loginAction());
     securitySubMenu_->addAction(logoutAction());
-    securitySubMenu_->addAction(changePasswordAction_);
+    securitySubMenu_->addAction(changePasswordAction());
     administrationMenu_->addMenu(securitySubMenu_);
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(systemSettingsAction());

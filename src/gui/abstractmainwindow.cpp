@@ -156,6 +156,8 @@ void AbstractMainWindow::createActions() {
         tr("Login as administrator"), SLOT(login()));
     logoutAction_ = createAction(this, tr("Logout"),
         tr("Logout from administrator"), SLOT(logout()));
+    changePasswordAction_= createAction(this, tr("Change Password..."),
+        tr("Change administrator password"), SLOT(changePassword()));
     aboutAction_ = createAction(this, tr("&About EP Simulator"),
         tr("About EP Simulator"), SLOT(about()));
     helpAction_ = createAction(this, tr("EP Simulator Help..."),

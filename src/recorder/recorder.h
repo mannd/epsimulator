@@ -97,7 +97,6 @@ protected:
 
     bool eventFilter(QObject*, QEvent*);
     void closeEvent(QCloseEvent*);
-    //    void contextMenuEvent(QContextMenuEvent * event);
     void resizeEvent(QResizeEvent*);
 
 signals:
@@ -254,7 +253,6 @@ private:
     QAction* cascadeAction_;
 
     // Administration Menu
-    QAction* changePasswordAction_;
     //QAction* systemSettingsAction_;
     QAction* printSetupAction_;
     QAction* adminReportsAction_;   // there is a Report action in the Study menu too

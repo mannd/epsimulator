@@ -817,12 +817,6 @@ void Navigator::createActions() {
         tr("Eject optical disk"), SLOT(ejectDisk()));
 
     // Administration menu
-//     loginAction_= createAction(this, tr("Login..."),
-//         tr("Login as administrator"), SLOT(login()));
-//     logoutAction_= createAction(this, tr("Logout"),
-//         tr("Logout from administrator"), SLOT(logout()));
-    changePasswordAction_= createAction(this, tr("Change Password..."),
-        tr("Change administrator password"), SLOT(changePassword()));
     intervalsAction_= createAction(this, tr("Intervals"),
         tr("Intervals"), SLOT(setIntervals()));
     columnFormatsAction_= createAction(this, tr("Column Formats"),
@@ -836,12 +830,7 @@ void Navigator::createActions() {
 //     simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
 //         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
-    // Help menu
-//     epsimulatorHelpAction_ = createAction(this, tr("EP Simulator Help..."),
-//         tr("Get help for EP Simulator"), SLOT(help()), 
-//         QKeySequence::HelpContents);
-//     aboutAction_= createAction(this, tr("&About EP Simulator"),
-//         tr("About EP Simulator"), SLOT(about()));
+    // Help menu -- in AbstractMainWindow
 }
 
 void Navigator::createToolBars() {
@@ -903,7 +892,7 @@ void Navigator::createMenus() {
     securitySubMenu_ = new QMenu(tr("Security"));
     securitySubMenu_->addAction(loginAction());
     securitySubMenu_->addAction(logoutAction());
-    securitySubMenu_->addAction(changePasswordAction_);
+    securitySubMenu_->addAction(changePasswordAction());
     administrationMenu_->addMenu(securitySubMenu_);
     //insert Lists submenu here
     administrationMenu_->addSeparator();
