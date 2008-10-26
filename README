@@ -1,9 +1,19 @@
 Note to developers:
 
-    As EP Simulator uses shared libraries, make sure the epsimulator/lib path is included in your library path.  You can export LD_LIBRARY_PATH=[path to]/epsimulator/lib or set up a link in /usr/lib to the libraries in epsimulator/lib.  If the program is installed, this is not a problem.  If you are using KDevelop the project file will generate a command line that works, though you will probably need to change the absolute path to the program.
+As EP Simulator uses shared libraries, make sure the epsimulator/lib path is included in your library path.  You can export LD_LIBRARY_PATH=[path to]/epsimulator/lib or set up a link in /usr/lib to the libraries in epsimulator/lib.  If the program is installed, this is not a problem.  If you are using KDevelop the project file will generate a command line that works, though you will probably need to change the absolute path to the program.
 
 Here is the command line generated when I run the program (all one line):
 
 LD_LIBRARY_PATH=./lib:../lib:../../lib:$LD_LIBRARY_PATH /home/mannd/dev/local/epsimulator/bin/epsimulator
 
 Note that there is a space between the 2nd LD_LIBRARY_PATH and the executable path (/home/mannd/dev/...etc).
+
+You can use the shell scripts in the bin directory to build and run the
+program, provided you alter the paths according to your setup.
+
+Note that Qt4 (currently using 4.4.0) is required to compile, and Qt must be
+compiled with NAS sound support:
+
+./configure -system-nas-sound
+
+Note that by default sound is not enabled when compiling Qt.

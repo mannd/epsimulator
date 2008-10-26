@@ -7,9 +7,9 @@ QT += qt3support
 
 SUBDIRS += src/core \
            src/patient \
+           src/hardware \
            src/study \
            src/gui \
-           src/hardware \
            src/stimulator \
 	   src/recorder \
            src/navigator \
