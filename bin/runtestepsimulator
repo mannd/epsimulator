@@ -1,2 +1,2 @@
 #!/bin/sh
-LD_LIBRARY_PATH=./lib:../lib:../../lib:$LD_LIBRARY_PATH '/home/mannd/dev/local/epsimulator/bin/testepsimulator'  
+LD_LIBRARY_PATH=./lib:../lib:../../lib:$LD_LIBRARY_PATH bin/testepsimulator
