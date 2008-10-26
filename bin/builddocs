@@ -1,1 +1,2 @@
+#!/bin/sh
 cd '/home/mannd/dev/local/epsimulator' && doxygen Doxyfile
