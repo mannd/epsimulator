@@ -1,3 +1,3 @@
 #!/bin/sh
-QTDIR="/usr/local/Trolltech/Qt-4.4.0/" \
-/usr/local/Trolltech/Qt-4.4.0/bin/qmake -r epsimulator.pro
+QTDIR="/usr/local/Trolltech/Qt-4" \
+/usr/local/Trolltech/Qt-4/bin/qmake -r epsimulator.pro
