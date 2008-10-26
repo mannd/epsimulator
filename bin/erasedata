@@ -6,6 +6,6 @@
 # Note location of configuration files is different in Qt4 vs 3
 rm -f ~/.config/EPStudios/EPSimulator.conf
 rm -fr ~/MyStudies/*
-rm -f ~/dev/local/epsimulator/test/catalog.dat
-rm -f ~/dev/local/epsimulator/System/catalog.dat
-rm -f ~/dev/local/epsimulator/System/config.dat
+rm -f src/test/catalog.dat
+rm -f System/catalog.dat
+rm -f System/config.dat
