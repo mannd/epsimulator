@@ -1,10 +1,13 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="1" >
+ <DocsAndViews NumberOfDocuments="2" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/local/epsimulator/src/recorder/studyconfigurationdialog.cpp" >
    <View0 Encoding="" line="85" Type="Source" />
   </Doc0>
+  <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/git/epsimulator/src/core/fileutilities.h" >
+   <View0 Encoding="" line="122" Type="Source" />
+  </Doc1>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
@@ -24,14 +27,14 @@
      <mark line="925" />
      <mark line="915" />
     </bookmark>
-    <bookmark url="/home/mannd/dev/local/epsimulator/src/hardware/opticaldisk.h" >
-     <mark line="51" />
+    <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
+     <mark line="437" />
     </bookmark>
     <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
      <mark line="444" />
     </bookmark>
-    <bookmark url="/home/mannd/dev/epsimulator/test/MyTestSuite.h" >
-     <mark line="437" />
+    <bookmark url="/home/mannd/dev/local/epsimulator/src/hardware/opticaldisk.h" >
+     <mark line="51" />
     </bookmark>
     <bookmark url="/home/mannd/dev/local/epsimulator/src/changepassworddialog.h" >
      <mark line="34" />
