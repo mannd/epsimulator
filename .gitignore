@@ -7,3 +7,6 @@ Makefile
 lib/*
 epsimulator
 testepsimulator
+epsimulator.kdevses
+epsimulator.kdevelop.pcs
+
