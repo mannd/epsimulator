@@ -1,16 +1,21 @@
 Note to developers:
 
 You can use the shell scripts in the bin directory to build and run the
-program, provided you alter the paths according to your setup.  In order for
-the shell scripts to work, you must run them from the top-level directory that you
-installed the source code into, e.g.:
+program, provided you first add a link to your Qt-4 installion as follows:
 
-user@Sluggo:~> cd ~/epsimulator
-user@Sluggo:~/epsimulator> bin/qmakeepsimulator
+    sudo ln -s /usr/local/Trolltech/Qt-4.X.Y /usr/local/Trolltech/Qt-4
 
-Note that Qt4 (currently using 4.4.0) is required to compile, and Qt must be
-compiled with NAS sound support:
+In order for the shell scripts to work, you must run them from the top-level
+directory that you installed the source code into, e.g.:
 
-user@Sluggo:~> ./configure -system-nas-sound
+    cd ~/epsimulator
+    bin/qmakeepsimulator
 
-Note that by default sound is not enabled when compiling Qt.
+Note that Qt4 is required to compile, and Qt must be compiled with NAS sound
+support:
+
+    ./configure -system-nas-sound
+
+(by default sound is not enabled when compiling Qt).
+
+More detailed installation instructions are in the INSTALL file.

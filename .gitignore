@@ -9,4 +9,6 @@ epsimulator
 testepsimulator
 epsimulator.kdevses
 epsimulator.kdevelop.pcs
+epsimulator.tag
+doc/html/*
 
