@@ -161,6 +161,7 @@ private:
 
     // misc
     void noStudySelectedError();
+    bool acquisitionIsEnabled();
 
     // Data members
     Options* options_;

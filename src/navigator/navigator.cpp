@@ -119,14 +119,21 @@ void Navigator::closeEvent(QCloseEvent* event) {
 
 // private slots
 
-// Blue bar actions
-void Navigator::newStudy() {
+bool Navigator::acquisitionIsEnabled() {
     if (!options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
         QMessageBox::information(this, tr("Acquisition Not Enabled"),
             tr("This workstation is not set up for acquisition. "
             "Select the System Settings menu item to enable acquisition."));
-        return;
+        return false;
     }
+    return true;
+}
+
+
+// Blue bar actions
+void Navigator::newStudy() {
+    if (!acquisitionIsEnabled())
+	return;
     if (!currentDisk_->isLabeled()) 
         relabelDisk();
     // if after all the above we finally have a label...
@@ -149,6 +156,14 @@ void Navigator::newStudy() {
 }
 
 void Navigator::continueStudy() {
+    if (!acquisitionIsEnabled())
+	return;
+    if (!options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
+        QMessageBox::information(this, tr("Acquisition Not Enabled"),
+            tr("This workstation is not set up for acquisition. "
+            "Select the System Settings menu item to enable acquisition."));
+        return;
+    }
     Study* study = getSelectedStudy();
     if (!study) {
         noStudySelectedError();
