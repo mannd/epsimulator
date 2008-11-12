@@ -23,6 +23,7 @@
  * the epsimulator window, we will actually just be changing the menus
  * and the central widget
  */
+
 #include "navigator.h"
 
 #include "actions.h"
@@ -63,7 +64,6 @@
 #include <algorithm>
 #include <memory>
 
-//using EpGui::AbstractMainWindow;
 using EpGui::PatientDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
@@ -444,7 +444,7 @@ void Navigator::ejectDisk() {
  */
 void Navigator::createDefaultDataDir() {
     QString defaultDataDirName = "MyStudies";
-    if (!QDir::home().exists(defaultDataDirName))
+    if (!QDir::home().exists(defaultDataDirName)) {
         if (!QDir::home().mkdir(defaultDataDirName)) {
             QMessageBox::warning(this, 
                                  tr("Could Not Create Data Directory"),
@@ -466,6 +466,7 @@ void Navigator::createDefaultDataDir() {
                                      .arg(QDir::home()
                                      .filePath(defaultDataDirName)));
         }
+    }
 }
 
 /** 
