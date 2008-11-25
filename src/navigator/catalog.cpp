@@ -41,8 +41,7 @@ using EpNavigator::OtherCatalog;
 using EpNavigator::SystemCatalog;
 using EpNavigator::NetworkCatalog;
 using EpNavigator::Catalogs;
-
-
+using EpStudy::Study;
 
 namespace EpNavigator {
 

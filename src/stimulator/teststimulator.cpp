@@ -26,6 +26,7 @@
 #include <QSound>
 #include <QTimer>
 
+using namespace Ep;
 using EpHardware::EpStimulator::TestStimulator;
 
 TestStimulator::TestStimulator(QWidget* parent, Qt::WFlags fl)

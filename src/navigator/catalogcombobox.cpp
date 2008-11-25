@@ -22,6 +22,7 @@
 
 #include "options.h"
 
+using EpCore::Options;
 using EpNavigator::CatalogComboBox;
 using EpNavigator::Catalog;
 

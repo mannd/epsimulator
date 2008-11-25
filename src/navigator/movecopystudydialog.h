@@ -51,7 +51,8 @@ class MoveCopyStudyDialog : public QDialog, private Ui::MoveCopyStudyDialog {
     Q_OBJECT
 
 public:
-    MoveCopyStudyDialog(QWidget* parent, OpticalDisk*);
+    MoveCopyStudyDialog(QWidget* parent, 
+                        EpHardware::EpOpticalDisk::OpticalDisk*);
     QString sourcePath();
     QString destinationPath();
     QList<QString> selectedItems();
@@ -70,7 +71,7 @@ private slots:
     void selectAll();
 
 private:
-    OpticalDisk* opticalDisk_;
+    EpHardware::EpOpticalDisk::OpticalDisk* opticalDisk_;
 
 };
 

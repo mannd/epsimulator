@@ -37,8 +37,6 @@ class QDataStream;
 
 namespace EpStudy {
 
-using EpPatient::Heart;
-
 class StudyConfiguration;
 
 /**
@@ -203,7 +201,7 @@ private:
     QString path_;      // full path to study directory
 
     mutable QString key_;   // unique key for each study
-    Heart* heart_;
+    EpPatient::Heart* heart_;
     StudyConfiguration* studyConfiguration_;
 
 };

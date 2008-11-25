@@ -28,14 +28,10 @@
 #include <map>
 
 namespace EpCore {
-
-class Options;
-
+    class Options;
 }
 
 namespace EpNavigator {
-
-using EpCore::Options;
 
 /**
  * Encapsulates specific behavior of the catalog combo box in Navigator.
@@ -46,7 +42,7 @@ class CatalogComboBox : public QComboBox {
     Q_OBJECT
 
 public:
-    CatalogComboBox(Options*, QWidget *parent = 0);
+    CatalogComboBox(EpCore::Options*, QWidget *parent = 0);
     ~CatalogComboBox();
 
     void refresh();
@@ -66,7 +62,7 @@ private:
 
     bool browse_;   // puts in blank line in combobox if true
     bool includeNetwork_;  // if network enabled...
-    Options* options_;
+    EpCore::Options* options_;
     typedef std::map<Catalog::Source, int> CatalogMap;
     CatalogMap sourceMap_;
 };

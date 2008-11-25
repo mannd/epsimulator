@@ -34,10 +34,6 @@ class QMouseEvent;
 
 namespace EpGui {
 
-using EpStudy::Study;
-using EpStudy::Name;
-using EpStudy::Sex;
-
 /// TODO Consider not allowing any edits of study date and time in PatientDialogBase.ui
 class PatientDialog: public QDialog, private Ui::PatientDialog {
     Q_OBJECT
@@ -46,8 +42,8 @@ public:
     PatientDialog(QWidget *parent = 0);
     ~PatientDialog() {}
 
-    void setFields(const Study* study);
-    void getFields(Study* study) const;
+    void setFields(const EpStudy::Study* study);
+    void getFields(EpStudy::Study* study) const;
    
 public slots:
     void on_manualEditBsaCheckBox_stateChanged(int);
@@ -69,7 +65,7 @@ private:
     double poundsToKilograms(double) const;
     double kilogramsToPounds(double) const;
     double bsa();
-    Sex sex() const;
+    EpStudy::Sex sex() const;
 
     double metricHeight_;
     double metricWeight_;

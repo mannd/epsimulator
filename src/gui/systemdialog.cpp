@@ -28,6 +28,7 @@
 /// TODO below is Linux/Unix specific, needs generalization.
 #include <sys/vfs.h>
 
+using EpCore::Options;
 using EpGui::SystemDialog;
 
 SystemDialog::SystemDialog(Options* options, const QString& path,

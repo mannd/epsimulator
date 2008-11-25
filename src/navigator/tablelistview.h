@@ -40,8 +40,6 @@ namespace EpNavigator {
 struct StudyData;
 class Catalog;
 
-using EpStudy::Study;
-
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
  * TableListView lists studies from the catalogs in Navigator.
@@ -78,13 +76,13 @@ public:
 
     void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
     bool filtered() const {return filtered_;}
-    Study* study() const; // returns currently selected study 
+    EpStudy::Study* study() const; // returns currently selected study 
                           // or 0 if none selected
 
 private:
     class TableListViewItem;
 
-    void addStudy(const Study& study, const QString& location);
+    void addStudy(const EpStudy::Study& study, const QString& location);
 
     bool filtered_;
     bool oldStyle_;

@@ -22,6 +22,7 @@
 
 #include "options.h"
 
+using EpCore::Options;
 using EpGui::SimulatorSettingsDialog;
 
 SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options, 

@@ -64,6 +64,8 @@
 #include <algorithm>
 #include <memory>
 
+using EpCore::Options;
+using EpCore::User;
 using EpGui::PatientDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;

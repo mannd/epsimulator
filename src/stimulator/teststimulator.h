@@ -28,8 +28,6 @@
 
 namespace EpHardware { namespace EpStimulator {
 
-using namespace Ep;
-
 class TestStimulator : public Stimulator, private Ui::TestStimulator
 {
   Q_OBJECT

@@ -48,16 +48,10 @@ class MoveCopyStudyDialog;
 class StatusBar;
 class TableListView;
 
-using EpCore::Options;
-using EpCore::User;
-using EpGui::AbstractMainWindow;
-using EpHardware::EpOpticalDisk::OpticalDisk;
-using EpStudy::Study;
-
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
  */
-class Navigator : public AbstractMainWindow {
+class Navigator : public EpGui::AbstractMainWindow {
     Q_OBJECT
 
 public:
@@ -75,12 +69,13 @@ protected:
     void closeEvent(QCloseEvent*);
 
     // these are redefinitions of abstract virtual functions in AbstractMainWindow
-    virtual User* user() const {return user_;}
-    virtual OpticalDisk* currentDisk() const {return currentDisk_;}
+    virtual EpCore::User* user() const {return user_;}
+    virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const {
+        return currentDisk_;}
 
 signals:
     // let Recorder know the disk is changed and what the new disk is
-    void opticalDiskChanged(OpticalDisk*);
+    void opticalDiskChanged(EpHardware::EpOpticalDisk::OpticalDisk*);
 
 private slots:
     void newStudy();
@@ -136,7 +131,7 @@ private:
 
     // Optical disk related
     void createDefaultDataDir();    // creates ~/MyStudies if it doesn't exist
-    void labelDisk(bool reLabel, OpticalDisk* disk);
+    void labelDisk(bool reLabel, EpHardware::EpOpticalDisk::OpticalDisk* disk);
 
     // Filtering
     void processFilter();
@@ -145,18 +140,18 @@ private:
     void setCatalog(Catalog::Source);
 
     // Study related
-    void startStudy(Study*, bool review = false);
-    void reviewStudy(Study*);
-    void reports(Study*);
-    bool getStudyInformation(Study*);
-    Study* getSelectedStudy();
-    Study* getNewStudy();   // returns selected study or a new study
+    void startStudy(EpStudy::Study*, bool review = false);
+    void reviewStudy(EpStudy::Study*);
+    void reports(EpStudy::Study*);
+    bool getStudyInformation(EpStudy::Study*);
+    EpStudy::Study* getSelectedStudy();
+    EpStudy::Study* getNewStudy();   // returns selected study or a new study
     void addStudyToCatalogs();  // add study to appropriate catalogs
     void createDataFiles(); // make study data files on disk
     void moveCopyStudyMessageBox(bool move = false);
     void copyStudy(bool);
     void doStudyCopy(MoveCopyStudyDialog&, bool move);
-    bool studyOnDisk(const Study*) const; // make sure study on current disk
+    bool studyOnDisk(const EpStudy::Study*) const; // make sure study on current disk
     void studyNotOnDiskError();  // report study not on current disk
 
     // misc
@@ -164,12 +159,12 @@ private:
     bool acquisitionIsEnabled();
 
     // Data members
-    Options* options_;
+    EpCore::Options* options_;
     FilterCatalogDialog* filterCatalogDialog_;  // FilterCatalog Dialog box
     Catalogs* catalogs_;
     StatusBar* statusBar_;
-    OpticalDisk* currentDisk_;
-    User* user_;
+    EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;
+    EpCore::User* user_;
 
     // central widget stuff
     QSplitter* centralWidget_;

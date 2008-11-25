@@ -42,13 +42,10 @@ namespace EpCore { class Options; }
 
 namespace EpNavigator {
 
-using EpCore::Options;
-using EpStudy::Study;
-
 struct StudyData {
     friend QDataStream& operator<<(QDataStream&, const StudyData&);
     friend QDataStream& operator>>(QDataStream&, StudyData&);
-    Study study;
+    EpStudy::Study study;
     QString location;      // location == disk label
     QString side;          // disk side, null for single sided disks
     QString labName;       // name of lab for Network catalog
@@ -83,10 +80,10 @@ public:
         const QString& key);
 
  
-    virtual void addStudy(const Study* study, const QString& location,
+    virtual void addStudy(const EpStudy::Study* study, const QString& location,
                         const QString& side, const QString& labName,
                         const QString& machineName);
-    virtual void deleteStudy(const Study*);
+    virtual void deleteStudy(const EpStudy::Study*);
 
     void setPath(const QString& path) {path_ = path;}
     void setLabel(const QString& label) {studyData_.location = label;}
@@ -101,7 +98,7 @@ public:
     // overriden by specific catalog types
     virtual QString location(const StudyData&); 
     bool isEmpty() {return catalog_.empty();}
-    virtual bool studyPresent(const Study*);
+    virtual bool studyPresent(const EpStudy::Study*);
 
 protected:
     // don't allow copying or default constructor
@@ -130,7 +127,7 @@ public:
     OpticalCatalog(const QString& path, const QString& fileName = defaultFileName_);
     ~OpticalCatalog() {}
 
-    virtual void addStudy(const Study* study, const QString& location,
+    virtual void addStudy(const EpStudy::Study* study, const QString& location,
                         const QString& side, const QString& labName,
                         const QString& machineName);
     void create(const QString& location, const QString& side,
@@ -174,11 +171,11 @@ public:
     OtherCatalog(const QString& path, const QString& fileName = defaultFileName_);
     ~OtherCatalog() {}
 
-    virtual void addStudy(const Study*, const QString&,
+    virtual void addStudy(const EpStudy::Study*, const QString&,
                         const QString&, const QString&,
                         const QString&) {}  // don't add studies to Other catalog
     virtual void regenerate(Keys&, Catalog*) {} // don't regenerate Other catalog
-    virtual void deleteStudy(const Study*) {}
+    virtual void deleteStudy(const EpStudy::Study*) {}
 
 };
 
@@ -187,16 +184,16 @@ public:
 class Catalogs {
 
 public:
-    Catalogs(Options* options, const QString& opticalDiskPath);
+    Catalogs(EpCore::Options* options, const QString& opticalDiskPath);
     ~Catalogs();
 
     // Functions below work on all active catalogs.
-    void addStudy(const Study* study, 
+    void addStudy(const EpStudy::Study* study, 
                   const QString& location = QString(),
                   const QString& side = QString(), 
                   const QString& labName = QString(),
                   const QString& machineName = QString());
-    void deleteStudy(const Study*);
+    void deleteStudy(const EpStudy::Study*);
     
     void refresh();
     void regenerate(const QString& location, const QString& side,
@@ -208,7 +205,7 @@ public:
     void setCurrentCatalog(Catalog::Source);
     void setCatalogPath(Catalog::Source, const QString& path);
 
-    bool studyPresentOnOpticalDisk(const Study*) const;
+    bool studyPresentOnOpticalDisk(const EpStudy::Study*) const;
 
 
 protected:

@@ -33,8 +33,6 @@ namespace EpCore {
 
 namespace EpGui {
 
-using EpCore::PasswordHandler;
-
 class ChangePasswordDialog: public QDialog, private Ui::ChangePasswordDialog {
     Q_OBJECT
 
@@ -50,7 +48,7 @@ public slots:
 
 private:
     bool testPasswordsEqual() const;
-    PasswordHandler* pwHandler_;
+    EpCore::PasswordHandler* pwHandler_;
 };
 
 }

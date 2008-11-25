@@ -40,8 +40,6 @@ namespace EpHardware {
 
 namespace EpStudy {
 
-using EpHardware::EpAmplifier::Amplifier;
-
 class Channel {
 
 public:
@@ -188,7 +186,7 @@ public:
     void setName(const QString& name) {name_ = name;}
 
     QString name() const {return name_;}
-    Amplifier* amplifier() const {return amplifier_;}
+    EpHardware::EpAmplifier::Amplifier* amplifier() const {return amplifier_;}
 
 private:
     void copyStudyConfiguration(const StudyConfiguration&);
@@ -198,7 +196,7 @@ private:
     QString name_;
     QList<Protocol> protocolList_;
     QList<Channel> channelList_;
-    Amplifier* amplifier_;
+    EpHardware::EpAmplifier::Amplifier* amplifier_;
 };
 
 typedef QList<StudyConfiguration> StudyConfigList;

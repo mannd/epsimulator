@@ -34,8 +34,6 @@ namespace EpCore {
 
 namespace EpGui {
 
-using EpCore::PasswordHandler;
-
 class PasswordDialog : public QDialog, private Ui::PasswordDialog {
     Q_OBJECT
 
@@ -51,7 +49,7 @@ public slots:
     void accept();
 
 private:
-    PasswordHandler* pwHandler_;
+    EpCore::PasswordHandler* pwHandler_;
 };
 
 }

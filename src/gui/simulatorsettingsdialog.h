@@ -28,19 +28,17 @@
 class QWidget;
 
 namespace EpCore {
-class Options;
+    class Options;
 }
 
 namespace EpGui {
-
-using EpCore::Options;
 
 class SimulatorSettingsDialog : public QDialog, 
                                 private Ui::SimulatorSettingsDialog {
     Q_OBJECT
 
 public:
-    SimulatorSettingsDialog(Options* options, QWidget* parent = 0);
+    SimulatorSettingsDialog(EpCore::Options* options, QWidget* parent = 0);
     ~SimulatorSettingsDialog();
 
     void setOptions();
@@ -62,7 +60,7 @@ private:
     bool dualSidedDisk() const;
     int emulatedOpticalDiskCapacity() const;
 
-    Options* options_;
+    EpCore::Options* options_;
 
 };
 

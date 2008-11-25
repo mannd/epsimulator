@@ -33,12 +33,6 @@ namespace EpCore {
 
 namespace EpHardware { namespace EpOpticalDisk { class OpticalDisk; }}
 
-using EpCore::Options;
-using EpCore::User;
-using EpCore::VersionInfo;
-
-using EpHardware::EpOpticalDisk::OpticalDisk;
-
 namespace EpGui {
 
 /** Contains methods and actions common to both the 
@@ -57,8 +51,8 @@ public slots:
     virtual void updateAll() = 0;
 
 protected:
-    virtual User* user() const = 0;
-    virtual OpticalDisk* currentDisk() const = 0;
+    virtual EpCore::User* user() const = 0;
+    virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const = 0;
     virtual void updateSimulatorSettings() = 0;
     virtual void updateSystemSettings() = 0;
 
@@ -89,8 +83,8 @@ protected slots:
 private:
     void createActions();
 
-    const VersionInfo* versionInfo_;
-    Options* options_;
+    const EpCore::VersionInfo* versionInfo_;
+    EpCore::Options* options_;
     QAction* loginAction_;
     QAction* logoutAction_;
     QAction* changePasswordAction_;

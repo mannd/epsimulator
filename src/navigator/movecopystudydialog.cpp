@@ -28,7 +28,6 @@
 #include <QListWidgetItem>
 
 using EpHardware::EpOpticalDisk::OpticalDisk;
-
 using EpNavigator::MoveCopyStudyDialog;
 using EpNavigator::CopyStudyDialog;
 using EpNavigator::MoveStudyDialog;

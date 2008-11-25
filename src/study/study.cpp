@@ -29,6 +29,8 @@
 
 namespace EpStudy {
 
+using EpPatient::Heart;
+
 // struct Name
 
 QString Name::fullName(bool lastFirst, bool useMiddleName) const {

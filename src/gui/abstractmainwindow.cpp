@@ -32,9 +32,9 @@
 
 #include <QMessageBox>
 
-namespace EpGui {
-
+using EpCore::Options;
 using EpCore::VersionInfo;
+using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
 
 AbstractMainWindow::AbstractMainWindow(QWidget *parent)
@@ -134,7 +134,8 @@ void AbstractMainWindow::updateWindowTitle(const QString& title) {
     QString windowTitle = title.isEmpty() ? VersionInfo::instance()->programName() :
         QString("%1 %2").arg(VersionInfo::instance()->programName()).arg(title);
     windowTitle = user()->isAdministrator() ? 
-        QString("%1 %2").arg(windowTitle).arg(QObject::tr("[Administrator]")) : windowTitle;
+        QString("%1 %2").arg(windowTitle).arg(QObject::tr("[Administrator]")) 
+        : windowTitle;
     setWindowTitle(windowTitle);
 }
 
@@ -167,6 +168,4 @@ void AbstractMainWindow::createActions() {
         tr("Change system settings"), SLOT(systemSettings()));
     simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"), 
         tr("Change simulator settings"), SLOT(simulatorSettings()));
-}
-
 }

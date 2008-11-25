@@ -29,6 +29,7 @@
 namespace EpStudy {
 
 using EpCore::Options;
+using EpHardware::EpAmplifier::Amplifier;
 
 QDataStream& operator<<(QDataStream& out, const Channel& channel) {
     out << (qint32)channel.number_ << (qint16)channel.clip_ 
