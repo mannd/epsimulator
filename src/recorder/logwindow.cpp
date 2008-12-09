@@ -28,6 +28,7 @@
 #include <QToolBar>
 
 using EpRecorder::LogWindow;
+using EpStudy::Study;
 
 LogWindow::LogWindow(Study* study, int number, QWidget *parent)
  : DisplayWindow(tr("Log"), study, number, parent) {

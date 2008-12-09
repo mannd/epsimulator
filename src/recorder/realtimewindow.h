@@ -35,8 +35,6 @@ namespace EpGui {
 
 namespace EpRecorder {
 
-using EpGui::StudyConfigurationDialog;
-
 /**
 The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.
 
@@ -45,7 +43,7 @@ The real-time recording window, central widget of recorder.  Uses multiple inher
 class RealTimeWindow : public SignalDisplayWindow  {
     Q_OBJECT
 public:
-    RealTimeWindow(Study* study, int number = 0, QWidget* parent = 0);
+    RealTimeWindow(EpStudy::Study* study, int number = 0, QWidget* parent = 0);
     
     virtual void writeSettings(QSettings&);
     virtual void readSettings(QSettings&);
@@ -57,7 +55,7 @@ public slots:
 //     virtual void updateWindowTitle();
 
 protected:
-    virtual StudyConfigurationDialog* studyConfigurationDialog();
+    virtual EpGui::StudyConfigurationDialog* studyConfigurationDialog();
 
 signals:
     void startTimer(bool);

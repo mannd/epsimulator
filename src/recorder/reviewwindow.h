@@ -32,6 +32,10 @@ namespace EpGui {
     class StudyConfigurationDialog;
 }
 
+namespace EpStudy {
+    class Study;
+}
+
 namespace EpRecorder {
 
 using EpGui::StudyConfigurationDialog;
@@ -44,7 +48,7 @@ This window is used to review already saved signal.  You can scroll through the 
 class ReviewWindow : public SignalDisplayWindow  {
     Q_OBJECT
 public:
-    ReviewWindow(Study*, int number = 1, QWidget *parent = 0);
+    ReviewWindow(EpStudy::Study*, int number = 1, QWidget *parent = 0);
 
     virtual void writeSettings(QSettings&);
     virtual void readSettings(QSettings&);

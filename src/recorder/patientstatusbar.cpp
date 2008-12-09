@@ -31,6 +31,9 @@
 
 namespace EpRecorder {
 
+using EpPatient::Saturation;
+using EpStudy::Name;
+
 const int PatientStatusBar::updateInterval;
 
 Saturation PatientStatusBar::warningO2Sat_ = 90;

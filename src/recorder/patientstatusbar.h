@@ -41,11 +41,6 @@ namespace EpStudy {
 
 namespace EpRecorder {
 
-using EpStudy::Name;
-using EpPatient::Patient;
-using EpPatient::Saturation;
-using EpRecorder::SaveStatus;
-
 class PatientStatusBar : public QWidget, private Ui::PatientStatusBar {
     Q_OBJECT
 
@@ -56,16 +51,16 @@ public:
     void start();
     void stop();
 
-    void setPatient(Patient* patient) {patient_ = patient;} 
-    void setPatientInfo(const Name&, double kg, double bsa);
+    void setPatient(EpPatient::Patient* patient) {patient_ = patient;} 
+    void setPatientInfo(const EpStudy::Name&, double kg, double bsa);
 
     void displayO2Sat();
 
-    static void setWarningO2Sat(const Saturation& sat) {
+    static void setWarningO2Sat(const EpPatient::Saturation& sat) {
         warningO2Sat_ = sat;}
-    static void setDangerO2Sat(const Saturation& sat) {
+    static void setDangerO2Sat(const EpPatient::Saturation& sat) {
         dangerO2Sat_ = sat;}
-    static void setmalfunctionO2Sat(const Saturation& sat) {
+    static void setmalfunctionO2Sat(const EpPatient::Saturation& sat) {
         malfunctionO2Sat_ = sat;}
 
 public slots:
@@ -90,19 +85,18 @@ private:
     void createPalettes();
 
     static const int updateInterval = 1000;
-    static Saturation warningO2Sat_;
-    static Saturation dangerO2Sat_;
-    static Saturation malfunctionO2Sat_;
+    static EpPatient::Saturation warningO2Sat_;
+    static EpPatient::Saturation dangerO2Sat_;
+    static EpPatient::Saturation malfunctionO2Sat_;
 
 
-    Patient* patient_;
+    EpPatient::Patient* patient_;
     QTimer* timer_;
     SaveStatus saveStatus_;
     bool autoSave_;
     QPalette* defaultPalette_;
     QPalette* dangerPalette_;
     QPalette* warningPalette_;
-
 };
 
 }

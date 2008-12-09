@@ -56,9 +56,13 @@
 
 #include <QMouseEvent>
 
+using EpCore::Options;
+using EpCore::User;
 using EpGui::AbstractMainWindow;
 using EpGui::PatientDialog;
+using EpPatient::Patient;
 using EpRecorder::Recorder;
+using EpStudy::Study;
 
 using namespace EpHardware;
 using namespace EpHardware::EpAmplifier;

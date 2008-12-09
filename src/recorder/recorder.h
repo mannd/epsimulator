@@ -59,15 +59,6 @@ namespace EpStudy {
 
 namespace EpRecorder {
 
-using EpCore::Options;
-using EpCore::User;
-using EpGui::AbstractMainWindow;
-using EpHardware::EpOpticalDisk::OpticalDisk;
-using EpHardware::EpAmplifier::Amplifier;
-using EpHardware::SatMonitor;
-using EpPatient::Patient;
-using EpStudy::Study;
-
 class DisplayWindow;
 class LogWindow;
 class PatientStatusBar;
@@ -75,11 +66,11 @@ class RealTimeWindow;
 class ReviewWindow;
 class Review2Window;
 
-class Recorder : public AbstractMainWindow {
+class Recorder : public EpGui::AbstractMainWindow {
     Q_OBJECT
 public:
     Recorder(QWidget* parent, 
-        Study* study, OpticalDisk* currentDisk, User* user,
+        EpStudy::Study* study, EpHardware::EpOpticalDisk::OpticalDisk* currentDisk, EpCore::User* user,
         bool allowAcquisition = true,
         RecorderWindow = Primary);
     ~Recorder();
@@ -88,12 +79,12 @@ public:
     void updateAll();
 
 public slots:
-    void changeOpticalDisk(OpticalDisk* disk) {currentDisk_ = disk;}
+    void changeOpticalDisk(EpHardware::EpOpticalDisk::OpticalDisk* disk) {currentDisk_ = disk;}
 
 protected:
-    // these are definitions of abstract virtual functions in AbstractMainWindow
-    virtual User* user() const {return user_;}
-    virtual OpticalDisk* currentDisk() const {return currentDisk_;}
+    // these are definitions of abstract virtual functions in EpGui::AbstractMainWindow
+    virtual EpCore::User* user() const {return user_;}
+    virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const {return currentDisk_;}
 
     bool eventFilter(QObject*, QEvent*);
     void closeEvent(QCloseEvent*);
@@ -111,7 +102,7 @@ signals:
     void systemSettingsChanged();   // emitted after system settings changed
 
 private slots:
-    // these are redefinitions of abstract virtual functions in AbstractMainWindow
+    // these are redefinitions of abstract virtual functions in EpGui::AbstractMainWindow
     virtual void updateSimulatorSettings();
     virtual void updateSystemSettings();
 
@@ -164,15 +155,15 @@ private:
     bool subWindowIsOpen(QMdiSubWindow*);
 
     template<typename T>
-    void openSubWindow(bool, QMdiSubWindow*&, T*&, Study*, int number = 0);
+    void openSubWindow(bool, QMdiSubWindow*&, T*&, EpStudy::Study*, int number = 0);
 
-    Study* study_;
-    Patient* patient_;
-    User* user_;
-    Options* options_;
+    EpStudy::Study* study_;
+    EpPatient::Patient* patient_;
+    EpCore::User* user_;
+    EpCore::Options* options_;
 
     // hardware
-    OpticalDisk* currentDisk_;
+    EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;
 
     // types of Recorder window
     bool allowAcquisition_;
@@ -266,7 +257,7 @@ private:
     QAction* satMonitorAction_;
     
     // Help Menu
-    // Actions are in AbstractMainWindow
+    // Actions are in EpGui::AbstractMainWindow
 
     // System Toolbar
     QAction* manualSaveAction_;
@@ -298,7 +289,7 @@ private:
  */
 template<typename T> 
 void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow, 
-    T*& internalWidget, Study* study, int number) {
+    T*& internalWidget, EpStudy::Study* study, int number) {
     bool alreadyOpen = subWindowIsOpen(subWindow);
     if (open && alreadyOpen)
         return;
@@ -315,7 +306,7 @@ void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow,
         systemMenu->addAction(closeAct);
         subWindow->setSystemMenu(systemMenu);
         subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
-            screenFlags.testFlag(Options::EmulateWindowsManager));
+            screenFlags.testFlag(EpCore::Options::EmulateWindowsManager));
         subWindow->installEventFilter(this);
         subWindow->setMouseTracking(true);
         subWindow->show();

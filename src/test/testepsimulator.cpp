@@ -41,7 +41,7 @@
 
 #include <cmath>
 
-// note: tests depend on working directory == .../epsimulator/src/test
+// note: tests depend on working directory == .../epsimulator
 
 // import all the namespaces, why not?
 //using namespace Ep;
@@ -56,7 +56,22 @@ using namespace EpHardware::EpAmplifier;
 using namespace EpStudy;
 
 void TestEpSimulator::initTestCase() {
-    qDebug() << "Working dir = " << QDir::currentPath();
+    QString workingPath = QDir::currentPath();
+    qDebug() << "Working path = " << workingPath;
+    QDir workingDir = QDir::current();
+    if (workingDir.dirName() == "test") {
+        workingDir.cdUp();
+        workingDir.cdUp();
+    }
+    else if (workingDir.dirName() == "bin") 
+        workingDir.cdUp();
+    QDir::setCurrent(workingDir.path());
+    if (workingDir.dirName() != "epsimulator")
+        QFAIL("Tests need to be run from the project directory (epsimulator)");
+    QDir dir("tmp");
+    if (!dir.exists())
+        workingDir.mkdir("tmp");
+    QCOMPARE(dir.exists(), true);
 }
 
 void TestEpSimulator::testStudyConstructor() {
@@ -186,12 +201,12 @@ void TestEpSimulator::testStudyFileName() {
 
 void TestEpSimulator::testStudyLoadSave() {
     Study s;
-    s.setPath("../../tmp");
+    s.setPath("tmp");
     Name name = {"Doe", "James", ""};
     s.setName(name);
     s.save();
     Study s1;
-    s1.setPath("../../tmp");
+    s1.setPath("tmp");
     s1.load();
     QCOMPARE(s.key(), s1.key());
     Study s2 = s1;
@@ -209,7 +224,7 @@ void TestEpSimulator::testStudyLoadSave() {
     Study* sp = new Study;
     sp->setName(name);
     QString originalKey = sp->key();
-    sp->setPath("../../tmp"); 
+    sp->setPath("tmp"); 
     sp->save();
     sp->load();
     QCOMPARE(sp->key(), originalKey);
@@ -218,7 +233,7 @@ void TestEpSimulator::testStudyLoadSave() {
     name.last = "NewName";
     s4.setName(name);
     QString key1 = s4.key();
-    s4.setPath("../../tmp");
+    s4.setPath("tmp");
     s4.save();
     s4.load();
     name.last = "AnotherNewName";
@@ -228,7 +243,7 @@ void TestEpSimulator::testStudyLoadSave() {
     QCOMPARE(key1, s4.key());
     QVERIFY(s4.key() != s1.key());
     Study s5;
-    s5.setPath("../../tmp");
+    s5.setPath("tmp");
     s5.load();
     // key should be same as the s4 key if loading is actually loading the key
     QCOMPARE(s4.key(), s5.key());    
@@ -261,11 +276,11 @@ void TestEpSimulator::testOptionsFlags() {
 void TestEpSimulator::testOpticalDisk() {
     QCOMPARE(OpticalDisk::makeStudiesPath("test"), QString("test/studies"));
     QCOMPARE(OpticalDisk::studiesDirName(), QString("studies"));
-    OpticalDisk* o = new OpticalDisk("../../tmp");
+    OpticalDisk* o = new OpticalDisk("tmp");
     QCOMPARE(o->path(), o->labelPath());
-    QCOMPARE(o->path(), QString("../../tmp"));
+    QCOMPARE(o->path(), QString("tmp"));
     delete o;
-    EmulatedOpticalDisk* e = new EmulatedOpticalDisk("../../tmp", true);
+    EmulatedOpticalDisk* e = new EmulatedOpticalDisk("tmp", true);
     QVERIFY(e->path() != e->labelPath());
     delete e;
 }
@@ -450,10 +465,10 @@ void TestEpSimulator::testCatalog() {
 
 void TestEpSimulator::testCatalogs() {
     Options* o = Options::instance();
-    Catalogs* c1 = new Catalogs(o, "../../tmp/");
-    c1->setCatalogPath(Catalog::Other, "../../tmp/test2");
+    Catalogs* c1 = new Catalogs(o, "tmp/");
+    c1->setCatalogPath(Catalog::Other, "tmp/test2");
     c1->setCurrentCatalog(Catalog::Other);
-    QVERIFY(c1->currentCatalog()->path() == "../../tmp/test2");
+    QVERIFY(c1->currentCatalog()->path() == "tmp/test2");
     delete c1;
 }
 
@@ -507,10 +522,7 @@ void TestEpSimulator::testCatalogComboBox() {
 }
     
 void TestEpSimulator::testDeleteDir() {
-    QDir dir("../../tmp");
-    if (!dir.exists())
-        dir.mkdir("../../tmp");
-    QCOMPARE(dir.exists(), true);
+    QDir dir("tmp");
     if (!dir.exists("test"))
         QCOMPARE(dir.mkdir("test"), true);
     QCOMPARE(dir.exists("test"), true);
@@ -523,15 +535,15 @@ void TestEpSimulator::testDeleteDir() {
     Catalog c(dir.path());  // make a file here
     dir.cdUp(); // test
     EpCore::deleteDir(dir.path());
-    QCOMPARE(dir.exists(), false);
+    QCOMPARE(dir.exists("test1"), false);
 }
 
 void TestEpSimulator::testCopyDir() {
-    QDir dir("../../tmp");
+    QDir dir("tmp");
     dir.mkdir("source");
     dir.mkdir("destination");
     dir.mkdir("source/study");
-    Catalog c("../../tmp/source/study");
+    Catalog c("tmp/source/study");
     EpCore::copyDir(dir.path() + "/source/study", dir.path() + "/destination");
     QCOMPARE(dir.exists("destination/study/catalog.dat"), true);
     EpCore::deleteDir(dir.absolutePath() + "/source");
