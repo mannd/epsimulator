@@ -135,7 +135,7 @@ public:
 
     // call ONLY at end or program
     // see www.informit.com/guides/content.asp?g=cplusplus&seqNum=148&rl=1
-    void destroy() {delete instance_; instance_ = 0;}    
+    static void destroy() {delete instance_; instance_ = 0;}    
 
 protected:
     Options();

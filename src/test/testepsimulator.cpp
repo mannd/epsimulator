@@ -23,6 +23,7 @@
 #include "amplifier.h"
 #include "catalog.h"
 #include "catalogcombobox.h"
+#include "epdefs.h"
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
 #include "opticaldisk.h"
@@ -30,6 +31,7 @@
 #include "passworddialog.h"
 #include "passwordhandler.h"
 #include "patientdialog.h"
+#include "recorder.h"
 #include "saturation.h"
 #include "study.h"
 #include "studyconfiguration.h"
@@ -44,7 +46,7 @@
 // note: tests depend on working directory == .../epsimulator
 
 // import all the namespaces, why not?
-//using namespace Ep;
+using namespace Ep;
 using namespace EpCore;
 using namespace EpGui;
 using namespace EpPatient;
@@ -52,7 +54,7 @@ using namespace EpNavigator;
 using namespace EpHardware;
 using namespace EpHardware::EpOpticalDisk;
 using namespace EpHardware::EpAmplifier;
-//using namespace EpRecorder;
+using namespace EpRecorder;
 using namespace EpStudy;
 
 void TestEpSimulator::initTestCase() {
@@ -72,6 +74,7 @@ void TestEpSimulator::initTestCase() {
     if (!dir.exists())
         workingDir.mkdir("tmp");
     QCOMPARE(dir.exists(), true);
+    workingPath_ = workingDir.absolutePath();
 }
 
 void TestEpSimulator::testStudyConstructor() {
@@ -438,7 +441,6 @@ void TestEpSimulator::testVersionInfo() {
     const VersionInfo* v = VersionInfo::instance();
     QVERIFY(v->programName() == tr("EP Simulator"));
     QVERIFY(v->appName() == "epsimulator");
-    //v->destroy();
 }
     
 void TestEpSimulator::testVersionOk() {
@@ -447,12 +449,10 @@ void TestEpSimulator::testVersionOk() {
     QVERIFY(!VersionInfo::versionOk(-99999,0));
     QVERIFY(!VersionInfo::versionOk(-99999,-999999));
     QVERIFY(!VersionInfo::versionOk(0,-999999));
-    //v->destroy();
 }
 
 void TestEpSimulator::testCatalog() {
     Catalog c(Options::instance()->systemCatalogPath, "catalog.dat");
-    //qDebug() << "Working Dir = " << QDir::current();
     QVERIFY(c.filePath() == Options::instance()->systemCatalogPath + "/catalog.dat");
     c.setPath("/testpath/");
     // make sure no duplicate backslashes
@@ -534,7 +534,9 @@ void TestEpSimulator::testDeleteDir() {
     dir.cd("test1");
     Catalog c(dir.path());  // make a file here
     dir.cdUp(); // test
-    EpCore::deleteDir(dir.path());
+    // deleteDir() requires an absolute path
+    QString dirAbsolutePath = dir.absolutePath();
+    EpCore::deleteDir(dirAbsolutePath);
     QCOMPARE(dir.exists("test1"), false);
 }
 
@@ -616,6 +618,14 @@ void TestEpSimulator::testStudyConfigurations() {
 }
 
 void TestEpSimulator::cleanupTestCase() {
+    bool workingPathUnchanged = QDir::currentPath() == workingPath_;
+    QVERIFY(workingPathUnchanged);
+    if (workingPathUnchanged) {
+	EpCore::deleteDir(workingPath_ + "/tmp");
+	QCOMPARE(QDir::current().exists("tmp"), false);
+    }
+    VersionInfo::destroy();
+    Options::destroy();
 }
 
 // private functions

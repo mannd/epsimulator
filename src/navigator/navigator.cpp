@@ -66,6 +66,7 @@
 
 using EpCore::Options;
 using EpCore::User;
+using EpCore::VersionInfo;
 using EpGui::PatientDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
@@ -108,8 +109,8 @@ Navigator::~Navigator() {
     delete catalogs_;
     delete currentDisk_;
     delete user_;
-    options_->destroy();
-    EpCore::VersionInfo::destroy();
+    Options::destroy();
+    VersionInfo::destroy();
 }
 
 // protected

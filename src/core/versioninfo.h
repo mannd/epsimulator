@@ -36,7 +36,8 @@ namespace EpCore {
  *
  *	@author David Mann <mannd@epstudiossoftware.com>
  */
-class VersionInfo{
+
+class VersionInfo {
     Q_DECLARE_TR_FUNCTIONS(VersionInfo)
 
 public:

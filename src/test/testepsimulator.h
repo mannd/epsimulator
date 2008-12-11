@@ -82,6 +82,8 @@ private slots:
     void cleanupTestCase();
 
 private:
+    QString workingPath_;
+
     void testStudyDefaults(const Study&);
     void testStudiesEqual(const Study&, const Study&);
     void testStudiesSimilar(const Study&, const Study&);
