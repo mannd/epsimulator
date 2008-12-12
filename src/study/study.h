@@ -18,49 +18,52 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/**
- *  @file study.h
- *  Declares struct Name and class Study.
- */
-
 #ifndef STUDY_H
 #define STUDY_H
 
 #include <QDateTime>
 #include <QString>
 
-#include <cassert> 
-
-namespace EpPatient { class Heart; }
-
 class QDataStream;
+
+namespace EpPatient { 
+    class Heart; }
 
 namespace EpStudy {
 
 class StudyConfiguration;
 
-/**
- *  Name has public data members to treat a full name as a unit.
- */
-struct Name {
+class Name {
+public:
+    Name(const QString& last = QString(), 
+         const QString& first = QString(), 
+         const QString& middle = QString());
 
-    QString first;
-    QString last;
-    QString middle;
+    void setLastFirstMiddle(const QString& last, 
+                 const QString& first,
+                 const QString& middle = QString());
+
+    QString firstMiddleLast() const;
+    QString lastFirstMiddle() const;
+    QString lastFirst() const;
+    QString last() const {return last_;}
+    QString first() const {return first_;}
+    QString middle() const {return middle_;}
+
+    QString testFullName(bool lastFirst = false, 
+                         bool useMiddleName = false) const {
+        return fullName(lastFirst, useMiddleName);
+    }
 
     friend QDataStream& operator<<(QDataStream&, const Name&);
     friend QDataStream& operator>>(QDataStream&, Name&);   
 
-     /**
-     * Generates a full name in various formats.
-     * @param lastFirst Format is Last, First (Middle).
-     * Defaults to false, i.e. First (Middle) Last.
-     * @param useMiddleName Show middle name?  Defaults to false.
-     * @return formatted full name.
-     */
-    QString fullName(bool lastFirst = false,
-                     bool useMiddleName = false) const;
+private:
+    QString last_;
+    QString first_;
+    QString middle_;
 
+    QString fullName(bool lastFirst = false, bool useMiddleName = false) const;
 };
 
 typedef int AutonomicTone;
@@ -207,10 +210,10 @@ private:
 };
 
 inline void Study::testInvariant() const {
-    assert(vagalTone_ >= MIN_TONE && vagalTone_ <= MAX_TONE);
-    assert(sympatheticTone_ >= MIN_TONE && sympatheticTone_ <= MAX_TONE);
-    assert (sex_ == Male || sex_ == Female);
-    assert (ef_ >= MIN_EF && ef_ <= MAX_EF);
+    Q_ASSERT(vagalTone_ >= MIN_TONE && vagalTone_ <= MAX_TONE);
+    Q_ASSERT(sympatheticTone_ >= MIN_TONE && sympatheticTone_ <= MAX_TONE);
+    Q_ASSERT (sex_ == Male || sex_ == Female);
+    Q_ASSERT (ef_ >= MIN_EF && ef_ <= MAX_EF);
 }
 
 }

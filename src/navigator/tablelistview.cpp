@@ -163,9 +163,9 @@ void TableListView::addStudy(const Study& study, const QString& location) {
             study.dateTime(), study.isPreregisterStudy());
         t->setText(StudyTypeCol, study.isPreregisterStudy() 
             ? tr("Pre-Register") : tr("Study"));
-        t->setText(LastNameCol, study.name().last);
-        t->setText(FirstNameCol, study.name().first);
-        t->setText(FullNameCol, study.name().fullName(true, true));
+        t->setText(LastNameCol, study.name().last());
+        t->setText(FirstNameCol, study.name().first());
+        t->setText(FullNameCol, study.name().lastFirstMiddle());
         t->setText(MRNCol, study.mrn());
         t->setText(DateTimeCol, 
             study.dateTime().toString("yyyy/MM/dd hh:mm:ss"));

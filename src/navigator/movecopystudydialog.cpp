@@ -147,7 +147,7 @@ void MoveCopyStudyDialog::fillStudiesListView() {
         it != catalog.end(); ++it) {
         StudyListWidgetItem* item = 
             new StudyListWidgetItem(QString(it.data().study.name()
-            .fullName(true) + 
+            .lastFirst() + 
             " [" + it.data().study.dateTime().toString() + "]"),
             it.data().study.path(), studiesListWidget);
         studiesListWidget->addItem(item);

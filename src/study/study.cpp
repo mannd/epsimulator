@@ -31,41 +31,59 @@ namespace EpStudy {
 
 using EpPatient::Heart;
 
-// struct Name
+Name::Name(const QString& last, 
+           const QString& first, 
+           const QString& middle) {
+    setLastFirstMiddle(last, first, middle);
+}
+
+void Name::setLastFirstMiddle(const QString& last, 
+                              const QString& first, 
+                              const QString& middle) {
+    // QString::simplified() removes surround whitespace
+    // and shortens internal whitespace to one space.
+    last_ = last.simplified();
+    first_ = first.simplified();
+    middle_ = middle.simplified();
+}
+
+QString Name::firstMiddleLast() const {
+    return fullName(false, true);
+}
+
+QString Name::lastFirstMiddle() const {
+    return fullName(true, true);
+}
+
+QString Name::lastFirst() const {
+    return fullName(true, false);
+}
 
 QString Name::fullName(bool lastFirst, bool useMiddleName) const {
     QString middleName;
-    if (useMiddleName && !middle.isEmpty()) 
-	middleName = " " + middle.simplified() + " ";
+    if (useMiddleName && !middle_.isEmpty()) 
+	middleName = " " + middle_ + " ";
     else
 	middleName = " ";
     if (lastFirst) 
-	return (last.simplified() + ", " + first.simplified()
-                 + middleName).simplified();
+	return (last_ + ", " + first_ + middleName).simplified();
     else
-	return first.simplified() + middleName + last.simplified();
+	return (first_ + middleName + last_).simplified();
 }
 
-// friends to Name
-
 QDataStream& operator<<(QDataStream& out, const Name& name) {
-    out << name.first << name.middle << name.last;
+    out << name.first_ << name.middle_ << name.last_;
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Name& name) {
-    in >> name.first >> name.middle >> name.last;
+    in >> name.first_ >> name.middle_ >> name.last_;
     return in;
 }
-
-// class Study
 
 const QString Study::fileName_ = "study.dat";
 const QString Study::configFileName_ = "config.dat";
 
-/**
- *  Construct a study.  New studies are time-stamped with currentDateTime. 
- */
 Study::Study() : dateTime_(QDateTime::currentDateTime()),
                  name_(),
                  dateOfBirth_(DEFAULT_BIRTH_DATE),
@@ -128,9 +146,7 @@ void Study::saveStudyConfiguration() {
 }
 
 void Study::setName(const Name& name) {
-    name_.last = name.last;
-    name_.first = name.first;
-    name_.middle = name.middle;
+    name_ = name;
 }
 
 void Study::setEf(int ef) {
@@ -154,12 +170,12 @@ void Study::setSympatheticTone(AutonomicTone tone) {
 QString Study::key() const {
     // Under normal circumstances PatientDialog won't allow a 
     // blank last name, so shouldn't happen.
-    assert(!name_.last.isEmpty());
-    if (name_.last.isEmpty())
+    Q_ASSERT(!name_.last().isEmpty());
+    if (name_.last().isEmpty())
         return QString();
     if (key_.isEmpty())
-        key_ = name_.last.simplified() + "_" 
-        + name_.first.simplified()
+        key_ = name_.last().simplified() + "_" 
+        + name_.first().simplified()
         + "_" + dateTime_.toString("ddMMyyyyhhmmsszzz");
     return key_;
 }

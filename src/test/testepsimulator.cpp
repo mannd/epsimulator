@@ -59,7 +59,6 @@ using namespace EpStudy;
 
 void TestEpSimulator::initTestCase() {
     QString workingPath = QDir::currentPath();
-    qDebug() << "Working path = " << workingPath;
     QDir workingDir = QDir::current();
     if (workingDir.dirName() == "test") {
         workingDir.cdUp();
@@ -69,7 +68,8 @@ void TestEpSimulator::initTestCase() {
         workingDir.cdUp();
     QDir::setCurrent(workingDir.path());
     if (workingDir.dirName() != "epsimulator")
-        QFAIL("Tests need to be run from the project directory (epsimulator)");
+        QFAIL("Tests need to be run from the project directory (epsimulator"
+              " or epsimulator/bin).");
     QDir dir("tmp");
     if (!dir.exists())
         workingDir.mkdir("tmp");
@@ -144,12 +144,25 @@ void TestEpSimulator::testFullName() {
     QFETCH(QString, middleName);
     QFETCH(QString, results);
 
-    Name name;
-    name.first = firstName;
-    name.middle = middleName;
-    name.last = lastName;
+    Name name(lastName, firstName, middleName);
     s.setName(name);
-    QCOMPARE(s.name().fullName(lastFirst, useMiddleName), results);
+    QCOMPARE(s.name().testFullName(lastFirst, useMiddleName), results);
+}
+
+void TestEpSimulator::testName() {
+    QString last = "  Mahoney  ";
+    QString first = "Ladeda";
+    QString middle = "Middle";
+    Name n(last, first, middle);
+    QVERIFY(n.lastFirstMiddle() == "Mahoney, Ladeda Middle");
+    QVERIFY(n.firstMiddleLast() == "Ladeda Middle Mahoney");
+    QVERIFY(n.lastFirst() == "Mahoney, Ladeda");
+    QVERIFY(n.last() == "Mahoney");
+    Name n1(last, first);
+    QVERIFY(n1.lastFirstMiddle() == "Mahoney, Ladeda");
+    QVERIFY(n1.firstMiddleLast() == "Ladeda Mahoney");
+    QVERIFY(n1.lastFirst() == "Mahoney, Ladeda");
+    QVERIFY(n1.last() == "Mahoney");
 }
 
 void TestEpSimulator::testFilePath() {
@@ -163,21 +176,20 @@ void TestEpSimulator::testFilePath() {
 
 void TestEpSimulator::testStudyKey() {
     Study s;
-    Name name;
-    name.first = "John";
-    name.last = "Doe";
+    Name name("Doe", "John");
     s.setName(name);
     QCOMPARE(s.key(), "Doe_John_" + 
         s.dateTime().toString("ddMMyyyyhhmmsszzz"));
-    // add some spaces
-    name.first = "    John  ";
-    name.last = "   Doe        ";
+    QString first = "    John  ";
+    QString last = "   Doe        ";
+    name.setLastFirstMiddle(last, first);
     s.setName(name);
     QCOMPARE(s.key(), "Doe_John_" + 
             s.dateTime().toString("ddMMyyyyhhmmsszzz"));
     // make sure keys stay constant when name changes
     QString originalKey = s.key();
-    name.last = "Nobody";
+    last = "Nobody";
+    name.setLastFirstMiddle(last, QString());
     s.setName(name);
     QCOMPARE(s.key(), originalKey);
     // make sure keys are copied
@@ -197,7 +209,7 @@ void TestEpSimulator::testStudyFileName() {
     Study s;
     QVERIFY(s.fileName() == "study.dat");
     s.setPath("garbage");
-    Name n = {"Smith", "John", ""};
+    Name n("Smith", "John", "");
     s.setName(n);
     QVERIFY(s.filePath() == "garbage/study.dat");
 }
@@ -205,7 +217,7 @@ void TestEpSimulator::testStudyFileName() {
 void TestEpSimulator::testStudyLoadSave() {
     Study s;
     s.setPath("tmp");
-    Name name = {"Doe", "James", ""};
+    Name name("Doe", "James", "");
     s.setName(name);
     s.save();
     Study s1;
@@ -215,12 +227,12 @@ void TestEpSimulator::testStudyLoadSave() {
     Study s2 = s1;
     QCOMPARE(s2.key(), s1.key());
     Study s3 = s2;
-    name.last = "Roe";
+    name.setLastFirstMiddle("Roe", name.first(), name.middle());
     s3.setName(name);   // this should NOT change key, already = to s2 key()
     QCOMPARE(s3.key(), s2.key());
     s3.save();
     s3.load();
-    name.last = "Coe";
+    name.setLastFirstMiddle("Coe", name.first(), name.middle());
     s3.setName(name);
     QCOMPARE(s3.key(), s2.key());
     // test with a pointer
@@ -233,13 +245,13 @@ void TestEpSimulator::testStudyLoadSave() {
     QCOMPARE(sp->key(), originalKey);
     delete sp;
     Study s4;
-    name.last = "NewName";
+    name.setLastFirstMiddle("NewName", name.first(), name.middle());
     s4.setName(name);
     QString key1 = s4.key();
     s4.setPath("tmp");
     s4.save();
     s4.load();
-    name.last = "AnotherNewName";
+    name.setLastFirstMiddle("AnotherNewName", name.first(), name.middle());
     s4.setName(name);
     s4.save();
     s4.load();
@@ -291,15 +303,15 @@ void TestEpSimulator::testOpticalDisk() {
 void TestEpSimulator::testPatientDialog() {
     Study* s1 = new Study;
     Study* s2 = new Study;
-    Name n;
-    n.last = "Test3";
-    n.first = "John";
+    QString last = "Test3";
+    QString first = "John";
+    Name n(last, first);
     s1->setName(n);
     PatientDialog* p = new PatientDialog;
     p->setFields(s1);
     p->getFields(s2);
-    QVERIFY(s2->name().last == "Test3");
-    QVERIFY(s2->name().first == "John");
+    QVERIFY(s2->name().last() == "Test3");
+    QVERIFY(s2->name().first() == "John");
     testStudiesEqual(*s1, *s2);
     delete p;
     delete s1;
@@ -353,9 +365,9 @@ void TestEpSimulator::testGetSetPatientDialogDefaultStudies() {
     PatientDialog pd;
     Study *s1 = new Study;
     Study *s2 = new Study;
-    Name n1 = {"Doe", "John", "E"};
+    Name n1("Doe", "John", "E");
     s1->setName(n1);
-    Name n2 = {"Dale", "Jane", "A"};
+    Name n2("Dale", "Jane", "A");
     s2->setName(n2);
     QString k1 = s1->key();
     QString k2 = s2->key(); // generate both keys
@@ -364,11 +376,11 @@ void TestEpSimulator::testGetSetPatientDialogDefaultStudies() {
     pd.getFields(s2);
     // making study date time the same won't affect keys now
     QVERIFY(s1->key() != s2->key());
-    QVERIFY(s1->name().last == s2->name().last);
+    QVERIFY(s1->name().last() == s2->name().last());
     QVERIFY(s1->dateTime() == s2->dateTime());
     Study *s3 = new Study;
     Study *s4 = new Study;
-    Name n3 = {"Dunn", "James", "F"};
+    Name n3("Dunn", "James", "F");
     s3->setName(n3);
     pd.setFields(s3);
     pd.getFields(s4);
@@ -476,7 +488,7 @@ void TestEpSimulator::testCatalogAddStudy() {
     Options* o = Options::instance();
     Catalogs* cats = new Catalogs(o, o->opticalStudyPath);
     Study* s = new Study;
-    Name n = {"Doe", "John", "E"};
+    Name n("Doe", "John", "E");
     s->setName(n);
     // key will be null unless there is a last name
     QString key = s->key();
@@ -652,9 +664,9 @@ void TestEpSimulator::testStudiesEqual(const Study& s1, const Study& s2) {
 
 // won't test date or time
 void TestEpSimulator::testStudiesSimilar(const Study& s1, const Study& s2) {
-    QCOMPARE(s1.name().first, s2.name().first);
-    QCOMPARE(s1.name().middle, s2.name().middle);
-    QCOMPARE(s1.name().last, s2.name().last);
+    QCOMPARE(s1.name().first(), s2.name().first());
+    QCOMPARE(s1.name().middle(), s2.name().middle());
+    QCOMPARE(s1.name().last(), s2.name().last());
     QCOMPARE(s1.mrn(), s2.mrn());
     QCOMPARE(s1.dateOfBirth(), s2.dateOfBirth());
     QCOMPARE(s1.sex(), s2.sex());

@@ -151,9 +151,9 @@ void PatientDialog::calculateAge() {
 
 void PatientDialog::setFields(const Study* study) {
     Name name = study->name();
-    lastNameLineEdit->setText(name.last);
-    firstNameLineEdit->setText(name.first);
-    middleNameLineEdit->setText(name.middle);
+    lastNameLineEdit->setText(name.last());
+    firstNameLineEdit->setText(name.first());
+    middleNameLineEdit->setText(name.middle());
     mrnLineEdit->setText(study->mrn());
     accountNumberLineEdit->setText(study->accountNumber());
     studyDateTimeEdit->setDateTime(study->dateTime());
@@ -174,10 +174,9 @@ void PatientDialog::setFields(const Study* study) {
 }
 
 void PatientDialog::getFields(Study* study) const {
-    Name name;
-    name.last = lastNameLineEdit->text();
-    name.first = firstNameLineEdit->text();
-    name.middle = middleNameLineEdit->text();
+    Name name(lastNameLineEdit->text(), 
+              firstNameLineEdit->text(),
+              middleNameLineEdit->text());
     study->setName(name);
     study->setMrn(mrnLineEdit->text());
     study->setAccountNumber(accountNumberLineEdit->text());
