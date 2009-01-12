@@ -150,8 +150,9 @@ void Study::setName(const Name& name) {
 }
 
 void Study::setEf(int ef) {
-    ef_ = ef > MAX_EF ? MAX_EF : ef;
-    ef_ = ef < MIN_EF ? MIN_EF : ef;
+    int min = MIN_EF;
+    int max = MAX_EF;
+    ef_ = qBound(min, ef, max);
 }
 
 void Study::setVagalTone(AutonomicTone tone) {
