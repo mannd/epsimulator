@@ -5,11 +5,11 @@ program, provided you first add a link to your Qt-4 installion as follows:
 
     sudo ln -s /usr/local/Trolltech/Qt-4.X.Y /usr/local/Trolltech/Qt-4
 
-In order for the shell scripts to work, you must run them from the top-level
-directory that you installed the source code into, e.g.:
+The shell scripts are:
 
-    cd ~/epsimulator
-    bin/qmakeepsimulator
+	qmakeepsimulator
+	runtestepsimulator
+	runepsimulator
 
 Note that Qt4 is required to compile, and Qt must be compiled with NAS sound
 support:

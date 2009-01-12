@@ -1,8 +1,9 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="9" >
+ <DocsAndViews NumberOfDocuments="1" >
   <Doc0 NumberOfViews="1" URL="file:///home/mannd/dev/git/epsimulator/src/test/testepsimulator.h" >
+<<<<<<< HEAD:epsimulator.kdevses
    <View0 Encoding="" line="46" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mannd/dev/git/epsimulator/src/test/testepsimulator.cpp" >
@@ -29,6 +30,10 @@
   <Doc8 NumberOfViews="1" URL="file:///home/mannd/dev/git/epsimulator/src/recorder/patientstatusbar.cpp" >
    <View0 Encoding="" line="90" Type="Source" />
   </Doc8>
+=======
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc0>
+>>>>>>> master:epsimulator.kdevses
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

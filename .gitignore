@@ -9,5 +9,6 @@ epsimulator
 testepsimulator
 epsimulator.kdevelop.pcs
 epsimulator.tag
+epsimulator.kdevses
 doc/html/*
 System/*.dat

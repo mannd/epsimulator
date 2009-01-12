@@ -9,6 +9,8 @@ been tested on Linux.
 
 Step-by-step installion:
 
+Install Qt4 with sound support.
+
 After downloading the open source edition of Qt-4, unpack the source code and
 cd into the Qt-4 directory:
 
