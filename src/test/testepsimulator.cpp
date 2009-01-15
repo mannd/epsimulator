@@ -165,6 +165,23 @@ void TestEpSimulator::testName() {
     QVERIFY(n1.last() == "Mahoney");
 }
 
+void TestEpSimulator::testNameWithSpaces() {
+    QString last = "  Mahoney  ";
+    QString first = "Ladeda  ";
+    QString middle = " M ";
+    Name n(last, first, middle);
+    QVERIFY(n.lastFirstMiddle() == "Mahoney, Ladeda M");
+    QVERIFY(n.firstMiddleLast() == "Ladeda M Mahoney");
+    QVERIFY(n.lastFirst() == "Mahoney, Ladeda");
+    QVERIFY(n.last() == "Mahoney");
+    Name n1(last, first);
+    QVERIFY(n1.lastFirstMiddle() == "Mahoney, Ladeda");
+    QVERIFY(n1.firstMiddleLast() == "Ladeda Mahoney");
+    QVERIFY(n1.lastFirst() == "Mahoney, Ladeda");
+    QVERIFY(n1.last() == "Mahoney");
+
+}
+
 void TestEpSimulator::testFilePath() {
     Study s;
     s.setPath("/home/");
