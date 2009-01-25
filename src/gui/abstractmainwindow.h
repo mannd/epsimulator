@@ -80,6 +80,10 @@ protected slots:
     void simulatorSettings();
     void systemSettings();
 
+signals:
+    // let Recorder know the disk is changed and what the new disk is
+    void opticalDiskChanged(EpHardware::EpOpticalDisk::OpticalDisk*);
+
 private:
     void createActions();
 

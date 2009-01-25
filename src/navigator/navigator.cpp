@@ -699,7 +699,7 @@ void Navigator::createOpticalDrive() {
         initializeOpticalDisk();
     } while (!currentDisk_);
     // let Recorder (if it is there) know what the new disk is
-    emit opticalDiskChanged(currentDisk_);
+    // emit opticalDiskChanged(currentDisk_);
 }
 
 void Navigator::createCatalogs() {
