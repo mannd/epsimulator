@@ -38,6 +38,7 @@ private slots:
     void testStudiesSimilar();    
     void testFullName_data();
     void testFullName();
+    void testNameWithSpaces();
     void testName();
     void testFilePath();
     void testStudyKey();

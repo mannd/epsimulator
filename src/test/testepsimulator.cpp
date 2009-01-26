@@ -165,6 +165,23 @@ void TestEpSimulator::testName() {
     QVERIFY(n1.last() == "Mahoney");
 }
 
+void TestEpSimulator::testNameWithSpaces() {
+    QString last = "  Mahoney  ";
+    QString first = "Ladeda  ";
+    QString middle = " M ";
+    Name n(last, first, middle);
+    QVERIFY(n.lastFirstMiddle() == "Mahoney, Ladeda M");
+    QVERIFY(n.firstMiddleLast() == "Ladeda M Mahoney");
+    QVERIFY(n.lastFirst() == "Mahoney, Ladeda");
+    QVERIFY(n.last() == "Mahoney");
+    Name n1(last, first);
+    QVERIFY(n1.lastFirstMiddle() == "Mahoney, Ladeda");
+    QVERIFY(n1.firstMiddleLast() == "Ladeda Mahoney");
+    QVERIFY(n1.lastFirst() == "Mahoney, Ladeda");
+    QVERIFY(n1.last() == "Mahoney");
+
+}
+
 void TestEpSimulator::testFilePath() {
     Study s;
     s.setPath("/home/");
@@ -330,12 +347,14 @@ void TestEpSimulator::testPatientDialogCalculations() {
     completePatientDialog(p);
     p->getFields(s);
     double delta = 0.001;
-    double result = heightIn * 2.54;
-    QVERIFY(result - delta < s->height() < result + delta);
-    result = weightLbs * 0.45;
-    QVERIFY(result - delta < s->weight() < result + delta);
-    result = std::sqrt((s->height() * s->weight()) / 3600);
-    QVERIFY(result - delta < s->bsa() < result + delta);
+    double calcHeight = heightIn * 2.54;
+    QVERIFY(calcHeight - delta < s->height() 
+	    && s->height() < calcHeight + delta);
+    double calcWeight = weightLbs * 0.45359;
+    QVERIFY(calcWeight - delta < s->weight() 
+	    && s->weight() < calcWeight + delta);
+    double calcBsa = std::sqrt((s->height() * s->weight()) / 3600);
+    QVERIFY(calcBsa - delta < s->bsa() && s->bsa() < calcBsa + delta);
     // Now test manually setting bsa.
     double bsa = 12345.1;
     s->setBsa(bsa);
@@ -343,7 +362,7 @@ void TestEpSimulator::testPatientDialogCalculations() {
     p->setFields(s);
     completePatientDialog(p);
     p->getFields(s);
-    QVERIFY(bsa - delta < s->bsa() < bsa + delta);
+    QVERIFY(bsa - delta < s->bsa() && s->bsa() < bsa + delta);
     delete p;
     delete s;
 }
@@ -649,9 +668,11 @@ void TestEpSimulator::testStudyDefaults(const Study& study) {
     QVERIFY(study.ef() == DEFAULT_EF);
     QVERIFY(study.ischemia() == false);
     QVERIFY(study.dateOfBirth() == DEFAULT_BIRTH_DATE);
-    QVERIFY(study.height() == study.weight() 
-            == study.heightIn() == study.weightLbs() 
-            == study.bsa() == 0);
+    QVERIFY(study.height() == 0);
+    QVERIFY(study.weight() == 0);
+    QVERIFY(study.heightIn() == 0);
+    QVERIFY(study.weightLbs() == 0);
+    QVERIFY(study.bsa() == 0);
     QVERIFY(study.bsaManualEdit() == false);
     QVERIFY(study.dateTime().date() == QDateTime::currentDateTime().date());
 }
