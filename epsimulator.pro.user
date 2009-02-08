@@ -65,6 +65,7 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
    <value key="QtVersionId" type="int" >0</value>
+   <value key="addQDumper" type="" ></value>
    <value key="buildDirectory" type="QString" >/home/mannd/dev/git/epsimulator</value>
    <valuelist key="userEnvironmentChanges" type="QVariantList" >
     <value type="QString" >LD_LIBRARY_PATH=../../lib</value>
@@ -86,7 +87,7 @@
     <value type="QString" >CPU=x86_64</value>
     <value type="QString" >CSHEDIT=emacs</value>
     <value type="QString" >CVS_RSH=ssh</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-pQFzDoJRjU,guid=f90091e547206c0418fc2a00498df7ff</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-OIlzmCzYqo,guid=e1c2ef2002c5fafec3807a00498f349f</value>
     <value type="QString" >DESKTOP_LAUNCH=kde-open</value>
     <value type="QString" >DESKTOP_SESSION=kde</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
@@ -95,7 +96,7 @@
     <value type="QString" >EDITOR=/usr/bin/emacs -nw</value>
     <value type="QString" >ENV=/etc/bash.bashrc</value>
     <value type="QString" >FROM_HEADER=</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8o3DOP/S.gpg-agent:4119:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-As4Jzd/S.gpg-agent:17642:1</value>
     <value type="QString" >GROFF_NO_SGR=yes</value>
     <value type="QString" >GS_LIB=/home/mannd/.fonts</value>
     <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/usr/share/themes//QtCurve/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
@@ -143,12 +144,12 @@
     <value type="QString" >PYTHONSTARTUP=/etc/pythonstart</value>
     <value type="QString" >QTDIR=/usr/local/Trolltech/Qt-4</value>
     <value type="QString" >QT_SYSTEM_DIR=/usr/share/desktop-data</value>
-    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/4180</value>
+    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/17703</value>
     <value type="QString" >SHELL=/bin/bash</value>
     <value type="QString" >SHLVL=1</value>
-    <value type="QString" >SSH_AGENT_PID=4120</value>
+    <value type="QString" >SSH_AGENT_PID=17643</value>
     <value type="QString" >SSH_ASKPASS=/usr/lib64/ssh/x11-ssh-askpass</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Wolpe4060/agent.4060</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-kJMK17583/agent.17583</value>
     <value type="QString" >TERM=xterm</value>
     <value type="QString" >TEXINPUTS=:/home/mannd/.TeX:/usr/share/doc/.TeX:/usr/doc/.TeX</value>
     <value type="QString" >TMPDIR=/tmp</value>
@@ -159,7 +160,7 @@
     <value type="QString" >XCURSOR_THEME=DMZ</value>
     <value type="QString" >XDG_CONFIG_DIRS=:/etc/xdg</value>
     <value type="QString" >XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
-    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234040830.978807-1583675111</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234121887.657089-472786348</value>
     <value type="QString" >XDM_MANAGED=/var/run/xdmctl/xdmctl-:0,maysd,mayfn,sched,rsvd,method=classic</value>
     <value type="QString" >XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
     <value type="QString" >XMODIFIERS=@im=local</value>
@@ -193,7 +194,7 @@
     <value type="QString" >CPU=x86_64</value>
     <value type="QString" >CSHEDIT=emacs</value>
     <value type="QString" >CVS_RSH=ssh</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-pQFzDoJRjU,guid=f90091e547206c0418fc2a00498df7ff</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-OIlzmCzYqo,guid=e1c2ef2002c5fafec3807a00498f349f</value>
     <value type="QString" >DESKTOP_LAUNCH=kde-open</value>
     <value type="QString" >DESKTOP_SESSION=kde</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
@@ -202,7 +203,7 @@
     <value type="QString" >EDITOR=/usr/bin/emacs -nw</value>
     <value type="QString" >ENV=/etc/bash.bashrc</value>
     <value type="QString" >FROM_HEADER=</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8o3DOP/S.gpg-agent:4119:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-As4Jzd/S.gpg-agent:17642:1</value>
     <value type="QString" >GROFF_NO_SGR=yes</value>
     <value type="QString" >GS_LIB=/home/mannd/.fonts</value>
     <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/usr/share/themes//QtCurve/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
@@ -250,12 +251,12 @@
     <value type="QString" >PYTHONSTARTUP=/etc/pythonstart</value>
     <value type="QString" >QTDIR=/usr/local/Trolltech/Qt-4</value>
     <value type="QString" >QT_SYSTEM_DIR=/usr/share/desktop-data</value>
-    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/4180</value>
+    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/17703</value>
     <value type="QString" >SHELL=/bin/bash</value>
     <value type="QString" >SHLVL=1</value>
-    <value type="QString" >SSH_AGENT_PID=4120</value>
+    <value type="QString" >SSH_AGENT_PID=17643</value>
     <value type="QString" >SSH_ASKPASS=/usr/lib64/ssh/x11-ssh-askpass</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Wolpe4060/agent.4060</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-kJMK17583/agent.17583</value>
     <value type="QString" >TERM=xterm</value>
     <value type="QString" >TEXINPUTS=:/home/mannd/.TeX:/usr/share/doc/.TeX:/usr/doc/.TeX</value>
     <value type="QString" >TMPDIR=/tmp</value>
@@ -266,7 +267,7 @@
     <value type="QString" >XCURSOR_THEME=DMZ</value>
     <value type="QString" >XDG_CONFIG_DIRS=:/etc/xdg</value>
     <value type="QString" >XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
-    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234040830.978807-1583675111</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234121887.657089-472786348</value>
     <value type="QString" >XDM_MANAGED=/var/run/xdmctl/xdmctl-:0,maysd,mayfn,sched,rsvd,method=classic</value>
     <value type="QString" >XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
     <value type="QString" >XMODIFIERS=@im=local</value>
@@ -295,7 +296,7 @@
     <value type="QString" >CPU=x86_64</value>
     <value type="QString" >CSHEDIT=emacs</value>
     <value type="QString" >CVS_RSH=ssh</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-pQFzDoJRjU,guid=f90091e547206c0418fc2a00498df7ff</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-OIlzmCzYqo,guid=e1c2ef2002c5fafec3807a00498f349f</value>
     <value type="QString" >DESKTOP_LAUNCH=kde-open</value>
     <value type="QString" >DESKTOP_SESSION=kde</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
@@ -304,7 +305,7 @@
     <value type="QString" >EDITOR=/usr/bin/emacs -nw</value>
     <value type="QString" >ENV=/etc/bash.bashrc</value>
     <value type="QString" >FROM_HEADER=</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8o3DOP/S.gpg-agent:4119:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-As4Jzd/S.gpg-agent:17642:1</value>
     <value type="QString" >GROFF_NO_SGR=yes</value>
     <value type="QString" >GS_LIB=/home/mannd/.fonts</value>
     <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/usr/share/themes//QtCurve/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
@@ -352,12 +353,12 @@
     <value type="QString" >PYTHONSTARTUP=/etc/pythonstart</value>
     <value type="QString" >QTDIR=/usr/local/Trolltech/Qt-4</value>
     <value type="QString" >QT_SYSTEM_DIR=/usr/share/desktop-data</value>
-    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/4180</value>
+    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/17703</value>
     <value type="QString" >SHELL=/bin/bash</value>
     <value type="QString" >SHLVL=1</value>
-    <value type="QString" >SSH_AGENT_PID=4120</value>
+    <value type="QString" >SSH_AGENT_PID=17643</value>
     <value type="QString" >SSH_ASKPASS=/usr/lib64/ssh/x11-ssh-askpass</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Wolpe4060/agent.4060</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-kJMK17583/agent.17583</value>
     <value type="QString" >TERM=xterm</value>
     <value type="QString" >TEXINPUTS=:/home/mannd/.TeX:/usr/share/doc/.TeX:/usr/doc/.TeX</value>
     <value type="QString" >TMPDIR=/tmp</value>
@@ -368,7 +369,7 @@
     <value type="QString" >XCURSOR_THEME=DMZ</value>
     <value type="QString" >XDG_CONFIG_DIRS=:/etc/xdg</value>
     <value type="QString" >XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
-    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234040830.978807-1583675111</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234121887.657089-472786348</value>
     <value type="QString" >XDM_MANAGED=/var/run/xdmctl/xdmctl-:0,maysd,mayfn,sched,rsvd,method=classic</value>
     <value type="QString" >XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
     <value type="QString" >XMODIFIERS=@im=local</value>
