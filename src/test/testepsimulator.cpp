@@ -281,6 +281,30 @@ void TestEpSimulator::testStudyLoadSave() {
     QCOMPARE(s4.key(), s5.key());    
 }
 
+void TestEpSimulator::testIsPreregisterStudy() {
+    Study s;
+    QVERIFY(s.isPreregisterStudy());
+    QVERIFY(s.config().isEmpty());
+    s.setConfig("Default");
+    QVERIFY(!s.isPreregisterStudy());
+};
+
+void TestEpSimulator::testEF() {
+    Study s;
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    s.setEf(110);
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    s.setEf(-10);
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    s.setEf(0);
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    s.setEf(100);
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    Study s1 = s;
+    QCOMPARE(s.ef(), s1.ef());
+};
+
+
 void TestEpSimulator::testOptions() {
     Options* o = Options::instance();
     QString s = o->opticalStudyPath;

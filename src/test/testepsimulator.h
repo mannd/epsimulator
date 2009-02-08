@@ -44,6 +44,8 @@ private slots:
     void testStudyKey();
     void testStudyFileName();
     void testStudyLoadSave();
+    void testIsPreregisterStudy();
+    void testEF();
     // class Options
     void testOptions();
     void testOptionsFlags();
