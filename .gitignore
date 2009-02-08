@@ -20,6 +20,9 @@ epsimulator.tag
 epsimulator.kdevses
 epsimulator.kdevelop
 
+# QT Creator files
+epsimulator.pro.user
+
 # generated documentation
 doc/html/*
 
