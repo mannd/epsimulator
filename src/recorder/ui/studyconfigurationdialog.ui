@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>StudyConfigurationDialog</class>
- <widget class="QDialog" name="StudyConfigurationDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="StudyConfigurationDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,64 +10,39 @@
     <height>843</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Study Configuration</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2" >
-   <item row="0" column="0" colspan="2" >
-    <widget class="QTreeView" name="treeView" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0" colspan="2">
+    <widget class="QTreeView" name="treeView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
     </widget>
    </item>
-   <item row="0" column="2" colspan="2" >
-    <widget class="QStackedWidget" name="stackedWidget" >
-     <property name="currentIndex" >
-      <number>15</number>
+   <item row="0" column="2" colspan="2">
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>3</number>
      </property>
-     <widget class="QWidget" name="blankPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="amplifierPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout" >
-       <item row="0" column="0" >
-        <widget class="QTabWidget" name="amplifierHardwareTab" >
-         <property name="currentIndex" >
+     <widget class="QWidget" name="blankPage"/>
+     <widget class="QWidget" name="amplifierPage">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QTabWidget" name="amplifierHardwareTab">
+         <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="tab" >
-          <property name="geometry" >
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>100</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <attribute name="title" >
+         <widget class="QWidget" name="tab">
+          <attribute name="title">
            <string>Hardware</string>
           </attribute>
-          <widget class="QPushButton" name="amplifierResetButton" >
-           <property name="geometry" >
+          <widget class="QPushButton" name="amplifierResetButton">
+           <property name="geometry">
             <rect>
              <x>170</x>
              <y>90</y>
@@ -74,7 +50,7 @@
              <height>101</height>
             </rect>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Amplifier Hardware Reset</string>
            </property>
           </widget>
@@ -83,35 +59,19 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="ecgPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_3" >
-       <item row="0" column="0" >
-        <widget class="QTabWidget" name="scaleComboBox1" >
-         <property name="currentIndex" >
+     <widget class="QWidget" name="ecgPage">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QTabWidget" name="scaleComboBox1">
+         <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="displaySettingsTab" >
-          <property name="geometry" >
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>100</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <attribute name="title" >
+         <widget class="QWidget" name="displaySettingsTab">
+          <attribute name="title">
            <string>Display Settings</string>
           </attribute>
-          <widget class="QTableView" name="displayTableView" >
-           <property name="geometry" >
+          <widget class="QTableView" name="displayTableView">
+           <property name="geometry">
             <rect>
              <x>30</x>
              <y>80</y>
@@ -120,8 +80,8 @@
             </rect>
            </property>
           </widget>
-          <widget class="QWidget" name="layoutWidget" >
-           <property name="geometry" >
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
             <rect>
              <x>30</x>
              <y>20</y>
@@ -129,13 +89,13 @@
              <height>27</height>
             </rect>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2" >
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <spacer name="horizontalSpacer_2" >
-              <property name="orientation" >
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>40</width>
                 <height>20</height>
@@ -144,39 +104,39 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLabel" name="label_3" >
-              <property name="text" >
+             <widget class="QLabel" name="label_3">
+              <property name="text">
                <string>Scale</string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>scaleComboBox2</cstring>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox_2" >
+             <widget class="QComboBox" name="comboBox_2">
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1/16</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1/8</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1/4</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1/2</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1</string>
                </property>
               </item>
@@ -188,20 +148,12 @@
            <zorder>horizontalSpacer_2</zorder>
           </widget>
          </widget>
-         <widget class="QWidget" name="hardwareSettingsTab" >
-          <property name="geometry" >
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>817</width>
-            <height>747</height>
-           </rect>
-          </property>
-          <attribute name="title" >
+         <widget class="QWidget" name="hardwareSettingsTab">
+          <attribute name="title">
            <string>Hardware Settings</string>
           </attribute>
-          <widget class="QTableView" name="hardwareTableView" >
-           <property name="geometry" >
+          <widget class="QTableView" name="hardwareTableView">
+           <property name="geometry">
             <rect>
              <x>30</x>
              <y>70</y>
@@ -210,8 +162,8 @@
             </rect>
            </property>
           </widget>
-          <widget class="QWidget" name="layoutWidget" >
-           <property name="geometry" >
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
             <rect>
              <x>40</x>
              <y>30</y>
@@ -219,13 +171,13 @@
              <height>27</height>
             </rect>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout" >
+           <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <spacer name="horizontalSpacer_3" >
-              <property name="orientation" >
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>40</width>
                 <height>20</height>
@@ -234,39 +186,39 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLabel" name="label" >
-              <property name="text" >
+             <widget class="QLabel" name="label">
+              <property name="text">
                <string>Scale</string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>scaleComboBox2</cstring>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="scaleComboBox2" >
+             <widget class="QComboBox" name="scaleComboBox2">
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1/16</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1/8</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1/4</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1/2</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>1</string>
                </property>
               </item>
@@ -279,17 +231,9 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="pressurePage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-      <widget class="QLabel" name="label_2" >
-       <property name="geometry" >
+     <widget class="QWidget" name="pressurePage">
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
         <rect>
          <x>70</x>
          <y>210</y>
@@ -297,162 +241,47 @@
          <height>16</height>
         </rect>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Pressure Page</string>
        </property>
       </widget>
      </widget>
-     <widget class="QWidget" name="catheterBlockAPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="catheterBlockBPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="catheterBlockCPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="catheterBlockDPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="catheterBlockEPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="catheterBlockFPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="catheterBlockGPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="stimPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="inputChannelPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>100</width>
-        <height>30</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="imagingPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>100</width>
-        <height>30</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="analogOutPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>100</width>
-        <height>30</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="ablationPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>839</width>
-        <height>791</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_4" >
-       <item row="0" column="0" >
-        <widget class="QTabWidget" name="tabWidget" >
-         <property name="currentIndex" >
+     <widget class="QWidget" name="catheterBlockAPage"/>
+     <widget class="QWidget" name="catheterBlockBPage"/>
+     <widget class="QWidget" name="catheterBlockCPage"/>
+     <widget class="QWidget" name="catheterBlockDPage"/>
+     <widget class="QWidget" name="catheterBlockEPage"/>
+     <widget class="QWidget" name="catheterBlockFPage"/>
+     <widget class="QWidget" name="catheterBlockGPage"/>
+     <widget class="QWidget" name="stimPage"/>
+     <widget class="QWidget" name="inputChannelPage"/>
+     <widget class="QWidget" name="imagingPage"/>
+     <widget class="QWidget" name="analogOutPage"/>
+     <widget class="QWidget" name="ablationPage">
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="tab_2" >
-          <property name="geometry" >
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>817</width>
-            <height>747</height>
-           </rect>
-          </property>
-          <attribute name="title" >
+         <widget class="QWidget" name="tab_2">
+          <attribute name="title">
            <string>Configuration</string>
           </attribute>
-          <layout class="QGridLayout" name="gridLayout_7" >
-           <item row="0" column="0" >
-            <widget class="QGroupBox" name="groupBox" >
-             <property name="title" >
+          <layout class="QGridLayout" name="gridLayout_7">
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
               <string>Display Settings</string>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_4" >
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
-               <widget class="QGroupBox" name="groupBox_2" >
-                <property name="title" >
+               <widget class="QGroupBox" name="groupBox_2">
+                <property name="title">
                  <string>Real-Time</string>
                 </property>
-                <widget class="QGroupBox" name="groupBox_5" >
-                 <property name="geometry" >
+                <widget class="QGroupBox" name="groupBox_5">
+                 <property name="geometry">
                   <rect>
                    <x>11</x>
                    <y>27</y>
@@ -460,37 +289,37 @@
                    <height>91</height>
                   </rect>
                  </property>
-                 <property name="title" >
+                 <property name="title">
                   <string>Time range (X axis)</string>
                  </property>
-                 <property name="flat" >
+                 <property name="flat">
                   <bool>false</bool>
                  </property>
-                 <property name="checkable" >
+                 <property name="checkable">
                   <bool>false</bool>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_3" >
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
                   <item>
-                   <widget class="QRadioButton" name="radioButton" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="radioButton">
+                    <property name="text">
                      <string>60 s</string>
                     </property>
-                    <property name="checked" >
+                    <property name="checked">
                      <bool>true</bool>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="radioButton_2" >
-                    <property name="text" >
+                   <widget class="QRadioButton" name="radioButton_2">
+                    <property name="text">
                      <string>120 s</string>
                     </property>
                    </widget>
                   </item>
                  </layout>
                 </widget>
-                <widget class="QGroupBox" name="groupBox_6" >
-                 <property name="geometry" >
+                <widget class="QGroupBox" name="groupBox_6">
+                 <property name="geometry">
                   <rect>
                    <x>11</x>
                    <y>132</y>
@@ -498,45 +327,45 @@
                    <height>181</height>
                   </rect>
                  </property>
-                 <property name="title" >
+                 <property name="title">
                   <string>Power scale</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_6" >
-                  <item row="0" column="0" >
-                   <widget class="QRadioButton" name="radioButton_3" >
-                    <property name="text" >
+                 <layout class="QGridLayout" name="gridLayout_6">
+                  <item row="0" column="0">
+                   <widget class="QRadioButton" name="radioButton_3">
+                    <property name="text">
                      <string>75 W</string>
                     </property>
-                    <property name="checked" >
+                    <property name="checked">
                      <bool>true</bool>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0" >
-                   <widget class="QRadioButton" name="radioButton_4" >
-                    <property name="text" >
+                  <item row="1" column="0">
+                   <widget class="QRadioButton" name="radioButton_4">
+                    <property name="text">
                      <string>100 W</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0" >
-                   <widget class="QRadioButton" name="radioButton_5" >
-                    <property name="text" >
+                  <item row="2" column="0">
+                   <widget class="QRadioButton" name="radioButton_5">
+                    <property name="text">
                      <string>125 W</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="0" >
-                   <widget class="QRadioButton" name="radioButton_6" >
-                    <property name="text" >
+                  <item row="3" column="0">
+                   <widget class="QRadioButton" name="radioButton_6">
+                    <property name="text">
                      <string>150 W</string>
                     </property>
                    </widget>
                   </item>
                  </layout>
                 </widget>
-                <widget class="QGroupBox" name="groupBox_7" >
-                 <property name="geometry" >
+                <widget class="QGroupBox" name="groupBox_7">
+                 <property name="geometry">
                   <rect>
                    <x>196</x>
                    <y>132</y>
@@ -544,57 +373,52 @@
                    <height>181</height>
                   </rect>
                  </property>
-                 <property name="title" >
+                 <property name="title">
                   <string>Number of temps</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_5" >
-                  <item row="0" column="0" >
-                   <widget class="QRadioButton" name="radioButton_7" >
-                    <property name="text" >
+                 <layout class="QGridLayout" name="gridLayout_5">
+                  <item row="0" column="0">
+                   <widget class="QRadioButton" name="radioButton_7">
+                    <property name="text">
                      <string>1</string>
                     </property>
-                    <property name="checked" >
+                    <property name="checked">
                      <bool>true</bool>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0" >
-                   <widget class="QRadioButton" name="radioButton_8" >
-                    <property name="text" >
+                  <item row="1" column="0">
+                   <widget class="QRadioButton" name="radioButton_8">
+                    <property name="text">
                      <string>2</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0" >
-                   <widget class="QRadioButton" name="radioButton_9" >
-                    <property name="text" >
+                  <item row="2" column="0">
+                   <widget class="QRadioButton" name="radioButton_9">
+                    <property name="text">
                      <string>3</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="0" >
-                   <widget class="QRadioButton" name="radioButton_10" >
-                    <property name="text" >
+                  <item row="3" column="0">
+                   <widget class="QRadioButton" name="radioButton_10">
+                    <property name="text">
                      <string>4</string>
                     </property>
                    </widget>
                   </item>
                  </layout>
                 </widget>
-                <zorder>groupBox_5</zorder>
-                <zorder>groupBox_6</zorder>
-                <zorder>groupBox_7</zorder>
-                <zorder>groupBox_3</zorder>
-                <zorder>groupBox_3</zorder>
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_3" >
-                <property name="title" >
+               <widget class="QGroupBox" name="groupBox_3">
+                <property name="title">
                  <string>Review (Plot Window)</string>
                 </property>
-                <widget class="QLabel" name="label_4" >
-                 <property name="geometry" >
+                <widget class="QLabel" name="label_4">
+                 <property name="geometry">
                   <rect>
                    <x>40</x>
                    <y>40</y>
@@ -602,12 +426,12 @@
                    <height>16</height>
                   </rect>
                  </property>
-                 <property name="text" >
+                 <property name="text">
                   <string>Display graph for</string>
                  </property>
                 </widget>
-                <widget class="QWidget" name="" >
-                 <property name="geometry" >
+                <widget class="QWidget" name="layoutWidget">
+                 <property name="geometry">
                   <rect>
                    <x>40</x>
                    <y>70</y>
@@ -615,88 +439,79 @@
                    <height>221</height>
                   </rect>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_9" >
-                  <item row="0" column="0" >
-                   <widget class="QCheckBox" name="checkBox" >
-                    <property name="text" >
+                 <layout class="QGridLayout" name="gridLayout_9">
+                  <item row="0" column="0">
+                   <widget class="QCheckBox" name="checkBox">
+                    <property name="text">
                      <string>Impledance</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="1" >
-                   <widget class="QCheckBox" name="checkBox_5" >
-                    <property name="text" >
+                  <item row="0" column="1">
+                   <widget class="QCheckBox" name="checkBox_5">
+                    <property name="text">
                      <string>Temp1</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0" >
-                   <widget class="QCheckBox" name="checkBox_2" >
-                    <property name="text" >
+                  <item row="1" column="0">
+                   <widget class="QCheckBox" name="checkBox_2">
+                    <property name="text">
                      <string>Power</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="1" >
-                   <widget class="QCheckBox" name="checkBox_6" >
-                    <property name="text" >
+                  <item row="1" column="1">
+                   <widget class="QCheckBox" name="checkBox_6">
+                    <property name="text">
                      <string>Temp 2</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0" >
-                   <widget class="QCheckBox" name="checkBox_3" >
-                    <property name="text" >
+                  <item row="2" column="0">
+                   <widget class="QCheckBox" name="checkBox_3">
+                    <property name="text">
                      <string>Voltage</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="1" >
-                   <widget class="QCheckBox" name="checkBox_7" >
-                    <property name="text" >
+                  <item row="2" column="1">
+                   <widget class="QCheckBox" name="checkBox_7">
+                    <property name="text">
                      <string>Temp 3</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="0" >
-                   <widget class="QCheckBox" name="checkBox_4" >
-                    <property name="text" >
+                  <item row="3" column="0">
+                   <widget class="QCheckBox" name="checkBox_4">
+                    <property name="text">
                      <string>Current</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="1" >
-                   <widget class="QCheckBox" name="checkBox_8" >
-                    <property name="text" >
+                  <item row="3" column="1">
+                   <widget class="QCheckBox" name="checkBox_8">
+                    <property name="text">
                      <string>Temp 4</string>
                     </property>
                    </widget>
                   </item>
                  </layout>
                 </widget>
+                <zorder>layoutWidget</zorder>
                 <zorder>label_4</zorder>
-                <zorder>checkBox</zorder>
-                <zorder>checkBox_2</zorder>
-                <zorder>checkBox_3</zorder>
-                <zorder>checkBox_4</zorder>
-                <zorder>checkBox_5</zorder>
-                <zorder>checkBox_6</zorder>
-                <zorder>checkBox_7</zorder>
-                <zorder>checkBox_8</zorder>
-                <zorder>gridLayoutWidget</zorder>
-                <zorder>groupBox_4</zorder>
                </widget>
               </item>
              </layout>
             </widget>
            </item>
-           <item row="1" column="0" >
-            <widget class="QGroupBox" name="groupBox_4" >
-             <property name="title" >
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_4">
+             <property name="title">
               <string>Device Settings</string>
              </property>
-             <widget class="QListWidget" name="listWidget" >
-              <property name="geometry" >
+             <widget class="QListWidget" name="listWidget">
+              <property name="geometry">
                <rect>
                 <x>60</x>
                 <y>80</y>
@@ -705,23 +520,23 @@
                </rect>
               </property>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>Stockert</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>EPT</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string/>
                </property>
               </item>
              </widget>
-             <widget class="QLabel" name="label_5" >
-              <property name="geometry" >
+             <widget class="QLabel" name="label_5">
+              <property name="geometry">
                <rect>
                 <x>60</x>
                 <y>50</y>
@@ -729,12 +544,12 @@
                 <height>16</height>
                </rect>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Ablation device type</string>
               </property>
              </widget>
-             <widget class="QGroupBox" name="groupBox_8" >
-              <property name="geometry" >
+             <widget class="QGroupBox" name="groupBox_8">
+              <property name="geometry">
                <rect>
                 <x>350</x>
                 <y>50</y>
@@ -742,11 +557,11 @@
                 <height>181</height>
                </rect>
               </property>
-              <property name="title" >
+              <property name="title">
                <string>Serial port</string>
               </property>
-              <widget class="QRadioButton" name="radioButton_11" >
-               <property name="geometry" >
+              <widget class="QRadioButton" name="radioButton_11">
+               <property name="geometry">
                 <rect>
                  <x>10</x>
                  <y>40</y>
@@ -754,12 +569,12 @@
                  <height>21</height>
                 </rect>
                </property>
-               <property name="text" >
+               <property name="text">
                 <string>COM 1</string>
                </property>
               </widget>
-              <widget class="QRadioButton" name="radioButton_12" >
-               <property name="geometry" >
+              <widget class="QRadioButton" name="radioButton_12">
+               <property name="geometry">
                 <rect>
                  <x>10</x>
                  <y>80</y>
@@ -767,15 +582,15 @@
                  <height>21</height>
                 </rect>
                </property>
-               <property name="text" >
+               <property name="text">
                 <string>COM 10</string>
                </property>
-               <property name="checked" >
+               <property name="checked">
                 <bool>true</bool>
                </property>
               </widget>
-              <widget class="QRadioButton" name="radioButton_13" >
-               <property name="geometry" >
+              <widget class="QRadioButton" name="radioButton_13">
+               <property name="geometry">
                 <rect>
                  <x>10</x>
                  <y>120</y>
@@ -783,13 +598,13 @@
                  <height>21</height>
                 </rect>
                </property>
-               <property name="text" >
+               <property name="text">
                 <string>None</string>
                </property>
               </widget>
              </widget>
-             <widget class="QLabel" name="label_6" >
-              <property name="geometry" >
+             <widget class="QLabel" name="label_6">
+              <property name="geometry">
                <rect>
                 <x>560</x>
                 <y>50</y>
@@ -797,12 +612,12 @@
                 <height>16</height>
                </rect>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Minimum time for Ablation</string>
               </property>
              </widget>
-             <widget class="QPlainTextEdit" name="plainTextEdit" >
-              <property name="geometry" >
+             <widget class="QPlainTextEdit" name="plainTextEdit">
+              <property name="geometry">
                <rect>
                 <x>560</x>
                 <y>80</y>
@@ -810,12 +625,12 @@
                 <height>31</height>
                </rect>
               </property>
-              <property name="plainText" >
+              <property name="plainText">
                <string>5</string>
               </property>
              </widget>
-             <widget class="QLabel" name="label_7" >
-              <property name="geometry" >
+             <widget class="QLabel" name="label_7">
+              <property name="geometry">
                <rect>
                 <x>640</x>
                 <y>90</y>
@@ -823,7 +638,7 @@
                 <height>16</height>
                </rect>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Sec</string>
               </property>
              </widget>
@@ -835,68 +650,32 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="measurementsPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>100</width>
-        <height>30</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="protocolListPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>100</width>
-        <height>30</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="activationAlignmentPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>100</width>
-        <height>30</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="mappingPage" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>100</width>
-        <height>30</height>
-       </rect>
-      </property>
-     </widget>
+     <widget class="QWidget" name="measurementsPage"/>
+     <widget class="QWidget" name="protocolListPage"/>
+     <widget class="QWidget" name="activationAlignmentPage"/>
+     <widget class="QWidget" name="mappingPage"/>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="QPushButton" name="saveButton" >
-     <property name="text" >
+   <item row="1" column="0">
+    <widget class="QPushButton" name="saveButton">
+     <property name="text">
       <string>Save</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="QPushButton" name="saveAsButton" >
-     <property name="text" >
+   <item row="1" column="1">
+    <widget class="QPushButton" name="saveAsButton">
+     <property name="text">
       <string>Save As...</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="2" >
-    <spacer name="horizontalSpacer" >
-     <property name="orientation" >
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>40</width>
        <height>20</height>
@@ -904,9 +683,9 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="3" >
-    <widget class="QPushButton" name="closeButton" >
-     <property name="text" >
+   <item row="1" column="3">
+    <widget class="QPushButton" name="closeButton">
+     <property name="text">
       <string>Close</string>
      </property>
     </widget>
@@ -921,11 +700,11 @@
    <receiver>StudyConfigurationDialog</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>1109</x>
      <y>833</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>846</x>
      <y>416</y>
     </hint>

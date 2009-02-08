@@ -1,10 +1,5 @@
 TEMPLATE = lib
 
-CONFIG += dll \
- debug
-
-#The following line was inserted by qt3to4
-
 DESTDIR = ../../lib
 
 INCLUDEPATH += ../patient \
@@ -28,9 +23,6 @@ HEADERS += simulatorsettingsdialog.h \
  actions.h \
  abstractmainwindow.h
 
-
-CONFIG -= release
-
 FORMS += ui/simulatorsettingsdialog.ui \
          ui/patientdialog.ui \
          ui/changepassworddialog.ui \
@@ -48,7 +40,3 @@ TARGETDEPS += ../../lib/libpatient.so \
  ../../lib/libstudy.so
 
 RESOURCES += ../resources/resources.qrc
-
-
-
-

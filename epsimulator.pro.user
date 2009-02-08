@@ -42,11 +42,23 @@
  </data>
  <data>
   <variable>activeRunConfiguration</variable>
-  <value type="int" >1</value>
+  <value type="int" >0</value>
  </data>
  <data>
   <variable>activebuildconfiguration</variable>
-  <value type="QString" >Release</value>
+  <value type="QString" >Debug</value>
+ </data>
+ <data>
+  <variable>buildConfiguration-Debug</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
+   <value key="QtVersionId" type="int" >0</value>
+   <value key="addQDumper" type="" ></value>
+   <value key="buildDirectory" type="QString" >/home/mannd/dev/git/epsimulator</value>
+   <valuelist key="userEnvironmentChanges" type="QVariantList" >
+    <value type="QString" >LD_LIBRARY_PATH=../../lib</value>
+   </valuelist>
+  </valuemap>
  </data>
  <data>
   <variable>buildConfiguration-Release</variable>
@@ -60,6 +72,320 @@
   </valuemap>
  </data>
  <data>
+  <variable>buildconfiguration-Debug-buildstep0</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Debug-buildstep1</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >COLORTERM=1</value>
+    <value type="QString" >CPU=x86_64</value>
+    <value type="QString" >CSHEDIT=emacs</value>
+    <value type="QString" >CVS_RSH=ssh</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-pQFzDoJRjU,guid=f90091e547206c0418fc2a00498df7ff</value>
+    <value type="QString" >DESKTOP_LAUNCH=kde-open</value>
+    <value type="QString" >DESKTOP_SESSION=kde</value>
+    <value type="QString" >DESKTOP_STARTUP_ID=</value>
+    <value type="QString" >DISPLAY=:0.0</value>
+    <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
+    <value type="QString" >EDITOR=/usr/bin/emacs -nw</value>
+    <value type="QString" >ENV=/etc/bash.bashrc</value>
+    <value type="QString" >FROM_HEADER=</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8o3DOP/S.gpg-agent:4119:1</value>
+    <value type="QString" >GROFF_NO_SGR=yes</value>
+    <value type="QString" >GS_LIB=/home/mannd/.fonts</value>
+    <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/usr/share/themes//QtCurve/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
+    <value type="QString" >GTK_PATH=/usr/local/lib/gtk-2.0:/usr/lib/gtk-2.0</value>
+    <value type="QString" >GTK_PATH64=/usr/local/lib64/gtk-2.0:/usr/lib64/gtk-2.0</value>
+    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/mannd/.gtkrc:/home/mannd/.kde/share/config/gtkrc</value>
+    <value type="QString" >G_BROKEN_FILENAMES=1</value>
+    <value type="QString" >G_FILENAME_ENCODING=@locale,UTF-8,ISO-8859-15,CP1252</value>
+    <value type="QString" >HISTSIZE=1000</value>
+    <value type="QString" >HOME=/home/mannd</value>
+    <value type="QString" >HOST=SuperSluggo</value>
+    <value type="QString" >HOSTNAME=SuperSluggo</value>
+    <value type="QString" >HOSTTYPE=x86_64</value>
+    <value type="QString" >INFODIR=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INFOPATH=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INPUTRC=/home/mannd/.inputrc</value>
+    <value type="QString" >JAVA_BINDIR=/usr/lib64/jvm/jre/bin</value>
+    <value type="QString" >JAVA_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JAVA_ROOT=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JRE_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >KDE_FULL_SESSION=true</value>
+    <value type="QString" >KDE_MULTIHEAD=false</value>
+    <value type="QString" >KDE_SESSION_UID=1000</value>
+    <value type="QString" >LANG=en_US.UTF-8</value>
+    <value type="QString" >LD_LIBRARY_PATH=../../lib</value>
+    <value type="QString" >LESS=-erX</value>
+    <value type="QString" >LESSCLOSE=lessclose.sh %s %s</value>
+    <value type="QString" >LESSKEY=/etc/lesskey.bin</value>
+    <value type="QString" >LESSOPEN=lessopen.sh %s</value>
+    <value type="QString" >LESS_ADVANCED_PREPROCESSOR=no</value>
+    <value type="QString" >LOGNAME=mannd</value>
+    <value type="QString" >LS_COLORS=no=00:fi=00:di=01;34:ln=00;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=41;33;01:ex=00;32:*.cmd=00;32:*.exe=01;32:*.com=01;32:*.bat=01;32:*.btm=01;32:*.dll=01;32:*.tar=00;31:*.tbz=00;31:*.tgz=00;31:*.rpm=00;31:*.deb=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.zoo=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.tb2=00;31:*.tz2=00;31:*.tbz2=00;31:*.avi=01;35:*.bmp=01;35:*.fli=01;35:*.gif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mng=01;35:*.mov=01;35:*.mpg=01;35:*.pcx=01;35:*.pbm=01;35:*.pgm=01;35:*.png=01;35:*.ppm=01;35:*.tga=01;35:*.tif=01;35:*.xbm=01;35:*.xpm=01;35:*.dl=01;35:*.gl=01;35:*.wmv=01;35:*.aiff=00;32:*.au=00;32:*.mid=00;32:*.mp3=00;32:*.ogg=00;32:*.voc=00;32:*.wav=00;32:</value>
+    <value type="QString" >LS_OPTIONS=-N --color=tty -T 0</value>
+    <value type="QString" >MACHTYPE=x86_64-suse-linux</value>
+    <value type="QString" >MAIL=/var/spool/mail/mannd</value>
+    <value type="QString" >MANPATH=/usr/local/man:/usr/local/share/man:/usr/share/man:/home/mannd/share/man</value>
+    <value type="QString" >MINICOM=-c on</value>
+    <value type="QString" >MORE=-sl</value>
+    <value type="QString" >NNTPSERVER=news</value>
+    <value type="QString" >OSTYPE=linux</value>
+    <value type="QString" >PAGER=less</value>
+    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.4.3/bin:/opt/kde3/bin:/home/mannd/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin:/usr/lib/qt3/bin</value>
+    <value type="QString" >PROFILEREAD=true</value>
+    <value type="QString" >PWD=/home/mannd</value>
+    <value type="QString" >PYTHONSTARTUP=/etc/pythonstart</value>
+    <value type="QString" >QTDIR=/usr/local/Trolltech/Qt-4</value>
+    <value type="QString" >QT_SYSTEM_DIR=/usr/share/desktop-data</value>
+    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/4180</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SHLVL=1</value>
+    <value type="QString" >SSH_AGENT_PID=4120</value>
+    <value type="QString" >SSH_ASKPASS=/usr/lib64/ssh/x11-ssh-askpass</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Wolpe4060/agent.4060</value>
+    <value type="QString" >TERM=xterm</value>
+    <value type="QString" >TEXINPUTS=:/home/mannd/.TeX:/usr/share/doc/.TeX:/usr/doc/.TeX</value>
+    <value type="QString" >TMPDIR=/tmp</value>
+    <value type="QString" >USER=mannd</value>
+    <value type="QString" >USE_FAM=</value>
+    <value type="QString" >WINDOWMANAGER=/usr/bin/dbus-launch --sh-syntax --exit-with-session /opt/kde3/bin/startkde</value>
+    <value type="QString" >XAUTHLOCALHOSTNAME=SuperSluggo</value>
+    <value type="QString" >XCURSOR_THEME=DMZ</value>
+    <value type="QString" >XDG_CONFIG_DIRS=:/etc/xdg</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234040830.978807-1583675111</value>
+    <value type="QString" >XDM_MANAGED=/var/run/xdmctl/xdmctl-:0,maysd,mayfn,sched,rsvd,method=classic</value>
+    <value type="QString" >XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
+    <value type="QString" >XMODIFIERS=@im=local</value>
+    <value type="QString" >XNLSPATH=/usr/share/X11/nls</value>
+    <value type="QString" >XSESSION_IS_UP=yes</value>
+    <value type="QString" >_=/opt/kde3/bin/start_kdeinit_wrapper</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >/home/mannd/dev/git/epsimulator/epsimulator.pro</value>
+    <value type="QString" >-spec</value>
+    <value type="QString" >linux-g++-64</value>
+    <value type="QString" >-r</value>
+    <value type="QString" >CONFIG+=debug</value>
+    <value type="QString" >CONFIG+=debug_and_release</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/local/Trolltech/Qt-4/bin/qmake</value>
+   <value key="abstractProcess.enabled" type="bool" >false</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/mannd/dev/git/epsimulator</value>
+   <value key="buildConfiguration" type="int" >2</value>
+   <valuelist key="qmakeArgs" type="QVariantList" >
+    <value type="QString" >CONFIG+=debug_and_release</value>
+   </valuelist>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Debug-buildstep2</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >COLORTERM=1</value>
+    <value type="QString" >CPU=x86_64</value>
+    <value type="QString" >CSHEDIT=emacs</value>
+    <value type="QString" >CVS_RSH=ssh</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-pQFzDoJRjU,guid=f90091e547206c0418fc2a00498df7ff</value>
+    <value type="QString" >DESKTOP_LAUNCH=kde-open</value>
+    <value type="QString" >DESKTOP_SESSION=kde</value>
+    <value type="QString" >DESKTOP_STARTUP_ID=</value>
+    <value type="QString" >DISPLAY=:0.0</value>
+    <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
+    <value type="QString" >EDITOR=/usr/bin/emacs -nw</value>
+    <value type="QString" >ENV=/etc/bash.bashrc</value>
+    <value type="QString" >FROM_HEADER=</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8o3DOP/S.gpg-agent:4119:1</value>
+    <value type="QString" >GROFF_NO_SGR=yes</value>
+    <value type="QString" >GS_LIB=/home/mannd/.fonts</value>
+    <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/usr/share/themes//QtCurve/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
+    <value type="QString" >GTK_PATH=/usr/local/lib/gtk-2.0:/usr/lib/gtk-2.0</value>
+    <value type="QString" >GTK_PATH64=/usr/local/lib64/gtk-2.0:/usr/lib64/gtk-2.0</value>
+    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/mannd/.gtkrc:/home/mannd/.kde/share/config/gtkrc</value>
+    <value type="QString" >G_BROKEN_FILENAMES=1</value>
+    <value type="QString" >G_FILENAME_ENCODING=@locale,UTF-8,ISO-8859-15,CP1252</value>
+    <value type="QString" >HISTSIZE=1000</value>
+    <value type="QString" >HOME=/home/mannd</value>
+    <value type="QString" >HOST=SuperSluggo</value>
+    <value type="QString" >HOSTNAME=SuperSluggo</value>
+    <value type="QString" >HOSTTYPE=x86_64</value>
+    <value type="QString" >INFODIR=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INFOPATH=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INPUTRC=/home/mannd/.inputrc</value>
+    <value type="QString" >JAVA_BINDIR=/usr/lib64/jvm/jre/bin</value>
+    <value type="QString" >JAVA_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JAVA_ROOT=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JRE_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >KDE_FULL_SESSION=true</value>
+    <value type="QString" >KDE_MULTIHEAD=false</value>
+    <value type="QString" >KDE_SESSION_UID=1000</value>
+    <value type="QString" >LANG=en_US.UTF-8</value>
+    <value type="QString" >LD_LIBRARY_PATH=../../lib</value>
+    <value type="QString" >LESS=-erX</value>
+    <value type="QString" >LESSCLOSE=lessclose.sh %s %s</value>
+    <value type="QString" >LESSKEY=/etc/lesskey.bin</value>
+    <value type="QString" >LESSOPEN=lessopen.sh %s</value>
+    <value type="QString" >LESS_ADVANCED_PREPROCESSOR=no</value>
+    <value type="QString" >LOGNAME=mannd</value>
+    <value type="QString" >LS_COLORS=no=00:fi=00:di=01;34:ln=00;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=41;33;01:ex=00;32:*.cmd=00;32:*.exe=01;32:*.com=01;32:*.bat=01;32:*.btm=01;32:*.dll=01;32:*.tar=00;31:*.tbz=00;31:*.tgz=00;31:*.rpm=00;31:*.deb=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.zoo=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.tb2=00;31:*.tz2=00;31:*.tbz2=00;31:*.avi=01;35:*.bmp=01;35:*.fli=01;35:*.gif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mng=01;35:*.mov=01;35:*.mpg=01;35:*.pcx=01;35:*.pbm=01;35:*.pgm=01;35:*.png=01;35:*.ppm=01;35:*.tga=01;35:*.tif=01;35:*.xbm=01;35:*.xpm=01;35:*.dl=01;35:*.gl=01;35:*.wmv=01;35:*.aiff=00;32:*.au=00;32:*.mid=00;32:*.mp3=00;32:*.ogg=00;32:*.voc=00;32:*.wav=00;32:</value>
+    <value type="QString" >LS_OPTIONS=-N --color=tty -T 0</value>
+    <value type="QString" >MACHTYPE=x86_64-suse-linux</value>
+    <value type="QString" >MAIL=/var/spool/mail/mannd</value>
+    <value type="QString" >MANPATH=/usr/local/man:/usr/local/share/man:/usr/share/man:/home/mannd/share/man</value>
+    <value type="QString" >MINICOM=-c on</value>
+    <value type="QString" >MORE=-sl</value>
+    <value type="QString" >NNTPSERVER=news</value>
+    <value type="QString" >OSTYPE=linux</value>
+    <value type="QString" >PAGER=less</value>
+    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.4.3/bin:/opt/kde3/bin:/home/mannd/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin:/usr/lib/qt3/bin</value>
+    <value type="QString" >PROFILEREAD=true</value>
+    <value type="QString" >PWD=/home/mannd</value>
+    <value type="QString" >PYTHONSTARTUP=/etc/pythonstart</value>
+    <value type="QString" >QTDIR=/usr/local/Trolltech/Qt-4</value>
+    <value type="QString" >QT_SYSTEM_DIR=/usr/share/desktop-data</value>
+    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/4180</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SHLVL=1</value>
+    <value type="QString" >SSH_AGENT_PID=4120</value>
+    <value type="QString" >SSH_ASKPASS=/usr/lib64/ssh/x11-ssh-askpass</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Wolpe4060/agent.4060</value>
+    <value type="QString" >TERM=xterm</value>
+    <value type="QString" >TEXINPUTS=:/home/mannd/.TeX:/usr/share/doc/.TeX:/usr/doc/.TeX</value>
+    <value type="QString" >TMPDIR=/tmp</value>
+    <value type="QString" >USER=mannd</value>
+    <value type="QString" >USE_FAM=</value>
+    <value type="QString" >WINDOWMANAGER=/usr/bin/dbus-launch --sh-syntax --exit-with-session /opt/kde3/bin/startkde</value>
+    <value type="QString" >XAUTHLOCALHOSTNAME=SuperSluggo</value>
+    <value type="QString" >XCURSOR_THEME=DMZ</value>
+    <value type="QString" >XDG_CONFIG_DIRS=:/etc/xdg</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234040830.978807-1583675111</value>
+    <value type="QString" >XDM_MANAGED=/var/run/xdmctl/xdmctl-:0,maysd,mayfn,sched,rsvd,method=classic</value>
+    <value type="QString" >XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
+    <value type="QString" >XMODIFIERS=@im=local</value>
+    <value type="QString" >XNLSPATH=/usr/share/X11/nls</value>
+    <value type="QString" >XSESSION_IS_UP=yes</value>
+    <value type="QString" >_=/opt/kde3/bin/start_kdeinit_wrapper</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >debug</value>
+    <value type="QString" >-w</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/mannd/dev/git/epsimulator</value>
+   <valuelist key="makeargs" type="QVariantList" >
+    <value type="QString" >debug</value>
+   </valuelist>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Debug-cleanstep0</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >COLORTERM=1</value>
+    <value type="QString" >CPU=x86_64</value>
+    <value type="QString" >CSHEDIT=emacs</value>
+    <value type="QString" >CVS_RSH=ssh</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-pQFzDoJRjU,guid=f90091e547206c0418fc2a00498df7ff</value>
+    <value type="QString" >DESKTOP_LAUNCH=kde-open</value>
+    <value type="QString" >DESKTOP_SESSION=kde</value>
+    <value type="QString" >DESKTOP_STARTUP_ID=</value>
+    <value type="QString" >DISPLAY=:0.0</value>
+    <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
+    <value type="QString" >EDITOR=/usr/bin/emacs -nw</value>
+    <value type="QString" >ENV=/etc/bash.bashrc</value>
+    <value type="QString" >FROM_HEADER=</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8o3DOP/S.gpg-agent:4119:1</value>
+    <value type="QString" >GROFF_NO_SGR=yes</value>
+    <value type="QString" >GS_LIB=/home/mannd/.fonts</value>
+    <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/usr/share/themes//QtCurve/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
+    <value type="QString" >GTK_PATH=/usr/local/lib/gtk-2.0:/usr/lib/gtk-2.0</value>
+    <value type="QString" >GTK_PATH64=/usr/local/lib64/gtk-2.0:/usr/lib64/gtk-2.0</value>
+    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/mannd/.gtkrc:/home/mannd/.kde/share/config/gtkrc</value>
+    <value type="QString" >G_BROKEN_FILENAMES=1</value>
+    <value type="QString" >G_FILENAME_ENCODING=@locale,UTF-8,ISO-8859-15,CP1252</value>
+    <value type="QString" >HISTSIZE=1000</value>
+    <value type="QString" >HOME=/home/mannd</value>
+    <value type="QString" >HOST=SuperSluggo</value>
+    <value type="QString" >HOSTNAME=SuperSluggo</value>
+    <value type="QString" >HOSTTYPE=x86_64</value>
+    <value type="QString" >INFODIR=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INFOPATH=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INPUTRC=/home/mannd/.inputrc</value>
+    <value type="QString" >JAVA_BINDIR=/usr/lib64/jvm/jre/bin</value>
+    <value type="QString" >JAVA_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JAVA_ROOT=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JRE_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >KDE_FULL_SESSION=true</value>
+    <value type="QString" >KDE_MULTIHEAD=false</value>
+    <value type="QString" >KDE_SESSION_UID=1000</value>
+    <value type="QString" >LANG=en_US.UTF-8</value>
+    <value type="QString" >LD_LIBRARY_PATH=../../lib</value>
+    <value type="QString" >LESS=-erX</value>
+    <value type="QString" >LESSCLOSE=lessclose.sh %s %s</value>
+    <value type="QString" >LESSKEY=/etc/lesskey.bin</value>
+    <value type="QString" >LESSOPEN=lessopen.sh %s</value>
+    <value type="QString" >LESS_ADVANCED_PREPROCESSOR=no</value>
+    <value type="QString" >LOGNAME=mannd</value>
+    <value type="QString" >LS_COLORS=no=00:fi=00:di=01;34:ln=00;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=41;33;01:ex=00;32:*.cmd=00;32:*.exe=01;32:*.com=01;32:*.bat=01;32:*.btm=01;32:*.dll=01;32:*.tar=00;31:*.tbz=00;31:*.tgz=00;31:*.rpm=00;31:*.deb=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.zoo=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.tb2=00;31:*.tz2=00;31:*.tbz2=00;31:*.avi=01;35:*.bmp=01;35:*.fli=01;35:*.gif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mng=01;35:*.mov=01;35:*.mpg=01;35:*.pcx=01;35:*.pbm=01;35:*.pgm=01;35:*.png=01;35:*.ppm=01;35:*.tga=01;35:*.tif=01;35:*.xbm=01;35:*.xpm=01;35:*.dl=01;35:*.gl=01;35:*.wmv=01;35:*.aiff=00;32:*.au=00;32:*.mid=00;32:*.mp3=00;32:*.ogg=00;32:*.voc=00;32:*.wav=00;32:</value>
+    <value type="QString" >LS_OPTIONS=-N --color=tty -T 0</value>
+    <value type="QString" >MACHTYPE=x86_64-suse-linux</value>
+    <value type="QString" >MAIL=/var/spool/mail/mannd</value>
+    <value type="QString" >MANPATH=/usr/local/man:/usr/local/share/man:/usr/share/man:/home/mannd/share/man</value>
+    <value type="QString" >MINICOM=-c on</value>
+    <value type="QString" >MORE=-sl</value>
+    <value type="QString" >NNTPSERVER=news</value>
+    <value type="QString" >OSTYPE=linux</value>
+    <value type="QString" >PAGER=less</value>
+    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.4.3/bin:/opt/kde3/bin:/home/mannd/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin:/usr/lib/qt3/bin</value>
+    <value type="QString" >PROFILEREAD=true</value>
+    <value type="QString" >PWD=/home/mannd</value>
+    <value type="QString" >PYTHONSTARTUP=/etc/pythonstart</value>
+    <value type="QString" >QTDIR=/usr/local/Trolltech/Qt-4</value>
+    <value type="QString" >QT_SYSTEM_DIR=/usr/share/desktop-data</value>
+    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/4180</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SHLVL=1</value>
+    <value type="QString" >SSH_AGENT_PID=4120</value>
+    <value type="QString" >SSH_ASKPASS=/usr/lib64/ssh/x11-ssh-askpass</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Wolpe4060/agent.4060</value>
+    <value type="QString" >TERM=xterm</value>
+    <value type="QString" >TEXINPUTS=:/home/mannd/.TeX:/usr/share/doc/.TeX:/usr/doc/.TeX</value>
+    <value type="QString" >TMPDIR=/tmp</value>
+    <value type="QString" >USER=mannd</value>
+    <value type="QString" >USE_FAM=</value>
+    <value type="QString" >WINDOWMANAGER=/usr/bin/dbus-launch --sh-syntax --exit-with-session /opt/kde3/bin/startkde</value>
+    <value type="QString" >XAUTHLOCALHOSTNAME=SuperSluggo</value>
+    <value type="QString" >XCURSOR_THEME=DMZ</value>
+    <value type="QString" >XDG_CONFIG_DIRS=:/etc/xdg</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234040830.978807-1583675111</value>
+    <value type="QString" >XDM_MANAGED=/var/run/xdmctl/xdmctl-:0,maysd,mayfn,sched,rsvd,method=classic</value>
+    <value type="QString" >XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
+    <value type="QString" >XMODIFIERS=@im=local</value>
+    <value type="QString" >XNLSPATH=/usr/share/X11/nls</value>
+    <value type="QString" >XSESSION_IS_UP=yes</value>
+    <value type="QString" >_=/opt/kde3/bin/start_kdeinit_wrapper</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >clean</value>
+    <value type="QString" >-w</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/mannd/dev/git/epsimulator</value>
+  </valuemap>
+ </data>
+ <data>
   <variable>buildconfiguration-Release-buildstep0</variable>
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
@@ -70,55 +396,46 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >ACLOCAL_FLAGS=-I /opt/gnome/share/aclocal</value>
-    <value type="QString" >COLORTERM=</value>
-    <value type="QString" >CPU=i686</value>
+    <value type="QString" >COLORTERM=1</value>
+    <value type="QString" >CPU=x86_64</value>
     <value type="QString" >CSHEDIT=emacs</value>
-    <value type="QString" >CVSROOT=/var/lib/cvsroot</value>
     <value type="QString" >CVS_RSH=ssh</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-EdcpnsSszI,guid=7ee288497dabc1f8222d5078cdabc300</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-pQFzDoJRjU,guid=f90091e547206c0418fc2a00498df7ff</value>
     <value type="QString" >DESKTOP_LAUNCH=kde-open</value>
     <value type="QString" >DESKTOP_SESSION=kde</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
     <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
+    <value type="QString" >EDITOR=/usr/bin/emacs -nw</value>
     <value type="QString" >ENV=/etc/bash.bashrc</value>
     <value type="QString" >FROM_HEADER=</value>
-    <value type="QString" >GNOME2_PATH=/usr/local:/opt/gnome:/usr</value>
-    <value type="QString" >GNOMEDIR=/opt/gnome</value>
-    <value type="QString" >GNOME_PATH=:/opt/gnome:/usr</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-Hxsm9Y/S.gpg-agent:5182:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8o3DOP/S.gpg-agent:4119:1</value>
     <value type="QString" >GROFF_NO_SGR=yes</value>
     <value type="QString" >GS_LIB=/home/mannd/.fonts</value>
-    <value type="QString" >GTK2_RC_FILES=/etc/opt/gnome/gtk-2.0/gtkrc:/opt/gnome/share/themes//Qt/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
-    <value type="QString" >GTK_PATH=/usr/local/lib/gtk-2.0:/opt/gnome/lib/gtk-2.0:/usr/lib/gtk-2.0</value>
-    <value type="QString" >GTK_RC_FILES=/etc/opt/gnome/gtk/gtkrc:/home/mannd/.gtkrc:/home/mannd/.kde/share/config/gtkrc</value>
+    <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/usr/share/themes//QtCurve/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
+    <value type="QString" >GTK_PATH=/usr/local/lib/gtk-2.0:/usr/lib/gtk-2.0</value>
+    <value type="QString" >GTK_PATH64=/usr/local/lib64/gtk-2.0:/usr/lib64/gtk-2.0</value>
+    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/mannd/.gtkrc:/home/mannd/.kde/share/config/gtkrc</value>
     <value type="QString" >G_BROKEN_FILENAMES=1</value>
     <value type="QString" >G_FILENAME_ENCODING=@locale,UTF-8,ISO-8859-15,CP1252</value>
     <value type="QString" >HISTSIZE=1000</value>
     <value type="QString" >HOME=/home/mannd</value>
-    <value type="QString" >HOST=Sluggo</value>
-    <value type="QString" >HOSTNAME=Sluggo</value>
-    <value type="QString" >HOSTTYPE=i386</value>
+    <value type="QString" >HOST=SuperSluggo</value>
+    <value type="QString" >HOSTNAME=SuperSluggo</value>
+    <value type="QString" >HOSTTYPE=x86_64</value>
     <value type="QString" >INFODIR=/usr/local/info:/usr/share/info:/usr/info</value>
-    <value type="QString" >INFOPATH=/usr/local/info:/usr/share/info:/usr/info:/opt/gnome/share/info</value>
-    <value type="QString" >INPUTRC=/etc/inputrc</value>
-    <value type="QString" >JAVA_BINDIR=/usr/lib/jvm/jre/bin</value>
-    <value type="QString" >JAVA_HOME=/usr/lib/jvm/jre</value>
-    <value type="QString" >JAVA_ROOT=/usr/lib/jvm/jre</value>
-    <value type="QString" >JRE_HOME=/usr/lib/jvm/jre</value>
-    <value type="QString" >KDEDIR=/opt/kde3</value>
-    <value type="QString" >KDEDIRS=/opt/kde3:/opt/kde:/usr/local</value>
+    <value type="QString" >INFOPATH=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INPUTRC=/home/mannd/.inputrc</value>
+    <value type="QString" >JAVA_BINDIR=/usr/lib64/jvm/jre/bin</value>
+    <value type="QString" >JAVA_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JAVA_ROOT=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JRE_HOME=/usr/lib64/jvm/jre</value>
     <value type="QString" >KDE_FULL_SESSION=true</value>
     <value type="QString" >KDE_MULTIHEAD=false</value>
-    <value type="QString" >KDE_NO_IPV6=1</value>
-    <value type="QString" >KDE_SESSION_UID=500</value>
-    <value type="QString" >KONSOLE_DCOP=DCOPRef(konsole-19867,konsole)</value>
-    <value type="QString" >KONSOLE_DCOP_SESSION=DCOPRef(konsole-19867,session-1)</value>
+    <value type="QString" >KDE_SESSION_UID=1000</value>
     <value type="QString" >LANG=en_US.UTF-8</value>
-    <value type="QString" >LC_NUMERIC=C</value>
     <value type="QString" >LD_LIBRARY_PATH=../../lib</value>
-    <value type="QString" >LESS=-M -I</value>
+    <value type="QString" >LESS=-erX</value>
     <value type="QString" >LESSCLOSE=lessclose.sh %s %s</value>
     <value type="QString" >LESSKEY=/etc/lesskey.bin</value>
     <value type="QString" >LESSOPEN=lessopen.sh %s</value>
@@ -126,58 +443,58 @@
     <value type="QString" >LOGNAME=mannd</value>
     <value type="QString" >LS_COLORS=no=00:fi=00:di=01;34:ln=00;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=41;33;01:ex=00;32:*.cmd=00;32:*.exe=01;32:*.com=01;32:*.bat=01;32:*.btm=01;32:*.dll=01;32:*.tar=00;31:*.tbz=00;31:*.tgz=00;31:*.rpm=00;31:*.deb=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.zoo=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.tb2=00;31:*.tz2=00;31:*.tbz2=00;31:*.avi=01;35:*.bmp=01;35:*.fli=01;35:*.gif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mng=01;35:*.mov=01;35:*.mpg=01;35:*.pcx=01;35:*.pbm=01;35:*.pgm=01;35:*.png=01;35:*.ppm=01;35:*.tga=01;35:*.tif=01;35:*.xbm=01;35:*.xpm=01;35:*.dl=01;35:*.gl=01;35:*.wmv=01;35:*.aiff=00;32:*.au=00;32:*.mid=00;32:*.mp3=00;32:*.ogg=00;32:*.voc=00;32:*.wav=00;32:</value>
     <value type="QString" >LS_OPTIONS=-N --color=tty -T 0</value>
-    <value type="QString" >MACHTYPE=i686-suse-linux</value>
+    <value type="QString" >MACHTYPE=x86_64-suse-linux</value>
     <value type="QString" >MAIL=/var/spool/mail/mannd</value>
-    <value type="QString" >MANPATH=/usr/local/man:/usr/local/share/man:/usr/share/man:/usr/X11R6/man:/opt/gnome/share/man:/opt/kde3/man</value>
+    <value type="QString" >MANPATH=/usr/local/man:/usr/local/share/man:/usr/share/man:/home/mannd/share/man</value>
     <value type="QString" >MINICOM=-c on</value>
     <value type="QString" >MORE=-sl</value>
     <value type="QString" >NNTPSERVER=news</value>
-    <value type="QString" >OPENWINHOME=/usr/openwin</value>
     <value type="QString" >OSTYPE=linux</value>
     <value type="QString" >PAGER=less</value>
-    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.4.0/bin:/opt/kde3/bin:/home/mannd/bin:/usr/local/bin:/usr/bin:/usr/X11R6/bin:/bin:/usr/games:/opt/gnome/bin:/opt/kde/bin:/usr/lib/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin:/usr/lib/qt3/bin</value>
-    <value type="QString" >PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/opt/kde3/lib/pkgconfig:/opt/gnome/lib/pkgconfig:/opt/gnome/lib/pkgconfig:/opt/gnome/share/pkgconfig</value>
+    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.4.3/bin:/opt/kde3/bin:/home/mannd/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin:/usr/lib/qt3/bin</value>
     <value type="QString" >PROFILEREAD=true</value>
-    <value type="QString" >PWD=/home/mannd/qtcreator-0.9.2/bin</value>
+    <value type="QString" >PWD=/home/mannd</value>
     <value type="QString" >PYTHONSTARTUP=/etc/pythonstart</value>
     <value type="QString" >QTDIR=/usr/local/Trolltech/Qt-4</value>
-    <value type="QString" >SESSION_MANAGER=local/Sluggo:/tmp/.ICE-unix/5250</value>
+    <value type="QString" >QT_SYSTEM_DIR=/usr/share/desktop-data</value>
+    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/4180</value>
     <value type="QString" >SHELL=/bin/bash</value>
-    <value type="QString" >SHLVL=3</value>
-    <value type="QString" >SSH_AGENT_PID=5183</value>
-    <value type="QString" >SSH_ASKPASS=/usr/lib/ssh/x11-ssh-askpass</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-wUtLY5144/agent.5144</value>
+    <value type="QString" >SHLVL=1</value>
+    <value type="QString" >SSH_AGENT_PID=4120</value>
+    <value type="QString" >SSH_ASKPASS=/usr/lib64/ssh/x11-ssh-askpass</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Wolpe4060/agent.4060</value>
     <value type="QString" >TERM=xterm</value>
     <value type="QString" >TEXINPUTS=:/home/mannd/.TeX:/usr/share/doc/.TeX:/usr/doc/.TeX</value>
     <value type="QString" >TMPDIR=/tmp</value>
     <value type="QString" >USER=mannd</value>
     <value type="QString" >USE_FAM=</value>
-    <value type="QString" >WINDOWID=50331655</value>
     <value type="QString" >WINDOWMANAGER=/usr/bin/dbus-launch --sh-syntax --exit-with-session /opt/kde3/bin/startkde</value>
-    <value type="QString" >XAUTHLOCALHOSTNAME=Sluggo</value>
-    <value type="QString" >XCURSOR_THEME=crystalblue</value>
-    <value type="QString" >XDG_CONFIG_DIRS=/usr/local/etc/xdg/:/etc/xdg/:/etc/opt/gnome/xdg/</value>
-    <value type="QString" >XDG_DATA_DIRS=/usr/local/share/:/usr/share/:/etc/opt/kde3/share/:/opt/kde3/share/:/opt/gnome/share/</value>
+    <value type="QString" >XAUTHLOCALHOSTNAME=SuperSluggo</value>
+    <value type="QString" >XCURSOR_THEME=DMZ</value>
+    <value type="QString" >XDG_CONFIG_DIRS=:/etc/xdg</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234040830.978807-1583675111</value>
     <value type="QString" >XDM_MANAGED=/var/run/xdmctl/xdmctl-:0,maysd,mayfn,sched,rsvd,method=classic</value>
-    <value type="QString" >XKEYSYMDB=/usr/X11R6/lib/X11/XKeysymDB</value>
+    <value type="QString" >XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
     <value type="QString" >XMODIFIERS=@im=local</value>
-    <value type="QString" >XNLSPATH=/usr/X11R6/lib/X11/nls</value>
+    <value type="QString" >XNLSPATH=/usr/share/X11/nls</value>
     <value type="QString" >XSESSION_IS_UP=yes</value>
-    <value type="QString" >_=/home/mannd/qtcreator-0.9.2/bin/qtcreator</value>
-    <value type="QString" >mc=() {  . /usr/share/mc/bin/mc-wrapper.sh
-}</value>
-    <value type="QString" >no_proxy=localhost</value>
+    <value type="QString" >_=/opt/kde3/bin/start_kdeinit_wrapper</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
     <value type="QString" >/home/mannd/dev/git/epsimulator/epsimulator.pro</value>
     <value type="QString" >-spec</value>
-    <value type="QString" >linux-g++</value>
+    <value type="QString" >linux-g++-64</value>
     <value type="QString" >-r</value>
+    <value type="QString" >CONFIG+=debug_and_release</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString" >/usr/local/Trolltech/Qt-4/bin/qmake</value>
-   <value key="abstractProcess.enabled" type="bool" >false</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
    <value key="abstractProcess.workingDirectory" type="QString" >/home/mannd/dev/git/epsimulator</value>
    <value key="buildConfiguration" type="int" >0</value>
+   <valuelist key="qmakeArgs" type="QVariantList" >
+    <value type="QString" >CONFIG+=debug_and_release</value>
+   </valuelist>
   </valuemap>
  </data>
  <data>
@@ -185,55 +502,46 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >ACLOCAL_FLAGS=-I /opt/gnome/share/aclocal</value>
-    <value type="QString" >COLORTERM=</value>
-    <value type="QString" >CPU=i686</value>
+    <value type="QString" >COLORTERM=1</value>
+    <value type="QString" >CPU=x86_64</value>
     <value type="QString" >CSHEDIT=emacs</value>
-    <value type="QString" >CVSROOT=/var/lib/cvsroot</value>
     <value type="QString" >CVS_RSH=ssh</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-EdcpnsSszI,guid=7ee288497dabc1f8222d5078cdabc300</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-pQFzDoJRjU,guid=f90091e547206c0418fc2a00498df7ff</value>
     <value type="QString" >DESKTOP_LAUNCH=kde-open</value>
     <value type="QString" >DESKTOP_SESSION=kde</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
     <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
+    <value type="QString" >EDITOR=/usr/bin/emacs -nw</value>
     <value type="QString" >ENV=/etc/bash.bashrc</value>
     <value type="QString" >FROM_HEADER=</value>
-    <value type="QString" >GNOME2_PATH=/usr/local:/opt/gnome:/usr</value>
-    <value type="QString" >GNOMEDIR=/opt/gnome</value>
-    <value type="QString" >GNOME_PATH=:/opt/gnome:/usr</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-Hxsm9Y/S.gpg-agent:5182:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8o3DOP/S.gpg-agent:4119:1</value>
     <value type="QString" >GROFF_NO_SGR=yes</value>
     <value type="QString" >GS_LIB=/home/mannd/.fonts</value>
-    <value type="QString" >GTK2_RC_FILES=/etc/opt/gnome/gtk-2.0/gtkrc:/opt/gnome/share/themes//Qt/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
-    <value type="QString" >GTK_PATH=/usr/local/lib/gtk-2.0:/opt/gnome/lib/gtk-2.0:/usr/lib/gtk-2.0</value>
-    <value type="QString" >GTK_RC_FILES=/etc/opt/gnome/gtk/gtkrc:/home/mannd/.gtkrc:/home/mannd/.kde/share/config/gtkrc</value>
+    <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/usr/share/themes//QtCurve/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
+    <value type="QString" >GTK_PATH=/usr/local/lib/gtk-2.0:/usr/lib/gtk-2.0</value>
+    <value type="QString" >GTK_PATH64=/usr/local/lib64/gtk-2.0:/usr/lib64/gtk-2.0</value>
+    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/mannd/.gtkrc:/home/mannd/.kde/share/config/gtkrc</value>
     <value type="QString" >G_BROKEN_FILENAMES=1</value>
     <value type="QString" >G_FILENAME_ENCODING=@locale,UTF-8,ISO-8859-15,CP1252</value>
     <value type="QString" >HISTSIZE=1000</value>
     <value type="QString" >HOME=/home/mannd</value>
-    <value type="QString" >HOST=Sluggo</value>
-    <value type="QString" >HOSTNAME=Sluggo</value>
-    <value type="QString" >HOSTTYPE=i386</value>
+    <value type="QString" >HOST=SuperSluggo</value>
+    <value type="QString" >HOSTNAME=SuperSluggo</value>
+    <value type="QString" >HOSTTYPE=x86_64</value>
     <value type="QString" >INFODIR=/usr/local/info:/usr/share/info:/usr/info</value>
-    <value type="QString" >INFOPATH=/usr/local/info:/usr/share/info:/usr/info:/opt/gnome/share/info</value>
-    <value type="QString" >INPUTRC=/etc/inputrc</value>
-    <value type="QString" >JAVA_BINDIR=/usr/lib/jvm/jre/bin</value>
-    <value type="QString" >JAVA_HOME=/usr/lib/jvm/jre</value>
-    <value type="QString" >JAVA_ROOT=/usr/lib/jvm/jre</value>
-    <value type="QString" >JRE_HOME=/usr/lib/jvm/jre</value>
-    <value type="QString" >KDEDIR=/opt/kde3</value>
-    <value type="QString" >KDEDIRS=/opt/kde3:/opt/kde:/usr/local</value>
+    <value type="QString" >INFOPATH=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INPUTRC=/home/mannd/.inputrc</value>
+    <value type="QString" >JAVA_BINDIR=/usr/lib64/jvm/jre/bin</value>
+    <value type="QString" >JAVA_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JAVA_ROOT=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JRE_HOME=/usr/lib64/jvm/jre</value>
     <value type="QString" >KDE_FULL_SESSION=true</value>
     <value type="QString" >KDE_MULTIHEAD=false</value>
-    <value type="QString" >KDE_NO_IPV6=1</value>
-    <value type="QString" >KDE_SESSION_UID=500</value>
-    <value type="QString" >KONSOLE_DCOP=DCOPRef(konsole-19867,konsole)</value>
-    <value type="QString" >KONSOLE_DCOP_SESSION=DCOPRef(konsole-19867,session-1)</value>
+    <value type="QString" >KDE_SESSION_UID=1000</value>
     <value type="QString" >LANG=en_US.UTF-8</value>
-    <value type="QString" >LC_NUMERIC=C</value>
     <value type="QString" >LD_LIBRARY_PATH=../../lib</value>
-    <value type="QString" >LESS=-M -I</value>
+    <value type="QString" >LESS=-erX</value>
     <value type="QString" >LESSCLOSE=lessclose.sh %s %s</value>
     <value type="QString" >LESSKEY=/etc/lesskey.bin</value>
     <value type="QString" >LESSOPEN=lessopen.sh %s</value>
@@ -241,49 +549,148 @@
     <value type="QString" >LOGNAME=mannd</value>
     <value type="QString" >LS_COLORS=no=00:fi=00:di=01;34:ln=00;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=41;33;01:ex=00;32:*.cmd=00;32:*.exe=01;32:*.com=01;32:*.bat=01;32:*.btm=01;32:*.dll=01;32:*.tar=00;31:*.tbz=00;31:*.tgz=00;31:*.rpm=00;31:*.deb=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.zoo=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.tb2=00;31:*.tz2=00;31:*.tbz2=00;31:*.avi=01;35:*.bmp=01;35:*.fli=01;35:*.gif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mng=01;35:*.mov=01;35:*.mpg=01;35:*.pcx=01;35:*.pbm=01;35:*.pgm=01;35:*.png=01;35:*.ppm=01;35:*.tga=01;35:*.tif=01;35:*.xbm=01;35:*.xpm=01;35:*.dl=01;35:*.gl=01;35:*.wmv=01;35:*.aiff=00;32:*.au=00;32:*.mid=00;32:*.mp3=00;32:*.ogg=00;32:*.voc=00;32:*.wav=00;32:</value>
     <value type="QString" >LS_OPTIONS=-N --color=tty -T 0</value>
-    <value type="QString" >MACHTYPE=i686-suse-linux</value>
+    <value type="QString" >MACHTYPE=x86_64-suse-linux</value>
     <value type="QString" >MAIL=/var/spool/mail/mannd</value>
-    <value type="QString" >MANPATH=/usr/local/man:/usr/local/share/man:/usr/share/man:/usr/X11R6/man:/opt/gnome/share/man:/opt/kde3/man</value>
+    <value type="QString" >MANPATH=/usr/local/man:/usr/local/share/man:/usr/share/man:/home/mannd/share/man</value>
     <value type="QString" >MINICOM=-c on</value>
     <value type="QString" >MORE=-sl</value>
     <value type="QString" >NNTPSERVER=news</value>
-    <value type="QString" >OPENWINHOME=/usr/openwin</value>
     <value type="QString" >OSTYPE=linux</value>
     <value type="QString" >PAGER=less</value>
-    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.4.0/bin:/opt/kde3/bin:/home/mannd/bin:/usr/local/bin:/usr/bin:/usr/X11R6/bin:/bin:/usr/games:/opt/gnome/bin:/opt/kde/bin:/usr/lib/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin:/usr/lib/qt3/bin</value>
-    <value type="QString" >PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/opt/kde3/lib/pkgconfig:/opt/gnome/lib/pkgconfig:/opt/gnome/lib/pkgconfig:/opt/gnome/share/pkgconfig</value>
+    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.4.3/bin:/opt/kde3/bin:/home/mannd/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin:/usr/lib/qt3/bin</value>
     <value type="QString" >PROFILEREAD=true</value>
-    <value type="QString" >PWD=/home/mannd/qtcreator-0.9.2/bin</value>
+    <value type="QString" >PWD=/home/mannd</value>
     <value type="QString" >PYTHONSTARTUP=/etc/pythonstart</value>
     <value type="QString" >QTDIR=/usr/local/Trolltech/Qt-4</value>
-    <value type="QString" >SESSION_MANAGER=local/Sluggo:/tmp/.ICE-unix/5250</value>
+    <value type="QString" >QT_SYSTEM_DIR=/usr/share/desktop-data</value>
+    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/4180</value>
     <value type="QString" >SHELL=/bin/bash</value>
-    <value type="QString" >SHLVL=3</value>
-    <value type="QString" >SSH_AGENT_PID=5183</value>
-    <value type="QString" >SSH_ASKPASS=/usr/lib/ssh/x11-ssh-askpass</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-wUtLY5144/agent.5144</value>
+    <value type="QString" >SHLVL=1</value>
+    <value type="QString" >SSH_AGENT_PID=4120</value>
+    <value type="QString" >SSH_ASKPASS=/usr/lib64/ssh/x11-ssh-askpass</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Wolpe4060/agent.4060</value>
     <value type="QString" >TERM=xterm</value>
     <value type="QString" >TEXINPUTS=:/home/mannd/.TeX:/usr/share/doc/.TeX:/usr/doc/.TeX</value>
     <value type="QString" >TMPDIR=/tmp</value>
     <value type="QString" >USER=mannd</value>
     <value type="QString" >USE_FAM=</value>
-    <value type="QString" >WINDOWID=50331655</value>
     <value type="QString" >WINDOWMANAGER=/usr/bin/dbus-launch --sh-syntax --exit-with-session /opt/kde3/bin/startkde</value>
-    <value type="QString" >XAUTHLOCALHOSTNAME=Sluggo</value>
-    <value type="QString" >XCURSOR_THEME=crystalblue</value>
-    <value type="QString" >XDG_CONFIG_DIRS=/usr/local/etc/xdg/:/etc/xdg/:/etc/opt/gnome/xdg/</value>
-    <value type="QString" >XDG_DATA_DIRS=/usr/local/share/:/usr/share/:/etc/opt/kde3/share/:/opt/kde3/share/:/opt/gnome/share/</value>
+    <value type="QString" >XAUTHLOCALHOSTNAME=SuperSluggo</value>
+    <value type="QString" >XCURSOR_THEME=DMZ</value>
+    <value type="QString" >XDG_CONFIG_DIRS=:/etc/xdg</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234040830.978807-1583675111</value>
     <value type="QString" >XDM_MANAGED=/var/run/xdmctl/xdmctl-:0,maysd,mayfn,sched,rsvd,method=classic</value>
-    <value type="QString" >XKEYSYMDB=/usr/X11R6/lib/X11/XKeysymDB</value>
+    <value type="QString" >XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
     <value type="QString" >XMODIFIERS=@im=local</value>
-    <value type="QString" >XNLSPATH=/usr/X11R6/lib/X11/nls</value>
+    <value type="QString" >XNLSPATH=/usr/share/X11/nls</value>
     <value type="QString" >XSESSION_IS_UP=yes</value>
-    <value type="QString" >_=/home/mannd/qtcreator-0.9.2/bin/qtcreator</value>
-    <value type="QString" >mc=() {  . /usr/share/mc/bin/mc-wrapper.sh
-}</value>
-    <value type="QString" >no_proxy=localhost</value>
+    <value type="QString" >_=/opt/kde3/bin/start_kdeinit_wrapper</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >release</value>
+    <value type="QString" >-w</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/mannd/dev/git/epsimulator</value>
+   <valuelist key="makeargs" type="QVariantList" >
+    <value type="QString" >release</value>
+   </valuelist>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Release-cleanstep0</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >COLORTERM=1</value>
+    <value type="QString" >CPU=x86_64</value>
+    <value type="QString" >CSHEDIT=emacs</value>
+    <value type="QString" >CVS_RSH=ssh</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-pQFzDoJRjU,guid=f90091e547206c0418fc2a00498df7ff</value>
+    <value type="QString" >DESKTOP_LAUNCH=kde-open</value>
+    <value type="QString" >DESKTOP_SESSION=kde</value>
+    <value type="QString" >DESKTOP_STARTUP_ID=</value>
+    <value type="QString" >DISPLAY=:0.0</value>
+    <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
+    <value type="QString" >EDITOR=/usr/bin/emacs -nw</value>
+    <value type="QString" >ENV=/etc/bash.bashrc</value>
+    <value type="QString" >FROM_HEADER=</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8o3DOP/S.gpg-agent:4119:1</value>
+    <value type="QString" >GROFF_NO_SGR=yes</value>
+    <value type="QString" >GS_LIB=/home/mannd/.fonts</value>
+    <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/usr/share/themes//QtCurve/gtk-2.0/gtkrc:/home/mannd/.gtkrc-2.0-qtengine:/home/mannd/.gtkrc-2.0:/home/mannd/.kde/share/config/gtkrc-2.0</value>
+    <value type="QString" >GTK_PATH=/usr/local/lib/gtk-2.0:/usr/lib/gtk-2.0</value>
+    <value type="QString" >GTK_PATH64=/usr/local/lib64/gtk-2.0:/usr/lib64/gtk-2.0</value>
+    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/mannd/.gtkrc:/home/mannd/.kde/share/config/gtkrc</value>
+    <value type="QString" >G_BROKEN_FILENAMES=1</value>
+    <value type="QString" >G_FILENAME_ENCODING=@locale,UTF-8,ISO-8859-15,CP1252</value>
+    <value type="QString" >HISTSIZE=1000</value>
+    <value type="QString" >HOME=/home/mannd</value>
+    <value type="QString" >HOST=SuperSluggo</value>
+    <value type="QString" >HOSTNAME=SuperSluggo</value>
+    <value type="QString" >HOSTTYPE=x86_64</value>
+    <value type="QString" >INFODIR=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INFOPATH=/usr/local/info:/usr/share/info:/usr/info</value>
+    <value type="QString" >INPUTRC=/home/mannd/.inputrc</value>
+    <value type="QString" >JAVA_BINDIR=/usr/lib64/jvm/jre/bin</value>
+    <value type="QString" >JAVA_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JAVA_ROOT=/usr/lib64/jvm/jre</value>
+    <value type="QString" >JRE_HOME=/usr/lib64/jvm/jre</value>
+    <value type="QString" >KDE_FULL_SESSION=true</value>
+    <value type="QString" >KDE_MULTIHEAD=false</value>
+    <value type="QString" >KDE_SESSION_UID=1000</value>
+    <value type="QString" >LANG=en_US.UTF-8</value>
+    <value type="QString" >LD_LIBRARY_PATH=../../lib</value>
+    <value type="QString" >LESS=-erX</value>
+    <value type="QString" >LESSCLOSE=lessclose.sh %s %s</value>
+    <value type="QString" >LESSKEY=/etc/lesskey.bin</value>
+    <value type="QString" >LESSOPEN=lessopen.sh %s</value>
+    <value type="QString" >LESS_ADVANCED_PREPROCESSOR=no</value>
+    <value type="QString" >LOGNAME=mannd</value>
+    <value type="QString" >LS_COLORS=no=00:fi=00:di=01;34:ln=00;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=41;33;01:ex=00;32:*.cmd=00;32:*.exe=01;32:*.com=01;32:*.bat=01;32:*.btm=01;32:*.dll=01;32:*.tar=00;31:*.tbz=00;31:*.tgz=00;31:*.rpm=00;31:*.deb=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.zoo=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.tb2=00;31:*.tz2=00;31:*.tbz2=00;31:*.avi=01;35:*.bmp=01;35:*.fli=01;35:*.gif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mng=01;35:*.mov=01;35:*.mpg=01;35:*.pcx=01;35:*.pbm=01;35:*.pgm=01;35:*.png=01;35:*.ppm=01;35:*.tga=01;35:*.tif=01;35:*.xbm=01;35:*.xpm=01;35:*.dl=01;35:*.gl=01;35:*.wmv=01;35:*.aiff=00;32:*.au=00;32:*.mid=00;32:*.mp3=00;32:*.ogg=00;32:*.voc=00;32:*.wav=00;32:</value>
+    <value type="QString" >LS_OPTIONS=-N --color=tty -T 0</value>
+    <value type="QString" >MACHTYPE=x86_64-suse-linux</value>
+    <value type="QString" >MAIL=/var/spool/mail/mannd</value>
+    <value type="QString" >MANPATH=/usr/local/man:/usr/local/share/man:/usr/share/man:/home/mannd/share/man</value>
+    <value type="QString" >MINICOM=-c on</value>
+    <value type="QString" >MORE=-sl</value>
+    <value type="QString" >NNTPSERVER=news</value>
+    <value type="QString" >OSTYPE=linux</value>
+    <value type="QString" >PAGER=less</value>
+    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.4.3/bin:/opt/kde3/bin:/home/mannd/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin:/usr/lib/qt3/bin</value>
+    <value type="QString" >PROFILEREAD=true</value>
+    <value type="QString" >PWD=/home/mannd</value>
+    <value type="QString" >PYTHONSTARTUP=/etc/pythonstart</value>
+    <value type="QString" >QTDIR=/usr/local/Trolltech/Qt-4</value>
+    <value type="QString" >QT_SYSTEM_DIR=/usr/share/desktop-data</value>
+    <value type="QString" >SESSION_MANAGER=local/SuperSluggo:/tmp/.ICE-unix/4180</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SHLVL=1</value>
+    <value type="QString" >SSH_AGENT_PID=4120</value>
+    <value type="QString" >SSH_ASKPASS=/usr/lib64/ssh/x11-ssh-askpass</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Wolpe4060/agent.4060</value>
+    <value type="QString" >TERM=xterm</value>
+    <value type="QString" >TEXINPUTS=:/home/mannd/.TeX:/usr/share/doc/.TeX:/usr/doc/.TeX</value>
+    <value type="QString" >TMPDIR=/tmp</value>
+    <value type="QString" >USER=mannd</value>
+    <value type="QString" >USE_FAM=</value>
+    <value type="QString" >WINDOWMANAGER=/usr/bin/dbus-launch --sh-syntax --exit-with-session /opt/kde3/bin/startkde</value>
+    <value type="QString" >XAUTHLOCALHOSTNAME=SuperSluggo</value>
+    <value type="QString" >XCURSOR_THEME=DMZ</value>
+    <value type="QString" >XDG_CONFIG_DIRS=:/etc/xdg</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fcef0e04c1cb2cfea9d2510048345000-1234040830.978807-1583675111</value>
+    <value type="QString" >XDM_MANAGED=/var/run/xdmctl/xdmctl-:0,maysd,mayfn,sched,rsvd,method=classic</value>
+    <value type="QString" >XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
+    <value type="QString" >XMODIFIERS=@im=local</value>
+    <value type="QString" >XNLSPATH=/usr/share/X11/nls</value>
+    <value type="QString" >XSESSION_IS_UP=yes</value>
+    <value type="QString" >_=/opt/kde3/bin/start_kdeinit_wrapper</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >clean</value>
     <value type="QString" >-w</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
@@ -292,20 +699,9 @@
   </valuemap>
  </data>
  <data>
-  <variable>buildconfiguration-Release-cleanstep0</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Release-cleanstep1</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
-  </valuemap>
- </data>
- <data>
   <variable>buildconfigurations</variable>
   <valuelist type="QVariantList" >
+   <value type="QString" >Debug</value>
    <value type="QString" >Release</value>
   </valuelist>
  </data>
@@ -344,16 +740,8 @@
   </valuemap>
  </data>
  <data>
-  <variable>cleanstep1</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" ></value>
-   <value key="clean" type="bool" >true</value>
-  </valuemap>
- </data>
- <data>
   <variable>cleansteps</variable>
   <valuelist type="QVariantList" >
-   <value type="QString" >trolltech.qt4projectmanager.gdbmaros</value>
    <value type="QString" >trolltech.qt4projectmanager.make</value>
   </valuelist>
  </data>

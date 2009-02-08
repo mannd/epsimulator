@@ -115,8 +115,8 @@ Recorder::Recorder(QWidget* parent,
     createStatusBar();
     createCentralWidget();
 
-    connect(parent, SIGNAL(opticalDiskChanged(OpticalDisk*)),
-        this, SLOT(changeOpticalDisk(OpticalDisk*)));
+    // connect(parent, SIGNAL(opticalDiskChanged(OpticalDisk*)),
+    //    this, SLOT(changeOpticalDisk(OpticalDisk*)));
     connect(patientStatusBar_, SIGNAL(manualSave(bool)),
         this, SLOT(setManualSave(bool)));
     connect(this, SIGNAL(emergencySave(bool)),

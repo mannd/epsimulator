@@ -73,10 +73,6 @@ protected:
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const {
         return currentDisk_;}
 
-signals:
-    // let Recorder know the disk is changed and what the new disk is
-    void opticalDiskChanged(EpHardware::EpOpticalDisk::OpticalDisk*);
-
 private slots:
     void newStudy();
     void continueStudy();

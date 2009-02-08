@@ -1,8 +1,5 @@
 TEMPLATE = app
 
-
-
-#The following line was inserted by qt3to4
 QT +=  qt3support 
 INCLUDEPATH += ../gui \
 ../stimulator \
@@ -21,6 +18,7 @@ LIBS += ../../lib/libstimulator.a \
  -lstudy \
  -lrecorder \
  -L../../lib
+
 TARGETDEPS += ../../lib/libgui.so \
 ../../lib/libstimulator.a \
 ../../lib/libpatient.so \
@@ -30,16 +28,11 @@ TARGETDEPS += ../../lib/libgui.so \
  ../../lib/libstudy.so \
  ../../lib/librecorder.so
 
-CONFIG += qtestlib \
- debug
-
+CONFIG += qtestlib
 
 SOURCES += testepsimulator.cpp
 
 HEADERS += testepsimulator.h
 
-
 TARGET = ../../bin/testepsimulator
-
-CONFIG -= release
 

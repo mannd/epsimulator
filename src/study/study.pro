@@ -1,9 +1,5 @@
 TEMPLATE = lib
 
-CONFIG += debug \
- dll
-CONFIG -= release
-
 INCLUDEPATH += ../core \
 ../patient \
  ../hardware

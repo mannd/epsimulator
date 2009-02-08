@@ -1,7 +1,5 @@
 TEMPLATE = app
 
-
-
 TARGET = ../../bin/epsimulator
 
 INCLUDEPATH += ../core \
@@ -31,13 +29,7 @@ TARGETDEPS += ../../lib/libcore.so \
  ../../lib/librecorder.so
 SOURCES += main.cpp
 
-
 RESOURCES += ../resources/resources.qrc
 
-
 QT += qt3support
-
-CONFIG -= release
-
-CONFIG += debug
 
