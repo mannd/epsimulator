@@ -16,11 +16,4 @@ SUBDIRS += src/core \
            src/main \
            src/test
 
-
-
-
 TEMPLATE = subdirs
-CONFIG += debug \
-warn_on \
-qt \
-thread

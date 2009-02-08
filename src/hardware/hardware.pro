@@ -1,7 +1,5 @@
 TEMPLATE = lib
 
-CONFIG += dll
-
 INCLUDEPATH += ../core \
 ../patient \
 ../gui
@@ -17,7 +15,6 @@ HEADERS += opticaldisk.h \
 
 FORMS += ui/selectemulateddiskdialog.ui \
  ui/satmonitor.ui
-
 
 DESTDIR = ../../lib/
 

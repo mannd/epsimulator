@@ -6,7 +6,6 @@ FORMS += ui/filtercatalogdialog.ui \
 TRANSLATIONS += epsimulator_de.ts \
                 epsimulator_fr.ts 
 
-#IDLS += ui/studymovecopywizard.ui 
 HEADERS += navigator.h \
            catalogcombobox.h \
            catalog.h \
@@ -28,12 +27,6 @@ SOURCES += navigator.cpp \
  filtercatalogdialog.cpp \
  movecopystudydialog.cpp
 TEMPLATE = lib
-CONFIG += warn_on \
-thread \
-qt \
- dll \
- debug
-
 
 INCLUDEPATH += ../gui \
  ../recorder \
@@ -62,5 +55,4 @@ TARGETDEPS += ../../lib/libcore.so \
 ../../lib/libhardware.so \
  ../../lib/libstudy.so \
  ../../lib/librecorder.so
-CONFIG -= release
 
