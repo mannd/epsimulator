@@ -142,7 +142,7 @@ void Navigator::newStudy() {
     // if after all the above we finally have a label...
     if (currentDisk_->isLabeled()) {
         Study* study = getNewStudy();
-        SelectStudyConfigDialog* selectStudyConfigDialog  = 
+        SelectStudyConfigDialog* selectStudyConfigDialog  =
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
             study->setConfig(selectStudyConfigDialog->config().name());
