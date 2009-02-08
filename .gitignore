@@ -12,6 +12,7 @@ Makefile*
 lib/*
 epsimulator
 testepsimulator
+gtc-gdbmacros/lib*
 
 # KDevelop files
 epsimulator.kdevelop.pcs
