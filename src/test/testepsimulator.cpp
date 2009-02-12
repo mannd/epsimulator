@@ -484,10 +484,10 @@ void TestEpSimulator::testUser() {
     User* u = User::instance();
     QVERIFY (!u->machineName().isEmpty());
     QVERIFY (u->role() == tr("EPSIMUSER"));
-    u->makeAdministrator(true);
+    u->setIsAdministrator(true);
     QVERIFY(u->role() == tr("ADMINISTRATOR"));
     QVERIFY(u->name() == tr("ADMINISTRATOR"));
-    u->makeAdministrator(false);
+    u->setIsAdministrator(false);
     QVERIFY(u->role() == tr("EPSIMUSER"));
     delete u;
 }

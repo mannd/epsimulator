@@ -96,14 +96,14 @@ void AbstractMainWindow::login() {
     if (!user()->isAdministrator()) {
         PasswordDialog pwDialog(this);
         if (pwDialog.exec() == QDialog::Accepted) {
-            user()->makeAdministrator(true);
+            user()->setIsAdministrator(true);
             updateAll();
         }
     }
 }
 
 void AbstractMainWindow::logout() {
-    user()->makeAdministrator(false);
+    user()->setIsAdministrator(false);
     updateAll();
 }
 
