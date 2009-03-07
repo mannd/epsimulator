@@ -75,6 +75,7 @@ void TestEpSimulator::initTestCase() {
         workingDir.mkdir("tmp");
     QCOMPARE(dir.exists(), true);
     workingPath_ = workingDir.absolutePath();
+    qDebug() << workingPath_;
 }
 
 void TestEpSimulator::testStudyConstructor() {
@@ -234,6 +235,7 @@ void TestEpSimulator::testStudyFileName() {
 void TestEpSimulator::testStudyLoadSave() {
     Study s;
     s.setPath("tmp");
+    qDebug() << "tmp path = " << s.filePath();
     Name name("Doe", "James", "");
     s.setName(name);
     s.save();
@@ -256,7 +258,7 @@ void TestEpSimulator::testStudyLoadSave() {
     Study* sp = new Study;
     sp->setName(name);
     QString originalKey = sp->key();
-    sp->setPath("tmp"); 
+    sp->setPath("tmp");
     sp->save();
     sp->load();
     QCOMPARE(sp->key(), originalKey);
@@ -332,11 +334,11 @@ void TestEpSimulator::testOptionsFlags() {
 void TestEpSimulator::testOpticalDisk() {
     QCOMPARE(OpticalDisk::makeStudiesPath("test"), QString("test/studies"));
     QCOMPARE(OpticalDisk::studiesDirName(), QString("studies"));
-    OpticalDisk* o = new OpticalDisk("tmp");
+    OpticalDisk* o = new OpticalDisk(".");
     QCOMPARE(o->path(), o->labelPath());
-    QCOMPARE(o->path(), QString("tmp"));
+    QCOMPARE(o->path(), QString("."));
     delete o;
-    EmulatedOpticalDisk* e = new EmulatedOpticalDisk("tmp", true);
+    EmulatedOpticalDisk* e = new EmulatedOpticalDisk(".", true);
     QVERIFY(e->path() != e->labelPath());
     delete e;
 }

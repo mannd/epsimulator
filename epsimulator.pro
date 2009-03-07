@@ -12,6 +12,7 @@ SUBDIRS += src/core \
     src/recorder \
     src/navigator \
     src/main \
-    src/test
+    src/test \
+
 TEMPLATE = subdirs
 
