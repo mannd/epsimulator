@@ -68,6 +68,7 @@ protected:
     QAction* changePasswordAction() {return changePasswordAction_;}
     QAction* helpAction() {return helpAction_;}
     QAction* aboutAction() {return aboutAction_;}
+    QAction* aboutQtAction() {return aboutQtAction_;}
     QAction* simulatorSettingsAction() {return simulatorSettingsAction_;}
     QAction* systemSettingsAction() {return systemSettingsAction_;}
 
@@ -94,6 +95,7 @@ private:
     QAction* changePasswordAction_;
     QAction* helpAction_;
     QAction* aboutAction_;
+    QAction* aboutQtAction_;
     QAction* simulatorSettingsAction_;
     QAction* systemSettingsAction_;
 };

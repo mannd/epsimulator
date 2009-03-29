@@ -889,6 +889,7 @@ void Recorder::createMenus() {
     helpMenu_ = menuBar()->addMenu(tr("&Help"));
     helpMenu_->addAction(helpAction());
     helpMenu_->addAction(aboutAction());
+    helpMenu_->addAction(aboutQtAction());
     
 }
 

@@ -64,8 +64,9 @@ private:
     /// Major or minor version number == BadTestVersion then version not OK.
     /// Version numbers >= the Good... versions are OK.  This system is to 
     /// make sure file formats are compatible when the program is updated.
-    enum {BadTestVersion = 9999, GoodMajorVersion = 0, 
-        GoodMinorVersion = 0};
+    enum {BadTestVersion = 9999,
+          GoodMajorVersion = 0,
+          GoodMinorVersion = 0};
 
     static VersionInfo* instance_;
 

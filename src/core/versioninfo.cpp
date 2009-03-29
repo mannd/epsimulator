@@ -22,10 +22,9 @@
 
 #include "epdefs.h"
 
-#include <QStringList>
-
-/// Keep this #define up to date with the version of the code.
 #define VERSION "0.1"
+
+#include <QStringList>
 
 using EpCore::VersionInfo;
 
@@ -49,7 +48,7 @@ bool VersionInfo::versionOk(int major, int minor) {
 VersionInfo::VersionInfo(): appName_("epsimulator"), 
                             shortAppName_("epsim"),
                             programName_(tr("EP Simulator")), 
-                            copyrightYear_(tr("2006")),
+                            copyrightYear_(tr("2006-2009")),
                             version_(VERSION) {
     QStringList list = version_.split(".");
     versionMajor_ = list[0].toInt();

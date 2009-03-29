@@ -43,7 +43,7 @@ public:
     static User* instance();
     ~User();
 
-    void makeAdministrator(bool isAdministrator) {
+    void setIsAdministrator(bool isAdministrator) {
         isAdministrator_ = isAdministrator;}
 
     bool isAdministrator() const {return isAdministrator_;}

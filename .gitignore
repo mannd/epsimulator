@@ -12,13 +12,16 @@ Makefile*
 lib/*
 epsimulator
 testepsimulator
-gtc-gdbmacros/lib*
+qtc-gdbmacros/lib*
 
 # KDevelop files
 epsimulator.kdevelop.pcs
 epsimulator.tag
 epsimulator.kdevses
 epsimulator.kdevelop
+
+# QT Creator files
+epsimulator.pro.user
 
 # generated documentation
 doc/html/*

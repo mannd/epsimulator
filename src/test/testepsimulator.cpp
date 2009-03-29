@@ -75,6 +75,7 @@ void TestEpSimulator::initTestCase() {
         workingDir.mkdir("tmp");
     QCOMPARE(dir.exists(), true);
     workingPath_ = workingDir.absolutePath();
+    qDebug() << workingPath_;
 }
 
 void TestEpSimulator::testStudyConstructor() {
@@ -234,6 +235,7 @@ void TestEpSimulator::testStudyFileName() {
 void TestEpSimulator::testStudyLoadSave() {
     Study s;
     s.setPath("tmp");
+    qDebug() << "tmp path = " << s.filePath();
     Name name("Doe", "James", "");
     s.setName(name);
     s.save();
@@ -256,7 +258,7 @@ void TestEpSimulator::testStudyLoadSave() {
     Study* sp = new Study;
     sp->setName(name);
     QString originalKey = sp->key();
-    sp->setPath("tmp"); 
+    sp->setPath("tmp");
     sp->save();
     sp->load();
     QCOMPARE(sp->key(), originalKey);
@@ -280,6 +282,30 @@ void TestEpSimulator::testStudyLoadSave() {
     // key should be same as the s4 key if loading is actually loading the key
     QCOMPARE(s4.key(), s5.key());    
 }
+
+void TestEpSimulator::testIsPreregisterStudy() {
+    Study s;
+    QVERIFY(s.isPreregisterStudy());
+    QVERIFY(s.config().isEmpty());
+    s.setConfig("Default");
+    QVERIFY(!s.isPreregisterStudy());
+};
+
+void TestEpSimulator::testEF() {
+    Study s;
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    s.setEf(110);
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    s.setEf(-10);
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    s.setEf(0);
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    s.setEf(100);
+    QVERIFY(s.ef() > 0 && s.ef() < 100);
+    Study s1 = s;
+    QCOMPARE(s.ef(), s1.ef());
+};
+
 
 void TestEpSimulator::testOptions() {
     Options* o = Options::instance();
@@ -308,11 +334,11 @@ void TestEpSimulator::testOptionsFlags() {
 void TestEpSimulator::testOpticalDisk() {
     QCOMPARE(OpticalDisk::makeStudiesPath("test"), QString("test/studies"));
     QCOMPARE(OpticalDisk::studiesDirName(), QString("studies"));
-    OpticalDisk* o = new OpticalDisk("tmp");
+    OpticalDisk* o = new OpticalDisk(".");
     QCOMPARE(o->path(), o->labelPath());
-    QCOMPARE(o->path(), QString("tmp"));
+    QCOMPARE(o->path(), QString("."));
     delete o;
-    EmulatedOpticalDisk* e = new EmulatedOpticalDisk("tmp", true);
+    EmulatedOpticalDisk* e = new EmulatedOpticalDisk(".", true);
     QVERIFY(e->path() != e->labelPath());
     delete e;
 }
@@ -460,10 +486,10 @@ void TestEpSimulator::testUser() {
     User* u = User::instance();
     QVERIFY (!u->machineName().isEmpty());
     QVERIFY (u->role() == tr("EPSIMUSER"));
-    u->makeAdministrator(true);
+    u->setIsAdministrator(true);
     QVERIFY(u->role() == tr("ADMINISTRATOR"));
     QVERIFY(u->name() == tr("ADMINISTRATOR"));
-    u->makeAdministrator(false);
+    u->setIsAdministrator(false);
     QVERIFY(u->role() == tr("EPSIMUSER"));
     delete u;
 }

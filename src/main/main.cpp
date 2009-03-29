@@ -26,9 +26,9 @@
 /**
  * @mainpage
  * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
- *  complete with recording equipment, programmable stimulator, and, most importantly, 
- *  a heart simulator that can be set up to mimic 
- *   normal cardiac electrophysiology and arrhythmias.
+ * complete with recording equipment, programmable stimulator, and, most importantly,
+ * a heart simulator that can be set up to mimic
+ * normal cardiac electrophysiology and arrhythmias.
  */
 
 #include "navigator.h"

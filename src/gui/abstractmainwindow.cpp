@@ -96,14 +96,14 @@ void AbstractMainWindow::login() {
     if (!user()->isAdministrator()) {
         PasswordDialog pwDialog(this);
         if (pwDialog.exec() == QDialog::Accepted) {
-            user()->makeAdministrator(true);
+            user()->setIsAdministrator(true);
             updateAll();
         }
     }
 }
 
 void AbstractMainWindow::logout() {
-    user()->makeAdministrator(false);
+    user()->setIsAdministrator(false);
     updateAll();
 }
 
@@ -161,6 +161,9 @@ void AbstractMainWindow::createActions() {
         tr("Change administrator password"), SLOT(changePassword()));
     aboutAction_ = createAction(this, tr("&About EP Simulator"),
         tr("About EP Simulator"), SLOT(about()));
+    aboutQtAction_ = new QAction(tr("About &Qt"), this);
+    aboutQtAction_->setStatusTip(tr("Show the Qt library's About box"));
+    connect(aboutQtAction_, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     helpAction_ = createAction(this, tr("EP Simulator Help..."),
         tr("Get help for EP Simulator"), SLOT(help()), 
         QKeySequence::HelpContents);
