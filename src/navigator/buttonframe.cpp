@@ -70,7 +70,8 @@ void AbstractButtonFrame::setupButton(QAbstractButton* button,
                                       const char* slotName, 
                                       bool lastButton) {
     button->setFixedSize(buttonWidth, buttonHeight);
-    button->setIcon(QIcon(pixmap));
+    QIcon icon(pixmap);
+    button->setIcon(icon);
     button->setIconSize(QSize(buttonWidth - 10, buttonHeight - 10));
     static int row = 0;   // allows adding widgets in correct row
     // last parameter centers the buttons and labels horizontally
@@ -138,11 +139,14 @@ void NewStyleButtonFrame::addButton(const QString& name,
                                     const QString& pixmapName, 
                                     const char* slotName, 
                                     bool lastButton) {
+    // we must first tweak the palette so that the buttons
+    // don't get whited out.
+    QPalette palette = this->palette();
+    palette.setColor(QPalette::Button, Qt::darkBlue);
+    this->setPalette(palette);
     QPixmap pixmap(":/images/" + pixmapName + "white.png");
     QLabel* label = new QLabel(tr(name), this);    
     QToolButton* button = new QToolButton(this);
     button->setAutoRaise(true);
-    // unfortunately Qt4 sets whole pixmap to white, ignoring transparency
-    //pixmap.fill();  // sets to white by default
     setupButton(button, pixmap, label, slotName, lastButton);
 }
