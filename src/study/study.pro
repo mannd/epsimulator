@@ -7,9 +7,7 @@ LIBS += -L../../lib \
 -lcore \
 -lpatient \
  -lhardware
-TARGETDEPS += ../../lib/libcore.so \
-../../lib/libpatient.so \
- ../../lib/libhardware.so
+
 SOURCES += study.cpp \
  studyconfiguration.cpp
 

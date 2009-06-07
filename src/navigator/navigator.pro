@@ -49,10 +49,4 @@ LIBS += -lcore \
  -lstudy \
  -lrecorder \
  -L../../lib
-TARGETDEPS += ../../lib/libcore.so \
-../../lib/libpatient.so \
-../../lib/libgui.so \
-../../lib/libhardware.so \
- ../../lib/libstudy.so \
- ../../lib/librecorder.so
 

@@ -607,7 +607,7 @@ void Navigator::exportCatalog() {
     }
 }
 
-void Navigator::updateSimulatorSettings(){
+void Navigator::updateSimulatorSettings() {
     try {
         writeSettings();    // preserve window status
         setUpdatesEnabled(false);

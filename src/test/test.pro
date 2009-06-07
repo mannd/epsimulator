@@ -9,7 +9,8 @@ INCLUDEPATH += ../gui \
  ../core \
  ../hardware \
  ../study
-LIBS += ../../lib/libstimulator.a \
+
+LIBS += -lstimulator \
 -lpatient \
  -lgui \
  -lcore \
@@ -18,15 +19,6 @@ LIBS += ../../lib/libstimulator.a \
  -lstudy \
  -lrecorder \
  -L../../lib
-
-TARGETDEPS += ../../lib/libgui.so \
-../../lib/libstimulator.a \
-../../lib/libpatient.so \
- ../../lib/libcore.so \
- ../../lib/libhardware.so \
- ../../lib/libnavigator.so \
- ../../lib/libstudy.so \
- ../../lib/librecorder.so
 
 CONFIG += qtestlib
 

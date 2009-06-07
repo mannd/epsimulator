@@ -42,9 +42,3 @@ LIBS += -L../../lib \
 -lhardware \
  ../../lib/libstimulator.a \
  -lstudy
-TARGETDEPS += ../../lib/libcore.so \
-../../lib/libpatient.so \
-../../lib/libgui.so \
-../../lib/libhardware.so \
- ../../lib/libstimulator.a \
- ../../lib/libstudy.so
