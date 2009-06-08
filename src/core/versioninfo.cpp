@@ -22,9 +22,14 @@
 
 #include "epdefs.h"
 
-#define VERSION "0.1"
+#include <QtCore/QStringList>
 
-#include <QStringList>
+#define PROGRAM_NAME tr("EP Simulator")
+#define COPYRIGHT_YEAR tr("2006-2009")
+#define VERSION  "0.1"
+
+static const char* appNameC = "epsimulator";
+static const char* shortAppNameC = "epsim";
 
 using EpCore::VersionInfo;
 
@@ -45,10 +50,10 @@ bool VersionInfo::versionOk(int major, int minor) {
 
 // protected constructor
 
-VersionInfo::VersionInfo(): appName_("epsimulator"), 
-                            shortAppName_("epsim"),
-                            programName_(tr("EP Simulator")), 
-                            copyrightYear_(tr("2006-2009")),
+VersionInfo::VersionInfo(): appName_(appNameC),
+                            shortAppName_(shortAppNameC),
+                            programName_(PROGRAM_NAME),
+                            copyrightYear_(COPYRIGHT_YEAR),
                             version_(VERSION) {
     QStringList list = version_.split(".");
     versionMajor_ = list[0].toInt();

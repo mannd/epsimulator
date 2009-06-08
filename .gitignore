@@ -1,3 +1,4 @@
+# backup files
 *.[oa]
 *~
 *#
@@ -12,7 +13,7 @@ Makefile*
 lib/*
 epsimulator
 testepsimulator
-qtc-gdbmacros/lib*
+qtc-gdbmacros/*
 
 # KDevelop files
 epsimulator.kdevelop.pcs

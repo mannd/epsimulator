@@ -21,8 +21,8 @@
 #ifndef VERSIONINFO_H
 #define VERSIONINFO_H
 
-#include <QCoreApplication>
-#include <QString>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QString>
 
 namespace EpCore {
 

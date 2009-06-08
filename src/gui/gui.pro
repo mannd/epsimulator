@@ -35,8 +35,9 @@ LIBS += -lpatient \
  -lcore \
  -L../../lib \
  -lstudy
-TARGETDEPS += ../../lib/libpatient.so \
- ../../lib/libcore.so \
- ../../lib/libstudy.so
+
+#TARGETDEPS += ../../lib/libpatient.so \
+# ../../lib/libcore.so \
+# ../../lib/libstudy.so
 
 RESOURCES += ../resources/resources.qrc

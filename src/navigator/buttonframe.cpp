@@ -125,7 +125,12 @@ void OldStyleButtonFrame::addButton(const QString& name,
 // NewStyleButtonFrame
 
 NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent)
-    : AbstractButtonFrame(parent) {}
+    : AbstractButtonFrame(parent) {
+    // we give the buttons a darkBlue color so they don't get whited out.
+    QPalette framePalette = palette();
+    framePalette.setColor(QPalette::Button, Qt::darkBlue);
+    setPalette(framePalette);
+}
 
 /**
  * Adds a button along with the corresponding pixmap and slot
@@ -138,11 +143,10 @@ void NewStyleButtonFrame::addButton(const QString& name,
                                     const QString& pixmapName, 
                                     const char* slotName, 
                                     bool lastButton) {
+
     QPixmap pixmap(":/images/" + pixmapName + "white.png");
     QLabel* label = new QLabel(tr(name), this);    
     QToolButton* button = new QToolButton(this);
     button->setAutoRaise(true);
-    // unfortunately Qt4 sets whole pixmap to white, ignoring transparency
-    //pixmap.fill();  // sets to white by default
     setupButton(button, pixmap, label, slotName, lastButton);
 }
