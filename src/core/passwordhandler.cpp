@@ -45,4 +45,3 @@ bool PasswordHandler::testPassword(const QString& pw) {
     hash_.addData(pw.toAscii());
     return hash_.result() == options_->passwordHash.toAscii();
 }
-

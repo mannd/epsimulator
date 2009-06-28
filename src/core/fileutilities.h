@@ -135,6 +135,6 @@ void loadSystemData(unsigned int magicNumber, const QString& fileName, T& data, 
         loadData(options->systemCatalogPath + "/" + fileName, magicNumber, data);
 }
 
-}
+} // namespace EpCore
 
 #endif

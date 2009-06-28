@@ -25,7 +25,9 @@
 // NB: this file is operating system dependent and won't compile on an
 // non-unix system.  
 /// TODO When migrating to Windows, will need to modify this file.
-#include <unistd.h>
+#ifdef Q_OS_UNIX
+#   include <unistd.h>
+#endif
 
 using EpCore::User;
 
@@ -68,5 +70,3 @@ User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
     char name[length] = "";
     machineName_ = gethostname(name, length) == 0 ? QString(name) : QString();
 }
-
-User::~User() {}

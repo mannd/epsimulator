@@ -18,11 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/** 
- * @file main.cpp
- * Main program file for EP Simulator.
- */
-
 /**
  * @mainpage
  * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
@@ -36,7 +31,6 @@
 #include <QApplication>
 #include <QIcon>
 #include <QMessageBox>
-#include <QString>
 
 // Languages
 // Only define 1 of the below
@@ -45,7 +39,7 @@
 #define ENGLISH
 
 #ifndef ENGLISH
-#include <QTranslator>
+#   include <QTranslator>
 #endif
 
 using EpNavigator::Navigator;

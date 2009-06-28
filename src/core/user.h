@@ -22,7 +22,6 @@
 #define USER_H
 
 #include <QCoreApplication>
-#include <QString>
 
 namespace EpCore {
 
@@ -41,7 +40,6 @@ class User {
 
 public:
     static User* instance();
-    ~User();
 
     void setIsAdministrator(bool isAdministrator) {
         isAdministrator_ = isAdministrator;}
@@ -51,7 +49,6 @@ public:
     QString name() const;
     QString role() const;  // returns EPSIMUSER or ADMINISTRATOR
 
-
 private:
     User();
 
@@ -60,6 +57,6 @@ private:
     QString machineName_;
 };
 
-}
+} // namespace EpCore
 
 #endif
