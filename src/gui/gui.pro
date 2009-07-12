@@ -2,38 +2,41 @@ TEMPLATE = lib
 
 DESTDIR = ../../lib
 
-INCLUDEPATH += ../patient \
- ../core \
- ../study \
- ../hardware
+INCLUDEPATH += \
+    ../patient \
+    ../core \
+    ../study \
+    ../hardware
 
-SOURCES += simulatorsettingsdialog.cpp \
- patientdialog.cpp \
- changepassworddialog.cpp \
- systemdialog.cpp \
- passworddialog.cpp \
- actions.cpp \
- abstractmainwindow.cpp
+SOURCES += \
+    simulatorsettingsdialog.cpp \
+    patientdialog.cpp \
+    changepassworddialog.cpp \
+    systemdialog.cpp \
+    passworddialog.cpp \
+    actions.cpp \
+    abstractmainwindow.cpp
 
-HEADERS += simulatorsettingsdialog.h \
- patientdialog.h \
- changepassworddialog.h \
- systemdialog.h \
- passworddialog.h \
- actions.h \
- abstractmainwindow.h
+HEADERS += \
+    simulatorsettingsdialog.h \
+    patientdialog.h \
+    changepassworddialog.h \
+    systemdialog.h \
+    passworddialog.h \
+    actions.h \
+    abstractmainwindow.h
 
-FORMS += ui/simulatorsettingsdialog.ui \
-         ui/patientdialog.ui \
-         ui/changepassworddialog.ui \
-         ui/systemdialog.ui \
-         ui/passworddialog.ui
+FORMS += \
+    ui/simulatorsettingsdialog.ui \
+    ui/patientdialog.ui \
+    ui/changepassworddialog.ui \
+    ui/systemdialog.ui \
+    ui/passworddialog.ui
 
-DISTFILES += .
-
-LIBS += -lpatient \
- -lcore \
- -L../../lib \
- -lstudy
+LIBS += \
+    -lpatient \
+    -lcore \
+    -lstudy \
+    -L../../lib
 
 RESOURCES += ../resources/resources.qrc

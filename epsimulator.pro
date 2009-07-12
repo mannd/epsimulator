@@ -4,17 +4,8 @@ contains(QT_VERSION, ^[34]\.[0-2]\..*) {
     error("Use at least Qt 4.3")
 }
 
-SUBDIRS += src/core \
-    src/patient \
-    src/hardware \
-    src/study \
-    src/gui \
-    src/stimulator \
-    src/recorder \
-    src/navigator \
-    src/app \
-    src/test \
-
 TEMPLATE = subdirs
 
+CONFIG += ordered
 
+SUBDIRS = src

@@ -1,6 +1,9 @@
 TEMPLATE = app
+
 TARGET = ../../bin/epsimulator
-INCLUDEPATH += ../core \
+
+INCLUDEPATH += \
+    ../core \
     ../navigator \
     ../recorder \
     ../patient \
@@ -8,7 +11,9 @@ INCLUDEPATH += ../core \
     ../hardware \
     ../stimulator \
     ../study
-LIBS += -lpatient \
+
+LIBS += \
+    -lpatient \
     -lgui \
     -lcore \
     -lhardware \
@@ -17,5 +22,7 @@ LIBS += -lpatient \
     -lstudy \
     -lrecorder \
     -L../../lib
+
 SOURCES += main.cpp
+
 RESOURCES += ../resources/resources.qrc

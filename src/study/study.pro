@@ -1,18 +1,22 @@
 TEMPLATE = lib
 
-INCLUDEPATH += ../core \
-../patient \
- ../hardware
-LIBS += -L../../lib \
--lcore \
--lpatient \
- -lhardware
+INCLUDEPATH += \
+    ../core \
+    ../patient \
+    ../hardware
 
-SOURCES += study.cpp \
- studyconfiguration.cpp
+LIBS += \
+    -L../../lib \
+    -lcore \
+    -lpatient \
+    -lhardware
 
-HEADERS += study.h \
- studyconfiguration.h
+SOURCES += \
+    study.cpp \
+    studyconfiguration.cpp
+
+HEADERS += \
+    study.h \
+    studyconfiguration.h
 
 DESTDIR = ../../lib/
-

@@ -1,22 +1,25 @@
 TEMPLATE = lib
 
-INCLUDEPATH += ../core \
-../patient \
-../gui
-SOURCES += opticaldisk.cpp \
- selectemulateddiskdialog.cpp \
- satmonitor.cpp \
- amplifier.cpp
+INCLUDEPATH += \
+    ../core \
+    ../patient \
+    ../gui
 
-HEADERS += opticaldisk.h \
- selectemulateddiskdialog.h \
- satmonitor.h \
- amplifier.h
+SOURCES += \
+    opticaldisk.cpp \
+    selectemulateddiskdialog.cpp \
+    satmonitor.cpp \
+    amplifier.cpp
 
-FORMS += ui/selectemulateddiskdialog.ui \
- ui/satmonitor.ui
+HEADERS += \
+    opticaldisk.h \
+    selectemulateddiskdialog.h \
+    satmonitor.h \
+    amplifier.h
+
+FORMS += \
+    ui/selectemulateddiskdialog.ui \
+    ui/satmonitor.ui
 
 DESTDIR = ../../lib/
-
-QT += qt3support
 
