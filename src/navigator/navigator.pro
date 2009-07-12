@@ -1,3 +1,4 @@
+QT += qt3support
 
 FORMS += ui/filtercatalogdialog.ui \
          ui/disklabeldialog.ui \
@@ -34,9 +35,6 @@ INCLUDEPATH += ../gui \
  ../core \
  ../hardware \
  ../study
-
-#The following line was inserted by qt3to4
-QT +=  qt3support 
 
 RESOURCES += ../resources/resources.qrc
 

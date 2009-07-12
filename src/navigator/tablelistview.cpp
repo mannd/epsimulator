@@ -138,7 +138,7 @@ void TableListView::load(Catalog* catalog) {
         return;  // don't know why it would be 0, but just in case
     for (Catalog::CatalogMap::const_iterator it = catalog->begin(); 
         it != catalog->end(); ++it)
-        addStudy(it.data().study, catalog->location(it.data()));
+        addStudy(it.value().study, catalog->location(it.value()));
 }
 
 /**
@@ -181,7 +181,7 @@ void TableListView::addStudy(const Study& study, const QString& location) {
 void TableListView::exportCSV(const QString& fileName) {
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) 
-        throw EpCore::OpenWriteError(file.name());
+        throw EpCore::OpenWriteError(file.fileName());
     QTextStream out(&file);
     for (int i = 0; i < columns(); ++i) 
         if (i != FullNameCol)   // don't need 3 name columns
@@ -197,7 +197,7 @@ void TableListView::exportCSV(const QString& fileName) {
         ++it;
     }
     if (file.error()) 
-        throw EpCore::WriteError(file.name());
+        throw EpCore::WriteError(file.fileName());
     file.close();
 }
 

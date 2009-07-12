@@ -40,7 +40,7 @@ CatalogComboBox::CatalogComboBox(Options* o, QWidget *parent) :
                                  options_(o) {
     setup();
     connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));
-    setCurrentItem(0);  // will be Network or System depending on options
+    setCurrentIndex(0);  // will be Network or System depending on options
 }
 
 CatalogComboBox::~CatalogComboBox() {}
@@ -78,7 +78,7 @@ void CatalogComboBox::setSource(Catalog::Source source) {
         source = Catalog::System;  // setSource assumes sourceMap has been 
                                    // setup correctly and 
                                    // this assignment is wrong.
-    setCurrentItem(sourceMap_[source]);
+    setCurrentIndex(sourceMap_[source]);
 }
 
 /**
@@ -109,7 +109,7 @@ void CatalogComboBox::setBrowse(bool browse) {
 }
 
 Catalog::Source CatalogComboBox::source() {
-    int item = currentItem();
+    int item = currentIndex();
     for (CatalogMap::const_iterator pos = sourceMap_.begin(); 
         pos != sourceMap_.end(); ++pos) {
         if (pos->second == item) 
@@ -132,15 +132,15 @@ void CatalogComboBox::setup() {
     includeNetwork_ = options_->
         filePathFlags.testFlag(Options::EnableNetworkStorage);
     if (includeNetwork_) {
-        insertItem(tr("Network"));
+        insertItem(index, tr("Network"));
         sourceMap_[Catalog::Network] = index++;
     }
-    insertItem(tr("System        "));
+    insertItem(index, tr("System        "));
     sourceMap_[Catalog::System] = index++;
-    insertItem(tr("Optical"));
+    insertItem(index, tr("Optical"));
     sourceMap_[Catalog::Optical] = index;
     if (browse_) {
-        insertItem("");
+        insertItem(index, "");
         sourceMap_[Catalog::Other] = ++index;
     }
 }

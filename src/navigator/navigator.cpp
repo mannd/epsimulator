@@ -586,8 +586,8 @@ void Navigator::setCatalogOther() {
 
 void Navigator::exportCatalog() {
     QFileDialog fd(this, tr("Export Catalog"),
-        QDir::homeDirPath(), tr("Comma-delimited (*.csv)"));
-    fd.setMode(QFileDialog::AnyFile);
+        QDir::homePath(), tr("Comma-delimited (*.csv)"));
+    fd.setFileMode(QFileDialog::AnyFile);
     fd.setAcceptMode(QFileDialog::AcceptSave);
     if (fd.exec() == QDialog::Accepted) {
         QStringList files = fd.selectedFiles();
@@ -678,7 +678,7 @@ void Navigator::initializeOpticalDisk() {
             exit(1);
         else {
             QFileDialog* fd = new QFileDialog(this);
-            fd->setMode(QFileDialog::Directory);
+            fd->setFileMode(QFileDialog::Directory);
             if (fd->exec() == QDialog::Accepted) {
                 QStringList files = fd->selectedFiles();
                 QString fileName = QString();
@@ -973,16 +973,16 @@ void Navigator::readSettings() {
 
 void Navigator::processFilter() {
         QRegExp lastNameRegExp(filterCatalogDialog_->lastNameFilter(), 
-            false, true);
+            Qt::CaseInsensitive, QRegExp::Wildcard);
 	QRegExp firstNameRegExp(filterCatalogDialog_->firstNameFilter(), 
-            false, true);
-	QRegExp mrnRegExp(filterCatalogDialog_->mrnFilter(), false, true);
+            Qt::CaseInsensitive, QRegExp::Wildcard);
+        QRegExp mrnRegExp(filterCatalogDialog_->mrnFilter(), Qt::CaseInsensitive, QRegExp::Wildcard);
 	QRegExp studyConfigRegExp(filterCatalogDialog_->studyConfigFilter(),
-            false, true);
+            Qt::CaseInsensitive, QRegExp::Wildcard);
 	QRegExp studyNumberRegExp(filterCatalogDialog_->studyNumberFilter(),
-            false, true);
+            Qt::CaseInsensitive, QRegExp::Wildcard);
 	QRegExp studyLocationRegExp(filterCatalogDialog_->studyLocationFilter(),
-            false, true);
+            Qt::CaseInsensitive, QRegExp::Wildcard);
 	// date stuff next
 	QDate today = QDate::currentDate();
 	QDate startDate = today, endDate = today;

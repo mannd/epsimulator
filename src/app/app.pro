@@ -19,5 +19,3 @@ LIBS += -lpatient \
     -L../../lib
 SOURCES += main.cpp
 RESOURCES += ../resources/resources.qrc
-QT += qt3support
-OTHER_FILES += 

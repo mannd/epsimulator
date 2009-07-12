@@ -4,8 +4,6 @@ contains(QT_VERSION, ^[34]\.[0-2]\..*) {
     error("Use at least Qt 4.3")
 }
 
-QT += qt3support
-
 SUBDIRS += src/core \
     src/patient \
     src/hardware \
@@ -18,4 +16,5 @@ SUBDIRS += src/core \
     src/test \
 
 TEMPLATE = subdirs
+
 

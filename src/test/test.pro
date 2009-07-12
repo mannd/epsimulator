@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT +=  qt3support 
+QT +=  qt3support
 INCLUDEPATH += ../gui \
 ../stimulator \
 ../recorder \

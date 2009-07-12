@@ -41,9 +41,10 @@ const int AbstractButtonFrame::buttonWidth;
  */
 AbstractButtonFrame::AbstractButtonFrame(QWidget* parent) 
     : QFrame(parent) {
-    setSizePolicy(QSizePolicy((QSizePolicy::SizeType)1, 
-                              (QSizePolicy::SizeType)5, 0, 0,
-                              sizePolicy().hasHeightForWidth()));
+    QSizePolicy policy = QSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+    policy.setVerticalStretch(0);
+    policy.setHeightForWidth(false);
+    setSizePolicy(policy);
     setFrameShape(QFrame::StyledPanel);
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::darkBlue);
@@ -53,7 +54,12 @@ AbstractButtonFrame::AbstractButtonFrame(QWidget* parent)
     // necessary to actually apply the Window color to the background
     setAutoFillBackground(true);
     setMaximumWidth(200);
-    buttonFrameLayout_ = new QGridLayout(this, 1, 1, 11, 6, "");    
+    buttonFrameLayout_ = new QGridLayout(this);
+    buttonFrameLayout_->setVerticalSpacing(6);  // ? this is right
+
+
+
+    //buttonFrameLayout_ = new QGridLayout(this, 1, 1, 11, 6, "");
 }
 
 /**

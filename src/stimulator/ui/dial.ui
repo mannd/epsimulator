@@ -1,111 +1,111 @@
-<ui version="4.0" stdsetdef="1" >
-  <author></author>
-  <comment></comment>
-  <exportmacro></exportmacro>
-  <class>dialWidget</class>
-  <widget class="QWidget" name="dialWidget" >
-    <property name="geometry" >
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>341</width>
-        <height>267</height>
-      </rect>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>dialWidget</class>
+ <widget class="QWidget" name="dialWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>341</width>
+    <height>267</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form1</string>
+  </property>
+  <widget class="QWidget" name="layout5">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>81</y>
+     <width>250</width>
+     <height>110</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout">
+    <property name="margin">
+     <number>0</number>
     </property>
-    <property name="windowTitle" >
-      <string>Form1</string>
-    </property>
-    <widget class="QWidget" name="layout5" >
-      <property name="geometry" >
-        <rect>
-          <x>31</x>
-          <y>81</y>
-          <width>250</width>
-          <height>110</height>
-        </rect>
+    <item row="1" column="0">
+     <widget class="QLabel" name="textLabel1">
+      <property name="text">
+       <string>label</string>
       </property>
-      <layout class="QGridLayout" >
-        <property name="margin" >
-          <number>0</number>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QFrame" name="frame3">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QWidget" name="layout2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>223</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout">
+        <property name="margin">
+         <number>0</number>
         </property>
-        <item row="1" column="0" >
-          <widget class="QLabel" name="textLabel1" >
-            <property name="text" >
-              <string>label</string>
-            </property>
-            <property name="alignment" >
-              <set>Qt::AlignCenter</set>
-            </property>
-          </widget>
+        <item>
+         <widget class="QSpinBox" name="spinBox5">
+          <property name="wrapping">
+           <bool>true</bool>
+          </property>
+          <property name="maximum">
+           <number>9</number>
+          </property>
+         </widget>
         </item>
-        <item row="0" column="0" >
-          <widget class="Q3Frame" name="frame3" >
-            <property name="frameShape" >
-              <enum>StyledPanel</enum>
-            </property>
-            <property name="frameShadow" >
-              <enum>Raised</enum>
-            </property>
-            <widget class="QWidget" name="layout2" >
-              <property name="geometry" >
-                <rect>
-                  <x>10</x>
-                  <y>10</y>
-                  <width>220</width>
-                  <height>32</height>
-                </rect>
-              </property>
-              <layout class="QHBoxLayout" >
-                <property name="margin" >
-                  <number>0</number>
-                </property>
-                <item>
-                  <widget class="QSpinBox" name="spinBox5" >
-                    <property name="wrapping" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="maximum" >
-                      <number>9</number>
-                    </property>
-                  </widget>
-                </item>
-                <item>
-                  <widget class="QSpinBox" name="spinBox6" >
-                    <property name="wrapping" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="maximum" >
-                      <number>9</number>
-                    </property>
-                  </widget>
-                </item>
-                <item>
-                  <widget class="QSpinBox" name="spinBox7" >
-                    <property name="wrapping" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="maximum" >
-                      <number>9</number>
-                    </property>
-                  </widget>
-                </item>
-                <item>
-                  <widget class="QSpinBox" name="spinBox8" >
-                    <property name="wrapping" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="maximum" >
-                      <number>9</number>
-                    </property>
-                  </widget>
-                </item>
-              </layout>
-            </widget>
-          </widget>
+        <item>
+         <widget class="QSpinBox" name="spinBox6">
+          <property name="wrapping">
+           <bool>true</bool>
+          </property>
+          <property name="maximum">
+           <number>9</number>
+          </property>
+         </widget>
         </item>
-      </layout>
-    </widget>
+        <item>
+         <widget class="QSpinBox" name="spinBox7">
+          <property name="wrapping">
+           <bool>true</bool>
+          </property>
+          <property name="maximum">
+           <number>9</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox8">
+          <property name="wrapping">
+           <bool>true</bool>
+          </property>
+          <property name="maximum">
+           <number>9</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <resources/>
+ <connections/>
 </ui>

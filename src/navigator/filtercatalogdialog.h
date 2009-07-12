@@ -55,7 +55,7 @@ public:
     QDate endDate() const {return endDateEdit->date();}
     TableListView::FilterStudyType filterStudyType() const {
         return static_cast<TableListView::FilterStudyType>
-        (studyTypeComboBox->currentItem());}
+        (studyTypeComboBox->currentIndex());}
 
 public slots:
     void enableDateRange();

@@ -84,7 +84,7 @@ void Catalog::addStudy(const Study* study, const QString& location,
 }
 
 void Catalog::deleteStudy(const Study* study) {
-    catalog_.erase(study->key());
+    catalog_.remove(study->key());
     save();
 }
 
@@ -104,9 +104,9 @@ void Catalog::regenerate(Keys& keys, Catalog* c) {
 void Catalog::relabel(const QString& label, const QString& side, const QString& key) {
     for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) {
-        if (p.data().study.key() == key ) {
-            p.data().location = label;
-            p.data().side = side;
+        if (p.value().study.key() == key ) {
+            p.value().location = label;
+            p.value().side = side;
         }
     }
     save();
@@ -115,7 +115,7 @@ void Catalog::relabel(const QString& label, const QString& side, const QString& 
 bool Catalog::studyPresent(const Study* s) {
     for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) {
-        if (p.data().study.key() == s->key())
+        if (p.value().study.key() == s->key())
             return true;
     }
     return false;
@@ -142,7 +142,7 @@ void Catalog::save() {
 }
 
 QString Catalog::filePath() const {
-    return QDir::cleanDirPath(path_ + "/" + fileName_);
+    return QDir::cleanPath(path_ + "/" + fileName_);
 }
 
 // class OpticalCatalog
@@ -172,8 +172,8 @@ void OpticalCatalog::relabel(const QString& label, const QString& side) {
     for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) {
         // with optical catalog, all studies must be relabeled
-        p.data().location = label;
-        p.data().side = side;
+        p.value().location = label;
+        p.value().side = side;
     }
     save();
 }
@@ -181,7 +181,7 @@ void OpticalCatalog::relabel(const QString& label, const QString& side) {
 void OpticalCatalog::create(const QString& location, const QString& side,
                     const QString& labName, const QString& machineName) {
     QDir studiesDir(OpticalDisk::makeStudiesPath(path()));
-    QStringList studyList = studiesDir.entryList("study_*");
+    QStringList studyList = studiesDir.entryList(QStringList() << "study_*");
     catalog_.clear();   // Start from scratch, as some studies might have
                         // been deleted on disk but not in the catalog.
     for (QStringList::Iterator it = studyList.begin(); 
@@ -199,7 +199,7 @@ Catalog::Keys OpticalCatalog::getKeys() {
     Keys keys;
     for (CatalogMap::iterator p = catalog_.begin();
         p != catalog_.end(); ++p) 
-        keys.push_back(p.data().study.key());
+        keys.push_back(p.value().study.key());
     return keys;
 }
 
