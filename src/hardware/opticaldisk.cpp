@@ -67,7 +67,7 @@ OpticalDisk::OpticalDisk(const QString& path)
 OpticalDisk::~OpticalDisk() {}
 
 QString OpticalDisk::makeStudiesPath(const QString& path) {
-    return QDir::cleanDirPath(path + "/" + studiesDirName_);
+    return QDir::cleanPath(path + "/" + studiesDirName_);
 }
 
 /**
@@ -88,7 +88,7 @@ void OpticalDisk::eject(QWidget* w) {
  * @return full path of the label.dat file, including file name.
  */
 QString OpticalDisk::labelFilePath() const {
-    return QDir::cleanDirPath(labelPath() + "/" + labelFileName_);
+    return QDir::cleanPath(labelPath() + "/" + labelFileName_);
 }
 
 /**
@@ -97,7 +97,7 @@ QString OpticalDisk::labelFilePath() const {
  */
 QString OpticalDisk::studiesPath() const {
     return makeStudiesPath(path_);
-    // return QDir::cleanDirPath(path_ + "/studies");
+    // return QDir::cleanPath(path_ + "/studies");
 }
 
 /**
@@ -150,7 +150,7 @@ QString OpticalDisk::side() const {
 }
 
 QString OpticalDisk::translatedSide() const {
-    return tr(labelData_.side);    
+    return tr(qPrintable(labelData_.side));
 }
 
 QString OpticalDisk::translateSide(const QString& side) {
@@ -206,10 +206,10 @@ int EmulatedOpticalDisk::makeLabel(const QString& diskName,
     sides.push_back("A");
     sides.push_back("B");
     for (Sides::iterator it = sides.begin(); it != sides.end(); ++it) {
-        f.setName(QDir::cleanDirPath(disksPath() + "/" + diskName + "/" 
+        f.setFileName(QDir::cleanPath(disksPath() + "/" + diskName + "/"
                   + (*it) + "/" + labelFileName_));
         if (f.exists()) { 
-         EpCore::loadData(f.name(), MagicNumber, labelData);
+         EpCore::loadData(f.fileName(), MagicNumber, labelData);
             labelList.append(labelData.label + 
                 (labelData.side.isEmpty() ? QString() : " - " 
                  + translateSide(labelData.side)));
@@ -228,7 +228,7 @@ int EmulatedOpticalDisk::makeLabel(const QString& diskName,
 
 void EmulatedOpticalDisk::eject(QWidget* w) {
     QDir diskDir(disksPath());
-    QStringList diskList = diskDir.entryList("disk*");
+    QStringList diskList = diskDir.entryList(QStringList() << "disk*");
     QStringList labelList;
     QString label, labelFile;
     DiskInfoList diskInfoList;
@@ -284,23 +284,23 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
 }
 
 QString EmulatedOpticalDisk::labelFilePath() const {
-    return QDir::cleanDirPath(labelPath() + "/" + labelFileName_);
+    return QDir::cleanPath(labelPath() + "/" + labelFileName_);
 }
 
 /// returns path to /disks directory
 QString EmulatedOpticalDisk::disksPath() const {
     // have to clean path as it may or may not end in /
-    return QDir::cleanDirPath(path() + "/disks");
+    return QDir::cleanPath(path() + "/disks");
 }
 
 /// returns path to specific emulated disk without the side
 QString EmulatedOpticalDisk::diskPath() const {
-    return QDir::cleanDirPath(disksPath() + "/" + diskName_);
+    return QDir::cleanPath(disksPath() + "/" + diskName_);
 }
 
 /// returns full path to label.dat, including side, excluding file itself
 QString EmulatedOpticalDisk::labelPath() const {
-    return QDir::cleanDirPath(diskPath() + "/" + sideDir());
+    return QDir::cleanPath(diskPath() + "/" + sideDir());
 }
 
 QString EmulatedOpticalDisk::sideDir() const {
@@ -345,16 +345,16 @@ void EmulatedOpticalDisk::writeLabel() const {
 
 void EmulatedOpticalDisk::lastDisk() {
     QSettings settings;
-    diskName_ = settings.readEntry("/lastDisk", "");
-    isTwoSided_ = settings.readBoolEntry("/isTwoSided", false);
-    setSide(settings.readEntry("/lastSide", QString()));
+    diskName_ = settings.value("/lastDisk", "").toString();
+    isTwoSided_ = settings.value("/isTwoSided", false).toBool();
+    setSide(settings.value("/lastSide", QString()).toString());
 }
 
 void EmulatedOpticalDisk::saveLastDisk() {
     QSettings settings;
-    settings.writeEntry("/lastDisk", diskName_);
-    settings.writeEntry("/isTwoSided", isTwoSided_);
-    settings.writeEntry("/lastSide", side());
+    settings.setValue("/lastDisk", diskName_);
+    settings.setValue("/isTwoSided", isTwoSided_);
+    settings.setValue("/lastSide", side());
 }
 
 }}

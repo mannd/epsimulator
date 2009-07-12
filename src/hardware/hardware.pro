@@ -18,5 +18,3 @@ FORMS += ui/selectemulateddiskdialog.ui \
 
 DESTDIR = ../../lib/
 
-QT += qt3support
-
