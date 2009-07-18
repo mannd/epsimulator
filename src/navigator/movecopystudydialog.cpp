@@ -112,7 +112,7 @@ void MoveCopyStudyDialog::setUpLabels(const QString& label) {
 
 QString MoveCopyStudyDialog::addOpticalToPath(const QString& path) {
     if (path == opticalDisk_->path())
-        return QDir::cleanDirPath(opticalDisk_->path() + "/" 
+        return QDir::cleanPath(opticalDisk_->path() + "/"
             + tr("(Optical)"));
     else
         return path;
@@ -146,10 +146,10 @@ void MoveCopyStudyDialog::fillStudiesListView() {
     for (Catalog::CatalogMap::const_iterator it = catalog.begin(); 
         it != catalog.end(); ++it) {
         StudyListWidgetItem* item = 
-            new StudyListWidgetItem(QString(it.data().study.name()
+            new StudyListWidgetItem(QString((*it).study.name()
             .lastFirst() + 
-            " [" + it.data().study.dateTime().toString() + "]"),
-            it.data().study.path(), studiesListWidget);
+            " [" + (*it).study.dateTime().toString() + "]"),
+            (*it).study.path(), studiesListWidget);
         studiesListWidget->addItem(item);
     }
 }

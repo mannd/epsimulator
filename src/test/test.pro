@@ -2,8 +2,6 @@ TEMPLATE = app
 
 TARGET = ../../bin/testepsimulator
 
-QT +=  qt3support
-
 INCLUDEPATH += \
     ../gui \
     ../stimulator \

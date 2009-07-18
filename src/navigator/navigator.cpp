@@ -618,7 +618,7 @@ void Navigator::updateSimulatorSettings() {
         delete catalogs_;
         createCatalogs();
         tableListView_->setOldStyle(options_->oldStyleNavigator);
-        tableListView_->adjustColumns(true);
+        tableListView_->adjustColumns();
         refreshCatalogs();   // This repopulates the TableListView.
         // Need to do below to make sure user label
         // matches Navigator style.
@@ -746,8 +746,8 @@ void Navigator::createButtonFrame() {
 void Navigator::createTableListView() {
     tableListView_ = new TableListView(centralWidget_,
         options_->oldStyleNavigator);
-    connect(tableListView_, SIGNAL(doubleClicked(Q3ListViewItem*, 
-        const QPoint&, int)), this, SLOT(newStudy()));
+    connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
+        int)), this, SLOT(newStudy()));
 }
 
 void Navigator::createStatusBar() {

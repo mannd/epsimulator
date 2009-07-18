@@ -32,7 +32,7 @@ FilterCatalogDialog::FilterCatalogDialog(QWidget* parent) : QDialog(parent) {
  * Clears out form, back to its default appearance
  */
 void FilterCatalogDialog::clearForm() {
-    studyTypeComboBox->setCurrentItem(0);
+    studyTypeComboBox->setCurrentIndex(0);
     lastNameLineEdit->clear();
     firstNameLineEdit->clear();
     mrnLineEdit->clear();

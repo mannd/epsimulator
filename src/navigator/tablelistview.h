@@ -18,16 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/** @file
- *  Contains TableListView and TableListViewItem classes.
- */
-
 #ifndef TABLELISTVIEW_H
 #define TABLELISTVIEW_H
 
 #include <QDateTime>
-#include <Q3ListView>
-#include <QString>
+#include <QTreeWidget>
 
 class QRegExp;
 
@@ -43,10 +38,8 @@ class Catalog;
 /**
  * @author David Mann <mannd@epstudiossoftware.com>
  * TableListView lists studies from the catalogs in Navigator.
- * Note that this class is a Qt3 derived class and
- * requires -DQT3_SUPPORT and Qt3Support include files.
  */
-class TableListView : public Q3ListView {
+class TableListView : public QTreeWidget {
 
 public:
     enum ColumnName {FirstCol = 0, StudyTypeCol = FirstCol, LastNameCol,
@@ -71,7 +64,7 @@ public:
                     const QDate& endDate);
     void removeFilter();
     void showTable();
-    void adjustColumns(bool clearTable = false);
+    void adjustColumns();
     void exportCSV(const QString& fileName);
 
     void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
@@ -91,7 +84,7 @@ private:
 
 }; // TableListView
 
-class TableListView::TableListViewItem : public Q3ListViewItem {
+class TableListView::TableListViewItem : public QTreeWidgetItem {
 
 public:
     TableListViewItem(TableListView* parent, const QString& key, 

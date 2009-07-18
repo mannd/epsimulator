@@ -25,8 +25,9 @@
 #include "study.h"
 
 #include <QFile>
-#include <Q3Header>
+#include <QHeaderView>
 #include <QRegExp>
+#include <QStringList>
 #include <QTextStream>
 
 // uncomment below to show a key column in the table
@@ -44,7 +45,7 @@ using EpStudy::Study;
  */
 TableListView::TableListViewItem::TableListViewItem(TableListView* parent, 
     const QString& key, const QDateTime& dateTime, bool isPreregisterStudy)
-    : Q3ListViewItem(parent), key_(key), dateTime_(dateTime), 
+    : QTreeWidgetItem(parent), key_(key), dateTime_(dateTime),
       isPreregisterStudy_(isPreregisterStudy), filteredOut_(false) {}
 
 TableListView::TableListViewItem::~TableListViewItem() {}
@@ -57,11 +58,14 @@ TableListView::TableListViewItem::~TableListViewItem() {}
  * Ctor does not populate the table, each catalog must be loaded with load(). 
 */
 TableListView::TableListView(QWidget* parent, bool oldStyle) 
-    : Q3ListView(parent),filtered_(false), oldStyle_(oldStyle),
+    : QTreeWidget(parent),filtered_(false), oldStyle_(oldStyle),
       catalog_(0) {
-    adjustColumns(false);
+    adjustColumns();
     setAllColumnsShowFocus(true);
-    setShowSortIndicator(true);
+    setSortingEnabled(true);
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setRootIsDecorated(false);
 }
 
 TableListView::~TableListView() {}
@@ -71,56 +75,52 @@ TableListView::~TableListView() {}
  * @param clearTable = true if you need to change a prexisting table.
  *                     This is always true except in the constructor.
  */
-void TableListView::adjustColumns(bool clearTable) {
-    if (clearTable) {
-        int numCols = columns();
-        for (int i = numCols - 1; i >= 0; --i) 
-            removeColumn(i);
+void TableListView::adjustColumns() {
+    int numColumns = 9;
+#ifdef DEBUGKEYS
+    ++numColumns;
+#endif
+    setColumnCount(0);  // clear all columns
+    setColumnCount(numColumns);
     // Note that after clearing the table, the table has to be reloaded.  This
     // is entrusted to the calling procedure and not done here.    
-    }
-    addColumn(tr("Study Type"));       
-    addColumn(tr("Last Name"));     
-    addColumn(tr("First Name"));    
-    addColumn(tr("Patient"));       
-    addColumn(tr("MRN"));               
-    addColumn(tr("Study Date/Time"));   
-    addColumn(tr("Study Config"));      
-    addColumn(tr("Study Number"));      
-    addColumn(tr("Location of Study")); 
+    QStringList headers;
+    headers << tr("Study Type")
+            << tr("Last Name")
+            << tr("First Name")
+            << tr("Patient")
+            << tr("Patient MRN")
+            << tr("Study Date/Time")
+            << tr("Study Config")
+            << tr("Study Number")
+            << tr("Location of Study");
 #ifdef DEBUGKEYS
-    addColumn(tr("Study Key"));
+    headers << tr("Study Key");
 #endif    
-    header()->setResizeEnabled(true);
+    setHeaderLabels(headers);
+    header()->setSortIndicatorShown(true);
+    header()->setMovable(false);
+    header()->setResizeMode(QHeaderView::ResizeToContents);
+    //header()->setStretchLastSection(false);
     if (oldStyle_) {
-        // must set ColumnWidthMode to Manual, or else it is Maximum and the
-        // column is expanded no matter what and can't be hidden.
-        setColumnWidthMode(FullNameCol, Manual);
         hideColumn(FullNameCol);
-        header()->setResizeEnabled(false, FullNameCol);
     }
     else {
-        setColumnWidthMode(LastNameCol, Manual);
-        setColumnWidthMode(FirstNameCol, Manual);
         hideColumn(LastNameCol);
         hideColumn(FirstNameCol);
-        header()->setResizeEnabled(false, LastNameCol);
-        header()->setResizeEnabled(false, FirstNameCol);
     }
-    setSortColumn(DateTimeCol);    // default sort is date/time
-    setSortOrder(Qt::Ascending);       // most recent study last
+    sortItems(DateTimeCol, Qt::AscendingOrder);
 }
-
 
 /**
  * Runs through the table and shows or hides each row depending on the 
  * filtering in place.  Does not reload table from catalog.
  */
 void TableListView::showTable() {
-    Q3ListViewItemIterator it(this);
-    while (it.current()) {
-        if (TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it)) 
-            item->setVisible(!filtered_ || !item->filteredOut());
+    QTreeWidgetItemIterator it(this);
+    while (*it) {
+        TableListViewItem* item = static_cast<TableListViewItem*>(*it);
+        setItemHidden(item, filtered_ && item->filteredOut());
         ++it;
     }
 }
@@ -152,7 +152,7 @@ void TableListView::load(Catalog* catalog) {
  */
 Study* TableListView::study() const {
     if (TableListViewItem* item = 
-        dynamic_cast<TableListViewItem*>(selectedItem())) 
+        static_cast<TableListViewItem*>(selectedItems()[0]))
         return new Study((*catalog_)[item->key()].study);
     else
         return 0;
@@ -183,14 +183,14 @@ void TableListView::exportCSV(const QString& fileName) {
     if (!file.open(QIODevice::WriteOnly)) 
         throw EpCore::OpenWriteError(file.fileName());
     QTextStream out(&file);
-    for (int i = 0; i < columns(); ++i) 
+    for (int i = 0; i < columnCount(); ++i)
         if (i != FullNameCol)   // don't need 3 name columns
-            out << '"' << columnText(i) << '"' << ',';
+            out << '"' << headerItem()->text(i) << '"' << ',';
     out << '\n';
-    Q3ListViewItemIterator it(this);
-    while (it.current()) {
-        Q3ListViewItem* item = *it;
-        for (int i = 0; i < columns(); ++i) 
+    QTreeWidgetItemIterator it(this);
+    while (*it) {
+        QTreeWidgetItem* item = *it;
+        for (int i = 0; i < columnCount(); ++i)
             if (i != FullNameCol)   // avoid duplicating name columns
                 out << '"' << item->text(i) << '"' << ',';
         out << '\n';
@@ -213,9 +213,9 @@ void TableListView::applyFilter( FilterStudyType filterStudyType,
                                             const QDate& startDate,
                                             const QDate& endDate) {
     bool match = false;
-    Q3ListViewItemIterator it(this);
-    while (it.current()) {
-        if (TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it)) {
+    QTreeWidgetItemIterator it(this);
+    while (*it) {
+        if (TableListViewItem* item = static_cast<TableListViewItem*>(*it)) {
             QDate studyDate = item->dateTime().date();
             match = lastName.exactMatch(item->text(LastNameCol)) &&
                 firstName.exactMatch(item->text(FirstNameCol)) &&
@@ -244,10 +244,10 @@ void TableListView::applyFilter( FilterStudyType filterStudyType,
 }
 
 void TableListView::removeFilter() {
-    Q3ListViewItemIterator it(this);
-    while (it.current()) {
-        if (TableListViewItem* item = dynamic_cast<TableListViewItem*>(*it))
-            item->setFilteredOut(false);
+    QTreeWidgetItemIterator it(this);
+    while (*it) {
+        TableListViewItem* item = static_cast<TableListViewItem*>(*it);
+        item->setFilteredOut(false);
         ++it;
     }
     filtered_ = false;

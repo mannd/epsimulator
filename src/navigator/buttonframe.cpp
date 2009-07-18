@@ -83,18 +83,18 @@ void AbstractButtonFrame::setupButton(QAbstractButton* button,
     if (row == 0) {
         // insert blank row at top -- looks better with this!
         QLabel* topLabel = new QLabel("", this);  
-        topLabel->setAlignment(int(Qt::AlignCenter));
+        topLabel->setAlignment(Qt::AlignCenter);
         buttonFrameLayout_->addWidget(topLabel, row++, 0);
     }
     buttonFrameLayout_->addWidget(button, row++, 0, Qt::AlignHCenter);
     // Notice that a SLOT is passed as a function parameter as a const char*.
     if (slotName)
         connect(button, SIGNAL(clicked()), parent()->parent(), slotName); 
-    label->setAlignment(int(Qt::AlignCenter));
+    label->setAlignment(Qt::AlignCenter);
     buttonFrameLayout_->addWidget(label, row++, 0, Qt::AlignHCenter);
     // insert line between button/label groups
     QLabel* spaceLabel = new QLabel("", this);
-    spaceLabel->setAlignment(int(Qt::AlignCenter));
+    spaceLabel->setAlignment(Qt::AlignCenter);
     buttonFrameLayout_->addWidget(spaceLabel, row++, 0);
     if (lastButton) {
         QSpacerItem* spacer = new QSpacerItem( 20, 40, 
@@ -123,7 +123,7 @@ void OldStyleButtonFrame::addButton(const QString& name,
                                     const char* slotName, 
                                     bool lastButton) {
     QPixmap pixmap(":/images/" + pixmapName + ".png");
-    QLabel* label = new QLabel(tr(name), this);        
+    QLabel* label = new QLabel(name, this);
     QPushButton* button = new QPushButton(this);
     setupButton(button, pixmap, label, slotName, lastButton);
 }
@@ -151,7 +151,7 @@ void NewStyleButtonFrame::addButton(const QString& name,
                                     bool lastButton) {
 
     QPixmap pixmap(":/images/" + pixmapName + "white.png");
-    QLabel* label = new QLabel(tr(name), this);    
+    QLabel* label = new QLabel(name, this);
     QToolButton* button = new QToolButton(this);
     button->setAutoRaise(true);
     setupButton(button, pixmap, label, slotName, lastButton);
