@@ -26,16 +26,16 @@
 #include <QtDebug>
 
 /// TODO below is Linux/Unix specific, needs generalization.
-#include <sys/vfs.h>
+#ifdef Q_OS_UNIX
+#   include <sys/vfs.h>
+#endif
 
 using EpCore::Options;
 using EpGui::SystemDialog;
 
 SystemDialog::SystemDialog(Options* options, const QString& path,
-                           const QString& label, 
-                           const QString& side,
-                           QWidget *parent,
-                           bool allowAcquisitionChange)
+                           const QString& label, const QString& side,
+                           QWidget *parent, bool allowAcquisitionChange)
                            : QDialog(parent),
                            options_(options), path_(path) {
     setupUi(this);
@@ -45,8 +45,6 @@ SystemDialog::SystemDialog(Options* options, const QString& path,
     opticalStudyPathLineEdit->setText(options_->opticalStudyPath);
     networkStudyPathLineEdit->setText(options_->networkStudyPath);
     exportFilePathLineEdit->setText(options_->exportFilePath);
-    //qDebug() << "Options::EnableAcquisition " << options_->
-    //    filePathFlags.testFlag(Options::EnableAcquisition);
     enableAcquisitionCheckBox->setChecked(options_->
         filePathFlags.testFlag(Options::EnableAcquisition));
     // don't allow change of acquisition mode from Recorder window
@@ -69,6 +67,8 @@ SystemDialog::SystemDialog(Options* options, const QString& path,
     spaceTimeLabel->setText(spaceTimeLabel->text().arg(space + " " + time));
     sideLabel->setText(sideLabel->text().arg(side.isEmpty() ? 
         tr("None") : side)); 
+    tabWidget->setCurrentIndex(0);
+
     connect(opticalPathBrowsePushButton, SIGNAL(clicked()), this,
         SLOT(opticalStudyPathBrowse()));
     connect(networkPathBrowsePushButton, SIGNAL(clicked()), this,
@@ -87,7 +87,7 @@ SystemDialog::~SystemDialog() {}
 
 // This is deprecated, shouldn't be needed.
 void SystemDialog::removeFilePathsTab() {
-    filePathsTabWidget->removeTab(0);
+    tabWidget->removeTab(0);
 }
 
 void SystemDialog::setOptions() {
@@ -96,15 +96,10 @@ void SystemDialog::setOptions() {
     options_->exportFilePath = exportFilePathLineEdit->text();
     setFlag(options_->filePathFlags, Options::EnableAcquisition,
         enableAcquisitionCheckBox->isChecked());
-//    options_->setEnableAcquisition(enableAcquisitionCheckBox->isChecked());
     setFlag(options_->filePathFlags, Options::EnableFileExport,
         enableFileExportCheckBox->isChecked());
     setFlag(options_->filePathFlags, Options::EnableNetworkStorage,
         enableNetworkStorageCheckBox->isChecked());
-
-//     options_->setEnableFileExport(enableFileExportCheckBox->isChecked());
-//     options_->setEnableNetworkStorage(enableNetworkStorageCheckBox->
-//                                       isChecked()); 
 
     options_->writeSettings();
 }

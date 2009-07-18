@@ -49,6 +49,6 @@ private:
     QCryptographicHash hash_;
 };
 
-}
+} // namespace EpCore
 
 #endif

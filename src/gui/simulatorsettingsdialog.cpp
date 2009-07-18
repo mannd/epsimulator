@@ -80,6 +80,8 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     }
     amplifierTypeComboBox->setCurrentIndex(index);
 
+    tabWidget->setCurrentIndex(0);
+
     connect(emulateOpticalDiskCheckBox, SIGNAL(stateChanged(int)), 
         this, SLOT(enableDiskEmulation())); 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
@@ -145,7 +147,7 @@ void SimulatorSettingsDialog::setOptions() {
 }
 
 void SimulatorSettingsDialog::removeNavigatorTab() {
-    tabCategories->removeTab(1);
+    tabWidget->removeTab(1);
 }
 
 void SimulatorSettingsDialog::setEmulateOpticalDisk(bool emulate) {

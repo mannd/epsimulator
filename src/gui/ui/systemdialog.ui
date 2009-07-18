@@ -333,7 +333,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
-  <tabstop>filePathsTabWidget</tabstop>
+  <tabstop>tabWidget</tabstop>
   <tabstop>enableAcquisitionCheckBox</tabstop>
   <tabstop>opticalStudyPathLineEdit</tabstop>
   <tabstop>opticalPathBrowsePushButton</tabstop>

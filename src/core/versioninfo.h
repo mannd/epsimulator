@@ -21,8 +21,7 @@
 #ifndef VERSIONINFO_H
 #define VERSIONINFO_H
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QString>
+#include <QCoreApplication>
 
 namespace EpCore {
 
@@ -79,6 +78,6 @@ private:
     int versionMinor_;
 };
 
-}
+} // namespace EpCore
 
 #endif

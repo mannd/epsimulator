@@ -22,14 +22,14 @@
 
 #include "epdefs.h"
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 #define PROGRAM_NAME tr("EP Simulator")
 #define COPYRIGHT_YEAR tr("2006-2009")
 #define VERSION  "0.1"
 
-static const char* appNameC = "epsimulator";
-static const char* shortAppNameC = "epsim";
+static const char appNameC[] = "epsimulator";
+static const char shortAppNameC[] = "epsim";
 
 using EpCore::VersionInfo;
 
