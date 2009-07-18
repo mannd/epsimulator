@@ -72,16 +72,9 @@ TableListView::~TableListView() {}
 
 /**
  * Sets up the columns according to oldStyle.
- * @param clearTable = true if you need to change a prexisting table.
- *                     This is always true except in the constructor.
  */
 void TableListView::adjustColumns() {
-    int numColumns = 9;
-#ifdef DEBUGKEYS
-    ++numColumns;
-#endif
     setColumnCount(0);  // clear all columns
-    setColumnCount(numColumns);
     // Note that after clearing the table, the table has to be reloaded.  This
     // is entrusted to the calling procedure and not done here.    
     QStringList headers;
@@ -97,6 +90,7 @@ void TableListView::adjustColumns() {
 #ifdef DEBUGKEYS
     headers << tr("Study Key");
 #endif    
+    setColumnCount(headers.count());
     setHeaderLabels(headers);
     header()->setSortIndicatorShown(true);
     header()->setMovable(false);
