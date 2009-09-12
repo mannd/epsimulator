@@ -145,6 +145,8 @@ void TableListView::load(Catalog* catalog) {
  * @return Study pointer, 0 if no row selected.
  */
 Study* TableListView::study() const {
+    if (selectedItems().isEmpty())
+        return 0;
     if (TableListViewItem* item = 
         static_cast<TableListViewItem*>(selectedItems()[0]))
         return new Study((*catalog_)[item->key()].study);
