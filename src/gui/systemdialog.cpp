@@ -141,6 +141,9 @@ void SystemDialog::setEnableFileExport(bool enabled) {
 }
 
 long SystemDialog::diskFreeSpace(const QString& path) const {
+# ifdef Q_OS_WIN32
+    return 0;
+# else
     int emulatedDiskMBytes = options_->emulatedOpticalDiskCapacity;
     if (emulatedDiskMBytes  > 0) 
         return emulatedDiskMBytes * 1024;
@@ -153,6 +156,7 @@ long SystemDialog::diskFreeSpace(const QString& path) const {
     }
     long kBytes = blockSize / 1024;
     return blocksFree * kBytes;
+# endif
 }
 
 long SystemDialog::timeRemaining(long kBytes) const {

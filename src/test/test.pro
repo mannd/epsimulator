@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-TARGET = ../../bin/testepsimulator
+TARGET = ../../../bin/testepsimulator
 
 INCLUDEPATH += \
     ../gui \

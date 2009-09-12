@@ -37,6 +37,7 @@ LIBS += \
     -lpatient \
     -lcore \
     -lstudy \
+    -lhardware \
     -L../../lib
 
 RESOURCES += ../resources/resources.qrc

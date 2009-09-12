@@ -25,8 +25,13 @@
 // NB: this file is operating system dependent and won't compile on an
 // non-unix system.  
 /// TODO When migrating to Windows, will need to modify this file.
-#ifdef Q_OS_UNIX
+#ifdef Q_OS_LINUX
 #   include <unistd.h>
+#endif
+
+// so far can't get gethostname to work with Windows
+#ifdef Q_OS_WIN32
+#   include "Winsock2.h"
 #endif
 
 using EpCore::User;
@@ -66,7 +71,11 @@ QString User::role() const {
 }
 
 User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
+#   ifdef Q_OS_WIN32
+    machineName_ = "Windows";
+#   else
     const size_t length = 255;
     char name[length] = "";
     machineName_ = gethostname(name, length) == 0 ? QString(name) : QString();
+#   endif
 }

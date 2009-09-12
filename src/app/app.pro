@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-TARGET = ../../bin/epsimulator
+TARGET = ../../../bin/epsimulator
 
 INCLUDEPATH += \
     ../core \

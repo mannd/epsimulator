@@ -14,6 +14,7 @@ lib/*
 epsimulator
 testepsimulator
 qtc-gdbmacros/*
+bin/*.exe
 
 # KDevelop files
 epsimulator.kdevelop.pcs
@@ -23,6 +24,7 @@ epsimulator.kdevelop
 
 # QT Creator files
 epsimulator.pro.user
+
 
 # generated documentation
 doc/html/*

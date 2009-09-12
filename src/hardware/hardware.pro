@@ -23,3 +23,6 @@ FORMS += \
 
 DESTDIR = ../../lib/
 
+LIBS += \
+    -lcore \
+    -L../../lib
