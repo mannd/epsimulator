@@ -1,8 +1,6 @@
+include(../../epsimulatorlibrary.pri)
+
 TEMPLATE = lib
-
-DESTDIR = ../../lib
-
-RESOURCES += ../resources/resources.qrc
 
 SOURCES += \
     recorder.cpp \
@@ -45,3 +43,5 @@ LIBS += \
     -lhardware \
     ../../lib/libstimulator.a \
     -lstudy
+
+

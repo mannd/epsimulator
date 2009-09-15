@@ -1,6 +1,8 @@
+include(../../epsimulator.pri)
+
 TEMPLATE = app
 
-TARGET = ../../../bin/testepsimulator
+TARGET = testepsimulator
 
 INCLUDEPATH += \
     ../gui \

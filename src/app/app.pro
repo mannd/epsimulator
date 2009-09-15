@@ -1,6 +1,9 @@
+include(../../epsimulator.pri)
+
 TEMPLATE = app
 
-TARGET = ../../../bin/epsimulator
+TARGET = $$EPSIM_APP_TARGET
+DESTDIR = $$EPSIM_APP_PATH
 
 INCLUDEPATH += \
     ../core \
@@ -17,12 +20,10 @@ LIBS += \
     -lgui \
     -lcore \
     -lhardware \
-    ../../lib/libstimulator.a \
+    -lstimulator \
     -lnavigator \
     -lstudy \
-    -lrecorder \
-    -L../../lib
+    -lrecorder
 
 SOURCES += main.cpp
 
-RESOURCES += ../resources/resources.qrc

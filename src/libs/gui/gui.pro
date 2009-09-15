@@ -1,6 +1,6 @@
-TEMPLATE = lib
+include(../../epsimulatorlibrary.pri)
 
-DESTDIR = ../../lib
+TEMPLATE = lib
 
 INCLUDEPATH += \
     ../patient \
@@ -37,7 +37,5 @@ LIBS += \
     -lpatient \
     -lcore \
     -lstudy \
-    -lhardware \
-    -L../../lib
+    -lhardware
 
-RESOURCES += ../resources/resources.qrc

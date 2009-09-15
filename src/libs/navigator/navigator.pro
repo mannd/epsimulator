@@ -1,3 +1,5 @@
+include(../../epsimulatorlibrary.pri)
+
 TEMPLATE = lib
 
 FORMS += \
@@ -42,15 +44,19 @@ INCLUDEPATH += \
     ../hardware \
     ../study
 
-RESOURCES += ../resources/resources.qrc
-
-DESTDIR = ../../lib/
-
 LIBS += \
     -lcore \
     -lpatient \
     -lgui \
     -lhardware \
     -lstudy \
-    -lrecorder \
-    -L../../lib
+    -lrecorder
+
+debug {
+LIBS += -L./debug
+}
+
+release {
+LIBS += -L./release
+}
+

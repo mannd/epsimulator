@@ -1,6 +1,6 @@
-TEMPLATE = lib
+include(../../epsimulatorlibrary.pri)
 
-DESTDIR = ../../lib/
+TEMPLATE = lib
 
 SOURCES += \
     heart.cpp \
@@ -15,8 +15,7 @@ HEADERS += \
 INCLUDEPATH += ../core
 
 LIBS += \
-    -L../../lib \
-    -lcore
+   -lcore
 
 QT -= gui
 

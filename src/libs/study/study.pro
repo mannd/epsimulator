@@ -1,3 +1,5 @@
+include(../../epsimulatorlibrary.pri)
+
 TEMPLATE = lib
 
 INCLUDEPATH += \
@@ -19,4 +21,3 @@ HEADERS += \
     study.h \
     studyconfiguration.h
 
-DESTDIR = ../../lib/

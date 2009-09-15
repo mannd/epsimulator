@@ -15,6 +15,27 @@ epsimulator
 testepsimulator
 qtc-gdbmacros/*
 bin/*.exe
+src/app/release
+src/app/debug
+src/libs/gui/release
+src/libs/gui/debug
+src/libs/hardware/release
+src/libs/hardware/debug
+src/libs/navigator/release
+src/libs/navigator/debug
+src/libs/patient/release
+src/libs/patient/debug
+src/libs/recorder/release
+src/libs/recorder/debug
+src/libs/stimulator/release
+src/libs/stimulator/debug
+src/libs/study/release
+src/libs/study/debug
+src/test/release
+src/test/debug
+
+*.Debug
+*.Release
 
 # KDevelop files
 epsimulator.kdevelop.pcs

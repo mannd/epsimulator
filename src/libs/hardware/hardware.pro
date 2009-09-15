@@ -1,3 +1,5 @@
+include(../../epsimulatorlibrary.pri)
+
 TEMPLATE = lib
 
 INCLUDEPATH += \
@@ -21,8 +23,5 @@ FORMS += \
     ui/selectemulateddiskdialog.ui \
     ui/satmonitor.ui
 
-DESTDIR = ../../lib/
-
 LIBS += \
-    -lcore \
-    -L../../lib
+    -lcore

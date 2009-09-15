@@ -1,8 +1,8 @@
+include(../../epsimulatorlibrary.pri)
+
 TEMPLATE = lib
 
 QT -= gui
-
-DESTDIR = ../../lib/
 
 SOURCES += \
     options.cpp \
