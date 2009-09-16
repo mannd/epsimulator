@@ -1,9 +1,11 @@
 include(../epsimulator.pri)
 
 win32 {
-      DLLDESTDIR = $$EPSIM_APP_PATH
+      DLLDESTDIR = ../../../bin
 }
 
-DESTDIR = $$EPSIM_LIBRARY_PATH
+DESTDIR = ../../../lib
+LIBS -= -L../../lib
+LIBS += -L../../../lib
 
-
+RESOURCES = ../../resources/resources.qrc

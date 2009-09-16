@@ -6,14 +6,14 @@ TARGET = $$EPSIM_APP_TARGET
 DESTDIR = $$EPSIM_APP_PATH
 
 INCLUDEPATH += \
-    ../core \
-    ../navigator \
-    ../recorder \
-    ../patient \
-    ../gui \
-    ../hardware \
-    ../stimulator \
-    ../study
+    ../libs/core \
+    ../libs/navigator \
+    ../libs/recorder \
+    ../libs/patient \
+    ../libs/gui \
+    ../libs/hardware \
+    ../libs/stimulator \
+    ../libs/study
 
 LIBS += \
     -lpatient \

@@ -46,7 +46,7 @@ using EpNavigator::Navigator;
 
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
-    app.setOrganizationName("EPStudios");
+    app.setOrganizationName("EP Studios");
     app.setOrganizationDomain("epstudiossoftware.com");
     app.setApplicationName("EPSimulator");
 

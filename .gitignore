@@ -15,6 +15,7 @@ epsimulator
 testepsimulator
 qtc-gdbmacros/*
 bin/*.exe
+bin/*.dll
 src/app/release
 src/app/debug
 src/libs/gui/release

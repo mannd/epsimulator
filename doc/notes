@@ -936,3 +936,7 @@ StudyConfiguration
 	what the Options setting is, whatever is stored with the study is
 	used with the study.  And whatever configuration you use, that is the
 	type of amplifier you get.  So
+
+
+PROBLEMS on windows
+	 spaces in files names shows up in LFLAGS in generated Makefiles ? how to fix this.

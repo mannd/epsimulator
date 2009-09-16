@@ -325,9 +325,7 @@ void TestEpSimulator::testOptionsFlags() {
     clearFlag(o->filePathFlags, Options::EnableAcquisition);
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
     o->writeSettings();
-    setFlag(o->filePathFlags, Options::EnableAcquisition);
-    QVERIFY(o->filePathFlags.testFlag(Options::EnableAcquisition));
-    o->readSettings();  // enable acquisition should be off again
+    o->readSettings();  // enable acquisition should still be off
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
 }
 

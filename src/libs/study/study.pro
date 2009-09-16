@@ -2,6 +2,8 @@ include(../../epsimulatorlibrary.pri)
 
 TEMPLATE = lib
 
+TARGET = study
+
 INCLUDEPATH += \
     ../core \
     ../patient \

@@ -2,6 +2,8 @@ include(../../epsimulatorlibrary.pri)
 
 TEMPLATE = lib
 
+TARGET = navigator
+
 FORMS += \
     ui/filtercatalogdialog.ui \
     ui/disklabeldialog.ui \

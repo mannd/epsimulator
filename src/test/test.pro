@@ -2,17 +2,18 @@ include(../../epsimulator.pri)
 
 TEMPLATE = app
 
-TARGET = testepsimulator
+TARGET = $$EPSIM_TEST_TARGET
+DESTDIR = $$EPSIM_APP_PATH
 
 INCLUDEPATH += \
-    ../gui \
-    ../stimulator \
-    ../recorder \
-    ../patient \
-    ../navigator \
-    ../core \
-    ../hardware \
-    ../study
+    ../libs/gui \
+    ../libs/stimulator \
+    ../libs/recorder \
+    ../libs/patient \
+    ../libs/navigator \
+    ../libs/core \
+    ../libs/hardware \
+    ../libs/study
 
 LIBS += \
     -lstimulator \
@@ -22,8 +23,7 @@ LIBS += \
     -lhardware \
     -lnavigator \
     -lstudy \
-    -lrecorder \
-    -L../../lib
+    -lrecorder
 
 CONFIG += qtestlib
 

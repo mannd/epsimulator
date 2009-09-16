@@ -2,6 +2,8 @@ include(../../epsimulatorlibrary.pri)
 
 TEMPLATE = lib
 
+TARGET = recorder
+
 SOURCES += \
     recorder.cpp \
      patientstatusbar.cpp \
@@ -41,7 +43,7 @@ LIBS += \
     -lpatient \
     -lgui \
     -lhardware \
-    ../../lib/libstimulator.a \
+    -lstimulator \
     -lstudy
 
 

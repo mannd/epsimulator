@@ -2,6 +2,8 @@ include(../../epsimulatorlibrary.pri)
 
 TEMPLATE = lib
 
+TARGET = stimulator
+
 FORMS += \
     ui/dial.ui \
     ui/basicstimulator.ui \
