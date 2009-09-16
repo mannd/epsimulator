@@ -13,6 +13,4 @@ else {
 
 LIBS += -L../../lib
 
-RESOURCES = ../resources/resources.qrc
-
 

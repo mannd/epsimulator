@@ -133,6 +133,7 @@ void OldStyleButtonFrame::addButton(const QString& name,
 NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent)
     : AbstractButtonFrame(parent) {
     // we give the buttons a darkBlue color so they don't get whited out.
+    // Unfortunately doesn't seem to work on WinXP, only on Linux.
     QPalette framePalette = palette();
     framePalette.setColor(QPalette::Button, Qt::darkBlue);
     setPalette(framePalette);
