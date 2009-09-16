@@ -31,4 +31,6 @@ SOURCES += testepsimulator.cpp
 
 HEADERS += testepsimulator.h
 
+RESOURCES = ../resources/resources.qrc
+
 
