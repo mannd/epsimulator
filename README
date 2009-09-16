@@ -1,21 +1,8 @@
 Note to developers:
 
-You can use the shell scripts in the bin directory to build and run the
-program, provided you first add a link to your Qt-4 installion as follows:
-
-    sudo ln -s /usr/local/Trolltech/Qt-4.X.Y /usr/local/Trolltech/Qt-4
-
-The shell scripts are:
-
-	qmakeepsimulator
-	runtestepsimulator
-	runepsimulator
-
-Note that Qt4 is required to compile, and Qt must be compiled with NAS sound
-support:
-
-    ./configure -system-nas-sound
-
-(by default sound is not enabled when compiling Qt).
-
-More detailed installation instructions are in the INSTALL file.
+EP Simulator is now set up to run via Qt Creator.  Just open the
+epsimulator.pro file inside Qt Creator.  Once the program is compiled,
+you can run it using the shell program epsimulator.sh located in the
+bin directory in Linux, or just be double-clicking the epsimulator.exe
+program in the bin directory in Windows (but first make sure the Qt
+libraries are in your PATH environment variable).

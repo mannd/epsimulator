@@ -6,4 +6,4 @@
  fi
  LD_LIBRARY_PATH=$dirname/../lib:LD_LIBRARY_PATH
  export LD_LIBRARY_PATH
- $dirname/$appname $*
+ $dirname/$appname.bin $*
