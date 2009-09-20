@@ -129,6 +129,7 @@ NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent)
     // we give the buttons a darkBlue color so they don't get whited out.
     QPalette framePalette = palette();
     framePalette.setColor(QPalette::Button, Qt::darkBlue);
+    /// TODO autoRaise frame too dark on Sluggo, white on SuperSluggo.  ? Why
     setPalette(framePalette);
 }
 

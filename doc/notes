@@ -957,6 +957,6 @@ undefined reference to `FcFreeTypeQueryFace'
 
 This is because libfontconfig is out of date on Sluggo.  I downloaded and
 compiled fontconfig-2.4.2 and installed it in /opt/fontconfig-2.4.2/lib and
-added another LIBS+=/opt/fontconfig-2.4.2/lib and all is well.  See this site:
+added another LIBS+=-L/opt/fontconfig-2.4.2/lib and all is well.  See this site:
 http://theitdepartment.wordpress.com/2009/03/15/centos-qt-fcfreetypequeryface/
 
