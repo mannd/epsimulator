@@ -18,52 +18,64 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include "user.h"
+
+#include <cstdlib>
+
+// NB: this file is operating system dependent and won't compile on an
+// non-unix system.  
+/// TODO When migrating to Windows, will need to modify this file.
+#ifdef Q_OS_LINUX
+#   include <unistd.h>
+#endif
+
+// so far can't get gethostname to work with Windows
+#ifdef Q_OS_WIN32
+#   include "Winsock2.h"
+#endif
+
+using EpCore::User;
+
 /**
- * @mainpage
- * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
- * complete with recording equipment, programmable stimulator, and, most importantly,
- * a heart simulator that can be set up to mimic
- * normal cardiac electrophysiology and arrhythmias.
+ * A singleton instance of User.
+ * @return pointer to User.
  */
+User* User::instance() {
+    return new User;
+}
 
-#include "navigator.h"
+/**
+ * The name of the computer running the program.
+ * @return the computer (machine) name.
+ */
+QString User::machineName() const {
+    return machineName_;
+}
 
-#include <QApplication>
-#include <QIcon>
-#include <QMessageBox>
+/**
+ * The user name.
+ * @return either ADMINISTRATOR or the user's login name.
+ */
+QString User::name() const {
+    return isAdministrator_ ? tr("ADMINISTRATOR") 
+        :  name_;
+}
 
-// Languages
-// Only define 1 of the below
-//#define GERMAN
-//#define FRENCH
-#define ENGLISH
+/**
+ * The role of the user.  Used in old style Navigator.
+ * @return ADMINSTRATOR or EPSIMUSER.
+ */
+QString User::role() const {
+    return isAdministrator_ ? tr("ADMINISTRATOR") 
+        :  tr("EPSIMUSER");
+}
 
-#ifndef ENGLISH
-#   include <QTranslator>
-#endif
-
-using EpNavigator::Navigator;
-
-int main(int argc, char **argv) {
-    QApplication app(argc, argv);
-    app.setOrganizationName("EP Studios");
-    app.setOrganizationDomain("epstudiossoftware.com");
-    app.setApplicationName("EPSimulator");
-
-// International stuff below
-#ifndef ENGLISH
-    QTranslator translator( 0 );
-#ifdef GERMAN
-    translator.load( "epsimulator_de.qm", "." );
-#endif
-#ifdef FRENCH
-    translator.load( "epsimulator_fr.qm", "." );
-#endif
-    app.installTranslator( &translator );
-#endif
-
-    app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
-    Navigator* navigator = new Navigator;
-    navigator->restore();
-    return app.exec();
+User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
+#   ifdef Q_OS_WIN32
+    machineName_ = "Windows";
+#   else
+    const size_t length = 255;
+    char name[length] = "";
+    machineName_ = gethostname(name, length) == 0 ? QString(name) : QString();
+#   endif
 }

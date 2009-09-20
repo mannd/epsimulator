@@ -18,52 +18,44 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/**
- * @mainpage
- * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
- * complete with recording equipment, programmable stimulator, and, most importantly,
- * a heart simulator that can be set up to mimic
- * normal cardiac electrophysiology and arrhythmias.
- */
+#include "versioninfo.h"
 
-#include "navigator.h"
+#include "epdefs.h"
 
-#include <QApplication>
-#include <QIcon>
-#include <QMessageBox>
+#include <QStringList>
 
-// Languages
-// Only define 1 of the below
-//#define GERMAN
-//#define FRENCH
-#define ENGLISH
+#define PROGRAM_NAME tr("EP Simulator")
+#define COPYRIGHT_YEAR tr("2006-2009")
+#define VERSION  "0.1"
 
-#ifndef ENGLISH
-#   include <QTranslator>
-#endif
+static const char appNameC[] = "epsimulator";
+static const char shortAppNameC[] = "epsim";
 
-using EpNavigator::Navigator;
+using EpCore::VersionInfo;
 
-int main(int argc, char **argv) {
-    QApplication app(argc, argv);
-    app.setOrganizationName("EP Studios");
-    app.setOrganizationDomain("epstudiossoftware.com");
-    app.setApplicationName("EPSimulator");
+VersionInfo* VersionInfo::instance_ = 0;
 
-// International stuff below
-#ifndef ENGLISH
-    QTranslator translator( 0 );
-#ifdef GERMAN
-    translator.load( "epsimulator_de.qm", "." );
-#endif
-#ifdef FRENCH
-    translator.load( "epsimulator_fr.qm", "." );
-#endif
-    app.installTranslator( &translator );
-#endif
+const VersionInfo* VersionInfo::instance() {
+    if (instance_ == 0)
+        instance_ = new VersionInfo;
+    return instance_;
+}
 
-    app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
-    Navigator* navigator = new Navigator;
-    navigator->restore();
-    return app.exec();
+bool VersionInfo::versionOk(int major, int minor) {
+    if (major == BadTestVersion || minor == BadTestVersion)
+        return false;
+    return (major >= GoodMajorVersion 
+        && minor >= GoodMinorVersion);
+}
+
+// protected constructor
+
+VersionInfo::VersionInfo(): appName_(appNameC),
+                            shortAppName_(shortAppNameC),
+                            programName_(PROGRAM_NAME),
+                            copyrightYear_(COPYRIGHT_YEAR),
+                            version_(VERSION) {
+    QStringList list = version_.split(".");
+    versionMajor_ = list[0].toInt();
+    versionMinor_ = list[1].toInt();
 }

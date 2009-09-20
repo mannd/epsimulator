@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BasicStimulator</class>
+ <widget class="QWidget" name="BasicStimulator">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1019</width>
+    <height>406</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Stimulator</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>980</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout">
+    <item row="0" column="0" colspan="2">
+     <layout class="QGridLayout">
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <layout class="QHBoxLayout">
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="_2">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QSpinBox" name="spinBox13_3"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox14_3"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox15_3"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox16_3"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QSpinBox" name="spinBox13"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox14"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox15"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox16"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QSpinBox" name="spinBox13_4"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox14_4"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox15_4"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox16_4"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QSpinBox" name="spinBox13_5"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox14_5"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox15_5"/>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox16_5"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <layout class="QHBoxLayout">
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="textLabel1">
+          <property name="text">
+           <string>S1S1</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="textLabel2">
+          <property name="text">
+           <string>S1S2</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="textLabel3">
+          <property name="text">
+           <string>S2S3</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="textLabel4">
+          <property name="text">
+           <string>S3S4</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="buttonGroup1" native="true">
+      <property name="title" stdset="0">
+       <string/>
+      </property>
+      <layout class="QGridLayout">
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="radioButton2">
+         <property name="text">
+          <string>Sense Internal</string>
+         </property>
+         <property name="shortcut">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QRadioButton" name="radioButton1">
+         <property name="text">
+          <string>Sense E&amp;xternal</string>
+         </property>
+         <property name="shortcut">
+          <string>Alt+X</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <layout class="QHBoxLayout">
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QSpinBox" name="spinBox13_2"/>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBox14_2"/>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBox15_2"/>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBox16_2"/>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="textLabel5">
+      <property name="text">
+       <string>Mode</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLabel" name="textLabel6">
+      <property name="text">
+       <string>Delay</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>QGroupBox</class>
+   <extends>QWidget</extends>
+   <header>ButtonGroup</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

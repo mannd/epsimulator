@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SystemDialog</class>
+ <widget class="QDialog" name="SystemDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>853</width>
+    <height>550</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>System Settings</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout">
+   <item row="0" column="0">
+    <layout class="QGridLayout">
+     <item row="0" column="0">
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="filePathsTab">
+        <attribute name="title">
+         <string>File Paths</string>
+        </attribute>
+        <layout class="QGridLayout">
+         <item row="0" column="0">
+          <widget class="QFrame" name="frame3">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <widget class="QLabel" name="textLabel1">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>11</y>
+              <width>356</width>
+              <height>36</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>&lt;b&gt;Local Storage Area&lt;/b&gt;</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="opticalPathBrowsePushButton">
+            <property name="geometry">
+             <rect>
+              <x>619</x>
+              <y>87</y>
+              <width>110</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Browse...</string>
+            </property>
+            <property name="shortcut">
+             <string/>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="enableAcquisitionCheckBox">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>53</y>
+              <width>356</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Enable Ac&amp;quisition</string>
+            </property>
+            <property name="shortcut">
+             <string>Alt+Q</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="opticalStudyPathLineEdit">
+            <property name="geometry">
+             <rect>
+              <x>202</x>
+              <y>88</y>
+              <width>400</width>
+              <height>30</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="textLabel2">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>87</y>
+              <width>175</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Optical Stud&amp;y Path</string>
+            </property>
+            <property name="buddy">
+             <cstring>opticalStudyPathLineEdit</cstring>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QFrame" name="frame4">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <widget class="QCheckBox" name="enableNetworkStorageCheckBox">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>53</y>
+              <width>598</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Enable Network Storage</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="networkPathBrowsePushButton">
+            <property name="geometry">
+             <rect>
+              <x>619</x>
+              <y>87</y>
+              <width>110</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Browse...</string>
+            </property>
+            <property name="shortcut">
+             <string/>
+            </property>
+           </widget>
+           <widget class="QLabel" name="textLabel2_4">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>11</y>
+              <width>718</width>
+              <height>36</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>&lt;b&gt;Network Storage Area&lt;/b&gt;</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="textLabel2_3">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>87</y>
+              <width>172</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Network Study Path</string>
+            </property>
+            <property name="buddy">
+             <cstring>networkStudyPathLineEdit</cstring>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="networkStudyPathLineEdit">
+            <property name="geometry">
+             <rect>
+              <x>199</x>
+              <y>88</y>
+              <width>400</width>
+              <height>30</height>
+             </rect>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QFrame" name="frame5">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <widget class="QLabel" name="textLabel3_2">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>11</y>
+              <width>718</width>
+              <height>36</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>&lt;b&gt;Export Study Files&lt;/b&gt;</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="exportPathBrowsePushButton">
+            <property name="geometry">
+             <rect>
+              <x>619</x>
+              <y>87</y>
+              <width>110</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>&amp;Browse...</string>
+            </property>
+            <property name="shortcut">
+             <string>Alt+B</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="exportFilePathLineEdit">
+            <property name="geometry">
+             <rect>
+              <x>195</x>
+              <y>88</y>
+              <width>410</width>
+              <height>30</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="enableFileExportCheckBox">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>53</y>
+              <width>598</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Enable File Export On Study Close</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="textLabel4_2">
+            <property name="geometry">
+             <rect>
+              <x>11</x>
+              <y>87</y>
+              <width>138</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>E&amp;xport File Path</string>
+            </property>
+            <property name="buddy">
+             <cstring>exportFilePathLineEdit</cstring>
+            </property>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="diskInformationTab">
+        <attribute name="title">
+         <string>Dis&amp;k Information</string>
+        </attribute>
+        <layout class="QGridLayout">
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="studyPathLabel">
+           <property name="text">
+            <string>Study Path: %1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="diskLabel">
+           <property name="text">
+            <string>Local Storage Disk Label: %1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="sideLabel">
+           <property name="text">
+            <string>Optical Disk Storage Side: %1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="spaceTimeLabel">
+           <property name="text">
+            <string>Free Space and Time: %1</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="printFormatTab">
+        <attribute name="title">
+         <string>Print Format</string>
+        </attribute>
+       </widget>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>enableAcquisitionCheckBox</tabstop>
+  <tabstop>opticalStudyPathLineEdit</tabstop>
+  <tabstop>opticalPathBrowsePushButton</tabstop>
+  <tabstop>enableNetworkStorageCheckBox</tabstop>
+  <tabstop>networkStudyPathLineEdit</tabstop>
+  <tabstop>networkPathBrowsePushButton</tabstop>
+  <tabstop>enableFileExportCheckBox</tabstop>
+  <tabstop>exportFilePathLineEdit</tabstop>
+  <tabstop>exportPathBrowsePushButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

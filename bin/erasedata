@@ -4,8 +4,16 @@
 # This is handy for test purposes, but don't run it
 # on data you want to save!!
 # Note location of configuration files is different in Qt4 vs 3
-rm -f ~/.config/EPStudios/EPSimulator.conf
+
+dirname=`dirname $0`
+if [ "${dirname:0:1}" != "/" ]; then
+    dirname=$PWD/$dirname
+fi
+echo $dirname
+
+rm -i -f ~/.config/EPStudios/EPSimulator.conf
+exit
 rm -fr ~/MyStudies/*
-rm -f src/test/catalog.dat
-rm -f System/catalog.dat
-rm -f System/config.dat
+rm -f $dirname/../src/test/catalog.dat
+rm -f $dirname/../System/catalog.dat
+rm -f $dirname/../System/config.dat

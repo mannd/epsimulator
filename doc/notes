@@ -960,3 +960,6 @@ compiled fontconfig-2.4.2 and installed it in /opt/fontconfig-2.4.2/lib and
 added another LIBS+=-L/opt/fontconfig-2.4.2/lib and all is well.  See this site:
 http://theitdepartment.wordpress.com/2009/03/15/centos-qt-fcfreetypequeryface/
 
+PROBLEMS on windows
+	 spaces in files names shows up in LFLAGS in generated Makefiles ? how to fix this.
+

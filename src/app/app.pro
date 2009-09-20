@@ -1,23 +1,30 @@
+include(../../epsimulator.pri)
+
 TEMPLATE = app
-TARGET = ../../bin/epsimulator
-INCLUDEPATH += ../core \
-    ../navigator \
-    ../recorder \
-    ../patient \
-    ../gui \
-    ../hardware \
-    ../stimulator \
-    ../study
-LIBS += -lpatient \
+
+TARGET = $$EPSIM_APP_TARGET
+DESTDIR = $$EPSIM_APP_PATH
+
+INCLUDEPATH += \
+    ../libs/core \
+    ../libs/navigator \
+    ../libs/recorder \
+    ../libs/patient \
+    ../libs/gui \
+    ../libs/hardware \
+    ../libs/stimulator \
+    ../libs/study
+
+LIBS += \
+    -lpatient \
     -lgui \
     -lcore \
     -lhardware \
-    ../../lib/libstimulator.a \
+    -lstimulator \
     -lnavigator \
     -lstudy \
-    -lrecorder \
-    -L../../lib
+    -lrecorder
+
 SOURCES += main.cpp
-RESOURCES += ../resources/resources.qrc
-QT += qt3support
-OTHER_FILES += 
+
+RESOURCES = ../resources/resources.qrc

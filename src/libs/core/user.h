@@ -18,52 +18,45 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef USER_H
+#define USER_H
+
+#include <QCoreApplication>
+
+namespace EpCore {
+
 /**
- * @mainpage
- * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
- * complete with recording equipment, programmable stimulator, and, most importantly,
- * a heart simulator that can be set up to mimic
- * normal cardiac electrophysiology and arrhythmias.
+ * The user of the program.  In CardioLab V5 there are 2 users, the
+ * regular user and the administrator.  In V6, there are apparently
+ * multiple users, with different roles, and probably simultaneous
+ * logins from multiple terminals in a single study.  Given this,
+ * and the disadvantages of Singletons, User is no longer a 
+ * Singleton class, though I am still using the factory method.
+ * Also, perhaps contains host machine info.
+ * @author David Mann <mannd@epstudiossoftware.com>
  */
+class User {
+    Q_DECLARE_TR_FUNCTIONS(User)
 
-#include "navigator.h"
+public:
+    static User* instance();
 
-#include <QApplication>
-#include <QIcon>
-#include <QMessageBox>
+    void setIsAdministrator(bool isAdministrator) {
+        isAdministrator_ = isAdministrator;}
 
-// Languages
-// Only define 1 of the below
-//#define GERMAN
-//#define FRENCH
-#define ENGLISH
+    bool isAdministrator() const {return isAdministrator_;}
+    QString machineName() const;
+    QString name() const;
+    QString role() const;  // returns EPSIMUSER or ADMINISTRATOR
 
-#ifndef ENGLISH
-#   include <QTranslator>
+private:
+    User();
+
+    bool isAdministrator_;
+    QString name_;
+    QString machineName_;
+};
+
+} // namespace EpCore
+
 #endif
-
-using EpNavigator::Navigator;
-
-int main(int argc, char **argv) {
-    QApplication app(argc, argv);
-    app.setOrganizationName("EP Studios");
-    app.setOrganizationDomain("epstudiossoftware.com");
-    app.setApplicationName("EPSimulator");
-
-// International stuff below
-#ifndef ENGLISH
-    QTranslator translator( 0 );
-#ifdef GERMAN
-    translator.load( "epsimulator_de.qm", "." );
-#endif
-#ifdef FRENCH
-    translator.load( "epsimulator_fr.qm", "." );
-#endif
-    app.installTranslator( &translator );
-#endif
-
-    app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
-    Navigator* navigator = new Navigator;
-    navigator->restore();
-    return app.exec();
-}

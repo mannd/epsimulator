@@ -17,53 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PASSWORDHANDLER_H
+#define PASSWORDHANDLER_H
+
+#include <QCoreApplication>
+#include <QCryptographicHash>
+
+namespace EpCore {
+
+class Options;
 
 /**
- * @mainpage
- * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
- * complete with recording equipment, programmable stimulator, and, most importantly,
- * a heart simulator that can be set up to mimic
- * normal cardiac electrophysiology and arrhythmias.
+ * Encapsulates password alorithm and processing.
+ *
+ * @author David Mann <mannd@epstudiossoftware.com>
  */
+class PasswordHandler {
+    Q_DECLARE_TR_FUNCTIONS(PasswordHandler)
 
-#include "navigator.h"
+public:
+    PasswordHandler();
+    ~PasswordHandler();
 
-#include <QApplication>
-#include <QIcon>
-#include <QMessageBox>
+    void setPassword(const QString&);
+    bool testPassword(const QString&);
 
-// Languages
-// Only define 1 of the below
-//#define GERMAN
-//#define FRENCH
-#define ENGLISH
+private:
+    enum {MagicNumber = 0x33f788f6};  // for study.dat file
 
-#ifndef ENGLISH
-#   include <QTranslator>
+    Options* options_;
+    QCryptographicHash hash_;
+};
+
+} // namespace EpCore
+
 #endif
-
-using EpNavigator::Navigator;
-
-int main(int argc, char **argv) {
-    QApplication app(argc, argv);
-    app.setOrganizationName("EP Studios");
-    app.setOrganizationDomain("epstudiossoftware.com");
-    app.setApplicationName("EPSimulator");
-
-// International stuff below
-#ifndef ENGLISH
-    QTranslator translator( 0 );
-#ifdef GERMAN
-    translator.load( "epsimulator_de.qm", "." );
-#endif
-#ifdef FRENCH
-    translator.load( "epsimulator_fr.qm", "." );
-#endif
-    app.installTranslator( &translator );
-#endif
-
-    app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
-    Navigator* navigator = new Navigator;
-    navigator->restore();
-    return app.exec();
-}

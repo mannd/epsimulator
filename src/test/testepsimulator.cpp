@@ -325,9 +325,7 @@ void TestEpSimulator::testOptionsFlags() {
     clearFlag(o->filePathFlags, Options::EnableAcquisition);
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
     o->writeSettings();
-    setFlag(o->filePathFlags, Options::EnableAcquisition);
-    QVERIFY(o->filePathFlags.testFlag(Options::EnableAcquisition));
-    o->readSettings();  // enable acquisition should be off again
+    o->readSettings();  // enable acquisition should still be off
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
 }
 
@@ -555,10 +553,10 @@ void TestEpSimulator::testCatalogComboBox() {
     // must refresh catalogcombobox after system options changed!
     c->refresh();
     QVERIFY(c->source() == Catalog::System);
-    QVERIFY(c->currentItem() == 0);   // there should be no Network
+    QVERIFY(c->currentIndex() == 0);   // there should be no Network
     c->setSource(Catalog::Network);  // should not work because of above
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableNetworkStorage));
-    QVERIFY(c->currentItem() == 0);
+    QVERIFY(c->currentIndex() == 0);
     QVERIFY(c->source() != Catalog::Network);
     // should be System
     setFlag(o->filePathFlags, Options::EnableNetworkStorage, true);

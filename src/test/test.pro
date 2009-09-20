@@ -1,24 +1,29 @@
+include(../../epsimulator.pri)
+
 TEMPLATE = app
 
-QT +=  qt3support 
-INCLUDEPATH += ../gui \
-../stimulator \
-../recorder \
- ../patient \
- ../navigator \
- ../core \
- ../hardware \
- ../study
+TARGET = $$EPSIM_TEST_TARGET
+DESTDIR = $$EPSIM_APP_PATH
 
-LIBS += -lstimulator \
--lpatient \
- -lgui \
- -lcore \
- -lhardware \
- -lnavigator \
- -lstudy \
- -lrecorder \
- -L../../lib
+INCLUDEPATH += \
+    ../libs/gui \
+    ../libs/stimulator \
+    ../libs/recorder \
+    ../libs/patient \
+    ../libs/navigator \
+    ../libs/core \
+    ../libs/hardware \
+    ../libs/study
+
+LIBS += \
+    -lstimulator \
+    -lpatient \
+    -lgui \
+    -lcore \
+    -lhardware \
+    -lnavigator \
+    -lstudy \
+    -lrecorder
 
 CONFIG += qtestlib
 
@@ -26,5 +31,6 @@ SOURCES += testepsimulator.cpp
 
 HEADERS += testepsimulator.h
 
-TARGET = ../../bin/testepsimulator
+RESOURCES = ../resources/resources.qrc
+
 
