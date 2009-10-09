@@ -58,6 +58,5 @@
         <file>images/hi32-lastlogentry.png</file>
         <file>images/hi32-undo.png</file>
         <file>images/hi32-redo.png</file>
-        <file>images/hi64-newstudywhiteactive.png</file>
     </qresource>
 </RCC>
