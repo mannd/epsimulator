@@ -48,7 +48,7 @@ AbstractButtonFrame::AbstractButtonFrame(QWidget* parent)
     setFrameShape(QFrame::StyledPanel);
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::darkBlue);
-    palette.setColor(QPalette::Button, Qt::white);
+    //palette.setColor(QPalette::Button, Qt::white);
     palette.setColor(QPalette::WindowText, Qt::white);
     setPalette(palette);
     // necessary to actually apply the Window color to the background
@@ -131,14 +131,7 @@ void OldStyleButtonFrame::addButton(const QString& name,
 // NewStyleButtonFrame
 
 NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent)
-    : AbstractButtonFrame(parent) {
-    // we give the buttons a darkBlue color so they don't get whited out.
-    // Unfortunately doesn't seem to work on WinXP, only on Linux.
-    QPalette framePalette = palette();
-    framePalette.setColor(QPalette::Button, Qt::darkBlue);
-    /// TODO autoRaise frame too dark on Sluggo, white on SuperSluggo.  ? Why
-    setPalette(framePalette);
-}
+    : AbstractButtonFrame(parent) {}
 
 /**
  * Adds a button along with the corresponding pixmap and slot
