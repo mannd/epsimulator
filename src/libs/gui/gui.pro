@@ -1,43 +1,32 @@
 include(../../epsimulatorlibrary.pri)
-
 TEMPLATE = lib
-
 TARGET = gui
-
-INCLUDEPATH += \
-    ../patient \
+INCLUDEPATH += ../patient \
     ../core \
     ../study \
     ../hardware
-
-SOURCES += \
-    simulatorsettingsdialog.cpp \
+SOURCES += simulatorsettingsdialog.cpp \
     patientdialog.cpp \
     changepassworddialog.cpp \
     systemdialog.cpp \
     passworddialog.cpp \
     actions.cpp \
-    abstractmainwindow.cpp
-
-HEADERS += \
-    simulatorsettingsdialog.h \
+    abstractmainwindow.cpp \
+    faketitlebar.cpp
+HEADERS += simulatorsettingsdialog.h \
     patientdialog.h \
     changepassworddialog.h \
     systemdialog.h \
     passworddialog.h \
     actions.h \
-    abstractmainwindow.h
-
-FORMS += \
-    ui/simulatorsettingsdialog.ui \
+    abstractmainwindow.h \
+    faketitlebar.h
+FORMS += ui/simulatorsettingsdialog.ui \
     ui/patientdialog.ui \
     ui/changepassworddialog.ui \
     ui/systemdialog.ui \
     ui/passworddialog.ui
-
-LIBS += \
-    -lpatient \
+LIBS += -lpatient \
     -lcore \
     -lstudy \
     -lhardware
-

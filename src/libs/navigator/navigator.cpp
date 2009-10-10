@@ -46,6 +46,9 @@
 #include "user.h"
 #include "versioninfo.h"
 
+// remove below after testing
+#include "faketitlebar.h"
+
 #include <QAction>
 #include <QCloseEvent>
 #include <QDateTime>
@@ -647,6 +650,12 @@ void Navigator::updateSystemSettings() {
         ->currentCatalog()->path());
 }
 
+void Navigator::testWidget() {
+    // use this slot to test widgets under development
+    QMessageBox::information(this, tr("Test Widget"),
+        tr("This is a test, only a test"));
+}
+
 // private
 
 void Navigator::initializeOpticalDisk() {
@@ -844,10 +853,12 @@ void Navigator::createActions() {
         tr("Protocols"), SLOT(setProtocols()));
     studyConfigurationsAction_= createAction(this, tr("Study Configurations"),
         tr("Study configurations"), SLOT(setStudyConfigurations()));
-//     systemSettingsAction_= createAction(this, tr("System Settings"),
-//         tr("Change system settings"), SLOT(systemSettings()));
-//     simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
-//         tr("Change simulator settings"), SLOT(simulatorSettings()));
+
+#ifndef NDEBUG
+    testWidgetAction_ = createAction(this, tr("**Test Widget**"),
+                                     tr("Test Widget (development only)"),
+                                     SLOT(testWidget()));
+#endif
 
     // Help menu -- in AbstractMainWindow
 }
@@ -923,6 +934,9 @@ void Navigator::createMenus() {
     administrationMenu_->addAction(systemSettingsAction());
     administrationMenu_->addAction(simulatorSettingsAction());
     // insert reports submenu here
+#ifndef NDEBUG
+    administrationMenu_->addAction(testWidgetAction_);
+#endif
 
     menuBar()->addSeparator();
 
