@@ -75,15 +75,14 @@ using EpNavigator::StatusBar;
 
 using namespace EpHardware::EpOpticalDisk;
 
-// note that user_ is not a Singleton, but the single instance is owned
-// by Navigator, passed to Recorder.
+// Note that user_ is not a Singleton, but the single instance is owned
+// by Navigator and passed to Recorder.
 Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent), 
                                         options_(Options::instance()),
                                         filterCatalogDialog_(0),
                                         currentDisk_(0),
                                         user_(User::instance()) {
     setAttribute(Qt::WA_DeleteOnClose);
-
     createDefaultDataDir();
     createOpticalDrive();
     createCatalogs();    
@@ -102,7 +101,6 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent),
         this, SLOT(changeCatalog()));
 
     updateWindowTitle();
-    //readSettings();
 }
 
 Navigator::~Navigator() {
@@ -131,7 +129,6 @@ bool Navigator::acquisitionIsEnabled() {
     }
     return true;
 }
-
 
 // Blue bar actions
 void Navigator::newStudy() {
