@@ -32,9 +32,9 @@
         <file>images/hi64-autosaveexitautosave.png</file>
         <file>images/hi64-manualsaveautosave.png</file>
         <file>images/hi32-closestudy.png</file>
-	<file>images/hi32-savestudytype.png</file>
-	<file>images/hi32-autosavetoggle.png</file>
-	<file>images/hi32-switchwindowsettings.png</file>
+        <file>images/hi32-savestudytype.png</file>
+        <file>images/hi32-autosavetoggle.png</file>
+        <file>images/hi32-switchwindowsettings.png</file>
         <file>images/hi32-minus.png</file>
         <file>images/hi32-plus.png</file>
         <file>images/hi32-studyconfig.png</file>
@@ -55,8 +55,8 @@
         <file>images/hi32-printreview.png</file>
         <file>images/hi32-createlogevent.png</file>
         <file>images/hi32-firstlogentry.png</file>
-        <file>images/hi32-lastlogentry.png</file> 
+        <file>images/hi32-lastlogentry.png</file>
         <file>images/hi32-undo.png</file>
-        <file>images/hi32-redo.png</file>       
-   </qresource>
+        <file>images/hi32-redo.png</file>
+    </qresource>
 </RCC>

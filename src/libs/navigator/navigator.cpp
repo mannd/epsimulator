@@ -101,6 +101,7 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent),
         this, SLOT(changeCatalog()));
 
     updateWindowTitle();
+    readSettings();
 }
 
 Navigator::~Navigator() {
@@ -956,11 +957,11 @@ void Navigator::readSettings() {
     if (size.isNull())  // initial run, window is maximized by default
         setWindowState(windowState() ^ Qt::WindowMaximized);
     else {  // but if not initial run, use previous window settings
-        // this seems to work with X11, probably don't need
-        // resize() and move().
-        restoreGeometry(settings.value("geometry").toByteArray());
-        //resize(size.toSize());
-        //move(settings.value("pos").toPoint());
+        // restoreGeometry doesn't seem to work consistently on X11
+        // but resize() and move() work ok.
+        //restoreGeometry(settings.value("geometry").toByteArray());
+        resize(size.toSize());
+        move(settings.value("pos").toPoint());
         centralWidget_->restoreState(settings.value(
             "centralWidgetState").toByteArray());
         restoreState(settings.value("state").toByteArray());

@@ -48,6 +48,7 @@ epsimulator.kdevelop
 
 # QT Creator files
 epsimulator.pro.user
+qtc-gdbmacros/
 
 
 # generated documentation

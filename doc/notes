@@ -938,5 +938,28 @@ StudyConfiguration
 	type of amplifier you get.  So
 
 
+LINKING PROBLEM ON SLUGGO
+
+gcc won't link libgthread-2.0 which on Sluggo is in /opt/gnome/lib, but on
+SuperSluggo is in /usr/lib or thereabouts.  gcc has it's own places to look
+for libraries, use g++ -print-search-dirs to check them out.  This is totally
+different from what's in LD_LIBRARY_PATH, PATH, /etc/ld.so.conf or anything
+else.  So, since it is in an odd place, add to the *.pro files the line
+LIBS += -L/opt/gnome/lib
+
+This problem began when upgrading to the Qt 4.5.1 SDK.  Also unanswered is if
+there is sound support (NAS) in the SDK.  Easier way to do this is to add to
+the Additional arguments to the QMake Build Configuration
+LIBS+=-L/opt/gnome/lib.  
+
+Another problem is this message: 
+undefined reference to `FcFreeTypeQueryFace'
+
+This is because libfontconfig is out of date on Sluggo.  I downloaded and
+compiled fontconfig-2.4.2 and installed it in /opt/fontconfig-2.4.2/lib and
+added another LIBS+=-L/opt/fontconfig-2.4.2/lib and all is well.  See this site:
+http://theitdepartment.wordpress.com/2009/03/15/centos-qt-fcfreetypequeryface/
+
 PROBLEMS on windows
 	 spaces in files names shows up in LFLAGS in generated Makefiles ? how to fix this.
+
