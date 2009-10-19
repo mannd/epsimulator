@@ -652,8 +652,16 @@ void Navigator::updateSystemSettings() {
 
 void Navigator::testWidget() {
     // use this slot to test widgets under development
-    QMessageBox::information(this, tr("Test Widget"),
-        tr("This is a test, only a test"));
+    QDialog* w = new QDialog(this);
+    QVBoxLayout* layout = new QVBoxLayout;
+    EpGui::FakeTitleBar* f = new EpGui::FakeTitleBar;
+    layout->addWidget(f);
+    QLabel* l = new QLabel("Test");
+    layout->addWidget(l);
+    w->setLayout(layout);
+    w->show();
+//    QMessageBox::information(this, tr("Test Widget"),
+ //       tr("This is a test, only a test"));
 }
 
 // private

@@ -20,17 +20,34 @@
 
 #include "faketitlebar.h"
 
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QPalette>
+#include <QPushButton>
+#include <QToolButton>
 
 using EpGui::FakeTitleBar;
 
-FakeTitleBar::FakeTitleBar(QLabel* parent) : QLabel(parent) {
+FakeTitleBar::FakeTitleBar(QWidget* parent) : QWidget(parent) {
     // general background is dark blue
     QPalette pal = palette();
     pal.setColor(QPalette::Window, Qt::darkBlue);
+    pal.setColor(QPalette::WindowText, Qt::white);
     setPalette(pal);
     setAutoFillBackground(true);
-    setMaximumHeight(100);
+    setMinimumHeight(35);
+    setMaximumHeight(35);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-    setText("Test");
+    QLabel* title = new QLabel;
+    title->setText("Test");
+    QPushButton* button = new QPushButton;
+    button->setText("X");
+    button->setFixedSize(25, 25);
+    QHBoxLayout* layout = new QHBoxLayout;
+    layout->addWidget(title);
+    layout->addStretch(1);
+    QVBoxLayout* vLayout = new QVBoxLayout;
+    vLayout->addWidget(button);
+    layout->addLayout(vLayout);
+    setLayout(layout);
 }

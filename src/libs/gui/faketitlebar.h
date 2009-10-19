@@ -25,10 +25,10 @@
 
 namespace EpGui {
 
-class FakeTitleBar : public QLabel {
+class FakeTitleBar : public QWidget {
 //       Q_OBJECT
 public:
-    FakeTitleBar(QLabel* parent);
+    FakeTitleBar(QWidget* parent = 0);
     ~FakeTitleBar() {}
 };
 

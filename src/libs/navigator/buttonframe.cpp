@@ -48,7 +48,7 @@ AbstractButtonFrame::AbstractButtonFrame(QWidget* parent)
     setFrameShape(QFrame::StyledPanel);
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::darkBlue);
-    //palette.setColor(QPalette::Button, Qt::white);
+    palette.setColor(QPalette::Button, Qt::white);
     palette.setColor(QPalette::WindowText, Qt::white);
     setPalette(palette);
     // necessary to actually apply the Window color to the background

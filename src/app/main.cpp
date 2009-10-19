@@ -38,6 +38,7 @@
 //#define FRENCH
 #define ENGLISH
 
+// bogus comment
 #ifndef ENGLISH
 #   include <QTranslator>
 #endif
