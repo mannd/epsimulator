@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
@@ -118,7 +118,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="4">
+       <item row="4" column="0" colspan="2">
         <widget class="QCheckBox" name="newStyleBlueBarCheckBox">
          <property name="text">
           <string>New Style Blue Bar</string>
@@ -158,6 +158,13 @@
          </property>
          <property name="shortcut">
           <string>Alt+A</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QCheckBox" name="bluePanelTweakCheckBox">
+         <property name="text">
+          <string>Fix Blue Bar Buttons</string>
          </property>
         </widget>
        </item>
@@ -292,6 +299,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
+  <tabstop>tabWidget</tabstop>
   <tabstop>administratorAccountRequiredCheckBox</tabstop>
   <tabstop>hideSimulatorMenuCheckBox</tabstop>
   <tabstop>emulateOpticalDiskCheckBox</tabstop>
@@ -299,10 +307,19 @@
   <tabstop>emulatedOpticalDiskCapacitySpinBox</tabstop>
   <tabstop>oldStyleNavigatorCheckBox</tabstop>
   <tabstop>newStyleBlueBarCheckBox</tabstop>
+  <tabstop>bluePanelTweakCheckBox</tabstop>
   <tabstop>labNameLineEdit</tabstop>
   <tabstop>useLabNameCheckBox</tabstop>
   <tabstop>permanentDeleteCheckBox</tabstop>
-  <tabstop>tabWidget</tabstop>
+  <tabstop>emulateTwoScreensCheckBox</tabstop>
+  <tabstop>emulateOneScreenCheckBox</tabstop>
+  <tabstop>emulateWindowsManagerCheckBox</tabstop>
+  <tabstop>emulatePruckaTilingCheckBox</tabstop>
+  <tabstop>immovablePatientStatusBarCheckBox</tabstop>
+  <tabstop>patientStatusBarHasTitleCheckBox</tabstop>
+  <tabstop>recorderHasStatusBarCheckBox</tabstop>
+  <tabstop>amplifierTypeComboBox</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
  <connections/>
