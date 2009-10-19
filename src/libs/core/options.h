@@ -82,6 +82,9 @@ public:
         TransparentButtons  = 1
     } bluePanelStyle;
 
+    // will use this to correct flat blue panel button problems on some systems
+    bool bluePanelTweak;
+
     // determines if last name and first name are displayed separately
     // and whether actual user name is displayed in status bar
     bool oldStyleNavigator;

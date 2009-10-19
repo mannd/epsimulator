@@ -63,7 +63,8 @@ void Options::readSettings() {
                                     0).toInt();
     oldStyleNavigator = settings.value("oldStyleNavigator", 
                                         false).toBool();
-
+    bluePanelTweak = settings.value("bluePanelTweak",
+                                     false).toBool();
     useLabName = settings.value("useLabName", 
                                  false).toBool();
     administratorAccountRequired = settings.value(
@@ -108,6 +109,7 @@ void Options::writeSettings() {
     settings.setValue("labName", labName);
     settings.setValue("emulatedOpticalDiskCapacity", emulatedOpticalDiskCapacity);
     settings.setValue("oldStyleNavigator", oldStyleNavigator);
+    settings.setValue("bluePanelTweak", bluePanelTweak);
     settings.setValue("useLabName", useLabName);
     settings.setValue("administratorAccountRequired", administratorAccountRequired);
     settings.setValue("hideSimulatorMenu", hideSimulatorMenu);

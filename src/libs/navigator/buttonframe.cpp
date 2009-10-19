@@ -20,6 +20,8 @@
 
 #include "buttonframe.h"
 
+#include "options.h"
+
 #include <QLabel>
 #include <QLayout>
 #include <QPushButton>
@@ -31,6 +33,8 @@
 using EpNavigator::AbstractButtonFrame;
 using EpNavigator::OldStyleButtonFrame;
 using EpNavigator::NewStyleButtonFrame;
+
+using EpCore::Options;
 
 const int AbstractButtonFrame::buttonHeight;
 const int AbstractButtonFrame::buttonWidth;
@@ -48,7 +52,7 @@ AbstractButtonFrame::AbstractButtonFrame(QWidget* parent)
     setFrameShape(QFrame::StyledPanel);
     QPalette palette;
     palette.setColor(QPalette::Window, Qt::darkBlue);
-    //palette.setColor(QPalette::Button, Qt::white);
+    palette.setColor(QPalette::Button, Qt::white);
     palette.setColor(QPalette::WindowText, Qt::white);
     setPalette(palette);
     // necessary to actually apply the Window color to the background
@@ -131,7 +135,19 @@ void OldStyleButtonFrame::addButton(const QString& name,
 // NewStyleButtonFrame
 
 NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent)
-    : AbstractButtonFrame(parent) {}
+    : AbstractButtonFrame(parent) {
+    // we give the buttons a darkBlue color so they don't get whited out.
+    // Unfortunately doesn't seem to work on WinXP, only on Linux.
+    // Code below makes highlighted toolbar with black border on
+    // Sluggo, but works on SuperSluggo.  If you remove below,
+    // buttons turn white when highlighted on SuperSluggo, but
+    // have expected white border on Sluggo.  ??? why
+    if (Options::instance()->bluePanelTweak) {
+        QPalette framePalette = palette();
+        framePalette.setColor(QPalette::Button, Qt::darkBlue);
+        setPalette(framePalette);
+    }
+}
 
 /**
  * Adds a button along with the corresponding pixmap and slot

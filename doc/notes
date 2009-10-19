@@ -963,3 +963,6 @@ http://theitdepartment.wordpress.com/2009/03/15/centos-qt-fcfreetypequeryface/
 PROBLEMS on windows
 	 spaces in files names shows up in LFLAGS in generated Makefiles ? how to fix this.
 
+BLUEBAR TOOLBAR BUTTON PROBLEMS
+
+The same code works differently on Sluggo and SuperSluggo, apparently.  On SuperSluggo, it is necessary to set the ButtonFrame QPalette::Button to Qt::darkBlue.  This causes black border instead of white on Sluggo.  Failing to set this on SuperSluggo makes buttons go white when highlighted.  Note sure of solution.

@@ -42,6 +42,7 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
     oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator);
     newStyleBlueBarCheckBox->setChecked(options_->bluePanelStyle == 
         Options::TransparentButtons);
+    bluePanelTweakCheckBox->setChecked(options_->bluePanelTweak);
 
     useLabNameCheckBox->setChecked(options_->useLabName);
     labNameLineEdit->setText(options_->labName);
@@ -107,6 +108,7 @@ void SimulatorSettingsDialog::setOptions() {
         isChecked();
     options_->bluePanelStyle = newStyleBlueBarCheckBox->isChecked() ?
         Options::TransparentButtons : Options::OpaqueButtons;
+    options_->bluePanelTweak = bluePanelTweakCheckBox->isChecked();
     
     options_->useLabName = useLabNameCheckBox->isChecked();
     options_->labName = labNameLineEdit->text();
