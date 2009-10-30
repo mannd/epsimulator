@@ -960,9 +960,18 @@ compiled fontconfig-2.4.2 and installed it in /opt/fontconfig-2.4.2/lib and
 added another LIBS+=-L/opt/fontconfig-2.4.2/lib and all is well.  See this site:
 http://theitdepartment.wordpress.com/2009/03/15/centos-qt-fcfreetypequeryface/
 
-PROBLEMS on windows
-	 spaces in files names shows up in LFLAGS in generated Makefiles ? how to fix this.
+PROBLEMS on windows spaces in files names shows up in LFLAGS in
+	 generated Makefiles ? how to fix this.
 
 BLUEBAR TOOLBAR BUTTON PROBLEMS
 
-The same code works differently on Sluggo and SuperSluggo, apparently.  On SuperSluggo, it is necessary to set the ButtonFrame QPalette::Button to Qt::darkBlue.  This causes black border instead of white on Sluggo.  Failing to set this on SuperSluggo makes buttons go white when highlighted.  Note sure of solution.
+The same code works differently on Sluggo and SuperSluggo, apparently.
+On SuperSluggo, it is necessary to set the ButtonFrame
+QPalette::Button to Qt::darkBlue.  This causes black border instead of
+white on Sluggo.  Failing to set this on SuperSluggo makes buttons go
+white when highlighted.  Not sure of solution.  Added tweakBluePanel
+option to deal with this.
+
+NEW NOTES FILE
+
+Subsequent developer notes are contained in the Org mode file notes.org.

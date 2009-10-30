@@ -100,6 +100,7 @@ signals:
     // that important settings have changed.
     void simulatorSettingsChanged(); // emitted after simulator settings changed
     void systemSettingsChanged();   // emitted after system settings changed
+    void displayWindowResized(QWidget*);    // emitted after display windows resized
 
 private slots:
     // these are redefinitions of abstract virtual functions in EpGui::AbstractMainWindow
@@ -119,6 +120,7 @@ private slots:
     void logWindowOpen(bool);
     void tileSubWindows();
     void cascadeSubWindows();
+    void resizeDisplayWindows(QWidget*);
 
 private:
     // disallowed

@@ -1,0 +1,23 @@
+* Prucka window management implementation
+** Major behavior to emulate
+   - outer borders of the central widget are not moveable.
+   - windows can't be moved inside central window by dragging title
+     bar.
+   - Resizing windows acts like a splitter bar.
+** Other behavior
+   - Log window always expands to full width of central widget
+   - Odd window location selection behavior
+     - when new window is selected in menu, horizontal or vertical
+       line is shown on screen, left mouse click opens window in
+       quadrant selected.
+   - Closing window expands other horizontally aligned windows
+   - Uncertain if can open Review2 without Review1 and vice versa
+   - Can't close Real-time
+     - but no Realtime if review study or no acquisition
+       - no acquisition case is handled by Navigator
+       - if acquisition changed during study, no effect
+	 - maybe should disable that option during study???
+** UI implementation of behavior
+   Simplest way to implement is via menu options.  Examples:
+   - Disable Review2 if no Review1
+   - 

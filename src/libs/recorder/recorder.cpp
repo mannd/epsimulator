@@ -128,6 +128,9 @@ Recorder::Recorder(QWidget* parent,
     connect(this, SIGNAL(patientInformationClosed()),
         patientStatusBar_, SLOT(patientInformationClosed()));
 
+    connect(this, SIGNAL(displayWindowResized(QWidget*)),
+        this, SLOT(resizeDisplayWindows(QWidget*)));
+
     updateAll();
     study_->loadStudyConfiguration();
 }
@@ -143,6 +146,10 @@ Recorder::~Recorder() {
     delete patient_;
     // Recorder took possession of study_, so has to kill it now.
     delete study_;
+}
+
+void Recorder::resizeDisplayWindows(QWidget*) {
+    qDebug() << "new new " << static_cast<QMdiArea*>(centralWidget_)->activeSubWindow()->size();
 }
 
 /**
