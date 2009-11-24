@@ -98,7 +98,9 @@ Recorder::Recorder(QWidget* parent,
     Q_ASSERT(study_ != 0);  // should never be called with a null Study
     setAttribute(Qt::WA_DeleteOnClose);
 
-    if (recorderWindow_ == Primary && qApp->desktop()->numScreens() > 1) {
+    if (recorderWindow_ == Primary &&
+        options_->screenFlags.testFlag(Options::TwoRecorderWindows)) {
+    //if (recorderWindow_ == Primary && qApp->desktop()->numScreens() > 1) {
         Recorder* recorder = new Recorder(this, study_, 
             currentDisk_, user_, false, Secondary);
         // resize and position recorder
@@ -131,21 +133,21 @@ Recorder::Recorder(QWidget* parent,
     connect(this, SIGNAL(displayWindowResized(QWidget*)),
         this, SLOT(resizeDisplayWindows(QWidget*)));
 
+    /// TODO
+    // if (recorderWindow_ == Secondary) {
+    // /* connect signals and slots that only affect Secondary window */
+    // }
+
     updateAll();
     study_->loadStudyConfiguration();
 }
 
 Recorder::~Recorder() {
-    /// FIXME
-    /// The primary Recorder window owns the pointers below
-    /// and so only it can delete them.  In addition
-    /// The primary Recorder window created the patient_
-    /// pointer, it could pass null pointers to the secondary
-    /// Recorder to solve this, and not create a new patient_.
-    /// NEED to FIX this!!!!!!!!!!!!!!
-    delete patient_;
-    // Recorder took possession of study_, so has to kill it now.
-    delete study_;
+    if (recorderWindow_ == Primary) {
+        delete patient_;
+        // Recorder took possession of study_, so has to kill it now.
+        delete study_;
+    }
 }
 
 void Recorder::resizeDisplayWindows(QWidget*) {
@@ -427,7 +429,12 @@ void Recorder::logWindowOpen(bool open) {
 }
 
 void Recorder::closeEvent(QCloseEvent *event) {
-    if (closeStudy()) {
+    if (recorderWindow_ == Secondary) {
+        QMessageBox::information(this, tr("Close Primary Window First"),
+                                 tr("Please close the RealTime window first."));
+        event->ignore();
+    }
+    else if (closeStudy()) {
         study_->save();
         patient_->save();
         patientStatusBar_->stop();
@@ -576,8 +583,7 @@ void Recorder::cascadeSubWindows() {
  * that appears on the Navigator statusbar doesn't work
  * well here, since a frame is drawn around any widget
  * inserted into the statusbar, which looks ugly adjacent
- * to the PatientStatusBar.  TODO The status bar will
- * only appear when the option below is set.
+ * to the PatientStatusBar.
  */
 void Recorder::createStatusBar() {
     if (options_->recorderFlags.testFlag(Options::RecorderHasStatusBar))

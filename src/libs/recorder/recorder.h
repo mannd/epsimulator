@@ -69,17 +69,19 @@ class Review2Window;
 class Recorder : public EpGui::AbstractMainWindow {
     Q_OBJECT
 public:
-    Recorder(QWidget* parent, 
-        EpStudy::Study* study, EpHardware::EpOpticalDisk::OpticalDisk* currentDisk, EpCore::User* user,
-        bool allowAcquisition = true,
-        RecorderWindow = Primary);
+    Recorder(QWidget* parent, EpStudy::Study* study,
+             EpHardware::EpOpticalDisk::OpticalDisk* currentDisk,
+             EpCore::User* user,
+             bool allowAcquisition = true,
+             RecorderWindow = Primary);
     ~Recorder();
     
     void setupInitialScreen(bool tile = false);  // the default screen setup
     void updateAll();
 
 public slots:
-    void changeOpticalDisk(EpHardware::EpOpticalDisk::OpticalDisk* disk) {currentDisk_ = disk;}
+    void changeOpticalDisk(EpHardware::EpOpticalDisk::OpticalDisk* disk) {
+        currentDisk_ = disk;}
 
 protected:
     // these are definitions of abstract virtual functions in EpGui::AbstractMainWindow
@@ -94,16 +96,18 @@ signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
     void autoSave(bool);    // emitted if AutoSave toolbar button changed
     void emergencySave(bool);   // emitted if Emergency Save key activated
-    void patientInformationClosed();    // emitted when Patient Info Dialog closed
+    void patientInformationClosed(); // emitted when Patient Info Dialog closed
 
     // these signals let Navigator and any other Recorder windows know
     // that important settings have changed.
     void simulatorSettingsChanged(); // emitted after simulator settings changed
     void systemSettingsChanged();   // emitted after system settings changed
-    void displayWindowResized(QWidget*);    // emitted after display windows resized
+    void displayWindowResized(QWidget*); // emitted after
+                                         // display windows resized
 
 private slots:
-    // these are redefinitions of abstract virtual functions in EpGui::AbstractMainWindow
+    // these are redefinitions of abstract virtual functions
+    // in EpGui::AbstractMainWindow.
     virtual void updateSimulatorSettings();
     virtual void updateSystemSettings();
 
@@ -127,7 +131,7 @@ private:
     Recorder(const Recorder&);
     Recorder& operator=(const Recorder&);
 
-    static const int edgeWidth = 80;    // width of edges that are ignored by mouse
+    static const int edgeWidth = 80; // width of edges that are ignored by mouse
     bool noMansZone(const QPoint& p);
  
     std::vector<bool> openDisplayWindowList_;
@@ -157,7 +161,8 @@ private:
     bool subWindowIsOpen(QMdiSubWindow*);
 
     template<typename T>
-    void openSubWindow(bool, QMdiSubWindow*&, T*&, EpStudy::Study*, int number = 0);
+    void openSubWindow(bool, QMdiSubWindow*&,
+                       T*&, EpStudy::Study*, int number = 0);
 
     EpStudy::Study* study_;
     EpPatient::Patient* patient_;
@@ -223,7 +228,7 @@ private:
     QAction* dataExtractionAction_;
 
     // Windows
-    QAction* winSaveAction_;   // note that Study Config menu has duplicate names
+    QAction* winSaveAction_;   // note Study Config menu has duplicate names
     QAction* winSaveAsAction_;
     QAction* winSwitchAction_;
     QAction* winDeleteAction_;
@@ -246,13 +251,11 @@ private:
     QAction* cascadeAction_;
 
     // Administration Menu
-    //QAction* systemSettingsAction_;
     QAction* printSetupAction_;
-    QAction* adminReportsAction_;   // there is a Report action in the Study menu too
+    QAction* adminReportsAction_;   // Report action has a Study menu too
     QAction* compressionRatioAction_;
     QAction* amplifierTestAction_;
     QAction* ejectOpticalDiskAction_;
-    //QAction* simulatorSettingsAction_;
 
     // Hardware Menu
     QAction* stimulatorAction_;

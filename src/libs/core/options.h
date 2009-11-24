@@ -62,6 +62,10 @@ public:
         // Tiling uses Prucka layout if set, otherwise tradition MDA tiling.
         // Ignored if EmulateWindowsManager set.
         EmulatePruckaTiling     = 0x000008,
+        TwoRecorderWindows      = 0x000010,
+        // Simpler to just set a flag for 2 recorder windows, have Recorder
+        // constructor figure out what to do.  When there are 2 screens,
+        // positioning acts like there is only one large screen.
         DefaultScreenFlags      = EmulateWindowsManager | EmulatePruckaTiling
     };
     Q_DECLARE_FLAGS(ScreenFlags, ScreenFlag)

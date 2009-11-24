@@ -51,6 +51,8 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
         Options::EmulateTwoScreens));
     emulateOneScreenCheckBox->setChecked(options_->screenFlags.testFlag(
         Options::EmulateOneScreen));
+    useTwoRecorderWindowsCheckBox->setChecked(options_->screenFlags.testFlag(
+            Options::TwoRecorderWindows));
     emulateWindowsManagerCheckBox->setChecked(options_->screenFlags.testFlag(
         Options::EmulateWindowsManager));
     emulatePruckaTilingCheckBox->setChecked(options_->screenFlags.testFlag(
@@ -117,6 +119,8 @@ void SimulatorSettingsDialog::setOptions() {
         emulateTwoScreensCheckBox->isChecked());
     setFlag(options_->screenFlags, Options::EmulateOneScreen,
         emulateOneScreenCheckBox->isChecked());
+    setFlag(options_->screenFlags, Options::TwoRecorderWindows,
+            useTwoRecorderWindowsCheckBox->isChecked());
     setFlag(options_->screenFlags, Options::EmulateWindowsManager,
         emulateWindowsManagerCheckBox->isChecked());
     setFlag(options_->screenFlags, Options::EmulatePruckaTiling,
