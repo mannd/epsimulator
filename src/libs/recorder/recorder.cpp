@@ -143,6 +143,7 @@ Recorder::Recorder(QWidget* parent,
 }
 
 Recorder::~Recorder() {
+    writeSettings();
     if (recorderWindow_ == Primary) {
         delete patient_;
         // Recorder took possession of study_, so has to kill it now.
@@ -214,7 +215,7 @@ bool Recorder::eventFilter(QObject* target, QEvent* event) {
 void Recorder::createCentralWidget() {
     centralWidget_ = new QMdiArea;
     setCentralWidget(centralWidget_);
-    //readSettings();
+    readSettings();
 }
 
 /// TODO Further complexities:
@@ -276,8 +277,7 @@ void Recorder::setupInitialScreen(bool tile) {
         hide();
     centralWidget_->update();
     centralWidget_->closeAllSubWindows();
-    if (qApp->desktop()->numScreens() > 1 || 
-        options_->screenFlags.testFlag(Options::EmulateTwoScreens)) { 
+    if (options_->screenFlags.testFlag(Options::TwoRecorderWindows)) {
         if (recorderWindow_ == Primary && allowAcquisition_) {
             realTimeWindowOpen(true);
         }
@@ -440,7 +440,6 @@ void Recorder::closeEvent(QCloseEvent *event) {
         patientStatusBar_->stop();
         if (parentWidget())
             parentWidget()->show();        
-        writeSettings();
         event->accept();
     }
     else
@@ -472,9 +471,8 @@ void Recorder::writeSettings() {
 }
 
 void Recorder::writeSettings(QSettings& settings) {
-    // save overall Recorder size, position and state
-    QDesktopWidget* desktop = qApp->desktop();
-    settings.beginGroup(QString("screen%1").arg(desktop->screenNumber(this)));
+    int windowNumber = (recorderWindow_ == Primary ? 1 : 2);
+    settings.beginGroup(QString("screen%1").arg(windowNumber));
     settings.beginGroup("recorder");
     settings.setValue("geometry", saveGeometry());
     settings.setValue("size", size());
@@ -536,8 +534,9 @@ void Recorder::readSettings() {
 }
 
 void Recorder::readSettings(QSettings& settings) {
-    QDesktopWidget* desktop = qApp->desktop();
-    settings.beginGroup(QString("screen%1").arg(desktop->screenNumber(this)));
+    //QDesktopWidget* desktop = qApp->desktop();
+    int windowNumber = (recorderWindow_ == Primary ? 1 : 2);
+    settings.beginGroup(QString("screen%1").arg(windowNumber));
     settings.beginGroup("recorder");
     QVariant size = settings.value("size");
     if (size.isNull()) {
