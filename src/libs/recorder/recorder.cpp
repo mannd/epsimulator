@@ -152,7 +152,8 @@ Recorder::~Recorder() {
 }
 
 void Recorder::resizeDisplayWindows(QWidget*) {
-    qDebug() << "new new " << static_cast<QMdiArea*>(centralWidget_)->activeSubWindow()->size();
+    qDebug() << "new new " << static_cast<QMdiArea*>(centralWidget_)->
+            activeSubWindow()->size();
 }
 
 /**
@@ -467,13 +468,8 @@ bool Recorder::subWindowIsOpen(QMdiSubWindow* subWindow) {
 
 void Recorder::writeSettings() {
     QSettings settings;
-    writeSettings(settings);
-}
-
-void Recorder::writeSettings(QSettings& settings) {
-    int windowNumber = (recorderWindow_ == Primary ? 1 : 2);
-    settings.beginGroup(QString("screen%1").arg(windowNumber));
-    settings.beginGroup("recorder");
+    int recorderNumber = (recorderWindow_ == Primary ? 1 : 2);
+    settings.beginGroup(QString("recorder%1").arg(recorderNumber));
     settings.setValue("geometry", saveGeometry());
     settings.setValue("size", size());
     settings.setValue("pos", pos()); 
@@ -499,7 +495,6 @@ void Recorder::writeSettings(QSettings& settings) {
         settings.endGroup();
     }
     settings.setValue("subWindowList", subWindowKeys);
-    settings.endGroup();
     settings.endGroup();
 }
 
@@ -530,23 +525,17 @@ void Recorder::restoreDisplayWindow(const QString& key,
 
 void Recorder::readSettings() {
     QSettings settings;
-    readSettings(settings);
-}
-
-void Recorder::readSettings(QSettings& settings) {
-    //QDesktopWidget* desktop = qApp->desktop();
-    int windowNumber = (recorderWindow_ == Primary ? 1 : 2);
-    settings.beginGroup(QString("screen%1").arg(windowNumber));
-    settings.beginGroup("recorder");
+    int recorderNumber = (recorderWindow_ == Primary ? 1 : 2);
+    settings.beginGroup(QString("recorder%1").arg(recorderNumber));
     QVariant size = settings.value("size");
     if (size.isNull()) {
         setWindowState(windowState() ^ Qt::WindowMaximized);
-        settings.endGroup();
-        settings.endGroup();
-        return;
     }
-    restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("state").toByteArray());
+    else {
+        restoreGeometry(settings.value("geometry").toByteArray());
+        restoreState(settings.value("state").toByteArray());
+    }
+    settings.endGroup();
 }
 
 void Recorder::openStimulator() {

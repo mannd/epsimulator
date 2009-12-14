@@ -19,5 +19,54 @@
 	 - maybe should disable that option during study???
 ** UI implementation of behavior
    Simplest way to implement is via menu options.  Examples:
-   - Disable Review2 if no Review1
-   - 
+   - Disable Review2 if no 
+* Simplified window management
+** rationale
+   - Prucka behavior is very MS Windows dependent and would require
+     using platform-specific QT window handling code to implement.
+     Workarounds trapping mouse events, etc. are very difficult to do.
+   - Implementation of Prucka behavior is very difficult, perhaps
+     impossible, certainly slowing program development.
+   - Prucka-like screen layouts can be manually simulated using an MDI
+     setup and then can be saved for reuse.
+   - Prucka window management is not standard windows GUI behavior and
+     does not fulfil the standard of "least surprise."
+** Arguments for Prucka behavior
+   - Non-Prucka behavior weakens the simulation verisimilitude.  Why
+     include all the other awkward Prucka elements and not this one?
+   - Opening new windows such as Review2 requires manually laying out
+     of the windows.  Methods to open and rearrange the windows in a
+     default way could obviate this.  Saved window layouts could be
+     used instead of just opening and closing windows.
+   - Specific window behavior is still awkward.  Should the Realtime
+     window be closeable?  It isn't in the Prucka.  Can you have a
+     Review 2 and not a Review 1?  Not sure about that.  
+** Recommendations
+   - Recorder subwindows are MDI subwindows, thus use an MDI layout model.
+   - In addition to Tile and Cascade, have an Organize Windows menu
+     option that lays out the windows Prucka style.  When a new window
+     is opened, have option to use the Organize Windows function or
+     not.  (AutoOrganizeWindows option?)
+   - Windows layouts are saved in study configurations, and when new
+     study is loaded, the default study configuration window layout
+     will be used.
+* Multihead displays
+** TwoReviewWindow option
+   The basic option is using one or two review windows.  The number of
+   physical screens is not important.  Multihead systems act like one
+   big screen, thus saving the 2 screens, one on each screen, just
+   saves the coordinates and should just work.  Maximizing on 2
+   screens may not work right, will need to experiments with a 2
+   screen system to be sure.  
+** Recorder window layout versus subwindow layout
+   Recorder window positions are stored in the EPSimulator.conf file.
+   Subwindow layouts are stored in the config.dat files.  The
+   rationale is that the user will keep his his Navigator and Recorder
+   windows maximized or not, and won't want them changing sizes each
+   time a new study is loaded.  The relative positioning of the
+   windows will change from study to study.  Downside of this is that
+   changing main window size will mess up subwindow locations.
+** TODO 
+   recorder window currently does store subwindow locations in
+   EPSimulator.conf.  This is only the last configuration when the
+   window is closed.  Need to work on study configuration data.

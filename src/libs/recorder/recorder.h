@@ -153,9 +153,7 @@ private:
     void createPatientStatusBar();
     void updateWindowTitle();
     virtual void readSettings();
-    void readSettings(QSettings&);
     void writeSettings();
-    void writeSettings(QSettings&);
     bool closeStudy();
     
     bool subWindowIsOpen(QMdiSubWindow*);
