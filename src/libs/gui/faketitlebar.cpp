@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2009 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,53 +18,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/**
- * @mainpage
- * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
- * complete with recording equipment, programmable stimulator, and, most importantly,
- * a heart simulator that can be set up to mimic
- * normal cardiac electrophysiology and arrhythmias.
- */
+#include "faketitlebar.h"
 
-#include "navigator.h"
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPalette>
+#include <QPushButton>
+#include <QToolButton>
 
-#include <QApplication>
-#include <QIcon>
-#include <QMessageBox>
+using EpGui::FakeTitleBar;
 
-// Languages
-// Only define 1 of the below
-//#define GERMAN
-//#define FRENCH
-#define ENGLISH
-
-// bogus comment
-#ifndef ENGLISH
-#   include <QTranslator>
-#endif
-
-using EpNavigator::Navigator;
-
-int main(int argc, char **argv) {
-    QApplication app(argc, argv);
-    app.setOrganizationName("EP Studios");
-    app.setOrganizationDomain("epstudiossoftware.com");
-    app.setApplicationName("EPSimulator");
-
-// International stuff below
-#ifndef ENGLISH
-    QTranslator translator( 0 );
-#ifdef GERMAN
-    translator.load( "epsimulator_de.qm", "." );
-#endif
-#ifdef FRENCH
-    translator.load( "epsimulator_fr.qm", "." );
-#endif
-    app.installTranslator( &translator );
-#endif
-
-    app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
-    Navigator* navigator = new Navigator;
-    navigator->restore();
-    return app.exec();
+FakeTitleBar::FakeTitleBar(QWidget* parent) : QWidget(parent) {
+    // general background is dark blue
+    QPalette pal = palette();
+    pal.setColor(QPalette::Window, Qt::darkBlue);
+    pal.setColor(QPalette::WindowText, Qt::white);
+    setPalette(pal);
+    setAutoFillBackground(true);
+    setMinimumHeight(35);
+    setMaximumHeight(35);
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
+    QLabel* title = new QLabel;
+    title->setText("Test");
+    QPushButton* button = new QPushButton;
+    button->setText("X");
+    button->setFixedSize(25, 25);
+    QHBoxLayout* layout = new QHBoxLayout;
+    layout->addWidget(title);
+    layout->addStretch(1);
+    QVBoxLayout* vLayout = new QVBoxLayout;
+    vLayout->addWidget(button);
+    layout->addLayout(vLayout);
+    setLayout(layout);
 }

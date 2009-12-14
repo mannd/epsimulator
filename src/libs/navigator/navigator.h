@@ -93,6 +93,9 @@ private slots:
     void setColumnFormats();
     void setProtocols();
     void setStudyConfigurations();
+#ifndef NDEBUG
+    void testWidget();
+#endif
 
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
@@ -203,6 +206,10 @@ private:
     QAction* columnFormatsAction_;
     QAction* protocolsAction_;
     QAction* studyConfigurationsAction_;
+
+#ifndef NDEBUG
+    QAction* testWidgetAction_;
+#endif
 
     // Help menu
     // Actions returned by AbstractMainWindow
