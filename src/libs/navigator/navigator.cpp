@@ -936,7 +936,7 @@ void Navigator::writeSettings() {
     QSettings settings;
     settings.beginGroup("navigator");
     settings.setValue("geometry", saveGeometry());
-    // size and pos not used but might be needed for some OSes.
+    // size and pos work best on X11
     settings.setValue("size", size());
     settings.setValue("pos", pos());
     settings.setValue("state", saveState());    
@@ -957,14 +957,15 @@ void Navigator::readSettings() {
     if (size.isNull())  // initial run, window is maximized by default
         setWindowState(windowState() ^ Qt::WindowMaximized);
     else {  // but if not initial run, use previous window settings
-        // restoreGeometry doesn't seem to work consistently on X11
+        // restoreGeometry doesn't work on X11
         // but resize() and move() work ok.
+        // see Window Geometry section of Qt Reference Doc
         //restoreGeometry(settings.value("geometry").toByteArray());
+        restoreState(settings.value("state").toByteArray());
         resize(size.toSize());
         move(settings.value("pos").toPoint());
         centralWidget_->restoreState(settings.value(
             "centralWidgetState").toByteArray());
-        restoreState(settings.value("state").toByteArray());
     }
     settings.endGroup();
 }

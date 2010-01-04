@@ -532,8 +532,12 @@ void Recorder::readSettings() {
         setWindowState(windowState() ^ Qt::WindowMaximized);
     }
     else {
-        restoreGeometry(settings.value("geometry").toByteArray());
+        // restoreGeometry doesn't work on X11
+        // see Window Geometry section of Qt Reference Doc
+        //restoreGeometry(settings.value("geometry").toByteArray());
         restoreState(settings.value("state").toByteArray());
+        resize(size.toSize());
+        move(settings.value("pos").toPoint());
     }
     settings.endGroup();
 }
