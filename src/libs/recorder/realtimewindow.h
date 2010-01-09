@@ -24,6 +24,7 @@
 #include "recorderdefs.h"
 
 #include <QString>
+#include <QPushButton>
 
 class QAction;
 class QComboBox;
@@ -34,6 +35,19 @@ namespace EpGui {
 }
 
 namespace EpRecorder {
+
+    class ColorButton : public QPushButton {
+        Q_OBJECT
+    public:
+        ColorButton(QColor activeColor, QWidget* parent=0);
+        bool activated() {return activated_;}
+    public slots:
+        void changeState();
+    private:
+       QPalette originalPalette_;
+       QPalette activatedPalette_;
+       bool activated_;
+    };
 
 /**
 The real-time recording window, central widget of recorder.  Uses multiple inheritance to provide a toolbar.

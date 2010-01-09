@@ -49,7 +49,7 @@ public:
     enum Clip {NoClip, C1, C2};
 
     Channel(int number = 1);
-    ~Channel() {};
+    ~Channel() {}
 
     void setNumber(int n) {number_ = n;}
     void setClip(Clip clip) {clip_ = clip;}

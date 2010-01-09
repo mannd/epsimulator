@@ -96,17 +96,17 @@ Recorder::Recorder(QWidget* parent,
                    logSubWindow_(0) {
     Q_ASSERT(parent != 0);  // never call Recorder without parent
     Q_ASSERT(study_ != 0);  // should never be called with a null Study
+
     setAttribute(Qt::WA_DeleteOnClose);
 
     if (recorderWindow_ == Primary &&
         options_->screenFlags.testFlag(Options::TwoRecorderWindows)) {
-    //if (recorderWindow_ == Primary && qApp->desktop()->numScreens() > 1) {
         Recorder* recorder = new Recorder(this, study_, 
             currentDisk_, user_, false, Secondary);
-        // resize and position recorder
         recorder->restore();
     }
 
+    loadPatient();
 
     // must build menus and toolbars before creating the central widget,
     // since createCentralWidget() updates the menus.
@@ -149,6 +149,12 @@ Recorder::~Recorder() {
         // Recorder took possession of study_, so has to kill it now.
         delete study_;
     }
+}
+
+void Recorder::loadPatient() {
+    patient_ = new Patient;
+    patient_->setPath(study_->path());
+    patient_->load();
 }
 
 void Recorder::resizeDisplayWindows(QWidget*) {
@@ -532,8 +538,12 @@ void Recorder::readSettings() {
         setWindowState(windowState() ^ Qt::WindowMaximized);
     }
     else {
-        restoreGeometry(settings.value("geometry").toByteArray());
+        // restoreGeometry doesn't work on X11
+        // see Window Geometry section of Qt Reference Doc
+        //restoreGeometry(settings.value("geometry").toByteArray());
         restoreState(settings.value("state").toByteArray());
+        resize(size.toSize());
+        move(settings.value("pos").toPoint());
     }
     settings.endGroup();
 }
@@ -590,9 +600,6 @@ void Recorder::createPatientStatusBar() {
     bottomDockWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
     addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 
-    patient_ = new Patient;
-    patient_->setPath(study_->path());
-    patient_->load();
     patientStatusBar_->setPatient(patient_);
     patientStatusBar_->setPatientInfo(study_->name(), 
         study_->weight(), study_->bsa());
