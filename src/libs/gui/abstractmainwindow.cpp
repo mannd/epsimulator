@@ -30,7 +30,9 @@
 #include "user.h"
 #include "versioninfo.h"
 
+#include <QDesktopServices>
 #include <QMessageBox>
+#include <QUrl>
 
 using EpCore::Options;
 using EpCore::VersionInfo;
@@ -67,14 +69,31 @@ void AbstractMainWindow::systemSettings() {
     }
 }
 
+QDir AbstractMainWindow::directoryOf(const QString& subdir) {
+    QDir dir(QApplication::applicationDirPath());
+
+#if defined(Q_OS_WIN)
+    if (dir.dirName().toLower() == "debug"
+        || dir.dirName().toLower() == "release"
+        dir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (dir.dirName() == "MacOS") {
+        dir.cdUp();
+        dir.cdUp();
+        dir.cdUp();
+     }
+#endif
+    if (dir.dirName().toLower() == "bin")
+        dir.cdUp();
+    dir.cd(subdir);
+    return dir;
+}
+
+
 void AbstractMainWindow::help() {
-    QMessageBox::information(this, 
-                             QObject::tr("%1 Help")
-                             .arg(versionInfo_->programName()),
-                             QObject::tr("Help is available from "
-                             "<p><a href=http://www.epstudiossoftware.com> "
-                             "http://www.epstudiossoftware.com</a>"),
-                             QMessageBox::Ok);
+    QUrl url(directoryOf("doc").absoluteFilePath("index.html"));
+    url.setScheme("file");
+    QDesktopServices::openUrl(url);
 }
 
 void AbstractMainWindow::about() {

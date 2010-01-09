@@ -136,6 +136,8 @@ private:
  
     std::vector<bool> openDisplayWindowList_;
 
+    void loadPatient();
+
     void updateOpenDisplayWindowList();  
     void connectReviewWindows();
     

@@ -40,7 +40,24 @@ using EpGui::createAction;
 using EpGui::RealTimeStudyConfigurationDialog;
 using EpGui::StudyConfigurationDialog;
 using EpRecorder::RealTimeWindow;
+using EpRecorder::ColorButton;
 using EpStudy::Study;
+
+ColorButton::ColorButton(QColor activeColor, QWidget* parent) :
+    QPushButton(parent), activated_(false) {
+    originalPalette_ = palette();
+    activatedPalette_ = originalPalette_;
+    activatedPalette_.setColor(QPalette::Button, activeColor);
+    connect(this, SIGNAL(clicked()), this, SLOT(changeState()));
+}
+
+void ColorButton::changeState() {
+    activated_ = !activated_;
+    if (activated_)
+        setPalette(activatedPalette_);
+    else
+        setPalette(originalPalette_);
+}
 
 RealTimeWindow::RealTimeWindow(Study* study, int number, QWidget* parent)
  : SignalDisplayWindow(tr("Real-Time"), study,number, parent) {
@@ -106,33 +123,26 @@ void RealTimeWindow::createToolBars() {
     toolBar->addAction(stopwatchAction_);
     // add stim buttons
     toolBar->addSeparator();
-    QPushButton* toggleStimChannelButton = 
-        new QPushButton(tr("hRA : 2-1"));
-    QPalette palette;
-    palette.setColor(QPalette::Button, Qt::cyan);
-    toggleStimChannelButton->setPalette(palette);
+    ColorButton* toggleStimChannelButton = new ColorButton(Qt::cyan);
+    toggleStimChannelButton->setText(tr("hRA : 2-1"));
     toolBar->addWidget(toggleStimChannelButton);
     toolBar->addSeparator();
-    QPushButton* enableStimOneButton =
-        new QPushButton(tr("hRA : 2-1"));
-    palette.setColor(QPalette::Button, Qt::red);
-    enableStimOneButton->setPalette(palette);
+    ColorButton* enableStimOneButton = new ColorButton(Qt::red);
+    enableStimOneButton->setText(tr("hRA : 2-1"));
     toolBar->addWidget(enableStimOneButton);
     toolBar->addSeparator();
-    QPushButton* enableStimTwoButton =
-        new QPushButton(tr("RVa : 18-17"));
-    enableStimTwoButton->setPalette(palette);
+    ColorButton* enableStimTwoButton = new ColorButton(Qt::red);
+    enableStimTwoButton->setText(tr("RVa : 18-17"));
     toolBar->addWidget(enableStimTwoButton);
     toolBar->addSeparator();
-    QPushButton* enableStimThreeButton =
-        new QPushButton(tr("CS : 2-1"));
+    ColorButton* enableStimThreeButton = new ColorButton(Qt::red);
+    enableStimThreeButton->setText(tr("CS : 2-1"));
     toolBar->addWidget(enableStimThreeButton);
     toolBar->addSeparator();
-    QPushButton* enableStimFourButton =
-        new QPushButton(tr("ABL : 18-17"));
+    ColorButton* enableStimFourButton = new ColorButton(Qt::red);
+    enableStimFourButton->setText(tr("ABL : 18-17"));
     toolBar->addWidget(enableStimFourButton);
     toolBar->addSeparator();
-
     addToolBar(toolBar); 
 }
 
