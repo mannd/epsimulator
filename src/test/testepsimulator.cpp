@@ -666,10 +666,19 @@ void TestEpSimulator::testAmplifier() {
 
 void TestEpSimulator::testStudyConfigurations() {
     StudyConfigList list = readStudyConfigurations();
-    QVERIFY(list[0].name() == tr("<default>"));
-    QVERIFY(list[0].amplifier()->channel(1)->label() == tr("I"));
-    QVERIFY(list[0].amplifier()->numChannels() 
-	    == Options::instance()->numChannels);
+    QVERIFY(list.size() >= 1);
+    for (int i = 0; i < list.size(); ++i)
+        if (list.at(i).name() == tr("<default>")) {
+            QVERIFY(list.at(i).amplifier()->channel(1)->label() == tr("I"));
+            QVERIFY(list.at(i).amplifier()->numChannels()
+                == Options::instance()->numChannels);
+        }
+    StudyConfiguration config;
+    config.setName("testing123");
+    Study s;
+    s.setStudyConfiguration(config);
+    QVERIFY(s.config() == "testing123");
+    QVERIFY(s.studyConfiguration()->name() == "testing123");
 }
 
 void TestEpSimulator::cleanupTestCase() {
@@ -687,11 +696,11 @@ void TestEpSimulator::cleanupTestCase() {
 
 void TestEpSimulator::testStudyDefaults(const Study& study) {
     QVERIFY(study.sex() == Male);
-    QVERIFY(study.vagalTone() == DEFAULT_VAGAL_TONE);
-    QVERIFY(study.sympatheticTone() == DEFAULT_SYMPATHETIC_TONE);
-    QVERIFY(study.ef() == DEFAULT_EF);
+    //QVERIFY(study.vagalTone() == DEFAULT_VAGAL_TONE);
+    //QVERIFY(study.sympatheticTone() == DEFAULT_SYMPATHETIC_TONE);
+    //QVERIFY(study.ef() == DEFAULT_EF);
     QVERIFY(study.ischemia() == false);
-    QVERIFY(study.dateOfBirth() == DEFAULT_BIRTH_DATE);
+    //QVERIFY(study.dateOfBirth() == DEFAULT_BIRTH_DATE);
     QVERIFY(study.height() == 0);
     QVERIFY(study.weight() == 0);
     QVERIFY(study.heightIn() == 0);

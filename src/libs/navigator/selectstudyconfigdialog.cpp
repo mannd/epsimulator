@@ -38,6 +38,8 @@ SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     connect(configListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
         this, SLOT(accept()));
 
+    configListWidget->setSortingEnabled(true);
+
     configList_ = EpStudy::readStudyConfigurations();
     for (int i = 0; i < configList_.size(); ++i)
         new QListWidgetItem(configList_.at(i).name(), configListWidget);

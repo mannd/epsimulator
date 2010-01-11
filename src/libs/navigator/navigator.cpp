@@ -70,6 +70,9 @@ using EpCore::VersionInfo;
 using EpGui::PatientDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
+using EpStudy::StudyConfigList;
+using EpStudy::readStudyConfigurations;
+using EpStudy::writeStudyConfigurations;
 using EpNavigator::Navigator;
 using EpNavigator::StatusBar;
 
@@ -143,8 +146,15 @@ void Navigator::newStudy() {
         SelectStudyConfigDialog* selectStudyConfigDialog  =
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
-            study->setConfig(selectStudyConfigDialog->config().name());
-            if (getStudyInformation(study)) {
+            QString configName = selectStudyConfigDialog->config().name();
+            study->setConfig(configName);
+            StudyConfigList configList = readStudyConfigurations();
+            for (int i = 0; i < configList.size(); ++i)
+                if (configList.at(i).name() == configName) {
+                    study->setStudyConfiguration(configList.at(i));
+                    break;
+                }
+          if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),
                                     options_->labName, user_->machineName());

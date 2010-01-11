@@ -118,6 +118,9 @@ private slots:
     void setEmergencySave(bool);
     void updateMenus();
 
+    void saveStudyConfiguration();
+    void saveAsStudyConfiguration();
+
     void realTimeWindowOpen(bool);
     void review1WindowOpen(bool);
     void review2WindowOpen(bool);

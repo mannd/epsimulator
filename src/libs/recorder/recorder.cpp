@@ -35,12 +35,14 @@
 #include "stimulator.h"
 #include "teststimulator.h"
 #include "study.h"
+#include "studyconfiguration.h"
 #include "user.h"
 
 #include <QAction>
 #include <QComboBox>
 #include <QDesktopWidget>
 #include <QDockWidget>
+#include <QInputDialog>
 #include <QLabel>
 #include <QMainWindow>
 #include <QMessageBox>
@@ -63,6 +65,10 @@ using EpGui::PatientDialog;
 using EpPatient::Patient;
 using EpRecorder::Recorder;
 using EpStudy::Study;
+using EpStudy::StudyConfigList;
+using EpStudy::StudyConfiguration;
+using EpStudy::readStudyConfigurations;
+using EpStudy::writeStudyConfigurations;
 
 using namespace EpHardware;
 using namespace EpHardware::EpAmplifier;
@@ -641,9 +647,10 @@ void Recorder::createActions() {
         tr("Switch study configuration"), 0, 
         0, "hi32-switchwindowsettings.png");
     saveAction_ = createAction(this, tr("Save"),
-        tr("Save study configuration"));
+        tr("Save study configuration"), SLOT(saveStudyConfiguration()));
     saveAsAction_ = createAction(this, tr("Save As..."), 
-        tr("Save study configuration under different name"));
+        tr("Save study configuration under different name"),
+        SLOT(saveAsStudyConfiguration()));
     intervalsAction_ = createAction(this, tr("Intervals"), 
         tr("Configure study intervals"));
     columnFormatsAction_ = createAction(this, tr("Column Formats"), 
@@ -947,5 +954,51 @@ void Recorder::updateMenus() {
     tileAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
     cascadeAction_->setVisible(!options_->screenFlags.testFlag
                               (Options::EmulateWindowsManager));
+}
+
+void Recorder::saveStudyConfiguration() {
+    if (!administrationAllowed())
+        return;
+    QString configName = study_->studyConfiguration()->name();
+    if (configName.isEmpty()) {
+        saveAsStudyConfiguration();
+        return;
+    }
+    StudyConfigList configList = readStudyConfigurations();
+    // remove study configuration with same name
+    for (int i = 0; i < configList.size(); ++i)
+        if (configList.at(i).name() == configName) {
+            configList.removeAt(i);
+            break;
+        }
+    configList.append(*study_->studyConfiguration());
+    writeStudyConfigurations(configList);
+}
+
+void Recorder::saveAsStudyConfiguration() {
+    if (!administrationAllowed())
+        return;
+    QString configName = study_->studyConfiguration()->name();
+    StudyConfigList configList = readStudyConfigurations();
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("Enter Study Configuration Name"),
+                                         tr("Study configuration name:"), QLineEdit::Normal,
+                                         configName, &ok);
+    if (ok && !text.isEmpty()) {
+        // search for duplicate study configuration name
+        for (int i = 0; i < configList.size(); ++i)
+            if (configList.at(i).name() == text) {
+            int result = QMessageBox::warning(this, tr("Duplicate Study Configuration Name"),
+                                 tr("Study configuration name already exists.  Overwrite?"));
+            if (result != QMessageBox::Ok)
+                return;
+            // remove study configuration with the same name
+            configList.removeAt(i);
+            break;
+        }
+        study_->studyConfiguration()->setName(text);
+        configList.append(*study_->studyConfiguration());
+        writeStudyConfigurations(configList);
+    }
 }
 

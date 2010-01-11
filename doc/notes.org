@@ -70,3 +70,7 @@
    recorder window currently does store subwindow locations in
    EPSimulator.conf.  This is only the last configuration when the
    window is closed.  Need to work on study configuration data.
+* Qt-creator issues
+** gdb problem
+   Solution: downloaded later version of gdb from here:
+   ftp://ftp.qt.nokia.com/misc/gdb/

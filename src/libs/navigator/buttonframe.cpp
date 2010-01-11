@@ -36,8 +36,8 @@ using EpNavigator::NewStyleButtonFrame;
 
 using EpCore::Options;
 
-const int AbstractButtonFrame::buttonHeight;
-const int AbstractButtonFrame::buttonWidth;
+const int AbstractButtonFrame::buttonHeight_;
+const int AbstractButtonFrame::buttonWidth_;
 
 /**
  * Constructs blue bar on left side of Navigator window
@@ -79,9 +79,9 @@ void AbstractButtonFrame::setupButton(QAbstractButton* button,
                                       QLabel* label, 
                                       const char* slotName, 
                                       bool lastButton) {
-    button->setFixedSize(buttonWidth, buttonHeight);
+    button->setFixedSize(buttonWidth_, buttonHeight_);
     button->setIcon(QIcon(pixmap));
-    button->setIconSize(QSize(buttonWidth - 10, buttonHeight - 10));
+    button->setIconSize(QSize(buttonWidth_ - 10, buttonHeight_ - 10));
     static int row = 0;   // allows adding widgets in correct row
     // last parameter centers the buttons and labels horizontally
     if (row == 0) {

@@ -59,6 +59,12 @@ void ColorButton::changeState() {
         setPalette(originalPalette_);
 }
 
+void ColorButton::setActivated(bool activated) {
+    // reverse state first, changeState() changes it back
+    activated_ = !activated;
+    changeState();
+}
+
 RealTimeWindow::RealTimeWindow(Study* study, int number, QWidget* parent)
  : SignalDisplayWindow(tr("Real-Time"), study,number, parent) {
     updateWindowTitle();
@@ -125,6 +131,7 @@ void RealTimeWindow::createToolBars() {
     toolBar->addSeparator();
     ColorButton* toggleStimChannelButton = new ColorButton(Qt::cyan);
     toggleStimChannelButton->setText(tr("hRA : 2-1"));
+    toggleStimChannelButton->setActivated();
     toolBar->addWidget(toggleStimChannelButton);
     toolBar->addSeparator();
     ColorButton* enableStimOneButton = new ColorButton(Qt::red);
