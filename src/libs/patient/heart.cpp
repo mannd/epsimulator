@@ -20,6 +20,8 @@
 
 #include "heart.h"
 
+#include <QDataStream>
+
 using EpPatient::Heart;
 
 Heart::Heart(QString name) : name_(name) {}
@@ -27,3 +29,17 @@ Heart::Heart(QString name) : name_(name) {}
 Heart::Heart(const Heart& heart) : name_(heart.name_) {}
 
 Heart::~Heart() {}
+
+namespace EpPatient {
+
+    QDataStream& operator<<(QDataStream& out, const Heart& heart) {
+        out << heart.name_;
+        return out;
+    }
+
+    QDataStream& operator>>(QDataStream& in, Heart& heart) {
+        in >> heart.name_;
+        return in;
+    }
+
+}

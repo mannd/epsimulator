@@ -105,7 +105,7 @@ namespace EpStudy {
         void load();        // load study.dat file
         void save();        // save study.dat file
         // preregistered study has no config info
-        void makePreregisterStudy() {config_ = QString();}
+        void setPreregisterStudy(bool state);
 
         void loadStudyConfiguration();
         void saveStudyConfiguration();
@@ -153,10 +153,11 @@ namespace EpStudy {
         QString config() const {return config_;}
         QString key() const;    // Generates key based on name and datetime
         // to identify study uniquely.
-        bool isPreregisterStudy() const {return config_.isEmpty();}
+        bool isPreregisterStudy() const {return isPreregisterStudy_;}
+
         // Preregistered study has no config
         // Must disallow empty configs!
-        StudyConfiguration* studyConfiguration() const {
+        StudyConfiguration* studyConfiguration() const { 
             return studyConfiguration_;}
 
         // file related members
@@ -200,6 +201,7 @@ namespace EpStudy {
         bool ischemia_;
         QString config_;    // this will eventually be a class probably
         QString path_;      // full path to study directory
+        bool isPreregisterStudy_;
 
         mutable QString key_;   // unique key for each study
         EpPatient::Heart* heart_;

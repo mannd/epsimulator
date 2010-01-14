@@ -33,6 +33,9 @@ namespace EpPatient {
 class Heart{
 
 public:
+    friend QDataStream& operator<<(QDataStream&, const Heart&);
+    friend QDataStream& operator>>(QDataStream&, Heart&);
+
     Heart(QString name = DEFAULT_HEART);
     Heart (const Heart& heart);
     ~Heart();

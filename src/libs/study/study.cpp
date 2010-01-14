@@ -108,8 +108,10 @@ namespace EpStudy {
     ef_(DEFAULT_EF),
     ischemia_(false),
     config_(), path_(),
-    studyConfiguration_(0) {
+    isPreregisterStudy_(true),
+    studyConfiguration_(0){
         heart_ = new Heart;
+        /// TODO this should be initialized later
         studyConfiguration_ = new StudyConfiguration;
         testInvariant();
     }
@@ -139,6 +141,14 @@ namespace EpStudy {
 
     void Study::save() {
         EpCore::saveData(filePath(), MagicNumber, *this);
+    }
+
+    void Study::setPreregisterStudy(bool state) {
+        isPreregisterStudy_ = state;
+        if (isPreregisterStudy_) {
+            delete studyConfiguration_;
+            studyConfiguration_ = 0;
+        }
     }
 
     void Study::setStudyConfiguration(const StudyConfiguration& studyConfiguration) {
@@ -233,6 +243,7 @@ namespace EpStudy {
         config_ = study.config_;
         path_ = study.path_;
         key_ = study.key_;
+        isPreregisterStudy_ = study.isPreregisterStudy_;
         // copy the heart pointer
         heart_ = new Heart(*study.heart_);
         studyConfiguration_ = new StudyConfiguration(*study.studyConfiguration_);
@@ -248,8 +259,9 @@ namespace EpStudy {
                 << study.heightIn_<< study.weightLbs_ << study.bsa_
                 << (qint32)study.bsaManualEdit_ << (qint32)study.vagalTone_
                 << (qint32)study.sympatheticTone_ << (qint32)study.ef_
-                << (qint32)study.ischemia_ << study.path_ << study.key_;
-        ///TODO need to add heart to this
+                << (qint32)study.ischemia_ << study.path_ << study.key_
+                << study.isPreregisterStudy_
+                << *study.heart_ << *study.studyConfiguration_;
         return out;
     }
 
@@ -262,7 +274,9 @@ namespace EpStudy {
                 >> sex >> study.height_ >> study.weight_ >> study.heightIn_
                 >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
                 >> vagalTone >> sympatheticTone >> ef
-                >> ischemia >> study.path_ >> study.key_;
+                >> ischemia >> study.path_ >> study.key_
+                >> study.isPreregisterStudy_
+                >> *study.heart_ >> *study.studyConfiguration_;
         ///TODO need to add heart to this
         study.sex_ = (sex != 0) ? Female : Male;
         study.bsaManualEdit_ = bsaManualEdit;

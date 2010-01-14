@@ -286,10 +286,11 @@ void TestEpSimulator::testStudyLoadSave() {
 void TestEpSimulator::testIsPreregisterStudy() {
     Study s;
     QVERIFY(s.isPreregisterStudy());
-    QVERIFY(s.config().isEmpty());
-    s.setConfig("Default");
-    QVERIFY(!s.isPreregisterStudy());
-};
+    // below is no longer desired behavior
+    //QVERIFY(s.config().isEmpty());
+    //s.setConfig("Default");
+    //QVERIFY(!s.isPreregisterStudy());
+}
 
 void TestEpSimulator::testEF() {
     Study s;

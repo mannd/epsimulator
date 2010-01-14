@@ -204,6 +204,23 @@ typedef QList<StudyConfiguration> StudyConfigList;
 StudyConfigList readStudyConfigurations();
 void writeStudyConfigurations(StudyConfigList);
 
+class StudyConfigurations {
+public:
+    StudyConfigurations();
+
+    void add(StudyConfiguration config);
+    bool isPresent(const QString& name) const;
+    void remove(StudyConfiguration config);
+    int size() const {return configList_.size();}
+    StudyConfiguration* studyConfiguration(const QString& name);
+
+private:
+    typedef QList<StudyConfiguration> StudyConfigurationList;
+    StudyConfigurationList configList_;
+};
+
 }
+
+
 
 #endif

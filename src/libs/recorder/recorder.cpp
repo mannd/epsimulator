@@ -33,9 +33,9 @@
 #include "reviewwindow.h"
 #include "satmonitor.h"
 #include "stimulator.h"
-#include "teststimulator.h"
 #include "study.h"
 #include "studyconfiguration.h"
+#include "teststimulator.h"
 #include "user.h"
 
 #include <QAction>
@@ -144,8 +144,10 @@ Recorder::Recorder(QWidget* parent,
     // /* connect signals and slots that only affect Secondary window */
     // }
 
+    /// FIXME this is bad! This is probably why initial screen doesn't
+    /// work because you are updating in the constructor!!!!!!!!!!
     updateAll();
-    study_->loadStudyConfiguration();
+    //study_->loadStudyConfiguration();
 }
 
 Recorder::~Recorder() {
@@ -354,7 +356,7 @@ void Recorder::updateWindowTitle() {
 }
 
 void Recorder::updateAll() {
-    updateMenus();
+    //updateMenus();
     updateWindowTitle();
     updateSimulatorSettings();
 }
@@ -371,6 +373,10 @@ void Recorder::patientInformation() {
     }
     delete patientDialog;
     emit patientInformationClosed();
+}
+
+void Recorder::openStudyInformation(int /* tab */) {
+
 }
 
 void Recorder::updateSystemSettings() {
@@ -390,7 +396,7 @@ void Recorder::updateSimulatorSettings() {
             | QDockWidget::DockWidgetMovable 
             | QDockWidget::DockWidgetFloatable);
     updateMenus();
-    setupInitialScreen(true);
+    //setupInitialScreen(true);
     // signal update simulator settings in Navigator
     emit simulatorSettingsChanged();
 }
@@ -618,7 +624,7 @@ void Recorder::createActions() {
         tr("Create and modify patient information"),
         SLOT(patientInformation()));    
     consciousSedationAction_ = createAction(this, tr("Conscious Sedation"),
-        tr("Conscious sedation list"), 0, tr("Alt+A"));
+        tr("Conscious sedation list"), SLOT(studyInformation()), tr("Alt+A"));
     complicationsAction_ = createAction(this, tr("Complications"), 
         tr("Complications list"), 0, tr("Alt+M"));
     radiologyAction_ = createAction(this, tr("Radiology"), 
@@ -973,6 +979,7 @@ void Recorder::saveStudyConfiguration() {
         }
     configList.append(*study_->studyConfiguration());
     writeStudyConfigurations(configList);
+    study_->save();
 }
 
 void Recorder::saveAsStudyConfiguration() {
@@ -999,6 +1006,7 @@ void Recorder::saveAsStudyConfiguration() {
         study_->studyConfiguration()->setName(text);
         configList.append(*study_->studyConfiguration());
         writeStudyConfigurations(configList);
+        study_->save();
     }
 }
 

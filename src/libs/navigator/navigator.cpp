@@ -148,6 +148,7 @@ void Navigator::newStudy() {
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
             QString configName = selectStudyConfigDialog->config().name();
             study->setConfig(configName);
+            study->setPreregisterStudy(false);
             StudyConfigList configList = readStudyConfigurations();
             for (int i = 0; i < configList.size(); ++i)
                 if (configList.at(i).name() == configName) {
@@ -217,7 +218,7 @@ void Navigator::reviewStudy() {
 
 void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
-    study->makePreregisterStudy();
+    study->setPreregisterStudy(true);
     if (getStudyInformation(study)) {
         catalogs_->addStudy(study);
         refreshCatalogs();
@@ -1053,7 +1054,7 @@ void Navigator::startStudy(Study* study, bool review) {
     Recorder* recorder = new Recorder(this, study, currentDisk_, user_, 
         allowAcquisition);
     recorder->restore();
-    recorder->setupInitialScreen();
+    //recorder->setupInitialScreen();
     connect(recorder, SIGNAL(simulatorSettingsChanged()),
             this, SLOT(updateSimulatorSettings()));
     connect(recorder, SIGNAL(systemSettingsChanged()),

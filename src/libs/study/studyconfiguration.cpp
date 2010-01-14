@@ -157,4 +157,29 @@ void writeStudyConfigurations(StudyConfigList configList) {
                            configList, EpCore::Options::instance());
 }
 
+StudyConfigurations::StudyConfigurations() {
+    configList_ = readStudyConfigurations();
+}
+
+void StudyConfigurations::add(StudyConfiguration /* config */) {
+
+}
+
+bool StudyConfigurations::isPresent(const QString& name) const {
+    for (int i = 0; i < size(); ++i) {
+        if (configList_.at(i).name() == name)
+            return true;
+    }
+    return false;
+}
+
+StudyConfiguration* StudyConfigurations::
+        studyConfiguration(const QString& name) {
+    for (int i = 0; i < size(); ++i) {
+        if (configList_.at(i).name() == name)
+            return new StudyConfiguration(configList_.at(i));
+    }
+    return 0;
+}
+
 }
