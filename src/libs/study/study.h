@@ -104,8 +104,7 @@ namespace EpStudy {
         void resetKey() {key_ = QString();}
         void load();        // load study.dat file
         void save();        // save study.dat file
-        // preregistered study has no config info
-        void setPreregisterStudy(bool state);
+        void setPreregisterStudy(bool);
 
         void loadStudyConfiguration();
         void saveStudyConfiguration();
@@ -130,7 +129,6 @@ namespace EpStudy {
         void setVagalTone(AutonomicTone tone);
         void setSympatheticTone(AutonomicTone tone);
         void setPath(const QString& path) {path_ = path;}
-        void setConfig(const QString& config) {config_ = config;}
         void setStudyConfiguration(const StudyConfiguration&);
 
         Name name() const {return name_;};
@@ -150,13 +148,9 @@ namespace EpStudy {
         AutonomicTone vagalTone() const {return vagalTone_;}
         AutonomicTone sympatheticTone() const {return sympatheticTone_;}
         QDateTime dateTime() const {return dateTime_;}
-        QString config() const {return config_;}
         QString key() const;    // Generates key based on name and datetime
         // to identify study uniquely.
         bool isPreregisterStudy() const {return isPreregisterStudy_;}
-
-        // Preregistered study has no config
-        // Must disallow empty configs!
         StudyConfiguration* studyConfiguration() const { 
             return studyConfiguration_;}
 
@@ -199,7 +193,6 @@ namespace EpStudy {
         AutonomicTone sympatheticTone_;
         int ef_;
         bool ischemia_;
-        QString config_;    // this will eventually be a class probably
         QString path_;      // full path to study directory
         bool isPreregisterStudy_;
 

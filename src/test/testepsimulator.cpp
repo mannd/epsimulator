@@ -286,10 +286,6 @@ void TestEpSimulator::testStudyLoadSave() {
 void TestEpSimulator::testIsPreregisterStudy() {
     Study s;
     QVERIFY(s.isPreregisterStudy());
-    // below is no longer desired behavior
-    //QVERIFY(s.config().isEmpty());
-    //s.setConfig("Default");
-    //QVERIFY(!s.isPreregisterStudy());
 }
 
 void TestEpSimulator::testEF() {
@@ -666,19 +662,18 @@ void TestEpSimulator::testAmplifier() {
 }
 
 void TestEpSimulator::testStudyConfigurations() {
-    StudyConfigList list = readStudyConfigurations();
+    StudyConfigurations list;
     QVERIFY(list.size() >= 1);
     for (int i = 0; i < list.size(); ++i)
-        if (list.at(i).name() == tr("<default>")) {
-            QVERIFY(list.at(i).amplifier()->channel(1)->label() == tr("I"));
-            QVERIFY(list.at(i).amplifier()->numChannels()
+        if (list[i].name() == tr("<default>")) {
+            QVERIFY(list[i].amplifier()->channel(1)->label() == tr("I"));
+            QVERIFY(list[i].amplifier()->numChannels()
                 == Options::instance()->numChannels);
         }
     StudyConfiguration config;
     config.setName("testing123");
     Study s;
     s.setStudyConfiguration(config);
-    QVERIFY(s.config() == "testing123");
     QVERIFY(s.studyConfiguration()->name() == "testing123");
 }
 

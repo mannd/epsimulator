@@ -70,9 +70,7 @@ using EpCore::VersionInfo;
 using EpGui::PatientDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
-using EpStudy::StudyConfigList;
-using EpStudy::readStudyConfigurations;
-using EpStudy::writeStudyConfigurations;
+using EpStudy::StudyConfigurations;
 using EpNavigator::Navigator;
 using EpNavigator::StatusBar;
 
@@ -146,15 +144,13 @@ void Navigator::newStudy() {
         SelectStudyConfigDialog* selectStudyConfigDialog  =
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
-            QString configName = selectStudyConfigDialog->config().name();
-            study->setConfig(configName);
+            const QString configName =
+                    selectStudyConfigDialog->config().name();
             study->setPreregisterStudy(false);
-            StudyConfigList configList = readStudyConfigurations();
-            for (int i = 0; i < configList.size(); ++i)
-                if (configList.at(i).name() == configName) {
-                    study->setStudyConfiguration(configList.at(i));
-                    break;
-                }
+            StudyConfigurations configList;
+            if (configList.isPresent(configName))
+                study->setStudyConfiguration(
+                        *configList.studyConfiguration(configName));
           if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),
@@ -185,7 +181,8 @@ void Navigator::continueStudy() {
         SelectStudyConfigDialog* selectStudyConfigDialog  = 
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
-            study->setConfig(selectStudyConfigDialog->config().name());
+            study->setStudyConfiguration(
+                    selectStudyConfigDialog->config());
             catalogs_->deleteStudy(study);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),

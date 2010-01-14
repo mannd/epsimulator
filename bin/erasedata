@@ -11,8 +11,7 @@ if [ "${dirname:0:1}" != "/" ]; then
 fi
 echo $dirname
 
-rm -i -f ~/.config/EPStudios/EPSimulator.conf
-exit
+rm -i -f ~/.config/EP\ Studios/EPSimulator.conf
 rm -fr ~/MyStudies/*
 rm -f $dirname/../src/test/catalog.dat
 rm -f $dirname/../System/catalog.dat

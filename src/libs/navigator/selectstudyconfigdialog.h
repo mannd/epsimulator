@@ -43,7 +43,7 @@ private slots:
     void enableOkButton();
 
 private:
-    EpStudy::StudyConfigList configList_;
+    EpStudy::StudyConfigurations configList_;
 
 };
 

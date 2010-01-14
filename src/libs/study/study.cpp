@@ -107,11 +107,9 @@ namespace EpStudy {
     sympatheticTone_(DEFAULT_SYMPATHETIC_TONE),
     ef_(DEFAULT_EF),
     ischemia_(false),
-    config_(), path_(),
-    isPreregisterStudy_(true),
-    studyConfiguration_(0){
+    path_(),
+    isPreregisterStudy_(true) {
         heart_ = new Heart;
-        /// TODO this should be initialized later
         studyConfiguration_ = new StudyConfiguration;
         testInvariant();
     }
@@ -145,19 +143,12 @@ namespace EpStudy {
 
     void Study::setPreregisterStudy(bool state) {
         isPreregisterStudy_ = state;
-        if (isPreregisterStudy_) {
-            delete studyConfiguration_;
-            studyConfiguration_ = 0;
-        }
     }
 
     void Study::setStudyConfiguration(const StudyConfiguration& studyConfiguration) {
         delete studyConfiguration_;
         studyConfiguration_ = new StudyConfiguration;
         *studyConfiguration_ = studyConfiguration;
-        // make sure the older config_ variable is set right
-        /// TODO will get rid of config_
-        config_ = studyConfiguration.name();
     }
 
     void Study::loadStudyConfiguration() {
@@ -240,7 +231,6 @@ namespace EpStudy {
         sympatheticTone_ = study.sympatheticTone_;
         ef_ = study.ef_;
         ischemia_ = study.ischemia_;
-        config_ = study.config_;
         path_ = study.path_;
         key_ = study.key_;
         isPreregisterStudy_ = study.isPreregisterStudy_;
@@ -254,8 +244,9 @@ namespace EpStudy {
     QDataStream& operator<<(QDataStream& out, const Study& study) {
         out << study.dateTime_ << study.number_ << study.name_
                 << study.mrn_ << study.accountNumber_
-                << study.dateOfBirth_ << study.config_
-                << (qint32)study.sex_ << study.height_ << study.weight_
+                << study.dateOfBirth_
+                << (qint32)study.sex_
+                << study.height_ << study.weight_
                 << study.heightIn_<< study.weightLbs_ << study.bsa_
                 << (qint32)study.bsaManualEdit_ << (qint32)study.vagalTone_
                 << (qint32)study.sympatheticTone_ << (qint32)study.ef_
@@ -270,8 +261,9 @@ namespace EpStudy {
         qint32 sex, bsaManualEdit, vagalTone, sympatheticTone, ef, ischemia;
         in >> study.dateTime_ >> study.number_ >> study.name_
                 >> study.mrn_ >> study.accountNumber_
-                >> study.dateOfBirth_ >> study.config_
-                >> sex >> study.height_ >> study.weight_ >> study.heightIn_
+                >> study.dateOfBirth_
+                >> sex >> study.height_
+                >> study.weight_ >> study.heightIn_
                 >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
                 >> vagalTone >> sympatheticTone >> ef
                 >> ischemia >> study.path_ >> study.key_
