@@ -33,14 +33,16 @@
 #include "reviewwindow.h"
 #include "satmonitor.h"
 #include "stimulator.h"
-#include "teststimulator.h"
 #include "study.h"
+#include "studyconfiguration.h"
+#include "teststimulator.h"
 #include "user.h"
 
 #include <QAction>
 #include <QComboBox>
 #include <QDesktopWidget>
 #include <QDockWidget>
+#include <QInputDialog>
 #include <QLabel>
 #include <QMainWindow>
 #include <QMessageBox>
@@ -63,6 +65,8 @@ using EpGui::PatientDialog;
 using EpPatient::Patient;
 using EpRecorder::Recorder;
 using EpStudy::Study;
+using EpStudy::StudyConfiguration;
+using EpStudy::StudyConfigurations;
 
 using namespace EpHardware;
 using namespace EpHardware::EpAmplifier;
@@ -138,8 +142,10 @@ Recorder::Recorder(QWidget* parent,
     // /* connect signals and slots that only affect Secondary window */
     // }
 
+    /// FIXME this is bad! This is probably why initial screen doesn't
+    /// work because you are updating in the constructor!!!!!!!!!!
     updateAll();
-    study_->loadStudyConfiguration();
+    //study_->loadStudyConfiguration();
 }
 
 Recorder::~Recorder() {
@@ -348,7 +354,7 @@ void Recorder::updateWindowTitle() {
 }
 
 void Recorder::updateAll() {
-    updateMenus();
+    //updateMenus();
     updateWindowTitle();
     updateSimulatorSettings();
 }
@@ -365,6 +371,10 @@ void Recorder::patientInformation() {
     }
     delete patientDialog;
     emit patientInformationClosed();
+}
+
+void Recorder::openStudyInformation(int /* tab */) {
+
 }
 
 void Recorder::updateSystemSettings() {
@@ -384,7 +394,7 @@ void Recorder::updateSimulatorSettings() {
             | QDockWidget::DockWidgetMovable 
             | QDockWidget::DockWidgetFloatable);
     updateMenus();
-    setupInitialScreen(true);
+    //setupInitialScreen(true);
     // signal update simulator settings in Navigator
     emit simulatorSettingsChanged();
 }
@@ -612,7 +622,7 @@ void Recorder::createActions() {
         tr("Create and modify patient information"),
         SLOT(patientInformation()));    
     consciousSedationAction_ = createAction(this, tr("Conscious Sedation"),
-        tr("Conscious sedation list"), 0, tr("Alt+A"));
+        tr("Conscious sedation list"), SLOT(studyInformation()), tr("Alt+A"));
     complicationsAction_ = createAction(this, tr("Complications"), 
         tr("Complications list"), 0, tr("Alt+M"));
     radiologyAction_ = createAction(this, tr("Radiology"), 
@@ -641,9 +651,10 @@ void Recorder::createActions() {
         tr("Switch study configuration"), 0, 
         0, "hi32-switchwindowsettings.png");
     saveAction_ = createAction(this, tr("Save"),
-        tr("Save study configuration"));
+        tr("Save study configuration"), SLOT(saveStudyConfiguration()));
     saveAsAction_ = createAction(this, tr("Save As..."), 
-        tr("Save study configuration under different name"));
+        tr("Save study configuration under different name"),
+        SLOT(saveAsStudyConfiguration()));
     intervalsAction_ = createAction(this, tr("Intervals"), 
         tr("Configure study intervals"));
     columnFormatsAction_ = createAction(this, tr("Column Formats"), 
@@ -947,5 +958,48 @@ void Recorder::updateMenus() {
     tileAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
     cascadeAction_->setVisible(!options_->screenFlags.testFlag
                               (Options::EmulateWindowsManager));
+}
+
+void Recorder::saveStudyConfiguration() {
+    if (!administrationAllowed())
+        return;
+    QString configName = study_->studyConfiguration()->name();
+    if (configName.isEmpty()) {
+        saveAsStudyConfiguration();
+        return;
+    }
+    StudyConfigurations configList;
+    configList.replace(*study_->studyConfiguration());
+    study_->save();
+}
+
+void Recorder::saveAsStudyConfiguration() {
+    if (!administrationAllowed())
+        return;
+    QString configName = study_->studyConfiguration()->name();
+    StudyConfigurations configList;
+    bool ok;
+    QString text =
+            QInputDialog::getText(this,
+                                  tr("Enter Study Configuration Name"),
+                                  tr("Study configuration name:"),
+                                  QLineEdit::Normal,
+                                  configName, &ok);
+    if (ok && !text.isEmpty()) {
+        // search for duplicate study configuration name
+        if (configList.isPresent(text)) {
+            int result =
+                    QMessageBox::warning(this,
+                                         tr("Duplicate Study Configuration Name"),
+                                         tr("Study configuration name already exists.  Overwrite?"));
+            if (result != QMessageBox::Ok)
+                return;
+            // remove study configuration with the same name
+            configList.remove(text);
+        }
+        study_->studyConfiguration()->setName(text);
+        configList.add(*study_->studyConfiguration());
+        study_->save();
+    }
 }
 

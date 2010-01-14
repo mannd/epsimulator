@@ -138,23 +138,81 @@ void StudyConfiguration::copyStudyConfiguration(const StudyConfiguration& rhs) {
     amplifier_ = new Amplifier(*rhs.amplifier_);
 }
 
-StudyConfigList readStudyConfigurations() {
-    StudyConfigList configList;
-    EpCore::loadSystemData(StudyConfiguration::MagicNumber, 
-                           StudyConfiguration::configFileName(), 
-                           configList, EpCore::Options::instance());
-    if (configList.isEmpty()) {
-        StudyConfiguration config;
-        configList.append(config);
-        writeStudyConfigurations(configList);
-    }
-    return configList;
+StudyConfigurations::StudyConfigurations() {
+    readStudyConfigurations();
 }
 
-void writeStudyConfigurations(StudyConfigList configList) {
-    EpCore::saveSystemData(StudyConfiguration::MagicNumber, 
-                           StudyConfiguration::configFileName(), 
-                           configList, EpCore::Options::instance());
+void StudyConfigurations::readStudyConfigurations() {
+    EpCore::loadSystemData(StudyConfiguration::MagicNumber,
+                           StudyConfiguration::configFileName(),
+                           configList_, EpCore::Options::instance());
+    if (configList_.isEmpty()) {
+        StudyConfiguration config;
+        configList_.append(config);
+        writeStudyConfigurations();
+    }
+}
+
+void StudyConfigurations::writeStudyConfigurations() {
+    EpCore::saveSystemData(StudyConfiguration::MagicNumber,
+                           StudyConfiguration::configFileName(),
+                           configList_, EpCore::Options::instance());
+}
+
+const StudyConfiguration& StudyConfigurations::operator [](int i) const {
+    return configList_[i];
+}
+
+void StudyConfigurations::add(StudyConfiguration config) {
+    // check for duplicates first, only adds if no duplicates,
+    // otherwise does nothing.
+    if (isPresent(config.name()))
+        return;
+    configList_.append(config);
+    writeStudyConfigurations();
+}
+
+void StudyConfigurations::replace(StudyConfiguration config) {
+    // remove study configuration with same name
+    bool found = false;
+    for (int i = 0; i < size(); ++i)
+        if (configList_.at(i).name() == config.name()) {
+            configList_.replace(i, config);
+            found = true;
+            break;
+        }
+    if (!found)
+        configList_.append(config);
+    writeStudyConfigurations();
+}
+
+void StudyConfigurations::remove(const QString& name) {
+    bool found = false;
+    for (int i = 0; i < size(); ++i)
+        if (configList_.at(i).name() == name) {
+            configList_.removeAt(i);
+            found = true;
+            break;
+        }
+    if (found)
+        writeStudyConfigurations();
+}
+
+bool StudyConfigurations::isPresent(const QString& name) const {
+    for (int i = 0; i < size(); ++i) {
+        if (configList_.at(i).name() == name)
+            return true;
+    }
+    return false;
+}
+
+StudyConfiguration* StudyConfigurations::
+        studyConfiguration(const QString& name) {
+    for (int i = 0; i < size(); ++i) {
+        if (configList_.at(i).name() == name)
+            return new StudyConfiguration(configList_.at(i));
+    }
+    return 0;
 }
 
 }

@@ -26,6 +26,8 @@
 
 #include <QtDebug>
 
+using EpStudy::StudyConfigurations;
+
 SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     : QDialog(parent) {
     setupUi(this);
@@ -38,9 +40,11 @@ SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     connect(configListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
         this, SLOT(accept()));
 
-    configList_ = EpStudy::readStudyConfigurations();
+    configListWidget->setSortingEnabled(true);
+
+    StudyConfigurations configList_;
     for (int i = 0; i < configList_.size(); ++i)
-        new QListWidgetItem(configList_.at(i).name(), configListWidget);
+        new QListWidgetItem(configList_[i].name(), configListWidget);
 }
 
 SelectStudyConfigDialog::~SelectStudyConfigDialog() {}

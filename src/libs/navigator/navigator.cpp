@@ -73,6 +73,7 @@ using EpCore::VersionInfo;
 using EpGui::PatientDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
+using EpStudy::StudyConfigurations;
 using EpNavigator::Navigator;
 using EpNavigator::StatusBar;
 
@@ -146,8 +147,14 @@ void Navigator::newStudy() {
         SelectStudyConfigDialog* selectStudyConfigDialog  =
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
-            study->setConfig(selectStudyConfigDialog->config().name());
-            if (getStudyInformation(study)) {
+            const QString configName =
+                    selectStudyConfigDialog->config().name();
+            study->setPreregisterStudy(false);
+            StudyConfigurations configList;
+            if (configList.isPresent(configName))
+                study->setStudyConfiguration(
+                        *configList.studyConfiguration(configName));
+          if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),
                                     options_->labName, user_->machineName());
@@ -177,7 +184,8 @@ void Navigator::continueStudy() {
         SelectStudyConfigDialog* selectStudyConfigDialog  = 
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
-            study->setConfig(selectStudyConfigDialog->config().name());
+            study->setStudyConfiguration(
+                    selectStudyConfigDialog->config());
             catalogs_->deleteStudy(study);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),
@@ -210,7 +218,7 @@ void Navigator::reviewStudy() {
 
 void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
-    study->makePreregisterStudy();
+    study->setPreregisterStudy(true);
     if (getStudyInformation(study)) {
         catalogs_->addStudy(study);
         refreshCatalogs();
@@ -1065,7 +1073,7 @@ void Navigator::startStudy(Study* study, bool review) {
     Recorder* recorder = new Recorder(this, study, currentDisk_, user_, 
         allowAcquisition);
     recorder->restore();
-    recorder->setupInitialScreen();
+    //recorder->setupInitialScreen();
     connect(recorder, SIGNAL(simulatorSettingsChanged()),
             this, SLOT(updateSimulatorSettings()));
     connect(recorder, SIGNAL(systemSettingsChanged()),

@@ -54,8 +54,8 @@ protected:
                      bool lastButton);
 
 private:
-    static const int buttonHeight = 60;
-    static const int buttonWidth = 70;   // size of square buttons in blue panel
+    static const int buttonHeight_ = 60;
+    static const int buttonWidth_ = 70;   // size of square buttons in blue panel
 
     QGridLayout* buttonFrameLayout_;
 

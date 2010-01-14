@@ -23,6 +23,7 @@
 #include "catalog.h"
 #include "error.h"
 #include "study.h"
+#include "studyconfiguration.h"
 
 #include <QFile>
 #include <QHeaderView>
@@ -35,6 +36,7 @@
 
 using EpNavigator::TableListView;
 using EpStudy::Study;
+using EpStudy::StudyConfiguration;
 
 /**
  * Constructor for TableListViewItem subclass of Navigator
@@ -165,7 +167,9 @@ void TableListView::addStudy(const Study& study, const QString& location) {
         t->setText(MRNCol, study.mrn());
         t->setText(DateTimeCol, 
             study.dateTime().toString("yyyy/MM/dd hh:mm:ss"));
-        t->setText(ConfigCol, study.config());
+        t->setText(ConfigCol,
+                   study.isPreregisterStudy() ?
+                   QString() : study.studyConfiguration()->name());
         t->setText(NumberCol, study.number());
         t->setText(LocationCol, location); 
         // for debugging show study key 

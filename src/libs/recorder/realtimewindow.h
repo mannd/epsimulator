@@ -40,7 +40,8 @@ namespace EpRecorder {
         Q_OBJECT
     public:
         ColorButton(QColor activeColor, QWidget* parent=0);
-        bool activated() {return activated_;}
+        bool activated() const {return activated_;}
+        void setActivated(bool activated=true);
     public slots:
         void changeState();
     private:

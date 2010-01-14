@@ -112,11 +112,15 @@ private slots:
     virtual void updateSystemSettings();
 
     void patientInformation();
+    void openStudyInformation(int tabnumber);
     void openStimulator();
     void openSatMonitor();
     void setManualSave(bool);
     void setEmergencySave(bool);
     void updateMenus();
+
+    void saveStudyConfiguration();
+    void saveAsStudyConfiguration();
 
     void realTimeWindowOpen(bool);
     void review1WindowOpen(bool);
