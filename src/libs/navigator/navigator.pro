@@ -1,21 +1,14 @@
 include(../../epsimulatorlibrary.pri)
-
 TEMPLATE = lib
-
 TARGET = navigator
-
-FORMS += \
-    ui/filtercatalogdialog.ui \
+FORMS += ui/filtercatalogdialog.ui \
     ui/disklabeldialog.ui \
     ui/selectstudyconfigdialog.ui \
+    ui/editstudyconfigsdialog.ui \
     ui/movecopystudydialog.ui
-
-TRANSLATIONS += \
-    epsimulator_de.ts \
+TRANSLATIONS += epsimulator_de.ts \
     epsimulator_fr.ts
-
-HEADERS += \
-    navigator.h \
+HEADERS += navigator.h \
     catalogcombobox.h \
     catalog.h \
     tablelistview.h \
@@ -24,10 +17,9 @@ HEADERS += \
     statusbar.h \
     selectstudyconfigdialog.h \
     filtercatalogdialog.h \
-    movecopystudydialog.h
-
-SOURCES += \
-    navigator.cpp \
+    movecopystudydialog.h \
+    editstudyconfigsdialog.h
+SOURCES += navigator.cpp \
     catalogcombobox.cpp \
     catalog.cpp \
     tablelistview.cpp \
@@ -36,18 +28,15 @@ SOURCES += \
     statusbar.cpp \
     selectstudyconfigdialog.cpp \
     filtercatalogdialog.cpp \
-    movecopystudydialog.cpp
-
-INCLUDEPATH += \
-    ../gui \
+    movecopystudydialog.cpp \
+    editstudyconfigsdialog.cpp
+INCLUDEPATH += ../gui \
     ../recorder \
     ../patient \
     ../core \
     ../hardware \
     ../study
-
-LIBS += \
-    -lcore \
+LIBS += -lcore \
     -lpatient \
     -lgui \
     -lhardware \

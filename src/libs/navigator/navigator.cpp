@@ -39,6 +39,7 @@
 #include "patientdialog.h"
 #include "recorder.h"
 #include "selectstudyconfigdialog.h"
+#include "editstudyconfigsdialog.h"
 #include "statusbar.h"
 #include "study.h"
 #include "studyconfiguration.h"
@@ -71,7 +72,9 @@ using EpGui::PatientDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyConfigurations;
+using EpNavigator::EditStudyConfigsDialog;
 using EpNavigator::Navigator;
+using EpNavigator::SelectStudyConfigDialog;
 using EpNavigator::StatusBar;
 
 using namespace EpHardware::EpOpticalDisk;
@@ -558,8 +561,10 @@ void Navigator::setProtocols() {
 }
 
 void Navigator::setStudyConfigurations() {
-    if (administrationAllowed())
-        filler();
+    if (administrationAllowed()) {
+        EditStudyConfigsDialog d(this);
+        d.exec();
+    }
 }
 
 void Navigator::setCatalog(Catalog::Source source) {
@@ -861,10 +866,6 @@ void Navigator::createActions() {
         tr("Protocols"), SLOT(setProtocols()));
     studyConfigurationsAction_= createAction(this, tr("Study Configurations"),
         tr("Study configurations"), SLOT(setStudyConfigurations()));
-//     systemSettingsAction_= createAction(this, tr("System Settings"),
-//         tr("Change system settings"), SLOT(systemSettings()));
-//     simulatorSettingsAction_ = createAction(this, tr("*Simulator Settings*"),
-//         tr("Change simulator settings"), SLOT(simulatorSettings()));
 
     // Help menu -- in AbstractMainWindow
 }
