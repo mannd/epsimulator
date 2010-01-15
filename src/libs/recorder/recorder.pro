@@ -7,7 +7,6 @@ SOURCES += recorder.cpp \
     displaywindow.cpp \
     reviewwindow.cpp \
     logwindow.cpp \
-    studyconfigurationdialog.cpp \
     signalwidget.cpp
 HEADERS += recorder.h \
     patientstatusbar.h \
@@ -16,7 +15,6 @@ HEADERS += recorder.h \
     reviewwindow.h \
     logwindow.h \
     recorderdefs.h \
-    studyconfigurationdialog.h \
     signalwidget.h
 INCLUDEPATH += ../gui \
     ../stimulator \
@@ -24,8 +22,7 @@ INCLUDEPATH += ../gui \
     ../core \
     ../hardware \
     ../study
-FORMS += ui/patientstatusbar.ui \
-    ui/studyconfigurationdialog.ui
+FORMS += ui/patientstatusbar.ui
 LIBS += -L../../lib \
     -lcore \
     -lpatient \

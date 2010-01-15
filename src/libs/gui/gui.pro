@@ -17,7 +17,8 @@ SOURCES += \
     systemdialog.cpp \
     passworddialog.cpp \
     actions.cpp \
-    abstractmainwindow.cpp
+    abstractmainwindow.cpp \
+    studyconfigurationdialog.cpp
 
 HEADERS += \
     simulatorsettingsdialog.h \
@@ -26,14 +27,16 @@ HEADERS += \
     systemdialog.h \
     passworddialog.h \
     actions.h \
-    abstractmainwindow.h
+    abstractmainwindow.h \
+    studyconfigurationdialog.h
 
 FORMS += \
     ui/simulatorsettingsdialog.ui \
     ui/patientdialog.ui \
     ui/changepassworddialog.ui \
     ui/systemdialog.ui \
-    ui/passworddialog.ui
+    ui/passworddialog.ui \
+    ui/studyconfigurationdialog.ui
 
 LIBS += \
     -lpatient \
