@@ -24,8 +24,7 @@
 #include <QListWidgetItem>
 #include <QPushButton>
 
-#include <QtDebug>
-
+using EpNavigator::SelectStudyConfigDialog;
 using EpStudy::StudyConfigurations;
 
 SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
@@ -51,5 +50,5 @@ SelectStudyConfigDialog::~SelectStudyConfigDialog() {}
 
 void SelectStudyConfigDialog::enableOkButton() {
     buttonBox->button(QDialogButtonBox::Ok)->
-        setEnabled(configListWidget->currentItem());
+        setEnabled(configListWidget->selectedItems().size() > 0);
 }

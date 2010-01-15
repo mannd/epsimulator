@@ -17,10 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SELECTSTUDYCONFIGDIALOG_H
-#define SELECTSTUDYCONFIGDIALOG_H
+#ifndef EDITSTUDYCONFIGSDIALOG_H
+#define EDITSTUDYCONFIGSDIALOG_H
 
-#include "ui_selectstudyconfigdialog.h"
+#include "ui_editstudyconfigsdialog.h"
 
 #include "studyconfiguration.h"
 
@@ -30,25 +30,31 @@ class QString;
 
 namespace EpNavigator {
 
-class SelectStudyConfigDialog: public QDialog, 
-    private Ui::SelectStudyConfigDialog {
+class EditStudyConfigsDialog: public QDialog,
+    private Ui::EditStudyConfigsDialog {
     Q_OBJECT
 
 public:
-    SelectStudyConfigDialog(QWidget *parent = 0);
-    ~SelectStudyConfigDialog();
+    EditStudyConfigsDialog(QWidget *parent = 0);
 
     EpStudy::StudyConfiguration config() const {
         return configList_[configListWidget->currentRow()];}
 
 private slots:
-    void enableOkButton();
+    //void enableOkButton();
+    void newStudyConfig();
+    void editStudyConfig();
+    void copyStudyConfig();
+    void deleteStudyConfig();
 
 private:
+    void createConfigListWidget();
+    void noSelectionError();
+
     EpStudy::StudyConfigurations configList_;
 
 };
 
 }
 
-#endif
+#endif // EDITSTUDYCONFIGSDIALOG_H

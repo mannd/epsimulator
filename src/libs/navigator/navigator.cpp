@@ -39,6 +39,7 @@
 #include "patientdialog.h"
 #include "recorder.h"
 #include "selectstudyconfigdialog.h"
+#include "editstudyconfigsdialog.h"
 #include "statusbar.h"
 #include "study.h"
 #include "studyconfiguration.h"
@@ -74,7 +75,9 @@ using EpGui::PatientDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyConfigurations;
+using EpNavigator::EditStudyConfigsDialog;
 using EpNavigator::Navigator;
+using EpNavigator::SelectStudyConfigDialog;
 using EpNavigator::StatusBar;
 
 using namespace EpHardware::EpOpticalDisk;
@@ -561,8 +564,10 @@ void Navigator::setProtocols() {
 }
 
 void Navigator::setStudyConfigurations() {
-    if (administrationAllowed())
-        filler();
+    if (administrationAllowed()) {
+        EditStudyConfigsDialog d(this);
+        d.exec();
+    }
 }
 
 void Navigator::setCatalog(Catalog::Source source) {
@@ -649,11 +654,15 @@ void Navigator::updateSystemSettings() {
         ->filePathFlags.testFlag(Options::EnableNetworkStorage));
     // optical disk, status bar and catalog might be changed 
     createOpticalDrive();
+    // Change the blue button bar if Enable Acquisition changed
+    delete centralWidget_;
+    createCentralWidget();
     delete catalogs_;
     createCatalogs();
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_
         ->currentCatalog()->path());
+    updateMenus();
 }
 
 void Navigator::testWidget() {
@@ -749,14 +758,17 @@ void Navigator::createButtonFrame() {
         buttonFrame_ = new NewStyleButtonFrame(centralWidget_);
     else
         buttonFrame_ = new OldStyleButtonFrame(centralWidget_);
-    buttonFrame_->addButton("New Study", "hi64-newstudy",
-        SLOT(newStudy()));
-    buttonFrame_->addButton("Continue Study", "hi64-continuestudy",
+    if (options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
+        buttonFrame_->addButton("New Study", "hi64-newstudy",
+            SLOT(newStudy()));
+        buttonFrame_->addButton("Continue Study", "hi64-continuestudy",
         SLOT(continueStudy()));
+    }
     buttonFrame_->addButton("Review Study", "hi64-reviewstudy",
         SLOT(reviewStudy()));
-    buttonFrame_->addButton("Pre-Register", "hi64-preregister",
-        SLOT(preregisterPatient()));
+    if (options_->filePathFlags.testFlag(Options::EnableAcquisition))
+        buttonFrame_->addButton("Pre-Register", "hi64-preregister",
+            SLOT(preregisterPatient()));
     buttonFrame_->addButton("Reports", "hi64-reports", 
         SLOT(reports()), true); 
 }
@@ -781,6 +793,10 @@ void Navigator::createStatusBar() {
 
 void Navigator::updateMenus() {
     simulatorSettingsAction()->setVisible(showSimulatorSettings());
+    bool enableAcquisition = options_->filePathFlags.testFlag(Options::EnableAcquisition);
+    newAction_->setEnabled(enableAcquisition);
+    continueAction_->setEnabled(enableAcquisition);
+    preregisterAction_->setEnabled(enableAcquisition);
 }
 
 void Navigator::createActions() {
@@ -1090,8 +1106,7 @@ void Navigator::reviewStudy(Study* study) {
 
 void Navigator::reports(Study*) {
     QMessageBox::information(this, tr("Starting Report Simulation"),
-        tr("The Report simulation is not implemented yet.\n"
-           "Will return to Navigator."));
+        tr("The Report simulation is not implemented yet."));
 }
 
 /// FIXME Problem is that study key() is not fixed until the first time key() is called.
