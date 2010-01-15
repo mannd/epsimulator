@@ -93,9 +93,6 @@ private slots:
     void setColumnFormats();
     void setProtocols();
     void setStudyConfigurations();
-#ifndef NDEBUG
-    void testWidget();
-#endif
 
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
