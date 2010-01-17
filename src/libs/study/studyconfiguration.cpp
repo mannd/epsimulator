@@ -107,7 +107,8 @@ QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
 
 const QString StudyConfiguration::configFileName_ = "config.dat";
 
-StudyConfiguration::StudyConfiguration(const QString& name) : name_(name) {
+StudyConfiguration::StudyConfiguration(const QString& name) : name_(name),
+    protocolList_(), channelList_() {
     amplifier_ = new Amplifier(Options::instance()->numChannels);
 }
 

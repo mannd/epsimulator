@@ -148,7 +148,7 @@ void Navigator::newStudy() {
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
             const QString configName =
-                    selectStudyConfigDialog->config().name();
+                    selectStudyConfigDialog->config();
             study->setPreregisterStudy(false);
             StudyConfigurations configList;
             if (configList.isPresent(configName))

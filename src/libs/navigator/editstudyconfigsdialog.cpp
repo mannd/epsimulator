@@ -21,6 +21,7 @@
 #include "editstudyconfigsdialog.h"
 
 #include "studyconfiguration.h"
+#include "studyconfigurationdialog.h"
 
 #include <QInputDialog>
 #include <QList>
@@ -31,6 +32,7 @@
 using EpNavigator::EditStudyConfigsDialog;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyConfigurations;
+using EpGui::RealTimeStudyConfigurationDialog;
 
 EditStudyConfigsDialog::EditStudyConfigsDialog(QWidget *parent)
     : QDialog(parent) {
@@ -55,7 +57,36 @@ void EditStudyConfigsDialog::createConfigListWidget() {
 }
 
 void EditStudyConfigsDialog::newStudyConfig() {
+    bool ok = false;
+    QString name;
+    name =  QInputDialog::getText(this,
+                                  tr("Enter New Study Configuration Name"),
+                                  tr("Study configuration name:"),
+                                  QLineEdit::Normal,
+                                  name, &ok);
+    if (!ok || name.isEmpty())
+        return;
+    // search for duplicate study configuration name -- Not Allowed!
+    if (configList_.isPresent(name)) {
+        QMessageBox::warning(this,
+                             tr("Duplicate Study Configuration Name"),
+                             tr("Study configuration name %1 already exists. "
+                                "Select <b>Edit</b> if you wish to "
+                                "change an existing study configuration")
+                             .arg(name));
 
+        return;
+    }
+    StudyConfiguration config(name);
+    configList_.add(config);
+    RealTimeStudyConfigurationDialog d(&config, this);
+    d.exec();
+    // The study configuration dialog writes changes to disk, but
+    // doesn't affect configList_, so refresh from disk.
+    // Need to do this here because user could do a few "Save As"
+    // clicks and create more study configurations from the dialog.
+    configList_.refresh();
+    createConfigListWidget();
 }
 
 void EditStudyConfigsDialog::editStudyConfig() {
@@ -63,8 +94,16 @@ void EditStudyConfigsDialog::editStudyConfig() {
         noSelectionError();
         return;
     }
-    // what kind of study configuration is used here????
-
+    QString configName = configListWidget->currentItem()->text();
+    StudyConfiguration* config = new StudyConfiguration(
+            *configList_.studyConfiguration(configName));
+    RealTimeStudyConfigurationDialog d(config, this);
+    d.exec();
+    delete config;
+    // The study configuration dialog writes changes to disk, but
+    // doesn't affect configList_, so refresh from disk.
+    configList_.refresh();
+    createConfigListWidget();
 }
 
 void EditStudyConfigsDialog::copyStudyConfig() {
@@ -72,29 +111,38 @@ void EditStudyConfigsDialog::copyStudyConfig() {
         noSelectionError();
         return;
     }
-    QString configName = configListWidget->currentItem()->text();
+    QString originalName = configListWidget->currentItem()->text();
+    QString newName = tr("Copy of %1").arg(originalName);
     bool ok = false;
-    QString text =
+    newName =
             QInputDialog::getText(this,
                                   tr("Enter New Study Configuration Name"),
                                   tr("Study configuration name:"),
                                   QLineEdit::Normal,
-                                  configName, &ok);
-    if (ok && !text.isEmpty()) {
+                                  newName, &ok);
+    if (ok && !newName.isEmpty()) {
         // search for duplicate study configuration name -- Not Allowed!
-        if (configList_.isPresent(text)) {
+        if (configList_.isPresent(newName)) {
             QMessageBox::warning(this,
                                  tr("Duplicate Study Configuration Name"),
-                                 tr("Study configuration name already exists. "
+                                 tr("Study configuration name %1 already exists. "
                                     "Select <b>Edit</b> if you wish to "
-                                    "change an existing study configuration"));
+                                    "change an existing study configuration")
+                                 .arg(newName));
 
             return;
         }
-        StudyConfiguration config(*configList_.studyConfiguration(configName));
-        config.setName(text);
+        StudyConfiguration config(*configList_.studyConfiguration(originalName));
+        config.setName(newName);
+        // commit to keeping copy here, even if Close button used.
         configList_.add(config);
-        // edit it here
+        RealTimeStudyConfigurationDialog d(&config, this);
+        d.exec();
+        // The study configuration dialog writes changes to disk, but
+        // doesn't affect configList_, so refresh from disk.
+        // Need to do this here because user could do a few "Save As"
+        // clicks and create more study configurations from the dialog.
+        configList_.refresh();
         createConfigListWidget();
     }
 }

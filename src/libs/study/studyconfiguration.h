@@ -204,6 +204,7 @@ public:
     StudyConfigurations();
 
     const StudyConfiguration& operator[](int i) const;
+    void refresh() {readStudyConfigurations();}
 
     void add(StudyConfiguration config);
     void replace(StudyConfiguration config);

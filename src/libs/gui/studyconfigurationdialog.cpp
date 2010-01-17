@@ -46,6 +46,8 @@ StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
       model_(new QStandardItemModel), studyConfiguration_(config) {
     setupUi(this);
 
+    updateWindowTitle();
+
     connect(saveButton, SIGNAL(clicked()),
         this, SLOT(save()));
     connect(saveAsButton, SIGNAL(clicked()),
@@ -54,6 +56,11 @@ StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
 
 StudyConfigurationDialog::~StudyConfigurationDialog() {
     delete model_;
+}
+
+void StudyConfigurationDialog::updateWindowTitle() {
+    setWindowTitle(tr("Study Configuration - %1")
+                   .arg(studyConfiguration_->name()));
 }
 
 void StudyConfigurationDialog::changePage(const QModelIndex& index) {
@@ -101,6 +108,7 @@ void StudyConfigurationDialog::saveAs() {
                 }
                 studyConfiguration_->setName(text);
                 configList.add(*studyConfiguration_);
+                updateWindowTitle();
             }
         }
     else

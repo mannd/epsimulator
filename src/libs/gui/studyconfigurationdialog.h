@@ -60,6 +60,8 @@ protected slots:
     void amplifierReset();
 
 private:
+    void updateWindowTitle();
+
     QStandardItemModel* model_;
     EpStudy::StudyConfiguration* studyConfiguration_;
 };
