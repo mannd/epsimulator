@@ -963,14 +963,8 @@ void Recorder::updateMenus() {
 void Recorder::saveStudyConfiguration() {
     if (!administrationAllowed())
         return;
-    QString configName = study_->studyConfiguration()->name();
-    if (configName.isEmpty()) {
-        saveAsStudyConfiguration();
-        return;
-    }
     StudyConfigurations configList;
     configList.replace(*study_->studyConfiguration());
-    study_->save();
 }
 
 void Recorder::saveAsStudyConfiguration() {
@@ -989,9 +983,10 @@ void Recorder::saveAsStudyConfiguration() {
         // search for duplicate study configuration name
         if (configList.isPresent(text)) {
             int result =
-                    QMessageBox::warning(this,
-                                         tr("Duplicate Study Configuration Name"),
-                                         tr("Study configuration name already exists.  Overwrite?"));
+                QMessageBox::warning(this,
+                                     tr("Duplicate Study Configuration Name"),
+                                     tr("Study configuration name "
+                                        "already exists.  Overwrite?"));
             if (result != QMessageBox::Ok)
                 return;
             // remove study configuration with the same name
@@ -999,7 +994,6 @@ void Recorder::saveAsStudyConfiguration() {
         }
         study_->studyConfiguration()->setName(text);
         configList.add(*study_->studyConfiguration());
-        study_->save();
     }
 }
 

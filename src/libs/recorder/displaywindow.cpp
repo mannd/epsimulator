@@ -66,7 +66,7 @@ void SignalDisplayWindow::updateWindowTitle() {
 void SignalDisplayWindow::studyConfiguration() {
     EpGui::StudyConfigurationDialog* dialog  = studyConfigurationDialog();
     if (dialog->exec()) {
-        // do something
+        study()->saveStudyConfiguration();
     }
     delete dialog;
 }

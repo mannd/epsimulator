@@ -23,16 +23,23 @@
 #include "amplifier.h"
 #include "options.h"
 #include "studyconfiguration.h"
+#include "user.h"
 
 #include <QHeaderView>
+#include <QInputDialog>
 #include <QMessageBox>
 #include <QStandardItemModel>
+
+
 
 namespace EpGui {
 
 using EpCore::Options;
+using EpCore::User;
 using EpHardware::EpAmplifier::Amplifier;
-
+using EpStudy::StudyConfiguration;
+using EpStudy::StudyConfigurations;
+\
 StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
     QWidget* parent)
     : QDialog(parent), Ui::StudyConfigurationDialog(),
@@ -56,11 +63,50 @@ void StudyConfigurationDialog::changePage(const QModelIndex& index) {
 }
 
 void StudyConfigurationDialog::save() {
-
+    if (User::instance()->isAdministrator() ||
+        !Options::instance()->administratorAccountRequired) {
+        StudyConfigurations configList;
+        configList.replace(*studyConfiguration_);
+    }
+    else
+        QMessageBox::information(this, tr("Administrator account required"),
+                                 tr("You must be an Administrator to permanently "
+                                    "change study configurations"));
 }
 
 void StudyConfigurationDialog::saveAs() {
-
+    if (User::instance()->isAdministrator() ||
+        !Options::instance()->administratorAccountRequired) {
+            QString configName = studyConfiguration_->name();
+            StudyConfigurations configList;
+            bool ok;
+            QString text =
+                    QInputDialog::getText(this,
+                                          tr("Enter Study Configuration Name"),
+                                          tr("Study configuration name:"),
+                                          QLineEdit::Normal,
+                                          configName, &ok);
+            if (ok && !text.isEmpty()) {
+                // search for duplicate study configuration name
+                if (configList.isPresent(text)) {
+                    int result =
+                        QMessageBox::warning(this,
+                                             tr("Duplicate Study Configuration Name"),
+                                             tr("Study configuration name "
+                                                "already exists.  Overwrite?"));
+                    if (result != QMessageBox::Ok)
+                        return;
+                    // remove study configuration with the same name
+                    configList.remove(text);
+                }
+                studyConfiguration_->setName(text);
+                configList.add(*studyConfiguration_);
+            }
+        }
+    else
+        QMessageBox::information(this, tr("Administrator account required"),
+                                 tr("You must be an Administrator to permanently "
+                                    "change study configurations"));
 }
 
 void StudyConfigurationDialog::amplifierReset() {

@@ -34,14 +34,15 @@ namespace EpStudy {
 
 namespace EpGui {
 
-using EpStudy::StudyConfiguration;
+//using EpStudy::StudyConfiguration;
 
 class StudyConfigurationDialog : public QDialog, 
     protected Ui::StudyConfigurationDialog {
     Q_OBJECT
 
 public:
-    StudyConfigurationDialog(StudyConfiguration*, QWidget* parent = 0);
+    StudyConfigurationDialog(EpStudy::StudyConfiguration*,
+                             QWidget* parent = 0);
     ~StudyConfigurationDialog() = 0;
 
 public slots:
@@ -49,7 +50,8 @@ public slots:
 protected:
     void setModel(QStandardItemModel* model) {model_ = model;}
     QStandardItemModel* model() const {return model_;}
-    StudyConfiguration* studyConfiguration() {return studyConfiguration_;}
+    EpStudy::StudyConfiguration* studyConfiguration() {
+        return studyConfiguration_;}
 
 protected slots:
     void changePage(const QModelIndex&);
@@ -59,22 +61,24 @@ protected slots:
 
 private:
     QStandardItemModel* model_;
-    StudyConfiguration* studyConfiguration_;
+    EpStudy::StudyConfiguration* studyConfiguration_;
 };
 
 class RealTimeStudyConfigurationDialog : public StudyConfigurationDialog {
     Q_OBJECT
 
 public:
-    RealTimeStudyConfigurationDialog(StudyConfiguration*, QWidget* parent = 0);
+    RealTimeStudyConfigurationDialog(EpStudy::StudyConfiguration*,
+                                     QWidget* parent = 0);
 };
 
 class ReviewStudyConfigurationDialog: public StudyConfigurationDialog {
     Q_OBJECT
 
 public:
-    ReviewStudyConfigurationDialog(StudyConfiguration*, 
-                                   QWidget* parent = 0, int windowNum = 1);
+    ReviewStudyConfigurationDialog(EpStudy::StudyConfiguration*,
+                                   QWidget* parent = 0,
+                                   int windowNum = 1);
 };
 
 }
