@@ -622,7 +622,8 @@ void Recorder::createActions() {
         tr("Create and modify patient information"),
         SLOT(patientInformation()));    
     consciousSedationAction_ = createAction(this, tr("Conscious Sedation"),
-        tr("Conscious sedation list"), SLOT(studyInformation()), tr("Alt+A"));
+        tr("Conscious sedation list"), 0 /* SLOT(studyInformation()) */,
+        tr("Alt+A"));
     complicationsAction_ = createAction(this, tr("Complications"), 
         tr("Complications list"), 0, tr("Alt+M"));
     radiologyAction_ = createAction(this, tr("Radiology"), 

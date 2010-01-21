@@ -74,7 +74,7 @@ QDir AbstractMainWindow::directoryOf(const QString& subdir) {
 
 #if defined(Q_OS_WIN)
     if (dir.dirName().toLower() == "debug"
-        || dir.dirName().toLower() == "release"
+        || dir.dirName().toLower() == "release")
         dir.cdUp();
 #elif defined(Q_OS_MAC)
     if (dir.dirName() == "MacOS") {
