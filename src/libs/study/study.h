@@ -21,8 +21,7 @@
 #ifndef STUDY_H
 #define STUDY_H
 
-#include <QDateTime>
-#include <QString>
+#include <QtCore/QDateTime>
 
 class QDataStream;
 
@@ -104,7 +103,7 @@ namespace EpStudy {
         void resetKey() {key_ = QString();}
         void load();        // load study.dat file
         void save();        // save study.dat file
-        void setPreregisterStudy(bool);
+        void setPreregisterStudy(bool value) {preregisterStudy_ = value;}
 
         void loadStudyConfiguration();
         void saveStudyConfiguration();
@@ -150,7 +149,7 @@ namespace EpStudy {
         QDateTime dateTime() const {return dateTime_;}
         QString key() const;    // Generates key based on name and datetime
         // to identify study uniquely.
-        bool isPreregisterStudy() const {return isPreregisterStudy_;}
+        bool isPreregisterStudy() const {return preregisterStudy_;}
         StudyConfiguration* studyConfiguration() const { 
             return studyConfiguration_;}
 
@@ -194,7 +193,7 @@ namespace EpStudy {
         int ef_;
         bool ischemia_;
         QString path_;      // full path to study directory
-        bool isPreregisterStudy_;
+        bool preregisterStudy_;
 
         mutable QString key_;   // unique key for each study
         EpPatient::Heart* heart_;

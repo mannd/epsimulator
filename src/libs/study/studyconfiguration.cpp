@@ -24,7 +24,7 @@
 #include "fileutilities.h"
 #include "options.h"
 
-#include <QDataStream>
+#include <QtCore/QDataStream>
 
 namespace EpStudy {
 

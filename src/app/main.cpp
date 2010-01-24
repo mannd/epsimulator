@@ -21,16 +21,16 @@
 /**
  * @mainpage
  * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
- * complete with recording equipment, programmable stimulator, and, most importantly,
- * a heart simulator that can be set up to mimic
+ * complete with recording equipment, programmable stimulator, and,
+ * most importantly, a heart simulator that can be set up to mimic
  * normal cardiac electrophysiology and arrhythmias.
  */
 
 #include "navigator.h"
 
-#include <QApplication>
-#include <QIcon>
-#include <QMessageBox>
+#include <QtGui/QApplication>
+#include <QtGui/QIcon>
+#include <QtGui/QMessageBox>
 
 // Languages
 // Only define 1 of the below
@@ -38,20 +38,17 @@
 //#define FRENCH
 #define ENGLISH
 
-// bogus comment
 #ifndef ENGLISH
-#   include <QTranslator>
+#   include <QtCore/QTranslator>
 #endif
-
-using EpNavigator::Navigator;
 
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     app.setOrganizationName("EP Studios");
     app.setOrganizationDomain("epstudiossoftware.com");
     app.setApplicationName("EPSimulator");
-
-// International stuff below
+    app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
+    // International stuff below
 #ifndef ENGLISH
     QTranslator translator( 0 );
 #ifdef GERMAN
@@ -62,9 +59,7 @@ int main(int argc, char **argv) {
 #endif
     app.installTranslator( &translator );
 #endif
-
-    app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
-    Navigator* navigator = new Navigator;
+    EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
     navigator->restore();
     return app.exec();
 }

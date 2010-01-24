@@ -25,7 +25,8 @@
 #include "heart.h"
 #include "studyconfiguration.h"
 
-#include <QDir>
+#include <QtCore/QDataStream>
+#include <QtCore/QDir>
 
 /// TODO Change these to programmable options
 /// These will be set with the simulator settings dialog
@@ -48,8 +49,6 @@ namespace EpStudy {
     void Name::setLastFirstMiddle(const QString& last,
                                   const QString& first,
                                   const QString& middle) {
-        // QString::simplified() removes surround whitespace
-        // and shortens internal whitespace to one space.
         last_ = last.simplified();
         first_ = first.simplified();
         middle_ = middle.simplified();
@@ -96,19 +95,20 @@ namespace EpStudy {
     const QString Study::fileName_ = "study.dat";
     const QString Study::configFileName_ = "config.dat";
 
-    Study::Study() : dateTime_(QDateTime::currentDateTime()),
-    name_(),
-    dateOfBirth_(DEFAULT_BIRTH_DATE),
-    mrn_(), number_(), accountNumber_(),
-    sex_(Male), height_(0), weight_(0),
-    heightIn_(0), weightLbs_(0), bsa_(0),
-    bsaManualEdit_(false),
-    vagalTone_(DEFAULT_VAGAL_TONE),
-    sympatheticTone_(DEFAULT_SYMPATHETIC_TONE),
-    ef_(DEFAULT_EF),
-    ischemia_(false),
-    path_(),
-    isPreregisterStudy_(true) {
+    Study::Study() :
+            dateTime_(QDateTime::currentDateTime()),
+            name_(),
+            dateOfBirth_(DEFAULT_BIRTH_DATE),
+            mrn_(), number_(), accountNumber_(),
+            sex_(Male), height_(0), weight_(0),
+            heightIn_(0), weightLbs_(0), bsa_(0),
+            bsaManualEdit_(false),
+            vagalTone_(DEFAULT_VAGAL_TONE),
+            sympatheticTone_(DEFAULT_SYMPATHETIC_TONE),
+            ef_(DEFAULT_EF),
+            ischemia_(false),
+            path_(),
+            preregisterStudy_(true) {
         heart_ = new Heart;
         studyConfiguration_ = new StudyConfiguration;
         testInvariant();
@@ -139,10 +139,6 @@ namespace EpStudy {
 
     void Study::save() {
         EpCore::saveData(filePath(), MagicNumber, *this);
-    }
-
-    void Study::setPreregisterStudy(bool state) {
-        isPreregisterStudy_ = state;
     }
 
     void Study::setStudyConfiguration(const StudyConfiguration& studyConfiguration) {
@@ -233,7 +229,7 @@ namespace EpStudy {
         ischemia_ = study.ischemia_;
         path_ = study.path_;
         key_ = study.key_;
-        isPreregisterStudy_ = study.isPreregisterStudy_;
+        preregisterStudy_ = study.preregisterStudy_;
         // copy the heart pointer
         heart_ = new Heart(*study.heart_);
         studyConfiguration_ = new StudyConfiguration(*study.studyConfiguration_);
@@ -251,7 +247,7 @@ namespace EpStudy {
                 << (qint32)study.bsaManualEdit_ << (qint32)study.vagalTone_
                 << (qint32)study.sympatheticTone_ << (qint32)study.ef_
                 << (qint32)study.ischemia_ << study.path_ << study.key_
-                << study.isPreregisterStudy_
+                << study.preregisterStudy_
                 << *study.heart_ << *study.studyConfiguration_;
         return out;
     }
@@ -267,7 +263,7 @@ namespace EpStudy {
                 >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
                 >> vagalTone >> sympatheticTone >> ef
                 >> ischemia >> study.path_ >> study.key_
-                >> study.isPreregisterStudy_
+                >> study.preregisterStudy_
                 >> *study.heart_ >> *study.studyConfiguration_;
         ///TODO need to add heart to this
         study.sex_ = (sex != 0) ? Female : Male;
@@ -278,5 +274,4 @@ namespace EpStudy {
         study.ischemia_ = ischemia;
         return in;
     }
-
 }

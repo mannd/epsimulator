@@ -23,12 +23,11 @@
 
 #include "amplifier.h"
 
-#include <QBitArray>
-#include <QColor>
-#include <QCoreApplication>
-#include <QList>
-#include <QPoint>
-#include <QString>
+#include <QtCore/QBitArray>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QList>
+#include <QtCore/QPoint>
+#include <QtGui/QColor>
 
 class QDataStream;
 
