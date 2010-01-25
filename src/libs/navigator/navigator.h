@@ -82,13 +82,17 @@ private slots:
     void copyStudy();
     void moveStudy();
     void deleteStudy();
+    void exportCatalog();
     void filterStudies();
     void unfilterStudies();
     void refreshCatalogs();
     void changeCatalog();
+    void exportLists();
+    void exportReportFormats();
+    void importLists();
+    void importReportFormats();
     void ejectDisk();
     void relabelDisk();
-    void exportCatalog();
     void setIntervals();
     void setColumnFormats();
     void setProtocols();
@@ -107,6 +111,10 @@ private:
     // disallowed
     Navigator(const Navigator&);
     Navigator& operator=(const Navigator&);
+
+    enum DataFlow {Import, Export};
+    enum DataType {Lists, ReportFormats};
+    enum MoveType {Move, Copy};
 
     // Functions to set up the Navigator main window.
     void initializeOpticalDisk();
@@ -144,15 +152,17 @@ private:
     EpStudy::Study* getNewStudy();   // returns selected study or a new study
     void addStudyToCatalogs();  // add study to appropriate catalogs
     void createDataFiles(); // make study data files on disk
-    void moveCopyStudyMessageBox(bool move = false);
-    void copyStudy(bool);
-    void doStudyCopy(MoveCopyStudyDialog&, bool move);
+    void moveStudyMessageBox(MoveType);
+    void moveDataMessageBox(DataFlow, DataType);
+    void moveStudy(MoveType);
+    void moveStudyData(MoveCopyStudyDialog&, MoveType);
+    void moveData(DataFlow, DataType);
     bool studyOnDisk(const EpStudy::Study*) const; // make sure study on current disk
     void studyNotOnDiskError();  // report study not on current disk
 
     // misc
     void noStudySelectedError();
-    bool acquisitionIsEnabled();
+    bool acquisitionEnabled();
 
     // Data members
     EpCore::Options* options_;

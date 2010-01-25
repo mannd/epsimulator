@@ -125,7 +125,7 @@ void Navigator::closeEvent(QCloseEvent* event) {
 
 // private slots
 
-bool Navigator::acquisitionIsEnabled() {
+bool Navigator::acquisitionEnabled() {
     if (!options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
         QMessageBox::information(this, tr("Acquisition Not Enabled"),
             tr("This workstation is not set up for acquisition. "
@@ -137,7 +137,7 @@ bool Navigator::acquisitionIsEnabled() {
 
 // Blue bar actions
 void Navigator::newStudy() {
-    if (!acquisitionIsEnabled())
+    if (!acquisitionEnabled())
 	return;
     if (!currentDisk_->isLabeled()) 
         relabelDisk();
@@ -167,7 +167,7 @@ void Navigator::newStudy() {
 }
 
 void Navigator::continueStudy() {
-    if (!acquisitionIsEnabled())
+    if (!acquisitionEnabled())
 	return;
     if (!options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
         QMessageBox::information(this, tr("Acquisition Not Enabled"),
@@ -243,17 +243,58 @@ void Navigator::reports()  {
         noStudySelectedError();
 }
 
-void Navigator::moveCopyStudyMessageBox(bool move) {
-    QString typeOfCopy = move ? tr("move") : tr("copy");
-    QString uCaseTypeOfCopy = move ? tr("Move") : tr("Copy");
-    QMessageBox::information(this, tr("Study %1 Wizard").arg(uCaseTypeOfCopy),
-        tr("This wizard will enable you to %1 patient studies" 
-           " from one location to another.  You will need to provide"
-           " the location of the source and destination"
-           " folders to complete the %1.").arg(typeOfCopy));
+void Navigator::copyStudy() {
+    moveStudy(Copy);
 }
 
-void Navigator::doStudyCopy(MoveCopyStudyDialog& dialog, bool move) {
+void Navigator::moveStudy() {
+    moveStudy(Move);
+}
+
+void Navigator::moveStudy(MoveType moveType) {
+    try {
+        moveStudyMessageBox(moveType);
+        if (moveType == Move) {
+            MoveStudyDialog moveDialog(this, currentDisk_);
+            moveStudyData(moveDialog, moveType);
+        }
+        else if (moveType == Copy) {
+            CopyStudyDialog copyDialog(this, currentDisk_);
+            moveStudyData(copyDialog, moveType);
+        }
+    }
+    catch (EpCore::SourceDestinationSameError& e) {
+        QMessageBox::warning(this,
+            tr("Source and destination directories are the same"),
+            tr("Source and destination directories must be different"));
+    }
+    catch (EpCore::IoError& e) {
+        QMessageBox::warning(this,
+            tr("Error copying study"),
+            tr("Study could not be copied"));
+    }
+}
+
+void Navigator::moveStudyMessageBox(MoveType moveType) {
+    QString moveTypeName;
+    switch(moveType) {
+    case Move:
+        moveTypeName = tr("move");
+        break;
+    case Copy:
+        moveTypeName = tr("copy");
+        break;
+    }
+    QString uCaseMoveTypeName = moveTypeName;
+    uCaseMoveTypeName[0] = uCaseMoveTypeName[0].toUpper();
+    QMessageBox::information(this, tr("Study %1 Wizard").arg(uCaseMoveTypeName),
+        tr("This wizard will enable you to %1 patient studies"
+           " from one location to another.  You will need to provide"
+           " the location of the source and destination"
+           " folders to complete the %1.").arg(moveTypeName));
+}
+
+void Navigator::moveStudyData(MoveCopyStudyDialog& dialog, MoveType moveType) {
     if (dialog.exec()) {
         // handle badness first: source and destination can't be the same
         // UNLESS they both are the optical disk.
@@ -262,7 +303,7 @@ void Navigator::doStudyCopy(MoveCopyStudyDialog& dialog, bool move) {
             throw EpCore::SourceDestinationSameError(dialog.sourcePath());
         // copy studies to temp dir, pretend it is an optical disk
         QList<QString> list = dialog.selectedItems();
-        QDir tmpDir = QDir::temp(); 
+        QDir tmpDir = QDir::temp();
         // delete the old versions in tmp, otherwise copy will not copy
         EpCore::deleteDir(OpticalDisk::makeStudiesPath(tmpDir.absolutePath()));
         if (!tmpDir.mkdir(OpticalDisk::studiesDirName()))
@@ -271,13 +312,13 @@ void Navigator::doStudyCopy(MoveCopyStudyDialog& dialog, bool move) {
         for (int i = 0; i < list.size(); ++i) {
             QFileInfo fileInfo = list.at(i);
             //EpCore::deleteDir(destinationPath);
-            EpCore::copyDir(fileInfo.filePath(), tmpDir.absolutePath()); 
+            EpCore::copyDir(fileInfo.filePath(), tmpDir.absolutePath());
         }
-        // if source and destination are optical disks, 
+        // if source and destination are optical disks,
         // eject disk and check labels
         if (currentDisk_->isOpticalDiskPath(dialog.destinationPath())
             && dialog.destinationPath() == dialog.sourcePath()) {
-            QString sourceLabel = currentDisk_->label(); 
+            QString sourceLabel = currentDisk_->label();
             ejectDisk();
             // if disk isn't labelled, label it
             if (!currentDisk_->isLabeled())
@@ -285,57 +326,25 @@ void Navigator::doStudyCopy(MoveCopyStudyDialog& dialog, bool move) {
             // if labels the same, throw sourcedestinationsameerror
             if (sourceLabel == currentDisk_->label())
                 throw EpCore::SourceDestinationSameError(dialog.sourcePath());
-            // now copy from the tmp dir to the destination 
+            // now copy from the tmp dir to the destination
             // (optical disk or hard drive)
             EpCore::copyDir(tmpDir.absolutePath(), currentDisk_->labelPath());
             // make/update catalog on destination, don't update system catalogs
             OpticalCatalog c(currentDisk_->labelPath());
             // move is exactly the same, except update system catalogs
-            if (move)
+            if (moveType == Move)
                 regenerateCatalogs();
             else
-                c.create(currentDisk_->label(), currentDisk_->side(), 
+                c.create(currentDisk_->label(), currentDisk_->side(),
                           options_->labName, user_->machineName());
         }
         else {    // we are copying from disk or dir to dir
             EpCore::copyDir(tmpDir.absolutePath(), dialog.destinationPath());
             OpticalCatalog c(dialog.destinationPath());
             c.create(dialog.destinationPath(), QString(), options_->labName,
-                user_->machineName());   
+                user_->machineName());
         }
     }
-}
-
-void Navigator::copyStudy(bool move) {
-    try {    
-        moveCopyStudyMessageBox(move);
-        if (move) {
-            MoveStudyDialog dialog(this, currentDisk_);
-            doStudyCopy(dialog, move);
-        }
-        else {
-            CopyStudyDialog dialog(this, currentDisk_);
-            doStudyCopy(dialog, move);
-        }
-    }
-    catch (EpCore::SourceDestinationSameError& e) {    
-        QMessageBox::warning(this, 
-            tr("Source and destination directories are the same"),
-            tr("Source and destination directories must be different"));
-    }
-    catch (EpCore::IoError& e) {
-        QMessageBox::warning(this,
-            tr("Error copying study"),
-            tr("Study could not be copied"));
-    }    
-}
-
-void Navigator::copyStudy() {
-    copyStudy(false);
-}
-
-void Navigator::moveStudy() {
-    copyStudy(true);
 }
 
 void Navigator::deleteStudy() {
@@ -424,6 +433,72 @@ void Navigator::changeCatalog() {
      if (tableListView_->filtered())
          processFilter();
      statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
+}
+
+void Navigator::exportLists() {
+    moveData(Export, Lists);
+}
+
+void Navigator::exportReportFormats() {
+    moveData(Export, ReportFormats);
+}
+
+void Navigator::importLists() {
+    moveData(Import, Lists);
+}
+
+void Navigator::importReportFormats() {
+    moveData(Import, ReportFormats);
+}
+
+void Navigator::moveData(DataFlow flow, DataType type) {
+    if (!administrationAllowed())
+        return;
+    try {
+        moveDataMessageBox(flow, type);
+        // MoveDataDialog d(this, flow, type);
+        // doMoveData(d, flow, type);
+    }
+    catch (EpCore::SourceDestinationSameError& e) {
+        QMessageBox::warning(this,
+            tr("Source and destination directories are the same"),
+            tr("Source and destination directories must be different"));
+    }
+    catch (EpCore::IoError& e) {
+        QMessageBox::warning(this,
+            tr("Error moving data"),
+            tr("Data could not be moved"));
+    }
+}
+
+void Navigator::moveDataMessageBox(Navigator::DataFlow flow,
+                                   Navigator::DataType type) {
+    QString dataFlow, movePhrase;
+    switch(flow) {
+    case Navigator::Import:
+        dataFlow = tr("import");
+        movePhrase = tr("from which");
+        break;
+    case Navigator::Export:
+        dataFlow = tr("export");
+        movePhrase = tr("to which");
+        break;
+    }
+    QString uCaseDataFlow = dataFlow;
+    uCaseDataFlow[0] = uCaseDataFlow[0].toUpper();
+    QString dataType;
+    switch(type) {
+    case Navigator::Lists:
+        dataType = tr("Lists"); break;
+    case Navigator::ReportFormats:
+        dataType = tr("Report Formats"); break;
+    }
+    QMessageBox::information(this, tr("%1 %2 Wizard").arg(dataType)
+                             .arg(uCaseDataFlow),
+        tr("This wizard will enable you to %1 %2."
+           " You will need to provide"
+           " the location of a folder"
+           " %3 to %1 the %2.").arg(dataFlow).arg(dataType).arg(movePhrase));
 }
 
 void Navigator::ejectDisk() {
@@ -705,6 +780,7 @@ void Navigator::initializeOpticalDisk() {
                     }
                 }
             }
+            delete fd;
         }
     }
 }
@@ -845,15 +921,15 @@ void Navigator::createActions() {
 
     // Utilities menu
     exportListsAction_ = createAction(this, tr("Export Lists..."),
-        tr("Export lists"));
+        tr("Export lists"), SLOT(exportLists()));
     exportReportFormatsAction_ = createAction(this, 
         tr("Export Report Formats..."),
-        tr("Export report formats"));
+        tr("Export report formats"), SLOT(exportReportFormats()));
     importListsAction_ = createAction(this, tr("Import Lists..."),
-        tr("Import lists"));
+        tr("Import lists"), SLOT(importLists()));
     importReportFormatsAction_ = createAction(this, 
         tr("Import Report Formats..."),
-        tr("Import report formats"));
+        tr("Import report formats"), SLOT(importReportFormats()));
     ejectOpticalDiskAction_ = createAction(this, tr("Eject Optical Disk"),
         tr("Eject optical disk"), SLOT(ejectDisk()));
 
