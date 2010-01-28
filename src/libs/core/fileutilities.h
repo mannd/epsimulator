@@ -25,8 +25,8 @@
 #include "options.h"
 #include "versioninfo.h"
 
-#include <QDataStream>
-#include <QFile>
+#include <QtCore/QDataStream>
+#include <QtCore/QFile>
 
 class QDir;
 class QString;

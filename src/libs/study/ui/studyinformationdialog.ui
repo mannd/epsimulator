@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StudyInformationDialog</class>
+ <widget class="QDialog" name="StudyInformationDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>823</width>
+    <height>550</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Study Information</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>510</y>
+     <width>341</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>30</y>
+     <width>751</width>
+     <height>471</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>9</number>
+   </property>
+   <widget class="QWidget" name="consciousSedationTab">
+    <attribute name="title">
+     <string>Conscious Sedation</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="proceduresTab">
+    <attribute name="title">
+     <string>Procedures</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="staffTab">
+    <attribute name="title">
+     <string>Staff</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="suppliesTab">
+    <attribute name="title">
+     <string>Supplies</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="medicationsTab">
+    <attribute name="title">
+     <string>Medications</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="complicationsTab">
+    <attribute name="title">
+     <string>Complications</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="radiologyTab">
+    <attribute name="title">
+     <string>Radiology</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="ordersTab">
+    <attribute name="title">
+     <string>Orders</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="complicationsTab">
+    <attribute name="title">
+     <string>Complications</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="contrastTab">
+    <attribute name="title">
+     <string>Contrast</string>
+    </attribute>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>StudyInformationDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>StudyInformationDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

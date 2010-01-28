@@ -285,9 +285,7 @@ void Navigator::moveStudyMessageBox(MoveType moveType) {
         moveTypeName = tr("copy");
         break;
     }
-    QString uCaseMoveTypeName = moveTypeName;
-    uCaseMoveTypeName[0] = uCaseMoveTypeName[0].toUpper();
-    QMessageBox::information(this, tr("Study %1 Wizard").arg(uCaseMoveTypeName),
+    QMessageBox::information(this, tr("Study %1 Wizard").arg(capitalize(moveTypeName)),
         tr("This wizard will enable you to %1 patient studies"
            " from one location to another.  You will need to provide"
            " the location of the source and destination"
@@ -484,8 +482,6 @@ void Navigator::moveDataMessageBox(Navigator::DataFlow flow,
         movePhrase = tr("to which");
         break;
     }
-    QString uCaseDataFlow = dataFlow;
-    uCaseDataFlow[0] = uCaseDataFlow[0].toUpper();
     QString dataType;
     switch(type) {
     case Navigator::Lists:
@@ -494,7 +490,7 @@ void Navigator::moveDataMessageBox(Navigator::DataFlow flow,
         dataType = tr("Report Formats"); break;
     }
     QMessageBox::information(this, tr("%1 %2 Wizard").arg(dataType)
-                             .arg(uCaseDataFlow),
+                             .arg(capitalize(dataFlow)),
         tr("This wizard will enable you to %1 %2."
            " You will need to provide"
            " the location of a folder"

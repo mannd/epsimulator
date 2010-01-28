@@ -24,6 +24,7 @@
 #include "abstractmainwindow.h"
 #include "options.h"
 #include "recorderdefs.h"
+#include "studyinformationdialog.h"
 
 #include <QMdiArea>
 #include <QMdiSubWindow>
@@ -115,13 +116,20 @@ private slots:
     void saveAsStudyConfiguration();
 
     void patientInformation();
-    void openStudyInformation(int tabnumber);
+    void openConsciousSedation();
+    void openProcedures();
+    void openStaff();
+    void openSupplies();
+    void openMedications();
+    void openRadiology();
+    void openOrders();
+    void openComplications();
+    void openContrast();
     void openStimulator();
     void openSatMonitor();
     void setManualSave(bool);
     void setEmergencySave(bool);
     void updateMenus();
-
 
     void realTimeWindowOpen(bool);
     void review1WindowOpen(bool);
@@ -149,6 +157,8 @@ private:
     void restoreDisplayWindow(const QString& key,
         QSettings& settings, const QString& currentWindowKey,
         QMdiSubWindow*, DisplayWindow*, QMdiSubWindow*& currentSubWindow);
+
+    void openStudyInformation(EpStudy::StudyInformationDialog::List);
 
     void arrangeSubWindows();
 

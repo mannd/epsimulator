@@ -67,6 +67,7 @@ using EpRecorder::Recorder;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyConfigurations;
+using EpStudy::StudyInformationDialog;
 
 using namespace EpHardware;
 using namespace EpHardware::EpAmplifier;
@@ -373,8 +374,48 @@ void Recorder::patientInformation() {
     emit patientInformationClosed();
 }
 
-void Recorder::openStudyInformation(int /* tab */) {
+void Recorder::openConsciousSedation() {
+    openStudyInformation(StudyInformationDialog::ConsciousSedation);
+}
 
+void Recorder::openProcedures() {
+    openStudyInformation(StudyInformationDialog::Procedures);
+}
+
+void Recorder::openStaff() {
+    openStudyInformation(StudyInformationDialog::Staff);
+}
+
+void Recorder::openSupplies() {
+    openStudyInformation(StudyInformationDialog::Supplies);
+}
+
+void Recorder::openMedications() {
+    openStudyInformation(StudyInformationDialog::Medications);
+}
+
+void Recorder::openRadiology() {
+    openStudyInformation(StudyInformationDialog::Radiology);
+}
+
+void Recorder::openOrders() {
+    openStudyInformation(StudyInformationDialog::Orders);
+}
+
+void Recorder::openComplications() {
+    openStudyInformation(StudyInformationDialog::Complications);
+}
+
+void Recorder::openContrast() {
+    openStudyInformation(StudyInformationDialog::Contrast);
+}
+
+void Recorder::openStudyInformation(StudyInformationDialog::List list) {
+    StudyInformationDialog d(this);
+    d.openList(list);
+    if (d.exec() == QDialog::Accepted) {
+       filler();
+    }
 }
 
 void Recorder::updateSystemSettings() {
@@ -622,20 +663,27 @@ void Recorder::createActions() {
         tr("Create and modify patient information"),
         SLOT(patientInformation()));    
     consciousSedationAction_ = createAction(this, tr("Conscious Sedation"),
-        tr("Conscious sedation list"), 0 /* SLOT(studyInformation()) */,
+        tr("Conscious sedation list"),
+        SLOT(openConsciousSedation()) ,
         tr("Alt+A"));
     complicationsAction_ = createAction(this, tr("Complications"), 
-        tr("Complications list"), 0, tr("Alt+M"));
+        tr("Complications list"),
+        SLOT(openComplications()), tr("Alt+M"));
     radiologyAction_ = createAction(this, tr("Radiology"), 
-        tr("Radiology list"), 0, tr("Alt+N"));
+        tr("Radiology list"),
+        SLOT(openRadiology()), tr("Alt+N"));
     medicationAction_ = createAction(this, tr("Medications"), 
-        tr("Medication list"), 0, tr("Alt+B"));
+        tr("Medication list"),
+        SLOT(openMedications()), tr("Alt+B"));
     suppliesAction_ = createAction(this, tr("Supplies"),
-        tr("Supplies list"), 0, tr("Alt+V"));
+        tr("Supplies list"),
+        SLOT(openSupplies()), tr("Alt+V"));
     staffAction_ = createAction(this, tr("Staff"), 
-        tr("Staff list"), 0, tr("Alt+C"));
+        tr("Staff list"),
+        SLOT(openStaff()), tr("Alt+C"));
     clinicalProceduresAction_ = createAction(this, tr("Clinical Procedures"), 
-        tr("Clinical procedures list"), 0, tr("Alt+X"));
+        tr("Clinical procedures list"),
+        SLOT(openProcedures()), tr("Alt+X"));
     macrosAction_ = createAction(this, tr("Macros"), 
         tr("Macros list"), 0, tr("Alt+Z"));
     ordersAction_ = createAction(this, tr("Orders"), 
