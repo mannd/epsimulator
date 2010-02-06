@@ -116,6 +116,10 @@ Navigator::~Navigator() {
     VersionInfo::destroy();
 }
 
+void Navigator::clearSelection() {
+    tableListView_->clearSelection();
+}
+
 // protected
 
 void Navigator::closeEvent(QCloseEvent* event) {
@@ -346,6 +350,8 @@ void Navigator::moveStudyData(MoveCopyStudyDialog& dialog, MoveType moveType) {
 }
 
 void Navigator::deleteStudy() {
+    if (!administrationAllowed())
+        return;
     Study* study = getSelectedStudy();
     try {
         if (study) {
@@ -940,6 +946,17 @@ void Navigator::createActions() {
         tr("Study configurations"), SLOT(setStudyConfigurations()));
 
     // Help menu -- in AbstractMainWindow
+
+    // Non-menu actions
+    // clears TableListView selection with escape key
+    clearSelectionAction_ = createAction(this, tr("Clear Selection"),
+                                         tr("Clear selection"),
+                                         SLOT(clearSelection()),
+                                         Qt::Key_Escape);
+    // add directly to Navigator window -- not on menu
+    addAction(clearSelectionAction_);
+
+
 }
 
 void Navigator::createToolBars() {

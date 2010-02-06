@@ -81,7 +81,6 @@ private:
     bool oldStyle_;
 
     Catalog* catalog_;      // the catalog underlying this TableListView
-
 }; // TableListView
 
 class TableListView::TableListViewItem : public QTreeWidgetItem {
@@ -103,6 +102,7 @@ private:
     QDateTime dateTime_;
     bool isPreregisterStudy_;
     bool filteredOut_;
+
 
 }; // TableListViewItem
 

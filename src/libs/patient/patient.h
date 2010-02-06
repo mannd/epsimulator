@@ -23,7 +23,7 @@
 
 #include "saturation.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 class QDataStream;
 

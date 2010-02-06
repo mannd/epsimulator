@@ -97,6 +97,7 @@ private slots:
     void setColumnFormats();
     void setProtocols();
     void setStudyConfigurations();
+    void clearSelection();
 
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.
@@ -217,6 +218,9 @@ private:
     QAction* columnFormatsAction_;
     QAction* protocolsAction_;
     QAction* studyConfigurationsAction_;
+
+    // Non-menu actions
+    QAction* clearSelectionAction_;
 
 #ifndef NDEBUG
     QAction* testWidgetAction_;
