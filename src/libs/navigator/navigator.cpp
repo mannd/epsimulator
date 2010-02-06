@@ -602,6 +602,20 @@ void Navigator::relabelDisk() {
     labelDisk(true, currentDisk_);
 }
 
+void Navigator::pacingSites() {}
+
+void Navigator::arrhythmiaTypes() {}
+
+void Navigator::arrhythmiaTolerances() {}
+
+void Navigator::blockDescriptions() {}
+
+void Navigator::refractoryLocations() {}
+
+void Navigator::manageSections() {}
+
+void Navigator::manageFormats() {}
+
 void Navigator::updateWindowTitle() {
     AbstractMainWindow::updateWindowTitle(tr("Navigator"));
 }
@@ -936,6 +950,20 @@ void Navigator::createActions() {
         tr("Eject optical disk"), SLOT(ejectDisk()));
 
     // Administration menu
+    pacingSitesAction_ = createAction(this, tr("Pacing Sites"),
+                                      tr("Pacing sites"), SLOT(pacingSites()));
+    arrhythmiaTypesAction_ = createAction(this, tr("Arrhythmia Types"),
+                                          tr("Arrhythmia types"),
+                                          SLOT(arrhythmiaTypes()));
+    arrhythmiaTolerancesAction_ = createAction(this, tr("Arrhythmia Tolerances"),
+                                               tr("Arrhythmia tolerances"),
+                                               SLOT(arrhythmiaTolerances()));
+    blockDescriptionsAction_ = createAction(this, tr("Block Descriptions"),
+                                            tr("Block descriptions"),
+                                            SLOT(blockDescriptions()));
+    refractoryLocationsAction_ = createAction(this, tr("Refractory Locations"),
+                                               tr("Refractory locations"),
+                                               SLOT(refractoryLocations()));
     intervalsAction_= createAction(this, tr("Intervals"),
         tr("Intervals"), SLOT(setIntervals()));
     columnFormatsAction_= createAction(this, tr("Column Formats"),
@@ -944,6 +972,12 @@ void Navigator::createActions() {
         tr("Protocols"), SLOT(setProtocols()));
     studyConfigurationsAction_= createAction(this, tr("Study Configurations"),
         tr("Study configurations"), SLOT(setStudyConfigurations()));
+    manageSectionsAction_ = createAction(this, tr("Manage Sections"),
+                                         tr("Manage sections"),
+                                         SLOT(manageSections()));
+    manageFormatsAction_ = createAction(this, tr("Manage Formats"),
+                                        tr("Manage formats"),
+                                        SLOT(manageFormats()));
 
     // Help menu -- in AbstractMainWindow
 
@@ -991,12 +1025,12 @@ void Navigator::createMenus() {
     studyMenu_->addAction(exitAction_);
 
     catalogMenu_ = menuBar()->addMenu(tr("&Catalog"));
-    switchSubMenu_ = new QMenu(tr("Switch"));
-    switchSubMenu_->addAction(networkSwitchAction_);
-    switchSubMenu_->addAction(systemSwitchAction_);
-    switchSubMenu_->addAction(opticalSwitchAction_);
-    switchSubMenu_->addAction(browseSwitchAction_);
-    catalogMenu_->addMenu(switchSubMenu_);
+    QMenu* switchSubMenu = new QMenu(tr("Switch"));
+    switchSubMenu->addAction(networkSwitchAction_);
+    switchSubMenu->addAction(systemSwitchAction_);
+    switchSubMenu->addAction(opticalSwitchAction_);
+    switchSubMenu->addAction(browseSwitchAction_);
+    catalogMenu_->addMenu(switchSubMenu);
     catalogMenu_->addAction(filterStudiesAction_);
     catalogMenu_->addAction(removeStudiesFilterAction_);
     catalogMenu_->addSeparator();
@@ -1015,12 +1049,19 @@ void Navigator::createMenus() {
     utilitiesMenu_->addAction(ejectOpticalDiskAction_);
 
     administrationMenu_ = menuBar()->addMenu(tr("&Administration"));
-    securitySubMenu_ = new QMenu(tr("Security"));
-    securitySubMenu_->addAction(loginAction());
-    securitySubMenu_->addAction(logoutAction());
-    securitySubMenu_->addAction(changePasswordAction());
-    administrationMenu_->addMenu(securitySubMenu_);
-    //insert Lists submenu here
+    QMenu* securitySubMenu = new QMenu(tr("Security"));
+    securitySubMenu->addAction(loginAction());
+    securitySubMenu->addAction(logoutAction());
+    securitySubMenu->addAction(changePasswordAction());
+    administrationMenu_->addMenu(securitySubMenu);
+    administrationMenu_->addSeparator();
+    QMenu* listsSubMenu = new QMenu(tr("Lists"));
+    listsSubMenu->addAction(pacingSitesAction_);
+    listsSubMenu->addAction(arrhythmiaTypesAction_);
+    listsSubMenu->addAction(arrhythmiaTolerancesAction_);
+    listsSubMenu->addAction(blockDescriptionsAction_);
+    listsSubMenu->addAction(refractoryLocationsAction_);
+    administrationMenu_->addMenu(listsSubMenu);
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(intervalsAction_);
     administrationMenu_->addAction(columnFormatsAction_);
@@ -1028,8 +1069,12 @@ void Navigator::createMenus() {
     administrationMenu_->addAction(studyConfigurationsAction_);
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(systemSettingsAction());
+    QMenu* reportsSubMenu = new QMenu(tr("Reports"));
+    reportsSubMenu->addAction(manageSectionsAction_);
+    reportsSubMenu->addAction(manageFormatsAction_);
+    administrationMenu_->addMenu(reportsSubMenu);
+    administrationMenu_->addSeparator();
     administrationMenu_->addAction(simulatorSettingsAction());
-    // insert reports submenu here
 
 
     menuBar()->addSeparator();

@@ -93,10 +93,17 @@ private slots:
     void importReportFormats();
     void ejectDisk();
     void relabelDisk();
+    void pacingSites();
+    void arrhythmiaTypes();
+    void arrhythmiaTolerances();
+    void blockDescriptions();
+    void refractoryLocations();
     void setIntervals();
     void setColumnFormats();
     void setProtocols();
     void setStudyConfigurations();
+    void manageSections();
+    void manageFormats();
     void clearSelection();
 
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
@@ -214,10 +221,17 @@ private:
     QAction* ejectOpticalDiskAction_;
 
     // Administration menu
+    QAction* pacingSitesAction_;
+    QAction* arrhythmiaTypesAction_;
+    QAction* arrhythmiaTolerancesAction_;
+    QAction* blockDescriptionsAction_;
+    QAction* refractoryLocationsAction_;
     QAction* intervalsAction_;
     QAction* columnFormatsAction_;
     QAction* protocolsAction_;
     QAction* studyConfigurationsAction_;
+    QAction* manageSectionsAction_;
+    QAction* manageFormatsAction_;
 
     // Non-menu actions
     QAction* clearSelectionAction_;
@@ -229,13 +243,11 @@ private:
     // Help menu
     // Actions returned by AbstractMainWindow
 
-    // menus
+    // top-level menus
     QMenu* studyMenu_;
     QMenu* catalogMenu_;
-    QMenu* switchSubMenu_;
     QMenu* utilitiesMenu_;
     QMenu* administrationMenu_;
-    QMenu* securitySubMenu_;
     QMenu* helpMenu_;
 
     // toolbars
