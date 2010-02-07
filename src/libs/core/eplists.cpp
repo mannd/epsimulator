@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,36 +17,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef HEART_H
-#define HEART_H
 
-#include <QtCore/QCoreApplication>
+#include "eplists.h"
 
-class QDataStream;
+#include "fileutilities.h"
 
-namespace EpPatient {
+using EpCore::EpLists;
 
-/**
- * Heart simulation.  For now essentially an empty class.
- * @author David Mann <mannd@epstudiossoftware.com>
- */
-class Heart {
-    Q_DECLARE_TR_FUNCTIONS(Heart)
+const QString EpLists::fileName_ = "eplists.dat";
 
-public:
-    friend QDataStream& operator<<(QDataStream&, const Heart&);
-    friend QDataStream& operator>>(QDataStream&, Heart&);
+EpLists::EpLists() {
+    load();
+    if (map_.isEmpty()) {
+        makeDefaultEpLists();
+        save();
+    }
+}
 
-    Heart(const QString& name = tr("<default>"));
-    Heart (const Heart& heart);
-    ~Heart();
-
-    QString name() {return name_;}
-
-private:
-    QString name_;
-};
+void EpLists::load() {
+    try {
+        EpCore::loadSystemData(MagicNumber, fileName_,
+                               map_, EpCore::Options::instance());
+    }
+    catch (EpCore::IoError&) {
+        // ignore failure to read, just leave map_ empty
+    }
 
 }
 
-#endif
+void EpLists::save() {
+    EpCore::saveSystemData(MagicNumber, fileName_,
+                           map_, EpCore::Options::instance());
+}
+
+void EpLists::makeDefaultEpLists() {
+    map_.clear();
+    QStringList pacingSites;
+    pacingSites << tr("HRA") << tr("CS") << tr("RVa") << tr("RVot")
+            << tr("ABL") << tr("HIS") <<tr("None");
+    map_["PacingSites"] = pacingSites;
+}

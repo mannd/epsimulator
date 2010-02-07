@@ -23,7 +23,7 @@
 
 #include "saturation.h"
 
-#include <QtCore/QString>
+#include <QtCore/QCoreApplication>
 
 class QDataStream;
 
@@ -35,12 +35,13 @@ namespace EpPatient {
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class Patient{
+    Q_DECLARE_TR_FUNCTIONS(Patient)
 
 public:
     friend QDataStream& operator<<(QDataStream&, const Patient&);
     friend QDataStream& operator>>(QDataStream&, Patient&);
 
-    Patient();
+    Patient(const QString& name = tr("<default>"));
     ~Patient();
 
     void load();        
@@ -57,8 +58,11 @@ private:
 
     static const QString fileName_;
 
+    QString name_;
     QString path_;      // path to patient.dat file
     Saturation o2Saturation_;
+
+    // patient physiology
 };
 
 }

@@ -29,7 +29,7 @@ using EpPatient::Saturation;
 
 const QString Patient::fileName_ = "patient.dat";
 
-Patient::Patient() : path_(0), 
+Patient::Patient(const QString& name) : name_(name), path_(0),
     o2Saturation_(0) {}
 
 void Patient::load() {
@@ -57,12 +57,12 @@ namespace EpPatient {
 // friends
 
 QDataStream& operator<<(QDataStream& out, const Patient& patient) {
-    out << patient.path_ << patient.o2Saturation_;
+    out << patient.name_ << patient.path_ << patient.o2Saturation_;
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Patient& patient) {
-    in >> patient.path_ >> patient.o2Saturation_;
+    in >> patient.name_ >> patient.path_ >> patient.o2Saturation_;
     return in;
 }
 

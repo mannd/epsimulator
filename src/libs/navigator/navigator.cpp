@@ -30,6 +30,8 @@
 #include "buttonframe.h"
 #include "catalogcombobox.h"
 #include "disklabeldialog.h"
+#include "editlistdialog.h"
+#include "eplists.h"
 #include "error.h"
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
@@ -65,9 +67,11 @@
 #include <algorithm>
 #include <memory>
 
+using EpCore::EpLists;
 using EpCore::Options;
 using EpCore::User;
 using EpCore::VersionInfo;
+using EpGui::EditListDialog;
 using EpGui::PatientDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
@@ -602,7 +606,16 @@ void Navigator::relabelDisk() {
     labelDisk(true, currentDisk_);
 }
 
-void Navigator::pacingSites() {}
+void Navigator::pacingSites() {
+    EpLists epLists;
+    QStringList sites = epLists["PacingSites"];
+    EditListDialog d(sites, tr("Pacing Sites"), tr("Site"), this);
+    if (d.exec()) {
+        sites = d.items();
+        epLists["PacingSites"] = sites;
+        epLists.update();
+    }
+}
 
 void Navigator::arrhythmiaTypes() {}
 

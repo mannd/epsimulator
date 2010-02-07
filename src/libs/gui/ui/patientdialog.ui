@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>PatientDialog</class>
- <widget class="QDialog" name="PatientDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="PatientDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,110 +10,102 @@
     <height>383</height>
    </rect>
   </property>
-  <property name="mouseTracking" >
+  <property name="mouseTracking">
    <bool>false</bool>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Patient Information</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="0" >
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="mouseTracking" >
+  <layout class="QGridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="mouseTracking">
       <bool>true</bool>
      </property>
-     <property name="currentIndex" >
-      <number>0</number>
+     <property name="currentIndex">
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="caseTab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>713</width>
-        <height>305</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="caseTab">
+      <attribute name="title">
        <string>Case</string>
       </attribute>
-      <layout class="QGridLayout" >
-       <item row="0" column="0" >
-        <widget class="QLabel" name="textLabel1" >
-         <property name="text" >
+      <layout class="QGridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="textLabel1">
+         <property name="text">
           <string>&amp;Last Name</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>lastNameLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="3" >
-        <widget class="QLineEdit" name="lastNameLineEdit" />
+       <item row="0" column="1" colspan="3">
+        <widget class="QLineEdit" name="lastNameLineEdit"/>
        </item>
-       <item row="0" column="4" >
-        <widget class="QLabel" name="textLabel2" >
-         <property name="text" >
+       <item row="0" column="4">
+        <widget class="QLabel" name="textLabel2">
+         <property name="text">
           <string>&amp;First Name</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>firstNameLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="0" column="5" colspan="3" >
-        <widget class="QLineEdit" name="firstNameLineEdit" />
+       <item row="0" column="5" colspan="3">
+        <widget class="QLineEdit" name="firstNameLineEdit"/>
        </item>
-       <item row="0" column="8" colspan="2" >
-        <widget class="QLabel" name="textLabel3" >
-         <property name="text" >
+       <item row="0" column="8" colspan="2">
+        <widget class="QLabel" name="textLabel3">
+         <property name="text">
           <string>&amp;Middle Name</string>
          </property>
-         <property name="alignment" >
+         <property name="alignment">
           <set>Qt::AlignVCenter</set>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>middleNameLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="0" column="10" colspan="2" >
-        <widget class="QLineEdit" name="middleNameLineEdit" />
+       <item row="0" column="10" colspan="2">
+        <widget class="QLineEdit" name="middleNameLineEdit"/>
        </item>
-       <item row="1" column="0" colspan="2" >
-        <widget class="QLabel" name="textLabel2_2" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="textLabel2_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>M&amp;RN</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>mrnLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="1" column="2" colspan="4" >
-        <widget class="QLineEdit" name="mrnLineEdit" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <item row="1" column="2" colspan="4">
+        <widget class="QLineEdit" name="mrnLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>200</width>
            <height>0</height>
@@ -120,31 +113,31 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="6" >
-        <widget class="QLabel" name="textLabel6" >
-         <property name="minimumSize" >
+       <item row="1" column="6">
+        <widget class="QLabel" name="textLabel6">
+         <property name="minimumSize">
           <size>
            <width>50</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>&amp;Height</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>heightInLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="1" column="7" colspan="2" >
-        <widget class="QLineEdit" name="heightInLineEdit" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <item row="1" column="7" colspan="2">
+        <widget class="QLineEdit" name="heightInLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
@@ -152,28 +145,28 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="9" >
-        <widget class="QLabel" name="textLabel1_3" >
-         <property name="minimumSize" >
+       <item row="1" column="9">
+        <widget class="QLabel" name="textLabel1_3">
+         <property name="minimumSize">
           <size>
            <width>50</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>in</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="10" >
-        <widget class="QLineEdit" name="heightCmLineEdit" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <item row="1" column="10">
+        <widget class="QLineEdit" name="heightCmLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
@@ -181,79 +174,79 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="11" >
-        <widget class="QLabel" name="textLabel3_2" >
-         <property name="minimumSize" >
+       <item row="1" column="11">
+        <widget class="QLabel" name="textLabel3_2">
+         <property name="minimumSize">
           <size>
            <width>50</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>cm</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2" >
-        <widget class="QLabel" name="textLabel1_5" >
-         <property name="minimumSize" >
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="textLabel1_5">
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Study &amp;Date</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>studyDateTimeEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="2" column="2" colspan="4" >
-        <widget class="QDateTimeEdit" name="studyDateTimeEdit" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <item row="2" column="2" colspan="4">
+        <widget class="QDateTimeEdit" name="studyDateTimeEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>200</width>
            <height>0</height>
           </size>
          </property>
-         <property name="displayFormat" >
+         <property name="displayFormat">
           <string>M/d/yyyy h:mm AP</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="6" >
-        <widget class="QLabel" name="textLabel11" >
-         <property name="minimumSize" >
+       <item row="2" column="6">
+        <widget class="QLabel" name="textLabel11">
+         <property name="minimumSize">
           <size>
            <width>50</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>&amp;Weight</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>weightLbsLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="2" column="7" colspan="2" >
-        <widget class="QLineEdit" name="weightLbsLineEdit" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <item row="2" column="7" colspan="2">
+        <widget class="QLineEdit" name="weightLbsLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
@@ -261,28 +254,28 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="9" >
-        <widget class="QLabel" name="textLabel2_3" >
-         <property name="minimumSize" >
+       <item row="2" column="9">
+        <widget class="QLabel" name="textLabel2_3">
+         <property name="minimumSize">
           <size>
            <width>50</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>lbs</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="10" >
-        <widget class="QLineEdit" name="weightKgLineEdit" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <item row="2" column="10">
+        <widget class="QLineEdit" name="weightKgLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
@@ -290,44 +283,44 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="11" >
-        <widget class="QLabel" name="textLabel4_2" >
-         <property name="minimumSize" >
+       <item row="2" column="11">
+        <widget class="QLabel" name="textLabel4_2">
+         <property name="minimumSize">
           <size>
            <width>50</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>kg</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2" >
-        <widget class="QLabel" name="textLabel2_4" >
-         <property name="minimumSize" >
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="textLabel2_4">
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Study &amp;#</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>studyNumberLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="3" column="2" colspan="4" >
-        <widget class="QLineEdit" name="studyNumberLineEdit" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <item row="3" column="2" colspan="4">
+        <widget class="QLineEdit" name="studyNumberLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>200</width>
            <height>0</height>
@@ -335,34 +328,34 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="6" >
-        <widget class="QLabel" name="textLabel12" >
-         <property name="minimumSize" >
+       <item row="3" column="6">
+        <widget class="QLabel" name="textLabel12">
+         <property name="minimumSize">
           <size>
            <width>50</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>&amp;BSA</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>bsaLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="3" column="7" colspan="2" >
-        <widget class="QLineEdit" name="bsaLineEdit" >
-         <property name="enabled" >
+       <item row="3" column="7" colspan="2">
+        <widget class="QLineEdit" name="bsaLineEdit">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
@@ -370,60 +363,60 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="9" >
-        <widget class="QLabel" name="textLabel5_2" >
-         <property name="minimumSize" >
+       <item row="3" column="9">
+        <widget class="QLabel" name="textLabel5_2">
+         <property name="minimumSize">
           <size>
            <width>50</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
-          <string>m&lt;SUP>2&lt;/SUP></string>
+         <property name="text">
+          <string>m&lt;SUP&gt;2&lt;/SUP&gt;</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="10" >
-        <widget class="QCheckBox" name="manualEditBsaCheckBox" >
-         <property name="text" >
+       <item row="3" column="10">
+        <widget class="QCheckBox" name="manualEditBsaCheckBox">
+         <property name="text">
           <string>Manual &amp;Edit</string>
          </property>
-         <property name="shortcut" >
+         <property name="shortcut">
           <string>Alt+E</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2" >
-        <widget class="QLabel" name="label" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+       <item row="4" column="0" colspan="2">
+        <widget class="QLabel" name="label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Account #</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>accountNumberLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="4" column="2" colspan="4" >
-        <widget class="QLineEdit" name="accountNumberLineEdit" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <item row="4" column="2" colspan="4">
+        <widget class="QLineEdit" name="accountNumberLineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>200</width>
            <height>0</height>
@@ -431,153 +424,145 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="6" >
-        <widget class="QLabel" name="textLabel1_4" >
-         <property name="minimumSize" >
+       <item row="4" column="6">
+        <widget class="QLabel" name="textLabel1_4">
+         <property name="minimumSize">
           <size>
            <width>50</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>&amp;Gender</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>sexComboBox</cstring>
          </property>
         </widget>
        </item>
-       <item row="4" column="7" colspan="3" >
-        <widget class="QComboBox" name="sexComboBox" >
+       <item row="4" column="7" colspan="3">
+        <widget class="QComboBox" name="sexComboBox">
          <item>
-          <property name="text" >
+          <property name="text">
            <string>Male</string>
           </property>
          </item>
          <item>
-          <property name="text" >
+          <property name="text">
            <string>Female</string>
           </property>
          </item>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2" >
-        <widget class="QLabel" name="textLabel4" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+       <item row="5" column="0" colspan="2">
+        <widget class="QLabel" name="textLabel4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Date of Birth</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>dobDateEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="5" column="2" >
-        <widget class="QDateEdit" name="dobDateEdit" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <item row="5" column="2">
+        <widget class="QDateEdit" name="dobDateEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
           </size>
          </property>
-         <property name="displayFormat" >
+         <property name="displayFormat">
           <string>M/d/yyyy</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="3" colspan="3" >
-        <widget class="QLabel" name="dobLabel" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+       <item row="5" column="3" colspan="3">
+        <widget class="QLabel" name="dobLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string/>
          </property>
-         <property name="alignment" >
+         <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2" >
-        <widget class="QLabel" name="label_2" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+       <item row="6" column="0" colspan="2">
+        <widget class="QLabel" name="label_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Age (yrs)</string>
          </property>
-         <property name="buddy" >
+         <property name="buddy">
           <cstring>ageLineEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="6" column="2" >
-        <widget class="QLineEdit" name="ageLineEdit" >
-         <property name="enabled" >
+       <item row="6" column="2">
+        <widget class="QLineEdit" name="ageLineEdit">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="minimumSize" >
+         <property name="minimumSize">
           <size>
            <width>100</width>
            <height>0</height>
           </size>
          </property>
-         <property name="autoFillBackground" >
+         <property name="autoFillBackground">
           <bool>false</bool>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="physiologyTab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>713</width>
-        <height>305</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="physiologyTab">
+      <attribute name="title">
        <string>Physiology</string>
       </attribute>
-      <widget class="QWidget" name="layoutWidget" >
-       <property name="geometry" >
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
         <rect>
          <x>20</x>
          <y>20</y>
@@ -585,124 +570,124 @@
          <height>211</height>
         </rect>
        </property>
-       <layout class="QGridLayout" >
-        <item row="0" column="0" >
-         <widget class="QLabel" name="textLabel5" >
-          <property name="text" >
+       <layout class="QGridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="textLabel5">
+          <property name="text">
            <string>&amp;Heart</string>
           </property>
-          <property name="buddy" >
+          <property name="buddy">
            <cstring>heartComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="0" column="1" colspan="2" >
-         <widget class="QComboBox" name="heartComboBox" >
+        <item row="0" column="1" colspan="2">
+         <widget class="QComboBox" name="heartComboBox">
           <item>
-           <property name="text" >
+           <property name="text">
             <string>default</string>
            </property>
           </item>
           <item>
-           <property name="text" >
+           <property name="text">
             <string>new heart</string>
            </property>
           </item>
          </widget>
         </item>
-        <item row="1" column="0" colspan="2" >
-         <widget class="QLabel" name="textLabel1_2" >
-          <property name="text" >
+        <item row="1" column="0" colspan="2">
+         <widget class="QLabel" name="textLabel1_2">
+          <property name="text">
            <string>E&amp;jection Fraction (%)</string>
           </property>
-          <property name="buddy" >
+          <property name="buddy">
            <cstring>efSpinBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="1" column="2" >
-         <widget class="QSpinBox" name="efSpinBox" >
-          <property name="minimumSize" >
+        <item row="1" column="2">
+         <widget class="QSpinBox" name="efSpinBox">
+          <property name="minimumSize">
            <size>
             <width>80</width>
             <height>0</height>
            </size>
           </property>
-          <property name="minimum" >
+          <property name="minimum">
            <number>1</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>100</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>50</number>
           </property>
          </widget>
         </item>
-        <item row="2" column="0" >
-         <widget class="QLabel" name="textLabel13" >
-          <property name="text" >
+        <item row="2" column="0">
+         <widget class="QLabel" name="textLabel13">
+          <property name="text">
            <string>&amp;Vagal Tone</string>
           </property>
-          <property name="buddy" >
+          <property name="buddy">
            <cstring>vagalToneSpinBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="2" column="2" >
-         <widget class="QSpinBox" name="vagalToneSpinBox" >
-          <property name="minimumSize" >
+        <item row="2" column="2">
+         <widget class="QSpinBox" name="vagalToneSpinBox">
+          <property name="minimumSize">
            <size>
             <width>80</width>
             <height>0</height>
            </size>
           </property>
-          <property name="minimum" >
+          <property name="minimum">
            <number>1</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>100</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>50</number>
           </property>
          </widget>
         </item>
-        <item row="3" column="0" >
-         <widget class="QLabel" name="textLabel14" >
-          <property name="text" >
+        <item row="3" column="0">
+         <widget class="QLabel" name="textLabel14">
+          <property name="text">
            <string>S&amp;ympathetic Tone</string>
           </property>
-          <property name="buddy" >
+          <property name="buddy">
            <cstring>sympatheticToneSpinBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="3" column="2" >
-         <widget class="QSpinBox" name="sympatheticToneSpinBox" >
-          <property name="minimumSize" >
+        <item row="3" column="2">
+         <widget class="QSpinBox" name="sympatheticToneSpinBox">
+          <property name="minimumSize">
            <size>
             <width>80</width>
             <height>0</height>
            </size>
           </property>
-          <property name="minimum" >
+          <property name="minimum">
            <number>1</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>100</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>50</number>
           </property>
          </widget>
         </item>
-        <item row="4" column="0" colspan="3" >
-         <widget class="QCheckBox" name="ischemiaCheckBox" >
-          <property name="text" >
+        <item row="4" column="0" colspan="3">
+         <widget class="QCheckBox" name="ischemiaCheckBox">
+          <property name="text">
            <string>&amp;Ischemia</string>
           </property>
-          <property name="shortcut" >
+          <property name="shortcut">
            <string>Alt+I</string>
           </property>
          </widget>
@@ -712,16 +697,16 @@
      </widget>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="standardButtons" >
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>lastNameLineEdit</tabstop>

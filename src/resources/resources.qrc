@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>images/NewStudy.png</file>
         <file>images/hi16-app-epsimulator.png</file>
         <file>images/hi32-app-epsimulator.png</file>
@@ -58,5 +58,9 @@
         <file>images/hi32-lastlogentry.png</file>
         <file>images/hi32-undo.png</file>
         <file>images/hi32-redo.png</file>
+        <file>images/pencil.png</file>
+        <file>images/newitem.png</file>
+        <file>images/trash.png</file>
+        <file>images/dot.png</file>
     </qresource>
 </RCC>

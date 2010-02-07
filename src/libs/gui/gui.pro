@@ -12,25 +12,25 @@ SOURCES += simulatorsettingsdialog.cpp \
     passworddialog.cpp \
     actions.cpp \
     abstractmainwindow.cpp \
-    studyconfigurationdialog.cpp
-HEADERS += \
-    simulatorsettingsdialog.h \
+    studyconfigurationdialog.cpp \
+    editlistdialog.cpp
+HEADERS += simulatorsettingsdialog.h \
     patientdialog.h \
     changepassworddialog.h \
     systemdialog.h \
     passworddialog.h \
     actions.h \
     abstractmainwindow.h \
-    studyconfigurationdialog.h
+    studyconfigurationdialog.h \
+    editlistdialog.h
 FORMS += ui/simulatorsettingsdialog.ui \
     ui/patientdialog.ui \
     ui/changepassworddialog.ui \
     ui/systemdialog.ui \
     ui/passworddialog.ui \
-    ui/studyconfigurationdialog.ui
-
-LIBS += \
-    -lpatient \
+    ui/studyconfigurationdialog.ui \
+    ui/editlistdialog.ui
+LIBS += -lpatient \
     -lcore \
     -lstudy \
     -lhardware

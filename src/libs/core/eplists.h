@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,36 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef HEART_H
-#define HEART_H
 
-#include <QtCore/QCoreApplication>
+#ifndef EPLISTS_H
+#define EPLISTS_H
 
-class QDataStream;
+#include <QCoreApplication>
+#include <QMap>
+#include <QStringList>
 
-namespace EpPatient {
+namespace EpCore {
 
-/**
- * Heart simulation.  For now essentially an empty class.
- * @author David Mann <mannd@epstudiossoftware.com>
- */
-class Heart {
-    Q_DECLARE_TR_FUNCTIONS(Heart)
+class EpLists {
+    Q_DECLARE_TR_FUNCTIONS(EpLists)
 
 public:
-    friend QDataStream& operator<<(QDataStream&, const Heart&);
-    friend QDataStream& operator>>(QDataStream&, Heart&);
+    EpLists();
 
-    Heart(const QString& name = tr("<default>"));
-    Heart (const Heart& heart);
-    ~Heart();
-
-    QString name() {return name_;}
+    QStringList& operator[](const QString& key) {return map_[key];}
+    void update() {save();}
 
 private:
-    QString name_;
+    enum {MagicNumber = 0x99f818f0};
+
+    const static QString fileName_;
+
+    void load();
+    void save();
+
+    void makeDefaultEpLists();
+
+    QMap<QString, QStringList> map_;
 };
 
 }
 
-#endif
+#endif // EPLISTS_H

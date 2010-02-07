@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,36 +17,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef HEART_H
-#define HEART_H
 
-#include <QtCore/QCoreApplication>
+#ifndef EDITLISTDIALOG_H
+#define EDITLISTDIALOG_H
 
-class QDataStream;
+#include "ui_editlistdialog.h"
 
-namespace EpPatient {
+#include <QDialog>
 
-/**
- * Heart simulation.  For now essentially an empty class.
- * @author David Mann <mannd@epstudiossoftware.com>
- */
-class Heart {
-    Q_DECLARE_TR_FUNCTIONS(Heart)
+class QStringListModel;
+
+namespace EpGui {
+
+class EditListDialog: public QDialog, private Ui::EditListDialog {
+    Q_OBJECT
 
 public:
-    friend QDataStream& operator<<(QDataStream&, const Heart&);
-    friend QDataStream& operator>>(QDataStream&, Heart&);
+    EditListDialog(const QStringList& items,
+                   const QString& title,
+                   const QString& label,
+                   QWidget* parent = 0);
 
-    Heart(const QString& name = tr("<default>"));
-    Heart (const Heart& heart);
-    ~Heart();
+    QStringList items();
 
-    QString name() {return name_;}
+private slots:
+    void editItem();
+    void newItem();
+    void deleteItem();
 
 private:
-    QString name_;
+    QStringListModel* model_;
 };
 
 }
 
-#endif
+#endif // EDITLISTDIALOG_H
+

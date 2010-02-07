@@ -37,7 +37,7 @@ class ChangePasswordDialog: public QDialog, private Ui::ChangePasswordDialog {
     Q_OBJECT
 
 public:
-    ChangePasswordDialog(QWidget *parent = 0);
+    ChangePasswordDialog(QWidget* parent = 0);
     ~ChangePasswordDialog();
 
     void changePassword() const;
