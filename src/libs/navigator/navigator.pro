@@ -3,7 +3,6 @@ TEMPLATE = lib
 TARGET = navigator
 FORMS += ui/filtercatalogdialog.ui \
     ui/disklabeldialog.ui \
-    ui/selectstudyconfigdialog.ui \
     ui/editstudyconfigsdialog.ui \
     ui/movecopystudydialog.ui
 TRANSLATIONS += epsimulator_de.ts \
@@ -15,7 +14,6 @@ HEADERS += navigator.h \
     disklabeldialog.h \
     buttonframe.h \
     statusbar.h \
-    selectstudyconfigdialog.h \
     filtercatalogdialog.h \
     movecopystudydialog.h \
     editstudyconfigsdialog.h
@@ -26,7 +24,6 @@ SOURCES += navigator.cpp \
     disklabeldialog.cpp \
     buttonframe.cpp \
     statusbar.cpp \
-    selectstudyconfigdialog.cpp \
     filtercatalogdialog.cpp \
     movecopystudydialog.cpp \
     editstudyconfigsdialog.cpp

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,38 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SELECTSTUDYCONFIGDIALOG_H
-#define SELECTSTUDYCONFIGDIALOG_H
 
-#include "ui_selectstudyconfigdialog.h"
+#include "edititemsdialog.h"
 
-#include "studyconfiguration.h"
+using EpGui::EditItemsDialog;
 
-#include <QDialog>
-
-class QString;
-
-namespace EpNavigator {
-
-class SelectStudyConfigDialog: public QDialog, 
-    private Ui::SelectStudyConfigDialog {
-    Q_OBJECT
-
-public:
-    SelectStudyConfigDialog(QWidget *parent = 0);
-    ~SelectStudyConfigDialog();
-
-    QString config() const {
-        return configListWidget->selectedItems()[0]->text();}
-
-private slots:
-    void enableOkButton();
-
-private:
-    EpStudy::StudyConfigurations configList_;
-
-};
-
+EditItemsDialog::EditItemsDialog(const QString& title,
+                                 QWidget* parent)
+    : AbstractEditItemsDialog(title, parent) {
 }
-
-#endif

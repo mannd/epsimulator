@@ -25,10 +25,6 @@
 
 #include <QDialog>
 
-namespace Ui {
-    class StudyInformationDialog;
-}
-
 namespace EpStudy {
 
 class StudyInformationDialog : public QDialog,
@@ -43,11 +39,6 @@ public:
 
     void openList(List list);
 
-protected:
-    //void changeEvent(QEvent *e);
-
-private:
-    Ui::StudyInformationDialog *ui;
 };
 
 }

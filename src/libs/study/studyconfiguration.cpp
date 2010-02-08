@@ -207,6 +207,15 @@ bool StudyConfigurations::isPresent(const QString& name) const {
     return false;
 }
 
+// returns index of name in StudyConfigurations, -1 if not found
+int StudyConfigurations::index(const QString& name) const {
+    for (int i = 0; i < size(); ++i) {
+        if (configList_.at(i).name() == name)
+            return i;
+    }
+    return -1;
+}
+
 StudyConfiguration* StudyConfigurations::
         studyConfiguration(const QString& name) {
     for (int i = 0; i < size(); ++i) {

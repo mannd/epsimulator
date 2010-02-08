@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,37 +18,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "selectstudyconfigdialog.h"
+#ifndef EDITITEMSDIALOG_H
+#define EDITITEMSDIALOG_H
 
-#include <QList>
-#include <QListWidgetItem>
-#include <QPushButton>
+#include "abstractedititemsdialog.h"
 
-using EpNavigator::SelectStudyConfigDialog;
-using EpStudy::StudyConfigurations;
+namespace EpGui {
 
-SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
-    : QDialog(parent) {
-    setupUi(this);
-    enableOkButton();
+class EditItemsDialog : public AbstractEditItemsDialog {
+public:
+    EditItemsDialog(const QString& title, QWidget* parent = 0);
+};
 
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(configListWidget, SIGNAL(itemClicked(QListWidgetItem*)), 
-        this, SLOT(enableOkButton()));
-    connect(configListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-        this, SLOT(accept()));
-
-    configListWidget->setSortingEnabled(true);
-
-    StudyConfigurations configList_;
-    for (int i = 0; i < configList_.size(); ++i)
-        new QListWidgetItem(configList_[i].name(), configListWidget);
 }
 
-SelectStudyConfigDialog::~SelectStudyConfigDialog() {}
-
-void SelectStudyConfigDialog::enableOkButton() {
-    buttonBox->button(QDialogButtonBox::Ok)->
-        setEnabled(configListWidget->selectedItems().size() > 0);
-}
+#endif // EDITITEMSDIALOG_H

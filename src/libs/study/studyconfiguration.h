@@ -208,6 +208,7 @@ public:
     void add(StudyConfiguration config);
     void replace(StudyConfiguration config);
     bool isPresent(const QString& name) const;
+    int index(const QString& name) const;
     void remove(const QString& name);
     int size() const {return configList_.size();}
     StudyConfiguration* studyConfiguration(const QString& name);

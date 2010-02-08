@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by EP Studios, Inc.                                *
+ *   Copyright (C) 2006 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,22 +18,47 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "abstractedititemsdialog.h"
+#include "selectstudyconfigdialog.h"
 
-using EpGui::AbstractEditItemsDialog;
+#include <QList>
+#include <QListWidgetItem>
+#include <QPushButton>
 
-AbstractEditItemsDialog::AbstractEditItemsDialog(const QString& title,
-                                                 QWidget* parent) :
-    QDialog(parent) {
+using EpGui::SelectStudyConfigDialog;
+using EpStudy::StudyConfiguration;
+using EpStudy::StudyConfigurations;
+
+SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
+    : QDialog(parent) {
     setupUi(this);
-    setWindowTitle(title);
+    enableOkButton();
+
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(configListWidget, SIGNAL(itemClicked(QListWidgetItem*)), 
+        this, SLOT(enableOkButton()));
+    connect(configListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+        this, SLOT(accept()));
+
+    configListWidget->setSortingEnabled(true);
+
+    StudyConfigurations configList_;
+    for (int i = 0; i < configList_.size(); ++i)
+        new QListWidgetItem(configList_[i].name(), configListWidget);
 }
 
-AbstractEditItemsDialog::~AbstractEditItemsDialog() {}
+SelectStudyConfigDialog::~SelectStudyConfigDialog() {}
 
-void AbstractEditItemsDialog::showCopyButton(bool show) {
-    copyButton->setVisible(show);
+void SelectStudyConfigDialog::enableOkButton() {
+    buttonBox->button(QDialogButtonBox::Ok)->
+        setEnabled(configListWidget->selectedItems().size() > 0);
 }
 
-void AbstractEditItemsDialog::copy() {}
-
+void SelectStudyConfigDialog::setStudyConfiguration(
+        const StudyConfiguration& s) {
+    int n;
+    if ((n = configList_.index(s.name())) > -1) {
+        configListWidget->setCurrentRow(n);
+        enableOkButton();
+    }
+}

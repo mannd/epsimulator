@@ -31,8 +31,18 @@ class AbstractEditItemsDialog : public QDialog,
     private Ui::AbstractEditItemsDialog {
     Q_OBJECT
 public:
-    AbstractEditItemsDialog(QWidget* parent = 0);
+    AbstractEditItemsDialog(const QString& title,
+                            QWidget* parent = 0);
     ~AbstractEditItemsDialog();
+
+protected:
+    void showCopyButton(bool);
+
+private slots:
+    virtual void insert() = 0;
+    virtual void edit() = 0;
+    virtual void copy();
+    virtual void del() = 0;
 };
 
 }

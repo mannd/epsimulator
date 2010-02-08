@@ -32,6 +32,7 @@
 #include "recorderdefs.h"
 #include "reviewwindow.h"
 #include "satmonitor.h"
+#include "selectstudyconfigdialog.h"
 #include "stimulator.h"
 #include "study.h"
 #include "studyconfiguration.h"
@@ -62,6 +63,7 @@ using EpCore::Options;
 using EpCore::User;
 using EpGui::AbstractMainWindow;
 using EpGui::PatientDialog;
+using EpGui::SelectStudyConfigDialog;
 using EpPatient::Patient;
 using EpRecorder::Recorder;
 using EpStudy::Study;
@@ -410,6 +412,21 @@ void Recorder::openContrast() {
     openStudyInformation(StudyInformationDialog::Contrast);
 }
 
+void Recorder::switchStudyConfiguration() {
+    SelectStudyConfigDialog s(this);
+    s.setStudyConfiguration(*study_->studyConfiguration());
+    if (s.exec() == QDialog::Accepted) {
+        const QString configName = s.config();
+        // don't bother unless study configuration is changed
+        if (configName != study_->studyConfiguration()->name()) {
+            StudyConfigurations configList;
+            if (configList.isPresent(configName))
+                study_->setStudyConfiguration(
+                    *configList.studyConfiguration(configName));
+        }
+    }
+}
+
 void Recorder::openStudyInformation(StudyInformationDialog::List list) {
     StudyInformationDialog d(this);
     d.openList(list);
@@ -697,7 +714,7 @@ void Recorder::createActions() {
         "hi32-closestudy.png");
     // Study Configuration
     switchAction_ = createAction(this, tr("Switch..."), 
-        tr("Switch study configuration"), 0, 
+        tr("Switch study configuration"), SLOT(switchStudyConfiguration()),
         0, "hi32-switchwindowsettings.png");
     saveAction_ = createAction(this, tr("Save"),
         tr("Save study configuration"), SLOT(saveStudyConfiguration()));

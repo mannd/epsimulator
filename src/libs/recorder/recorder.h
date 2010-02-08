@@ -125,6 +125,7 @@ private slots:
     void openOrders();
     void openComplications();
     void openContrast();
+    void switchStudyConfiguration();
     void openStimulator();
     void openSatMonitor();
     void setManualSave(bool);

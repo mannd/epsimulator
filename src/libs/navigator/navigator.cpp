@@ -72,12 +72,12 @@ using EpCore::User;
 using EpCore::VersionInfo;
 using EpGui::EditListDialog;
 using EpGui::PatientDialog;
+using EpGui::SelectStudyConfigDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyConfigurations;
 using EpNavigator::EditStudyConfigsDialog;
 using EpNavigator::Navigator;
-using EpNavigator::SelectStudyConfigDialog;
 using EpNavigator::StatusBar;
 
 using namespace EpHardware::EpOpticalDisk;
