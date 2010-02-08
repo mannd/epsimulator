@@ -31,9 +31,13 @@ class EpLists {
     Q_DECLARE_TR_FUNCTIONS(EpLists)
 
 public:
+    enum EpListType {PacingSites, ArrhythmiaTypes,
+                     ArrhythmiaTolerances, BlockDescriptions,
+                     RefractoryLocations};
     EpLists();
 
-    QStringList& operator[](const QString& key) {return map_[key];}
+    QStringList& operator[](EpListType key) {
+        return map_[lookupMap_[key]];}
     void update() {save();}
 
 private:
@@ -46,6 +50,7 @@ private:
 
     void makeDefaultEpLists();
 
+    QMap<EpListType, QString> lookupMap_;
     QMap<QString, QStringList> map_;
 };
 

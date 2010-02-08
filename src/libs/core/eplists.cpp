@@ -27,6 +27,11 @@ using EpCore::EpLists;
 const QString EpLists::fileName_ = "eplists.dat";
 
 EpLists::EpLists() {
+    lookupMap_[PacingSites] = "PacingSites";
+    lookupMap_[ArrhythmiaTypes] = "ArrhythmiaTypes";
+    lookupMap_[ArrhythmiaTolerances] = "ArrhythmiaTolerances";
+    lookupMap_[BlockDescriptions] = "BlockDescriptions";
+    lookupMap_[RefractoryLocations] = "RefractoryLocations";
     load();
     if (map_.isEmpty()) {
         makeDefaultEpLists();
@@ -55,5 +60,50 @@ void EpLists::makeDefaultEpLists() {
     QStringList pacingSites;
     pacingSites << tr("HRA") << tr("CS") << tr("RVa") << tr("RVot")
             << tr("ABL") << tr("HIS") <<tr("None");
-    map_["PacingSites"] = pacingSites;
+    map_[lookupMap_[PacingSites]] = pacingSites;
+    QStringList arrhythmiaTypes;
+    arrhythmiaTypes << tr("SVT") << tr("Sinus Node Reentry")
+            << tr("Inappropriate Sinus Tachycardia")
+            << tr("Ectopic Reentrant Tachycardia")
+            << tr("Multifocal Atrial Tachycardia")
+            << tr("Type 1 Atrial Flutter, CW")
+            << tr("Type 1 Atrial Flutter, CCW")
+            << tr("Type 2 Atrial Flutter")
+            << tr("Chronic Atrial Fibrillation")
+            << tr("Paroxysmal Atrial Fibrillation")
+            << tr("Premature Atrial Complexes")
+            << tr("Premature Ventricular Complexes")
+            << tr("Nonsustained Ventricular Tachycardia")
+            << tr("Sustained Monomorphic Ventricular Tachycardia")
+            << tr("Sustained Polymorphic Ventricular Tachycardia")
+            << tr("Ventricular Fibrillation")
+            << tr("2nd Degree AV Block Mobitz I")
+            << tr("2nd Degree AV Block Mobitz II")
+            << tr("2nd Degree AV Block 2:1")
+            << tr("2nd Degree AV Block High Grade")
+            << tr("3rd Degree AV Block")
+            << tr("Other");
+    map_[lookupMap_[ArrhythmiaTypes]] = arrhythmiaTypes;
+    QStringList arrhythmiaTolerances;
+    arrhythmiaTolerances << tr("Stable") << tr("Unconscious")
+            << tr("Unstable") << tr("Chest Pain")
+            << tr("Consious") << tr("SOB")
+            << tr("Vagal");
+    map_[lookupMap_[ArrhythmiaTolerances]] = arrhythmiaTolerances;
+    QStringList blockDescriptions;
+    blockDescriptions << tr("AV Nodal Block")
+            << tr("1 Degree AV Block")
+            << tr("Wenckebach")
+            << tr("AV Mobitz II")
+            << tr("2:1 AV Block")
+            << tr("AV Dissociation")
+            << tr("Complete Heart Block")
+            << tr("Antegrade Wenckebach")
+            << tr("VA Block")
+            << tr("Retrograde");
+    map_[lookupMap_[BlockDescriptions]] = blockDescriptions;
+    QStringList refractoryLocations;
+    refractoryLocations << tr("Atrial") << tr("AV Nodal")
+            << tr("Retrograde") << tr("Ventricular");
+    map_[lookupMap_[RefractoryLocations]] = refractoryLocations;
 }

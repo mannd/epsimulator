@@ -23,6 +23,7 @@
 
 #include "abstractmainwindow.h"
 #include "catalog.h"
+#include "eplists.h"
 
 class QAction;
 class QCloseEvent;
@@ -150,6 +151,11 @@ private:
 
     // Catalog related
     void setCatalog(Catalog::Source);
+
+    // List related
+    void editEpList(EpCore::EpLists::EpListType type,
+                    const QString& title,
+                    const QString& label);
 
     // Study related
     void startStudy(EpStudy::Study*, bool review = false);

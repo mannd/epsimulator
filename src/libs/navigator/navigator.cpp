@@ -31,7 +31,6 @@
 #include "catalogcombobox.h"
 #include "disklabeldialog.h"
 #include "editlistdialog.h"
-#include "eplists.h"
 #include "error.h"
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
@@ -607,23 +606,44 @@ void Navigator::relabelDisk() {
 }
 
 void Navigator::pacingSites() {
+    editEpList(EpLists::PacingSites,
+               tr("Pacing Sites"),
+               tr("Site"));
+}
+
+void Navigator::arrhythmiaTypes() {
+    editEpList(EpLists::ArrhythmiaTypes,
+               tr("Arrhythmia Types"),
+               tr("Type"));
+}
+
+void Navigator::arrhythmiaTolerances() {
+    editEpList(EpLists::ArrhythmiaTolerances,
+               tr("Arrhythmia Tolerances"),
+               tr("Tolerance"));}
+
+void Navigator::blockDescriptions() {
+    editEpList(EpLists::BlockDescriptions,
+               tr("Block Descriptions"),
+               tr("Description"));}
+
+void Navigator::refractoryLocations() {
+    editEpList(EpLists::RefractoryLocations,
+               tr("Refractory Locations"),
+               tr("Location"));}
+
+void Navigator::editEpList(EpLists::EpListType type,
+                           const QString& title,
+                           const QString& label) {
     EpLists epLists;
-    QStringList sites = epLists["PacingSites"];
-    EditListDialog d(sites, tr("Pacing Sites"), tr("Site"), this);
+    QStringList list = epLists[type];
+    EditListDialog d(list, title, label, this);
     if (d.exec()) {
-        sites = d.items();
-        epLists["PacingSites"] = sites;
+        list = d.items();
+        epLists[type] = list;
         epLists.update();
     }
 }
-
-void Navigator::arrhythmiaTypes() {}
-
-void Navigator::arrhythmiaTolerances() {}
-
-void Navigator::blockDescriptions() {}
-
-void Navigator::refractoryLocations() {}
 
 void Navigator::manageSections() {}
 

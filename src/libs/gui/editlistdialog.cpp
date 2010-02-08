@@ -37,8 +37,7 @@ EditListDialog::EditListDialog(const QStringList& items,
     model_->setStringList(items);
 
     listView->setModel(model_);
-    listView->setEditTriggers(QAbstractItemView::AnyKeyPressed
-                              | QAbstractItemView::DoubleClicked);
+
 
     connect(insertButton, SIGNAL(clicked(bool)),
             this, SLOT(newItem()));
@@ -46,7 +45,31 @@ EditListDialog::EditListDialog(const QStringList& items,
             this, SLOT(deleteItem()));
     connect(editButton, SIGNAL(clicked(bool)),
             this, SLOT(editItem()));
+    connect(allowEditsButton, SIGNAL(clicked(bool)),
+            this, SLOT(allowEdits(bool)));
+    connect(listView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(enableButtons()));
+    allowEdits(false);
+    enableButtons();
+}
 
+void EditListDialog::allowEdits(bool allow) {
+    insertButton->setVisible(allow);
+    editButton->setVisible(allow);
+    deleteButton->setVisible(allow);
+    // line is the separator in the toolbar
+    line->setVisible(allow);
+    if (allow)
+        listView->setEditTriggers(QAbstractItemView::AnyKeyPressed
+                                  | QAbstractItemView::DoubleClicked);
+    else
+        listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+}
+
+void EditListDialog::enableButtons() {
+       bool itemIsSelected = (listView->currentIndex().row() > -1);
+       editButton->setEnabled(itemIsSelected);
+       deleteButton->setEnabled(itemIsSelected);
 
 }
 

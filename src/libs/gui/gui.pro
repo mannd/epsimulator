@@ -13,7 +13,8 @@ SOURCES += simulatorsettingsdialog.cpp \
     actions.cpp \
     abstractmainwindow.cpp \
     studyconfigurationdialog.cpp \
-    editlistdialog.cpp
+    editlistdialog.cpp \
+    abstractedititemsdialog.cpp
 HEADERS += simulatorsettingsdialog.h \
     patientdialog.h \
     changepassworddialog.h \
@@ -22,14 +23,16 @@ HEADERS += simulatorsettingsdialog.h \
     actions.h \
     abstractmainwindow.h \
     studyconfigurationdialog.h \
-    editlistdialog.h
+    editlistdialog.h \
+    abstractedititemsdialog.h
 FORMS += ui/simulatorsettingsdialog.ui \
     ui/patientdialog.ui \
     ui/changepassworddialog.ui \
     ui/systemdialog.ui \
     ui/passworddialog.ui \
     ui/studyconfigurationdialog.ui \
-    ui/editlistdialog.ui
+    ui/editlistdialog.ui \
+    ui/abstractedititemsdialog.ui
 LIBS += -lpatient \
     -lcore \
     -lstudy \

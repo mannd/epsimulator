@@ -18,40 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef EDITLISTDIALOG_H
-#define EDITLISTDIALOG_H
+#include "abstractedititemsdialog.h"
 
-#include "ui_editlistdialog.h"
+using EpGui::AbstractEditItemsDialog;
 
-#include <QDialog>
-
-class QStringListModel;
-
-namespace EpGui {
-
-class EditListDialog: public QDialog, private Ui::EditListDialog {
-    Q_OBJECT
-
-public:
-    EditListDialog(const QStringList& items,
-                   const QString& title,
-                   const QString& label,
-                   QWidget* parent = 0);
-
-    QStringList items();
-
-private slots:
-    void allowEdits(bool);
-    void enableButtons();
-    void editItem();
-    void newItem();
-    void deleteItem();
-
-private:
-    QStringListModel* model_;
-};
-
+AbstractEditItemsDialog::AbstractEditItemsDialog(QWidget* parent) :
+    QDialog(parent) {
+    setupUi(this);
 }
 
-#endif // EDITLISTDIALOG_H
+AbstractEditItemsDialog::~AbstractEditItemsDialog() {}
 
