@@ -23,8 +23,6 @@
 
 #include <QMainWindow>
 
-#include <QDir>
-
 class QAction;
 
 namespace EpCore {
@@ -60,7 +58,6 @@ protected:
 
     virtual void readSettings() = 0;
 
-    QDir directoryOf(const QString& subdir);
     void filler();
     bool showSimulatorSettings();
     void updateWindowTitle(const QString& title);

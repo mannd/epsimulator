@@ -25,6 +25,7 @@
 #include "options.h"
 #include "versioninfo.h"
 
+#include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
 #include <QtCore/QFile>
 
@@ -67,6 +68,9 @@ void loadSystemData(unsigned int magicNumber, const QString& fileName,
 
 void deleteDir(const QString& path);
 void copyDir(const QString& sourcePath, const QString& destinationPath);
+QDir directoryOf(const QString& subdir);
+QDir rootDirectory();
+QDir systemDirectory();
 
 // definitions
 

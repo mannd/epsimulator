@@ -20,6 +20,8 @@
 
 #include "options.h"
 
+#include "fileutilities.h"
+
 #include <QCoreApplication>
 #include <QDir>
 
@@ -35,10 +37,14 @@ Options* Options::instance() {
     return instance_;
 }
 
-Options::Options() :  tempStudyPath(""),
-                      systemCatalogPath(QDir::cleanPath(
-                      QCoreApplication::applicationDirPath() 
-                      + "/../System")) {
+Options::Options() :  tempStudyPath("") {
+    QDir systemDir = systemDirectory();
+    systemCatalogPath = systemDir.canonicalPath();
+    if (!systemDir.exists())
+        if (!systemDir.mkdir(systemCatalogPath))
+            throw EpCore::SystemDirectoryNotFoundError(
+                systemCatalogPath);
+    qDebug() << "System Path = " << systemCatalogPath;
     readSettings();
 }
 

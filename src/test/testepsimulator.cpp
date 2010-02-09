@@ -183,6 +183,11 @@ void TestEpSimulator::testNameWithSpaces() {
 
 }
 
+void TestEpSimulator::testSystemPath() {
+    QVERIFY (EpCore::systemDirectory().absolutePath() ==
+             EpCore::rootDirectory().absolutePath() + "/" + "System");
+}
+
 void TestEpSimulator::testFilePath() {
     Study s;
     s.setPath("/home/");

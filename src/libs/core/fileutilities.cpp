@@ -103,3 +103,31 @@ void EpCore::copyDir(const QString& sourcePath,
                 + fileInfo.fileName());
     }
 }
+
+QDir EpCore::directoryOf(const QString& subdir) {
+    QDir dir(QCoreApplication::applicationDirPath());
+
+#if defined(Q_OS_WIN)
+    if (dir.dirName().toLower() == "debug"
+        || dir.dirName().toLower() == "release")
+        dir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (dir.dirName() == "MacOS") {
+        dir.cdUp();
+        dir.cdUp();
+        dir.cdUp();
+     }
+#endif
+    if (dir.dirName().toLower() == "bin")
+        dir.cdUp();
+    dir.cd(subdir);
+    return dir;
+}
+
+QDir EpCore::rootDirectory() {
+    return directoryOf(".");
+}
+
+QDir EpCore::systemDirectory() {
+    return directoryOf("System");
+}

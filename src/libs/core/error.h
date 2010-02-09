@@ -131,6 +131,15 @@ public:
         : IoError(pathName, msg) {}
 };
 
+// use if System directory doesn't exist
+class SystemDirectoryNotFoundError : public IoError {
+public:
+    SystemDirectoryNotFoundError(const QString& pathName,
+                                 const char* msg =
+                                 "system directory not found.")
+                                     : IoError(pathName, msg) {}
+};
+
 }
 
 #endif

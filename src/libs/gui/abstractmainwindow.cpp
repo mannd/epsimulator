@@ -22,6 +22,7 @@
 
 #include "actions.h"
 #include "changepassworddialog.h"
+#include "fileutilities.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "passworddialog.h"
@@ -69,29 +70,8 @@ void AbstractMainWindow::systemSettings() {
     }
 }
 
-QDir AbstractMainWindow::directoryOf(const QString& subdir) {
-    QDir dir(QApplication::applicationDirPath());
-
-#if defined(Q_OS_WIN)
-    if (dir.dirName().toLower() == "debug"
-        || dir.dirName().toLower() == "release")
-        dir.cdUp();
-#elif defined(Q_OS_MAC)
-    if (dir.dirName() == "MacOS") {
-        dir.cdUp();
-        dir.cdUp();
-        dir.cdUp();
-     }
-#endif
-    if (dir.dirName().toLower() == "bin")
-        dir.cdUp();
-    dir.cd(subdir);
-    return dir;
-}
-
-
 void AbstractMainWindow::help() {
-    QUrl url(directoryOf("doc").absoluteFilePath("index.html"));
+    QUrl url(EpCore::directoryOf("doc").absoluteFilePath("index.html"));
     url.setScheme("file");
     QDesktopServices::openUrl(url);
 }

@@ -40,6 +40,7 @@ private slots:
     void testFullName();
     void testNameWithSpaces();
     void testName();
+    void testSystemPath();
     void testFilePath();
     void testStudyKey();
     void testStudyFileName();
