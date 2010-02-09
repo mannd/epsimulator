@@ -1,23 +1,14 @@
 include(../../epsimulatorlibrary.pri)
-
 TEMPLATE = lib
-
 TARGET = patient
-
-SOURCES += \
-    heart.cpp \
+SOURCES += heart.cpp \
     saturation.cpp \
-    patient.cpp
-
-HEADERS += \
-    heart.h \
+    patient.cpp \
+    bloodpressure.cpp
+HEADERS += heart.h \
     saturation.h \
-    patient.h
-
+    patient.h \
+    bloodpressure.h
 INCLUDEPATH += ../core
-
-LIBS += \
-   -lcore
-
+LIBS += -lcore
 QT -= gui
-

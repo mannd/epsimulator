@@ -21,6 +21,7 @@
 #include "testepsimulator.h"
 
 #include "amplifier.h"
+#include "bloodpressure.h"
 #include "catalog.h"
 #include "catalogcombobox.h"
 #include "epdefs.h"
@@ -680,6 +681,28 @@ void TestEpSimulator::testStudyConfigurations() {
     Study s;
     s.setStudyConfiguration(config);
     QVERIFY(s.studyConfiguration()->name() == "testing123");
+}
+
+void TestEpSimulator::testBloodPressure() {
+    BloodPressure bp(100, 50);
+    QVERIFY(bp.bp() == "100/50");
+    QVERIFY(bp.meanBp() == 66);
+    QVERIFY(bp.meanBp(60) == 66);
+    QVERIFY(bp.meanBp(BloodPressure::rateCutoff) == 75);
+
+    // give bad blood pressure
+    BloodPressure bp1(-100, -80);
+    QVERIFY(bp1.bp() == "0/0");
+    QVERIFY(bp1.meanBp() == 0);
+    // another bad bp
+    BloodPressure bp2(50, 100);
+    QVERIFY(bp2.bp() == "100/100");
+    bp2.setSystolic(150);
+    bp2.setDiastolic(90);
+    QVERIFY(bp2.bp() == "150/90");
+    bp2.setBp(200, 100);
+    QVERIFY(bp2.bp() == "200/100");
+
 }
 
 void TestEpSimulator::cleanupTestCase() {
