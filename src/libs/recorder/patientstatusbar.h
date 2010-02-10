@@ -94,9 +94,9 @@ private:
     QTimer* timer_;
     SaveStatus saveStatus_;
     bool autoSave_;
-    QPalette* defaultPalette_;
-    QPalette* dangerPalette_;
-    QPalette* warningPalette_;
+    QPalette defaultPalette_;
+    QPalette dangerPalette_;
+    QPalette warningPalette_;
 };
 
 }

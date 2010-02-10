@@ -8,7 +8,8 @@ SOURCES += heart.cpp \
 HEADERS += heart.h \
     saturation.h \
     patient.h \
-    bloodpressure.h
+    bloodpressure.h \
+    patientdefs.h
 INCLUDEPATH += ../core
 LIBS += -lcore
 QT -= gui

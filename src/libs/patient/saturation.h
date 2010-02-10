@@ -21,8 +21,7 @@
 #ifndef SATURATION_H
 #define SATURATION_H
 
-#include <QCoreApplication>
-#include <QString>
+#include <QtCore/QCoreApplication>
 
 class QDataStream;
 

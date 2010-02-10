@@ -32,6 +32,7 @@
 #include "passworddialog.h"
 #include "passwordhandler.h"
 #include "patientdialog.h"
+#include "patientdefs.h"
 #include "recorder.h"
 #include "saturation.h"
 #include "study.h"
@@ -703,6 +704,15 @@ void TestEpSimulator::testBloodPressure() {
     bp2.setBp(200, 100);
     QVERIFY(bp2.bp() == "200/100");
 
+}
+
+void TestEpSimulator::testConversions() {
+    HeartRate rate = 100;
+    QVERIFY(rateToInterval(rate) == 600);
+    msec cycleLength = 600;
+    QVERIFY(intervalToRate(cycleLength) == 100);
+    rate = 60;
+    QVERIFY(rateToInterval(rate) == 1000);
 }
 
 void TestEpSimulator::cleanupTestCase() {

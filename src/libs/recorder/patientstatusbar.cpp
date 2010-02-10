@@ -84,7 +84,17 @@ void PatientStatusBar::patientInformationClosed() {
         setFrameStyle(QFrame::Panel | QFrame::Raised);
 }
 
-void PatientStatusBar::createPalettes() {}
+void PatientStatusBar::createPalettes() {
+    defaultPalette_ = spO2Label->palette();
+    dangerPalette_ = defaultPalette_;
+    dangerPalette_.setColor(QPalette::Window, Qt::red);
+    dangerPalette_.setColor(QPalette::WindowText, Qt::black);
+    warningPalette_ = defaultPalette_;
+    warningPalette_.setColor(QPalette::Window, Qt::yellow);
+    warningPalette_.setColor(QPalette::WindowText, Qt::black);
+
+    spO2Label->setAutoFillBackground(true);
+}
 
 void PatientStatusBar::setPatientInfo(const Name& name, 
     double kg, double bsa) {
@@ -96,20 +106,27 @@ void PatientStatusBar::setPatientInfo(const Name& name,
 void PatientStatusBar::displayO2Sat() {
     // here we want no reading if the probe has fallen off,
     // a black on red reading if danger, a black on yellow if
-    // warning, otherwise regular text.  
+    // warning, otherwise regular text.
+    // original palette
+
     if (patient_) {
-        if (patient_->o2Saturation() < malfunctionO2Sat_)
+        if (patient_->o2Saturation() < malfunctionO2Sat_) {
+            spO2Label->setPalette(defaultPalette_);
             spO2Label->setText(tr("***%"));
-        else if (patient_->o2Saturation() < dangerO2Sat_)
-            ; // set background/foreground
+            return;
+        }
+        if (patient_->o2Saturation() < dangerO2Sat_)
+            spO2Label->setPalette(dangerPalette_);
         else if (patient_->o2Saturation() < warningO2Sat_)
-            ; // set warning text/backgroun
+            spO2Label->setPalette(warningPalette_);
         else
-            spO2Label->setText(patient_->o2Saturation().percent());
+            spO2Label->setPalette(defaultPalette_);
+        spO2Label->setText(patient_->o2Saturation().percent());
     }
 }
 
 void PatientStatusBar::update() {
+    patient_->updatePhysiology();
     displayO2Sat();
     timeLabel->setText(QTime::currentTime().toString());
     dateLabel->setText(QDate::currentDate().toString());

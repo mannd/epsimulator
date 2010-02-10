@@ -20,6 +20,8 @@
 
 #include "bloodpressure.h"
 
+#include <QDataStream>
+
 using EpPatient::BloodPressure;
 
 const int BloodPressure::rateCutoff = 120;
@@ -73,4 +75,18 @@ int BloodPressure::meanBp(int heartRate) const {
         // better estimate of mean BP at faster heart rates
         // http://en.wikipedia.org/wiki/Mean_arterial_pressure
         return (systolic_ + diastolic_) / 2;
+}
+
+namespace EpPatient {
+
+QDataStream& operator<<(QDataStream& out, const BloodPressure& bp) {
+    out << bp.systolic_ << bp.diastolic_;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, BloodPressure& bp) {
+    in >> bp.systolic_ >> bp.diastolic_;
+    return in;
+}
+
 }

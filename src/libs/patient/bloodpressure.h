@@ -27,6 +27,9 @@ namespace EpPatient {
 
 class BloodPressure {
 public:
+    friend QDataStream& operator<<(QDataStream&, const BloodPressure&);
+    friend QDataStream& operator>>(QDataStream&, BloodPressure&);
+
     BloodPressure(const int systolic, const int diastolic);
 
     QString bp() const;

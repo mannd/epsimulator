@@ -85,6 +85,8 @@ private slots:
     void testStudyConfigurations();
     // class BloodPressure
     void testBloodPressure();
+    // conversion functions
+    void testConversions();
 
     void cleanupTestCase();
 

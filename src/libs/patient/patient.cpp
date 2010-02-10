@@ -21,16 +21,28 @@
 #include "patient.h"
 
 #include "fileutilities.h"
+#include "heart.h"
 
 #include <QDir>
 
+using namespace Ep;
+
 using EpPatient::Patient;
-using EpPatient::Saturation;
+using EpPatient::HeartRate;
 
 const QString Patient::fileName_ = "patient.dat";
 
-Patient::Patient(const QString& name) : name_(name), path_(0),
-    o2Saturation_(0) {}
+Patient::Patient(const QString& name)
+    : name_(name), path_(0), o2Saturation_(0),
+    bp_(0,0), secs_(0) {
+    heart_ = new Heart;
+    // just for fun
+    o2Saturation_ = 90;
+}
+
+Patient::~Patient() {
+    delete heart_;
+}
 
 void Patient::load() {
     EpCore::loadData(filePath(), MagicNumber, *this);
@@ -40,29 +52,58 @@ void Patient::save() {
     EpCore::saveData(filePath(), MagicNumber, *this);
 }
 
-Saturation Patient::o2Saturation() {
-    /// TODO calculate o2Saturation here
-    o2Saturation_ = o2Saturation_ + 1;
-    return o2Saturation_;
+/** Called every second by simulation -- at present by
+  PatientStatusBar -- and updates vital signs.
+Needs to take into account:
+    previous VS values
+    sedation levels
+    autonomic tone
+    Heart simulation heart rate
+    FiO2 level
+    random fluctations
+    others?
+
+**/
+void Patient::updatePhysiology() {
+    // fake for fun
+    ++secs_;
+    if (secs_ % 5 == 0)
+        ++o2Saturation_;
+    if (secs_ % 3 == 0)
+        --o2Saturation_;
+    if (o2Saturation_ < 90)
+       ++o2Saturation_;
+}
+
+void Patient::setHeartRate(const HeartRate rate) {
+    heart_->setHeartRate(rate);
+}
+
+HeartRate Patient::heartRate() const {
+    return heart_->meanHeartRate();
+}
+
+Interval Patient::meanCL() const {
+    return heart_->meanCL();
 }
 
 QString Patient::filePath() {
     return QDir::cleanPath(path_ + "/" + fileName_);
 }
 
-Patient::~Patient() {}
-
 namespace EpPatient {
 
 // friends
 
 QDataStream& operator<<(QDataStream& out, const Patient& patient) {
-    out << patient.name_ << patient.path_ << patient.o2Saturation_;
+    out << patient.name_ << patient.path_ << patient.o2Saturation_
+            << patient.bp_ << *patient.heart_;
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Patient& patient) {
-    in >> patient.name_ >> patient.path_ >> patient.o2Saturation_;
+    in >> patient.name_ >> patient.path_ >> patient.o2Saturation_
+            >> patient.bp_ >> *patient.heart_;
     return in;
 }
 

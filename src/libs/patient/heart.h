@@ -20,6 +20,9 @@
 #ifndef HEART_H
 #define HEART_H
 
+#include "epdefs.h"
+#include "patientdefs.h"
+
 #include <QtCore/QCoreApplication>
 
 class QDataStream;
@@ -42,6 +45,13 @@ public:
     ~Heart();
 
     QString name() {return name_;}
+
+    // do nothing below for now
+    void setHeartRate(HeartRate) {}
+
+    // these functions are used to update Patient physiology numbers
+    HeartRate meanHeartRate() const;
+    Ep::CL meanCL() const;
 
 private:
     QString name_;

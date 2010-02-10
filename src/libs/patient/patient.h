@@ -21,15 +21,19 @@
 #ifndef PATIENT_H
 #define PATIENT_H
 
+#include "patientdefs.h"
+#include "bloodpressure.h"
 #include "saturation.h"
 
 #include <QtCore/QCoreApplication>
 
+
 class QDataStream;
 
 namespace EpPatient {
+    class Heart;
 
-/**
+ /**
  * real-time patient simulation
  *
  * @author David Mann <mannd@epstudiossoftware.com>
@@ -45,11 +49,22 @@ public:
     ~Patient();
 
     void load();        
-    void save();        
+    void save();
+
+    void updatePhysiology();
 
     void setPath(const QString& path) {path_ = path;}
 
-    Saturation o2Saturation();
+    void setO2Saturation(const Saturation& sat) {o2Saturation_ = sat;}
+    void setBp(const BloodPressure& bp) {bp_ = bp;}
+    void setHeartRate(const HeartRate rate);
+    void setRespRate(const RespRate rate) {respRate_ = rate;}
+
+    Saturation o2Saturation() const {return o2Saturation_;}
+    BloodPressure bp() const {return bp_;}
+    HeartRate heartRate() const;
+    Ep::Interval meanCL() const;
+    RespRate respRate() const {return respRate_;}
 
 private:
     enum {MagicNumber = 0x99379335};  // for patient.dat file
@@ -61,8 +76,11 @@ private:
     QString name_;
     QString path_;      // path to patient.dat file
     Saturation o2Saturation_;
+    BloodPressure bp_;
+    RespRate respRate_;
+    Heart* heart_;
+    unsigned long int secs_;
 
-    // patient physiology
 };
 
 }

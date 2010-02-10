@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,23 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/**
- * @file epdefs.h
- * Contains basic electrophysiologic typedefs, enums, etc.
- */
+#ifndef PATIENTDEFS_H
+#define PATIENTDEFS_H
 
-namespace Ep {
+#include "epdefs.h"
 
-typedef unsigned int msec;
-typedef msec CI;
-typedef msec CL;
-typedef unsigned int Rate;
+namespace EpPatient {
 
-typedef double Volt;
-typedef double MAmp;
+    typedef Ep::Rate HeartRate;
+    typedef Ep::Rate RespRate;
 
-typedef msec Interval;  // time in msec resolution
-typedef double Duration;  // time in finer resolution, e.g. stimulus PW
-typedef double Amplitude;   // amplitude in mAmp
+
+    inline HeartRate intervalToRate(Ep::Interval interval) {
+        return 60000 / interval;
+    }
+
+    inline Ep::Interval rateToInterval(HeartRate rate) {
+        return 60000 / rate;
+    }
 
 }
+
+#endif // PATIENTDEFS_H

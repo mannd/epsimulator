@@ -23,12 +23,23 @@
 #include <QDataStream>
 
 using EpPatient::Heart;
+using EpPatient::HeartRate;
+using EpPatient::RespRate;
 
 Heart::Heart(const QString& name) : name_(name) {}
 
 Heart::Heart(const Heart& heart) : name_(heart.name_) {}
 
 Heart::~Heart() {}
+
+// FAKE!!!
+HeartRate Heart::meanHeartRate() const {
+    return 70;
+}
+
+Ep::msec Heart::meanCL() const {
+    return rateToInterval(meanHeartRate());
+}
 
 namespace EpPatient {
 
