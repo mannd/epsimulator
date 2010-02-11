@@ -99,8 +99,8 @@ void EpCore::copyDir(const QString& sourcePath,
             copyDir(fileInfo.filePath(), destination.path());
         }
         else
-            QFile::copy(fileInfo.filePath(), destination.path() + "/"
-                + fileInfo.fileName());
+            QFile::copy(fileInfo.filePath(), joinPaths(destination.path(),
+                fileInfo.fileName()));
     }
 }
 
@@ -130,4 +130,10 @@ QDir EpCore::rootDirectory() {
 
 QDir EpCore::systemDirectory() {
     return directoryOf("System");
+}
+
+// joins together 2 elements of a path, e.g. '/home' and '/src/'
+// duplicate, missing '/'s are fixed
+QString EpCore::joinPaths(const QString & p1, const QString & p2) {
+    return QDir::cleanPath(p1 + "/" + p2);
 }

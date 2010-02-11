@@ -74,3 +74,18 @@
 ** gdb problem
    Solution: downloaded later version of gdb from here:
    ftp://ftp.qt.nokia.com/misc/gdb/
+* Study vs Patient
+** Study contains the initial state of the study
+   This includes study specific items, such as date, study number,
+   study state, etc.  When a study starts, there is also a patient who
+   has an initial state.  This includes unchangeables like sex and
+   date of birth but also things that can change from study to study
+   like disease state, and also initial vital signs, rhythm, etc.  All
+   this is present during each study.
+** Different study situations
+*** Pre-registered patient, from scratch
+    
+*** New Patient, from scratch
+    User fills in patient demographics, selects patient template
+    (defaults to '<default>').  
+

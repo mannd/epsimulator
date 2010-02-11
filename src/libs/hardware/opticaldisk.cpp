@@ -67,7 +67,7 @@ OpticalDisk::OpticalDisk(const QString& path)
 OpticalDisk::~OpticalDisk() {}
 
 QString OpticalDisk::makeStudiesPath(const QString& path) {
-    return QDir::cleanPath(path + "/" + studiesDirName_);
+    return EpCore::joinPaths(path, studiesDirName_);
 }
 
 /**
@@ -88,7 +88,7 @@ void OpticalDisk::eject(QWidget* w) {
  * @return full path of the label.dat file, including file name.
  */
 QString OpticalDisk::labelFilePath() const {
-    return QDir::cleanPath(labelPath() + "/" + labelFileName_);
+    return EpCore::joinPaths(labelPath(), labelFileName_);
 }
 
 /**
@@ -284,7 +284,7 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
 }
 
 QString EmulatedOpticalDisk::labelFilePath() const {
-    return QDir::cleanPath(labelPath() + "/" + labelFileName_);
+    return EpCore::joinPaths(labelPath(), labelFileName_);
 }
 
 /// returns path to /disks directory
@@ -295,12 +295,12 @@ QString EmulatedOpticalDisk::disksPath() const {
 
 /// returns path to specific emulated disk without the side
 QString EmulatedOpticalDisk::diskPath() const {
-    return QDir::cleanPath(disksPath() + "/" + diskName_);
+    return EpCore::joinPaths(disksPath(), diskName_);
 }
 
 /// returns full path to label.dat, including side, excluding file itself
 QString EmulatedOpticalDisk::labelPath() const {
-    return QDir::cleanPath(diskPath() + "/" + sideDir());
+    return EpCore::joinPaths(diskPath(), sideDir());
 }
 
 QString EmulatedOpticalDisk::sideDir() const {

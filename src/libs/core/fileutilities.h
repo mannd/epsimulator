@@ -72,6 +72,8 @@ QDir directoryOf(const QString& subdir);
 QDir rootDirectory();
 QDir systemDirectory();
 
+QString joinPaths(const QString&, const QString&);
+
 // definitions
 
 template<typename T> 
@@ -124,9 +126,9 @@ void saveData(const QString& filePath, unsigned int magicNumber, const T& data) 
 template<typename T>
 void saveSystemData(unsigned int magicNumber, const QString& fileName,
     const T& data, Options* options) {
-    saveData(options->systemCatalogPath + "/" + fileName, magicNumber, data);
+    saveData(joinPaths(options->systemCatalogPath, fileName), magicNumber, data);
     if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
-        saveData(options->networkStudyPath + "/" + fileName, magicNumber, data);
+        saveData(joinPaths(options->networkStudyPath, fileName), magicNumber, data);
 } 
 
 // System data is read from the Network study path, if network storage
@@ -134,9 +136,9 @@ void saveSystemData(unsigned int magicNumber, const QString& fileName,
 template<typename T>
 void loadSystemData(unsigned int magicNumber, const QString& fileName, T& data, Options* options) {
     if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
-        loadData(options->networkStudyPath + "/" + fileName, magicNumber, data);
+        loadData(joinPaths(options->networkStudyPath, fileName), magicNumber, data);
     else
-        loadData(options->systemCatalogPath + "/" + fileName, magicNumber, data);
+        loadData(joinPaths(options->systemCatalogPath, fileName), magicNumber, data);
 }
 
 } // namespace EpCore

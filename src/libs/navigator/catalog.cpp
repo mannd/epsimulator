@@ -34,7 +34,6 @@
 
 using EpCore::Options;
 using EpHardware::EpOpticalDisk::OpticalDisk;
-//using EpNavigator::StudyData;
 using EpNavigator::Catalog;
 using EpNavigator::OpticalCatalog;
 using EpNavigator::OtherCatalog;
@@ -44,8 +43,6 @@ using EpNavigator::Catalogs;
 using EpStudy::Study;
 
 namespace EpNavigator {
-
-// struct StudyData
 
 QDataStream& operator<<(QDataStream& out, const StudyData& studyData) {
     out << studyData.study << studyData.location << studyData.side 
@@ -142,7 +139,7 @@ void Catalog::save() {
 }
 
 QString Catalog::filePath() const {
-    return QDir::cleanPath(path_ + "/" + fileName_);
+    return EpCore::joinPaths(path_, fileName_);
 }
 
 // class OpticalCatalog
@@ -187,7 +184,7 @@ void OpticalCatalog::create(const QString& location, const QString& side,
     for (QStringList::Iterator it = studyList.begin(); 
             it != studyList.end(); ++it) {
         Study s;
-        s.setPath(studiesDir.path() + "/" + *it);
+        s.setPath(EpCore::joinPaths(studiesDir.path(), *it));
         s.load();
         StudyData sd = {s, location, side, labName, machineName};
         catalog_[s.key()] = sd; 

@@ -108,7 +108,7 @@ namespace EpStudy {
             ef_(DEFAULT_EF),
             ischemia_(false),
             path_(),
-            preregisterStudy_(true) {
+            isPregisterStudy_(true) {
         heart_ = new Heart;
         studyConfiguration_ = new StudyConfiguration;
         testInvariant();
@@ -196,11 +196,11 @@ namespace EpStudy {
     }
 
     QString Study::filePath() {
-        return QDir::cleanPath(path_ + "/" + fileName_);
+        return EpCore::joinPaths(path_ , fileName_);
     }
 
     QString Study::configFilePath() {
-        return QDir::cleanPath(path_ + "/" + configFileName_);
+        return EpCore::joinPaths(path_, configFileName_);
     }
 
     // private
@@ -229,7 +229,7 @@ namespace EpStudy {
         ischemia_ = study.ischemia_;
         path_ = study.path_;
         key_ = study.key_;
-        preregisterStudy_ = study.preregisterStudy_;
+        isPregisterStudy_ = study.isPregisterStudy_;
         // copy the heart pointer
         heart_ = new Heart(*study.heart_);
         studyConfiguration_ = new StudyConfiguration(*study.studyConfiguration_);
@@ -247,7 +247,7 @@ namespace EpStudy {
                 << (qint32)study.bsaManualEdit_ << (qint32)study.vagalTone_
                 << (qint32)study.sympatheticTone_ << (qint32)study.ef_
                 << (qint32)study.ischemia_ << study.path_ << study.key_
-                << study.preregisterStudy_
+                << study.isPregisterStudy_
                 << *study.heart_ << *study.studyConfiguration_;
         return out;
     }
@@ -263,9 +263,8 @@ namespace EpStudy {
                 >> study.weightLbs_ >> study.bsa_ >> bsaManualEdit
                 >> vagalTone >> sympatheticTone >> ef
                 >> ischemia >> study.path_ >> study.key_
-                >> study.preregisterStudy_
+                >> study.isPregisterStudy_
                 >> *study.heart_ >> *study.studyConfiguration_;
-        ///TODO need to add heart to this
         study.sex_ = (sex != 0) ? Female : Male;
         study.bsaManualEdit_ = bsaManualEdit;
         study.vagalTone_ = vagalTone;

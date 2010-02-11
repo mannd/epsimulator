@@ -71,7 +71,7 @@ void EditStudyConfigsDialog::newStudyConfig() {
         QMessageBox::warning(this,
                              tr("Duplicate Study Configuration Name"),
                              tr("Study configuration name %1 already exists. "
-                                "Select <b>Edit</b> if you wish to "
+                                "Select Edit if you wish to "
                                 "change an existing study configuration")
                              .arg(name));
 

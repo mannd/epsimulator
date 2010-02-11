@@ -30,7 +30,6 @@
 
 #include <QtGui/QApplication>
 #include <QtGui/QIcon>
-#include <QtGui/QMessageBox>
 
 // Languages
 // Only define 1 of the below

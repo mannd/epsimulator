@@ -103,7 +103,7 @@ namespace EpStudy {
         void resetKey() {key_ = QString();}
         void load();        // load study.dat file
         void save();        // save study.dat file
-        void setPreregisterStudy(bool value) {preregisterStudy_ = value;}
+        void setPreregisterStudy(bool value) {isPregisterStudy_ = value;}
 
         void loadStudyConfiguration();
         void saveStudyConfiguration();
@@ -149,7 +149,7 @@ namespace EpStudy {
         QDateTime dateTime() const {return dateTime_;}
         QString key() const;    // Generates key based on name and datetime
         // to identify study uniquely.
-        bool isPreregisterStudy() const {return preregisterStudy_;}
+        bool isPreregisterStudy() const {return isPregisterStudy_;}
         StudyConfiguration* studyConfiguration() const { 
             return studyConfiguration_;}
 
@@ -193,7 +193,7 @@ namespace EpStudy {
         int ef_;
         bool ischemia_;
         QString path_;      // full path to study directory
-        bool preregisterStudy_;
+        bool isPregisterStudy_;
 
         mutable QString key_;   // unique key for each study
         EpPatient::Heart* heart_;

@@ -88,7 +88,7 @@ Interval Patient::meanCL() const {
 }
 
 QString Patient::filePath() {
-    return QDir::cleanPath(path_ + "/" + fileName_);
+    return EpCore::joinPaths(path_, fileName_);
 }
 
 namespace EpPatient {

@@ -21,6 +21,7 @@
 #include "changepassworddialog.h"
 
 #include "passwordhandler.h"
+#include "versioninfo.h"
 
 #include <QMessageBox>
 
@@ -51,25 +52,31 @@ void ChangePasswordDialog::clear() {
 }
 
 void ChangePasswordDialog::accept() {
+    QMessageBox msgBox(this);
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setWindowTitle(EpCore::VersionInfo::instance()->programName());
     if (!pwHandler_->testPassword(oldLineEdit->text())) {
-        QMessageBox::warning(this, tr("Wrong Password"),
-                             tr("Old password is wrong. "
+        msgBox.setText(tr("Wrong Password"));
+        msgBox.setInformativeText(tr("Old password is wrong. "
                                 "Please try again."));
+        msgBox.exec();
         clear();
     }
     else if (newLineEdit->text().isEmpty()) {
-        QMessageBox::warning(this, tr("Blank Password Not Allowed"),
-                             tr("A blank password is not allowed. "
+        msgBox.setText(tr("Blank Password Not Allowed"));
+        msgBox.setInformativeText(tr("A blank password is not allowed. "
                                  "Please try again."));
+        msgBox.exec();
         clear();
     }
     else if (testPasswordsEqual())    
         QDialog::accept();
     else {
-        QMessageBox::warning(this, tr("Passwords Don't Match"),
-                             tr("The new passwords don't match. "
+        msgBox.setText(tr("Passwords Don't Match"));
+        msgBox.setInformativeText(tr("The new passwords don't match. "
                                 "You may have made a typing error. "
                                 "Please try again."));
+        msgBox.exec();
         clear();
     }
 }

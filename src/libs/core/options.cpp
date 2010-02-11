@@ -44,7 +44,7 @@ Options::Options() :  tempStudyPath("") {
         if (!systemDir.mkdir(systemCatalogPath))
             throw EpCore::SystemDirectoryNotFoundError(
                 systemCatalogPath);
-    qDebug() << "System Path = " << systemCatalogPath;
+    qDebug() << "EP Simulator is using a System Path of " << systemCatalogPath;
     readSettings();
 }
 
@@ -55,8 +55,7 @@ void Options::readSettings() {
     QSettings settings;
     settings.beginGroup("options");
 
-    QString defaultOpticalPath = QDir::cleanPath(QDir::homePath() 
-                                 + "/MyStudies");   
+    QString defaultOpticalPath = joinPaths(QDir::homePath(),"MyStudies");
     opticalStudyPath = settings.value("opticalStudyPath",
                                        defaultOpticalPath).toString();
     networkStudyPath = settings.value("networkStudyPath", 

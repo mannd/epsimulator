@@ -715,6 +715,19 @@ void TestEpSimulator::testConversions() {
     QVERIFY(rateToInterval(rate) == 1000);
 }
 
+void TestEpSimulator::testJoinPaths() {
+    QString p1 = "///hello/./";
+    QString p2 = "/tmp";
+    QVERIFY(joinPaths(p1, p2) == "/hello/tmp");
+    // note that trailing slash is always removed
+    p2 = "/tmp/";
+    QVERIFY(QDir::cleanPath(p2) == "/tmp");
+    QVERIFY(joinPaths(p1, p2) == "/hello/tmp");
+    // backslashs are converted to forward slashes
+    QString p3 = "\\hello";
+    QVERIFY(joinPaths(p1, p2) == "/hello/tmp");
+}
+
 void TestEpSimulator::cleanupTestCase() {
     bool workingPathUnchanged = QDir::currentPath() == workingPath_;
     QVERIFY(workingPathUnchanged);

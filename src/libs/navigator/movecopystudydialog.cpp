@@ -22,6 +22,7 @@
 
 #include "actions.h"
 #include "catalog.h"
+#include "fileutilities.h"
 #include "opticaldisk.h"
 
 #include <QList>
@@ -112,8 +113,7 @@ void MoveCopyStudyDialog::setUpLabels(const QString& label) {
 
 QString MoveCopyStudyDialog::addOpticalToPath(const QString& path) {
     if (path == opticalDisk_->path())
-        return QDir::cleanPath(opticalDisk_->path() + "/"
-            + tr("(Optical)"));
+        return EpCore::joinPaths(opticalDisk_->path(),tr("(Optical)"));
     else
         return path;
 }

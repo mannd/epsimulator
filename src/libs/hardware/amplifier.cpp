@@ -22,7 +22,6 @@
 
 #include <QApplication>
 #include <QDataStream>
-#include <QMessageBox>
 #include <QtGlobal>
 
 namespace EpHardware { namespace EpAmplifier {

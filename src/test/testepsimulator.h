@@ -87,6 +87,8 @@ private slots:
     void testBloodPressure();
     // conversion functions
     void testConversions();
+    // utilities
+    void testJoinPaths();
 
     void cleanupTestCase();
 
