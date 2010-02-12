@@ -23,7 +23,8 @@
 
 #include "ui_patientdialog.h"
 
-#include "study.h"      // for Sex definition
+#include "patientdefs.h"
+#include "study.h"
 
 #include <QDialog>
 
@@ -65,7 +66,7 @@ private:
     double poundsToKilograms(double) const;
     double kilogramsToPounds(double) const;
     double bsa();
-    EpStudy::Sex sex() const;
+    EpPatient::Sex sex() const;
 
     double metricHeight_;
     double metricWeight_;

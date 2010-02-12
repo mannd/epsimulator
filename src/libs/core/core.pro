@@ -8,7 +8,8 @@ SOURCES += options.cpp \
     fileutilities.cpp \
     passwordhandler.cpp \
     probability.cpp \
-    eplists.cpp
+    eplists.cpp \
+    interval.cpp
 HEADERS += options.h \
     versioninfo.h \
     error.h \
@@ -17,4 +18,5 @@ HEADERS += options.h \
     passwordhandler.h \
     probability.h \
     epdefs.h \
-    eplists.h
+    eplists.h \
+    interval.h

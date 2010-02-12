@@ -30,10 +30,12 @@
 #include "buttonframe.h"
 #include "catalogcombobox.h"
 #include "disklabeldialog.h"
+#include "editintervalsdialog.h"
 #include "editlistdialog.h"
 #include "error.h"
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
+#include "interval.h"
 #include "movecopystudydialog.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -67,9 +69,11 @@
 #include <memory>
 
 using EpCore::EpLists;
+using EpCore::Intervals;
 using EpCore::Options;
 using EpCore::User;
 using EpCore::VersionInfo;
+using EpGui::EditIntervalsDialog;
 using EpGui::EditListDialog;
 using EpGui::PatientDialog;
 using EpGui::SelectStudyConfigDialog;
@@ -670,8 +674,14 @@ void Navigator::noStudySelectedError() {
 }
 
 void Navigator::setIntervals() {
-    if (administrationAllowed())
-        filler();
+    if (administrationAllowed()) {
+        Intervals intervals;
+        EditIntervalsDialog d(intervals, this);
+        if (d.exec()) {
+            intervals = d.intervals();
+            intervals.update();
+        }
+    }
 }
 
 void Navigator::setColumnFormats() {

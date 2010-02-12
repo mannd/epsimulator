@@ -60,6 +60,9 @@ public:
     void setHeartRate(const HeartRate rate);
     void setRespRate(const RespRate rate) {respRate_ = rate;}
 
+    Sex sex() const {return sex_;}
+    AutonomicTone vagalTone() const {return vagalTone_;}
+    AutonomicTone sympatheticTone() const {return sympatheticTone_;}
     Saturation o2Saturation() const {return o2Saturation_;}
     BloodPressure bp() const {return bp_;}
     HeartRate heartRate() const;
@@ -75,6 +78,9 @@ private:
 
     QString name_;
     QString path_;      // path to patient.dat file
+    Sex sex_;
+    AutonomicTone vagalTone_;
+    AutonomicTone sympatheticTone_;
     Saturation o2Saturation_;
     BloodPressure bp_;
     RespRate respRate_;

@@ -18,27 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef EDITINTERVALSDIALOG_H
+#define EDITINTERVALSDIALOG_H
+
 #include "abstractedititemsdialog.h"
 
-using EpGui::AbstractEditItemsDialog;
+#include "interval.h"
 
-AbstractEditItemsDialog::AbstractEditItemsDialog(const QString& title,
-                                                 QWidget* parent) :
-    QDialog(parent) {
-    setupUi(this);
-    setWindowTitle(title);
+namespace EpGui {
 
-    connect(newButton, SIGNAL(clicked()), this, SLOT(insert()));
-    connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
-    connect(copyButton, SIGNAL(clicked()), this, SLOT(copy()));
-    connect(deleteButton, SIGNAL(clicked()), this, SLOT(del()));
+class EditIntervalsDialog : public AbstractEditItemsDialog {
+    Q_OBJECT
+public:
+    EditIntervalsDialog(EpCore::Intervals& intervals,
+                        QWidget* parent = 0);
+
+    EpCore::Intervals intervals() {return model_->intervals();}
+
+private slots:
+    void insert() {}
+    void edit() {}
+    // no copy slot
+    void del();
+
+private:
+    EpCore::IntervalModel* model_;
+};
+
 }
 
-AbstractEditItemsDialog::~AbstractEditItemsDialog() {}
-
-void AbstractEditItemsDialog::showCopyButton(bool show) {
-    copyButton->setVisible(show);
-}
-
-void AbstractEditItemsDialog::copy() {}
-
+#endif // EDITINTERVALSDIALOG_H

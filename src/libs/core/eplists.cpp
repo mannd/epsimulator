@@ -21,6 +21,7 @@
 #include "eplists.h"
 
 #include "fileutilities.h"
+#include "options.h"
 
 using EpCore::EpLists;
 

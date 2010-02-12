@@ -28,7 +28,7 @@
 namespace EpGui {
 
 class AbstractEditItemsDialog : public QDialog,
-    private Ui::AbstractEditItemsDialog {
+    protected Ui::AbstractEditItemsDialog {
     Q_OBJECT
 public:
     AbstractEditItemsDialog(const QString& title,

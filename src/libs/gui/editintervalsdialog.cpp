@@ -18,27 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "abstractedititemsdialog.h"
+#include "editintervalsdialog.h"
 
-using EpGui::AbstractEditItemsDialog;
+using EpCore::Interval;
+using EpCore::IntervalModel;
+using EpCore::Intervals;
+using EpGui::EditIntervalsDialog;
 
-AbstractEditItemsDialog::AbstractEditItemsDialog(const QString& title,
-                                                 QWidget* parent) :
-    QDialog(parent) {
-    setupUi(this);
-    setWindowTitle(title);
-
-    connect(newButton, SIGNAL(clicked()), this, SLOT(insert()));
-    connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
-    connect(copyButton, SIGNAL(clicked()), this, SLOT(copy()));
-    connect(deleteButton, SIGNAL(clicked()), this, SLOT(del()));
+EditIntervalsDialog::EditIntervalsDialog(Intervals& intervals,
+                                         QWidget* parent)
+        : AbstractEditItemsDialog(tr("Intervals"), parent) {
+    showCopyButton(false);
+    intervals.sort();
+    model_ = new IntervalModel(this);
+    model_->setIntervals(intervals);
+    listView->setModel(model_);
 }
 
-AbstractEditItemsDialog::~AbstractEditItemsDialog() {}
-
-void AbstractEditItemsDialog::showCopyButton(bool show) {
-    copyButton->setVisible(show);
+void EditIntervalsDialog::del() {
+    model_->removeRows(listView->currentIndex().row(), 1, QModelIndex());
 }
-
-void AbstractEditItemsDialog::copy() {}
-

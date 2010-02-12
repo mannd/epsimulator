@@ -16,7 +16,8 @@ SOURCES += simulatorsettingsdialog.cpp \
     studyconfigurationdialog.cpp \
     editlistdialog.cpp \
     abstractedititemsdialog.cpp \
-    edititemsdialog.cpp
+    edititemsdialog.cpp \
+    editintervalsdialog.cpp
 HEADERS += simulatorsettingsdialog.h \
     patientdialog.h \
     changepassworddialog.h \
@@ -28,7 +29,8 @@ HEADERS += simulatorsettingsdialog.h \
     studyconfigurationdialog.h \
     editlistdialog.h \
     abstractedititemsdialog.h \
-    edititemsdialog.h
+    edititemsdialog.h \
+    editintervalsdialog.h
 FORMS += ui/simulatorsettingsdialog.ui \
     ui/patientdialog.ui \
     ui/changepassworddialog.ui \

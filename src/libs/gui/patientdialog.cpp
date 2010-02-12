@@ -25,10 +25,10 @@
 #include <math.h>
 
 using EpGui::PatientDialog;
-using EpStudy::Female;
-using EpStudy::Male;
+//using EpStudy::Female;
+//using EpStudy::Male;
 using EpStudy::Name;
-using EpStudy::Sex;
+using EpPatient::Sex;
 using EpStudy::Study;
 
 PatientDialog::PatientDialog(QWidget* parent) :
@@ -198,5 +198,6 @@ void PatientDialog::getFields(Study* study) const {
 }
 
 Sex PatientDialog::sex() const {
-    return sexComboBox->currentIndex() == 0 ? Male : Female;
+    return sexComboBox->currentIndex() == 0
+            ? EpPatient::Male : EpPatient::Female;
 }
