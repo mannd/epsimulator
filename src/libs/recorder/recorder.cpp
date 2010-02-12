@@ -550,7 +550,7 @@ void Recorder::writeSettings() {
     settings.setValue("state", saveState());
     // erase previously save list of open display windows
     settings.remove("subWindowList"); 
-    // crease empty list of open display window names
+    // erase empty list of open display window names
     QStringList subWindowKeys; 
     // get open windows
     QList<QMdiSubWindow*> subWindowList =  centralWidget_->subWindowList();
@@ -606,12 +606,15 @@ void Recorder::readSettings() {
         setWindowState(windowState() ^ Qt::WindowMaximized);
     }
     else {
+#ifdef Q_OS_WIN32
+        restoreGeometry(settings.value("geometry").toByteArray());
+#else   // Mac or Linux
         // restoreGeometry doesn't work on X11
         // see Window Geometry section of Qt Reference Doc
-        //restoreGeometry(settings.value("geometry").toByteArray());
-        restoreState(settings.value("state").toByteArray());
         resize(size.toSize());
         move(settings.value("pos").toPoint());
+#endif
+        restoreState(settings.value("state").toByteArray());
     }
     settings.endGroup();
 }

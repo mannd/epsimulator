@@ -79,7 +79,7 @@ private:
     BloodPressure bp_;
     RespRate respRate_;
     Heart* heart_;
-    unsigned long int secs_;
+    unsigned long int secs_;    // total simulation time
 
 };
 

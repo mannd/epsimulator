@@ -28,6 +28,10 @@ namespace EpPatient {
     typedef Ep::Rate HeartRate;
     typedef Ep::Rate RespRate;
 
+    typedef int AutonomicTone;
+
+    enum Sex {Male, Female};
+
 
     inline HeartRate intervalToRate(Ep::Interval interval) {
         return 60000 / interval;

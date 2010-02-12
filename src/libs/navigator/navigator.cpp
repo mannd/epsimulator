@@ -1149,9 +1149,17 @@ void Navigator::readSettings() {
         // but resize() and move() work ok.
         // see Window Geometry section of Qt Reference Doc
         //restoreGeometry(settings.value("geometry").toByteArray());
-        restoreState(settings.value("state").toByteArray());
+
+#ifdef Q_OS_WIN32
+        restoreGeometry(settings.value("geometry").toByteArray());
+#else   // Mac or Linux
+        // restoreGeometry doesn't work on X11
+        // but resize() and move() work ok.
+        // see Window Geometry section of Qt Reference Doc
         resize(size.toSize());
         move(settings.value("pos").toPoint());
+#endif
+        restoreState(settings.value("state").toByteArray());
         centralWidget_->restoreState(settings.value(
             "centralWidgetState").toByteArray());
     }

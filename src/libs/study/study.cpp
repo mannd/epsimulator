@@ -39,6 +39,8 @@
 namespace EpStudy {
 
     using EpPatient::Heart;
+    using EpPatient::Sex;
+    using EpPatient::AutonomicTone;
 
     Name::Name(const QString& last,
                const QString& first,
@@ -100,7 +102,7 @@ namespace EpStudy {
             name_(),
             dateOfBirth_(DEFAULT_BIRTH_DATE),
             mrn_(), number_(), accountNumber_(),
-            sex_(Male), height_(0), weight_(0),
+            sex_(EpPatient::Male), height_(0), weight_(0),
             heightIn_(0), weightLbs_(0), bsa_(0),
             bsaManualEdit_(false),
             vagalTone_(DEFAULT_VAGAL_TONE),
@@ -265,7 +267,7 @@ namespace EpStudy {
                 >> ischemia >> study.path_ >> study.key_
                 >> study.isPregisterStudy_
                 >> *study.heart_ >> *study.studyConfiguration_;
-        study.sex_ = (sex != 0) ? Female : Male;
+        study.sex_ = (sex != 0) ? EpPatient::Female : EpPatient::Male;
         study.bsaManualEdit_ = bsaManualEdit;
         study.vagalTone_ = vagalTone;
         study.sympatheticTone_ = sympatheticTone;

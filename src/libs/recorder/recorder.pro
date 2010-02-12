@@ -23,7 +23,7 @@ INCLUDEPATH += ../gui \
     ../hardware \
     ../study
 FORMS += ui/patientstatusbar.ui
-LIBS += -L../../lib \
+LIBS += \
     -lcore \
     -lpatient \
     -lgui \

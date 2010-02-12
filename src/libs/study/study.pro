@@ -4,8 +4,7 @@ TARGET = study
 INCLUDEPATH += ../core \
     ../patient \
     ../hardware
-LIBS += -L../../lib \
-    -lcore \
+LIBS += -lcore \
     -lpatient \
     -lhardware
 SOURCES += study.cpp \
