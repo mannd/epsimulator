@@ -1,0 +1,26 @@
+EP Simulator Help
+* Copyright and License
+  EP Simulator is copyright 2006-2007 by EP Studios, Inc.  The
+  software license is GPL version 2.
+* Disclaimer
+  EP Simulator is currently under development.  This Help file is
+  probably not very helpful -- yet.
+* Websites
+** EP Studios, Inc.
+   http://www.epstudiossoftware.com/
+** Git repository
+   http://github.com/mannd/epsimulator
+* Differences between EP Simulator and the GE/Prucka System
+** Help System
+   The Prucka help system opens a PDF version of the manual.  For now,
+   EP Simulator Help will open this set of notes.
+** Simulator Settings menu
+** Navigator blue side bar
+   This is programmable to version 5 or version 6 appearance.
+** Patient Information dialog
+   Second tab is not Contact, but Physiology (may change).
+** Administrator mode
+   Administrator mode is optional and can be turned off.
+** Optical disk emulation
+   Study data can be stored on an actual optical disk, a hard drive
+   directory, or a hard drive directory disguised to mimic an optical disk.

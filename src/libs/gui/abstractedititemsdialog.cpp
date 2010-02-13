@@ -20,6 +20,8 @@
 
 #include "abstractedititemsdialog.h"
 
+#include <QMessageBox>
+
 using EpGui::AbstractEditItemsDialog;
 
 AbstractEditItemsDialog::AbstractEditItemsDialog(const QString& title,
@@ -32,11 +34,35 @@ AbstractEditItemsDialog::AbstractEditItemsDialog(const QString& title,
     connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
     connect(copyButton, SIGNAL(clicked()), this, SLOT(copy()));
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(del()));
+    connect(listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+                               this, SLOT(edit()));
 }
 
 void AbstractEditItemsDialog::showCopyButton(bool show) {
     copyButton->setVisible(show);
 }
 
+void AbstractEditItemsDialog::insert() {
+    newItem();
+}
+
+void AbstractEditItemsDialog::edit() {
+    editItem();
+}
+
 void AbstractEditItemsDialog::copy() {}
+
+void AbstractEditItemsDialog::del() {
+    if (listWidget->selectedItems().size() == 0) {
+        return;
+    }
+    int result = QMessageBox::warning(this, tr("Delete Item?"),
+                         tr("The selected item will be permanently deleted."
+                             "Do you wish to continue?"),
+                            QMessageBox::Yes | QMessageBox::No);
+    if (result == QMessageBox::Yes) {
+        removeItem();
+        createListWidget();
+    }
+}
 

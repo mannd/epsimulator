@@ -1,18 +1,209 @@
-<!DOCTYPE PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>EP Simulator Help</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2010-02-13 12:25:23 EST"/>
+<meta name="author" content="David Mann"/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color:lightblue; font-weight:normal }
+  .target { }
+  .timestamp { color: grey }
+  .timestamp-kwd { color: CadetBlue }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*/-->
+</script>
+</head><body>
+<h1 class="title">EP Simulator Help</h1>
 
-<html> 
 
-<body>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Copyright and License </a></li>
+<li><a href="#sec-2">2 Disclaimer </a></li>
+<li><a href="#sec-3">3 Websites </a>
+<ul>
+<li><a href="#sec-3.1">3.1 EP Studios, Inc. </a></li>
+<li><a href="#sec-3.2">3.2 Git repository </a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4 Differences between EP Simulator and the GE/Prucka System </a>
+<ul>
+<li><a href="#sec-4.1">4.1 Help System </a></li>
+<li><a href="#sec-4.2">4.2 Simulator Settings menu </a></li>
+<li><a href="#sec-4.3">4.3 Navigator blue side bar </a></li>
+<li><a href="#sec-4.4">4.4 Patient Information dialog </a></li>
+<li><a href="#sec-4.5">4.5 Administrator mode </a></li>
+<li><a href="#sec-4.6">4.6 Optical disk emulation </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 
-<h1>EP Simulator Help</h1>
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">1 Copyright and License </h2>
+<div id="text-1">
 
-<p><strong>EP Simulator</strong> is currently under development.
+<p>EP Simulator is copyright 2006-2007 by EP Studios, Inc.  The
+software license is GPL version 2.
+</p></div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">2 Disclaimer </h2>
+<div id="text-2">
+
+<p>EP Simulator is currently under development.  This Help file is
+probably not very helpful &ndash; yet.
+</p></div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3">3 Websites </h2>
+<div id="text-3">
+
+
+</div>
+
+<div id="outline-container-3.1" class="outline-3">
+<h3 id="sec-3.1">3.1 EP Studios, Inc. </h3>
+<div id="text-3.1">
+
+<p><a href="http://www.epstudiossoftware.com/">http://www.epstudiossoftware.com/</a>
+</p></div>
+
+</div>
+
+<div id="outline-container-3.2" class="outline-3">
+<h3 id="sec-3.2">3.2 Git repository </h3>
+<div id="text-3.2">
+
+<p><a href="http://github.com/mannd/epsimulator">http://github.com/mannd/epsimulator</a>
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4">4 Differences between EP Simulator and the GE/Prucka System </h2>
+<div id="text-4">
+
+
+</div>
+
+<div id="outline-container-4.1" class="outline-3">
+<h3 id="sec-4.1">4.1 Help System </h3>
+<div id="text-4.1">
+
+<p>The Prucka help system opens a PDF version of the manual.  For now,
+EP Simulator Help will open this set of notes.
+</p></div>
+
+</div>
+
+<div id="outline-container-4.2" class="outline-3">
+<h3 id="sec-4.2">4.2 Simulator Settings menu </h3>
+<div id="text-4.2">
+
+</div>
+
+</div>
+
+<div id="outline-container-4.3" class="outline-3">
+<h3 id="sec-4.3">4.3 Navigator blue side bar </h3>
+<div id="text-4.3">
+
+<p>This is programmable to version 5 or version 6 appearance.
+</p></div>
+
+</div>
+
+<div id="outline-container-4.4" class="outline-3">
+<h3 id="sec-4.4">4.4 Patient Information dialog </h3>
+<div id="text-4.4">
+
+<p>Second tab is not Contact, but Physiology (may change).
+</p></div>
+
+</div>
+
+<div id="outline-container-4.5" class="outline-3">
+<h3 id="sec-4.5">4.5 Administrator mode </h3>
+<div id="text-4.5">
+
+<p>Administrator mode is optional and can be turned off.
+</p></div>
+
+</div>
+
+<div id="outline-container-4.6" class="outline-3">
+<h3 id="sec-4.6">4.6 Optical disk emulation </h3>
+<div id="text-4.6">
+
+<p>Study data can be stored on an actual optical disk, a hard drive
+directory, or a hard drive directory disguised to mimic an optical disk.
+</p></div>
+</div>
+</div>
+<div id="postamble"><p class="author"> Author: David Mann
+<a href="mailto:mannd@epstudiossoftware.com">&lt;mannd@epstudiossoftware.com&gt;</a>
 </p>
-<p>
-For more information visit our web page at 
-<a href=http://www.epstudiossoftware.com> http://www.epstudiossoftware.com</a>
-</p>
-
-</body>
+<p class="date"> Date: 2010-02-13 12:25:23 EST</p>
+<p>HTML generated by org-mode 6.21b in emacs 23</p>
+</div></body>
 </html>

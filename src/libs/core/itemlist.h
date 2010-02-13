@@ -42,11 +42,17 @@ namespace EpCore {
         void removeAt(int i) {
             list_.removeAt(i);
         }
+
+        void remove(const T&);
+
         void append(const T& value) {
             list_.append(value);
         }
 
-        bool nameIsPresent(const QString& name);
+        int index(const T& value) const;
+
+        bool nameIsPresent(const QString& name) const;
+        bool duplicate(const T&) const;
         int size() {return list_.size();}
         void update() {save();}
 
@@ -69,7 +75,28 @@ namespace EpCore {
     }
 
     template<typename T>
-    bool ItemList<T>::nameIsPresent(const QString &name) {
+    void ItemList<T>::remove(const T& item) {
+        int idx = index(item);
+        if (idx >= 0)
+            removeAt(idx);
+    }
+
+    template<typename T>
+    int ItemList<T>::index(const T& item) const {
+        for (int i = 0; i < list_.size(); ++i) {
+            if (list_.at(i).name() == item.name())
+                return i;
+        }
+        return -1;
+    }
+
+    template<typename T>
+    bool ItemList<T>::duplicate(const T & item) const {
+        return nameIsPresent(item.name());
+    }
+
+    template<typename T>
+    bool ItemList<T>::nameIsPresent(const QString &name) const {
         for (int i = 0; i < list_.size(); ++i) {
             if (list_.at(i).name() == name)
                 return true;

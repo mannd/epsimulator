@@ -26,7 +26,13 @@
 #include "interval.h"
 #include "itemlist.h"
 
+class QComboBox;
+class QDialogButtonBox;
+class QLineEdit;
+class QSpinBox;
+
 namespace EpGui {
+
 
 class EditIntervalsDialog : public AbstractEditItemsDialog {
     Q_OBJECT
@@ -35,16 +41,34 @@ public:
 
     EpCore::ItemList<EpCore::Interval> intervals() {return intervals_;}
 
-private slots:
-    void insert();
-    void edit();
-    // no copy slot
-    void del();
-
 private:
     void createListWidget();
-    void makeEditIntervalTypeDialog();
+    void removeItem();
+    void editItem();
+    void newItem();
+    void makeEditIntervalTypeDialog(EditorType);
     EpCore::ItemList<EpCore::Interval> intervals_;
+};
+
+class EditIntervalTypeDialog : public QDialog {
+    Q_OBJECT
+public:
+    EditIntervalTypeDialog(EditIntervalsDialog::EditorType,
+                           QWidget* parent = 0);
+
+    void setInterval(const EpCore::Interval&);
+
+    EpCore::Interval interval() const;
+
+private slots:
+    void enableOkButton(const QString&);
+
+private:
+    QLineEdit* nameLineEdit_;
+    QComboBox* mark1ComboBox_;
+    QComboBox* mark2ComboBox_;
+    QSpinBox* widthSpinBox_;
+    QDialogButtonBox* buttonBox_;
 };
 
 }

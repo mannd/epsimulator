@@ -31,6 +31,7 @@ class AbstractEditItemsDialog : public QDialog,
     protected Ui::AbstractEditItemsDialog {
     Q_OBJECT
 public:
+    enum EditorType {NewItem, EditItem};
     AbstractEditItemsDialog(const QString& title,
                             QWidget* parent = 0);
 
@@ -38,10 +39,17 @@ protected:
     void showCopyButton(bool);
 
 private slots:
-    virtual void insert() = 0;
-    virtual void edit() = 0;
+    virtual void insert();
+    virtual void edit();
     virtual void copy();
-    virtual void del() = 0;
+    void del();
+
+private:
+    virtual void createListWidget() = 0;
+    virtual void removeItem() = 0;
+    virtual void editItem() = 0;
+    virtual void newItem() = 0;
+
 };
 
 
