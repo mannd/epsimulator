@@ -24,6 +24,7 @@
 #include "options.h"
 
 #include <QDataStream>
+#include <QStringList>
 
 namespace EpCore {
 
@@ -61,6 +62,12 @@ Interval& Interval::operator=(const Interval& rhs) {
         return *this;
     copyInterval(rhs);
     return *this;
+}
+
+QStringList Interval::defaultNames() {
+    QStringList names = QStringList() <<
+                        tr("A1A1") << tr("A1A2");
+    return names;
 }
 
 void Interval::copyInterval(const Interval& interval) {
@@ -143,6 +150,10 @@ void Intervals::sort() {
     qSort(intervalList_.begin(), intervalList_.end());
 }
 
+int Intervals::size() const {
+    return intervalList_.size();
+}
+
 void Intervals::removeAt(int i) {
     intervalList_.removeAt(i);
 }
@@ -165,9 +176,13 @@ int IntervalModel::rowCount(const QModelIndex& /* parent */) const {
 QVariant IntervalModel::data(const QModelIndex& index, int role) const {
     if (!index.isValid())
         return QVariant();
+    if (index.row() >= intervals_.size())
+        return QVariant();
     if (role == Qt::DisplayRole) {
         return intervals()[index.row()].name();
     }
+    if (role == Qt::EditRole)
+        return intervals()[index.row()].name();
     return QVariant();
 }
 
@@ -179,6 +194,13 @@ bool IntervalModel::setData(const QModelIndex& index, const QVariant& value,
         return true;
     }
     return false;
+}
+
+Qt::ItemFlags IntervalModel::flags(const QModelIndex& index) const {
+    if (!index.isValid())
+        return Qt::ItemIsEnabled;
+
+    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
 bool IntervalModel::removeRows(int row, int count,

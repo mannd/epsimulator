@@ -24,25 +24,27 @@
 #include "abstractedititemsdialog.h"
 
 #include "interval.h"
+#include "itemlist.h"
 
 namespace EpGui {
 
 class EditIntervalsDialog : public AbstractEditItemsDialog {
     Q_OBJECT
 public:
-    EditIntervalsDialog(EpCore::Intervals& intervals,
-                        QWidget* parent = 0);
+    EditIntervalsDialog(QWidget* parent = 0);
 
-    EpCore::Intervals intervals() {return model_->intervals();}
+    EpCore::ItemList<EpCore::Interval> intervals() {return intervals_;}
 
 private slots:
-    void insert() {}
-    void edit() {}
+    void insert();
+    void edit();
     // no copy slot
     void del();
 
 private:
-    EpCore::IntervalModel* model_;
+    void createListWidget();
+    void makeEditIntervalTypeDialog();
+    EpCore::ItemList<EpCore::Interval> intervals_;
 };
 
 }

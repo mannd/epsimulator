@@ -34,8 +34,6 @@ AbstractEditItemsDialog::AbstractEditItemsDialog(const QString& title,
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(del()));
 }
 
-AbstractEditItemsDialog::~AbstractEditItemsDialog() {}
-
 void AbstractEditItemsDialog::showCopyButton(bool show) {
     copyButton->setVisible(show);
 }

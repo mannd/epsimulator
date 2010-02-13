@@ -19,4 +19,5 @@ HEADERS += options.h \
     probability.h \
     epdefs.h \
     eplists.h \
-    interval.h
+    interval.h \
+    itemlist.h

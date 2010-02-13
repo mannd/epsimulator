@@ -20,21 +20,53 @@
 
 #include "editintervalsdialog.h"
 
+#include <QMessageBox>
+#include <QStringList>
+
 using EpCore::Interval;
-using EpCore::IntervalModel;
-using EpCore::Intervals;
+using EpCore::ItemList;
 using EpGui::EditIntervalsDialog;
 
-EditIntervalsDialog::EditIntervalsDialog(Intervals& intervals,
-                                         QWidget* parent)
+EditIntervalsDialog::EditIntervalsDialog(QWidget* parent)
         : AbstractEditItemsDialog(tr("Intervals"), parent) {
     showCopyButton(false);
-    intervals.sort();
-    model_ = new IntervalModel(this);
-    model_->setIntervals(intervals);
-    listView->setModel(model_);
+    createListWidget();
+}
+
+void EditIntervalsDialog::createListWidget() {
+    listWidget->setSortingEnabled(true);
+    listWidget->clear();
+    for (int i = 0; i < intervals_.size(); ++i)
+        new QListWidgetItem(intervals_[i].name(), listWidget);
+}
+
+void EditIntervalsDialog::insert() {
+//    bool ok = false;
+//    QString name;
+//    name
+}
+
+void EditIntervalsDialog::edit() {
+   // makeEditIntervalTypeDialog();
 }
 
 void EditIntervalsDialog::del() {
-    model_->removeRows(listView->currentIndex().row(), 1, QModelIndex());
+    if (listWidget->selectedItems().size() == 0) {
+        return;
+    }
+    int result = QMessageBox::warning(this, tr("Delete Inteval?"),
+                         tr("Really delete this Interval?"
+                            " Deletion will be permanent."),
+                            QMessageBox::Yes | QMessageBox::No);
+    if (result == QMessageBox::Yes) {
+        intervals_.removeAt(listWidget->currentRow());
+        createListWidget();
+    }
+}
+
+void EditIntervalsDialog::makeEditIntervalTypeDialog() {
+//   /* QDialog d(this);
+//    d.setWindowTitle(tr("Edit Interval Type"));
+//    d.exec(*/);
+
 }

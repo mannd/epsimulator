@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>21</x>
@@ -23,9 +23,6 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" rowspan="6">
-     <widget class="QListView" name="listView"/>
-    </item>
     <item row="0" column="1">
      <widget class="QPushButton" name="newButton">
       <property name="text">
@@ -74,16 +71,11 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="0" rowspan="6">
+     <widget class="QListWidget" name="listWidget"/>
+    </item>
    </layout>
   </widget>
-  <zorder>newButton</zorder>
-  <zorder>editButton</zorder>
-  <zorder>copyButton</zorder>
-  <zorder>deleteButton</zorder>
-  <zorder>verticalSpacer</zorder>
-  <zorder>listView</zorder>
-  <zorder>closeButton</zorder>
-  <zorder>closeButton</zorder>
  </widget>
  <resources/>
  <connections>

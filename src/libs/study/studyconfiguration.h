@@ -205,8 +205,8 @@ public:
     const StudyConfiguration& operator[](int i) const;
     void refresh() {readStudyConfigurations();}
 
-    void add(StudyConfiguration config);
-    void replace(StudyConfiguration config);
+    void add(const StudyConfiguration& config);
+    void replace(const StudyConfiguration& config);
     bool isPresent(const QString& name) const;
     int index(const QString& name) const;
     void remove(const QString& name);

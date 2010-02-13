@@ -42,7 +42,6 @@ SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
 
     configListWidget->setSortingEnabled(true);
 
-    StudyConfigurations configList_;
     for (int i = 0; i < configList_.size(); ++i)
         new QListWidgetItem(configList_[i].name(), configListWidget);
 }

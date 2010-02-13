@@ -33,7 +33,6 @@ class AbstractEditItemsDialog : public QDialog,
 public:
     AbstractEditItemsDialog(const QString& title,
                             QWidget* parent = 0);
-    ~AbstractEditItemsDialog();
 
 protected:
     void showCopyButton(bool);
@@ -44,6 +43,7 @@ private slots:
     virtual void copy();
     virtual void del() = 0;
 };
+
 
 }
 

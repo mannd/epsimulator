@@ -164,7 +164,7 @@ const StudyConfiguration& StudyConfigurations::operator [](int i) const {
     return configList_[i];
 }
 
-void StudyConfigurations::add(StudyConfiguration config) {
+void StudyConfigurations::add(const StudyConfiguration& config) {
     // check for duplicates first, only adds if no duplicates,
     // otherwise does nothing.
     if (isPresent(config.name()))
@@ -173,7 +173,7 @@ void StudyConfigurations::add(StudyConfiguration config) {
     writeStudyConfigurations();
 }
 
-void StudyConfigurations::replace(StudyConfiguration config) {
+void StudyConfigurations::replace(const StudyConfiguration& config) {
     // remove study configuration with same name
     bool found = false;
     for (int i = 0; i < size(); ++i)

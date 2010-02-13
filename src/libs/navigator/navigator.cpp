@@ -36,6 +36,7 @@
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
 #include "interval.h"
+#include "itemlist.h"
 #include "movecopystudydialog.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -70,6 +71,7 @@
 
 using EpCore::EpLists;
 using EpCore::Intervals;
+using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;
 using EpCore::VersionInfo;
@@ -675,11 +677,9 @@ void Navigator::noStudySelectedError() {
 
 void Navigator::setIntervals() {
     if (administrationAllowed()) {
-        Intervals intervals;
-        EditIntervalsDialog d(intervals, this);
+        EditIntervalsDialog d(this);
         if (d.exec()) {
-            intervals = d.intervals();
-            intervals.update();
+            d.intervals().update();
         }
     }
 }

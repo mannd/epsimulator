@@ -31,6 +31,8 @@ class QDataStream;
 namespace EpCore {
 
 class Interval {
+    Q_DECLARE_TR_FUNCTIONS(Interval)
+
 public:
     friend QDataStream& operator<<(QDataStream&, const Interval&);
     friend QDataStream& operator>>(QDataStream&, Interval&);
@@ -40,6 +42,10 @@ public:
     Interval(const Interval&);
 
     Interval& operator=(const Interval&);
+
+    static int magicNumber() {return MagicNumber;}
+    static QString fileName() {return QString("intervals.dat");}
+    static QStringList defaultNames();
 
     void setName(const QString& name) {name_  = name;}
     void setMark1(const QString& mark) {mark1_ = mark;}
@@ -51,9 +57,9 @@ public:
     QString mark2() const {return mark2_;}
     int width() const {return width_;}
 
-
-
 private:
+    enum {MagicNumber = 0x99f00010};
+
     void copyInterval(const Interval&);
 
     QString name_;
@@ -74,6 +80,7 @@ public:
 
     int count() const;
     void sort();
+    int size() const;
     void removeAt(int i);
     void insert(int i, const Interval& interval);
 
@@ -99,10 +106,11 @@ class IntervalModel : public QAbstractListModel {
 public:
     IntervalModel(QObject* parent = 0);
 
-    void setIntervals(const Intervals& intervals) {intervals_ = intervals;}
+    void setIntervals(Intervals& intervals) {intervals_ = intervals;}
     int rowCount(const QModelIndex& parent) const;
     QVariant data(const QModelIndex& index, int role) const;
     bool setData(const QModelIndex& index, const QVariant& value, int role);
+    Qt::ItemFlags flags(const QModelIndex& index) const;
     bool removeRows(int row, int count, const QModelIndex& parent);
     bool insertRows(int row, int count, const QModelIndex& parent);
 
