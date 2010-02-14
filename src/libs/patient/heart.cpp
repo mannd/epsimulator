@@ -38,7 +38,7 @@ HeartRate Heart::meanHeartRate() const {
 }
 
 Ep::msec Heart::meanCL() const {
-    return rateToInterval(meanHeartRate());
+    return Ep::rateToInterval(meanHeartRate());
 }
 
 namespace EpPatient {

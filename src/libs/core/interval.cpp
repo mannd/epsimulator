@@ -26,6 +26,8 @@
 #include <QDataStream>
 #include <QStringList>
 
+class QDataSteam;
+
 namespace EpCore {
 
 QDataStream& operator<<(QDataStream& out, const Interval& interval) {
@@ -47,11 +49,11 @@ bool operator<(const Interval& value1, const Interval& value2) {
 }
 
 using EpCore::Interval;
-using EpCore::IntervalModel;
-using EpCore::Intervals;
+using EpCore::Mark;
 
-Interval::Interval(const QString& name)
-    : name_(name), mark1_(QString()), mark2_(QString()), width_(0) {}
+Interval::Interval(const QString& name, const Mark& mark1,
+                   const Mark& mark2, int width)
+    : name_(name), mark1_(mark1), mark2_(mark2), width_(width) {}
 
 Interval::Interval(const Interval& interval) {
     copyInterval(interval);
@@ -64,10 +66,37 @@ Interval& Interval::operator=(const Interval& rhs) {
     return *this;
 }
 
-QStringList Interval::defaultNames() {
-    QStringList names = QStringList() <<
-                        tr("A1A1") << tr("A1A2");
-    return names;
+
+QList<Interval> Interval::defaultItems() {
+    QList<Interval> intervals;
+    intervals.append(Interval(tr("A1A1"), Mark(Mark::A1), Mark(Mark::A1), 5));
+    intervals.append(Interval(tr("A1A2"), Mark(Mark::A1), Mark(Mark::A2), 5));
+    intervals.append(Interval(tr("A1H1"), Mark(Mark::A1), Mark(Mark::H1), 5));
+    intervals.append(Interval(tr("A2A3"), Mark(Mark::A2), Mark(Mark::A3), 5));
+    intervals.append(Interval(tr("A2H2"), Mark(Mark::A2), Mark(Mark::H2), 5));
+    intervals.append(Interval(tr("A3A4"), Mark(Mark::A3), Mark(Mark::A4), 5));
+    intervals.append(Interval(tr("AA"), Mark(Mark::A), Mark(Mark::A), 5));
+    intervals.append(Interval(tr("AH"), Mark(Mark::A), Mark(Mark::H), 5));
+    intervals.append(Interval(tr("SCL"), Mark(Mark::A), Mark(Mark::A), 5));
+    intervals.append(Interval(tr("PR"), Mark(Mark::P),
+                              Mark(Mark::QRSonset), 5));
+    intervals.append(Interval(tr("QRS"), Mark(Mark::QRSonset),
+                              Mark(Mark::QRSoffset), 5));
+    intervals.append(Interval(tr("QT"), Mark(Mark::QRSonset),
+                              Mark(Mark::Toffset), 5));
+    intervals.append(Interval(tr("HV"), Mark(Mark::H),
+                              Mark(Mark::QRSonset), 5));
+    intervals.append(Interval(tr("H1H1"), Mark(Mark::H1), Mark(Mark::H1), 5));
+    intervals.append(Interval(tr("H1H2"), Mark(Mark::H1), Mark(Mark::H2), 5));
+    intervals.append(Interval(tr("V1V1"), Mark(Mark::V1), Mark(Mark::V1), 5));
+    intervals.append(Interval(tr("V1V2"), Mark(Mark::V1), Mark(Mark::V2), 5));
+    intervals.append(Interval(tr("V2V3"), Mark(Mark::V2), Mark(Mark::V3), 5));
+    intervals.append(Interval(tr("V3V4"), Mark(Mark::V3), Mark(Mark::V4), 5));
+    intervals.append(Interval(tr("S1S1"), Mark(Mark::S1), Mark(Mark::S1), 5));
+    intervals.append(Interval(tr("S1S2"), Mark(Mark::S1), Mark(Mark::S2), 5));
+    intervals.append(Interval(tr("S2S3"), Mark(Mark::S2), Mark(Mark::S3), 5));
+    intervals.append(Interval(tr("S3S4"), Mark(Mark::S3), Mark(Mark::S4), 5));
+    return intervals;
 }
 
 void Interval::copyInterval(const Interval& interval) {
@@ -76,156 +105,3 @@ void Interval::copyInterval(const Interval& interval) {
     mark2_ = interval.mark2_;
     width_ = interval.width_;
 }
-
-const QString Intervals::fileName_ = "intervals.dat";
-
-Intervals::Intervals()
-    : intervalList_() {
-    load();
-    if (intervalList_.isEmpty()) {
-        makeDefault();
-        save();
-    }
-}
-
-Intervals::Intervals(const Intervals& intervals) {
-    copyIntervals(intervals);
-}
-
-Intervals& Intervals::operator=(const Intervals& rhs) {
-    if (this == &rhs)
-        return *this;
-    copyIntervals(rhs);
-    return *this;
-}
-
-void Intervals::load() {
-    try {
-        EpCore::loadSystemData(MagicNumber, fileName_,
-                               intervalList_, EpCore::Options::instance());
-    }
-    catch (EpCore::IoError&) {
-        // ignore failure to read, leave list empy
-    }
-}
-
-
-void Intervals::save() {
-    EpCore::saveSystemData(MagicNumber, fileName_, intervalList_,
-                           EpCore::Options::instance());
-}
-
-void Intervals::makeDefault() {
-    intervalList_.clear();
-    intervalList_.append(Interval(tr("A1A2")));
-    intervalList_.append(Interval(tr("A1A1")));
-    intervalList_.append(Interval(tr("A2A3")));
-    intervalList_.append(Interval(tr("A1H1")));
-    intervalList_.append(Interval(tr("A2H2")));
-    intervalList_.append(Interval(tr("H1H1")));
-    intervalList_.append(Interval(tr("H1H2")));
-    intervalList_.append(Interval(tr("S1S1")));
-    intervalList_.append(Interval(tr("S1S2")));
-    intervalList_.append(Interval(tr("S2S3")));
-    intervalList_.append(Interval(tr("S3S4")));
-    intervalList_.append(Interval(tr("S4S5")));
-    intervalList_.append(Interval(tr("V1V1")));
-    intervalList_.append(Interval(tr("V1V2")));
-    intervalList_.append(Interval(tr("V2V3")));
-    intervalList_.append(Interval(tr("V3V4")));
-    intervalList_.append(Interval(tr("V4V5")));
-    intervalList_.append(Interval(tr("CSNRT")));
-    intervalList_.append(Interval(tr("SNRT")));
-}
-
-void Intervals::copyIntervals(const Intervals& intervals) {
-    intervalList_ = intervals.intervalList_;
-}
-
-int Intervals::count() const {
-    return intervalList_.count();
-}
-
-void Intervals::sort() {
-    qSort(intervalList_.begin(), intervalList_.end());
-}
-
-int Intervals::size() const {
-    return intervalList_.size();
-}
-
-void Intervals::removeAt(int i) {
-    intervalList_.removeAt(i);
-}
-
-void Intervals::insert(int i, const Interval& interval) {
-    intervalList_.insert(i, interval);
-}
-
-Interval& Intervals::operator[](const int index) {
-    return intervalList_[index];
-}
-
-IntervalModel::IntervalModel(QObject* parent)
-    : QAbstractListModel(parent) {}
-
-int IntervalModel::rowCount(const QModelIndex& /* parent */) const {
-    return intervals().count();
-}
-
-QVariant IntervalModel::data(const QModelIndex& index, int role) const {
-    if (!index.isValid())
-        return QVariant();
-    if (index.row() >= intervals_.size())
-        return QVariant();
-    if (role == Qt::DisplayRole) {
-        return intervals()[index.row()].name();
-    }
-    if (role == Qt::EditRole)
-        return intervals()[index.row()].name();
-    return QVariant();
-}
-
-bool IntervalModel::setData(const QModelIndex& index, const QVariant& value,
-                            int role) {
-    if (index.isValid() && role == Qt::EditRole) {
-        intervals_[index.row()].setName(value.toString());
-        emit dataChanged(index, index);
-        return true;
-    }
-    return false;
-}
-
-Qt::ItemFlags IntervalModel::flags(const QModelIndex& index) const {
-    if (!index.isValid())
-        return Qt::ItemIsEnabled;
-
-    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
-}
-
-bool IntervalModel::removeRows(int row, int count,
-                               const QModelIndex& /* parent */) {
-    beginRemoveRows(QModelIndex(), row, row+count-1);
-
-    for (int i = 0; i < count; ++i) {
-        intervals_.removeAt(row);
-    }
-
-    endRemoveRows();
-    return true;
-}
-
-bool IntervalModel::insertRows(int row, int count,
-                               const QModelIndex& /* parent */) {
-    beginInsertRows(QModelIndex(), row, row+count-1);
-
-    for (int i = 0; i < count; ++i) {
-        intervals_.insert(row, Interval());
-    }
-
-    endInsertRows();
-    return true;
-}
-
-
-

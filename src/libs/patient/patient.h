@@ -66,7 +66,7 @@ public:
     Saturation o2Saturation() const {return o2Saturation_;}
     BloodPressure bp() const {return bp_;}
     HeartRate heartRate() const;
-    Ep::Interval meanCL() const;
+    Ep::TimeInterval meanCL() const;
     RespRate respRate() const {return respRate_;}
 
 private:

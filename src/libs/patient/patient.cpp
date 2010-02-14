@@ -87,7 +87,7 @@ HeartRate Patient::heartRate() const {
     return heart_->meanHeartRate();
 }
 
-Interval Patient::meanCL() const {
+TimeInterval Patient::meanCL() const {
     return heart_->meanCL();
 }
 

@@ -21,8 +21,10 @@
 #ifndef INTERVAL_H
 #define INTERVAL_H
 
+#include "mark.h"
+
+#include <QCoreApplication>
 #include <QtCore/QAbstractListModel>
-#include <QtCore/QCoreApplication>
 #include <QtCore/QList>
 #include <QtCore/QString>
 
@@ -38,23 +40,26 @@ public:
     friend QDataStream& operator>>(QDataStream&, Interval&);
     friend bool operator<(const Interval&, const Interval&);
 
-    Interval(const QString& name = QString());
+    Interval(const QString& name = QString(),
+             const Mark& mark1 = Mark(),
+             const Mark& mark2 = Mark(),
+             int width = 5);
     Interval(const Interval&);
 
     Interval& operator=(const Interval&);
 
     static int magicNumber() {return MagicNumber;}
     static QString fileName() {return QString("intervals.dat");}
-    static QStringList defaultNames();
+    static QList<Interval> defaultItems();
 
     void setName(const QString& name) {name_  = name;}
-    void setMark1(const QString& mark) {mark1_ = mark;}
-    void setMark2(const QString& mark) {mark2_ = mark;}
-    void setWidth(int width) {width = width_;}
+    void setMark1(const Mark& mark) {mark1_ = mark;}
+    void setMark2(const Mark& mark) {mark2_ = mark;}
+    void setWidth(int width) {width_ = width;}
 
     QString name() const {return name_;}
-    QString mark1() const {return mark1_;}
-    QString mark2() const {return mark2_;}
+    Mark mark1() const {return mark1_;}
+    Mark mark2() const {return mark2_;}
     int width() const {return width_;}
 
 private:
@@ -63,61 +68,9 @@ private:
     void copyInterval(const Interval&);
 
     QString name_;
-    QString mark1_;
-    QString mark2_;
+    Mark mark1_;
+    Mark mark2_;
     int width_;
-};
-
-class Intervals {
-    Q_DECLARE_TR_FUNCTIONS(Intervals)
-public:
-    typedef QList<Interval> IntervalList;
-    Intervals();
-    Intervals(const Intervals&);
-
-    Intervals& operator=(const Intervals& rhs);
-    Interval& operator[](const int index);
-
-    int count() const;
-    void sort();
-    int size() const;
-    void removeAt(int i);
-    void insert(int i, const Interval& interval);
-
-
-    void update() {save();}
-
-private:
-    enum {MagicNumber = 0x99f00010};
-
-
-    void load();
-    void save();
-
-    void makeDefault();
-    void copyIntervals(const Intervals&);
-
-    const static QString fileName_;
-
-    IntervalList intervalList_;
-};
-
-class IntervalModel : public QAbstractListModel {
-public:
-    IntervalModel(QObject* parent = 0);
-
-    void setIntervals(Intervals& intervals) {intervals_ = intervals;}
-    int rowCount(const QModelIndex& parent) const;
-    QVariant data(const QModelIndex& index, int role) const;
-    bool setData(const QModelIndex& index, const QVariant& value, int role);
-    Qt::ItemFlags flags(const QModelIndex& index) const;
-    bool removeRows(int row, int count, const QModelIndex& parent);
-    bool insertRows(int row, int count, const QModelIndex& parent);
-
-    Intervals intervals() const {return intervals_;}
-
-private:
-    Intervals intervals_;
 };
 
 }

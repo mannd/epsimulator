@@ -20,6 +20,8 @@
 
 #include "editintervalsdialog.h"
 
+#include "mark.h"
+
 #include <QComboBox>
 #include <QDialogButtonBox>
 #include <QLabel>
@@ -31,6 +33,7 @@
 
 using EpCore::Interval;
 using EpCore::ItemList;
+using EpCore::Mark;
 using EpGui::EditIntervalsDialog;
 using EpGui::EditIntervalTypeDialog;
 
@@ -64,6 +67,15 @@ void EditIntervalsDialog::newItem() {
 
 void EditIntervalsDialog::makeEditIntervalTypeDialog(EditorType type) {
     EditIntervalTypeDialog d(type, this);
+    if (type == EditItem) {
+        if (!listWidget->selectedItems().size() > 0) {
+            QMessageBox::information(this, tr("No Interval Selected"),
+                                     tr("You must select an interval first"));
+            return;
+        }
+        QString name = listWidget->currentItem()->text();
+        d.setInterval(intervals_[name]);
+    }
     if (d.exec()) {
         EpCore::Interval interval = d.interval();
         if (intervals_.duplicate(interval) && type == NewItem) {
@@ -72,7 +84,10 @@ void EditIntervalsDialog::makeEditIntervalTypeDialog(EditorType type) {
                                     "in the list").arg(interval.name()));
             return;
         }
-        intervals_.append(d.interval());
+        if (type == NewItem)
+            intervals_.append(d.interval());
+        else    // type == EditItem
+            intervals_[d.interval().name()] = d.interval();
         createListWidget();
     }
 }
@@ -81,12 +96,7 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
         EditIntervalsDialog::EditorType type,
         QWidget* parent)
     : QDialog(parent) {
-    QStringList markList;
-    markList << tr("A1") << tr("A2") << tr("H1") << tr("H2")
-            << tr("S1") << tr("S2") << tr("S3")
-            << tr("S4") << tr("S5")
-            << tr("V1") << tr("V2") << tr("V3")
-            << tr("V4") << tr("V5");
+    QStringList markList = Mark::markNames();
     QString editType;
     if (type == EditIntervalsDialog::NewItem)
         editType = tr("New");
@@ -112,7 +122,7 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
     widthSpinBox_ = new QSpinBox;
     // default value listed as 5 in manual,
     // though I think actual Prucka shows 0.
-    widthSpinBox_->setValue(5);
+    //widthSpinBox_->setValue(5);
     widthLabel->setBuddy(widthSpinBox_);
 
     buttonBox_ =
@@ -148,8 +158,8 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
 
 void EditIntervalTypeDialog::setInterval(const EpCore::Interval& interval) {
     nameLineEdit_->setText(interval.name());
-    mark1ComboBox_->setEditText(interval.mark1());
-    mark2ComboBox_->setEditText(interval.mark2());
+    mark1ComboBox_->setCurrentIndex(static_cast<int>(interval.mark1().type()));
+    mark2ComboBox_->setCurrentIndex(static_cast<int>(interval.mark2().type()));
     widthSpinBox_->setValue(interval.width());
     enableOkButton(nameLineEdit_->text());
 }
@@ -157,8 +167,10 @@ void EditIntervalTypeDialog::setInterval(const EpCore::Interval& interval) {
 EpCore::Interval EditIntervalTypeDialog::interval() const {
     EpCore::Interval interval;
     interval.setName(nameLineEdit_->text());
-    interval.setMark1(mark1ComboBox_->currentText());
-    interval.setMark2(mark2ComboBox_->currentText());
+    interval.setMark1(Mark(static_cast<Mark::MarkType>(
+            mark1ComboBox_->currentIndex())));
+    interval.setMark2(Mark(static_cast<Mark::MarkType>(
+            mark2ComboBox_->currentIndex())));
     interval.setWidth(widthSpinBox_->value());
     return interval;
 }

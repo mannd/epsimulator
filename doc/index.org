@@ -24,3 +24,5 @@ EP Simulator Help
 ** Optical disk emulation
    Study data can be stored on an actual optical disk, a hard drive
    directory, or a hard drive directory disguised to mimic an optical disk.
+** EP List edit boxes
+   The items in these boxes don't have "bullet points" preceding them.

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,46 +17,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef HEART_H
-#define HEART_H
 
-#include "epdefs.h"
-#include "patientdefs.h"
+#include "mark.h"
 
-#include <QCoreApplication>
+#include <QDataStream>
+#include <QStringList>
 
-class QDataStream;
+namespace EpCore {
 
-namespace EpPatient {
+    const QMap<Mark::MarkType, QString> Mark::markMap_ = Mark::initMarkMap();
 
-/**
- * Heart simulation.  For now essentially an empty class.
- * @author David Mann <mannd@epstudiossoftware.com>
- */
-class Heart {
-    Q_DECLARE_TR_FUNCTIONS(Heart)
+    QDataStream& operator<<(QDataStream& out, const Mark& mark) {
+        out << (qint32)mark.type_ << mark.point_;
+        return out;
+    }
 
-public:
-    friend QDataStream& operator<<(QDataStream&, const Heart&);
-    friend QDataStream& operator>>(QDataStream&, Heart&);
+    QDataStream& operator>>(QDataStream& in, Mark& mark) {
+        int name;
+        in >> name >> mark.point_;
+        mark.type_ = static_cast<Mark::MarkType>(name);
+        return in;
+    }
 
-    Heart(const QString& name = tr("<default>"));
-    Heart (const Heart& heart);
-    ~Heart();
+    Mark::Mark(MarkType type) : type_(type) {}
 
-    QString name() {return name_;}
+    Mark::Mark(const Mark& rhs) {
+        type_ = rhs.type_;
+        point_ = rhs.point_;
+    }
 
-    // do nothing below for now
-    void setHeartRate(HeartRate) {}
+    Mark& Mark::operator=(const Mark& rhs) {
+        if (&rhs == this)
+            return *this;
+        type_ = rhs.type_;
+        point_ = rhs.point_;
+        return *this;
+    }
 
-    // these functions are used to update Patient physiology numbers
-    HeartRate meanHeartRate() const;
-    Ep::CL meanCL() const;
-
-private:
-    QString name_;
-};
+    QStringList Mark::markNames() {
+        int key = static_cast<int>(Mark::None);
+        int lastKey = static_cast<int>(Mark::LastType);
+        QStringList names;
+        for (key = 0; key <= lastKey; ++key)
+            names << markMap_[static_cast<Mark::MarkType>(key)];
+        return names;
+    }
 
 }
 
-#endif

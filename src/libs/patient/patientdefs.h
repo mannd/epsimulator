@@ -32,15 +32,6 @@ namespace EpPatient {
 
     enum Sex {Male, Female};
 
-
-    inline HeartRate intervalToRate(Ep::Interval interval) {
-        return 60000 / interval;
-    }
-
-    inline Ep::Interval rateToInterval(HeartRate rate) {
-        return 60000 / rate;
-    }
-
 }
 
 #endif // PATIENTDEFS_H

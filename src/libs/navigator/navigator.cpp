@@ -70,7 +70,6 @@
 #include <memory>
 
 using EpCore::EpLists;
-using EpCore::Intervals;
 using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;

@@ -18,23 +18,42 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef EPDEFS_H
+#define EPDEFS_H
+
 /**
  * @file epdefs.h
  * Contains basic electrophysiologic typedefs, enums, etc.
  */
 
+#include <cstdlib>
+
 namespace Ep {
 
-typedef unsigned int msec;
-typedef msec CI;
-typedef msec CL;
-typedef unsigned int Rate;
+    typedef int msec;
+    typedef msec CI;
+    typedef msec CL;
+    typedef int Rate;
 
-typedef double Volt;
-typedef double MAmp;
+    typedef double Volt;
+    typedef double MAmp;
 
-typedef msec Interval;  // time in msec resolution
-typedef double Duration;  // time in finer resolution, e.g. stimulus PW
-typedef double Amplitude;   // amplitude in mAmp
+    typedef msec TimeInterval;  // time in msec resolution
+    typedef double Duration;  // time in finer resolution, e.g. stimulus PW
+    typedef double Amplitude;   // amplitude in mAmp
+
+    Rate intervalToRate(TimeInterval interval);
+    TimeInterval rateToInterval(Rate rate);
+
+    inline Rate intervalToRate(TimeInterval interval) {
+        return std::abs(60000 / interval);
+    }
+
+    inline TimeInterval rateToInterval(Rate rate) {
+        return std::abs(60000 / rate);
+    }
+
 
 }
+
+#endif

@@ -39,17 +39,20 @@ namespace EpCore {
             return list_[i];
         }
 
+        T& operator[](const QString& name);
+
         void removeAt(int i) {
             list_.removeAt(i);
         }
 
-        void remove(const T&);
+        void remove(const QString&);
 
         void append(const T& value) {
             list_.append(value);
         }
 
         int index(const T& value) const;
+        int index(const QString& name) const;
 
         bool nameIsPresent(const QString& name) const;
         bool duplicate(const T&) const;
@@ -75,16 +78,37 @@ namespace EpCore {
     }
 
     template<typename T>
-    void ItemList<T>::remove(const T& item) {
-        int idx = index(item);
-        if (idx >= 0)
-            removeAt(idx);
+    T& ItemList<T>::operator[](const QString& name) {
+        for (int i = 0; i < list_.size(); ++i) {
+            if (list_.at(i).name() == name)
+                return list_[i];
+        }
+        // return 1st in list if not found
+        return list_.front();
+
+    }
+
+    template<typename T>
+    void ItemList<T>::remove(const QString& name) {
+        for (int i = 0; i < list_.size(); ++i) {
+            if (list_.at(i).name() == name)
+                list_.removeAt(i);
+        }
     }
 
     template<typename T>
     int ItemList<T>::index(const T& item) const {
         for (int i = 0; i < list_.size(); ++i) {
             if (list_.at(i).name() == item.name())
+                return i;
+        }
+        return -1;
+    }
+
+    template<typename T>
+    int ItemList<T>::index(const QString &name) const {
+        for (int i = 0; i < list_.size(); ++i) {
+            if (list_.at(i).name() == name)
                 return i;
         }
         return -1;
@@ -123,12 +147,9 @@ namespace EpCore {
 
     template<typename T>
     void ItemList<T>::makeDefault() {
-        QStringList names = T::defaultNames();
+        QList<T> defaults = T::defaultItems();
         list_.clear();
-        QMutableStringListIterator iter(names);
-        while (iter.hasNext()) {
-            list_.append(T(iter.next()));
-        }
+        list_ = defaults;
     }
 }
 
