@@ -30,7 +30,8 @@ HEADERS += simulatorsettingsdialog.h \
     editlistdialog.h \
     abstractedititemsdialog.h \
     edititemsdialog.h \
-    editintervalsdialog.h
+    editintervalsdialog.h \
+    guiutilities.h
 FORMS += ui/simulatorsettingsdialog.ui \
     ui/patientdialog.ui \
     ui/changepassworddialog.ui \

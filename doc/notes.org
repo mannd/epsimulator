@@ -89,3 +89,13 @@
     User fills in patient demographics, selects patient template
     (defaults to '<default>').  
 
+* Screen size
+  Need to convert pixel distances to time intervals.  Screen
+  resolution in pixels is known to program, can get from QDesktop
+  class.  Sweep speed is set by program, in mm/sec, eg. 100 mm/sec.
+  We need to know pixels/mm.  This depends on screen size.  Prucka
+  must set this manually, based on monitor sizes.  Wrong screen size
+  will make the sweep timing and interval measurements wrong, but not
+  grossly so.  Could set default horizontal screen size to 17", but
+  have it user modifiable.  Need either measurement or dpi for screen.
+  

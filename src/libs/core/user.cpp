@@ -72,7 +72,11 @@ QString User::role() const {
 
 User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
 #   ifdef Q_OS_WIN32
-    machineName_ = "Windows";
+    // this is really the same as below, will test on Windows
+    int len = 255;
+    char name[len] = "";
+    int result = gethostname(name, len);
+    machineName_ = result == 0 ? name : "";
 #   else
     const size_t length = 255;
     char name[length] = "";

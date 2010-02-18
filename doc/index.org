@@ -1,6 +1,6 @@
 EP Simulator Help
 * Copyright and License
-  EP Simulator is copyright 2006-2007 by EP Studios, Inc.  The
+  EP Simulator is copyright 2006-2010 by EP Studios, Inc.  The
   software license is GPL version 2.
 * Disclaimer
   EP Simulator is currently under development.  This Help file is
