@@ -84,10 +84,11 @@ User::User() : isAdministrator_(false) {
     machineName_ = result == 0 ? machineName : QString();
 #   else // Linux or Mac
     name_ = std::getenv("USER");
-    //const size_t length = 1024;
     char machineName[1024] = "";
-    machineName_ = gethostname(machineName, sizeof(machineName)) == 0 ? name : QString();
+    machineName_ = gethostname(machineName, sizeof(machineName)) == 0
+                   ? machineName : QString();
 #   endif
-    qDebug() << "EP Simulator is running on machine " << machineName_;
+
+    qDebug() << "EP Simulator is running on " << machineName_;
     qDebug() << "User is " << name_;
 }

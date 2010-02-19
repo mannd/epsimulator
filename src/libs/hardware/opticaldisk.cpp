@@ -31,6 +31,8 @@
 #include <QSettings>
 #include <QStringList>
 
+#include <QtDebug>
+
 #include <vector>
 
 namespace EpHardware { namespace EpOpticalDisk {
@@ -62,6 +64,7 @@ const QString OpticalDisk::studiesDirName_ = "studies";
 
 OpticalDisk::OpticalDisk(const QString& path) 
     : path_(path), isLabeled_(false) {
+    qDebug() << "Studies path is " << path_;
 }
 
 OpticalDisk::~OpticalDisk() {}

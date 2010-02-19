@@ -24,6 +24,8 @@
 
 #include <QStringList>
 
+#include <QtDebug>
+
 #define PROGRAM_NAME tr("EP Simulator")
 #define COPYRIGHT_YEAR tr("2006-2009")
 #define VERSION  "0.1"
@@ -58,4 +60,5 @@ VersionInfo::VersionInfo(): appName_(appNameC),
     QStringList list = version_.split(".");
     versionMajor_ = list[0].toInt();
     versionMinor_ = list[1].toInt();
+    qDebug() << "EP Simulator Version " << version_;
 }
