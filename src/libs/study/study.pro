@@ -2,11 +2,11 @@ include(../../epsimulatorlibrary.pri)
 TEMPLATE = lib
 TARGET = study
 INCLUDEPATH += ../core \
-    ../gui \
+    #../gui \
     ../patient \
     ../hardware
 LIBS += -lcore \
-    -lgui \
+    #-lgui \
     -lpatient \
     -lhardware
 SOURCES += study.cpp \

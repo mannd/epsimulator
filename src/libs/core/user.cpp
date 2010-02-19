@@ -22,6 +22,8 @@
 
 #include <cstdlib>
 
+#include <QtDebug>
+
 // NB: this file is operating system dependent and won't compile on an
 // non-unix system.  
 /// TODO When migrating to Windows, will need to modify this file.
@@ -70,16 +72,22 @@ QString User::role() const {
         :  tr("EPSIMUSER");
 }
 
-User::User() : isAdministrator_(false), name_(std::getenv("USER")) {
+User::User() : isAdministrator_(false) {
 #   ifdef Q_OS_WIN32
-    // this is really the same as below, will test on Windows
-    int len = 255;
-    char name[len] = "";
-    int result = gethostname(name, len);
-    machineName_ = result == 0 ? name : "";
-#   else
-    const size_t length = 255;
-    char name[length] = "";
-    machineName_ = gethostname(name, length) == 0 ? QString(name) : QString();
+    name_ = std::getenv("USERNAME");
+    // start up windows sockets
+    WSAData cData;
+    WSAStartup(MAKEWORD(2, 2), &cData);
+
+    char machineName[1024];
+    int result = gethostname(machineName, sizeof(machineName));
+    machineName_ = result == 0 ? machineName : QString();
+#   else // Linux or Mac
+    name_ = std::getenv("USER");
+    //const size_t length = 1024;
+    char machineName[1024] = "";
+    machineName_ = gethostname(machineName, sizeof(machineName)) == 0 ? name : QString();
 #   endif
+    qDebug() << "EP Simulator is running on machine " << machineName_;
+    qDebug() << "User is " << name_;
 }

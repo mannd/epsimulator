@@ -23,3 +23,5 @@ HEADERS += options.h \
     interval.h \
     itemlist.h \
     mark.h
+
+LIBS += -LC:\Qt\2010.01\mingw\lib -lws2_32
