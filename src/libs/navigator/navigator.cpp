@@ -107,6 +107,7 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent),
     createToolBars();
     createCentralWidget();
     createStatusBar();
+    createLists();
 
     // NB: activated(), not currentIndexChanged() is required here,
     // as currentIndexChanged() is sent when the combobox is 
@@ -494,10 +495,13 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                 else if (type == ReportFormats) {
                     // add here
                 }
-                if (flow == Export)
+                if (flow == Export) {
+                    statusBar()->showMessage(tr("Copying files..."));
                     EpCore::copyFilesToPath(selectedFiles,
                                             EpCore::activeSystemPath(),
                                             path, EpCore::Overwrite);
+                    statusBar()->clearMessage();
+                }
                 else if (flow == Import) {
                     // check magic numbers since your are overwriting
                     // system files.
@@ -521,8 +525,10 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                                 throw EpCore::WrongFileTypeError(filePath);
                             }
                         }
+                        statusBar()->showMessage(tr("Copying files..."));
                         EpCore::copyFilesToSystem(selectedFiles, path,
                                               EpCore::Overwrite);
+                        statusBar()->clearMessage();
                     }
                 }
             }
@@ -532,6 +538,8 @@ void Navigator::moveData(DataFlow flow, DataType type) {
         QMessageBox::information(this,
             tr("Directories Identical"),
             tr("Source and destination directories must be different"));
+        statusBar()->clearMessage();
+
     }
     catch (EpCore::WrongFileTypeError& e) {
         QMessageBox::warning(this,
@@ -539,12 +547,14 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                              tr("File types are incompatible.  The file "
                                 "%1 file type was not correct.  Data move "
                                 "aborted").arg(e.fileName()));
+        statusBar()->clearMessage();
     }
 
     catch (EpCore::IoError& e) {
         QMessageBox::warning(this,
             tr("Error moving data"),
             tr("Data could not be moved"));
+        statusBar()->clearMessage();
     }
 }
 
@@ -859,6 +869,8 @@ void Navigator::updateSystemSettings() {
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_
         ->currentCatalog()->path());
+    // might need to create lists if Network storage now enabled.
+    createLists();
     updateMenus();
 }
 
@@ -973,6 +985,15 @@ void Navigator::createStatusBar() {
     statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this);
     setStatusBar(statusBar_);
     updateStatusBarUserLabel();
+}
+
+// make sure default lists are present on first run of program
+void Navigator::createLists() {
+    // just initializing these lists writes default values for each
+    // of them to disk if the files aren't there already.
+    EpLists lists;
+    ItemList<Interval> intervals;
+    // ColumnFormat columnFormat;
 }
 
 void Navigator::updateMenus() {

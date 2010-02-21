@@ -136,6 +136,7 @@ private:
     void createActions();
     void createMenus();
     void createToolBars();
+    void createLists();
     void writeSettings();
     virtual void readSettings();
     void updateMenus();
