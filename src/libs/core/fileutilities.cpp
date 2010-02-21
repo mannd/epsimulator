@@ -23,6 +23,8 @@
 #include <QDir>
 #include <QFileInfo>
 
+#include <QtDebug>
+
 /**
  * @namespace EpCore Program functions that only require QtCore, not QtGui.
  */
@@ -39,6 +41,30 @@ void EpCore::saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
     out << static_cast<quint32>(v->versionMajor())
         << static_cast<quint32>(v->versionMinor())
         << static_cast<quint16>(out.version());
+}
+
+unsigned int EpCore::magicNumber(const QString& filePath) {
+    QFile file(filePath);
+    if (!file.exists())
+        throw FileNotFoundError(file.fileName());
+    if (!file.open(QIODevice::ReadOnly))
+        throw OpenReadError(file.fileName());
+    QDataStream in(&file);
+    quint32 magic;
+    in >> magic;
+    // go further and make sure file version is ok
+    quint32 versionMajor, versionMinor;
+    in >> versionMajor >> versionMinor;
+    if (!VersionInfo::versionOk(versionMajor, versionMinor))
+        throw WrongEpSimVersionError(file.fileName());
+    quint16 streamVersion;
+    in >> streamVersion;
+    if (streamVersion > in.version())
+        throw WrongQtVersionError(file.fileName());
+    if (file.error() != QFile::NoError)
+        throw ReadError(file.fileName());
+    file.close();
+    return magic;
 }
 
 /**
@@ -132,8 +158,58 @@ QDir EpCore::systemDirectory() {
     return directoryOf("System");
 }
 
+// returns the main System path, depending on whether networking is used
+QString EpCore::activeSystemPath() {
+    if (EP_OPTIONS->EnableNetworkStorage)
+        return EP_OPTIONS->networkStudyPath;
+    else
+        return EP_OPTIONS->systemCatalogPath;
+}
+
 // joins together 2 elements of a path, e.g. '/home' and '/src/'
 // duplicate, missing '/'s are fixed
 QString EpCore::joinPaths(const QString & p1, const QString & p2) {
     return QDir::cleanPath(p1 + "/" + p2);
+}
+
+void EpCore::copyFilesToPath(const QStringList& files,
+                             const QString& sourcePath,
+                             const QString& destPath,
+                             EpCore::CopyFlag copyFlag) {
+    if (!QDir(sourcePath).exists())
+        throw EpCore::IoError(sourcePath, "Directory not found.");
+    if (!QDir(destPath).exists())
+        throw EpCore::IoError(destPath, "Directory not found.");
+    if (QDir(sourcePath) == QDir(destPath))
+        throw EpCore::SourceDestinationSameError(sourcePath);
+    if (files.isEmpty())
+        throw EpCore::FileNotFoundError("", "File list is empty.");
+    QStringListIterator iter(files);
+    QString fileName;
+    QString sourceFilePath;
+    QString destFilePath;
+    while (iter.hasNext()) {
+        fileName = iter.next();
+        sourceFilePath = joinPaths(sourcePath, fileName);
+        destFilePath = joinPaths(destPath, fileName);
+        if (!QFile(sourceFilePath).exists())
+            throw FileNotFoundError(fileName);
+        if (copyFlag == Overwrite && QFile(destFilePath).exists())
+            QFile(destFilePath).remove();
+        // below will not overwrite files therefore above
+        QFile::copy(sourceFilePath, destFilePath);
+        qDebug() << "Copying " << fileName << " from "
+                << sourcePath << " to " << destPath;
+    }
+}
+
+void EpCore::copyFilesToSystem(const QStringList& files,
+                               const QString& sourcePath,
+                               EpCore::CopyFlag copyFlag) {
+    // always copy to System Directory
+    copyFilesToPath(files, sourcePath, EP_OPTIONS->systemCatalogPath,
+                    copyFlag);
+    if (EP_OPTIONS->filePathFlags.testFlag(Options::EnableNetworkStorage))
+        copyFilesToPath(files, sourcePath, EP_OPTIONS->networkStudyPath,
+                        copyFlag);
 }

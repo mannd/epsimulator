@@ -31,6 +31,7 @@ namespace EpCore {
 
 class Mark {
 public:
+    friend class ColumnFormat;
     friend QDataStream& operator<<(QDataStream& out, const Mark&);
     friend QDataStream& operator>>(QDataStream& in, Mark&);
 

@@ -29,6 +29,7 @@
 #include "actions.h"
 #include "buttonframe.h"
 #include "catalogcombobox.h"
+#include "columnformat.h"
 #include "disklabeldialog.h"
 #include "editintervalsdialog.h"
 #include "editlistdialog.h"
@@ -57,6 +58,7 @@
 #include <QFileDialog>
 #include <QKeySequence>
 #include <QLabel>
+#include <QList>
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -69,7 +71,9 @@
 #include <algorithm>
 #include <memory>
 
+using EpCore::ColumnFormat;
 using EpCore::EpLists;
+using EpCore::Interval;
 using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;
@@ -467,15 +471,76 @@ void Navigator::moveData(DataFlow flow, DataType type) {
     if (!administrationAllowed())
         return;
     try {
-        moveDataMessageBox(flow, type);
-        // MoveDataDialog d(this, flow, type);
-        // doMoveData(d, flow, type);
+        if (moveDataMessageBox(flow, type)) {
+            QFileDialog d(this);
+            d.setFileMode(QFileDialog::DirectoryOnly);
+            QString caption = tr("Data %1 Wizard")
+                              .arg(flow == Import ? tr("Import")
+                                  : tr("Export"));
+            d.setWindowTitle(caption);
+            if (d.exec()) {
+                qDebug() << "Selected Dir = " << d.selectedFiles();
+                QString path = d.selectedFiles()[0];
+                QStringList selectedFiles;
+                QList<unsigned int> magicNumbers;
+                if (type == Lists) {
+                    selectedFiles.append(EpLists::fileName());
+                    magicNumbers.append(EpLists::magicNumber());
+                    selectedFiles.append(Interval::fileName());
+                    magicNumbers.append(Interval::magicNumber());
+                    //selectedFiles.append((ColumnFormat::fileName()));
+                    // add the rest here
+                }
+                else if (type == ReportFormats) {
+                    // add here
+                }
+                if (flow == Export)
+                    EpCore::copyFilesToPath(selectedFiles,
+                                            EpCore::activeSystemPath(),
+                                            path, EpCore::Overwrite);
+                else if (flow == Import) {
+                    // check magic numbers since your are overwriting
+                    // system files.
+                    QStringListIterator iter(selectedFiles);
+                    QListIterator<unsigned int> magicIter(magicNumbers);
+                    QString filePath;
+                    int result = QMessageBox::warning(this,
+                                 tr("Overwriting Critical System Files"),
+                                 tr("Note that you will be importing "
+                                    "data into your system files and "
+                                    "overwriting these files.  This "
+                                    "is ok if you trust these files.  "
+                                    "It is recommended you backup your "
+                                    "system directories before importing."),
+                                     QMessageBox::Ok | QMessageBox::Cancel);
+                    if (result == QMessageBox::Ok)  {
+                        while (iter.hasNext()) {
+                            filePath = EpCore::joinPaths(path, iter.next());
+                            if (EpCore::magicNumber(filePath)
+                                    != magicIter.next()) {
+                                throw EpCore::WrongFileTypeError(filePath);
+                            }
+                        }
+                        EpCore::copyFilesToSystem(selectedFiles, path,
+                                              EpCore::Overwrite);
+                    }
+                }
+            }
+        }
     }
     catch (EpCore::SourceDestinationSameError& e) {
-        QMessageBox::warning(this,
-            tr("Source and destination directories are the same"),
+        QMessageBox::information(this,
+            tr("Directories Identical"),
             tr("Source and destination directories must be different"));
     }
+    catch (EpCore::WrongFileTypeError& e) {
+        QMessageBox::warning(this,
+                             tr("Wrong File Type"),
+                             tr("File types are incompatible.  The file "
+                                "%1 file type was not correct.  Data move "
+                                "aborted").arg(e.fileName()));
+    }
+
     catch (EpCore::IoError& e) {
         QMessageBox::warning(this,
             tr("Error moving data"),
@@ -483,7 +548,7 @@ void Navigator::moveData(DataFlow flow, DataType type) {
     }
 }
 
-void Navigator::moveDataMessageBox(Navigator::DataFlow flow,
+bool Navigator::moveDataMessageBox(Navigator::DataFlow flow,
                                    Navigator::DataType type) {
     QString dataFlow, movePhrase;
     switch(flow) {
@@ -503,12 +568,14 @@ void Navigator::moveDataMessageBox(Navigator::DataFlow flow,
     case Navigator::ReportFormats:
         dataType = tr("Report Formats"); break;
     }
-    QMessageBox::information(this, tr("%1 %2 Wizard").arg(dataType)
+    int result = QMessageBox::information(this, tr("%1 %2 Wizard").arg(dataType)
                              .arg(capitalize(dataFlow)),
         tr("This wizard will enable you to %1 %2."
            " You will need to provide"
            " the location of a folder"
-           " %3 to %1 the %2.").arg(dataFlow).arg(dataType).arg(movePhrase));
+           " %3 to %1 the %2.").arg(dataFlow).arg(dataType).arg(movePhrase),
+        QMessageBox::Ok | QMessageBox::Cancel);
+    return result == QMessageBox::Ok;
 }
 
 void Navigator::ejectDisk() {
@@ -1020,6 +1087,9 @@ void Navigator::createActions() {
     manageFormatsAction_ = createAction(this, tr("Manage Formats"),
                                         tr("Manage formats"),
                                         SLOT(manageFormats()));
+    templatesAction_ = createAction(this, tr("Templates"),
+                                    tr("Edit report templates"),
+                                    0, 0);
 
     // Help menu -- in AbstractMainWindow
 
@@ -1114,6 +1184,7 @@ void Navigator::createMenus() {
     QMenu* reportsSubMenu = new QMenu(tr("Reports"));
     reportsSubMenu->addAction(manageSectionsAction_);
     reportsSubMenu->addAction(manageFormatsAction_);
+    reportsSubMenu->addAction(templatesAction_);
     administrationMenu_->addMenu(reportsSubMenu);
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(simulatorSettingsAction());

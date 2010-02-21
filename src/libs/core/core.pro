@@ -10,7 +10,8 @@ SOURCES += options.cpp \
     probability.cpp \
     eplists.cpp \
     interval.cpp \
-    mark.cpp
+    mark.cpp \
+    columnformat.cpp
 HEADERS += options.h \
     versioninfo.h \
     error.h \
@@ -22,8 +23,6 @@ HEADERS += options.h \
     eplists.h \
     interval.h \
     itemlist.h \
-    mark.h
-
-win32 {
-    LIBS += -lws2_32
-}
+    mark.h \
+    columnformat.h
+win32:LIBS += -lws2_32

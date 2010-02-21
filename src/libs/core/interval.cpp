@@ -92,10 +92,12 @@ QList<Interval> Interval::defaultItems() {
     intervals.append(Interval(tr("V1V2"), Mark(Mark::V1), Mark(Mark::V2), 5));
     intervals.append(Interval(tr("V2V3"), Mark(Mark::V2), Mark(Mark::V3), 5));
     intervals.append(Interval(tr("V3V4"), Mark(Mark::V3), Mark(Mark::V4), 5));
-    intervals.append(Interval(tr("S1S1"), Mark(Mark::S1), Mark(Mark::S1), 5));
-    intervals.append(Interval(tr("S1S2"), Mark(Mark::S1), Mark(Mark::S2), 5));
-    intervals.append(Interval(tr("S2S3"), Mark(Mark::S2), Mark(Mark::S3), 5));
-    intervals.append(Interval(tr("S3S4"), Mark(Mark::S3), Mark(Mark::S4), 5));
+    // note that CardioLab uses S1 label for S1S1, etc.
+    intervals.append(Interval(tr("S1"), Mark(Mark::S1), Mark(Mark::S1), 5));
+    intervals.append(Interval(tr("S2"), Mark(Mark::S1), Mark(Mark::S2), 5));
+    intervals.append(Interval(tr("S3"), Mark(Mark::S2), Mark(Mark::S3), 5));
+    intervals.append(Interval(tr("S4"), Mark(Mark::S3), Mark(Mark::S4), 5));
+    intervals.append(Interval(tr("S5"), Mark(Mark::S4), Mark(Mark::S5), 5));
     return intervals;
 }
 

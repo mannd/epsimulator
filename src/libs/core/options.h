@@ -25,6 +25,8 @@
 #include <QSettings>
 #include <QString>
 
+#define EP_OPTIONS (EpCore::Options::instance())
+
 namespace EpCore {
 
 /**
@@ -96,7 +98,7 @@ public:
     enum OpticalDiskFlag {
         NoOpticalDiskFlags      = 0x000000,
         Emulation               = 0x000001,
-        DualSided               = 0x000002,
+        DualSided               = 0x000002
     };
     Q_DECLARE_FLAGS(OpticalDiskFlags, OpticalDiskFlag)
     OpticalDiskFlags opticalDiskFlags;

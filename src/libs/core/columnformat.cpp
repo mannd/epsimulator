@@ -18,45 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef EPLISTS_H
-#define EPLISTS_H
+#include "columnformat.h"
 
-#include <QCoreApplication>
-#include <QMap>
-#include <QStringList>
+using EpCore::ColumnFormat;
+using EpCore::Interval;
 
-namespace EpCore {
-
-class EpLists {
-    Q_DECLARE_TR_FUNCTIONS(EpLists)
-
-public:
-    enum EpListType {PacingSites, ArrhythmiaTypes,
-                     ArrhythmiaTolerances, BlockDescriptions,
-                     RefractoryLocations};
-    EpLists();
-
-    QStringList& operator[](EpListType key) {
-        return map_[lookupMap_[key]];}
-    void update() {save();}
-
-    static unsigned int magicNumber() {return MagicNumber;}
-    static QString fileName() {return fileName_;}
-
-private:
-    enum {MagicNumber = 0x99f818f0};
-
-    const static QString fileName_;
-
-    void load();
-    void save();
-
-    void makeDefaultEpLists();
-
-    QMap<EpListType, QString> lookupMap_;
-    QMap<QString, QStringList> map_;
-};
+ColumnFormat::ColumnFormat(const QString& name,
+                           const QList<Interval>& selectedIntervals)
+                               : name_(name)
+                               , selectedIntervals_(selectedIntervals) {
 
 }
 
-#endif // EPLISTS_H
+QList<Interval> ColumnFormat::unselectedIntervals() const {
+    QList<Interval> unselectedIntervals;
+    QListIterator<Interval> iter(selectedIntervals_);
+    Interval interval;
+    while (iter.hasNext()) {
+        if (!intervals_.contains(interval = iter.next()))
+            unselectedIntervals.append(interval);
+    }
+    return unselectedIntervals;
+}

@@ -18,45 +18,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef EPLISTS_H
-#define EPLISTS_H
+#ifndef COLUMNFORMAT_H
+#define COLUMNFORMAT_H
 
-#include <QCoreApplication>
-#include <QMap>
-#include <QStringList>
+#include "interval.h"
+#include "itemlist.h"
+
+#include <QtCore/QCoreApplication>
+
+class QDataStream;
 
 namespace EpCore {
 
-class EpLists {
-    Q_DECLARE_TR_FUNCTIONS(EpLists)
+// Column formats contain either marks or intervals.  Marks and intervals
+// are ordered from left to right across the columns.  Alternatively, you
+// can have some intervals with just a single Mark, second Mark is "None."
+// This would save the trouble of mixing 2 different types together.
+class ColumnFormat {
+    Q_DECLARE_TR_FUNCTIONS(ColumnFormat)
 
 public:
-    enum EpListType {PacingSites, ArrhythmiaTypes,
-                     ArrhythmiaTolerances, BlockDescriptions,
-                     RefractoryLocations};
-    EpLists();
+    friend QDataStream& operator<<(QDataStream&, const ColumnFormat);
+    friend QDataStream& operator>>(QDataStream&, ColumnFormat&);
+    friend bool operator<(const ColumnFormat&, const ColumnFormat&);
 
-    QStringList& operator[](EpListType key) {
-        return map_[lookupMap_[key]];}
-    void update() {save();}
+    ColumnFormat(const QString& name = QString(),
+                 const QList<Interval>& selectedIntervals = QList<Interval>());
 
     static unsigned int magicNumber() {return MagicNumber;}
-    static QString fileName() {return fileName_;}
+    static QString fileName() {return QString("columnformats.dat");}
+    static QList<ColumnFormat> defaultItems();
+
+    QList<Interval> selectedIntervals() const {return selectedIntervals_;}
+    QList<Interval> unselectedIntervals() const;
+
 
 private:
-    enum {MagicNumber = 0x99f818f0};
+    enum {MagicNumber = 0x00304010};
 
-    const static QString fileName_;
-
-    void load();
-    void save();
-
-    void makeDefaultEpLists();
-
-    QMap<EpListType, QString> lookupMap_;
-    QMap<QString, QStringList> map_;
+    QString name_;
+    QList<Interval> selectedIntervals_;
+    EpCore::ItemList<EpCore::Interval> intervals_;
 };
 
 }
 
-#endif // EPLISTS_H
+#endif // COLUMNFORMAT_H

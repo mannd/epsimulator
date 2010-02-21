@@ -27,7 +27,7 @@
 #include <QtDebug>
 
 #define PROGRAM_NAME tr("EP Simulator")
-#define COPYRIGHT_YEAR tr("2006-2009")
+#define COPYRIGHT_YEAR tr("2006-2010")
 #define VERSION  "0.1"
 
 static const char appNameC[] = "epsimulator";

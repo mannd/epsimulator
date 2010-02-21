@@ -26,3 +26,4 @@ EP Simulator Help
    directory, or a hard drive directory disguised to mimic an optical disk.
 ** EP List edit boxes
    The items in these boxes don't have "bullet points" preceding them.
+** No ADT option in Navigator

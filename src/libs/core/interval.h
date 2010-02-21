@@ -47,8 +47,11 @@ public:
     Interval(const Interval&);
 
     Interval& operator=(const Interval&);
+    bool operator==(const Interval& rhs) const {
+        return name_ == rhs.name_;
+    }
 
-    static int magicNumber() {return MagicNumber;}
+    static unsigned int magicNumber() {return MagicNumber;}
     static QString fileName() {return QString("intervals.dat");}
     static QList<Interval> defaultItems();
 

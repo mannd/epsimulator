@@ -41,6 +41,10 @@ namespace EpCore {
 
         T& operator[](const QString& name);
 
+        bool contains(const T& value) const {
+            return list_.contains(value);
+        }
+
         void removeAt(int i) {
             list_.removeAt(i);
         }

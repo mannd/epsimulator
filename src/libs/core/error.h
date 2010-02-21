@@ -87,7 +87,7 @@ public:
 class WrongQtVersionError : public IoError {
 public:
     WrongQtVersionError(const QString& fileName,
-                        const char* msg = "file from later version of Qt")
+                        const char* msg = "file from wrong version of Qt")
                         : IoError(fileName, msg) {}
 };
 

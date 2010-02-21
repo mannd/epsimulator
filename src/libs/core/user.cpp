@@ -89,6 +89,7 @@ User::User() : isAdministrator_(false) {
                    ? machineName : QString();
 #   endif
 
-    qDebug() << "EP Simulator is running on " << machineName_;
-    qDebug() << "User is " << name_;
+    qDebug() << "User is " << name_ << " and machine is "
+            << machineName_;
+
 }

@@ -34,6 +34,10 @@ class QString;
 
 namespace EpCore {
 
+    enum CopyFlag { DoNotOverwrite  = 0x000000,
+                    Overwrite       = 0x000001
+    };
+
 /**
  * Loads data from QDataStream identified by filePath.  File must be proper
  * type, matching magicNumber.
@@ -49,6 +53,9 @@ template<typename T>
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data);
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out);
+
+// gets a MagicNumber from a file
+unsigned int magicNumber(const QString& filePath);
 
 /**
  * Saves data to both Network and local System paths, if network storage
@@ -71,6 +78,13 @@ void copyDir(const QString& sourcePath, const QString& destinationPath);
 QDir directoryOf(const QString& subdir);
 QDir rootDirectory();
 QDir systemDirectory();
+QString activeSystemPath();
+
+void copyFilesToPath(const QStringList& files, const QString& sourcePath,
+                     const QString& destPath,
+                     CopyFlag = DoNotOverwrite);
+void copyFilesToSystem(const QStringList& files, const QString& sourcePath,
+                       CopyFlag = DoNotOverwrite);
 
 QString joinPaths(const QString&, const QString&);
 

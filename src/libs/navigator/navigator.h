@@ -167,7 +167,7 @@ private:
     void addStudyToCatalogs();  // add study to appropriate catalogs
     void createDataFiles(); // make study data files on disk
     void moveStudyMessageBox(MoveType);
-    void moveDataMessageBox(DataFlow, DataType);
+    bool moveDataMessageBox(DataFlow, DataType);
     void moveStudy(MoveType);
     void moveStudyData(MoveCopyStudyDialog&, MoveType);
     void moveData(DataFlow, DataType);
@@ -238,6 +238,7 @@ private:
     QAction* studyConfigurationsAction_;
     QAction* manageSectionsAction_;
     QAction* manageFormatsAction_;
+    QAction* templatesAction_;
 
     // Non-menu actions
     QAction* clearSelectionAction_;
