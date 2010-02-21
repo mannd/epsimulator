@@ -65,18 +65,20 @@ public:
     Mark mark2() const {return mark2_;}
     int width() const {return width_;}
 
-    // Will need to get form user screen width for
-    // accurate display.  Maybe assume default 17" screen?
-    // Below returns interval in pixels.
-    // see QX11Info.appDpiX() - gives dpi on X.
-    // on windows, try GetDeviceCaps()!
+    // can convert below to inches using EpGui::appDpiX().
     int rawInterval() const {return mark2_.x() - mark1_.x();}
 
 private:
     enum {MagicNumber = 0x99f00010};
+    typedef struct {
+        QString name;
+        Mark::MarkType mark1;
+        Mark::MarkType mark2;
+    } IntervalParameter;
 
     void copyInterval(const Interval&);
 
+    static const IntervalParameter defaultParameters_[];
     static const QString fileName_;
     QString name_;
     Mark mark1_;

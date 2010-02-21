@@ -26,8 +26,6 @@
 #include <QDataStream>
 #include <QStringList>
 
-class QDataSteam;
-
 namespace EpCore {
 
 QDataStream& operator<<(QDataStream& out, const Interval& interval) {
@@ -68,38 +66,43 @@ Interval& Interval::operator=(const Interval& rhs) {
     return *this;
 }
 
+const Interval::IntervalParameter Interval::defaultParameters_[]
+        = {{tr("None"), Mark::None, Mark::None},
+           {tr("A1A1"), Mark::A1, Mark::A1},
+           {tr("A1A2"), Mark::A1, Mark::A2},
+           {tr("A2A3"), Mark::A2, Mark::A3},
+           {tr("A3A4"), Mark::A3, Mark::A4},
+           {tr("A1H1"), Mark::A1, Mark::H1},
+           {tr("A2H2"), Mark::A2, Mark::H2},
+           {tr("AA"), Mark::A, Mark::A},
+           {tr("SCL"), Mark::A, Mark::A},
+           {tr("PR"), Mark::P, Mark::QRSonset},
+           {tr("QRS"), Mark::QRSonset, Mark::QRSoffset},
+           {tr("QT"), Mark::QRSonset, Mark::Toffset},
+           {tr("PA"), Mark::P, Mark::A},
+           {tr("AH"), Mark::A, Mark::H},
+           {tr("HV"), Mark::H, Mark::QRSonset},
+           {tr("H1H1"), Mark::H1, Mark::H1},
+           {tr("H1H2"), Mark::H1, Mark::H2},
+           {tr("V1V2"), Mark::V1, Mark::V2},
+           {tr("V2V3"), Mark::V2, Mark::V3},
+           {tr("V3V4"), Mark::V3, Mark::V4},
+           // note that CardioLab uses S1 label for S1S1, etc.
+           {tr("S1"), Mark::S1, Mark::S1},
+           {tr("S2"), Mark::S1, Mark::S2},
+           {tr("S3"), Mark::S2, Mark::S3},
+           {tr("S4"), Mark::S3, Mark::S4},
+           {tr("S5"), Mark::S4, Mark::S5}};
+
 
 QList<Interval> Interval::defaultItems() {
     QList<Interval> intervals;
-    intervals.append(Interval(tr("A1A1"), Mark(Mark::A1), Mark(Mark::A1), 5));
-    intervals.append(Interval(tr("A1A2"), Mark(Mark::A1), Mark(Mark::A2), 5));
-    intervals.append(Interval(tr("A1H1"), Mark(Mark::A1), Mark(Mark::H1), 5));
-    intervals.append(Interval(tr("A2A3"), Mark(Mark::A2), Mark(Mark::A3), 5));
-    intervals.append(Interval(tr("A2H2"), Mark(Mark::A2), Mark(Mark::H2), 5));
-    intervals.append(Interval(tr("A3A4"), Mark(Mark::A3), Mark(Mark::A4), 5));
-    intervals.append(Interval(tr("AA"), Mark(Mark::A), Mark(Mark::A), 5));
-    intervals.append(Interval(tr("AH"), Mark(Mark::A), Mark(Mark::H), 5));
-    intervals.append(Interval(tr("SCL"), Mark(Mark::A), Mark(Mark::A), 5));
-    intervals.append(Interval(tr("PR"), Mark(Mark::P),
-                              Mark(Mark::QRSonset), 5));
-    intervals.append(Interval(tr("QRS"), Mark(Mark::QRSonset),
-                              Mark(Mark::QRSoffset), 5));
-    intervals.append(Interval(tr("QT"), Mark(Mark::QRSonset),
-                              Mark(Mark::Toffset), 5));
-    intervals.append(Interval(tr("HV"), Mark(Mark::H),
-                              Mark(Mark::QRSonset), 5));
-    intervals.append(Interval(tr("H1H1"), Mark(Mark::H1), Mark(Mark::H1), 5));
-    intervals.append(Interval(tr("H1H2"), Mark(Mark::H1), Mark(Mark::H2), 5));
-    intervals.append(Interval(tr("V1V1"), Mark(Mark::V1), Mark(Mark::V1), 5));
-    intervals.append(Interval(tr("V1V2"), Mark(Mark::V1), Mark(Mark::V2), 5));
-    intervals.append(Interval(tr("V2V3"), Mark(Mark::V2), Mark(Mark::V3), 5));
-    intervals.append(Interval(tr("V3V4"), Mark(Mark::V3), Mark(Mark::V4), 5));
-    // note that CardioLab uses S1 label for S1S1, etc.
-    intervals.append(Interval(tr("S1"), Mark(Mark::S1), Mark(Mark::S1), 5));
-    intervals.append(Interval(tr("S2"), Mark(Mark::S1), Mark(Mark::S2), 5));
-    intervals.append(Interval(tr("S3"), Mark(Mark::S2), Mark(Mark::S3), 5));
-    intervals.append(Interval(tr("S4"), Mark(Mark::S3), Mark(Mark::S4), 5));
-    intervals.append(Interval(tr("S5"), Mark(Mark::S4), Mark(Mark::S5), 5));
+    int size = sizeof(defaultParameters_) / sizeof(IntervalParameter);
+    for (int i = 0; i < size; ++i)
+        intervals.append(Interval(defaultParameters_[i].name,
+                                  Mark(defaultParameters_[i].mark1),
+                                  Mark(defaultParameters_[i].mark2),
+                                  5));
     return intervals;
 }
 

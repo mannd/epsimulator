@@ -30,15 +30,11 @@ class QDataStream;
 
 namespace EpCore {
 
-// Column formats contain either marks or intervals.  Marks and intervals
-// are ordered from left to right across the columns.  Alternatively, you
-// can have some intervals with just a single Mark, second Mark is "None."
-// This would save the trouble of mixing 2 different types together.
 class ColumnFormat {
     Q_DECLARE_TR_FUNCTIONS(ColumnFormat)
 
 public:
-    friend QDataStream& operator<<(QDataStream&, const ColumnFormat);
+    friend QDataStream& operator<<(QDataStream&, const ColumnFormat&);
     friend QDataStream& operator>>(QDataStream&, ColumnFormat&);
     friend bool operator<(const ColumnFormat&, const ColumnFormat&);
 
@@ -46,7 +42,7 @@ public:
                  const QList<Interval>& selectedIntervals = QList<Interval>());
 
     static unsigned int magicNumber() {return MagicNumber;}
-    static QString fileName() {return QString("columnformats.dat");}
+    static QString fileName() {return fileName_;}
     static QList<ColumnFormat> defaultItems();
 
     QList<Interval> selectedIntervals() const {return selectedIntervals_;}
@@ -56,6 +52,7 @@ public:
 private:
     enum {MagicNumber = 0x00304010};
 
+    static const QString fileName_;
     QString name_;
     QList<Interval> selectedIntervals_;
     EpCore::ItemList<EpCore::Interval> intervals_;

@@ -996,7 +996,8 @@ void Navigator::createLists() {
         EpLists lists;
     if (!EpCore::systemFileExists(Interval::fileName()))
         ItemList<Interval> intervals;
-    // ColumnFormat columnFormat;
+    if (!EpCore::systemFileExists(ColumnFormat::fileName()))
+        ItemList<ColumnFormat> columnformats;
 }
 
 void Navigator::updateMenus() {

@@ -20,8 +20,33 @@
 
 #include "columnformat.h"
 
+#include <QDataStream>
+
+namespace EpCore {
+
+    QDataStream& operator<<(QDataStream& out, const ColumnFormat& cf) {
+        out << cf.name_ << cf.selectedIntervals_;
+        return out;
+    }
+
+    QDataStream& operator>>(QDataStream& in, ColumnFormat& cf) {
+        in >> cf.name_ >> cf.selectedIntervals_;
+        return in;
+    }
+
+    bool operator<(const ColumnFormat& value1, const ColumnFormat& value2) {
+        return value1.name_ < value2.name_;
+    }
+
+
+
+
+}
+
 using EpCore::ColumnFormat;
 using EpCore::Interval;
+
+const QString ColumnFormat::fileName_ = "columnformats.dat";
 
 ColumnFormat::ColumnFormat(const QString& name,
                            const QList<Interval>& selectedIntervals)
@@ -39,4 +64,27 @@ QList<Interval> ColumnFormat::unselectedIntervals() const {
             unselectedIntervals.append(interval);
     }
     return unselectedIntervals;
+}
+
+QList<ColumnFormat> ColumnFormat::defaultItems() {
+    QList<ColumnFormat> columnFormats;
+    QList<Interval> intervals;
+    ItemList<Interval> defaultIntervals;
+    QString name;
+    name = tr("BASELINE");
+    intervals.append(defaultIntervals[tr("SCL")]);
+    intervals.append(defaultIntervals[tr("PR")]);
+    intervals.append(defaultIntervals[tr("QRS")]);
+    intervals.append(defaultIntervals[tr("QT")]);
+    intervals.append(defaultIntervals[tr("AH")]);
+    columnFormats.append(ColumnFormat(name, intervals));
+    name = tr("A PACE");
+    intervals.clear();
+    intervals.append(defaultIntervals[tr("S1")]);
+    intervals.append(defaultIntervals[tr("S2")]);
+    //etc.
+    columnFormats.append(ColumnFormat(name, intervals));
+
+    // etc.
+    return columnFormats;
 }
