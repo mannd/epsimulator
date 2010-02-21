@@ -320,9 +320,9 @@ void TestEpSimulator::testOptions() {
     //o->destroy();
     Options* o2 = Options::instance();
     QVERIFY(o == o2);    // confirm all options identical
-    // test EP_OPTIONS macro
-    QVERIFY(o2 == EP_OPTIONS);
-    QVERIFY(o2->opticalDiskFlags == EP_OPTIONS->opticalDiskFlags);
+    // test epOptions macro
+    QVERIFY(o2 == epOptions);
+    QVERIFY(o2->opticalDiskFlags == Options::instance()->opticalDiskFlags);
 }
 
 void TestEpSimulator::testOptionsFlags() {

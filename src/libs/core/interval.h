@@ -52,7 +52,7 @@ public:
     }
 
     static unsigned int magicNumber() {return MagicNumber;}
-    static QString fileName() {return QString("intervals.dat");}
+    static QString fileName() {return fileName_;}
     static QList<Interval> defaultItems();
 
     void setName(const QString& name) {name_  = name;}
@@ -77,6 +77,7 @@ private:
 
     void copyInterval(const Interval&);
 
+    static const QString fileName_;
     QString name_;
     Mark mark1_;
     Mark mark2_;

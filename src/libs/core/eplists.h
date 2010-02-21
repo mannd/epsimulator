@@ -21,9 +21,9 @@
 #ifndef EPLISTS_H
 #define EPLISTS_H
 
-#include <QCoreApplication>
-#include <QMap>
-#include <QStringList>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QMap>
+#include <QtCore/QStringList>
 
 namespace EpCore {
 

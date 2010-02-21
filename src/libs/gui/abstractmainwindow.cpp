@@ -42,7 +42,7 @@ using EpHardware::EpOpticalDisk::OpticalDisk;
 
 AbstractMainWindow::AbstractMainWindow(QWidget *parent)
     : QMainWindow(parent), versionInfo_(VersionInfo::instance()),
-      options_(Options::instance()) {
+      options_(epOptions) {
     createActions();
 }
 

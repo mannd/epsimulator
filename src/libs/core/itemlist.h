@@ -136,7 +136,7 @@ namespace EpCore {
     void ItemList<T>::load() {
         try {
             EpCore::loadSystemData(T::magicNumber(), T::fileName(),
-                                   list_, EpCore::Options::instance());
+                                   list_, epOptions);
         }
         catch (EpCore::IoError&) {
             // ignore failure to read, leave list empty
@@ -146,7 +146,7 @@ namespace EpCore {
     template<typename T>
     void ItemList<T>::save() {
         EpCore::saveSystemData(T::magicNumber(), T::fileName(),
-                               list_, EpCore::Options::instance());
+                               list_, epOptions);
     }
 
     template<typename T>

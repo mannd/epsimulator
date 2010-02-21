@@ -53,6 +53,7 @@ template<typename T>
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data);
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out);
+bool systemFileExists(const QString& fileName);
 
 // gets a MagicNumber from a file
 unsigned int magicNumber(const QString& filePath);

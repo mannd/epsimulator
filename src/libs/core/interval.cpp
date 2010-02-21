@@ -51,6 +51,8 @@ bool operator<(const Interval& value1, const Interval& value2) {
 using EpCore::Interval;
 using EpCore::Mark;
 
+const QString Interval::fileName_ = "intervals.dat";
+
 Interval::Interval(const QString& name, const Mark& mark1,
                    const Mark& mark2, int width)
     : name_(name), mark1_(mark1), mark2_(mark2), width_(width) {}

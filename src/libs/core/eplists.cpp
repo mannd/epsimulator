@@ -43,7 +43,7 @@ EpLists::EpLists() {
 void EpLists::load() {
     try {
         EpCore::loadSystemData(MagicNumber, fileName_,
-                               map_, EpCore::Options::instance());
+                               map_, epOptions);
     }
     catch (EpCore::IoError&) {
         // ignore failure to read, just leave map_ empty
@@ -53,7 +53,7 @@ void EpLists::load() {
 
 void EpLists::save() {
     EpCore::saveSystemData(MagicNumber, fileName_,
-                           map_, EpCore::Options::instance());
+                           map_, epOptions);
 }
 
 void EpLists::makeDefaultEpLists() {

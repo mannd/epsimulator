@@ -142,7 +142,7 @@ NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent)
     // Sluggo, but works on SuperSluggo.  If you remove below,
     // buttons turn white when highlighted on SuperSluggo, but
     // have expected white border on Sluggo.  ??? why
-    if (Options::instance()->bluePanelTweak) {
+    if (epOptions->bluePanelTweak) {
         QPalette framePalette = palette();
         framePalette.setColor(QPalette::Button, Qt::darkBlue);
         setPalette(framePalette);

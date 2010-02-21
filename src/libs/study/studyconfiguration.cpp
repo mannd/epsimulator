@@ -109,7 +109,7 @@ const QString StudyConfiguration::configFileName_ = "config.dat";
 
 StudyConfiguration::StudyConfiguration(const QString& name) : name_(name),
     protocolList_(), channelList_() {
-    amplifier_ = new Amplifier(Options::instance()->numChannels);
+    amplifier_ = new Amplifier(epOptions->numChannels);
 }
 
 StudyConfiguration::StudyConfiguration(const StudyConfiguration& rhs) {
@@ -146,7 +146,7 @@ StudyConfigurations::StudyConfigurations() {
 void StudyConfigurations::readStudyConfigurations() {
     EpCore::loadSystemData(StudyConfiguration::MagicNumber,
                            StudyConfiguration::configFileName(),
-                           configList_, EpCore::Options::instance());
+                           configList_, epOptions);
     if (configList_.isEmpty()) {
         StudyConfiguration config;
         configList_.append(config);
@@ -157,7 +157,7 @@ void StudyConfigurations::readStudyConfigurations() {
 void StudyConfigurations::writeStudyConfigurations() {
     EpCore::saveSystemData(StudyConfiguration::MagicNumber,
                            StudyConfiguration::configFileName(),
-                           configList_, EpCore::Options::instance());
+                           configList_, epOptions);
 }
 
 const StudyConfiguration& StudyConfigurations::operator [](int i) const {

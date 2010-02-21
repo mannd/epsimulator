@@ -25,7 +25,8 @@
 #include <QSettings>
 #include <QString>
 
-#define EP_OPTIONS (EpCore::Options::instance())
+// convenient macro
+#define epOptions (EpCore::Options::instance())
 
 namespace EpCore {
 

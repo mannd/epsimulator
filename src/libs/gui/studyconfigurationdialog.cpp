@@ -71,7 +71,7 @@ void StudyConfigurationDialog::changePage(const QModelIndex& index) {
 
 void StudyConfigurationDialog::save() {
     if (User::instance()->isAdministrator() ||
-        !Options::instance()->administratorAccountRequired) {
+        !epOptions->administratorAccountRequired) {
         StudyConfigurations configList;
         configList.replace(*studyConfiguration_);
     }
@@ -83,7 +83,7 @@ void StudyConfigurationDialog::save() {
 
 void StudyConfigurationDialog::saveAs() {
     if (User::instance()->isAdministrator() ||
-        !Options::instance()->administratorAccountRequired) {
+        !epOptions->administratorAccountRequired) {
             QString configName = studyConfiguration_->name();
             StudyConfigurations configList;
             bool ok;
@@ -144,7 +144,7 @@ RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
     amplifierItem->appendRow(pressureItem);
     char c = 'A';
     for (int i = 0; 
-         i < Amplifier::numCIMConnections(Options::instance()->numChannels); ++i) {
+         i < Amplifier::numCIMConnections(epOptions->numChannels); ++i) {
         QStandardItem* block = new QStandardItem(tr("Catheter Block %1").arg(c++));
         block->setData(pageNum++);
         amplifierItem->appendRow(block);
@@ -226,7 +226,7 @@ ReviewStudyConfigurationDialog::ReviewStudyConfigurationDialog(
     reviewItem->appendRow(pressureItem);
     char c = 'A';
     for (int i = 0; 
-         i < Amplifier::numCIMConnections(Options::instance()->numChannels); ++i) {
+         i < Amplifier::numCIMConnections(epOptions->numChannels); ++i) {
         QStandardItem* block = new QStandardItem(tr("Catheter Block %1").arg(c++));
         block->setData(pageNum++);
         reviewItem->appendRow(block);

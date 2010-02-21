@@ -991,8 +991,11 @@ void Navigator::createStatusBar() {
 void Navigator::createLists() {
     // just initializing these lists writes default values for each
     // of them to disk if the files aren't there already.
-    EpLists lists;
-    ItemList<Interval> intervals;
+    // But don't bother if the file is already there.
+    if (!EpCore::systemFileExists(EpLists::fileName()))
+        EpLists lists;
+    if (!EpCore::systemFileExists(Interval::fileName()))
+        ItemList<Interval> intervals;
     // ColumnFormat columnFormat;
 }
 

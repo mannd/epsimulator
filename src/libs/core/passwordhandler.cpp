@@ -25,7 +25,7 @@
 using EpCore::PasswordHandler;
 
 PasswordHandler::PasswordHandler() :
-    options_(Options::instance()), hash_(QCryptographicHash::Sha1){
+    options_(epOptions), hash_(QCryptographicHash::Sha1){
     // set original password to "admin"
     if (options_->passwordHash == "0")
         setPassword(tr("admin"));

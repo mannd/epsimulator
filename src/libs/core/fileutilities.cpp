@@ -43,6 +43,10 @@ void EpCore::saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
         << static_cast<quint16>(out.version());
 }
 
+bool EpCore::systemFileExists(const QString &fileName) {
+    return QFile(joinPaths(activeSystemPath(), fileName)).exists();
+}
+
 unsigned int EpCore::magicNumber(const QString& filePath) {
     QFile file(filePath);
     if (!file.exists())
@@ -160,10 +164,10 @@ QDir EpCore::systemDirectory() {
 
 // returns the main System path, depending on whether networking is used
 QString EpCore::activeSystemPath() {
-    if (EP_OPTIONS->EnableNetworkStorage)
-        return EP_OPTIONS->networkStudyPath;
+    if (epOptions->EnableNetworkStorage)
+        return epOptions->networkStudyPath;
     else
-        return EP_OPTIONS->systemCatalogPath;
+        return epOptions->systemCatalogPath;
 }
 
 // joins together 2 elements of a path, e.g. '/home' and '/src/'
@@ -207,9 +211,9 @@ void EpCore::copyFilesToSystem(const QStringList& files,
                                const QString& sourcePath,
                                EpCore::CopyFlag copyFlag) {
     // always copy to System Directory
-    copyFilesToPath(files, sourcePath, EP_OPTIONS->systemCatalogPath,
+    copyFilesToPath(files, sourcePath, epOptions->systemCatalogPath,
                     copyFlag);
-    if (EP_OPTIONS->filePathFlags.testFlag(Options::EnableNetworkStorage))
-        copyFilesToPath(files, sourcePath, EP_OPTIONS->networkStudyPath,
+    if (epOptions->filePathFlags.testFlag(Options::EnableNetworkStorage))
+        copyFilesToPath(files, sourcePath, epOptions->networkStudyPath,
                         copyFlag);
 }
