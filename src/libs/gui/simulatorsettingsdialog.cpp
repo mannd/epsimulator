@@ -25,46 +25,44 @@
 using EpCore::Options;
 using EpGui::SimulatorSettingsDialog;
 
-SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options, 
-                                                 QWidget* parent) :
-                                                 QDialog(parent),
-                                                 options_(options) {
+SimulatorSettingsDialog::SimulatorSettingsDialog(QWidget* parent)
+    :  QDialog(parent) {
     setupUi(this);
     administratorAccountRequiredCheckBox->setChecked(
-        options_->administratorAccountRequired);
+        epOptions->administratorAccountRequired);
     hideSimulatorMenuCheckBox->setChecked(
-        options_->hideSimulatorMenu);
-    setEmulateOpticalDisk(options_->
+        epOptions->hideSimulatorMenu);
+    setEmulateOpticalDisk(epOptions->
         opticalDiskFlags.testFlag(Options::Emulation));
-    setDualSidedDisk(options_->
+    setDualSidedDisk(epOptions->
         opticalDiskFlags.testFlag(Options::DualSided));
-    setEmulatedOpticalDiskCapacity(options_->emulatedOpticalDiskCapacity);
-    oldStyleNavigatorCheckBox->setChecked(options_->oldStyleNavigator);
-    newStyleBlueBarCheckBox->setChecked(options_->bluePanelStyle == 
+    setEmulatedOpticalDiskCapacity(epOptions->emulatedOpticalDiskCapacity);
+    oldStyleNavigatorCheckBox->setChecked(epOptions->oldStyleNavigator);
+    newStyleBlueBarCheckBox->setChecked(epOptions->bluePanelStyle ==
         Options::TransparentButtons);
-    bluePanelTweakCheckBox->setChecked(options_->bluePanelTweak);
+    bluePanelTweakCheckBox->setChecked(epOptions->bluePanelTweak);
 
-    useLabNameCheckBox->setChecked(options_->useLabName);
-    labNameLineEdit->setText(options_->labName);
-    permanentDeleteCheckBox->setChecked(options_->permanentDelete);
-    emulateTwoScreensCheckBox->setChecked(options_->screenFlags.testFlag(
+    useLabNameCheckBox->setChecked(epOptions->useLabName);
+    labNameLineEdit->setText(epOptions->labName);
+    permanentDeleteCheckBox->setChecked(epOptions->permanentDelete);
+    emulateTwoScreensCheckBox->setChecked(epOptions->screenFlags.testFlag(
         Options::EmulateTwoScreens));
-    emulateOneScreenCheckBox->setChecked(options_->screenFlags.testFlag(
+    emulateOneScreenCheckBox->setChecked(epOptions->screenFlags.testFlag(
         Options::EmulateOneScreen));
-    useTwoRecorderWindowsCheckBox->setChecked(options_->screenFlags.testFlag(
+    useTwoRecorderWindowsCheckBox->setChecked(epOptions->screenFlags.testFlag(
             Options::TwoRecorderWindows));
-    emulateWindowsManagerCheckBox->setChecked(options_->screenFlags.testFlag(
+    emulateWindowsManagerCheckBox->setChecked(epOptions->screenFlags.testFlag(
         Options::EmulateWindowsManager));
-    emulatePruckaTilingCheckBox->setChecked(options_->screenFlags.testFlag(
+    emulatePruckaTilingCheckBox->setChecked(epOptions->screenFlags.testFlag(
         Options::EmulatePruckaTiling));
     immovablePatientStatusBarCheckBox->
-        setChecked(options_->recorderFlags.testFlag(Options::ImmovablePatientStatusBar));
+        setChecked(epOptions->recorderFlags.testFlag(Options::ImmovablePatientStatusBar));
     patientStatusBarHasTitleCheckBox->
-        setChecked(options_->recorderFlags.testFlag(Options::PatientStatusBarHasTitle));
-    recorderHasStatusBarCheckBox->setChecked(options_->recorderFlags.testFlag(
+        setChecked(epOptions->recorderFlags.testFlag(Options::PatientStatusBarHasTitle));
+    recorderHasStatusBarCheckBox->setChecked(epOptions->recorderFlags.testFlag(
         Options::RecorderHasStatusBar));
     int index = 0;
-    switch (options_->numChannels) {
+    switch (epOptions->numChannels) {
         case 48 :
             index = 1;
             break;
@@ -94,62 +92,62 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* options,
 SimulatorSettingsDialog::~SimulatorSettingsDialog() {}
 
 void SimulatorSettingsDialog::setOptions() {
-    options_->administratorAccountRequired =
+    epOptions->administratorAccountRequired =
         administratorAccountRequiredCheckBox->isChecked();
-    options_->hideSimulatorMenu =
+    epOptions->hideSimulatorMenu =
         hideSimulatorMenuCheckBox->isChecked();
-    setFlag(options_->opticalDiskFlags, Options::Emulation, 
+    setFlag(epOptions->opticalDiskFlags, Options::Emulation,
         emulateOpticalDisk());;
-    setFlag(options_->opticalDiskFlags, Options::DualSided, 
+    setFlag(epOptions->opticalDiskFlags, Options::DualSided,
         dualSidedDisk());
     // we will force the drive capacity to be a multiple of 16,
     // it's more computery that way.
-    options_->emulatedOpticalDiskCapacity = 
+    epOptions->emulatedOpticalDiskCapacity =
         (emulatedOpticalDiskCapacity() / 16) * 16; 
-    options_->oldStyleNavigator = oldStyleNavigatorCheckBox->
+    epOptions->oldStyleNavigator = oldStyleNavigatorCheckBox->
         isChecked();
-    options_->bluePanelStyle = newStyleBlueBarCheckBox->isChecked() ?
+    epOptions->bluePanelStyle = newStyleBlueBarCheckBox->isChecked() ?
         Options::TransparentButtons : Options::OpaqueButtons;
-    options_->bluePanelTweak = bluePanelTweakCheckBox->isChecked();
+    epOptions->bluePanelTweak = bluePanelTweakCheckBox->isChecked();
     
-    options_->useLabName = useLabNameCheckBox->isChecked();
-    options_->labName = labNameLineEdit->text();
-    options_->permanentDelete = permanentDeleteCheckBox->isChecked();
-    setFlag(options_->screenFlags, Options::EmulateTwoScreens,
+    epOptions->useLabName = useLabNameCheckBox->isChecked();
+    epOptions->labName = labNameLineEdit->text();
+    epOptions->permanentDelete = permanentDeleteCheckBox->isChecked();
+    setFlag(epOptions->screenFlags, Options::EmulateTwoScreens,
         emulateTwoScreensCheckBox->isChecked());
-    setFlag(options_->screenFlags, Options::EmulateOneScreen,
+    setFlag(epOptions->screenFlags, Options::EmulateOneScreen,
         emulateOneScreenCheckBox->isChecked());
-    setFlag(options_->screenFlags, Options::TwoRecorderWindows,
+    setFlag(epOptions->screenFlags, Options::TwoRecorderWindows,
             useTwoRecorderWindowsCheckBox->isChecked());
-    setFlag(options_->screenFlags, Options::EmulateWindowsManager,
+    setFlag(epOptions->screenFlags, Options::EmulateWindowsManager,
         emulateWindowsManagerCheckBox->isChecked());
-    setFlag(options_->screenFlags, Options::EmulatePruckaTiling,
+    setFlag(epOptions->screenFlags, Options::EmulatePruckaTiling,
         emulatePruckaTilingCheckBox->isChecked());
-    setFlag(options_->recorderFlags, Options::ImmovablePatientStatusBar,
+    setFlag(epOptions->recorderFlags, Options::ImmovablePatientStatusBar,
         immovablePatientStatusBarCheckBox->isChecked());
-    setFlag(options_->recorderFlags, Options::PatientStatusBarHasTitle,
+    setFlag(epOptions->recorderFlags, Options::PatientStatusBarHasTitle,
         patientStatusBarHasTitleCheckBox->isChecked());
-    setFlag(options_->recorderFlags, Options::RecorderHasStatusBar,
+    setFlag(epOptions->recorderFlags, Options::RecorderHasStatusBar,
         recorderHasStatusBarCheckBox->isChecked());
     int index = amplifierTypeComboBox->currentIndex();
     switch (index) {
         case 1 :
-            options_->numChannels = 48;
+            epOptions->numChannels = 48;
         case 2 :
-            options_->numChannels = 64;
+            epOptions->numChannels = 64;
             break;
         case 3 :
-            options_->numChannels = 96;
+            epOptions->numChannels = 96;
             break;
         case 4 :
-            options_->numChannels = 128;
+            epOptions->numChannels = 128;
             break;
         case 0 :
         default :
-            options_->numChannels = 32;
+            epOptions->numChannels = 32;
     }
 
-    options_->writeSettings();
+    epOptions->writeSettings();
 }
 
 void SimulatorSettingsDialog::removeNavigatorTab() {

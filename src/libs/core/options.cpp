@@ -31,13 +31,7 @@ using EpCore::Options;
 
 Options* Options::instance_ = 0;
 
-Options* Options::instance() {
-    if (instance_ == 0)
-        instance_ = new Options;
-    return instance_;
-}
-
-Options::Options() :  tempStudyPath("") {
+Options::Options() :  tempStudyPath() {
     QDir systemDir = systemDirectory();
     systemCatalogPath = systemDir.canonicalPath();
     if (!systemDir.exists())

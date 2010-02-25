@@ -32,7 +32,6 @@ class QSplitter;
 class QToolBar;
 
 namespace EpCore {
-    class Options;
     class User;
 }
 
@@ -184,7 +183,6 @@ private:
 
 
     // Data members
-    EpCore::Options* options_;
     FilterCatalogDialog* filterCatalogDialog_;  // FilterCatalog Dialog box
     Catalogs* catalogs_;
     StatusBar* statusBar_;

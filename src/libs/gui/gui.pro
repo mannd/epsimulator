@@ -17,7 +17,9 @@ SOURCES += simulatorsettingsdialog.cpp \
     editlistdialog.cpp \
     abstractedititemsdialog.cpp \
     edititemsdialog.cpp \
-    editintervalsdialog.cpp
+    editintervalsdialog.cpp \
+    editcolumnformatdialog.cpp \
+    editcolumnformatsdialog.cpp
 HEADERS += simulatorsettingsdialog.h \
     patientdialog.h \
     changepassworddialog.h \
@@ -31,7 +33,9 @@ HEADERS += simulatorsettingsdialog.h \
     abstractedititemsdialog.h \
     edititemsdialog.h \
     editintervalsdialog.h \
-    guiutilities.h
+    guiutilities.h \
+    editcolumnformatdialog.h \
+    editcolumnformatsdialog.h
 FORMS += ui/simulatorsettingsdialog.ui \
     ui/patientdialog.ui \
     ui/changepassworddialog.ui \
@@ -40,7 +44,8 @@ FORMS += ui/simulatorsettingsdialog.ui \
     ui/selectstudyconfigdialog.ui \
     ui/studyconfigurationdialog.ui \
     ui/editlistdialog.ui \
-    ui/abstractedititemsdialog.ui
+    ui/abstractedititemsdialog.ui \
+    ui/editcolumnformatdialog.ui
 LIBS += -lpatient \
     -lcore \
     -lstudy \

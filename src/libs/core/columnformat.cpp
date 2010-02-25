@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "columnformat.h"
+#include "interval.h"
 
 #include <QDataStream>
 
@@ -82,9 +83,30 @@ QList<ColumnFormat> ColumnFormat::defaultItems() {
     intervals.clear();
     intervals.append(defaultIntervals[tr("S1")]);
     intervals.append(defaultIntervals[tr("S2")]);
-    //etc.
+    intervals.append(defaultIntervals[tr("S3")]);
+    intervals.append(defaultIntervals[tr("S4")]);
+    intervals.append(defaultIntervals[tr("S5")]);
+    intervals.append(defaultIntervals[tr("SCL")]);
+    intervals.append(defaultIntervals[tr("A1A1")]);
+    intervals.append(defaultIntervals[tr("A1A2")]);
+    intervals.append(defaultIntervals[tr("A2A3")]);
+    intervals.append(defaultIntervals[tr("H1H1")]);
+    intervals.append(defaultIntervals[tr("H1H2")]);
+    intervals.append(defaultIntervals[tr("V1V1")]);
+    intervals.append(defaultIntervals[tr("V1V2")]);
+    intervals.append(defaultIntervals[tr("V2V3")]);
+    intervals.append(defaultIntervals[tr("V3V4")]);
     columnFormats.append(ColumnFormat(name, intervals));
-
+    name = tr("AEST");
+    intervals.clear();
+    // add intervals here
+    columnFormats.append(ColumnFormat(name, intervals));
+    name = tr("V Pace");
+    intervals.clear();
+    columnFormats.append(ColumnFormat(name, intervals));
+    name = tr("VEST");
+    intervals.clear();
+    columnFormats.append(ColumnFormat(name, intervals));
     // etc.
     return columnFormats;
 }

@@ -41,8 +41,7 @@ using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
 
 AbstractMainWindow::AbstractMainWindow(QWidget *parent)
-    : QMainWindow(parent), versionInfo_(VersionInfo::instance()),
-      options_(epOptions) {
+    : QMainWindow(parent), versionInfo_(VersionInfo::instance()) {
     createActions();
 }
 
@@ -50,7 +49,7 @@ AbstractMainWindow::~AbstractMainWindow() {}
 
 void AbstractMainWindow::simulatorSettings() {
     if (administrationAllowed()) {
-        SimulatorSettingsDialog simDialog(options_, this);
+        SimulatorSettingsDialog simDialog(this);
         if (simDialog.exec() == QDialog::Accepted) {
             simDialog.setOptions();
             updateSimulatorSettings();
@@ -60,7 +59,7 @@ void AbstractMainWindow::simulatorSettings() {
 
 void AbstractMainWindow::systemSettings() {
     if (administrationAllowed()) {
-        SystemDialog systemDialog(options_, 
+        SystemDialog systemDialog(
             currentDisk()->studiesPath(), currentDisk()->label(),
             currentDisk()->translatedSide(), this);
         if (systemDialog.exec() == QDialog::Accepted) {
@@ -118,7 +117,7 @@ void AbstractMainWindow::changePassword() {
 /// and not logged in as administrator, will do a login, then
 /// will allow adminstration if user successfully logged in.
 bool AbstractMainWindow::administrationAllowed() {
-    if (!options_->administratorAccountRequired)
+    if (!epOptions->administratorAccountRequired)
         return true;
     login();
     return user()->isAdministrator();
@@ -126,7 +125,7 @@ bool AbstractMainWindow::administrationAllowed() {
 
 /// Shows the *Simulator Settings* menu item.
 bool AbstractMainWindow::showSimulatorSettings() {
-    return !options_->hideSimulatorMenu || user()->isAdministrator();
+    return !epOptions->hideSimulatorMenu || user()->isAdministrator();
 }
 
 void AbstractMainWindow::updateWindowTitle(const QString& title) {

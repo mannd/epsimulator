@@ -45,6 +45,7 @@ public:
     static QString fileName() {return fileName_;}
     static QList<ColumnFormat> defaultItems();
 
+    QString name() const {return name_;}
     QList<Interval> selectedIntervals() const {return selectedIntervals_;}
     QList<Interval> unselectedIntervals() const;
 

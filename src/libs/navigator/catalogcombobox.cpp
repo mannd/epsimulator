@@ -27,17 +27,17 @@ using EpNavigator::CatalogComboBox;
 using EpNavigator::Catalog;
 
 /** 
- * Ctor.  Gets the options_ instance, sets up the combobox.  
+ * Ctor.  Gets the epOptions instance, sets up the combobox.
  * Default item is 1st, which is either System or Network depending on options.
  * Other selection is not present unless Browse...
  * is selected from the menu, and goes away as soon as possible.  
  * Default is no Network
 */
-CatalogComboBox::CatalogComboBox(Options* o, QWidget *parent) : 
+CatalogComboBox::CatalogComboBox(QWidget *parent) :
                                  QComboBox(parent), 
-                                 browse_(false), 
-                                 includeNetwork_(false),
-                                 options_(o) {
+                                 browse_(false),
+                                 includeNetwork_(false) {
+
     setup();
     connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));
     setCurrentIndex(0);  // will be Network or System depending on options
@@ -129,7 +129,7 @@ void CatalogComboBox::setup() {
     clear();
     sourceMap_.clear();
     int index = 0;
-    includeNetwork_ = options_->
+    includeNetwork_ = epOptions->
         filePathFlags.testFlag(Options::EnableNetworkStorage);
     if (includeNetwork_) {
         insertItem(index, tr("Network"));

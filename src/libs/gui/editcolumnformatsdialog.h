@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,35 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PASSWORDHANDLER_H
-#define PASSWORDHANDLER_H
 
-#include <QCoreApplication>
-#include <QCryptographicHash>
+#ifndef EDITCOLUMNFORMATSDIALOG_H
+#define EDITCOLUMNFORMATSDIALOG_H
 
-namespace EpCore {
+#include "abstractedititemsdialog.h"
 
-/**
- * Encapsulates password alorithm and processing.
- *
- * @author David Mann <mannd@epstudiossoftware.com>
- */
-class PasswordHandler {
-    Q_DECLARE_TR_FUNCTIONS(PasswordHandler)
+#include "columnformat.h"
 
+namespace EpGui {
+
+class EditColumnFormatsDialog : public AbstractEditItemsDialog {
+    Q_OBJECT
 public:
-    PasswordHandler();
-    ~PasswordHandler();
+    EditColumnFormatsDialog(QWidget* parent = 0);
 
-    void setPassword(const QString&);
-    bool testPassword(const QString&);
+    EpCore::ItemList<EpCore::ColumnFormat> columnFormats() {
+        return columnFormats_;}
 
 private:
-    enum {MagicNumber = 0x33f788f6};  // for study.dat file
-
-    QCryptographicHash hash_;
+    void createListWidget();
+    void removeItem();
+    void editItem();
+    void copyItem();
+    void newItem();
+    void makeEditColumnFormatDialog(EditorType);
+    EpCore::ItemList<EpCore::ColumnFormat> columnFormats_;
 };
 
-} // namespace EpCore
-
-#endif
+}
+#endif // EDITCOLUMNFORMATSDIALOG_H

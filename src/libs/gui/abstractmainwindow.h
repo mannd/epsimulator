@@ -26,7 +26,6 @@
 class QAction;
 
 namespace EpCore {
-    class Options;
     class User;
     class VersionInfo;
 }
@@ -89,7 +88,6 @@ private:
     void createActions();
 
     const EpCore::VersionInfo* versionInfo_;
-    EpCore::Options* options_;
     QAction* loginAction_;
     QAction* logoutAction_;
     QAction* changePasswordAction_;

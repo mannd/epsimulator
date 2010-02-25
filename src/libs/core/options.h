@@ -137,7 +137,7 @@ public:
 
     int numChannels;
 
-    static Options* instance();
+    inline static Options* instance();
 
     // read and write options to disk
     void readSettings();
@@ -153,6 +153,12 @@ protected:
 
     static Options* instance_;
 };
+
+inline Options* Options::instance() {
+    if (instance_ == 0)
+        instance_ = new Options;
+    return instance_;
+}
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Options::ScreenFlags)
 Q_DECLARE_OPERATORS_FOR_FLAGS(Options::OpticalDiskFlags)

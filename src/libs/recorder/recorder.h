@@ -183,7 +183,6 @@ private:
     EpStudy::Study* study_;
     EpPatient::Patient* patient_;
     EpCore::User* user_;
-    EpCore::Options* options_;
 
     // hardware
     EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;
@@ -326,7 +325,7 @@ void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow,
         connect(closeAct, SIGNAL(triggered()), subWindow, SLOT(close()));
         systemMenu->addAction(closeAct);
         subWindow->setSystemMenu(systemMenu);
-        subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
+        subWindow->setOption(QMdiSubWindow::RubberBandResize, epOptions->
             screenFlags.testFlag(EpCore::Options::EmulateWindowsManager));
         subWindow->installEventFilter(this);
         subWindow->setMouseTracking(true);

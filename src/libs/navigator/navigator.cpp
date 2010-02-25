@@ -31,6 +31,7 @@
 #include "catalogcombobox.h"
 #include "columnformat.h"
 #include "disklabeldialog.h"
+#include "editcolumnformatsdialog.h"
 #include "editintervalsdialog.h"
 #include "editlistdialog.h"
 #include "error.h"
@@ -78,6 +79,7 @@ using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;
 using EpCore::VersionInfo;
+using EpGui::EditColumnFormatsDialog;
 using EpGui::EditIntervalsDialog;
 using EpGui::EditListDialog;
 using EpGui::PatientDialog;
@@ -94,7 +96,6 @@ using namespace EpHardware::EpOpticalDisk;
 // Note that user_ is not a Singleton, but the single instance is owned
 // by Navigator and passed to Recorder.
 Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent), 
-                                        options_(Options::instance()),
                                         filterCatalogDialog_(0),
                                         currentDisk_(0),
                                         user_(User::instance()) {
@@ -143,7 +144,7 @@ void Navigator::closeEvent(QCloseEvent* event) {
 // private slots
 
 bool Navigator::acquisitionEnabled() {
-    if (!options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
+    if (!epOptions->filePathFlags.testFlag(Options::EnableAcquisition)) {
         QMessageBox::information(this, tr("Acquisition Not Enabled"),
             tr("This workstation is not set up for acquisition. "
             "Select the System Settings menu item to enable acquisition."));
@@ -174,7 +175,7 @@ void Navigator::newStudy() {
           if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),
-                                    options_->labName, user_->machineName());
+                                    epOptions->labName, user_->machineName());
                 refreshCatalogs();
                 startStudy(study);
             }
@@ -186,7 +187,7 @@ void Navigator::newStudy() {
 void Navigator::continueStudy() {
     if (!acquisitionEnabled())
 	return;
-    if (!options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
+    if (!epOptions->filePathFlags.testFlag(Options::EnableAcquisition)) {
         QMessageBox::information(this, tr("Acquisition Not Enabled"),
             tr("This workstation is not set up for acquisition. "
             "Select the System Settings menu item to enable acquisition."));
@@ -206,7 +207,7 @@ void Navigator::continueStudy() {
             catalogs_->deleteStudy(study);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),
-                    options_->labName, user_->machineName());
+                    epOptions->labName, user_->machineName());
             refreshCatalogs();
             startStudy(study);
         }
@@ -351,12 +352,12 @@ void Navigator::moveStudyData(MoveCopyStudyDialog& dialog, MoveType moveType) {
                 regenerateCatalogs();
             else
                 c.create(currentDisk_->label(), currentDisk_->side(),
-                          options_->labName, user_->machineName());
+                          epOptions->labName, user_->machineName());
         }
         else {    // we are copying from disk or dir to dir
             EpCore::copyDir(tmpDir.absolutePath(), dialog.destinationPath());
             OpticalCatalog c(dialog.destinationPath());
-            c.create(dialog.destinationPath(), QString(), options_->labName,
+            c.create(dialog.destinationPath(), QString(), epOptions->labName,
                 user_->machineName());
         }
     }
@@ -389,7 +390,7 @@ void Navigator::deleteStudy() {
                 refreshCatalogs();
                 // delete item;
                 if (!study->isPreregisterStudy() 
-                    && options_->permanentDelete)
+                    && epOptions->permanentDelete)
                     EpCore::deleteDir(currentDisk_->studiesPath() 
                         + study->dirName());
             }
@@ -439,7 +440,7 @@ void Navigator::refreshCatalogs() {
 
 void Navigator::regenerateCatalogs() {
     catalogs_->regenerate(currentDisk_->label(), currentDisk_->side(), 
-                          options_->labName, user_->machineName());
+                          epOptions->labName, user_->machineName());
     refreshCatalogs();
 }
 
@@ -489,7 +490,8 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                     magicNumbers.append(EpLists::magicNumber());
                     selectedFiles.append(Interval::fileName());
                     magicNumbers.append(Interval::magicNumber());
-                    //selectedFiles.append((ColumnFormat::fileName()));
+                    selectedFiles.append(ColumnFormat::fileName());
+                    magicNumbers.append(ColumnFormat::magicNumber());
                     // add the rest here
                 }
                 else if (type == ReportFormats) {
@@ -628,7 +630,7 @@ void Navigator::createDefaultDataDir() {
                                  .arg(QDir::home()
                                  .filePath(defaultDataDirName))
                                  .arg(QDir::homePath()));
-            options_->opticalStudyPath = QDir::homePath();
+            epOptions->opticalStudyPath = QDir::homePath();
         }
         else {
             QMessageBox::information(this,
@@ -736,7 +738,7 @@ void Navigator::updateWindowTitle() {
 }
 
 void Navigator::updateStatusBarUserLabel() {
-    statusBar_->updateUserLabel(options_->oldStyleNavigator ?
+    statusBar_->updateUserLabel(epOptions->oldStyleNavigator ?
         user_->role() : user_->name());
 }
 
@@ -761,8 +763,12 @@ void Navigator::setIntervals() {
 }
 
 void Navigator::setColumnFormats() {
-    if (administrationAllowed())
-        filler();
+    if (administrationAllowed()) {
+        EditColumnFormatsDialog d(this);
+        if (d.exec()) {
+            d.columnFormats().update();
+        }
+    }
 }
 
 void Navigator::setProtocols() {
@@ -796,7 +802,7 @@ void Navigator::setCatalogOptical() {
 
 void Navigator::setCatalogOther() {
     QFileDialog fd(this, tr("Select Catalog"),
-        options_->systemCatalogPath, Catalog::defaultFileName());
+        epOptions->systemCatalogPath, Catalog::defaultFileName());
     if (fd.exec() == QDialog::Accepted) {
         catalogs_->setCatalogPath(Catalog::Other, fd.directory().path());
         catalogs_->refresh();   // to reload Other catalog
@@ -838,7 +844,7 @@ void Navigator::updateSimulatorSettings() {
         createCentralWidget();
         delete catalogs_;
         createCatalogs();
-        tableListView_->setOldStyle(options_->oldStyleNavigator);
+        tableListView_->setOldStyle(epOptions->oldStyleNavigator);
         tableListView_->adjustColumns();
         refreshCatalogs();   // This repopulates the TableListView.
         // Need to do below to make sure user label
@@ -857,7 +863,7 @@ void Navigator::updateSimulatorSettings() {
 }
 
 void Navigator::updateSystemSettings() {
-    networkSwitchAction_->setEnabled(options_
+    networkSwitchAction_->setEnabled(epOptions
         ->filePathFlags.testFlag(Options::EnableNetworkStorage));
     // optical disk, status bar and catalog might be changed 
     createOpticalDrive();
@@ -880,18 +886,18 @@ void Navigator::initializeOpticalDisk() {
    try {
         delete currentDisk_;
         currentDisk_ = 0;
-        if (options_->opticalDiskFlags.testFlag(Options::Emulation)) {
+        if (epOptions->opticalDiskFlags.testFlag(Options::Emulation)) {
             currentDisk_ = EmulatedOpticalDisk::getLastDisk(
-                options_->opticalStudyPath);
+                epOptions->opticalStudyPath);
             if (!currentDisk_) {
                 currentDisk_ = new EmulatedOpticalDisk(
-                    options_->opticalStudyPath,
-                    options_->opticalDiskFlags.testFlag(Options::DualSided));
+                    epOptions->opticalStudyPath,
+                    epOptions->opticalDiskFlags.testFlag(Options::DualSided));
                 currentDisk_->saveLastDisk();
             }
         }
         else
-            currentDisk_ = new OpticalDisk(options_->opticalStudyPath);
+            currentDisk_ = new OpticalDisk(epOptions->opticalStudyPath);
         currentDisk_->readLabel();
     }
     catch (EpCore::IoError& e) { 
@@ -912,8 +918,8 @@ void Navigator::initializeOpticalDisk() {
                 if (!files.isEmpty()) {
                     fileName = files[0];
                     if (!fileName.isEmpty()) {
-                        options_->opticalStudyPath = fileName;
-                        options_->writeSettings();
+                        epOptions->opticalStudyPath = fileName;
+                        epOptions->writeSettings();
                     }
                 }
             }
@@ -931,7 +937,7 @@ void Navigator::createOpticalDrive() {
 }
 
 void Navigator::createCatalogs() {
-    catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
+    catalogs_ = new Catalogs(epOptions, currentDisk_->labelPath());
 }
  
 void Navigator::createCentralWidget() {
@@ -949,12 +955,12 @@ void Navigator::createCentralWidget() {
  * tableListView_.
  */
 void Navigator::createButtonFrame() {
-    if (options_->bluePanelStyle == 
+    if (epOptions->bluePanelStyle ==
         Options::TransparentButtons) // set up flat buttons
         buttonFrame_ = new NewStyleButtonFrame(centralWidget_);
     else
         buttonFrame_ = new OldStyleButtonFrame(centralWidget_);
-    if (options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
+    if (epOptions->filePathFlags.testFlag(Options::EnableAcquisition)) {
         buttonFrame_->addButton("New Study", "hi64-newstudy",
             SLOT(newStudy()));
         buttonFrame_->addButton("Continue Study", "hi64-continuestudy",
@@ -962,7 +968,7 @@ void Navigator::createButtonFrame() {
     }
     buttonFrame_->addButton("Review Study", "hi64-reviewstudy",
         SLOT(reviewStudy()));
-    if (options_->filePathFlags.testFlag(Options::EnableAcquisition))
+    if (epOptions->filePathFlags.testFlag(Options::EnableAcquisition))
         buttonFrame_->addButton("Pre-Register", "hi64-preregister",
             SLOT(preregisterPatient()));
     buttonFrame_->addButton("Reports", "hi64-reports", 
@@ -976,7 +982,7 @@ void Navigator::createButtonFrame() {
  */
 void Navigator::createTableListView() {
     tableListView_ = new TableListView(centralWidget_,
-        options_->oldStyleNavigator);
+        epOptions->oldStyleNavigator);
     connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
         int)), this, SLOT(newStudy()));
 }
@@ -1002,7 +1008,7 @@ void Navigator::createLists() {
 
 void Navigator::updateMenus() {
     simulatorSettingsAction()->setVisible(showSimulatorSettings());
-    bool enableAcquisition = options_->filePathFlags.testFlag(Options::EnableAcquisition);
+    bool enableAcquisition = epOptions->filePathFlags.testFlag(Options::EnableAcquisition);
     newAction_->setEnabled(enableAcquisition);
     continueAction_->setEnabled(enableAcquisition);
     preregisterAction_->setEnabled(enableAcquisition);
@@ -1041,7 +1047,7 @@ void Navigator::createActions() {
     networkSwitchAction_ = createAction(this, tr("Network"),
         tr("Switch to network catalog"), SLOT(setCatalogNetwork()));
     // networkSwitchAction_ only enabled if set in options
-    networkSwitchAction_->setEnabled(options_->
+    networkSwitchAction_->setEnabled(epOptions->
         filePathFlags.testFlag(Options::EnableNetworkStorage));
     systemSwitchAction_ = createAction(this, tr("System"),
         tr("Switch to system catalog"), SLOT(setCatalogSystem()));
@@ -1134,7 +1140,7 @@ void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator")); 
     navigatorToolBar_->setObjectName("NavigatorToolBar");
     navigatorToolBar_->setAutoFillBackground(true);
-    catalogComboBox_ = new CatalogComboBox(options_);
+    catalogComboBox_ = new CatalogComboBox;
     navigatorToolBar_->addWidget(catalogComboBox_);
     navigatorToolBar_->addSeparator();
     navigatorToolBar_->addAction(filterStudiesAction_);
@@ -1339,7 +1345,7 @@ void Navigator::startStudy(Study* study, bool review) {
     study->setPath(studyPath);
     study->save();
     using EpRecorder::Recorder;
-    bool allowAcquisition = options_->
+    bool allowAcquisition = epOptions->
         filePathFlags.testFlag(Options::EnableAcquisition) && !review;
     Recorder* recorder = new Recorder(this, study, currentDisk_, user_, 
         allowAcquisition);

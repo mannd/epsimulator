@@ -553,7 +553,7 @@ void TestEpSimulator::testCatalogAddStudy() {
 
 void TestEpSimulator::testCatalogComboBox() {
     Options* o = Options::instance();
-    CatalogComboBox* c = new CatalogComboBox(o);
+    CatalogComboBox* c = new CatalogComboBox;
     bool originalEnableNetwork =
         o->filePathFlags.testFlag(Options::EnableNetworkStorage);
     clearFlag(o->filePathFlags, Options::EnableNetworkStorage);
