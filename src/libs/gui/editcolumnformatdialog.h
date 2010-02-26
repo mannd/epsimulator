@@ -25,6 +25,7 @@
 
 #include "abstractedititemsdialog.h"
 #include "columnformat.h"
+#include "itemlist.h"
 
 namespace EpGui {
 

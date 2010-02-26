@@ -45,18 +45,9 @@ void EditColumnFormatsDialog::createListWidget() {
 
 void EditColumnFormatsDialog::removeItem() {
     columnFormats_.remove(listWidget->currentItem()->text());
-    createListWidget();
 }
 
-void EditColumnFormatsDialog::editItem() {
-    makeEditColumnFormatDialog(EditItem);
-}
-
-void EditColumnFormatsDialog::newItem() {
-    makeEditColumnFormatDialog(NewItem);
-}
-
-void EditColumnFormatsDialog::makeEditColumnFormatDialog(EditorType type) {
+void EditColumnFormatsDialog::editItem(EditorType type) {
     EditColumnFormatDialog d(type, this);
     if (type == EditItem) {
         if (!listWidget->selectedItems().size() > 0) {
@@ -81,5 +72,15 @@ void EditColumnFormatsDialog::makeEditColumnFormatDialog(EditorType type) {
             columnFormats_[d.columnFormat().name()] = d.columnFormat();
         createListWidget();
     }
+}
+
+void EditColumnFormatsDialog::copyItem(QList<QListWidgetItem*> selectedItems) {
+    QString name = tr("Copy of %1").arg(selectedItems[0]->text());
+    ColumnFormat cf(name);
+    columnFormats_.append(cf);
+    createListWidget();
+    listWidget->setCurrentItem(listWidget->findItems(name, Qt::MatchExactly)[0]);
+    editItem(EditItem);
+
 }
 

@@ -33,7 +33,6 @@ class QSpinBox;
 
 namespace EpGui {
 
-
 class EditIntervalsDialog : public AbstractEditItemsDialog {
     Q_OBJECT
 public:
@@ -44,9 +43,7 @@ public:
 private:
     void createListWidget();
     void removeItem();
-    void editItem();
-    void newItem();
-    void makeEditIntervalTypeDialog(EditorType);
+    void editItem(EditorType);
     EpCore::ItemList<EpCore::Interval> intervals_;
 };
 

@@ -37,6 +37,7 @@ public:
 
 protected:
     void showCopyButton(bool);
+    bool selectionIsEmpty();
 
 private slots:
     virtual void insert();
@@ -47,9 +48,9 @@ private slots:
 private:
     virtual void createListWidget() = 0;
     virtual void removeItem() = 0;
-    virtual void editItem() = 0;
-    virtual void newItem() = 0;
-
+    virtual void editItem(EditorType) = 0;
+    // copyItem is not abstract, since not implemented for all item types
+    virtual void copyItem(QList<QListWidgetItem*>) {}
 };
 
 

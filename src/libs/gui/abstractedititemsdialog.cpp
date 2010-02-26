@@ -43,19 +43,25 @@ void AbstractEditItemsDialog::showCopyButton(bool show) {
 }
 
 void AbstractEditItemsDialog::insert() {
-    newItem();
+    editItem(NewItem);
 }
 
 void AbstractEditItemsDialog::edit() {
-    editItem();
+    editItem(EditItem);
 }
 
-void AbstractEditItemsDialog::copy() {}
+void AbstractEditItemsDialog::copy() {
+    if (selectionIsEmpty())
+        return;
+    else {
+        copyItem(listWidget->selectedItems());
+        createListWidget();
+    }
+}
 
 void AbstractEditItemsDialog::del() {
-    if (listWidget->selectedItems().size() == 0) {
+    if (selectionIsEmpty())
         return;
-    }
     int result = QMessageBox::warning(this, tr("Delete Item?"),
                          tr("The selected item will be permanently deleted."
                              "Do you wish to continue?"),
@@ -64,5 +70,9 @@ void AbstractEditItemsDialog::del() {
         removeItem();
         createListWidget();
     }
+}
+
+bool AbstractEditItemsDialog::selectionIsEmpty() {
+    return listWidget->selectedItems().size() == 0;
 }
 

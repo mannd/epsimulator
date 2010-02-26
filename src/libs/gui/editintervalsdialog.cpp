@@ -53,22 +53,12 @@ void EditIntervalsDialog::createListWidget() {
 
 void EditIntervalsDialog::removeItem() {
     intervals_.remove(listWidget->currentItem()->text());
-    createListWidget();
 }
 
-
-void EditIntervalsDialog::editItem() {
-    makeEditIntervalTypeDialog(EditItem);
-}
-
-void EditIntervalsDialog::newItem() {
-    makeEditIntervalTypeDialog(NewItem);
-}
-
-void EditIntervalsDialog::makeEditIntervalTypeDialog(EditorType type) {
+void EditIntervalsDialog::editItem(EditorType type) {
     EditIntervalTypeDialog d(type, this);
     if (type == EditItem) {
-        if (!listWidget->selectedItems().size() > 0) {
+        if (selectionIsEmpty()) {
             QMessageBox::information(this, tr("No Interval Selected"),
                                      tr("You must select an interval first"));
             return;

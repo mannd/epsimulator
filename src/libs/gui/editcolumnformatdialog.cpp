@@ -28,9 +28,8 @@ EditColumnFormatDialog::EditColumnFormatDialog(
     setupUi(this);
 }
 
-void EditColumnFormatDialog::setColumnFormat(
-        const EpCore::ColumnFormat& /* cf */) {
-
+void EditColumnFormatDialog::setColumnFormat(const EpCore::ColumnFormat& cf) {
+    nameLineEdit->setText(cf.name());
 }
 
 EpCore::ColumnFormat EditColumnFormatDialog::columnFormat() const {

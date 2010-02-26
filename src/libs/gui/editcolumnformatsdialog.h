@@ -38,10 +38,8 @@ public:
 private:
     void createListWidget();
     void removeItem();
-    void editItem();
-    void copyItem();
-    void newItem();
-    void makeEditColumnFormatDialog(EditorType);
+    void editItem(EditorType);
+    void copyItem(QList<QListWidgetItem*>);
     EpCore::ItemList<EpCore::ColumnFormat> columnFormats_;
 };
 
