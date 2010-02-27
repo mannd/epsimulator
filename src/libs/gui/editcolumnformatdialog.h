@@ -27,6 +27,8 @@
 #include "columnformat.h"
 #include "itemlist.h"
 
+#include <QStringListModel>
+
 namespace EpGui {
 
 class EditColumnFormatDialog : public QDialog,
@@ -40,7 +42,19 @@ public:
     EpCore::ColumnFormat columnFormat() const;
 
 private slots:
-    void enableSelectButtons(const QString&);
+    void enableSelectButtons();
+    void select();
+    void unselect();
+    void selectAll();
+    void unselectAll();
+
+private:
+    void move(QListView* sourceView,
+              QListView* destView,
+              QStringListModel* sourceModel,
+              QStringListModel* destModel);
+    QStringListModel* availableModel_;
+    QStringListModel* selectedModel_;
 };
 
 }

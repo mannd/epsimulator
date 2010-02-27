@@ -44,6 +44,7 @@ public:
     static unsigned int magicNumber() {return MagicNumber;}
     static QString fileName() {return fileName_;}
     static QList<ColumnFormat> defaultItems();
+    static QStringList intervalNames(const QList<Interval>&);
 
     QString name() const {return name_;}
     QList<Interval> selectedIntervals() const {return selectedIntervals_;}

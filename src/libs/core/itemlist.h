@@ -62,6 +62,7 @@ namespace EpCore {
         bool duplicate(const T&) const;
         int size() {return list_.size();}
         void update() {save();}
+        QList<T> list() const {return list_;}
 
     private:
         void load();

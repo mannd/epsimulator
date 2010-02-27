@@ -20,22 +20,94 @@
 
 #include "editcolumnformatdialog.h"
 
+#include "itemlist.h"
+
+#include <QStringListModel>
+
+using EpCore::ColumnFormat;
+using EpCore::Interval;
+using EpCore::ItemList;
 using EpGui::EditColumnFormatDialog;
 
 EditColumnFormatDialog::EditColumnFormatDialog(
-        AbstractEditItemsDialog::EditorType, QWidget *parent)
+        AbstractEditItemsDialog::EditorType type,
+        QWidget *parent)
             :  QDialog(parent) {
     setupUi(this);
+    QString title = type == AbstractEditItemsDialog::NewItem
+                        ? tr("New") : tr("Edit");
+    title = tr("%1 Column Format").arg(title);
+    setWindowTitle(title);
+    connect(selectPushButton, SIGNAL(clicked()), this, SLOT(select()));
+    connect(unselectPushButton, SIGNAL(clicked()), this, SLOT(unselect()));
+    connect(selectAllPushButton, SIGNAL(clicked()),
+            this, SLOT(selectAll()));
+    connect(unselectAllPushButton, SIGNAL(clicked()),
+            this, SLOT(unselectALL()));
+    connect(availableListView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(enableSelectButtons()));
+    connect(selectedListView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(enableSelectButtons()));
+    enableSelectButtons();
+}
+
+void EditColumnFormatDialog::select() {
+    move(availableListView, selectedListView,
+         availableModel_, selectedModel_);
+}
+
+void EditColumnFormatDialog::unselect() {
+    move(selectedListView, availableListView,
+         selectedModel_, availableModel_);
+}
+
+void EditColumnFormatDialog::move(QListView* sourceView,
+                                  QListView* destView,
+                                  QStringListModel* sourceModel,
+                                  QStringListModel* destModel) {
+    int row = sourceView->currentIndex().row();
+    QModelIndex index = sourceModel->index(row);
+    QVariant name = index.data();
+    sourceModel->removeRows(row, 1);
+    row = destView->currentIndex().row();
+    destModel->insertRows(++row, 1);
+    index = destModel->index(row);
+    destView->setCurrentIndex(index);
+    destModel->setData(index, name);
+    enableSelectButtons();  // moving items can cause items to be selected
+
 }
 
 void EditColumnFormatDialog::setColumnFormat(const EpCore::ColumnFormat& cf) {
     nameLineEdit->setText(cf.name());
+    availableModel_ = new QStringListModel(this);
+    QStringList unselected =
+            ColumnFormat::intervalNames(cf.unselectedIntervals());
+    availableModel_->setStringList(unselected);
+    availableListView->setModel(availableModel_);
+    QStringList selected =
+            ColumnFormat::intervalNames(cf.selectedIntervals());
+    selectedModel_ = new QStringListModel(this);
+    selectedModel_->setStringList(selected);
+    selectedListView->setModel(selectedModel_);
 }
 
 EpCore::ColumnFormat EditColumnFormatDialog::columnFormat() const {
-    EpCore::ColumnFormat cf;
-    // stuff
+    QList<Interval> intervals;
+    QStringList list = selectedModel_->stringList();
+    QStringListIterator iter(list);
+    ItemList<Interval> allIntervals;
+    while (iter.hasNext())
+        intervals.append(allIntervals[iter.next()]);
+    EpCore::ColumnFormat cf(nameLineEdit->text(), intervals);
     return cf;
 }
 
-void EditColumnFormatDialog::enableSelectButtons(const QString&) {}
+void EditColumnFormatDialog::enableSelectButtons() {
+    bool availableItemIsSelected =
+            availableListView->currentIndex().row() > -1;
+    bool selectedItemIsSelected =
+            selectedListView->currentIndex().row() > -1;
+    selectPushButton->setEnabled(availableItemIsSelected);
+    unselectPushButton->setEnabled(selectedItemIsSelected);
+}

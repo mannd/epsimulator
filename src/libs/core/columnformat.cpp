@@ -22,6 +22,7 @@
 #include "interval.h"
 
 #include <QDataStream>
+#include <QStringList>
 
 namespace EpCore {
 
@@ -53,17 +54,13 @@ ColumnFormat::ColumnFormat(const QString& name,
                            const QList<Interval>& selectedIntervals)
                                : name_(name)
                                , selectedIntervals_(selectedIntervals) {
-
 }
 
 QList<Interval> ColumnFormat::unselectedIntervals() const {
-    QList<Interval> unselectedIntervals;
+    QList<Interval> unselectedIntervals = intervals_.list();
     QListIterator<Interval> iter(selectedIntervals_);
-    Interval interval;
-    while (iter.hasNext()) {
-        if (!intervals_.contains(interval = iter.next()))
-            unselectedIntervals.append(interval);
-    }
+    while (iter.hasNext())
+        unselectedIntervals.removeAll(iter.next());
     return unselectedIntervals;
 }
 
@@ -109,4 +106,12 @@ QList<ColumnFormat> ColumnFormat::defaultItems() {
     columnFormats.append(ColumnFormat(name, intervals));
     // etc.
     return columnFormats;
+}
+
+QStringList ColumnFormat::intervalNames(const QList<Interval>& intervals) {
+    QListIterator<Interval> iter(intervals);
+    QStringList names;
+    while (iter.hasNext())
+        names << iter.next().name();
+    return names;
 }

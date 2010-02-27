@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Edit Column Format</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>11</x>
@@ -50,12 +50,12 @@
            <string>Available Items</string>
           </property>
           <property name="buddy">
-           <cstring>availableListWidget</cstring>
+           <cstring>availableListView</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="availableListWidget"/>
+         <widget class="QListView" name="availableListView"/>
         </item>
        </layout>
       </item>
@@ -99,12 +99,12 @@
            <string>Selected Items</string>
           </property>
           <property name="buddy">
-           <cstring>selectedListWidget</cstring>
+           <cstring>selectedListView</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="selectedListWidget"/>
+         <widget class="QListView" name="selectedListView"/>
         </item>
        </layout>
       </item>
