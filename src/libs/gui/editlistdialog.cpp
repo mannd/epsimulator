@@ -74,8 +74,12 @@ void EditListDialog::enableButtons() {
 }
 
 void EditListDialog::editItem() {
+
     int row = listView->currentIndex().row();
     QModelIndex index = model_->index(row);
+    // Get "edit: editing failed" error if you don't do below.
+    // Error is caused by trying to edit while editing already in progress.
+    listView->closePersistentEditor(index);
     listView->edit(index);
 }
 
