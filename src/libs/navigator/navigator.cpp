@@ -695,6 +695,12 @@ void Navigator::pacingSites() {
                tr("Site"));
 }
 
+void Navigator::phases() {
+    editEpList(EpLists::Phases,
+               tr("Phases"),
+               tr("Phase"));
+}
+
 void Navigator::arrhythmiaTypes() {
     editEpList(EpLists::ArrhythmiaTypes,
                tr("Arrhythmia Types"),
@@ -1092,6 +1098,8 @@ void Navigator::createActions() {
     // Administration menu
     pacingSitesAction_ = createAction(this, tr("Pacing Sites"),
                                       tr("Pacing sites"), SLOT(pacingSites()));
+    phasesAction_ = createAction(this, tr("Phases"),
+                                 tr("Phases"), SLOT(phases()));
     arrhythmiaTypesAction_ = createAction(this, tr("Arrhythmia Types"),
                                           tr("Arrhythmia types"),
                                           SLOT(arrhythmiaTypes()));
@@ -1200,6 +1208,7 @@ void Navigator::createMenus() {
     administrationMenu_->addSeparator();
     QMenu* listsSubMenu = new QMenu(tr("Lists"));
     listsSubMenu->addAction(pacingSitesAction_);
+    listsSubMenu->addAction(phasesAction_);
     listsSubMenu->addAction(arrhythmiaTypesAction_);
     listsSubMenu->addAction(arrhythmiaTolerancesAction_);
     listsSubMenu->addAction(blockDescriptionsAction_);

@@ -31,7 +31,7 @@ class EpLists {
     Q_DECLARE_TR_FUNCTIONS(EpLists)
 
 public:
-    enum EpListType {PacingSites, ArrhythmiaTypes,
+    enum EpListType {PacingSites, Phases, ArrhythmiaTypes,
                      ArrhythmiaTolerances, BlockDescriptions,
                      RefractoryLocations};
     EpLists();

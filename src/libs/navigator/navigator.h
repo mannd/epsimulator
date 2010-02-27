@@ -94,6 +94,7 @@ private slots:
     void ejectDisk();
     void relabelDisk();
     void pacingSites();
+    void phases();
     void arrhythmiaTypes();
     void arrhythmiaTolerances();
     void blockDescriptions();
@@ -227,6 +228,7 @@ private:
 
     // Administration menu
     QAction* pacingSitesAction_;
+    QAction* phasesAction_;
     QAction* arrhythmiaTypesAction_;
     QAction* arrhythmiaTolerancesAction_;
     QAction* blockDescriptionsAction_;

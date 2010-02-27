@@ -29,6 +29,7 @@ const QString EpLists::fileName_ = "eplists.dat";
 
 EpLists::EpLists() {
     lookupMap_[PacingSites] = "PacingSites";
+    lookupMap_[Phases] = "Phases";
     lookupMap_[ArrhythmiaTypes] = "ArrhythmiaTypes";
     lookupMap_[ArrhythmiaTolerances] = "ArrhythmiaTolerances";
     lookupMap_[BlockDescriptions] = "BlockDescriptions";
@@ -62,6 +63,10 @@ void EpLists::makeDefaultEpLists() {
     pacingSites << tr("HRA") << tr("CS") << tr("RVa") << tr("RVot")
             << tr("ABL") << tr("HIS") <<tr("None");
     map_[lookupMap_[PacingSites]] = pacingSites;
+    QStringList phases;
+    phases << tr("BASELINE") << tr("Post-Drug") << tr("Post-Ablation")
+            << tr("Isoproterenol");
+    map_[lookupMap_[Phases]] = phases;
     QStringList arrhythmiaTypes;
     arrhythmiaTypes << tr("SVT") << tr("Sinus Node Reentry")
             << tr("Inappropriate Sinus Tachycardia")

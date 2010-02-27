@@ -16,3 +16,7 @@ rm -fr ~/MyStudies/*
 rm -f $dirname/../src/test/catalog.dat
 rm -f $dirname/../System/catalog.dat
 rm -f $dirname/../System/config.dat
+rm -f $dirname/../System/columnformats.dat
+rm -f $dirname/../System/eplists.dat
+rm -f $dirname/../System/intervals.dat
+rm -f $dirname/../System/label.dat
