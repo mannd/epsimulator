@@ -425,6 +425,26 @@ void Recorder::switchStudyConfiguration() {
     }
 }
 
+void Recorder::winSave() {
+    if (administrationAllowed())
+        filler();
+}
+
+void Recorder::winSaveAs() {
+    if (administrationAllowed())
+        filler();
+}
+
+void Recorder::winSwitch() {
+    if (administrationAllowed())
+        filler();
+}
+
+void Recorder::winDelete() {
+    if (administrationAllowed())
+        filler();
+}
+
 void Recorder::openStudyInformation(StudyInformationDialog::List list) {
     StudyInformationDialog d(this);
     d.openList(list);
@@ -756,13 +776,13 @@ void Recorder::createActions() {
         tr("Extract data"));
     // Windows Menu
     winSaveAction_ = createAction(this, tr("Save"),
-        tr("Save window configuration"));
+        tr("Save window configuration"), SLOT(winSave()));
     winSaveAsAction_ = createAction(this, tr("Save As..."),
-        tr("Save windows configuration as..."));
+        tr("Save windows configuration as..."), SLOT(winSaveAs()));
     winSwitchAction_ = createAction(this, tr("Switch..."),
-        tr("Switch windows configuration"));
+        tr("Switch windows configuration"), SLOT(winSwitch()));
     winDeleteAction_ = createAction(this, tr("Delete..."),
-        tr("Delete windows configuration"));
+        tr("Delete windows configuration"), SLOT(winDelete()));
     timerAction_ = createAction(this, tr("Timer"),
         tr("Show timer"));
     timerAction_->setCheckable(true);

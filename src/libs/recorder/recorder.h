@@ -76,6 +76,8 @@ public:
              bool allowAcquisition = true,
              RecorderWindow = Primary);
     ~Recorder();
+
+    RecorderWindow recorderWindow() const {return recorderWindow_;}
     
     void setupInitialScreen(bool tile = false);  // the default screen setup
     void updateAll();
@@ -126,6 +128,10 @@ private slots:
     void openComplications();
     void openContrast();
     void switchStudyConfiguration();
+    void winSave();
+    void winSaveAs();
+    void winSwitch();
+    void winDelete();
     void openStimulator();
     void openSatMonitor();
     void setManualSave(bool);

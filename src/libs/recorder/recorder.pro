@@ -7,7 +7,8 @@ SOURCES += recorder.cpp \
     displaywindow.cpp \
     reviewwindow.cpp \
     logwindow.cpp \
-    signalwidget.cpp
+    signalwidget.cpp \
+    windowsetting.cpp
 HEADERS += recorder.h \
     patientstatusbar.h \
     realtimewindow.h \
@@ -15,7 +16,8 @@ HEADERS += recorder.h \
     reviewwindow.h \
     logwindow.h \
     recorderdefs.h \
-    signalwidget.h
+    signalwidget.h \
+    windowsetting.h
 INCLUDEPATH += ../gui \
     ../stimulator \
     ../patient \
@@ -23,8 +25,7 @@ INCLUDEPATH += ../gui \
     ../hardware \
     ../study
 FORMS += ui/patientstatusbar.ui
-LIBS += \
-    -lcore \
+LIBS += -lcore \
     -lpatient \
     -lgui \
     -lhardware \
