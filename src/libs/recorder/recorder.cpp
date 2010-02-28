@@ -431,8 +431,10 @@ void Recorder::winSave() {
 }
 
 void Recorder::winSaveAs() {
-    if (administrationAllowed())
-        filler();
+    if (administrationAllowed()) {
+
+
+    }
 }
 
 void Recorder::winSwitch() {

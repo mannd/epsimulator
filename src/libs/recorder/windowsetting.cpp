@@ -38,40 +38,48 @@ WindowSetting::WindowSetting(Recorder* recorder)
                 recorder_->centralWidget())->currentSubWindow();
         subWindowList_ = static_cast<QMdiArea*>(
                 recorder_->centralWidget())->subWindowList();
-        QString activeSubWindowKey;
-        QList<SubWindow> subWindows;
         for (int i = 0; i < subWindowList_.size(); ++i) {
             dw = static_cast<DisplayWindow*>(subWindowList_[i]->widget());
             subWindowKeys_ << dw->key();
             if (subWindowList_[i] == activeSubWindow)
-                activeSubWindowKey = dw->key();
-            subWindows[i].key_ = dw->key();
-            subWindows[i].geometry_ = subWindowList_[i]->saveGeometry();
-            subWindows[i].size_ = subWindowList_[i]->size();
-            subWindows[i].pos_ = subWindowList_[i]->pos();
+                activeSubWindowKey_ = dw->key();
+            subWindows_[i].key_ = dw->key();
+            subWindows_[i].geometry_ = subWindowList_[i]->saveGeometry();
+            subWindows_[i].size_ = subWindowList_[i]->size();
+            subWindows_[i].pos_ = subWindowList_[i]->pos();
         }
     }
 }
 
 namespace EpRecorder {
 
-    QDataStream& operator<<(QDataStream& out, const WindowSettings& settings) {
-        out << settings.win1_ << settings.win2_;
-        return out;
-    }
-
-    QDataStream& operator>>(QDataStream& in, WindowSettings& settings) {
-        in >> settings.win1_ >> settings.win2_;
-        return in;
-    }
-
-
-    QDataStream& operator<<(QDataStream& out, const WindowSetting& setting) {
+     QDataStream& operator<<(QDataStream& out, const WindowSetting& setting) {
         out << setting.mainWindow_.number_ << setting.mainWindow_.geometry_
                 << setting.mainWindow_.size_ << setting.mainWindow_.pos_
-                << setting.mainWindow_.state_;
-
+                << setting.mainWindow_.state_ << setting.activeSubWindowKey_
+                << setting.subWindowList_;
+        for (int i = 0; i < setting.subWindows_.size(); ++i) {
+            out << setting.subWindows_[i].key_
+                    << setting.subWindows_[i].geometry_
+                    << setting.subWindows_[i].size_
+                    << setting.subWindows_[i].pos_;
+        }
         return out;
+    }
+
+    QDataStream& operator>>(QDataStream& in, WindowSetting& setting) {
+        in >> setting.mainWindow_.number_ >> setting.mainWindow_.geometry_
+                >> setting.mainWindow_.size_ >> setting.mainWindow_.pos_
+                >> setting.mainWindow_.state_ >> setting.activeSubWindowKey_
+                >> setting.subWindowKeys_;
+        // number of subWindowKeys == number of subWindows
+        for (int i = 0; i < setting.subWindowKeys_.size(); ++i) {
+            in >> setting.subWindows_[i].key_
+                    >> setting.subWindows_[i].geometry_
+                    >> setting.subWindows_[i].size_
+                    >> setting.subWindows_[i].pos_;
+        }
+        return in;
     }
 
 }

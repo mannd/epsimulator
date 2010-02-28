@@ -55,18 +55,8 @@ private:
     MainWindow mainWindow_;
     QStringList subWindowKeys_;
     QList<QMdiSubWindow*> subWindowList_;
-};
-
-class WindowSettings {
-public:
-    friend QDataStream& operator<<(QDataStream&, const WindowSettings&);
-    friend QDataStream& operator>>(QDataStream&, WindowSettings&);
-
-    WindowSettings(Recorder* recorder1, Recorder* recorder2 = 0)
-        : win1_(recorder1), win2_(recorder2) {}
-private:
-    WindowSetting win1_;
-    WindowSetting win2_;
+    QList<SubWindow> subWindows_;
+    QString activeSubWindowKey_;
 };
 
 }
