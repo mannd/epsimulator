@@ -45,6 +45,10 @@ public:
     static QString fileName() {return fileName_;}
     static QList<ColumnFormat> defaultItems();
     static QStringList intervalNames(const QList<Interval>&);
+    static QList<Interval> allIntervals();
+    static QStringList allIntervalNames();
+
+    void setName(const QString& name) {name_ = name;}
 
     QString name() const {return name_;}
     QList<Interval> selectedIntervals() const {return selectedIntervals_;}

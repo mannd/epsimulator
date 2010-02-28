@@ -64,6 +64,15 @@ QList<Interval> ColumnFormat::unselectedIntervals() const {
     return unselectedIntervals;
 }
 
+QList<Interval> ColumnFormat::allIntervals() {
+    ItemList<Interval> allIntervals;
+    return allIntervals.list();
+}
+
+QStringList ColumnFormat::allIntervalNames() {
+    return intervalNames(allIntervals());
+}
+
 QList<ColumnFormat> ColumnFormat::defaultItems() {
     QList<ColumnFormat> columnFormats;
     QList<Interval> intervals;

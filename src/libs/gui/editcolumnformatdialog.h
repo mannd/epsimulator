@@ -43,6 +43,7 @@ public:
 
 private slots:
     void enableSelectButtons();
+    void enableOkButton(const QString&);
     void select();
     void unselect();
     void selectAll();

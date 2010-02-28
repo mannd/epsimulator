@@ -43,12 +43,19 @@ EditColumnFormatDialog::EditColumnFormatDialog(
     connect(selectAllPushButton, SIGNAL(clicked()),
             this, SLOT(selectAll()));
     connect(unselectAllPushButton, SIGNAL(clicked()),
-            this, SLOT(unselectALL()));
+            this, SLOT(unselectAll()));
     connect(availableListView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(enableSelectButtons()));
     connect(selectedListView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(enableSelectButtons()));
+    connect(availableListView, SIGNAL(doubleClicked(QModelIndex)),
+            this, SLOT(select()));
+    connect(selectedListView, SIGNAL(doubleClicked(QModelIndex)),
+            this, SLOT(unselect()));
+    connect(nameLineEdit, SIGNAL(textChanged(const QString&)),
+            this, SLOT(enableOkButton(const QString&)));
     enableSelectButtons();
+    enableOkButton(nameLineEdit->text());
 }
 
 void EditColumnFormatDialog::select() {
@@ -59,6 +66,16 @@ void EditColumnFormatDialog::select() {
 void EditColumnFormatDialog::unselect() {
     move(selectedListView, availableListView,
          selectedModel_, availableModel_);
+}
+
+void EditColumnFormatDialog::selectAll() {
+    availableModel_->setStringList(QStringList());
+    selectedModel_->setStringList(ColumnFormat::allIntervalNames());
+}
+
+void EditColumnFormatDialog::unselectAll() {
+    selectedModel_->setStringList(QStringList());
+    availableModel_->setStringList(ColumnFormat::allIntervalNames());
 }
 
 void EditColumnFormatDialog::move(QListView* sourceView,
@@ -84,11 +101,13 @@ void EditColumnFormatDialog::setColumnFormat(const EpCore::ColumnFormat& cf) {
     QStringList unselected =
             ColumnFormat::intervalNames(cf.unselectedIntervals());
     availableModel_->setStringList(unselected);
+    availableListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     availableListView->setModel(availableModel_);
     QStringList selected =
             ColumnFormat::intervalNames(cf.selectedIntervals());
     selectedModel_ = new QStringListModel(this);
     selectedModel_->setStringList(selected);
+    selectedListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     selectedListView->setModel(selectedModel_);
 }
 
@@ -110,4 +129,8 @@ void EditColumnFormatDialog::enableSelectButtons() {
             selectedListView->currentIndex().row() > -1;
     selectPushButton->setEnabled(availableItemIsSelected);
     unselectPushButton->setEnabled(selectedItemIsSelected);
+}
+
+void EditColumnFormatDialog::enableOkButton(const QString& text) {
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!text.isEmpty());
 }
