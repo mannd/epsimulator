@@ -22,6 +22,7 @@
 
 #include "actions.h"
 #include "amplifier.h"
+#include "itemlist.h"
 #include "logwindow.h"
 #include "opticaldisk.h"
 #include "patient.h"
@@ -37,6 +38,7 @@
 #include "studyconfiguration.h"
 #include "teststimulator.h"
 #include "user.h"
+#include "windowsetting.h"
 
 #include <QAction>
 #include <QComboBox>
@@ -146,7 +148,8 @@ Recorder::Recorder(QWidget* parent,
     /// FIXME this is bad! This is probably why initial screen doesn't
     /// work because you are updating in the constructor!!!!!!!!!!
     updateAll();
-    //study_->loadStudyConfiguration();
+    study_->loadStudyConfiguration();
+    //EpCore::ItemList<WindowSetting> w;
 }
 
 Recorder::~Recorder() {

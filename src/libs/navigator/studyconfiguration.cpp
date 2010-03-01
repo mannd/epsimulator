@@ -49,16 +49,6 @@ Channel::Channel(int number) : number_(number), clip_(NoClip),
 			       color_(Qt::white), displayPages_(QBitArray()),
 			       alwaysSave_(false) {} 
 
-QDataStream& operator<<(QDataStream& out, const ColumnFormat& format) {
-    out << format.name_;
-    return out;
-}
-
-QDataStream& operator>>(QDataStream& in, ColumnFormat& format) {
-    in >> format.name_;
-    return in;
-}
-
 QDataStream& operator<<(QDataStream& out, const WindowSettings& settings) {
     out << settings.name_;
     return out;
@@ -81,14 +71,14 @@ QDataStream& operator>>(QDataStream& in, MacroList& m) {
 
 QDataStream& operator<<(QDataStream& out, const Protocol& p) {
     out << p.name_ << p.senseChannel_ << p.columnFormat_ 
-        << p.windowSettings_ << p.macroList_ << p.updateReviewWindow_
+        << p.windowSetting_ << p.macroList_ << p.updateReviewWindow_
         << p.focalPoint_ << p.displayPage_;
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Protocol& p) {
     in >> p.name_ >> p.senseChannel_ >> p.columnFormat_
-       >> p.windowSettings_ >> p.macroList_ >> p.updateReviewWindow_
+       >> p.windowSetting_ >> p.macroList_ >> p.updateReviewWindow_
        >> p.focalPoint_ >> p.displayPage_;
     return in;
 }

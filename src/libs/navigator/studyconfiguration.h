@@ -22,6 +22,8 @@
 #define STUDYCONFIGURATION_H
 
 #include "amplifier.h"
+#include "columnformat.h"
+#include "windowsetting.h"
 
 #include <QtCore/QBitArray>
 #include <QtCore/QCoreApplication>
@@ -68,18 +70,6 @@ private:
     QColor color_; 
     QBitArray displayPages_;
     bool alwaysSave_;
-};
-
-class ColumnFormat {
-
-public:
-    friend QDataStream& operator<<(QDataStream&, const ColumnFormat&);
-    friend QDataStream& operator>>(QDataStream&, ColumnFormat&);
-
-    ColumnFormat(const QString& name = QString()) : name_(name) {}
-
-private:
-    QString name_;
 };
 
 class WindowSettings {
@@ -131,8 +121,8 @@ public:
 private:
     QString name_;
     Channel senseChannel_;
-    ColumnFormat columnFormat_;
-    WindowSettings windowSettings_;
+    EpCore::ColumnFormat columnFormat_;
+    EpRecorder::WindowSetting windowSetting_;
     MacroList macroList_;
     bool updateReviewWindow_;
     QPoint focalPoint_;
