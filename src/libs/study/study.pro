@@ -4,11 +4,13 @@ TARGET = study
 INCLUDEPATH += ../core \
     #../gui \
     ../patient \
-    ../hardware
+    ../hardware \
+    ../recorder
 LIBS += -lcore \
     #-lgui \
     -lpatient \
-    -lhardware
+    -lhardware \
+    -lrecorder
 SOURCES += study.cpp \
     studyinformationdialog.cpp
 HEADERS += study.h \

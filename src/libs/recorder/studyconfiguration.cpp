@@ -49,16 +49,6 @@ Channel::Channel(int number) : number_(number), clip_(NoClip),
 			       color_(Qt::white), displayPages_(QBitArray()),
 			       alwaysSave_(false) {} 
 
-QDataStream& operator<<(QDataStream& out, const WindowSettings& settings) {
-    out << settings.name_;
-    return out;
-}
-
-QDataStream& operator>>(QDataStream& in, WindowSettings& settings) {
-    in >> settings.name_;
-    return in;
-}
-
 QDataStream& operator<<(QDataStream& out, const MacroList& m) {
     out << m.name_;
     return out;
@@ -93,6 +83,12 @@ QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
     in >> studyConfig.name_ >> studyConfig.protocolList_
        >> studyConfig.channelList_;
     return in;
+}
+
+const QString Protocol::fileName_ = "protocols.dat";
+
+QList<Protocol> Protocol::defaultItems() {
+    return QList<Protocol>();
 }
 
 const QString StudyConfiguration::configFileName_ = "config.dat";

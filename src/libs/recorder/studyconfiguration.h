@@ -72,20 +72,6 @@ private:
     bool alwaysSave_;
 };
 
-class WindowSettings {
-
-public:
-    friend QDataStream& operator<<(QDataStream&, const WindowSettings&);
-    friend QDataStream& operator>>(QDataStream&, WindowSettings&);
-
-    WindowSettings(const QString& name = QString()) : name_(name) {}
-    ~WindowSettings() {}
-
-private:
-    QString name_;
-
-};
-
 class MacroList {
 
 public:
@@ -111,14 +97,39 @@ public:
     friend QDataStream& operator<<(QDataStream&, const Protocol&);
     friend QDataStream& operator>>(QDataStream&, Protocol&);
 
-    Protocol(const QString& name = QString()) : name_(name) {}
-    ~Protocol() {}
+    Protocol(const QString& name = "",
+             const Channel& senseChannel = Channel(),
+             const EpCore::ColumnFormat& columnFormat
+                =  EpCore::ColumnFormat(),
+             const EpRecorder::WindowSetting& windowSetting
+                = EpRecorder::WindowSetting(),
+             const MacroList& macroList = MacroList(),
+             bool updateReviewWindow = true,
+             const QPoint& focalPoint = QPoint(0,0),
+             int displayPage = 2)
+                 : name_(name), senseChannel_(senseChannel),
+                 columnFormat_(columnFormat),
+                 windowSetting_(windowSetting),
+                 macroList_(macroList),
+                 updateReviewWindow_(updateReviewWindow),
+                 focalPoint_(focalPoint),
+                 displayPage_(displayPage) {}
+
+
+
+    static unsigned int magicNumber() {return MagicNumber;}
+    static QString fileName() {return fileName_;}
+    static QList<Protocol> defaultItems();
 
     void setName(const QString& name) {name_ = name;}
 
     QString name() const {return name_;}
     
 private:
+    enum {MagicNumber = 0x12435ffe};
+
+    static const QString fileName_;
+
     QString name_;
     Channel senseChannel_;
     EpCore::ColumnFormat columnFormat_;
