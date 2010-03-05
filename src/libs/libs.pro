@@ -6,7 +6,6 @@ SUBDIRS = \
     core \
     patient \
     hardware \
-    study \
     gui \
     stimulator \
     recorder \

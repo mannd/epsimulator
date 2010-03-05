@@ -99,3 +99,22 @@
   grossly so.  Could set default horizontal screen size to 17", but
   have it user modifiable.  Need either measurement or dpi for screen.
   
+* Library dependency problems
+** Windows settings problem
+   git versions up to breaking point:
+   edb0e3cbcac33fd872ac5bf7ba88ba4484ac2405
+   9bfb5d3f3c97ac802e8887c6958b384b14fde7f2
+   7cda2eaa79a4a77d7f1963d9ec2417938ec9ff62
+
+   Last functioning git version is 9bfb5d3f3c....
+
+   Problem is Study contains StudyConfiguration.  StudyConfiguration
+   contains lots of data relating to Recorder: channels, amplifier,
+   Window settings, etc.  Study just needs to have a
+   StudyConfiguration name to start out with.  Recorder needs to
+   contain the StudyConfiguration; Navigator also uses it, but
+   Navigator references Recorder so that is ok.  Study itself can't
+   reference a StudyConfiguration based in Recorder, because Recorder
+   has to reference Study, thus circular references....
+** Solution
+   Eliminate Study library, incorporate it into Recorder library.
