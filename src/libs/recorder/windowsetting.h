@@ -23,11 +23,16 @@
 
 #include "recorder.h"
 
+#include <QtCore/QCoreApplication>
+
 class QDataStream;
 
 namespace EpRecorder {
 
 class WindowSetting {
+    Q_DECLARE_TR_FUNCTIONS(WindowSetting)
+
+public:
     friend QDataStream& operator<<(QDataStream&, const WindowSetting&);
     friend QDataStream& operator>>(QDataStream&, WindowSetting&);
 
@@ -47,11 +52,24 @@ class WindowSetting {
         QString key_;
     };
 
-public:
-    WindowSetting(Recorder* recorder);
+    WindowSetting(const QString& name = QString());
+
+    static unsigned int magicNumber() {return MagicNumber;}
+    static QString fileName() {return fileName_;}
+    static QList<WindowSetting> defaultItems();
+
+    void setName(const QString& name) {name_ = name;}
+    void setRecorder(Recorder* recorder);
+
+    QString name() const {return name_;}
 
 private:
+    enum {MagicNumber = 0x98989f0a};
+
+    static const QString fileName_;
+
     Recorder* recorder_;
+    QString name_;
     MainWindow mainWindow_;
     QStringList subWindowKeys_;
     QList<QMdiSubWindow*> subWindowList_;

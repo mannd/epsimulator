@@ -24,9 +24,14 @@
 
 using EpRecorder::WindowSetting;
 
-WindowSetting::WindowSetting(Recorder* recorder)
-    : recorder_(recorder) {
-    if (recorder_) {
+
+QString const WindowSetting::fileName_ = "windowsettings.dat";
+
+WindowSetting::WindowSetting(const QString& name)
+    : recorder_(0), name_(name) {}
+
+void WindowSetting::setRecorder(Recorder* recorder) {
+    if ((recorder_ = recorder)) {
         mainWindow_.number_ = recorder_->recorderWindow() == Primary
                               ? 1 : 2;
         mainWindow_.geometry_ = recorder_->saveGeometry();
@@ -51,10 +56,18 @@ WindowSetting::WindowSetting(Recorder* recorder)
     }
 }
 
+
+QList<WindowSetting> WindowSetting::defaultItems() {
+    QList<WindowSetting> windowSettings;
+    windowSettings.append(WindowSetting(tr("<default>")));
+    return windowSettings;
+}
+
 namespace EpRecorder {
 
      QDataStream& operator<<(QDataStream& out, const WindowSetting& setting) {
-        out << setting.mainWindow_.number_ << setting.mainWindow_.geometry_
+        out << setting.name_ << setting.mainWindow_.number_
+                << setting.mainWindow_.geometry_
                 << setting.mainWindow_.size_ << setting.mainWindow_.pos_
                 << setting.mainWindow_.state_ << setting.activeSubWindowKey_
                 << setting.subWindowList_;
@@ -68,7 +81,8 @@ namespace EpRecorder {
     }
 
     QDataStream& operator>>(QDataStream& in, WindowSetting& setting) {
-        in >> setting.mainWindow_.number_ >> setting.mainWindow_.geometry_
+        in >> setting.name_ >> setting.mainWindow_.number_
+                >> setting.mainWindow_.geometry_
                 >> setting.mainWindow_.size_ >> setting.mainWindow_.pos_
                 >> setting.mainWindow_.state_ >> setting.activeSubWindowKey_
                 >> setting.subWindowKeys_;

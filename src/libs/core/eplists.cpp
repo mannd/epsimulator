@@ -91,10 +91,10 @@ void EpLists::makeDefaultEpLists() {
             << tr("Other");
     map_[lookupMap_[ArrhythmiaTypes]] = arrhythmiaTypes;
     QStringList arrhythmiaTolerances;
-    arrhythmiaTolerances << tr("Stable") << tr("Unconscious")
-            << tr("Unstable") << tr("Chest Pain")
-            << tr("Consious") << tr("SOB")
-            << tr("Vagal");
+    arrhythmiaTolerances << tr("SOB") << tr("Diaphoretic")
+			 << tr("Conscious") << tr("Unconscious")
+                         << tr("Drop in BP") << tr("Stable")
+                         << tr("Unstable") << tr("Chest Pain");
     map_[lookupMap_[ArrhythmiaTolerances]] = arrhythmiaTolerances;
     QStringList blockDescriptions;
     blockDescriptions << tr("AV Nodal Block")

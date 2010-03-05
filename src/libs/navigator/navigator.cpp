@@ -1096,6 +1096,19 @@ void Navigator::createActions() {
         tr("Eject optical disk"), SLOT(ejectDisk()));
 
     // Administration menu
+    proceduresAction_ = createAction(this, tr("Procedures"),
+                                     tr("Procedures"), 0,
+                                     tr("Alt+X"));
+    staffAction_ = createAction(this, tr("Staff"), tr("Staff"), 0,
+                                tr("Alt+C"));
+    suppliesAction_ = createAction(this, tr("Supplies"), tr("Supplies"),
+                                   0, tr("Alt+V"));
+    medicationsAction_ = createAction(this, tr("Medications"),
+                                      tr("Medications"), 0 , tr("Alt+B"));
+    complicationsAction_ = createAction(this, tr("Complications"),
+                                        tr("Complications"), 0,
+                                        tr("Alt+M"));
+    contrastAction_ = createAction(this, tr("Contrast"), tr("Contrast"));
     pacingSitesAction_ = createAction(this, tr("Pacing Sites"),
                                       tr("Pacing sites"), SLOT(pacingSites()));
     phasesAction_ = createAction(this, tr("Phases"),
@@ -1207,6 +1220,13 @@ void Navigator::createMenus() {
     administrationMenu_->addMenu(securitySubMenu);
     administrationMenu_->addSeparator();
     QMenu* listsSubMenu = new QMenu(tr("Lists"));
+    listsSubMenu->addAction(proceduresAction_);
+    listsSubMenu->addAction(staffAction_);
+    listsSubMenu->addAction(suppliesAction_);
+    listsSubMenu->addAction(medicationsAction_);
+    listsSubMenu->addAction(complicationsAction_);
+    listsSubMenu->addAction(contrastAction_);
+    listsSubMenu->addSeparator();
     listsSubMenu->addAction(pacingSitesAction_);
     listsSubMenu->addAction(phasesAction_);
     listsSubMenu->addAction(arrhythmiaTypesAction_);

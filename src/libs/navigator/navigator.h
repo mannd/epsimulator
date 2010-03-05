@@ -227,6 +227,12 @@ private:
     QAction* ejectOpticalDiskAction_;
 
     // Administration menu
+    QAction* proceduresAction_;
+    QAction* staffAction_;
+    QAction* suppliesAction_;
+    QAction* medicationsAction_;
+    QAction* complicationsAction_;
+    QAction* contrastAction_;
     QAction* pacingSitesAction_;
     QAction* phasesAction_;
     QAction* arrhythmiaTypesAction_;
