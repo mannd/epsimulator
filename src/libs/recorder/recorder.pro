@@ -34,7 +34,7 @@ INCLUDEPATH += ../gui \
     ../stimulator \
     ../patient \
     ../core \
-    ../hardware \
+    ../hardware
 FORMS += ui/patientstatusbar.ui \
     ui/patientdialog.ui \
     ui/studyinformationdialog.ui \
