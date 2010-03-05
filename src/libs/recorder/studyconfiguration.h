@@ -97,6 +97,7 @@ public:
     friend QDataStream& operator<<(QDataStream&, const Protocol&);
     friend QDataStream& operator>>(QDataStream&, Protocol&);
 
+
     Protocol(const QString& name = "",
              const Channel& senseChannel = Channel(),
              const EpCore::ColumnFormat& columnFormat
