@@ -2,6 +2,7 @@ include(../../epsimulatorlibrary.pri)
 TEMPLATE = lib
 TARGET = recorder
 SOURCES += recorder.cpp \
+    patientdialog.cpp \
     patientstatusbar.cpp \
     realtimewindow.cpp \
     displaywindow.cpp \
@@ -9,10 +10,13 @@ SOURCES += recorder.cpp \
     logwindow.cpp \
     signalwidget.cpp \
     study.cpp \
+    selectstudyconfigdialog.cpp \
+    studyconfigurationdialog.cpp \
     studyinformationdialog.cpp \
     studyconfiguration.cpp \
     windowsetting.cpp
 HEADERS += recorder.h \
+    patientdialog.h \
     patientstatusbar.h \
     realtimewindow.h \
     displaywindow.h \
@@ -22,16 +26,19 @@ HEADERS += recorder.h \
     signalwidget.h \
     study.h \
     studyinformationdialog.h \
+    selectstudyconfigdialog.h \
     studyconfigurationdialog.h \
     windowsetting.h
 INCLUDEPATH += ../gui \
     ../stimulator \
     ../patient \
     ../core \
-    ../hardware \
-    ../study
+    ../hardware
 FORMS += ui/patientstatusbar.ui \
-    ui/studyinformationdialog.ui
+    ui/patientdialog.ui \
+    ui/studyinformationdialog.ui \
+    ui/selectstudyconfigdialog.ui \
+    ui/studyconfigurationdialog.ui
 LIBS += -lcore \
     -lpatient \
     -lgui \
