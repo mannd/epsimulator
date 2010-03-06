@@ -31,8 +31,6 @@
 #include "catalogcombobox.h"
 #include "columnformat.h"
 #include "disklabeldialog.h"
-#include "editcolumnformatsdialog.h"
-#include "editintervalsdialog.h"
 #include "editlistdialog.h"
 #include "error.h"
 #include "fileutilities.h"
@@ -79,8 +77,6 @@ using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;
 using EpCore::VersionInfo;
-using EpGui::EditColumnFormatsDialog;
-using EpGui::EditIntervalsDialog;
 using EpGui::EditListDialog;
 using EpGui::PatientDialog;
 using EpGui::SelectStudyConfigDialog;
@@ -759,28 +755,7 @@ void Navigator::noStudySelectedError() {
                          tr("You must select a study first to do this."));
 }
 
-void Navigator::setIntervals() {
-    if (administrationAllowed()) {
-        EditIntervalsDialog d(this);
-        if (d.exec()) {
-            d.intervals().update();
-        }
-    }
-}
 
-void Navigator::setColumnFormats() {
-    if (administrationAllowed()) {
-        EditColumnFormatsDialog d(this);
-        if (d.exec()) {
-            d.columnFormats().update();
-        }
-    }
-}
-
-void Navigator::setProtocols() {
-    if (administrationAllowed())
-        filler();
-}
 
 void Navigator::setStudyConfigurations() {
     if (administrationAllowed()) {
@@ -1125,12 +1100,6 @@ void Navigator::createActions() {
     refractoryLocationsAction_ = createAction(this, tr("Refractory Locations"),
                                                tr("Refractory locations"),
                                                SLOT(refractoryLocations()));
-    intervalsAction_= createAction(this, tr("Intervals"),
-        tr("Intervals"), SLOT(setIntervals()));
-    columnFormatsAction_= createAction(this, tr("Column Formats"),
-        tr("Column formats"), SLOT(setColumnFormats()));
-    protocolsAction_= createAction(this, tr("Protocols"),
-        tr("Protocols"), SLOT(setProtocols()));
     studyConfigurationsAction_= createAction(this, tr("Study Configurations"),
         tr("Study configurations"), SLOT(setStudyConfigurations()));
     manageSectionsAction_ = createAction(this, tr("Manage Sections"),
@@ -1235,9 +1204,9 @@ void Navigator::createMenus() {
     listsSubMenu->addAction(refractoryLocationsAction_);
     administrationMenu_->addMenu(listsSubMenu);
     administrationMenu_->addSeparator();
-    administrationMenu_->addAction(intervalsAction_);
-    administrationMenu_->addAction(columnFormatsAction_);
-    administrationMenu_->addAction(protocolsAction_);
+    administrationMenu_->addAction(intervalsAction());
+    administrationMenu_->addAction(columnFormatsAction());
+    administrationMenu_->addAction(protocolsAction());
     administrationMenu_->addAction(studyConfigurationsAction_);
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(systemSettingsAction());

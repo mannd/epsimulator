@@ -22,6 +22,8 @@
 
 #include "actions.h"
 #include "changepassworddialog.h"
+#include "editintervalsdialog.h"
+#include "editcolumnformatsdialog.h"
 #include "fileutilities.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -113,6 +115,29 @@ void AbstractMainWindow::changePassword() {
     }
 }
 
+void AbstractMainWindow::setIntervals() {
+    if (administrationAllowed()) {
+        EditIntervalsDialog d(this);
+        if (d.exec()) {
+            d.intervals().update();
+        }
+    }
+}
+
+void AbstractMainWindow::setColumnFormats() {
+    if (administrationAllowed()) {
+        EditColumnFormatsDialog d(this);
+        if (d.exec()) {
+            d.columnFormats().update();
+        }
+    }
+}
+
+void AbstractMainWindow::setProtocols() {
+    if (administrationAllowed())
+        filler();
+}
+
 /// Checks to see if administrator access if required, if it is,
 /// and not logged in as administrator, will do a login, then
 /// will allow adminstration if user successfully logged in.
@@ -151,6 +176,12 @@ void AbstractMainWindow::filler() {
 }
 
 void AbstractMainWindow::createActions() {
+    intervalsAction_= createAction(this, tr("Intervals"),
+        tr("Intervals"), SLOT(setIntervals()));
+    columnFormatsAction_= createAction(this, tr("Column Formats"),
+        tr("Column formats"), SLOT(setColumnFormats()));
+    protocolsAction_= createAction(this, tr("Protocols"),
+        tr("Protocols"), SLOT(setProtocols()));
     loginAction_ = createAction(this, tr("Login..."),
         tr("Login as administrator"), SLOT(login()));
     logoutAction_ = createAction(this, tr("Logout"),

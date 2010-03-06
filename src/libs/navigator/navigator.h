@@ -239,9 +239,6 @@ private:
     QAction* arrhythmiaTolerancesAction_;
     QAction* blockDescriptionsAction_;
     QAction* refractoryLocationsAction_;
-    QAction* intervalsAction_;
-    QAction* columnFormatsAction_;
-    QAction* protocolsAction_;
     QAction* studyConfigurationsAction_;
     QAction* manageSectionsAction_;
     QAction* manageFormatsAction_;

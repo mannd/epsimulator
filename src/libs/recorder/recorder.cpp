@@ -747,12 +747,6 @@ void Recorder::createActions() {
     saveAsAction_ = createAction(this, tr("Save As..."), 
         tr("Save study configuration under different name"),
         SLOT(saveAsStudyConfiguration()));
-    intervalsAction_ = createAction(this, tr("Intervals"), 
-        tr("Configure study intervals"));
-    columnFormatsAction_ = createAction(this, tr("Column Formats"), 
-        tr("Configure column formats"));
-    protocolsAction_ = createAction(this, tr("Protocols"), 
-        tr("Configure protocols"));
     // Measurements
     conductionIntervalsAction_ = createAction(this, tr("Conduction Intervals..."),
         tr("Measure conduction intervals"), 0, tr("Alt+Q"));
@@ -927,9 +921,9 @@ void Recorder::createMenus() {
     studyConfigurationMenu_->addAction(saveAction_);
     studyConfigurationMenu_->addAction(saveAsAction_);
     studyConfigurationMenu_->addSeparator();
-    studyConfigurationMenu_->addAction(intervalsAction_);
-    studyConfigurationMenu_->addAction(columnFormatsAction_);
-    studyConfigurationMenu_->addAction(protocolsAction_);
+    studyConfigurationMenu_->addAction(intervalsAction());
+    studyConfigurationMenu_->addAction(columnFormatsAction());
+    studyConfigurationMenu_->addAction(protocolsAction());
 
     measurementsMenu_ = menuBar()->addMenu(tr("&Measurements"));
     measurementsMenu_->addAction(conductionIntervalsAction_);

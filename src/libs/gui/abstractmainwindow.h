@@ -62,6 +62,9 @@ protected:
     void updateWindowTitle(const QString& title);
     bool administrationAllowed();
 
+    QAction* intervalsAction() {return intervalsAction_;}
+    QAction* columnFormatsAction() {return columnFormatsAction_;}
+    QAction* protocolsAction() {return protocolsAction_;}
     QAction* loginAction() {return loginAction_;}
     QAction* logoutAction() {return logoutAction_;}
     QAction* changePasswordAction() {return changePasswordAction_;}
@@ -79,6 +82,9 @@ protected slots:
     void changePassword();
     void simulatorSettings();
     void systemSettings();
+    void setIntervals();
+    void setProtocols();
+    void setColumnFormats();
 
 signals:
     // let Recorder know the disk is changed and what the new disk is
@@ -88,6 +94,10 @@ private:
     void createActions();
 
     const EpCore::VersionInfo* versionInfo_;
+
+    QAction* intervalsAction_;
+    QAction* columnFormatsAction_;
+    QAction* protocolsAction_;
     QAction* loginAction_;
     QAction* logoutAction_;
     QAction* changePasswordAction_;

@@ -231,9 +231,6 @@ private:
     QAction* saveAction_;
     QAction* saveAsAction_;
     QAction* emergencySaveAction_;
-    QAction* intervalsAction_;
-    QAction* columnFormatsAction_;
-    QAction* protocolsAction_;
 
     // Measurements
     QAction* conductionIntervalsAction_;
