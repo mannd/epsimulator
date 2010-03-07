@@ -31,6 +31,8 @@
 #include <QtGui/QApplication>
 #include <QtGui/QIcon>
 
+#include <QtDebug>
+
 // Languages
 // Only define 1 of the below
 //#define GERMAN
@@ -58,6 +60,7 @@ int main(int argc, char **argv) {
 #endif
     app.installTranslator( &translator );
 #endif
+    qDebug() << "Compiled using Qt Verision " << qVersion();
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
     navigator->restore();
     return app.exec();
