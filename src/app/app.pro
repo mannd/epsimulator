@@ -8,15 +8,13 @@ INCLUDEPATH += ../libs/core \
     ../libs/patient \
     ../libs/gui \
     ../libs/hardware \
-    ../libs/stimulator \
-    ../libs/study
+    ../libs/stimulator
 LIBS += -lpatient \
     -lgui \
     -lcore \
     -lhardware \
     -lstimulator \
     -lnavigator \
-    -lstudy \
     -lrecorder
 SOURCES += main.cpp
 RESOURCES = ../resources/resources.qrc

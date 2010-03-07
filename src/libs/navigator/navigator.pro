@@ -31,11 +31,9 @@ INCLUDEPATH += ../gui \
     ../recorder \
     ../patient \
     ../core \
-    ../hardware \
-    ../study
+    ../hardware
 LIBS += -lcore \
     -lpatient \
     -lgui \
     -lhardware \
-    -lstudy \
     -lrecorder

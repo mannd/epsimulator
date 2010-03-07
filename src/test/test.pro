@@ -12,8 +12,7 @@ INCLUDEPATH += \
     ../libs/patient \
     ../libs/navigator \
     ../libs/core \
-    ../libs/hardware \
-    ../libs/study
+    ../libs/hardware
 
 LIBS += \
     -lstimulator \
@@ -22,7 +21,6 @@ LIBS += \
     -lcore \
     -lhardware \
     -lnavigator \
-    -lstudy \
     -lrecorder
 
 CONFIG += qtestlib
