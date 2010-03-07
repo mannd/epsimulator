@@ -21,7 +21,7 @@
 #ifndef USER_H
 #define USER_H
 
-#include <QCoreApplication>
+#include <QtCore/QCoreApplication>
 
 namespace EpCore {
 
@@ -45,6 +45,7 @@ public:
         isAdministrator_ = isAdministrator;}
 
     bool isAdministrator() const {return isAdministrator_;}
+    bool administrationAllowed() const;
     QString machineName() const;
     QString name() const;
     QString role() const;  // returns EPSIMUSER or ADMINISTRATOR

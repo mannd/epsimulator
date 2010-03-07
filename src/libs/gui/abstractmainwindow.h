@@ -59,7 +59,7 @@ protected:
 
     void filler();
     bool showSimulatorSettings();
-    void updateWindowTitle(const QString& title);
+    void updateWindowTitle(const QString& title = QString());
     bool administrationAllowed();
 
     QAction* intervalsAction() {return intervalsAction_;}

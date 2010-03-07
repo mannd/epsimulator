@@ -89,8 +89,6 @@ using EpNavigator::StatusBar;
 
 using namespace EpHardware::EpOpticalDisk;
 
-// Note that user_ is not a Singleton, but the single instance is owned
-// by Navigator and passed to Recorder.
 Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent), 
                                         filterCatalogDialog_(0),
                                         currentDisk_(0),
@@ -106,11 +104,6 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent),
     createStatusBar();
     createLists();
 
-    // NB: activated(), not currentIndexChanged() is required here,
-    // as currentIndexChanged() is sent when the combobox is 
-    // programmatically changed as well as changed by the user and
-    // that will cause duplicate entries in the combobox when the
-    // Other catalog is selected.
     connect(catalogComboBox_, SIGNAL(activated(int)),
         this, SLOT(changeCatalog()));
 
@@ -168,14 +161,18 @@ void Navigator::newStudy() {
             if (configList.isPresent(configName))
                 study->setStudyConfiguration(
                         *configList.studyConfiguration(configName));
-          if (getStudyInformation(study)) {
+            if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),
                                     epOptions->labName, user_->machineName());
                 refreshCatalogs();
                 startStudy(study);
             }
+            else
+                delete study;
         }
+        else
+            delete study;
         delete selectStudyConfigDialog;
     }
 }
@@ -207,10 +204,14 @@ void Navigator::continueStudy() {
             refreshCatalogs();
             startStudy(study);
         }
+        else
+            delete study;
         delete selectStudyConfigDialog;
     }
-    else if (!studyOnDisk(study)) 
+    else if (!studyOnDisk(study)) {
         studyNotOnDiskError();
+        delete study;
+    }
     else
         startStudy(study);
 }
@@ -1363,9 +1364,12 @@ void Navigator::reviewStudy(Study* study) {
     startStudy(study, true);
 }
 
-void Navigator::reports(Study*) {
+void Navigator::reports(Study* s) {
     QMessageBox::information(this, tr("Starting Report Simulation"),
         tr("The Report simulation is not implemented yet."));
+    /// TODO reports module will need to delete Study pointer,
+    /// for now do it here to avoid memory leak.
+    delete s;
 }
 
 /// FIXME Problem is that study key() is not fixed until the first time key() is called.

@@ -183,8 +183,11 @@ public:
     static const QString configFileName() {return configFileName_;}
 
     Channel& channel(int n);
+    QList<Protocol> protocolList() {return protocolList_;}
+    Protocol currentProtocol() {return protocolList_[currentProtocolIndex_];}
 
     void setName(const QString& name) {name_ = name;}
+    void setCurrentProtocolIndex(int index) {currentProtocolIndex_ = index;}
 
     QString name() const {return name_;}
     EpHardware::EpAmplifier::Amplifier* amplifier() const {return amplifier_;}
@@ -197,6 +200,7 @@ private:
     QString name_;
     QList<Protocol> protocolList_;
     QList<Channel> channelList_;
+    int currentProtocolIndex_;
     EpHardware::EpAmplifier::Amplifier* amplifier_;
 };
 

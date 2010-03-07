@@ -99,9 +99,6 @@ private slots:
     void arrhythmiaTolerances();
     void blockDescriptions();
     void refractoryLocations();
-    void setIntervals();
-    void setColumnFormats();
-    void setProtocols();
     void setStudyConfigurations();
     void manageSections();
     void manageFormats();

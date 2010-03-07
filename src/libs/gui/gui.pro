@@ -12,7 +12,7 @@ SOURCES += simulatorsettingsdialog.cpp \
     abstractmainwindow.cpp \
     editlistdialog.cpp \
     abstractedititemsdialog.cpp \
-    edititemsdialog.cpp \
+    #edititemsdialog.cpp \
     editintervalsdialog.cpp \
     editcolumnformatdialog.cpp \
     editcolumnformatsdialog.cpp
@@ -24,7 +24,7 @@ HEADERS += simulatorsettingsdialog.h \
     abstractmainwindow.h \
     editlistdialog.h \
     abstractedititemsdialog.h \
-    edititemsdialog.h \
+    #edititemsdialog.h \
     editintervalsdialog.h \
     guiutilities.h \
     editcolumnformatdialog.h \

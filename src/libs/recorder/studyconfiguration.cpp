@@ -26,6 +26,8 @@
 
 #include <QtCore/QDataStream>
 
+#include <QtDebug>
+
 namespace EpStudy {
 
 using EpCore::Options;
@@ -88,13 +90,15 @@ QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
 const QString Protocol::fileName_ = "protocols.dat";
 
 QList<Protocol> Protocol::defaultItems() {
-    return QList<Protocol>();
+    QList<Protocol>  protocols;
+    protocols << Protocol("<default>");
+    return protocols;
 }
 
 const QString StudyConfiguration::configFileName_ = "config.dat";
 
 StudyConfiguration::StudyConfiguration(const QString& name) : name_(name),
-    protocolList_(), channelList_() {
+    protocolList_(), channelList_(), currentProtocolIndex_(0) {
     amplifier_ = new Amplifier(epOptions->numChannels);
 }
 
@@ -125,7 +129,8 @@ void StudyConfiguration::copyStudyConfiguration(const StudyConfiguration& rhs) {
     amplifier_ = new Amplifier(*rhs.amplifier_);
 }
 
-StudyConfigurations::StudyConfigurations() {
+StudyConfigurations::StudyConfigurations()
+    : configList_() {
     readStudyConfigurations();
 }
 

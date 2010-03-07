@@ -175,7 +175,6 @@ private:
     void createToolBars();
     void createStatusBar();
     void createPatientStatusBar();
-    void updateWindowTitle();
     virtual void readSettings();
     void writeSettings();
     bool closeStudy();

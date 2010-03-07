@@ -70,8 +70,7 @@ void StudyConfigurationDialog::changePage(const QModelIndex& index) {
 }
 
 void StudyConfigurationDialog::save() {
-    if (User::instance()->isAdministrator() ||
-        !epOptions->administratorAccountRequired) {
+    if (User::instance()->administrationAllowed()) {
         StudyConfigurations configList;
         configList.replace(*studyConfiguration_);
     }
@@ -82,8 +81,7 @@ void StudyConfigurationDialog::save() {
 }
 
 void StudyConfigurationDialog::saveAs() {
-    if (User::instance()->isAdministrator() ||
-        !epOptions->administratorAccountRequired) {
+    if (User::instance()->administrationAllowed()) {
             QString configName = studyConfiguration_->name();
             StudyConfigurations configList;
             bool ok;

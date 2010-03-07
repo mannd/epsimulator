@@ -20,6 +20,8 @@
 
 #include "user.h"
 
+#include "options.h"
+
 #include <cstdlib>
 
 #include <QtDebug>
@@ -91,5 +93,8 @@ User::User() : isAdministrator_(false) {
 
     qDebug() << "User is " << name_ << " and machine is "
             << machineName_;
+}
 
+bool User::administrationAllowed() const {
+    return isAdministrator_ || !epOptions->administratorAccountRequired;
 }

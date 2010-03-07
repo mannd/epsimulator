@@ -60,6 +60,7 @@
 
 #include <QMouseEvent>
 
+using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;
 using EpGui::AbstractMainWindow;
@@ -67,6 +68,7 @@ using EpGui::PatientDialog;
 using EpGui::SelectStudyConfigDialog;
 using EpPatient::Patient;
 using EpRecorder::Recorder;
+using EpStudy::Protocol;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyConfigurations;
@@ -353,10 +355,6 @@ void Recorder::setEmergencySave(bool enable) {
     emit manualSave(enable);
 }
 
-void Recorder::updateWindowTitle() {
-    AbstractMainWindow::updateWindowTitle(QString());
-}
-
 void Recorder::updateAll() {
     //updateMenus();
     updateWindowTitle();
@@ -429,8 +427,12 @@ void Recorder::switchStudyConfiguration() {
 }
 
 void Recorder::winSave() {
-    if (administrationAllowed())
-        filler();
+    if (administrationAllowed()) {
+        ItemList<WindowSetting> windows;
+        WindowSetting w("test");
+        windows[w.name()] = w;
+        windows.update();
+    }
 }
 
 void Recorder::winSaveAs() {
@@ -466,7 +468,8 @@ void Recorder::updateSystemSettings() {
 void Recorder::updateSimulatorSettings() {
     QDockWidget* dockWidget =
         qobject_cast<QDockWidget*>(patientStatusBar_->parentWidget());
-    dockWidget->setWindowTitle(epOptions->recorderFlags.testFlag(Options::PatientStatusBarHasTitle)
+    dockWidget->setWindowTitle(epOptions->recorderFlags
+                               .testFlag(Options::PatientStatusBarHasTitle)
         ? tr("Patient Status") : "");
     if (epOptions->recorderFlags.testFlag(Options::ImmovablePatientStatusBar))
         dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -1017,7 +1020,10 @@ void Recorder::createToolBars() {
     /// TODO replace below with a dynamic combobox generated from
     /// a list of protocols.  
     protocolComboBox_ = new QComboBox(this);
-    protocolComboBox_->addItem(tr("Baseline"));
+    QList<Protocol> protocols = study_->studyConfiguration()->protocolList();
+    QListIterator<Protocol> iter(protocols);
+    while (iter.hasNext())
+        protocolComboBox_->addItem(iter.next().name());
     protocolComboBox_->setMinimumWidth(100);
     systemToolBar->addWidget(protocolComboBox_);
   
