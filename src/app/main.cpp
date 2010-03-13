@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
 #endif
     app.installTranslator( &translator );
 #endif
-    qDebug() << "Compiled using Qt Verision " << qVersion();
+    qDebug() << "Compiled using Qt Version " << qVersion();
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
     navigator->restore();
     return app.exec();
