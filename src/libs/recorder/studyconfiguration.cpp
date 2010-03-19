@@ -91,14 +91,14 @@ const QString Protocol::fileName_ = "protocols.dat";
 
 QList<Protocol> Protocol::defaultItems() {
     QList<Protocol>  protocols;
-    protocols << Protocol("<default>");
-    return protocols;
+    return protocols << Protocol("<default>");
 }
 
 const QString StudyConfiguration::configFileName_ = "config.dat";
 
 StudyConfiguration::StudyConfiguration(const QString& name) : name_(name),
-    protocolList_(), channelList_(), currentProtocolIndex_(0) {
+        protocolList_(Protocol::defaultItems()),
+        channelList_(), currentProtocolIndex_(0) {
     amplifier_ = new Amplifier(epOptions->numChannels);
 }
 

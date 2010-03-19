@@ -115,6 +115,14 @@ Recorder::Recorder(QWidget* parent,
         recorder->restore();
     }
 
+    study_->loadStudyConfiguration();
+    qDebug() << "Study configuration name = "
+            << study_->studyConfiguration()->name();
+    qDebug() << "Protocol name = "
+            << study_->studyConfiguration()->currentProtocol().name();
+    qDebug() << "Window Settings = "
+            << study_->studyConfiguration()->currentProtocol().windowSetting()
+            .name();
     loadPatient();
 
     // must build menus and toolbars before creating the central widget,
@@ -150,8 +158,7 @@ Recorder::Recorder(QWidget* parent,
     /// FIXME this is bad! This is probably why initial screen doesn't
     /// work because you are updating in the constructor!!!!!!!!!!
     updateAll();
-    study_->loadStudyConfiguration();
-    //EpCore::ItemList<WindowSetting> w;
+
 }
 
 Recorder::~Recorder() {

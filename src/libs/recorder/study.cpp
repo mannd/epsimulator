@@ -198,10 +198,12 @@ namespace EpStudy {
     }
 
     QString Study::filePath() {
+        Q_ASSERT(!path_.isEmpty());
         return EpCore::joinPaths(path_ , fileName_);
     }
 
     QString Study::configFilePath() {
+        Q_ASSERT(!path_.isEmpty());
         return EpCore::joinPaths(path_, configFileName_);
     }
 

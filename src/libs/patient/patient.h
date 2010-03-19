@@ -84,8 +84,8 @@ private:
     Saturation o2Saturation_;
     BloodPressure bp_;
     RespRate respRate_;
-    Heart* heart_;
     unsigned long int secs_;    // total simulation time
+    Heart* heart_;
 
 };
 

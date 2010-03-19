@@ -23,6 +23,8 @@
 #include <cstdlib>
 #include <ctime>
 
+using EpCore::Probability;
+
 Probability::Probability(double value) : delta_(0) {
     setValue(value);
     srand(time(0));     // initialize random number generator
@@ -39,5 +41,6 @@ void Probability::setValue(double value) {
 }
 
 bool Probability::result() const {
-    return true;
+    int random = rand() % 100;
+    return value_ * 100 > random;
 }

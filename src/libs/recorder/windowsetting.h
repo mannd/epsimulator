@@ -52,7 +52,7 @@ public:
         QString key_;
     };
 
-    WindowSetting(const QString& name = QString());
+    WindowSetting(const QString& name = tr("<default>"));
 
     static unsigned int magicNumber() {return MagicNumber;}
     static QString fileName() {return fileName_;}

@@ -21,6 +21,8 @@
 #ifndef PROBABILITY_H
 #define PROBABILITY_H
 
+namespace EpCore {
+
 /**
  * This class contains a probability that an event will happen.  
  * The value ranges from 0.0 to 1.0.  Probabilities must be set
@@ -67,4 +69,5 @@ private:
 
 };
 
+}
 #endif

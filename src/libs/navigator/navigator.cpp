@@ -1335,7 +1335,7 @@ void Navigator::startStudy(Study* study, bool review) {
             throw EpCore::IoError(studiesPath, "could not create studiesPath");
     }
     // create study directory and write study.dat file
-    QString studyPath = studiesPath + study->dirName();
+    QString studyPath = EpCore::joinPaths(studiesPath, study->dirName());
     QDir studyDir(studyPath);
     if (!studyDir.exists() && !studyDir.mkdir(studyPath)) {
             delete study;

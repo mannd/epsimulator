@@ -22,11 +22,15 @@
 
 #include "fileutilities.h"
 #include "heart.h"
+#include "probability.h"
 
 #include <QDir>
 
+#include <QtDebug>
+
 using namespace Ep;
 
+using EpCore::Probability;
 using EpPatient::Patient;
 using EpPatient::HeartRate;
 
@@ -70,13 +74,21 @@ Needs to take into account:
 **/
 void Patient::updatePhysiology() {
     // fake for fun
+    static Probability p(0.5);
     ++secs_;
-    if (secs_ % 5 == 0)
+    if (secs_ % 5 == 0 && p.result())
         ++o2Saturation_;
-    if (secs_ % 3 == 0)
+    if (secs_ % 4 == 0  && !p.result())
         --o2Saturation_;
-    if (o2Saturation_ < 90)
-       ++o2Saturation_;
+    if (o2Saturation_ < 90) {
+        p.setValue(0.6);
+        ++o2Saturation_;
+   }
+    if (o2Saturation_ > 95) {
+        p.setValue(0.4);
+        --o2Saturation_;
+    }
+    //qDebug() << p.result();
 }
 
 void Patient::setHeartRate(const HeartRate rate) {

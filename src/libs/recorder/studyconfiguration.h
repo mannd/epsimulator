@@ -125,6 +125,8 @@ public:
     void setName(const QString& name) {name_ = name;}
 
     QString name() const {return name_;}
+    EpRecorder::WindowSetting windowSetting() const {
+        return windowSetting_;}
     
 private:
     enum {MagicNumber = 0x12435ffe};
