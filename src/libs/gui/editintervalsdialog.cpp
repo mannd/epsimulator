@@ -44,39 +44,31 @@ EditIntervalsDialog::EditIntervalsDialog(QWidget* parent)
 }
 
 void EditIntervalsDialog::createListWidget() {
-    listWidget->clear();
-    listWidget->setSortingEnabled(true);
-    for (int i = 0; i < intervals_.size(); ++i) {
-        new QListWidgetItem(intervals_[i].name(), listWidget);
-    }
+    createListWidgetItems(intervals_);
 }
 
 void EditIntervalsDialog::removeItem() {
-    intervals_.remove(listWidget->currentItem()->text());
+    removeItemFromList(intervals_);
 }
 
 void EditIntervalsDialog::editItem(EditorType type) {
+    if (type == EditItem && selectionIsEmpty()) {
+        selectionIsEmptyWarning();
+        return;
+    }
     EditIntervalTypeDialog d(type, this);
     if (type == EditItem) {
-        if (selectionIsEmpty()) {
-            QMessageBox::information(this, tr("No Interval Selected"),
-                                     tr("You must select an interval first"));
-            return;
-        }
-        QString name = listWidget->currentItem()->text();
-        d.setInterval(intervals_[name]);
+        d.setInterval(intervals_[listWidget->currentItem()->text()]);
     }
     if (d.exec()) {
         EpCore::Interval interval = d.interval();
         if (intervals_.duplicate(interval) && type == NewItem) {
-            QMessageBox::information(this, tr("Duplicate Interval"),
-                                    tr("%1 is already present "
-                                    "in the list").arg(interval.name()));
+            duplicateItemWarning(interval.name());
             return;
         }
         if (type == NewItem)
             intervals_.append(d.interval());
-        else    // type == EditItem
+        else  if (type == EditItem)
             intervals_[d.interval().name()] = d.interval();
         createListWidget();
     }

@@ -18,65 +18,30 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef ABSTRACTEDITITEMSDIALOG_H
-#define ABSTRACTEDITITEMSDIALOG_H
+#ifndef EDITPROTOCOLSDIALOG_H
+#define EDITPROTOCOLSDIALOG_H
 
-#include "ui_abstractedititemsdialog.h"
+#include "abstractedititemsdialog.h"
 
-#include "itemlist.h"
-
-#include <QDialog>
+#include "studyconfiguration.h"
 
 namespace EpGui {
 
-class AbstractEditItemsDialog : public QDialog,
-    protected Ui::AbstractEditItemsDialog {
+class EditProtocolsDialog : public AbstractEditItemsDialog {
     Q_OBJECT
 public:
-    enum EditorType {NewItem, EditItem};
-    AbstractEditItemsDialog(const QString& title,
-                            QWidget* parent = 0);
+    EditProtocolsDialog(QWidget* parent = 0);
 
-protected:
-    void showCopyButton(bool);
-    bool selectionIsEmpty() const;
-    void selectionIsEmptyWarning();
-    void duplicateItemWarning(const QString& name);
-    template<typename T>
-    void removeItemFromList(T& items);
-    template<typename T>
-    void createListWidgetItems(T&);
-    void editCopiedItem(const QString& name);
-
-private slots:
-    virtual void insert();
-    virtual void edit();
-    virtual void copy();
-    void del();
+    EpCore::ItemList<EpStudy::Protocol> protocols() {
+        return protocols_;}
 
 private:
-    virtual void createListWidget() = 0;
-    virtual void removeItem() = 0;
-    virtual void editItem(EditorType) = 0;
-    // copyItem is not abstract, since not implemented for all item types
-    virtual void copyItem(QList<QListWidgetItem*>) {}
+    void createListWidget();
+    void removeItem();
+    void editItem(EditorType);
+    //void copyItem(QList<QListWidgetItem *>);
+    EpCore::ItemList<EpStudy::Protocol> protocols_;
 };
 
-
-template<typename T>
-void AbstractEditItemsDialog::removeItemFromList(T& items) {
-    items.remove(listWidget->currentItem()->text());
 }
-
-template<typename T>
-void AbstractEditItemsDialog::createListWidgetItems(T& items) {
-    listWidget->clear();
-    listWidget->setSortingEnabled(true);
-    for (int i = 0; i < items.size(); ++i) {
-        new QListWidgetItem(items[i].name(), listWidget);
-    }
-}
-
-}
-
-#endif // ABSTRACTEDITITEMSDIALOG_H
+#endif // EDITPROTOCOLSDIALOG_H

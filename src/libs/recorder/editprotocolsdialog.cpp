@@ -18,63 +18,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "editcolumnformatsdialog.h"
+#include "editprotocolsdialog.h"
 
-#include "editcolumnformatdialog.h"
+#include "editprotocoldialog.h"
 
-#include <QMessageBox>
+using EpGui::EditProtocolDialog;
+using EpGui::EditProtocolsDialog;
 
-using EpCore::ColumnFormat;
-using EpCore::ItemList;
-using EpGui::EditColumnFormatDialog;
-using EpGui::EditColumnFormatsDialog;
-
-EditColumnFormatsDialog::EditColumnFormatsDialog(QWidget* parent)
-    : AbstractEditItemsDialog(tr("Column Formats"), parent ){
+EditProtocolsDialog::EditProtocolsDialog(QWidget* parent)
+    : AbstractEditItemsDialog(tr("Protocols"), parent) {
     showCopyButton(true);
     createListWidget();
 }
 
-void EditColumnFormatsDialog::createListWidget() {
-    createListWidgetItems(columnFormats_);
+void EditProtocolsDialog::createListWidget() {
+    createListWidgetItems(protocols_);
 }
 
-void EditColumnFormatsDialog::removeItem() {
-    removeItemFromList(columnFormats_);
+void EditProtocolsDialog::removeItem() {
+    removeItemFromList(protocols_);
 }
 
-void EditColumnFormatsDialog::editItem(EditorType type) {
+void EditProtocolsDialog::editItem(EditorType type) {
     if (type == EditItem && selectionIsEmpty()) {
         selectionIsEmptyWarning();
         return;
     }
-    EditColumnFormatDialog d(type, this);
-    if (type == EditItem) {
-        d.setColumnFormat(columnFormats_[listWidget->currentItem()->text()]);
-    }
-    else if (type == NewItem) {
-        d.setColumnFormat(ColumnFormat());
-    }
+    EditProtocolDialog d(type, this);
+//    if (type == EditItem) {
+//        d.setColumnFormat(columnFormats_[listWidget->currentItem()->text()]);
+//    }
+//    else if (type == NewItem) {
+//        d.setColumnFormat(ColumnFormat());
+//    }
     if (d.exec()) {
-        EpCore::ColumnFormat columnFormat = d.columnFormat();
-        if (columnFormats_.duplicate(columnFormat) && type == NewItem) {
-            duplicateItemWarning(columnFormat.name());
-            return;
-        }
-        if (type == NewItem)
-            columnFormats_.append(d.columnFormat());
-        else if (type == EditItem)
-            columnFormats_[d.columnFormat().name()] = d.columnFormat();
-        createListWidget();
+//        EpCore::ColumnFormat columnFormat = d.columnFormat();
+//        if (columnFormats_.duplicate(columnFormat) && type == NewItem) {
+//            duplicateItemWarning(columnFormat.name());
+//            return;
+//        }
+//        if (type == NewItem)
+//            columnFormats_.append(d.columnFormat());
+//        else if (type == EditItem)
+//            columnFormats_[d.columnFormat().name()] = d.columnFormat();
+//        createListWidget();
     }
 }
-
-void EditColumnFormatsDialog::copyItem(QList<QListWidgetItem*> selectedItems) {
-    QString name = selectedItems[0]->text();
-    ColumnFormat cf = columnFormats_[name];
-    name = tr("Copy of %1").arg(name);
-    cf.setName(name);
-    columnFormats_.append(cf);
-    editCopiedItem(name);
-}
-

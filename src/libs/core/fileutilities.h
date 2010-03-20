@@ -88,6 +88,7 @@ void copyFilesToSystem(const QStringList& files, const QString& sourcePath,
                        CopyFlag = DoNotOverwrite);
 
 QString joinPaths(const QString&, const QString&);
+QString capitalize(const QString&);
 
 // definitions
 
@@ -155,6 +156,13 @@ void loadSystemData(unsigned int magicNumber, const QString& fileName, T& data, 
     else
         loadData(joinPaths(options->systemCatalogPath, fileName), magicNumber, data);
 }
+
+inline QString capitalize(const QString& s) {
+    QString capitalized = s;
+    capitalized[0] = capitalized[0].toUpper();
+    return capitalized;
+}
+
 
 } // namespace EpCore
 

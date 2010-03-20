@@ -70,6 +70,7 @@
 #include <algorithm>
 #include <memory>
 
+using EpCore::capitalize;
 using EpCore::ColumnFormat;
 using EpCore::EpLists;
 using EpCore::Interval;

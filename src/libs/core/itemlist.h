@@ -60,7 +60,7 @@ namespace EpCore {
 
         bool nameIsPresent(const QString& name) const;
         bool duplicate(const T&) const;
-        int size() {return list_.size();}
+        int size() const {return list_.size();}
         void update() {save();}
         QList<T> list() const {return list_;}
 

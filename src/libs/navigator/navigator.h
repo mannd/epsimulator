@@ -175,10 +175,6 @@ private:
     // misc
     void noStudySelectedError();
     bool acquisitionEnabled();
-    // capitalize first letter of word
-    /// TODO move to utilities in EpCore if needed outside Navigator.
-    QString capitalize(const QString&);
-
 
     // Data members
     FilterCatalogDialog* filterCatalogDialog_;  // FilterCatalog Dialog box
@@ -263,11 +259,6 @@ private:
     CatalogComboBox* catalogComboBox_;
 };
 
-inline QString Navigator::capitalize(const QString& s) {
-    QString capitalized = s;
-    capitalized[0] = capitalized[0].toUpper();
-    return capitalized;
-}
 
 }
 

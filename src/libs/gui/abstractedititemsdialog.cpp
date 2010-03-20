@@ -59,6 +59,12 @@ void AbstractEditItemsDialog::copy() {
     }
 }
 
+void AbstractEditItemsDialog::editCopiedItem(const QString& name) {
+    createListWidget();
+    listWidget->setCurrentItem(listWidget->findItems(name, Qt::MatchExactly)[0]);
+    editItem(EditItem);
+}
+
 void AbstractEditItemsDialog::del() {
     if (selectionIsEmpty())
         return;
@@ -72,7 +78,18 @@ void AbstractEditItemsDialog::del() {
     }
 }
 
-bool AbstractEditItemsDialog::selectionIsEmpty() {
+bool AbstractEditItemsDialog::selectionIsEmpty() const {
     return listWidget->selectedItems().size() == 0;
+}
+
+void AbstractEditItemsDialog::duplicateItemWarning(const QString& name) {
+    QMessageBox::information(this, tr("Duplicate Item"),
+                            tr("%1 is already present "
+                            "in the list").arg(name));
+}
+
+void AbstractEditItemsDialog::selectionIsEmptyWarning() {
+    QMessageBox::information(this, tr("No Item Selected"),
+                             tr("You must select an item first"));
 }
 

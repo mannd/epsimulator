@@ -14,7 +14,9 @@ SOURCES += recorder.cpp \
     studyconfigurationdialog.cpp \
     studyinformationdialog.cpp \
     studyconfiguration.cpp \
-    windowsetting.cpp
+    windowsetting.cpp \
+    editprotocoldialog.cpp \
+    editprotocolsdialog.cpp
 HEADERS += recorder.h \
     patientdialog.h \
     patientstatusbar.h \
@@ -29,7 +31,9 @@ HEADERS += recorder.h \
     selectstudyconfigdialog.h \
     study.h \
     studyinformationdialog.h \
-    windowsetting.h
+    windowsetting.h \
+    editprotocoldialog.h \
+    editprotocolsdialog.h
 INCLUDEPATH += ../gui \
     ../stimulator \
     ../patient \
@@ -39,10 +43,12 @@ FORMS += ui/patientstatusbar.ui \
     ui/patientdialog.ui \
     ui/studyinformationdialog.ui \
     ui/selectstudyconfigdialog.ui \
-    ui/studyconfigurationdialog.ui
+    ui/studyconfigurationdialog.ui \
+    ui/editprotocoldialog.ui
 LIBS += -lcore \
     -lpatient \
     -lgui \
     -lhardware \
     -lstimulator
+
 

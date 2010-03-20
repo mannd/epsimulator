@@ -24,6 +24,7 @@
 #include "changepassworddialog.h"
 #include "editintervalsdialog.h"
 #include "editcolumnformatsdialog.h"
+#include "editprotocolsdialog.h"
 #include "fileutilities.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -134,8 +135,12 @@ void AbstractMainWindow::setColumnFormats() {
 }
 
 void AbstractMainWindow::setProtocols() {
-    if (administrationAllowed())
-        filler();
+    if (administrationAllowed()) {
+        EditProtocolsDialog d(this);
+        if (d.exec()) {
+            //d.protocols().update();
+        }
+    }
 }
 
 /// Checks to see if administrator access if required, if it is,
