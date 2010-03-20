@@ -9,7 +9,6 @@ SOURCES += simulatorsettingsdialog.cpp \
     systemdialog.cpp \
     passworddialog.cpp \
     actions.cpp \
-    abstractmainwindow.cpp \
     editlistdialog.cpp \
     abstractedititemsdialog.cpp \ # edititemsdialog.cpp \
     editintervalsdialog.cpp \
@@ -20,7 +19,6 @@ HEADERS += simulatorsettingsdialog.h \
     systemdialog.h \
     passworddialog.h \
     actions.h \
-    abstractmainwindow.h \
     editlistdialog.h \
     abstractedititemsdialog.h \ # edititemsdialog.h \
     editintervalsdialog.h \

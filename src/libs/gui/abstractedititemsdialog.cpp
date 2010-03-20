@@ -89,7 +89,7 @@ void AbstractEditItemsDialog::duplicateItemWarning(const QString& name) {
 }
 
 void AbstractEditItemsDialog::selectionIsEmptyWarning() {
-    QMessageBox::information(this, tr("No Item Selected"),
+    QMessageBox::information(this, tr("No Item"),
                              tr("You must select an item first"));
 }
 
