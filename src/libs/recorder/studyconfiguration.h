@@ -21,7 +21,7 @@
 #ifndef STUDYCONFIGURATION_H
 #define STUDYCONFIGURATION_H
 
-#include "amplifier.h"
+//#include "amplifier.h"
 #include "columnformat.h"
 #include "windowsetting.h"
 
@@ -70,6 +70,7 @@ private:
     QColor color_; 
     QBitArray displayPages_;
     bool alwaysSave_;
+    EpHardware::EpAmplifier::Amplifier* amplifier_;
 };
 
 class MacroList {

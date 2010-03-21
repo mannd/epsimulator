@@ -78,6 +78,7 @@ private:
 /// This is the hardware channel, Channel in StudyConfiguration includes this
 /// and software settings.
 class Channel {
+    Q_DECLARE_TR_FUNCTIONS(Channel)
 
 public:
     enum ChannelType { NotUsed, ECG, Pressure, Bipolar, 
@@ -126,8 +127,14 @@ private:
 
 class EcgChannel : public Channel {
 public:
+    enum EcgLabel {I = 1, II, III, avR, avL, avF,
+                   V1, V2, V3, V4, V5, V6};
     EcgChannel(int number, const QString& label);
     ~EcgChannel() {}
+
+    static QString ecgLabel(EcgLabel label) {
+        return ecgLabels_[label];
+    }
     
     virtual bool typeModifiable() const {return false;}
     virtual EcgChannel* clone() const {return new EcgChannel(*this);} 
@@ -135,6 +142,9 @@ public:
     virtual ChannelType channelType() const {return ECG;}
 
     virtual void setChannelType(const ChannelType&) {}  // noop
+
+private:
+    static QStringList ecgLabels_;
 };
 
 class PressureChannel : public Channel {
@@ -148,7 +158,6 @@ public:
     virtual ChannelType channelType() const {return Pressure;}
 
     virtual void setChannelType(const ChannelType&) {}  // noop
-
 };
 
 class StimChannel : public Channel {

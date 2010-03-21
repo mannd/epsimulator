@@ -24,6 +24,8 @@
 #include <QDataStream>
 #include <QtGlobal>
 
+#include <QtDebug>
+
 namespace EpHardware { namespace EpAmplifier {
 
 QDataStream& operator<<(QDataStream& out, const Amplifier& amp) {
@@ -45,18 +47,10 @@ Amplifier::Amplifier(int n) : numChannels_(n) {
     Q_ASSERT(n == 32 || n == 48 || n == 64 || n == 96 || n == 128);
     // note that channels are 1 based, so that
     // channels_[0].number() ==1;
-    channels_.append(new EcgChannel(1, tr("I")));
-    channels_.append(new EcgChannel(2, tr("II")));
-    channels_.append(new EcgChannel(3, tr("III")));
-    channels_.append(new EcgChannel(4, tr("avR")));
-    channels_.append(new EcgChannel(5, tr("avL")));
-    channels_.append(new EcgChannel(6, tr("avF")));
-    channels_.append(new EcgChannel(7, tr("V1")));
-    channels_.append(new EcgChannel(8, tr("V2")));
-    channels_.append(new EcgChannel(9, tr("V3")));
-    channels_.append(new EcgChannel(10, tr("V4")));
-    channels_.append(new EcgChannel(11, tr("V5")));
-    channels_.append(new EcgChannel(12, tr("V6")));
+    for (EcgChannel::EcgLabel i = EcgChannel::I; i <= EcgChannel::V6;
+         i = EcgChannel::EcgLabel(i + 1))
+        channels_.append(new EcgChannel(i, EcgChannel::ecgLabel(i)));
+
     channels_.append(new PressureChannel(13, tr("P1")));
     channels_.append(new PressureChannel(14, tr("P2")));
     channels_.append(new PressureChannel(15, tr("P3")));
@@ -133,6 +127,12 @@ Channel::Channel(int n, QString label)
                    posInput_(0), gain_(500), highPassFilter_(30.0),
                    lowPassFilter_(500), notchFilter_(false) {
 }
+
+QStringList EcgChannel::ecgLabels_ = QStringList() << tr("None")
+                                     << tr("I") << tr("II") << tr("III")
+                                     << tr("avR") << tr("avL") << tr("avF")
+                                     << tr("V1") << tr("V2") << tr("V3")
+                                     << tr("V4") << tr("V5") << tr("V6");
 
 EcgChannel::EcgChannel(int n, const QString& label) 
     : Channel(n) {
