@@ -45,22 +45,19 @@ void EditProtocolsDialog::editItem(EditorType type) {
         return;
     }
     EditProtocolDialog d(type, this);
-//    if (type == EditItem) {
-//        d.setColumnFormat(columnFormats_[listWidget->currentItem()->text()]);
-//    }
-//    else if (type == NewItem) {
-//        d.setColumnFormat(ColumnFormat());
-//    }
+    if (type == EditItem) {
+        d.setProtocol(protocols_[listWidget->currentItem()->text()]);
+    }
     if (d.exec()) {
-//        EpCore::ColumnFormat columnFormat = d.columnFormat();
-//        if (columnFormats_.duplicate(columnFormat) && type == NewItem) {
-//            duplicateItemWarning(columnFormat.name());
-//            return;
-//        }
-//        if (type == NewItem)
-//            columnFormats_.append(d.columnFormat());
-//        else if (type == EditItem)
-//            columnFormats_[d.columnFormat().name()] = d.columnFormat();
-//        createListWidget();
+        EpStudy::Protocol protocol = d.protocol();
+        if (protocols_.duplicate(protocol) && type == NewItem) {
+            duplicateItemWarning(protocol.name());
+            return;
+        }
+        if (type == NewItem)
+            protocols_.append(d.protocol());
+        else if (type == EditItem)
+            protocols_[d.protocol().name()] = d.protocol();
+        createListWidget();
     }
 }

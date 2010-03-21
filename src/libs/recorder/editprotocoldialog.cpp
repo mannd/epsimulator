@@ -21,6 +21,7 @@
 #include "editprotocoldialog.h"
 
 using EpGui::EditProtocolDialog;
+using EpStudy::Protocol;
 
 EditProtocolDialog::EditProtocolDialog(AbstractEditItemsDialog::EditorType type,
                                        QWidget *parent)
@@ -30,5 +31,41 @@ EditProtocolDialog::EditProtocolDialog(AbstractEditItemsDialog::EditorType type,
                                        ? tr("New") : tr("Edit");
     title = tr("%1 Protocol").arg(title);
     setWindowTitle(title);
+//    senseChannelLabelComboBox->
+    QStringList list;
+    list << tr("On") << tr("Off");
+    updateReviewComboBox->insertItems(0, list);
+    list.clear();
+    list << tr("1/4") << tr("1/2") << tr("3/4");
+    focalPointComboBox->insertItems(0, list);
+    list.clear();
+    for (int i = 1; i <= 8; ++i)
+        list.append(tr("Page %1").arg(i));
+    displayPageComboBox->insertItems(0, list);
+
+    connect(nameLineEdit, SIGNAL(textChanged(const QString&)),
+            this, SLOT(enableOkButton(const QString&)));
+    enableOkButton(nameLineEdit->text());
 }
 
+void EditProtocolDialog::setProtocol(const Protocol& protocol) {
+    nameLineEdit->setText(protocol.name());
+    displayPageComboBox->setCurrentIndex(protocol.displayPage() - 1);
+    updateReviewComboBox->setCurrentIndex(protocol.updateReviewWindow()
+                                                ? 0 : 1);
+
+
+}
+
+Protocol EditProtocolDialog::protocol() const {
+    Protocol protocol;
+    protocol.setName(nameLineEdit->text());
+    protocol.setDisplayPage(displayPageComboBox->currentIndex() + 1);
+    protocol.setUpdateReviewWindow(updateReviewComboBox->
+                                   currentIndex() ? false : true);
+    return protocol;
+}
+
+void EditProtocolDialog::enableOkButton(const QString& text) {
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!text.isEmpty());
+}

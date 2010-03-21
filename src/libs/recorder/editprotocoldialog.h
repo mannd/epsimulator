@@ -24,6 +24,7 @@
 #include "ui_editprotocoldialog.h"
 
 #include "abstractedititemsdialog.h"
+#include "studyconfiguration.h"
 
 namespace EpGui {
 
@@ -32,6 +33,11 @@ class EditProtocolDialog : public QDialog, private Ui::EditProtocolDialog {
 public:
     EditProtocolDialog(AbstractEditItemsDialog::EditorType,
                        QWidget *parent = 0);
+    void setProtocol(const EpStudy::Protocol&);
+    EpStudy::Protocol protocol() const;
+
+private slots:
+    void enableOkButton(const QString&);
 
 };
 

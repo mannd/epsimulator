@@ -123,10 +123,28 @@ public:
     static QList<Protocol> defaultItems();
 
     void setName(const QString& name) {name_ = name;}
+    void setSenseChannel(const Channel& channel) {senseChannel_ = channel;}
+    void setColumnFormat(const EpCore::ColumnFormat& columnFormat) {
+        columnFormat_ = columnFormat;}
+    void setWindowSetting(const EpRecorder::WindowSetting& w) {
+        windowSetting_ = w;}
+    void setMacroList(const MacroList& macroList) {
+        macroList_ = macroList;}
+    void setUpdateReviewWindow(bool state) {updateReviewWindow_ = state;}
+    void setFocalPoint(const QPoint& focalPoint) {
+        focalPoint_ = focalPoint;}
+    void setDisplayPage(int page) {displayPage_ = page;}
+
 
     QString name() const {return name_;}
+    Channel senseChannel() const {return senseChannel_;}
+    EpCore::ColumnFormat columnFormat() const {return columnFormat_;}
     EpRecorder::WindowSetting windowSetting() const {
         return windowSetting_;}
+    MacroList macroList() const {return macroList_;}
+    bool updateReviewWindow() const {return updateReviewWindow_;}
+    QPoint focalPoint() const {return focalPoint_;}
+    int displayPage() const {return displayPage_;}
     
 private:
     enum {MagicNumber = 0x12435ffe};

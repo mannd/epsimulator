@@ -61,7 +61,8 @@ void AbstractEditItemsDialog::copy() {
 
 void AbstractEditItemsDialog::editCopiedItem(const QString& name) {
     createListWidget();
-    listWidget->setCurrentItem(listWidget->findItems(name, Qt::MatchExactly)[0]);
+    listWidget->setCurrentItem(listWidget->findItems(name,
+                                                     Qt::MatchExactly)[0]);
     editItem(EditItem);
 }
 

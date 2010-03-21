@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>631</width>
-    <height>467</height>
+    <width>626</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>30</y>
-     <width>541</width>
-     <height>411</height>
+     <x>30</x>
+     <y>20</y>
+     <width>551</width>
+     <height>431</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
@@ -43,12 +43,12 @@
            <string>Protocol Name</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit</cstring>
+           <cstring>nameLineEdit</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="nameLineEdit"/>
         </item>
        </layout>
       </item>
@@ -182,25 +182,6 @@
     </item>
    </layout>
   </widget>
-  <zorder>buttonBox</zorder>
-  <zorder>lineEdit</zorder>
-  <zorder>label</zorder>
-  <zorder>line</zorder>
-  <zorder>senseChannelLabelComboBox</zorder>
-  <zorder>columnFormatComboBox</zorder>
-  <zorder>windowSettingComboBox</zorder>
-  <zorder>macroCategoryComboBox</zorder>
-  <zorder>updateReviewComboBox</zorder>
-  <zorder>focalPointComboBox</zorder>
-  <zorder>displayPageComboBox</zorder>
-  <zorder>label_2</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label_4</zorder>
-  <zorder>label_5</zorder>
-  <zorder>label_6</zorder>
-  <zorder>label_7</zorder>
-  <zorder>label_8</zorder>
-  <zorder>label</zorder>
  </widget>
  <resources/>
  <connections>
