@@ -18,43 +18,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef EDITCOLUMNFORMATDIALOG_H
-#define EDITCOLUMNFORMATDIALOG_H
+#ifndef LISTSELECTOR_H
+#define LISTSELECTOR_H
 
-#include "ui_editcolumnformatdialog.h"
-
-#include "abstractedititemsdialog.h"
-#include "columnformat.h"
-
-#include <QStringListModel>
+class QListView;
+class QStringList;
+class QStringListModel;
 
 namespace EpGui {
 
-class ListSelector;
-
-class EditColumnFormatDialog : public QDialog,
-        private Ui::EditColumnFormatDialog {
-    Q_OBJECT
+class ListSelector {
 public:
-    EditColumnFormatDialog(AbstractEditItemsDialog::EditorType,
-                           QWidget *parent = 0);
-    ~EditColumnFormatDialog();
+    ListSelector(QListView* unselectedListView,
+                 QListView* selectedListView);
+    ListSelector(const QStringList& unselected,
+                 const QStringList& selected,
+                 QListView* unselectedListView,
+                 QListView* selectedListView);
+    ~ListSelector();
 
-    void setColumnFormat(const EpCore::ColumnFormat&);
+    void initialize(const QStringList& unselected,
+                    const QStringList& selected);
 
-    EpCore::ColumnFormat columnFormat() const;
-
-private slots:
-    void enableSelectButtons();
-    void enableOkButton(const QString&);
     void select();
     void unselect();
     void selectAll();
     void unselectAll();
 
+    QStringList selected();
+    QStringList all();
+
 private:
-    ListSelector* listSelector_;
+    void move(QListView* sourceView,
+              QListView* destView,
+              QStringListModel* sourceModel,
+              QStringListModel* destModel);
+
+    QStringListModel* unselectedModel_;
+    QStringListModel* selectedModel_;
+    QListView* unselectedListView_;
+    QListView* selectedListView_;
+
 };
 
 }
-#endif // EDITCOLUMNFORMATDIALOG_H
+
+#endif // LISTSELECTOR_H

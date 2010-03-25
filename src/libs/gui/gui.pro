@@ -13,7 +13,8 @@ SOURCES += simulatorsettingsdialog.cpp \
     abstractedititemsdialog.cpp \ # edititemsdialog.cpp \
     editintervalsdialog.cpp \
     editcolumnformatdialog.cpp \
-    editcolumnformatsdialog.cpp 
+    editcolumnformatsdialog.cpp \
+    listselector.cpp
 HEADERS += simulatorsettingsdialog.h \
     changepassworddialog.h \
     systemdialog.h \
@@ -24,7 +25,8 @@ HEADERS += simulatorsettingsdialog.h \
     editintervalsdialog.h \
     guiutilities.h \
     editcolumnformatdialog.h \
-    editcolumnformatsdialog.h 
+    editcolumnformatsdialog.h \
+    listselector.h
 FORMS += ui/simulatorsettingsdialog.ui \
     ui/changepassworddialog.ui \
     ui/systemdialog.ui \

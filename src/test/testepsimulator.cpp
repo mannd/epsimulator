@@ -27,6 +27,7 @@
 #include "epdefs.h"
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
+#include "listselector.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "passworddialog.h"
@@ -41,6 +42,7 @@
 #include "versioninfo.h"
 
 #include <QDir>
+#include <QListView>
 #include <QtDebug>
 
 #include <cmath>
@@ -194,9 +196,9 @@ void TestEpSimulator::testFilePath() {
     Study s;
     s.setPath("/home/");
     QCOMPARE(s.filePath(), QString("/home/study.dat"));
-    s.setPath("");
-    QCOMPARE(s.filePath(), QString("/study.dat"));
-    QCOMPARE(s.filePath(), QString("/" + s.fileName()));
+    s.setPath(".");
+    QCOMPARE(s.filePath(), QString("study.dat"));
+    QCOMPARE(s.filePath(), QString(s.fileName()));
 }
 
 void TestEpSimulator::testStudyKey() {
@@ -729,6 +731,15 @@ void TestEpSimulator::testJoinPaths() {
     // backslashs are converted to forward slashes
     QString p3 = "\\hello";
     QVERIFY(joinPaths(p1, p2) == "/hello/tmp");
+}
+
+void TestEpSimulator::testListSelector() {
+    QStringList list1, list2;
+    list1 << "test1" << "test2";
+    list2 << "test3" << "test4";
+    ListSelector ls(list1, list2, new QListView, new QListView);
+    QVERIFY(ls.all().size() == 4);
+
 }
 
 void TestEpSimulator::cleanupTestCase() {

@@ -89,6 +89,8 @@ private slots:
     void testConversions();
     // utilities
     void testJoinPaths();
+    // class ListSelector
+    void testListSelector();
 
     void cleanupTestCase();
 
