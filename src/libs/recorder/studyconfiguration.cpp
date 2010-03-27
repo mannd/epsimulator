@@ -64,18 +64,21 @@ QDataStream& operator>>(QDataStream& in, MacroList& m) {
 QDataStream& operator<<(QDataStream& out, const Protocol& p) {
     out << p.name_ << p.senseChannel_ << p.columnFormat_ 
         << p.windowSetting_ << p.macroList_ << p.updateReviewWindow_
-        << p.focalPoint_ << p.displayPage_;
+        << (qint16)p.focalPoint_ << p.displayPage_;
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Protocol& p) {
+    qint16 focalPoint;
     in >> p.name_ >> p.senseChannel_ >> p.columnFormat_
        >> p.windowSetting_ >> p.macroList_ >> p.updateReviewWindow_
-       >> p.focalPoint_ >> p.displayPage_;
+       >> focalPoint >> p.displayPage_;
+    p.focalPoint_ = static_cast<Protocol::FocalPoint>(focalPoint);
     return in;
 }
 
-QDataStream& operator<<(QDataStream& out, const StudyConfiguration& studyConfig) {
+QDataStream& operator<<(QDataStream& out,
+                        const StudyConfiguration& studyConfig) {
     out << studyConfig.name_ << studyConfig.protocolList_
         << studyConfig.channelList_;
     return out;
@@ -110,7 +113,8 @@ StudyConfiguration::~StudyConfiguration() {
     delete amplifier_;
 }
 
-StudyConfiguration& StudyConfiguration::operator=(const StudyConfiguration& rhs) {
+StudyConfiguration& StudyConfiguration::operator=(
+        const StudyConfiguration& rhs) {
     if (this == &rhs)
         return *this;
     copyStudyConfiguration(rhs);

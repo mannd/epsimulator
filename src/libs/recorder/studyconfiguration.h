@@ -21,7 +21,7 @@
 #ifndef STUDYCONFIGURATION_H
 #define STUDYCONFIGURATION_H
 
-//#include "amplifier.h"
+#include "amplifier.h"
 #include "columnformat.h"
 #include "windowsetting.h"
 
@@ -33,15 +33,9 @@
 
 class QDataStream;
 
-namespace EpHardware {
-    namespace EpAmplifier {
-        class Amplifier;
-    }
-}
-
 namespace EpStudy {
 
-class Channel {
+    class Channel : public EpHardware::EpAmplifier::Channel {
 
 public:
     friend QDataStream& operator<<(QDataStream&, const Channel&);
@@ -98,6 +92,7 @@ public:
     friend QDataStream& operator<<(QDataStream&, const Protocol&);
     friend QDataStream& operator>>(QDataStream&, Protocol&);
 
+    enum FocalPoint {Left, OneQuarter, Center, ThreeQuarters, Right};
 
     Protocol(const QString& name = "",
              const Channel& senseChannel = Channel(),
@@ -107,7 +102,7 @@ public:
                 = EpRecorder::WindowSetting(),
              const MacroList& macroList = MacroList(),
              bool updateReviewWindow = true,
-             const QPoint& focalPoint = QPoint(0,0),
+             const FocalPoint& focalPoint = OneQuarter,
              int displayPage = 2)
                  : name_(name), senseChannel_(senseChannel),
                  columnFormat_(columnFormat),
@@ -132,7 +127,7 @@ public:
     void setMacroList(const MacroList& macroList) {
         macroList_ = macroList;}
     void setUpdateReviewWindow(bool state) {updateReviewWindow_ = state;}
-    void setFocalPoint(const QPoint& focalPoint) {
+    void setFocalPoint(const FocalPoint focalPoint) {
         focalPoint_ = focalPoint;}
     void setDisplayPage(int page) {displayPage_ = page;}
 
@@ -144,7 +139,7 @@ public:
         return windowSetting_;}
     MacroList macroList() const {return macroList_;}
     bool updateReviewWindow() const {return updateReviewWindow_;}
-    QPoint focalPoint() const {return focalPoint_;}
+    FocalPoint focalPoint() const {return focalPoint_;}
     int displayPage() const {return displayPage_;}
     
 private:
@@ -158,7 +153,7 @@ private:
     EpRecorder::WindowSetting windowSetting_;
     MacroList macroList_;
     bool updateReviewWindow_;
-    QPoint focalPoint_;
+    FocalPoint focalPoint_;
     int displayPage_;
 };
 

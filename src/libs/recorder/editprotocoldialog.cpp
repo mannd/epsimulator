@@ -36,7 +36,9 @@ EditProtocolDialog::EditProtocolDialog(AbstractEditItemsDialog::EditorType type,
     list << tr("On") << tr("Off");
     updateReviewComboBox->insertItems(0, list);
     list.clear();
-    list << tr("1/4") << tr("1/2") << tr("3/4");
+    list << tr("Left") << tr("1/4")
+            << tr("Center") << tr("3/4")
+            << tr("Right");
     focalPointComboBox->insertItems(0, list);
     list.clear();
     for (int i = 1; i <= 8; ++i)
@@ -53,6 +55,8 @@ void EditProtocolDialog::setProtocol(const Protocol& protocol) {
     displayPageComboBox->setCurrentIndex(protocol.displayPage() - 1);
     updateReviewComboBox->setCurrentIndex(protocol.updateReviewWindow()
                                                 ? 0 : 1);
+    focalPointComboBox->setCurrentIndex(protocol.focalPoint());
+
 
 
 }
@@ -63,6 +67,8 @@ Protocol EditProtocolDialog::protocol() const {
     protocol.setDisplayPage(displayPageComboBox->currentIndex() + 1);
     protocol.setUpdateReviewWindow(updateReviewComboBox->
                                    currentIndex() ? false : true);
+    protocol.setFocalPoint(static_cast<Protocol::FocalPoint>
+                          (focalPointComboBox->currentIndex()));
     return protocol;
 }
 

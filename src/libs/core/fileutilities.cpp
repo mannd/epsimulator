@@ -159,6 +159,7 @@ QDir EpCore::rootDirectory() {
 }
 
 QDir EpCore::systemDirectory() {
+    /// TODO windows shouldn't use subdirectory of program directory
     return directoryOf("System");
 }
 
