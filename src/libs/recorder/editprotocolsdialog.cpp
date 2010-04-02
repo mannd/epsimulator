@@ -61,3 +61,14 @@ void EditProtocolsDialog::editItem(EditorType type) {
         createListWidget();
     }
 }
+
+void EditProtocolsDialog::copyItem(QList<QListWidgetItem*> selectedItems) {
+    QString name = selectedItems[0]->text();
+    EpStudy::Protocol protocol = protocols_[name];
+    name = tr("Copy of %1").arg(name);
+    protocol.setName(name);
+    protocols_.append(protocol);
+    editCopiedItem(name);
+}
+
+

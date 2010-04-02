@@ -43,6 +43,7 @@ EditProtocolDialog::EditProtocolDialog(AbstractEditItemsDialog::EditorType type,
     list.clear();
     for (int i = 1; i <= 8; ++i)
         list.append(tr("Page %1").arg(i));
+    list.append(tr("<Current Page>"));
     displayPageComboBox->insertItems(0, list);
 
     connect(nameLineEdit, SIGNAL(textChanged(const QString&)),

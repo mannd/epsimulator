@@ -138,7 +138,7 @@ void AbstractMainWindow::setProtocols() {
     if (administrationAllowed()) {
         EditProtocolsDialog d(this);
         if (d.exec()) {
-            //d.protocols().update();
+            d.protocols().update();
         }
     }
 }
