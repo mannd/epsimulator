@@ -21,6 +21,7 @@
 #include "studyconfigurationdialog.h"
 
 #include "amplifier.h"
+#include "listselector.h"
 #include "options.h"
 #include "studyconfiguration.h"
 #include "user.h"
@@ -45,16 +46,22 @@ StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
     : QDialog(parent), Ui::StudyConfigurationDialog(),
       model_(new QStandardItemModel), studyConfiguration_(config) {
     setupUi(this);
+    protocolListSelector_ = new ListSelector(availableListView,
+                                             selectedListView);
 
     updateWindowTitle();
 
+    connect(availableListView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(enableProtocolSelectButtons()));
     connect(saveButton, SIGNAL(clicked()),
         this, SLOT(save()));
     connect(saveAsButton, SIGNAL(clicked()),
         this, SLOT(saveAs()));
+    enableProtocolSelectButtons();
 }
 
 StudyConfigurationDialog::~StudyConfigurationDialog() {
+    delete protocolListSelector_;
     delete model_;
 }
 
@@ -119,6 +126,15 @@ void StudyConfigurationDialog::amplifierReset() {
     studyConfiguration_->amplifier()->reset();
     QMessageBox::information(this, tr("Amplifier Reset"),
 			     tr("Amplifier successfully reset"));
+}
+
+void StudyConfigurationDialog::enableProtocolSelectButtons() {
+    bool availableItemIsSelected =
+            availableListView->currentIndex().row() > -1;
+    bool selectedItemIsSelected =
+            selectedListView->currentIndex().row() > -1;
+    selectPushButton->setEnabled(availableItemIsSelected);
+    unselectPushButton->setEnabled(selectedItemIsSelected);
 }
 
 RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(

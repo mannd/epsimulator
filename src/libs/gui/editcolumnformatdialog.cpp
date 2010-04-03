@@ -33,7 +33,7 @@ using EpGui::EditColumnFormatDialog;
 EditColumnFormatDialog::EditColumnFormatDialog(
         AbstractEditItemsDialog::EditorType type,
         QWidget *parent)
-            :  QDialog(parent), listSelector_(0) {
+            :  QDialog(parent) {
     setupUi(this);
     listSelector_ = new ListSelector(availableListView, selectedListView);
     QString title = type == AbstractEditItemsDialog::NewItem

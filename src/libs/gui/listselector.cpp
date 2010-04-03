@@ -28,7 +28,9 @@ using EpGui::ListSelector;
 ListSelector::ListSelector(QListView* unselectedListView,
                            QListView* selectedListView)
                                : unselectedListView_(unselectedListView),
-                               selectedListView_(selectedListView) {}
+                               selectedListView_(selectedListView),
+                               unselectedModel_(0),
+                               selectedModel_(0) {}
 
 ListSelector::ListSelector(const QStringList& unselected,
                            const QStringList& selected,

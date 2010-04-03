@@ -34,7 +34,7 @@ namespace EpStudy {
 
 namespace EpGui {
 
-//using EpStudy::StudyConfiguration;
+class ListSelector;
 
 class StudyConfigurationDialog : public QDialog, 
     protected Ui::StudyConfigurationDialog {
@@ -55,6 +55,7 @@ protected:
 
 protected slots:
     void changePage(const QModelIndex&);
+    void enableProtocolSelectButtons();
     void save();
     void saveAs();
     void amplifierReset();
@@ -64,6 +65,8 @@ private:
 
     QStandardItemModel* model_;
     EpStudy::StudyConfiguration* studyConfiguration_;
+    ListSelector* protocolListSelector_;
+
 };
 
 class RealTimeStudyConfigurationDialog : public StudyConfigurationDialog {

@@ -54,10 +54,11 @@ private:
               QStringListModel* sourceModel,
               QStringListModel* destModel);
 
-    QStringListModel* unselectedModel_;
-    QStringListModel* selectedModel_;
     QListView* unselectedListView_;
     QListView* selectedListView_;
+    QStringListModel* unselectedModel_;
+    QStringListModel* selectedModel_;
+
 
 };
 

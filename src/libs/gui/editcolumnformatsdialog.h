@@ -39,7 +39,7 @@ private:
     void createListWidget();
     void removeItem();
     void editItem(EditorType);
-    void copyItem(QList<QListWidgetItem*>);
+    void copyItem(const QList<QListWidgetItem*>&);
     EpCore::ItemList<EpCore::ColumnFormat> columnFormats_;
 };
 

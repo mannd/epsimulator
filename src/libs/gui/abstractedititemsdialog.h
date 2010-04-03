@@ -59,7 +59,7 @@ private:
     virtual void removeItem() = 0;
     virtual void editItem(EditorType) = 0;
     // copyItem is not abstract, since not implemented for all item types
-    virtual void copyItem(QList<QListWidgetItem*>) {}
+    virtual void copyItem(const QList<QListWidgetItem*>&) {}
 };
 
 

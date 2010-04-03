@@ -69,7 +69,8 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
     }
 }
 
-void EditColumnFormatsDialog::copyItem(QList<QListWidgetItem*> selectedItems) {
+void EditColumnFormatsDialog::copyItem(const QList<QListWidgetItem*>&
+                                       selectedItems) {
     QString name = selectedItems[0]->text();
     ColumnFormat cf = columnFormats_[name];
     name = tr("Copy of %1").arg(name);
