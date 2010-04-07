@@ -27,7 +27,7 @@
    <item row="0" column="2" colspan="2">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>15</number>
+      <number>17</number>
      </property>
      <widget class="QWidget" name="blankPage"/>
      <widget class="QWidget" name="amplifierPage">

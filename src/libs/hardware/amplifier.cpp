@@ -20,6 +20,8 @@
 
 #include "amplifier.h"
 
+#include "fileutilities.h"
+
 #include <QApplication>
 #include <QDataStream>
 #include <QtGlobal>
@@ -41,6 +43,8 @@ QDataStream& operator>>(QDataStream& in, Amplifier& amp) {
         in >> *(amp.channels_[i]);
     return in;
 }
+
+const QString Amplifier::fileName_ = "amplifier.dat";
 
 
 Amplifier::Amplifier(int n) : numChannels_(n) {
@@ -80,6 +84,14 @@ Amplifier& Amplifier::operator =(const Amplifier& rhs) {
 
 Amplifier::~Amplifier() {
     qDeleteAll(channels_);
+}
+
+void Amplifier::load() {
+    EpCore::loadSystemData(MagicNumber, fileName_, *this, epOptions);
+}
+
+void Amplifier::save() {
+    EpCore::saveSystemData(MagicNumber, fileName_, *this, epOptions);
 }
 
 void Amplifier::reset() {

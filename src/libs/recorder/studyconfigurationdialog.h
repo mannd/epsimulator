@@ -55,10 +55,16 @@ protected:
 
 protected slots:
     void changePage(const QModelIndex&);
-    void enableProtocolSelectButtons();
     void save();
     void saveAs();
     void amplifierReset();
+
+private slots:
+    void enableProtocolSelectButtons();
+    void selectProtocols();
+    void unselectProtocols();
+    void selectAllProtocols();
+    void unselectAllProtocols();
 
 private:
     void updateWindowTitle();

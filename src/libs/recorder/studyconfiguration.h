@@ -112,11 +112,16 @@ public:
                  focalPoint_(focalPoint),
                  displayPage_(displayPage) {}
 
+    bool operator==(const Protocol& rhs) const {
+        return name_ == rhs.name_;
+    }
+
 
 
     static unsigned int magicNumber() {return MagicNumber;}
     static QString fileName() {return fileName_;}
     static QList<Protocol> defaultItems();
+    static QStringList protocolNames(const QList<Protocol>&);
 
     void setName(const QString& name) {name_ = name;}
     void setSenseChannel(const Channel& channel) {senseChannel_ = channel;}
@@ -199,7 +204,9 @@ public:
     static const QString configFileName() {return configFileName_;}
 
     Channel& channel(int n);
-    QList<Protocol> protocolList() {return protocolList_;}
+    QList<Protocol> protocolList() const {return protocolList_;}
+    QList<Protocol> unselectedProtocols() const;
+    int currentProtocolIndex() const {return currentProtocolIndex_;}
     Protocol currentProtocol() {return protocolList_[currentProtocolIndex_];}
 
     void setName(const QString& name) {name_ = name;}
@@ -214,7 +221,8 @@ private:
     static const QString configFileName_;
 
     QString name_;
-    QList<Protocol> protocolList_;
+    QList<Protocol> protocolList_;  // == selectedProtocols_
+    EpCore::ItemList<Protocol> protocols_;
     QList<Channel> channelList_;
     int currentProtocolIndex_;
     EpHardware::EpAmplifier::Amplifier* amplifier_;

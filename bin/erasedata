@@ -20,3 +20,5 @@ rm -f $dirname/../System/columnformats.dat
 rm -f $dirname/../System/eplists.dat
 rm -f $dirname/../System/intervals.dat
 rm -f $dirname/../System/label.dat
+rm -f $dirname/../System/protocols.dat
+rm -f $dirname/../System/windowsettings.dat

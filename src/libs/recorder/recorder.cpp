@@ -115,7 +115,9 @@ Recorder::Recorder(QWidget* parent,
         recorder->restore();
     }
 
+    loadAmplifier();
     study_->loadStudyConfiguration();
+    // applyProtocol(study_->studyConfiguration()->currentProtocol();
     qDebug() << "Study configuration name = "
             << study_->studyConfiguration()->name();
     qDebug() << "Protocol name = "
@@ -168,6 +170,10 @@ Recorder::~Recorder() {
         // Recorder took possession of study_, so has to kill it now.
         delete study_;
     }
+}
+
+void Recorder::loadAmplifier() {
+    // amplifier_->load();
 }
 
 void Recorder::loadPatient() {
@@ -431,6 +437,10 @@ void Recorder::switchStudyConfiguration() {
                     *configList.studyConfiguration(configName));
         }
     }
+}
+
+void Recorder::setProtocol(int index) {
+    study_->studyConfiguration()->setCurrentProtocolIndex(index);
 }
 
 void Recorder::winSave() {
@@ -1026,15 +1036,24 @@ void Recorder::createToolBars() {
     systemToolBar->addSeparator();
     /// TODO replace below with a dynamic combobox generated from
     /// a list of protocols.  
-    protocolComboBox_ = new QComboBox(this);
+    protocolComboBox_ = new QComboBox;
+    protocolComboBox_->setMinimumWidth(100);
+    resetProtocolComboBox();
+    connect(protocolComboBox_, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(setProtocol(int)));
+    systemToolBar->addWidget(protocolComboBox_);
+  
+    addToolBar(systemToolBar);
+}
+
+void Recorder::resetProtocolComboBox() {
+    protocolComboBox_->clear();
     QList<Protocol> protocols = study_->studyConfiguration()->protocolList();
     QListIterator<Protocol> iter(protocols);
     while (iter.hasNext())
         protocolComboBox_->addItem(iter.next().name());
-    protocolComboBox_->setMinimumWidth(100);
-    systemToolBar->addWidget(protocolComboBox_);
-  
-    addToolBar(systemToolBar);
+    protocolComboBox_->setCurrentIndex(study_->studyConfiguration()->
+                                       currentProtocolIndex());
 }
 
 void Recorder::updateMenus() {

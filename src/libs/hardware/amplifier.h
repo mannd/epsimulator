@@ -69,7 +69,14 @@ public:
     Channel* channel(int n);  // return channel number n
 
 private:
+    enum {MagicNumber = 0x93dff321};
+
+    const static QString fileName_;
+
     void copyAmplifier(const Amplifier&);
+
+    void load();
+    void save();
 
     int numChannels_;
     QList<Channel*> channels_;

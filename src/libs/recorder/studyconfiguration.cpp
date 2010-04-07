@@ -80,17 +80,29 @@ QDataStream& operator>>(QDataStream& in, Protocol& p) {
 QDataStream& operator<<(QDataStream& out,
                         const StudyConfiguration& studyConfig) {
     out << studyConfig.name_ << studyConfig.protocolList_
-        << studyConfig.channelList_;
+        << studyConfig.channelList_
+        << (qint32)studyConfig.currentProtocolIndex_;
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
+    qint32 currentProtocolIndex;
     in >> studyConfig.name_ >> studyConfig.protocolList_
-       >> studyConfig.channelList_;
+       >> studyConfig.channelList_
+       >> currentProtocolIndex;
+       studyConfig.currentProtocolIndex_ = (qint32)currentProtocolIndex;
     return in;
 }
 
 const QString Protocol::fileName_ = "protocols.dat";
+
+QStringList Protocol::protocolNames(const QList<Protocol>& protocols) {
+    QListIterator<Protocol> iter(protocols);
+    QStringList theNames = QStringList();
+    while (iter.hasNext())
+        theNames << iter.next().name();
+    return theNames;
+}
 
 QList<Protocol> Protocol::defaultItems() {
     QList<Protocol>  protocols;
@@ -130,7 +142,16 @@ void StudyConfiguration::copyStudyConfiguration(const StudyConfiguration& rhs) {
     name_ = rhs.name_;
     protocolList_ = rhs.protocolList_;
     channelList_ = rhs.channelList_;
+    currentProtocolIndex_ = rhs.currentProtocolIndex_;
     amplifier_ = new Amplifier(*rhs.amplifier_);
+}
+
+QList<Protocol> StudyConfiguration::unselectedProtocols() const {
+    QList<Protocol> unselectedProtocols = protocols_.list();
+    QListIterator<Protocol> iter(protocolList_);
+    while (iter.hasNext());
+        unselectedProtocols.removeAll(iter.next());
+    return unselectedProtocols;
 }
 
 StudyConfigurations::StudyConfigurations()

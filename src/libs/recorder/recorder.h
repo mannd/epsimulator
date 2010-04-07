@@ -137,6 +137,8 @@ private slots:
     void setManualSave(bool);
     void setEmergencySave(bool);
     void updateMenus();
+    void setProtocol(int);
+    void resetProtocolComboBox();
 
     void realTimeWindowOpen(bool);
     void review1WindowOpen(bool);
@@ -157,6 +159,7 @@ private:
     std::vector<bool> openDisplayWindowList_;
 
     void loadPatient();
+    void loadAmplifier();
 
     void updateOpenDisplayWindowList();  
     void connectReviewWindows();

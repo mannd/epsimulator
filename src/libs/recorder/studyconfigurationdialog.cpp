@@ -38,6 +38,7 @@ namespace EpGui {
 using EpCore::Options;
 using EpCore::User;
 using EpHardware::EpAmplifier::Amplifier;
+using EpStudy::Protocol;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyConfigurations;
 \
@@ -48,9 +49,17 @@ StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
     setupUi(this);
     protocolListSelector_ = new ListSelector(availableListView,
                                              selectedListView);
+    protocolListSelector_->initialize(Protocol::protocolNames(
+        studyConfiguration_->unselectedProtocols()),
+        Protocol::protocolNames(studyConfiguration_->protocolList()));
 
     updateWindowTitle();
-
+    connect(selectPushButton, SIGNAL(clicked()), this, SLOT(selectProtocols()));
+    connect(unselectPushButton, SIGNAL(clicked()), this, SLOT(unselectedProtocols()));
+    connect(selectAllPushButton, SIGNAL(clicked()),
+            this, SLOT(selectAllProtocols()));
+    connect(unselectAllPushButton, SIGNAL(clicked()),
+            this, SLOT(unselectAllProtocols()));
     connect(availableListView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(enableProtocolSelectButtons()));
     connect(saveButton, SIGNAL(clicked()),
@@ -135,6 +144,26 @@ void StudyConfigurationDialog::enableProtocolSelectButtons() {
             selectedListView->currentIndex().row() > -1;
     selectPushButton->setEnabled(availableItemIsSelected);
     unselectPushButton->setEnabled(selectedItemIsSelected);
+}
+
+void StudyConfigurationDialog::selectProtocols() {
+    protocolListSelector_->select();
+    enableProtocolSelectButtons();
+}
+
+void StudyConfigurationDialog::unselectProtocols() {
+    protocolListSelector_->unselect();
+    enableProtocolSelectButtons();
+}
+
+void StudyConfigurationDialog::selectAllProtocols() {
+    protocolListSelector_->selectAll();
+    enableProtocolSelectButtons();
+}
+
+void StudyConfigurationDialog::unselectAllProtocols() {
+    protocolListSelector_->unselectAll();
+    enableProtocolSelectButtons();
 }
 
 RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
