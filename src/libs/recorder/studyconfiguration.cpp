@@ -96,6 +96,28 @@ QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
 
 const QString Protocol::fileName_ = "protocols.dat";
 
+Protocol::Protocol(const Protocol& rhs) {
+    copyProtocol(rhs);
+}
+
+Protocol& Protocol::operator =(const Protocol& rhs) {
+    if (this == &rhs)
+        return *this;
+    copyProtocol(rhs);
+    return *this;
+}
+
+void Protocol::copyProtocol(const Protocol& rhs) {
+    name_ = rhs.name_;
+    senseChannel_ = rhs.senseChannel_;
+    columnFormat_ = rhs.columnFormat_;
+    windowSetting_ = rhs.windowSetting_;
+    macroList_ = rhs.macroList_;
+    updateReviewWindow_ = rhs.updateReviewWindow_;
+    focalPoint_ = rhs.focalPoint_;
+    displayPage_ = rhs.displayPage_;
+}
+
 QStringList Protocol::protocolNames(const QList<Protocol>& protocols) {
     QListIterator<Protocol> iter(protocols);
     QStringList theNames = QStringList();

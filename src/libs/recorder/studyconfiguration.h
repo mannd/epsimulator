@@ -111,6 +111,10 @@ public:
                  updateReviewWindow_(updateReviewWindow),
                  focalPoint_(focalPoint),
                  displayPage_(displayPage) {}
+    Protocol(const Protocol&);
+
+    Protocol& operator=(const Protocol&);
+
 
     bool operator==(const Protocol& rhs) const {
         return name_ == rhs.name_;
@@ -148,6 +152,8 @@ public:
     int displayPage() const {return displayPage_;}
     
 private:
+    void copyProtocol(const Protocol&);
+
     enum {MagicNumber = 0x12435ffe};
 
     static const QString fileName_;

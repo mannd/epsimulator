@@ -21,7 +21,7 @@
 #ifndef VERSIONINFO_H
 #define VERSIONINFO_H
 
-#include <QCoreApplication>
+#include <QtCore/QCoreApplication>
 
 namespace EpCore {
 

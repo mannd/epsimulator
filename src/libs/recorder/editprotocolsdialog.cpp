@@ -39,25 +39,27 @@ void EditProtocolsDialog::removeItem() {
     removeItemFromList(protocols_);
 }
 
+/// TODO maybe can templatize duplicate code here and
+/// in editcolumnformatsdialog.cpp.
 void EditProtocolsDialog::editItem(EditorType type) {
     if (type == EditItem && selectionIsEmpty()) {
         selectionIsEmptyWarning();
         return;
     }
     EditProtocolDialog d(type, this);
+    QString protocolName;
     if (type == EditItem) {
-        d.setProtocol(protocols_[listWidget->currentItem()->text()]);
+        protocolName = listWidget->currentItem()->text();
+        d.setProtocol(protocols_[protocolName]);
     }
     if (d.exec()) {
         EpStudy::Protocol protocol = d.protocol();
-        if (protocols_.duplicate(protocol) && type == NewItem) {
-            duplicateItemWarning(protocol.name());
+        if (itemIsDuplicated(type, protocolName, protocol, protocols_))
             return;
-        }
         if (type == NewItem)
             protocols_.append(d.protocol());
         else if (type == EditItem)
-            protocols_[d.protocol().name()] = d.protocol();
+            protocols_[protocolName] = d.protocol();
         createListWidget();
     }
 }
@@ -67,6 +69,12 @@ void EditProtocolsDialog::copyItem(const QList<QListWidgetItem*>& selectedItems)
     EpStudy::Protocol protocol = protocols_[name];
     name = tr("Copy of %1").arg(name);
     protocol.setName(name);
+    int n = 1;
+    QString originalName = name;
+    while (protocols_.duplicate(protocol)) {
+        name = originalName + QString::number(n++);
+        protocol.setName(name);
+    }
     protocols_.append(protocol);
     editCopiedItem(name);
 }

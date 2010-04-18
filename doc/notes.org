@@ -118,3 +118,71 @@
    has to reference Study, thus circular references....
 ** Solution
    Eliminate Study library, incorporate it into Recorder library.
+* Hardware simulation
+** Top-down view
+*** Gui
+    Sets up the various windows, loads study, etc.
+*** RealTimeWindow
+**** Arranges channels
+**** Runs main program loop (in separate thread?)
+*** Main Loop
+**** Each timer event
+***** for each Channel
+****** get voltage
+****** store data in database
+****** if page visible
+******* gain/clip voltage, convert to Y axis distance from 0 voltage
+******* draw line segment from last point to current point
+*** Channel
+    Each amplifier channel is polled.  Channel is either at zero line
+    or is depolarizing.  Depolarization starts with the far field
+    activation, depending on interelectrode distance.  Voltage is
+    copied from an EGM template, chosen randomly for each catheter,
+    but constant unless catheter moves.  
+*** Catheter
+    The catheter is located in the heart.  There are only 2 functional
+    chambers: A and V, with special case location bundle of His (has
+    A, V and H).  At time of polling, simulation must determine if
+    tissue if at zero voltage or being depolarized.  Depolarization is
+    a window, the width of the EGM.  During depolarization, an EGM
+    template is copied to determine point to point voltage, otherwise
+    voltage is zero.  
+*** Digression on data format
+    Time is a long integer representing milliseconds.  Channel is a
+    number corresponding the amplifier channel.  Voltage is the
+    channel voltage.  Gap between samples is sampling rate.  Assume
+    sampling rate is 60 Hz:
+
+    Time:Channel:Voltage
+    0:1:0
+    0:2:0
+    0:3:.3
+    .
+    .
+    .
+    1420:5:3.3
+    etc.
+    Or, better still:
+    Time:Channel:Voltage:Channel:Voltage...etc.
+    0:1:0:2:0:3:0.3....etc.
+*** Possible way to generate simulation:
+    Have a data buffer, and have the simulation generate all the above
+    data very quickly.  Probably need to double buffer this.  This can
+    be in separate thread.  If Save is on, save the data to disk too.
+    Simulation then just looks up time and reads each channel.  Better
+    format for this would be binary, with a structure for each time.
+
+    struct ChannelVoltage {
+       int channel;
+       double voltage;
+};
+
+struct Moment {
+       long int time;
+       ChannelVoltage channels[n];
+};
+
+Moment moments[buffersize];
+
+Calculate offset in buffer: actual time mod buffer_size and read that Moment from the buffer, using pointer arithmatic.
+

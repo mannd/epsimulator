@@ -40,6 +40,7 @@ private:
     void removeItem();
     void editItem(EditorType);
     void copyItem(const QList<QListWidgetItem *>&);
+
     EpCore::ItemList<EpStudy::Protocol> protocols_;
 };
 

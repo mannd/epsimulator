@@ -57,15 +57,15 @@ void EditIntervalsDialog::editItem(EditorType type) {
         return;
     }
     EditIntervalTypeDialog d(type, this);
+    QString intervalName;
     if (type == EditItem) {
-        d.setInterval(intervals_[listWidget->currentItem()->text()]);
+        intervalName = listWidget->currentItem()->text();
+        d.setInterval(intervals_[intervalName]);
     }
     if (d.exec()) {
         EpCore::Interval interval = d.interval();
-        if (intervals_.duplicate(interval) && type == NewItem) {
-            duplicateItemWarning(interval.name());
+        if (itemIsDuplicated(type, intervalName, interval, intervals_))
             return;
-        }
         if (type == NewItem)
             intervals_.append(d.interval());
         else  if (type == EditItem)

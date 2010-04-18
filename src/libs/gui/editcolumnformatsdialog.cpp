@@ -49,18 +49,19 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
         return;
     }
     EditColumnFormatDialog d(type, this);
+    QString columnFormatName;
     if (type == EditItem) {
-        d.setColumnFormat(columnFormats_[listWidget->currentItem()->text()]);
+        columnFormatName = listWidget->currentItem()->text();
+        d.setColumnFormat(columnFormats_[columnFormatName]);
     }
     else if (type == NewItem) {
         d.setColumnFormat(ColumnFormat());
     }
     if (d.exec()) {
         EpCore::ColumnFormat columnFormat = d.columnFormat();
-        if (columnFormats_.duplicate(columnFormat) && type == NewItem) {
-            duplicateItemWarning(columnFormat.name());
+        if (itemIsDuplicated(type, columnFormatName, columnFormat,
+                             columnFormats_))
             return;
-        }
         if (type == NewItem)
             columnFormats_.append(d.columnFormat());
         else if (type == EditItem)

@@ -33,7 +33,7 @@ class AbstractEditItemsDialog : public QDialog,
     protected Ui::AbstractEditItemsDialog {
     Q_OBJECT
 public:
-    enum EditorType {NewItem, EditItem};
+    enum EditorType {NewItem, EditItem, CopyItem};
     AbstractEditItemsDialog(const QString& title,
                             QWidget* parent = 0);
 
@@ -47,6 +47,11 @@ protected:
     template<typename T>
     void createListWidgetItems(T&);
     void editCopiedItem(const QString& name);
+    template<typename T, typename K>
+    bool itemIsDuplicated(const EditorType type,
+                          const QString& originalName,
+                          const T& item,
+                          const K& items);
 
 private slots:
     virtual void insert();
@@ -75,6 +80,19 @@ void AbstractEditItemsDialog::createListWidgetItems(T& items) {
     for (int i = 0; i < items.size(); ++i) {
         new QListWidgetItem(items[i].name(), listWidget);
     }
+}
+
+template<typename T, typename K>
+bool AbstractEditItemsDialog::itemIsDuplicated(const EditorType type,
+                                               const QString& originalName,
+                                               const T& item,
+                                               const K& items) {
+    bool duplicate = ((type == NewItem && items.duplicate(item)) ||
+                      (type == EditItem && item.name() != originalName &&
+                       items.duplicate(item)));
+    if (duplicate)
+        duplicateItemWarning(item.name());
+    return duplicate;
 }
 
 }

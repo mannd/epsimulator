@@ -757,8 +757,6 @@ void Navigator::noStudySelectedError() {
                          tr("You must select a study first to do this."));
 }
 
-
-
 void Navigator::setStudyConfigurations() {
     if (administrationAllowed()) {
         EditStudyConfigsDialog d(this);
