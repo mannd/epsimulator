@@ -35,11 +35,15 @@ namespace EpCore {
     public:
         ItemList();
 
-        T& operator[](const int i) {
+        T& operator[](int i) {
             return list_[i];
         }
 
         T& operator[](const QString& name);
+
+        T value(int i) const {
+            return list_.value(i);
+        }
 
         bool contains(const T& value) const {
             return list_.contains(value);

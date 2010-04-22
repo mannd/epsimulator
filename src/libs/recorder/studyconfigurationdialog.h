@@ -58,6 +58,7 @@ protected slots:
     void save();
     void saveAs();
     void amplifierReset();
+    void updateStudyConfiguration();
 
 private slots:
     void enableProtocolSelectButtons();

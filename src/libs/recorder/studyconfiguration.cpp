@@ -25,6 +25,7 @@
 #include "options.h"
 
 #include <QtCore/QDataStream>
+#include <QtCore/QStringList>
 
 #include <QtDebug>
 
@@ -120,15 +121,16 @@ void Protocol::copyProtocol(const Protocol& rhs) {
 
 QStringList Protocol::protocolNames(const QList<Protocol>& protocols) {
     QListIterator<Protocol> iter(protocols);
-    QStringList theNames = QStringList();
-    while (iter.hasNext())
+    QStringList theNames;
+    while (iter.hasNext()) {
         theNames << iter.next().name();
+    }
     return theNames;
 }
 
 QList<Protocol> Protocol::defaultItems() {
     QList<Protocol>  protocols;
-    return protocols << Protocol("<default>");
+    return protocols << Protocol(tr("<default>"));
 }
 
 const QString StudyConfiguration::configFileName_ = "config.dat";
@@ -169,9 +171,10 @@ void StudyConfiguration::copyStudyConfiguration(const StudyConfiguration& rhs) {
 }
 
 QList<Protocol> StudyConfiguration::unselectedProtocols() const {
-    QList<Protocol> unselectedProtocols = protocols_.list();
+    EpCore::ItemList<Protocol> protocols;
+    QList<Protocol> unselectedProtocols = protocols.list();
     QListIterator<Protocol> iter(protocolList_);
-    while (iter.hasNext());
+    while (iter.hasNext())
         unselectedProtocols.removeAll(iter.next());
     return unselectedProtocols;
 }

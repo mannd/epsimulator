@@ -49,23 +49,33 @@ StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
     setupUi(this);
     protocolListSelector_ = new ListSelector(availableListView,
                                              selectedListView);
-    protocolListSelector_->initialize(Protocol::protocolNames(
-        studyConfiguration_->unselectedProtocols()),
-        Protocol::protocolNames(studyConfiguration_->protocolList()));
+    QStringList selectedNames = Protocol::protocolNames(
+            studyConfiguration_->protocolList());
+    QStringList unselectedNames = Protocol::protocolNames(
+            studyConfiguration_->unselectedProtocols());
+    protocolListSelector_->initialize(unselectedNames, selectedNames);
 
     updateWindowTitle();
     connect(selectPushButton, SIGNAL(clicked()), this, SLOT(selectProtocols()));
-    connect(unselectPushButton, SIGNAL(clicked()), this, SLOT(unselectedProtocols()));
+    connect(unselectPushButton, SIGNAL(clicked()), this, SLOT(unselectProtocols()));
     connect(selectAllPushButton, SIGNAL(clicked()),
             this, SLOT(selectAllProtocols()));
     connect(unselectAllPushButton, SIGNAL(clicked()),
             this, SLOT(unselectAllProtocols()));
     connect(availableListView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(enableProtocolSelectButtons()));
+    connect(selectedListView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(enableProtocolSelectButtons()));
+    connect(availableListView, SIGNAL(doubleClicked(QModelIndex)),
+            this, SLOT(selectProtocols()));
+    connect(selectedListView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(unselectProtocols()));
     connect(saveButton, SIGNAL(clicked()),
         this, SLOT(save()));
     connect(saveAsButton, SIGNAL(clicked()),
         this, SLOT(saveAs()));
+    connect(closeButton, SIGNAL(clicked()),
+            this, SLOT(updateStudyConfiguration()));
     enableProtocolSelectButtons();
 }
 
@@ -85,9 +95,21 @@ void StudyConfigurationDialog::changePage(const QModelIndex& index) {
         stackedWidget->setCurrentIndex(item->data().toInt());
 }
 
+void StudyConfigurationDialog::updateStudyConfiguration() {
+    // update studyConfiguration_ before saving or returning
+    // bunch of other updating here
+    QStringListIterator iter(protocolListSelector_->selected());
+    EpCore::ItemList<Protocol> allProtocols;
+    QList<Protocol> protocols;
+    while (iter.hasNext())
+        protocols.append(allProtocols[iter.next()]);
+    studyConfiguration_->setProtocolList(protocols);
+}
+
 void StudyConfigurationDialog::save() {
     if (User::instance()->administrationAllowed()) {
         StudyConfigurations configList;
+        updateStudyConfiguration();
         configList.replace(*studyConfiguration_);
     }
     else
@@ -121,6 +143,7 @@ void StudyConfigurationDialog::saveAs() {
                     configList.remove(text);
                 }
                 studyConfiguration_->setName(text);
+                updateStudyConfiguration();
                 configList.add(*studyConfiguration_);
                 updateWindowTitle();
             }

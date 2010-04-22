@@ -742,6 +742,14 @@ void TestEpSimulator::testListSelector() {
 
 }
 
+void TestEpSimulator::testProtocol() {
+    QStringList names = Protocol::protocolNames(Protocol::defaultItems());
+    QVERIFY(names[0] == tr("<default>"));
+    StudyConfiguration config;
+    names = Protocol::protocolNames(config.protocolList());
+    QVERIFY(names[0] == tr("<default>"));
+}
+
 void TestEpSimulator::cleanupTestCase() {
     bool workingPathUnchanged = QDir::currentPath() == workingPath_;
     QVERIFY(workingPathUnchanged);

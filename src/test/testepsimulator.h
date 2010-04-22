@@ -91,6 +91,8 @@ private slots:
     void testJoinPaths();
     // class ListSelector
     void testListSelector();
+    // class Protocol
+    void testProtocol();
 
     void cleanupTestCase();
 

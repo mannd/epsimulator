@@ -87,6 +87,7 @@ private:
 
 
 class Protocol {
+    Q_DECLARE_TR_FUNCTIONS(Protocol)
 
 public:
     friend QDataStream& operator<<(QDataStream&, const Protocol&);
@@ -94,7 +95,7 @@ public:
 
     enum FocalPoint {Left, OneQuarter, Center, ThreeQuarters, Right};
 
-    Protocol(const QString& name = "",
+    Protocol(const QString& name = tr("<default>"),
              const Channel& senseChannel = Channel(),
              const EpCore::ColumnFormat& columnFormat
                 =  EpCore::ColumnFormat(),
@@ -217,6 +218,7 @@ public:
 
     void setName(const QString& name) {name_ = name;}
     void setCurrentProtocolIndex(int index) {currentProtocolIndex_ = index;}
+    void setProtocolList(const QList<Protocol>& list) {protocolList_ = list;}
 
     QString name() const {return name_;}
     EpHardware::EpAmplifier::Amplifier* amplifier() const {return amplifier_;}
@@ -228,7 +230,7 @@ private:
 
     QString name_;
     QList<Protocol> protocolList_;  // == selectedProtocols_
-    EpCore::ItemList<Protocol> protocols_;
+
     QList<Channel> channelList_;
     int currentProtocolIndex_;
     EpHardware::EpAmplifier::Amplifier* amplifier_;

@@ -24,7 +24,9 @@
 #include "ui_editprotocoldialog.h"
 
 #include "abstractedititemsdialog.h"
+#include "itemlist.h"
 #include "studyconfiguration.h"
+#include "windowsetting.h"
 
 namespace EpGui {
 
@@ -39,6 +41,9 @@ public:
 private slots:
     void enableOkButton(const QString&);
 
+private:
+    EpCore::ItemList<EpCore::ColumnFormat> columnFormats_;
+    EpCore::ItemList<EpRecorder::WindowSetting> windowSettings_;
 };
 
 }

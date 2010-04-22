@@ -20,6 +20,8 @@
 
 #include "editprotocoldialog.h"
 
+#include "columnformat.h"
+
 using EpGui::EditProtocolDialog;
 using EpStudy::Protocol;
 
@@ -33,6 +35,16 @@ EditProtocolDialog::EditProtocolDialog(AbstractEditItemsDialog::EditorType type,
     setWindowTitle(title);
 //    senseChannelLabelComboBox->
     QStringList list;
+    for (int i = 0; i < columnFormats_.size(); ++i)
+        list << columnFormats_[i].name();
+    list.sort();
+    columnFormatComboBox->insertItems(0, list);
+    list.clear();
+    for (int i = 0; i < windowSettings_.size(); ++i)
+        list << windowSettings_[i].name();
+    list.sort();
+    windowSettingComboBox->insertItems(0, list);
+    list.clear();
     list << tr("On") << tr("Off");
     updateReviewComboBox->insertItems(0, list);
     list.clear();
@@ -53,6 +65,10 @@ EditProtocolDialog::EditProtocolDialog(AbstractEditItemsDialog::EditorType type,
 
 void EditProtocolDialog::setProtocol(const Protocol& protocol) {
     nameLineEdit->setText(protocol.name());
+    columnFormatComboBox->setCurrentIndex(
+            columnFormats_.index(protocol.columnFormat().name()));
+    windowSettingComboBox->setCurrentIndex(
+            windowSettings_.index(protocol.windowSetting().name()));
     displayPageComboBox->setCurrentIndex(protocol.displayPage() - 1);
     updateReviewComboBox->setCurrentIndex(protocol.updateReviewWindow()
                                                 ? 0 : 1);
@@ -65,6 +81,10 @@ void EditProtocolDialog::setProtocol(const Protocol& protocol) {
 Protocol EditProtocolDialog::protocol() const {
     Protocol protocol;
     protocol.setName(nameLineEdit->text());
+    protocol.setColumnFormat(columnFormats_.value(
+            columnFormatComboBox->currentIndex()));
+    protocol.setWindowSetting(windowSettings_.value(
+            windowSettingComboBox->currentIndex()));
     protocol.setDisplayPage(displayPageComboBox->currentIndex() + 1);
     protocol.setUpdateReviewWindow(updateReviewComboBox->
                                    currentIndex() ? false : true);

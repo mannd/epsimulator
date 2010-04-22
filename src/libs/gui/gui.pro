@@ -10,18 +10,18 @@ SOURCES += simulatorsettingsdialog.cpp \
     passworddialog.cpp \
     actions.cpp \
     editlistdialog.cpp \
-    abstractedititemsdialog.cpp \ # edititemsdialog.cpp \
+    abstractedititemsdialog.cpp \
     editintervalsdialog.cpp \
     editcolumnformatdialog.cpp \
     editcolumnformatsdialog.cpp \
-    listselector.cpp
+    listselector.cpp 
 HEADERS += simulatorsettingsdialog.h \
     changepassworddialog.h \
     systemdialog.h \
     passworddialog.h \
     actions.h \
     editlistdialog.h \
-    abstractedititemsdialog.h \ # edititemsdialog.h \
+    abstractedititemsdialog.h \
     editintervalsdialog.h \
     guiutilities.h \
     editcolumnformatdialog.h \
