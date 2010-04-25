@@ -68,7 +68,7 @@ StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
             this, SLOT(enableProtocolSelectButtons()));
     connect(availableListView, SIGNAL(doubleClicked(QModelIndex)),
             this, SLOT(selectProtocols()));
-    connect(selectedListView, SIGNAL(clicked(QModelIndex)),
+    connect(selectedListView, SIGNAL(doubleClicked(QModelIndex)),
             this, SLOT(unselectProtocols()));
     connect(saveButton, SIGNAL(clicked()),
         this, SLOT(save()));
