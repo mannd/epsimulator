@@ -807,7 +807,7 @@ void Navigator::exportCatalog() {
                 tableListView_->exportCSV(fileName);
             }
             catch (EpCore::IoError& e) {
-                qDebug(e.what());
+                qDebug() << e.what();
                 QMessageBox::warning(this, tr("Error"),
                     tr("Could not export Catalog to %1").arg(e.fileName()));
             }
