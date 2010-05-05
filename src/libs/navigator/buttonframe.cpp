@@ -101,7 +101,7 @@ void AbstractButtonFrame::setupButton(QAbstractButton* button,
     spaceLabel->setAlignment(Qt::AlignCenter);
     buttonFrameLayout_->addWidget(spaceLabel, row++, 0);
     if (lastButton) {
-        QSpacerItem* spacer = new QSpacerItem( 20, 40, 
+        QSpacerItem* spacer = new QSpacerItem( 10, 10,
             QSizePolicy::Minimum, QSizePolicy::Expanding );
         buttonFrameLayout_->addItem( spacer, row, 0 );
         // set row back to 0 in case we recreate the blue bar

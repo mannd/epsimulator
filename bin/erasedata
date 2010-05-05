@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # This script erases all epsimulator catalog, settings and 
 # data files!  Only works for my specific file locations.
 # This is handy for test purposes, but don't run it
