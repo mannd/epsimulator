@@ -1,8 +1,10 @@
 Note to developers:
 
-EP Simulator is now set up to run via Qt Creator.  Just open the
-epsimulator.pro file inside Qt Creator.  Once the program is compiled,
-you can run it using the shell program epsimulator.sh located in the
-bin directory in Linux, or just be double-clicking the epsimulator.exe
-program in the bin directory in Windows (but first make sure the Qt
-libraries are in your PATH environment variable).
+EP Simulator can be built and run using Qt Creator.  Just open the
+epsimulator.pro file inside Qt Creator.  Add :../lib to the end of the
+LD_LIBRARY_PATH variable under Build Environment on the Project page
+of Qt Creator, otherwise the libraries won't link when you run the
+program.  If you want to run or compile the program outside of the Qt
+Creator environment, use the epsimulator.sh shell program in the bin
+directory to launch the program in Linux, or double-click the
+epsimulator.exe program in the bin directory in Windows.

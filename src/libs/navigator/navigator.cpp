@@ -1251,8 +1251,9 @@ void Navigator::readSettings() {
     QSettings settings;
     settings.beginGroup("navigator");
     QVariant size = settings.value("size");
-    if (size.isNull())  // initial run, window is maximized by default
-        setWindowState(windowState() ^ Qt::WindowMaximized);
+    if (size.isNull())  // initial run
+        //setWindowState(windowState() ^ Qt::WindowMaximized);
+        return; // just use default show()
     else {  // but if not initial run, use previous window settings
         // restoreGeometry doesn't work on X11
         // but resize() and move() work ok.
