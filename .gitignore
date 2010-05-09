@@ -45,6 +45,8 @@ epsimulator.kdevelop.pcs
 epsimulator.tag
 epsimulator.kdevses
 epsimulator.kdevelop
+.kdev4/
+epsimulator.kdev4
 
 # QT Creator files
 epsimulator.pro.user

@@ -28,6 +28,8 @@
 #include <QKeySequence>
 #include <QSettings>
 
+#include <QtDebug>
+
 using namespace EpRecorder;
 using EpStudy::Study;
 
@@ -54,6 +56,9 @@ SignalDisplayWindow::SignalDisplayWindow(const QString& name,
     createActions();
     connect(this, SIGNAL(pageChanged(int)), this,
         SLOT(updateWindowTitle()));
+    qDebug() << "parent = " << parent;
+//    connect(this, SIGNAL(studyConfigurationChanged()),
+//            parent->parent(), SLOT(updateStudyConfiguration()));
 }
 
 void SignalDisplayWindow::updateWindowTitle() {
@@ -67,6 +72,7 @@ void SignalDisplayWindow::studyConfiguration() {
     EpGui::StudyConfigurationDialog* dialog  = studyConfigurationDialog();
     if (dialog->exec()) {
         study()->saveStudyConfiguration();
+        emit studyConfigurationChanged();
     }
     delete dialog;
 }

@@ -162,6 +162,8 @@ void Navigator::newStudy() {
             if (configList.isPresent(configName))
                 study->setStudyConfiguration(
                         *configList.studyConfiguration(configName));
+            else
+                throw EpCore::StudyConfigurationNotFoundError(configName);
             if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),
@@ -1343,10 +1345,10 @@ void Navigator::startStudy(Study* study, bool review) {
     }
     study->setPath(studyPath);
     study->save();
-    using EpRecorder::Recorder;
     bool allowAcquisition = epOptions->
         filePathFlags.testFlag(Options::EnableAcquisition) && !review;
-    Recorder* recorder = new Recorder(this, study, currentDisk_, user_, 
+    using EpRecorder::Recorder;
+    Recorder* recorder = new Recorder(this, study, currentDisk_, user_,
         allowAcquisition);
     recorder->restore();
     //recorder->setupInitialScreen();

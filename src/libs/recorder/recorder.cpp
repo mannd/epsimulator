@@ -432,9 +432,11 @@ void Recorder::switchStudyConfiguration() {
         // don't bother unless study configuration is changed
         if (configName != study_->studyConfiguration()->name()) {
             StudyConfigurations configList;
-            if (configList.isPresent(configName))
+            if (configList.isPresent(configName)) {
                 study_->setStudyConfiguration(
                     *configList.studyConfiguration(configName));
+                resetProtocolComboBox();
+            }
         }
     }
 }

@@ -140,6 +140,14 @@ public:
                                      : IoError(pathName, msg) {}
 };
 
+class StudyConfigurationNotFoundError : public IoError {
+public:
+    StudyConfigurationNotFoundError(const QString& name,
+                                    const char* msg =
+                                    "study configuration not found.")
+                                        : IoError(name, msg) {}
+};
+
 }
 
 #endif

@@ -93,6 +93,7 @@ public slots:
 
 signals:
     void pageChanged(int newPage);
+    void studyConfigurationChanged();
 
 protected:
     SignalDisplayWindow(const QString& name, EpStudy::Study* study,
