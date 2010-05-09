@@ -40,6 +40,9 @@ public:
 
     QString config() const {
         return configListWidget->selectedItems()[0]->text();}
+    EpStudy::StudyConfiguration* studyConfiguration() {
+        return configList_.studyConfiguration(config());
+    }
 
     void setStudyConfiguration(const EpStudy::StudyConfiguration&);
 

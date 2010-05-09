@@ -161,7 +161,7 @@ void Navigator::newStudy() {
             StudyConfigurations configList;
             if (configList.isPresent(configName))
                 study->setStudyConfiguration(
-                        *configList.studyConfiguration(configName));
+                        configList.studyConfiguration(configName));
             else
                 throw EpCore::StudyConfigurationNotFoundError(configName);
             if (getStudyInformation(study)) {
@@ -199,7 +199,7 @@ void Navigator::continueStudy() {
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
             study->setStudyConfiguration(
-                    selectStudyConfigDialog->config());
+                    selectStudyConfigDialog->studyConfiguration());
             catalogs_->deleteStudy(study);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),

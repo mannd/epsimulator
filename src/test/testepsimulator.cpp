@@ -682,8 +682,8 @@ void TestEpSimulator::testStudyConfigurations() {
             QVERIFY(list[i].amplifier()->numChannels()
                 == Options::instance()->numChannels);
         }
-    StudyConfiguration config;
-    config.setName("testing123");
+    StudyConfiguration* config = new StudyConfiguration;
+    config->setName("testing123");
     Study s;
     s.setStudyConfiguration(config);
     QVERIFY(s.studyConfiguration()->name() == "testing123");

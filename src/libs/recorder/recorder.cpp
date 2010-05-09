@@ -434,7 +434,7 @@ void Recorder::switchStudyConfiguration() {
             StudyConfigurations configList;
             if (configList.isPresent(configName)) {
                 study_->setStudyConfiguration(
-                    *configList.studyConfiguration(configName));
+                    configList.studyConfiguration(configName));
                 resetProtocolComboBox();
             }
         }

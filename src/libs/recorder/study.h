@@ -124,7 +124,8 @@ namespace EpStudy {
         void setVagalTone(EpPatient::AutonomicTone tone);
         void setSympatheticTone(EpPatient::AutonomicTone tone);
         void setPath(const QString& path) {path_ = path;}
-        void setStudyConfiguration(const StudyConfiguration&);
+        //void setStudyConfiguration(const StudyConfiguration&);
+        void setStudyConfiguration(StudyConfiguration* config);
 
         Name name() const {return name_;};
         QString mrn() const {return mrn_;}
