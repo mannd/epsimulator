@@ -143,11 +143,9 @@ namespace EpStudy {
         EpCore::saveData(filePath(), MagicNumber, *this);
     }
 
-    void Study::setStudyConfiguration(StudyConfiguration* studyConfiguration) {
-//        delete studyConfiguration_;
-//        studyConfiguration_ = new StudyConfiguration;
-//        *studyConfiguration_ = studyConfiguration;
-        studyConfiguration_ = studyConfiguration;
+    void Study::setStudyConfiguration(StudyConfiguration *config) {
+        delete studyConfiguration_;
+        studyConfiguration_ = config;
     }
 
     void Study::loadStudyConfiguration() {
