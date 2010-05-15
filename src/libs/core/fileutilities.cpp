@@ -25,6 +25,10 @@
 
 #include <QtDebug>
 
+#ifdef Q_OS_WIN
+#   include <windows.h>
+#endif
+
 /**
  * @namespace EpCore Program functions that only require QtCore, not QtGui.
  */
@@ -221,9 +225,12 @@ void EpCore::copyFilesToSystem(const QStringList& files,
 
 bool EpCore::isRemovableMedia(const QDir& dir) {
     QString path = dir.absolutePath();
-#if defined(Q_OS_WIN)
-    path = path.toUpper();
-    return ! path.contains("C:");
+#ifdef Q_OS_WIN
+    path = path.toUpper() + "\"";
+    UINT ret;
+    ret = GetDriveType(path.toLatin1());
+    return ret !=  DRIVE_FIXED;
+    //return ! path.contains("C:");
 #else
     QStringList elements = path.split("/");
     return elements.contains("media");
