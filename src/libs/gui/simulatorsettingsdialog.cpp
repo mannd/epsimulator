@@ -32,6 +32,18 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(QWidget* parent)
         epOptions->administratorAccountRequired);
     hideSimulatorMenuCheckBox->setChecked(
         epOptions->hideSimulatorMenu);
+    switch(epOptions->diskCache) {
+    case Options::NoCache:
+        noCacheRadioButton->setChecked(true);
+        break;
+    case Options::ForceCache:
+        forceCacheRadioButton->setChecked(true);
+        break;
+    case Options::AutoCache:
+        autoCacheRadioButton->setChecked(true);
+        break;
+    }
+
     setEmulateOpticalDisk(epOptions->
         opticalDiskFlags.testFlag(Options::Emulation));
     setDualSidedDisk(epOptions->
@@ -96,6 +108,12 @@ void SimulatorSettingsDialog::setOptions() {
         administratorAccountRequiredCheckBox->isChecked();
     epOptions->hideSimulatorMenu =
         hideSimulatorMenuCheckBox->isChecked();
+    if (diskCacheButtonGroup->checkedButton() == noCacheRadioButton)
+        epOptions->diskCache = Options::NoCache;
+    else if (diskCacheButtonGroup->checkedButton() == forceCacheRadioButton)
+        epOptions->diskCache = Options::ForceCache;
+    else
+        epOptions->diskCache = Options::AutoCache;
     setFlag(epOptions->opticalDiskFlags, Options::Emulation,
         emulateOpticalDisk());;
     setFlag(epOptions->opticalDiskFlags, Options::DualSided,

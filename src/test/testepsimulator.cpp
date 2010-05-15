@@ -733,6 +733,20 @@ void TestEpSimulator::testJoinPaths() {
     QVERIFY(joinPaths(p1, p2) == "/hello/tmp");
 }
 
+void TestEpSimulator::testIsRemovableMedia() {
+#ifdef Q_OS_WIN
+    QDir dir("C:\System");
+    QVERIFY(!EpCore::isRemovableMedia(dir));
+    dir.setPath("D:\Test");
+    QVERIFY(EpCore::isRemovableMedia(dir));
+#else
+    QDir dir("/home/mannd/test");
+    QVERIFY(!EpCore::isRemovableMedia(dir));
+    dir.setPath("/media/cdrom");
+    QVERIFY(EpCore::isRemovableMedia(dir));
+#endif
+}
+
 void TestEpSimulator::testListSelector() {
     QStringList list1, list2;
     list1 << "test1" << "test2";

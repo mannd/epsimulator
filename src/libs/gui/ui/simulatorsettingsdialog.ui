@@ -13,45 +13,93 @@
   <property name="windowTitle">
    <string>Simulator Settings</string>
   </property>
-  <layout class="QGridLayout">
-   <item row="2" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
+  <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
        <string>&amp;General</string>
       </attribute>
-      <layout class="QGridLayout">
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="administratorAccountRequiredCheckBox">
-         <property name="text">
-          <string>&amp;Administer Account Required</string>
-         </property>
-         <property name="shortcut">
-          <string>Alt+A</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="hideSimulatorMenuCheckBox">
-         <property name="text">
-          <string>Hide Simulator Settings &amp;Menu Item From Users</string>
-         </property>
-         <property name="shortcut">
-          <string>Alt+M</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QCheckBox" name="hideSimulatorMenuCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>301</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Hide Simulator Settings &amp;Menu Item From Users</string>
+       </property>
+       <property name="shortcut">
+        <string>Alt+M</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="administratorAccountRequiredCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>195</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&amp;Administer Account Required</string>
+       </property>
+       <property name="shortcut">
+        <string>Alt+A</string>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="diskCacheGroupBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>130</y>
+         <width>241</width>
+         <height>161</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Disk Cache</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QRadioButton" name="noCacheRadioButton">
+          <property name="text">
+           <string>No Cache</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string>diskCacheButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QRadioButton" name="forceCacheRadioButton">
+          <property name="text">
+           <string>Force Cache</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string>diskCacheButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QRadioButton" name="autoCacheRadioButton">
+          <property name="text">
+           <string>Auto Cache</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string>diskCacheButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
      <widget class="QWidget" name="tabNavigator">
       <attribute name="title">
@@ -301,6 +349,13 @@
      </widget>
     </widget>
    </item>
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -327,8 +382,10 @@
   <tabstop>recorderHasStatusBarCheckBox</tabstop>
   <tabstop>amplifierTypeComboBox</tabstop>
   <tabstop>buttonBox</tabstop>
-  <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="diskCacheButtonGroup"/>
+ </buttongroups>
 </ui>

@@ -218,3 +218,16 @@ void EpCore::copyFilesToSystem(const QStringList& files,
         copyFilesToPath(files, sourcePath, epOptions->networkStudyPath,
                         copyFlag);
 }
+
+bool EpCore::isRemovableMedia(const QDir& dir) {
+    QString path = dir.absolutePath();
+#if defined(Q_OS_WIN)
+    path = path.toUpper();
+    return ! path.contains("C:");
+#else
+    QStringList elements = path.split("/");
+    return elements.contains("media");
+#endif
+
+
+}

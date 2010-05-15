@@ -89,6 +89,7 @@ private slots:
     void testConversions();
     // utilities
     void testJoinPaths();
+    void testIsRemovableMedia();
     // class ListSelector
     void testListSelector();
     // class Protocol

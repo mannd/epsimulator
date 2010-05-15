@@ -90,6 +90,9 @@ void copyFilesToSystem(const QStringList& files, const QString& sourcePath,
 QString joinPaths(const QString&, const QString&);
 QString capitalize(const QString&);
 
+bool isRemovableMedia(const QDir& dir);     // attempts to determine if
+                                            // directory is removable media
+
 // definitions
 
 template<typename T> 

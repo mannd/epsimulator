@@ -135,6 +135,10 @@ public:
     // not a real option, but convenient to have the password hash here
     QString passwordHash;
 
+    enum DiskCache {
+        NoCache, ForceCache, AutoCache
+    } diskCache;
+
     int numChannels;
 
     inline static Options* instance();

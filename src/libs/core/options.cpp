@@ -39,6 +39,8 @@ Options::Options() :  tempStudyPath() {
             throw EpCore::SystemDirectoryNotFoundError(
                 systemCatalogPath);
     qDebug() << "EP Simulator is using a System Path of " << systemCatalogPath;
+    qDebug() << "Home path is " << QDir::homePath();
+    qDebug() << "Temporary path is " << QDir::tempPath();
     readSettings();
 }
 
@@ -90,6 +92,7 @@ void Options::readSettings() {
         EnableAcquisition, settings);
     recorderFlags = readFlags<RecorderFlags>("recorderFlags",
         DefaultRecorderFlags, settings);
+    diskCache = readFlags<DiskCache>("diskCache", AutoCache, settings);
     /// TODO other options here...
 
     settings.endGroup();
@@ -120,6 +123,7 @@ void Options::writeSettings() {
     settings.setValue("opticalDiskFlags", int(opticalDiskFlags));
     settings.setValue("filePathFlags", int(filePathFlags));
     settings.setValue("recorderFlags", int(recorderFlags));
+    settings.setValue("diskCache", int(diskCache));
     /// TODO add other options here...
 
     settings.endGroup();
