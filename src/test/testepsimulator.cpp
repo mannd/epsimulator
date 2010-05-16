@@ -80,6 +80,10 @@ void TestEpSimulator::initTestCase() {
     QCOMPARE(dir.exists(), true);
     workingPath_ = workingDir.absolutePath();
     qDebug() << workingPath_;
+    // must set below up for QSettings to work right
+    qApp->setOrganizationName("EP Studios");
+    qApp->setOrganizationDomain("epstudiossoftware.com");
+    qApp->setApplicationName("EPSimulator");
 }
 
 void TestEpSimulator::testStudyConstructor() {
@@ -333,7 +337,7 @@ void TestEpSimulator::testOptionsFlags() {
     QVERIFY(o->filePathFlags.testFlag(Options::EnableAcquisition));
     clearFlag(o->filePathFlags, Options::EnableAcquisition);
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
-//    o->writeSettings();
+    o->writeSettings();
     o->readSettings();  // enable acquisition should still be off
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
 }
