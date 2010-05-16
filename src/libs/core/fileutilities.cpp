@@ -226,9 +226,21 @@ void EpCore::copyFilesToSystem(const QStringList& files,
 bool EpCore::isRemovableMedia(const QDir& dir) {
     QString path = dir.absolutePath();
 #ifdef Q_OS_WIN
-    path = path.toUpper() + "\"";
+    path = path.toUpper() + "\\";
     UINT ret;
-    ret = GetDriveType(path.toLatin1());
+    const char* pathAnsi = path.toLatin1().constData();
+    int lenA = lstrlenA(pathAnsi);
+    int lenW;
+    BSTR unicodestr;
+    lenW = ::MultiByteToWideChar(CP_ACP, 0, pathAnsi, lenA, 0, 0);
+    if (lenW > 0) {
+        unicodestr = ::SysAllocStringLen(0, lenW);
+        ::MultiByteToWideChar(CP_ACP, 0, pathAnsi, lenA, unicodestr, lenW);
+    }
+    else
+        Q_ASSERT(false);
+    ::SysFreeString(unicodestr);
+    ret = GetDriveType(unicodestr);
     return ret !=  DRIVE_FIXED;
     //return ! path.contains("C:");
 #else

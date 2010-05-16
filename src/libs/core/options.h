@@ -121,6 +121,7 @@ public:
     bool useLabName;
 
     enum FilePathFlag {
+        NoFilePathFlag          = 0x000000,
         EnableAcquisition       = 0x000001,
         EnableFileExport        = 0x000002,
         EnableNetworkStorage    = 0x000004

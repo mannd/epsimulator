@@ -81,7 +81,7 @@ void Options::readSettings() {
     /// settings file, etc.  One problem is all this seems like overkill to prevent users
     /// from having access to some minor setup functions.
     passwordHash = settings.value("passwordHash", "0").toString();
-    numChannels = settings.value("numChannels", 48).toUInt();
+    numChannels = settings.value("numChannels", 48).toInt();
     screenFlags = readFlags<ScreenFlags>("screenFlags", 
         DefaultScreenFlags, settings);
     bluePanelStyle = readFlags<BluePanelStyle>("bluePanelStyle", 
@@ -117,9 +117,9 @@ void Options::writeSettings() {
     settings.setValue("hideSimulatorMenu", hideSimulatorMenu);
     settings.setValue("permanentDelete", permanentDelete);
     settings.setValue("passwordHash", passwordHash);
-    settings.setValue("numChannels", numChannels);
+    settings.setValue("numChannels", int(numChannels));
     settings.setValue("screenFlags", int(screenFlags));
-    settings.setValue("bluePanelStyle", bluePanelStyle);
+    settings.setValue("bluePanelStyle", int(bluePanelStyle));
     settings.setValue("opticalDiskFlags", int(opticalDiskFlags));
     settings.setValue("filePathFlags", int(filePathFlags));
     settings.setValue("recorderFlags", int(recorderFlags));

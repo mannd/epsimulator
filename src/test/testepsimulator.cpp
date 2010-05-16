@@ -333,7 +333,7 @@ void TestEpSimulator::testOptionsFlags() {
     QVERIFY(o->filePathFlags.testFlag(Options::EnableAcquisition));
     clearFlag(o->filePathFlags, Options::EnableAcquisition);
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
-    o->writeSettings();
+//    o->writeSettings();
     o->readSettings();  // enable acquisition should still be off
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
 }
@@ -721,8 +721,13 @@ void TestEpSimulator::testConversions() {
 }
 
 void TestEpSimulator::testJoinPaths() {
+#ifdef Q_OS_WIN
+    QString p1 = "\\hello\\.\\";
+    QString p2 = "\\tmp";
+#else
     QString p1 = "///hello/./";
     QString p2 = "/tmp";
+#endif
     QVERIFY(joinPaths(p1, p2) == "/hello/tmp");
     // note that trailing slash is always removed
     p2 = "/tmp/";
@@ -735,9 +740,9 @@ void TestEpSimulator::testJoinPaths() {
 
 void TestEpSimulator::testIsRemovableMedia() {
 #ifdef Q_OS_WIN
-    QDir dir("C:\System");
+    QDir dir("C:\\Windows");
     QVERIFY(!EpCore::isRemovableMedia(dir));
-    dir.setPath("D:\Test");
+    dir.setPath("D:\\");
     QVERIFY(EpCore::isRemovableMedia(dir));
 #else
     QDir dir("/home/mannd/test");

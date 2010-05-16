@@ -25,4 +25,4 @@ HEADERS += options.h \
     itemlist.h \
     mark.h \
     columnformat.h
-win32:LIBS += -lws2_32
+win32:LIBS += -lws2_32 -lkernel32 -loleaut32
