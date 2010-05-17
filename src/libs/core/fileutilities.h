@@ -92,6 +92,7 @@ QString capitalize(const QString&);
 
 bool isRemovableMedia(const QDir& dir);     // attempts to determine if
                                             // directory is removable media
+bool useDiskCache(const QString& path);
 
 // definitions
 

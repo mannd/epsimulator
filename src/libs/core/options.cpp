@@ -41,6 +41,7 @@ Options::Options() :  tempStudyPath() {
     qDebug() << "EP Simulator is using a System Path of " << systemCatalogPath;
     qDebug() << "Home path is " << QDir::homePath();
     qDebug() << "Temporary path is " << QDir::tempPath();
+    qDebug() << "Current path is " << QDir::currentPath();
     readSettings();
 }
 

@@ -181,14 +181,6 @@ void Navigator::newStudy() {
 }
 
 void Navigator::continueStudy() {
-    if (!acquisitionEnabled())
-	return;
-    if (!epOptions->filePathFlags.testFlag(Options::EnableAcquisition)) {
-        QMessageBox::information(this, tr("Acquisition Not Enabled"),
-            tr("This workstation is not set up for acquisition. "
-            "Select the System Settings menu item to enable acquisition."));
-        return;
-    }
     Study* study = getSelectedStudy();
     if (!study) {
         noStudySelectedError();
@@ -201,6 +193,7 @@ void Navigator::continueStudy() {
             study->setStudyConfiguration(
                     selectStudyConfigDialog->studyConfiguration());
             catalogs_->deleteStudy(study);
+            study->setPreregisterStudy(false);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),
                     epOptions->labName, user_->machineName());
@@ -946,14 +939,13 @@ void Navigator::createButtonFrame() {
     if (epOptions->filePathFlags.testFlag(Options::EnableAcquisition)) {
         buttonFrame_->addButton("New Study", "hi64-newstudy",
             SLOT(newStudy()));
-        buttonFrame_->addButton("Continue Study", "hi64-continuestudy",
-        SLOT(continueStudy()));
     }
+    buttonFrame_->addButton("Continue Study", "hi64-continuestudy",
+        SLOT(continueStudy()));
     buttonFrame_->addButton("Review Study", "hi64-reviewstudy",
         SLOT(reviewStudy()));
-    if (epOptions->filePathFlags.testFlag(Options::EnableAcquisition))
-        buttonFrame_->addButton("Pre-Register", "hi64-preregister",
-            SLOT(preregisterPatient()));
+    buttonFrame_->addButton("Pre-Register", "hi64-preregister",
+        SLOT(preregisterPatient()));
     buttonFrame_->addButton("Reports", "hi64-reports", 
         SLOT(reports()), true); 
 }

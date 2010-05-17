@@ -225,28 +225,32 @@ void EpCore::copyFilesToSystem(const QStringList& files,
 
 bool EpCore::isRemovableMedia(const QDir& dir) {
     QString path = dir.absolutePath();
+    qDebug() << "Path is " << path;
 #ifdef Q_OS_WIN
     path = path.toUpper() + "\\";
     UINT ret;
     const char* pathAnsi = path.toLatin1().constData();
     int lenA = lstrlenA(pathAnsi);
     int lenW;
-    BSTR unicodestr;
+    BSTR pathUnicode;
     lenW = ::MultiByteToWideChar(CP_ACP, 0, pathAnsi, lenA, 0, 0);
     if (lenW > 0) {
-        unicodestr = ::SysAllocStringLen(0, lenW);
-        ::MultiByteToWideChar(CP_ACP, 0, pathAnsi, lenA, unicodestr, lenW);
+        pathUnicode = ::SysAllocStringLen(0, lenW);
+        ::MultiByteToWideChar(CP_ACP, 0, pathAnsi, lenA, pathUnicode, lenW);
     }
-    else
-        Q_ASSERT(false);
-    ::SysFreeString(unicodestr);
-    ret = GetDriveType(unicodestr);
+    else    // on error assume is removable
+        return true;
+    ret = GetDriveType(pathUnicode);
+    ::SysFreeString(pathUnicode);
     return ret !=  DRIVE_FIXED;
-    //return ! path.contains("C:");
 #else
     QStringList elements = path.split("/");
     return elements.contains("media");
 #endif
+}
 
-
+bool EpCore::useDiskCache(const QString& path) {
+    return epOptions->diskCache == Options::ForceCache ||
+        (epOptions->diskCache == Options::AutoCache &&
+         EpCore::isRemovableMedia(path));
 }
