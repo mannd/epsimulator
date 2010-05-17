@@ -64,7 +64,7 @@ const QString OpticalDisk::studiesDirName_ = "studies";
 
 OpticalDisk::OpticalDisk(const QString& path) 
     : path_(path), isLabeled_(false) {
-    qDebug() << "Studies path is " << path_;
+    qDebug() << "Studies path:\t" << path_;
 }
 
 OpticalDisk::~OpticalDisk() {}

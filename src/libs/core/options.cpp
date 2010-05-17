@@ -24,6 +24,9 @@
 
 #include <QCoreApplication>
 #include <QDir>
+#ifdef Q_OS_WIN32
+#   include <QProcessEnvironment>
+#endif
 
 #include <QtDebug>
 
@@ -31,15 +34,14 @@ using EpCore::Options;
 
 Options* Options::instance_ = 0;
 
-Options::Options() :  tempStudyPath() {
-    //QDir systemDir = systemDirectory();
-    QDir systemDir = systemPath();
-    systemCatalogPath = systemDir.canonicalPath();
-    qDebug() << "EP Simulator is using a System Path of " << systemCatalogPath;
-    qDebug() << "Home path is " << QDir::homePath();
-    qDebug() << "Temporary path is " << QDir::tempPath();
-    qDebug() << "Current path is " << QDir::currentPath();
-    qDebug() << "systemPath() = " << systemPath();
+Options::Options() :  systemCatalogPath(systemPath()) {
+    qDebug() << "EP Simulator Directories";
+    qDebug() << "========================";
+    qDebug() << "System path:\t" << systemCatalogPath;
+    qDebug() << "Home path:\t" << QDir::homePath();
+    qDebug() << "Temp path:\t" << QDir::tempPath();
+    qDebug() << "Current path:\t" << QDir::currentPath();
+    qDebug() << "App path:\t" << rootDirectory().absolutePath();
     readSettings();
 }
 
@@ -133,11 +135,14 @@ Options::~Options() {
 }
 
 QString EpCore::systemPath() {
+    QString path;
 #ifdef Q_OS_LINUX
-    QString path = joinPaths(QDir::homePath(), ".epsystem");
-
-#elif Q_OS_WIN
-    QString path = joinPaths("%APPDATA%", "epsystem");
+    path = joinPaths(QDir::homePath(), ".epsimulator");
+#elif defined Q_OS_WIN32
+    QString appData = QProcessEnvironment::systemEnvironment().value("APPDATA");
+    path = joinPaths(appData, "epsimulator");
+#else   // MacOs and any others defaults to System directory in application directory
+    path = systemDirectory();
 #endif
     QDir dir = QDir(path);
     if (!dir.exists() && !dir.mkdir(path))
