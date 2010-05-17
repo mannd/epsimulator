@@ -25,7 +25,7 @@
 #include <QSettings>
 #include <QString>
 
-// convenient macro
+// convenient evil macro
 #define epOptions (EpCore::Options::instance())
 
 namespace EpCore {
@@ -187,6 +187,8 @@ template<typename T, typename K>
 inline void clearFlag(T& flags, const K& flag) {
     setFlag(flags, flag, false);
 }
+
+QString systemPath();
 
 }
 

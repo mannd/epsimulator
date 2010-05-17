@@ -32,16 +32,14 @@ using EpCore::Options;
 Options* Options::instance_ = 0;
 
 Options::Options() :  tempStudyPath() {
-    QDir systemDir = systemDirectory();
+    //QDir systemDir = systemDirectory();
+    QDir systemDir = systemPath();
     systemCatalogPath = systemDir.canonicalPath();
-    if (!systemDir.exists())
-        if (!systemDir.mkdir(systemCatalogPath))
-            throw EpCore::SystemDirectoryNotFoundError(
-                systemCatalogPath);
     qDebug() << "EP Simulator is using a System Path of " << systemCatalogPath;
     qDebug() << "Home path is " << QDir::homePath();
     qDebug() << "Temporary path is " << QDir::tempPath();
     qDebug() << "Current path is " << QDir::currentPath();
+    qDebug() << "systemPath() = " << systemPath();
     readSettings();
 }
 
@@ -132,4 +130,17 @@ void Options::writeSettings() {
 
 Options::~Options() {
     writeSettings();
+}
+
+QString EpCore::systemPath() {
+#ifdef Q_OS_LINUX
+    QString path = joinPaths(QDir::homePath(), ".epsystem");
+
+#elif Q_OS_WIN
+    QString path = joinPaths("%APPDATA%", "epsystem");
+#endif
+    QDir dir = QDir(path);
+    if (!dir.exists() && !dir.mkdir(path))
+        throw SystemDirectoryNotFoundError(path);
+    return path;
 }

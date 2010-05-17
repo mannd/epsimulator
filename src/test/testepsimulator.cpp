@@ -192,6 +192,7 @@ void TestEpSimulator::testNameWithSpaces() {
 }
 
 void TestEpSimulator::testSystemPath() {
+    // obsolete.  systemPath() replaces systemDirectory()
     QVERIFY (EpCore::systemDirectory().absolutePath() ==
              EpCore::rootDirectory().absolutePath() + "/" + "System");
 }

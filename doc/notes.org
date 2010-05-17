@@ -185,4 +185,48 @@ struct Moment {
 Moment moments[buffersize];
 
 Calculate offset in buffer: actual time mod buffer_size and read that Moment from the buffer, using pointer arithmatic.
-
+* Disk Cache
+** The 3 catalogs and data storage - reconsidered
+   From reviewing the cardiolink pdf manual, it appears that there are
+   several scenarios.
+   - Standalone system
+   - Networked system
+   In both kinds of systems, there are 2 types of data to be
+   considered:
+   - Catalog data
+   - Study data
+   Finally, data handling also depends on the acquisition mode.  There
+   are really just 2 situations:
+   - Acquisition mode
+   - Client mode
+   If there are multiple EP labs, there are multiple sets of computers
+   for acquisition and other functions.  For any one study, there is
+   one acquisition computer and possibly multiple client computers, in
+   the procedure room, or in the holding are.  These are linked by a
+   fast ethernet switch.  The manual implies other computers can be
+   linked in for review, such a in the MD's office, via slower
+   connections.  As far as I can determine, these are also client
+   computers -- I'm not sure if there is a way to limit to just review mode.
+** Catalog data
+*** Reading catalog data
+    Catalog data is always read from the specific catalog selected in
+    the Catalog Combobox.  The data file is always "catalog.dat" and
+    is a top level file in the optical disk, the System directory on
+    the acquisition system, and the network path.  
+*** Writing catalog data
+**** Networked system
+     The network catalog must be highlighted, otherwise everthing is
+     written to the local system.  Assuming the network catalog is
+     highlighted, then entries go into that specific catalog.  
+** Study data
+*** Location
+    Study data is located in the top-level "studies" directory.  Each
+    study is in a subdirectory of the form
+    "study_lastname_firstname_studykey."  Within each such directory
+    are data files, include "study.dat," "patient.dat," "config.dat,"
+    etc.  
+*** Writing study data
+** System data
+   Note that "the windows settings are unique to each acquisition
+   system and review workstation."
+   
