@@ -18,3 +18,4 @@ LIBS += -lpatient \
     -lrecorder
 SOURCES += main.cpp
 RESOURCES = ../resources/resources.qrc
+

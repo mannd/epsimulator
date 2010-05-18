@@ -12,5 +12,6 @@ else {
 }
 
 LIBS += -L../../lib
+QT += sql
 
 

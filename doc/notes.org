@@ -230,3 +230,59 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
    Note that "the windows settings are unique to each acquisition
    system and review workstation."
    
+* Database
+** Background
+   It has become obvious that, similar to the Prucka system, the data
+   stored by EP Simulator needs to be stored in a database.  Right now
+   everthing is a flat file, and things like sorting, filtering,
+   editing, adding new, deleting items is implemented in code.  Yuck!  
+** Database selection
+*** Sqlite
+    Excellent choice for standalone program; not so good for networked
+    system.  Not a client/server system.
+*** MySQL
+    Useful to emulate the Cardiolink server, ? if multiple users ever
+    will be needed though.  More complex installation, setup.
+** Use either?
+   Not sure that will work -- might not be able to upgrade from one to
+   the other.
+** What is stored on the optical disk?
+   The study data itself is not a database file.  
+** Database tables
+   - catalog
+   - lists
+   - intervals
+   - etc
+** Test case
+** QMysql -- Up and Running!!!
+   This is an clarification of the method to compile the mysql plugin
+   for the Qt SDK found in the the Help documents.  Originally I was
+   getting errors in compilation due to using command line 'qmake'
+   which is not the qmake in the Qt SDK.  I needed to run qmake using
+   the full path to it:
+
+   /home/mannd/qtsdk-2009.05/qt/bin/qmake
+
+   Note that the path to the mysql include files and the
+   libmysqlclient file must be correct.  You must be in the correct
+   directory:
+
+   cd ~/qtsdk-2009.05/qt/src/plugins/sqldrivers/mysql
+
+   Here is the full command line on SuperSluggo:
+
+   ~/qtsdk-2009.05/qt/bin/qmake "INCLUDEPATH+=/usr/include/mysql" 
+   "LIBS+=-L/usr/lib/mysql -lmysqlclient_r" mysql.pro
+
+   After this do a make and make install (no sudo).  Look in the 
+  /home/mannd/qtsdk-2009.05/qt/plugins/sqldrivers directory:
+
+  total used in directory 3120 available 356853920
+  drwxr-xr-x  2 mannd users    4096 2010-05-18 18:59 .
+  drwxr-xr-x 11 mannd users    4096 2010-01-08 21:20 ..
+  -rwxr-xr-x  1 mannd users  446207 2009-11-26 10:09 libqsqlite2.so
+  -rwxr-xr-x  1 mannd users 2041224 2009-11-26 10:09 libqsqlite.so
+  -rwxr-xr-x  1 mannd users   73896 2010-05-18 18:59 libqsqlmysql.so
+  -rwxr-xr-x  1 mannd users  599206 2009-11-26 10:09 libqsqlpsql.so
+
+  There is libqsqlmysl.so!
