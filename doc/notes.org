@@ -286,3 +286,33 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
   -rwxr-xr-x  1 mannd users  599206 2009-11-26 10:09 libqsqlpsql.so
 
   There is libqsqlmysl.so!
+** Redesigning catalog
+*** Bugs
+    - changes to patient information in Recorder are not copied to
+      Catalog
+*** Catalog's current process
+    - Catalog is a QMap of the study-key() and StudyData which is a
+      complete copy of the Study, the location, disk side, labName and
+      machineName. 
+    - TableListView just shows Study type, last name, first name, full
+      name, mrn, study date/time, study config name, study number,
+      location of study, and optionally study key.
+    - New Study uses getNewStudy() to get Study*. 
+    - getNewStudy() uses getSelectedStudy() which returns 0 if no
+      study selected, and returns Study* to tablelistview's study.
+    - getSelectedStudy() simply returns tableListView_->study();
+    - TableListView::study() 
+      - returns 0 is no selected items
+      - else returns a new Study which is a copy of the Study stored
+        in the QMap of the Catalog* identified by the key stored in
+        the TableLIstViewItem.
+    - TableListView is constructed of TableListViewItems, A Study& is
+      passed to TableListView::addStudy() to get the study data for
+      the columns.
+    - TableListView::load() clears the list, takes a Catalog* and
+      iterates through it, adding the CatalogMap.study and the catalog->location(it.value()).
+    - Catalog::location(const StudyData&) 
+      - returns empty QString if StudyData.study.isPreregisterStudy()
+        is true, 
+      - otherwise returns StudyData.location and
+        StudyLocation.side.

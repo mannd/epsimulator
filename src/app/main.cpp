@@ -48,8 +48,8 @@
 
 // Database
 // Only define 1 of the below
-#define MYSQL
-//#define SQLITE
+//#define MYSQL
+#define SQLITE
 
 #ifdef MYSQL
 #   define BACKEND_DB "QMYSQL"
@@ -58,6 +58,8 @@
 #endif
 
 bool createConnection() {
+    qDebug() << "Available DB drivers " << QSqlDatabase::drivers();
+    qDebug() << "Backend DB driver in use is " << BACKEND_DB;
     QSqlDatabase db = QSqlDatabase::addDatabase(BACKEND_DB);
     db.setHostName("localhost");
     db.setDatabaseName("epsimulator");
@@ -68,6 +70,7 @@ bool createConnection() {
                               db.lastError().text());
         return false;
     }
+    qDebug() << "Database name is " << db.databaseName();
     return true;
 }
 

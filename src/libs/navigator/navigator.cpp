@@ -426,7 +426,10 @@ void Navigator::refreshCatalogs() {
     catalogs_->refresh();
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
     tableListView_->load(catalogs_->currentCatalog());
-    // reapply filter if present
+    applyFilter();
+}
+
+void Navigator::applyFilter() {
     if (tableListView_->filtered())
         processFilter();
 }
@@ -440,9 +443,7 @@ void Navigator::regenerateCatalogs() {
 void Navigator::changeCatalog() {
      catalogs_->setCurrentCatalog(catalogComboBox_->source());
      tableListView_->load(catalogs_->currentCatalog());
-     // reapply filter if present
-     if (tableListView_->filtered())
-         processFilter();
+     applyFilter();
      statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 

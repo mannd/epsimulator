@@ -146,6 +146,7 @@ private:
 
     // Filtering
     void processFilter();
+    void applyFilter();
 
     // Catalog related
     void setCatalog(Catalog::Source);
