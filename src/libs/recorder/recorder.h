@@ -100,6 +100,7 @@ signals:
     void autoSave(bool);    // emitted if AutoSave toolbar button changed
     void emergencySave(bool);   // emitted if Emergency Save key activated
     void patientInformationClosed(); // emitted when Patient Info Dialog closed
+    void studyDataChanged(const EpStudy::Study*);
 
     // these signals let Navigator and any other Recorder windows know
     // that important settings have changed.

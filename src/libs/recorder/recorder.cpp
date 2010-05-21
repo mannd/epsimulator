@@ -382,6 +382,7 @@ void Recorder::patientInformation() {
         study_->save();
         patientStatusBar_->setPatientInfo(study_->name(), 
             study_->weight(), study_->bsa());
+        emit studyDataChanged(study_);
 
     }
     delete patientDialog;

@@ -103,6 +103,7 @@ private slots:
     void manageSections();
     void manageFormats();
     void clearSelection();
+    void editStudyInCatalogs(const EpStudy::Study*);
 
     // these must be separate due to Qt Signal/Slot mechanism.  Can't pass
     // a parameter to a common slot.

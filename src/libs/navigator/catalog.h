@@ -84,6 +84,7 @@ public:
                         const QString& side, const QString& labName,
                         const QString& machineName);
     virtual void deleteStudy(const EpStudy::Study*);
+    virtual void editStudy(const EpStudy::Study*);
 
     void setPath(const QString& path) {path_ = path;}
     void setLabel(const QString& label) {studyData_.location = label;}
@@ -194,6 +195,7 @@ public:
                   const QString& labName = QString(),
                   const QString& machineName = QString());
     void deleteStudy(const EpStudy::Study*);
+    void editStudy(const EpStudy::Study*);
     
     void refresh();
     void regenerate(const QString& location, const QString& side,

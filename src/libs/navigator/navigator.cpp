@@ -254,6 +254,11 @@ void Navigator::reports()  {
         noStudySelectedError();
 }
 
+void Navigator::editStudyInCatalogs(const Study* study) {
+    catalogs_->editStudy(study);
+    refreshCatalogs();
+}
+
 void Navigator::copyStudy() {
     moveStudy(Copy);
 }
@@ -1351,6 +1356,10 @@ void Navigator::startStudy(Study* study, bool review) {
             this, SLOT(updateSystemSettings()));
     connect(recorder, SIGNAL(destroyed()), 
             this, SLOT(updateAll()));
+    // note that in signals and slots, the namespace must be given
+    // explicitly -- no automatic lookup!
+    connect(recorder, SIGNAL(studyDataChanged(const EpStudy::Study*)),
+            this, SLOT(editStudyInCatalogs(const EpStudy::Study*)));
     hide();
     updateAll();
 }

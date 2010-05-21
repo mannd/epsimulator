@@ -85,6 +85,11 @@ void Catalog::deleteStudy(const Study* study) {
     save();
 }
 
+void Catalog::editStudy(const Study* study) {
+    catalog_[study->key()].study = *study;
+    save();
+}
+
 void Catalog::refresh() {
     catalog_.clear();
     load();
@@ -280,6 +285,12 @@ void Catalogs::deleteStudy(const Study* study) {
     for (CatalogsMap::iterator it = catalogs_.begin(); 
         it != catalogs_.end(); ++it)
         (*it).second->deleteStudy(study);
+}
+
+void Catalogs::editStudy(const Study* study) {
+    for (CatalogsMap::iterator it = catalogs_.begin();
+        it != catalogs_.end(); ++it)
+        (*it).second->editStudy(study);
 }
 
 void Catalogs::refresh() {
