@@ -22,6 +22,7 @@
 
 #include "actions.h"
 #include "amplifier.h"
+#include "guiutilities.h"
 #include "itemlist.h"
 #include "logwindow.h"
 #include "opticaldisk.h"
@@ -652,14 +653,7 @@ void Recorder::readSettings() {
         setWindowState(windowState() ^ Qt::WindowMaximized);
     }
     else {
-#ifdef Q_OS_WIN32
-        restoreGeometry(settings.value("geometry").toByteArray());
-#else   // Mac or Linux
-        // restoreGeometry doesn't work on X11
-        // see Window Geometry section of Qt Reference Doc
-        resize(size.toSize());
-        move(settings.value("pos").toPoint());
-#endif
+        EpGui::osDependentRestoreGeometry(this, settings);
         restoreState(settings.value("state").toByteArray());
     }
     settings.endGroup();

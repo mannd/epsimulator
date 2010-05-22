@@ -24,9 +24,6 @@
 
 #include <QCoreApplication>
 #include <QDir>
-#ifdef Q_OS_WIN32
-#   include <QProcessEnvironment>
-#endif
 
 #include <QtDebug>
 
@@ -135,15 +132,7 @@ Options::~Options() {
 }
 
 QString EpCore::systemPath() {
-    QString path;
-#ifdef Q_OS_LINUX
-    path = joinPaths(QDir::homePath(), ".epsimulator");
-#elif defined Q_OS_WIN32
-    QString appData = QProcessEnvironment::systemEnvironment().value("APPDATA");
-    path = joinPaths(appData, "epsimulator");
-#else   // MacOs and any others defaults to System directory in application directory
-    path = systemDirectory();
-#endif
+    QString path = osDependentSystemPath();
     QDir dir = QDir(path);
     if (!dir.exists() && !dir.mkdir(path))
         throw SystemDirectoryNotFoundError(path);

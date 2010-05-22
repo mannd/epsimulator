@@ -838,9 +838,6 @@ void TestEpSimulator::completePatientDialog(PatientDialog* p) {
     p->on_heightInLineEdit_textEdited();
 }
 
-
-
-
 QTEST_MAIN(TestEpSimulator)
 //#include "testepsimulator.moc"
 

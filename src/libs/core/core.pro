@@ -12,6 +12,8 @@ SOURCES += options.cpp \
     interval.cpp \
     mark.cpp \
     columnformat.cpp
+unix:SOURCES += ../../os/fileutilities_unix.cpp
+win32:SOURCES += ../../os/fileutilities_win.cpp
 HEADERS += options.h \
     versioninfo.h \
     error.h \
@@ -25,4 +27,6 @@ HEADERS += options.h \
     itemlist.h \
     mark.h \
     columnformat.h
-win32:LIBS += -lws2_32 -lkernel32 -loleaut32
+win32:LIBS += -lws2_32 \
+    -lkernel32 \
+    -loleaut32

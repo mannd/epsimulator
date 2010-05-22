@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,57 +18,30 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "user.h"
+#include "guiutilities.h"
 
-#include "fileutilities.h"
-#include "options.h"
+#include <QtCore/QSettings>
+#include <QtGui/QWidget>
+#include <QtGui/QX11Info>
 
-#include <QtDebug>
+namespace EpGui {
 
-using EpCore::User;
-
-/**
- * A singleton instance of User.
- * @return pointer to User.
- */
-User* User::instance() {
-    return new User;
+int appDpiX() {
+    QX11Info x;
+    return x.appDpiX();
 }
 
-/**
- * The name of the computer running the program.
- * @return the computer (machine) name.
- */
-QString User::machineName() const {
-    return machineName_;
+int appDpiY() {
+    QX11Info x;
+    return x.appDpiY();
 }
 
-/**
- * The user name.
- * @return either ADMINISTRATOR or the user's login name.
- */
-QString User::name() const {
-    return isAdministrator_ ? tr("ADMINISTRATOR") 
-        :  name_;
+void osDependentRestoreGeometry(QWidget* window, const QSettings& settings) {
+    // restoreGeometry doesn't work on X11
+    // but resize() and move() work ok.
+    // see Window Geometry section of Qt Reference Doc
+    window->resize(settings.value("size").toSize());
+    window->move(settings.value("pos").toPoint());
 }
 
-/**
- * The role of the user.  Used in old style Navigator.
- * @return ADMINSTRATOR or EPSIMUSER.
- */
-QString User::role() const {
-    return isAdministrator_ ? tr("ADMINISTRATOR") 
-        :  tr("EPSIMUSER");
-}
-
-User::User() : isAdministrator_(false) {
-    name_ = getUserName();
-    machineName_ = getMachineName();
-
-    qDebug() << "User is " << name_ << " and machine is "
-            << machineName_;
-}
-
-bool User::administrationAllowed() const {
-    return isAdministrator_ || !epOptions->administratorAccountRequired;
 }

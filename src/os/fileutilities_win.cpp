@@ -18,16 +18,55 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef GUIUTILITIES_H
-#define GUIUTILITIES_H
+#include "fileutilities.h"
 
-class QSettings;
-class QWidget;
+#include <QtCore/QDir>
+#include <QtCore/QProcessEnvironment>
 
-namespace EpGui {
-    int appDpiX();
-    int appDpiY();
-    void osDependentRestoreGeometry(QWidget*, const QSettings&);
+#include <windows.h>
+#include <winsock2.h>
+
+bool EpCore::isRemovableMedia(const QDir& dir) {
+    QString path = dir.absolutePath();
+    qDebug() << "Path is " << path;
+    path = path.toUpper() + "\\";
+    UINT ret;
+    const char* pathAnsi = path.toLatin1().constData();
+    int lenA = lstrlenA(pathAnsi);
+    int lenW;
+    BSTR pathUnicode;
+    lenW = ::MultiByteToWideChar(CP_ACP, 0, pathAnsi, lenA, 0, 0);
+    if (lenW > 0) {
+        pathUnicode = ::SysAllocStringLen(0, lenW);
+        ::MultiByteToWideChar(CP_ACP, 0, pathAnsi, lenA, pathUnicode, lenW);
+    }
+    else    // on error assume is removable
+        return true;
+    ret = GetDriveType(pathUnicode);
+    ::SysFreeString(pathUnicode);
+    return ret !=  DRIVE_FIXED;
 }
 
-#endif // GUIUTILITIES_H
+QString EpCore::osDependentSystemPath() {
+    QString appData = QProcessEnvironment::systemEnvironment().value("APPDATA");
+    path = joinPaths(appData, "epsimulator");
+}
+
+QString EpCore::getUserName() {
+    return std::getenv("USERNAME");
+}
+
+QString EpCore::getMachineName() {
+    WSAData cData;
+    WSAStartup(MAKEWORD(2, 2), &cData);
+    char machineName[1024];
+    int result = gethostname(machineName, sizeof(machineName));
+    return result == 0 ? machineName : QString();
+}
+
+long EpCore::diskFreeSpace(const QString &path) {
+    /// TODO windows version of this function
+    return 0;
+}
+
+

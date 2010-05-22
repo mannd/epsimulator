@@ -25,10 +25,6 @@
 
 #include <QtDebug>
 
-#ifdef Q_OS_WIN
-#   include <windows.h>
-#endif
-
 /**
  * @namespace EpCore Program functions that only require QtCore, not QtGui.
  */
@@ -221,32 +217,6 @@ void EpCore::copyFilesToSystem(const QStringList& files,
     if (epOptions->filePathFlags.testFlag(Options::EnableNetworkStorage))
         copyFilesToPath(files, sourcePath, epOptions->networkStudyPath,
                         copyFlag);
-}
-
-bool EpCore::isRemovableMedia(const QDir& dir) {
-    QString path = dir.absolutePath();
-    qDebug() << "Path is " << path;
-#ifdef Q_OS_WIN
-    path = path.toUpper() + "\\";
-    UINT ret;
-    const char* pathAnsi = path.toLatin1().constData();
-    int lenA = lstrlenA(pathAnsi);
-    int lenW;
-    BSTR pathUnicode;
-    lenW = ::MultiByteToWideChar(CP_ACP, 0, pathAnsi, lenA, 0, 0);
-    if (lenW > 0) {
-        pathUnicode = ::SysAllocStringLen(0, lenW);
-        ::MultiByteToWideChar(CP_ACP, 0, pathAnsi, lenA, pathUnicode, lenW);
-    }
-    else    // on error assume is removable
-        return true;
-    ret = GetDriveType(pathUnicode);
-    ::SysFreeString(pathUnicode);
-    return ret !=  DRIVE_FIXED;
-#else
-    QStringList elements = path.split("/");
-    return elements.contains("media");
-#endif
 }
 
 bool EpCore::useDiskCache(const QString& path) {

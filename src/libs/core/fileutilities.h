@@ -34,9 +34,9 @@ class QString;
 
 namespace EpCore {
 
-    enum CopyFlag { DoNotOverwrite  = 0x000000,
-                    Overwrite       = 0x000001
-    };
+enum CopyFlag { DoNotOverwrite  = 0x000000,
+                Overwrite       = 0x000001
+};
 
 /**
  * Loads data from QDataStream identified by filePath.  File must be proper
@@ -93,6 +93,11 @@ QString capitalize(const QString&);
 bool isRemovableMedia(const QDir& dir);     // attempts to determine if
                                             // directory is removable media
 bool useDiskCache(const QString& path);
+QString osDependentSystemPath();
+QString getUserName();
+QString getMachineName();
+long diskFreeSpace(const QString& path);
+
 
 // definitions
 
@@ -166,7 +171,6 @@ inline QString capitalize(const QString& s) {
     capitalized[0] = capitalized[0].toUpper();
     return capitalized;
 }
-
 
 } // namespace EpCore
 

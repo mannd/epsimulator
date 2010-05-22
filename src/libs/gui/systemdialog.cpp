@@ -21,14 +21,10 @@
 #include "systemdialog.h"
 
 #include "actions.h"
+#include "fileutilities.h"
 #include "options.h"
 
 #include <QtDebug>
-
-/// TODO below is Linux/Unix specific, needs generalization.
-#ifdef Q_OS_UNIX
-#   include <sys/vfs.h>
-#endif
 
 using EpCore::Options;
 using EpGui::SystemDialog;
@@ -141,22 +137,11 @@ void SystemDialog::setEnableFileExport(bool enabled) {
 }
 
 long SystemDialog::diskFreeSpace(const QString& path) const {
-# ifdef Q_OS_WIN32
-    return 0;
-# else
     int emulatedDiskMBytes = epOptions->emulatedOpticalDiskCapacity;
     if (emulatedDiskMBytes  > 0) 
         return emulatedDiskMBytes * 1024;
-    struct statfs s;
-    long blocksFree = 0;
-    long blockSize = 0;
-    if (statfs(path.toLatin1().constData(), &s) == 0) {
-        blocksFree = s.f_bavail;    // blocks available to non-su
-        blockSize = s.f_bsize;
-    }
-    long kBytes = blockSize / 1024;
-    return blocksFree * kBytes;
-# endif
+    else
+        return EpCore::diskFreeSpace(path);
 }
 
 long SystemDialog::timeRemaining(long kBytes) const {

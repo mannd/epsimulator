@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,57 +18,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "user.h"
-
 #include "fileutilities.h"
-#include "options.h"
 
-#include <QtDebug>
+#include <QtCore/QDir>
 
-using EpCore::User;
+#include <sys/vfs.h>
+#include <unistd.h>
+#include <cstdlib>
 
-/**
- * A singleton instance of User.
- * @return pointer to User.
- */
-User* User::instance() {
-    return new User;
+bool EpCore::isRemovableMedia(const QDir& dir) {
+    QString path = dir.absolutePath();
+    qDebug() << "Path is " << path;
+    QStringList elements = path.split("/");
+    return elements.contains("media");
 }
 
-/**
- * The name of the computer running the program.
- * @return the computer (machine) name.
- */
-QString User::machineName() const {
-    return machineName_;
+QString EpCore::osDependentSystemPath() {
+    QString path;
+#ifdef Q_OS_MAC
+    path = systemDirectory();
+#else   // unix, linux
+    path = joinPaths(QDir::homePath(), ".epsimulator");
+#endif
+    return path;
 }
 
-/**
- * The user name.
- * @return either ADMINISTRATOR or the user's login name.
- */
-QString User::name() const {
-    return isAdministrator_ ? tr("ADMINISTRATOR") 
-        :  name_;
+QString EpCore::getUserName() {
+    return std::getenv("USER");
 }
 
-/**
- * The role of the user.  Used in old style Navigator.
- * @return ADMINSTRATOR or EPSIMUSER.
- */
-QString User::role() const {
-    return isAdministrator_ ? tr("ADMINISTRATOR") 
-        :  tr("EPSIMUSER");
+QString EpCore::getMachineName() {
+    char machineName[1024] = "";
+    return gethostname(machineName, sizeof(machineName)) == 0
+                       ? machineName : QString();
 }
 
-User::User() : isAdministrator_(false) {
-    name_ = getUserName();
-    machineName_ = getMachineName();
-
-    qDebug() << "User is " << name_ << " and machine is "
-            << machineName_;
-}
-
-bool User::administrationAllowed() const {
-    return isAdministrator_ || !epOptions->administratorAccountRequired;
+long EpCore::diskFreeSpace(const QString& path) {
+    struct statfs s;
+    long blocksFree = 0;
+    long blockSize = 0;
+    if (statfs(path.toLatin1().constData(), &s) == 0) {
+        blocksFree = s.f_bavail;    // blocks available to non-su
+        blockSize = s.f_bsize;
+    }
+    long kBytes = blockSize / 1024;
+    return blocksFree * kBytes;
 }
