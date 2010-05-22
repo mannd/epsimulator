@@ -166,6 +166,7 @@ void PatientDialog::setFields(const Study* study) {
     weightKgLineEdit->setText(QString::number(study->weight()));
     manualEditBsaCheckBox->setChecked(study->bsaManualEdit());
     bsaLineEdit->setText(QString::number(study->bsa()));
+    //heartComboBox->
     efSpinBox->setValue(study->ef());
     vagalToneSpinBox->setValue(study->vagalTone());
     sympatheticToneSpinBox->setValue(study->sympatheticTone());

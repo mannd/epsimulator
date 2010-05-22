@@ -22,7 +22,6 @@
 
 #include "error.h"
 #include "fileutilities.h"
-#include "heart.h"
 #include "studyconfiguration.h"
 
 #include <QtCore/QDataStream>
@@ -110,8 +109,9 @@ namespace EpStudy {
             ef_(DEFAULT_EF),
             ischemia_(false),
             path_(),
-            isPregisterStudy_(true) {
-        heart_ = new Heart;
+            isPregisterStudy_(true),
+            heartName_(QObject::tr("<default>")) {
+        //heart_ = new Heart;
         studyConfiguration_ = new StudyConfiguration;
         testInvariant();
     }
@@ -123,7 +123,7 @@ namespace EpStudy {
     }
 
     Study::~Study() {
-        delete heart_;
+        //delete heart_;
         delete studyConfiguration_;
     }
 
@@ -233,8 +233,9 @@ namespace EpStudy {
         path_ = study.path_;
         key_ = study.key_;
         isPregisterStudy_ = study.isPregisterStudy_;
+        heartName_ = study.heartName_;
         // copy the heart pointer
-        heart_ = new Heart(*study.heart_);
+        //heart_ = new Heart(*study.heart_);
         studyConfiguration_ = new StudyConfiguration(*study.studyConfiguration_);
     }
 
@@ -251,7 +252,8 @@ namespace EpStudy {
                 << (qint32)study.sympatheticTone_ << (qint32)study.ef_
                 << (qint32)study.ischemia_ << study.path_ << study.key_
                 << study.isPregisterStudy_
-                << *study.heart_ << *study.studyConfiguration_;
+                << study.heartName_
+                << *study.studyConfiguration_;
         return out;
     }
 
@@ -267,7 +269,8 @@ namespace EpStudy {
                 >> vagalTone >> sympatheticTone >> ef
                 >> ischemia >> study.path_ >> study.key_
                 >> study.isPregisterStudy_
-                >> *study.heart_ >> *study.studyConfiguration_;
+                >> study.heartName_
+                >> *study.studyConfiguration_;
         study.sex_ = (sex != 0) ? EpPatient::Female : EpPatient::Male;
         study.bsaManualEdit_ = bsaManualEdit;
         study.vagalTone_ = vagalTone;
