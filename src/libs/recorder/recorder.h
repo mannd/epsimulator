@@ -56,6 +56,7 @@ namespace EpPatient {
 
 namespace EpStudy {
     class Study;
+    class StudyConfiguration;
 }
 
 namespace EpRecorder {
@@ -190,6 +191,7 @@ private:
                        T*&, EpStudy::Study*, int number = 0);
 
     EpStudy::Study* study_;
+    EpStudy::StudyConfiguration* studyConfig_;
     EpPatient::Patient* patient_;
     EpCore::User* user_;
 

@@ -27,9 +27,6 @@
 
 class QDataStream;
 
-namespace EpPatient { 
-    class Heart; }
-
 namespace EpStudy {
 
     class StudyConfiguration;
@@ -126,6 +123,10 @@ namespace EpStudy {
         void setPath(const QString& path) {path_ = path;}
         //void setStudyConfiguration(const StudyConfiguration&);
         void setHeartName(const QString& name) {heartName_ = name;}
+        void setStudyConfigName(const QString& name) {
+            studyConfigName_ = name;
+        }
+
         void setStudyConfiguration(StudyConfiguration* config);
 
         Name name() const {return name_;};
@@ -149,6 +150,7 @@ namespace EpStudy {
         // to identify study uniquely.
         bool isPreregisterStudy() const {return isPregisterStudy_;}
         QString heartName() const {return heartName_;}
+        QString studyConfigName() const {return studyConfigName_;}
         StudyConfiguration* studyConfiguration() const { 
             return studyConfiguration_;}
 
@@ -195,8 +197,8 @@ namespace EpStudy {
         bool isPregisterStudy_;
 
         mutable QString key_;   // unique key for each study
-        //EpPatient::Heart* heart_;
         QString heartName_;
+        QString studyConfigName_;
         StudyConfiguration* studyConfiguration_;
 
     };

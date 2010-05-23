@@ -23,6 +23,7 @@ rm -f $dirname/../System/intervals.dat
 rm -f $dirname/../System/label.dat
 rm -f $dirname/../System/protocols.dat
 rm -f $dirname/../System/windowsettings.dat
+rm -fr $dirname/../System/studies
 
 echo "Erasing from "$HOME/.epsimulator
 
@@ -34,4 +35,4 @@ rm -f $HOME/.epsimulator/intervals.dat
 rm -f $HOME/.epsimulator/label.dat
 rm -f $HOME/.epsimulator/protocols.dat
 rm -f $HOME/.epsimulator/windowsettings.dat
-
+rm -fr $HOME/.epsimulator/studies

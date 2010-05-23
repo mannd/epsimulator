@@ -95,6 +95,7 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent),
                                         currentDisk_(0),
                                         user_(User::instance()) {
     setAttribute(Qt::WA_DeleteOnClose);
+    setMinimumWidth(800);
     createDefaultDataDir();
     createOpticalDrive();
     createCatalogs();    
@@ -159,9 +160,11 @@ void Navigator::newStudy() {
                     selectStudyConfigDialog->config();
             study->setPreregisterStudy(false);
             StudyConfigurations configList;
-            if (configList.isPresent(configName))
+            if (configList.isPresent(configName)) {
+                study->setStudyConfigName(configName);
                 study->setStudyConfiguration(
                         configList.studyConfiguration(configName));
+            }
             else
                 throw EpCore::StudyConfigurationNotFoundError(configName);
             if (getStudyInformation(study)) {
@@ -192,6 +195,8 @@ void Navigator::continueStudy() {
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
             study->setStudyConfiguration(
                     selectStudyConfigDialog->studyConfiguration());
+            study->setStudyConfigName(selectStudyConfigDialog->
+                                      studyConfiguration()->name());
             catalogs_->deleteStudy(study);
             study->setPreregisterStudy(false);
             catalogs_->addStudy(study, currentDisk_->label(),
@@ -1329,7 +1334,10 @@ void Navigator::processFilter() {
 void Navigator::startStudy(Study* study, bool review) {
     // write study files
     QString studiesPath = currentDisk_->studiesPath();
+    if (EpCore::useDiskCache(studiesPath))
+        studiesPath = EpCore::systemPath() + "/studies";
     QDir studiesDir(studiesPath);
+    /// FIXME this will fail for an optical disk
     if (!studiesDir.exists() && !studiesDir.mkdir(studiesPath)) {
             delete study;
             throw EpCore::IoError(studiesPath, "could not create studiesPath");

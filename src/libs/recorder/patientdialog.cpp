@@ -36,6 +36,7 @@ PatientDialog::PatientDialog(QWidget* parent) :
             metricWeight_(0.0) {
     setupUi(this);
     ageLineEdit->setEnabled(false);
+    tabWidget->setCurrentIndex(0);
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));

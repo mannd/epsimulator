@@ -91,6 +91,8 @@ Recorder::Recorder(QWidget* parent,
                    AbstractMainWindow(parent), 
                    openDisplayWindowList_(LastDisplayWindow + 1),
                    study_(study), 
+                   studyConfig_(0),
+                   patient_(0),
                    user_(user),
                    currentDisk_(currentDisk),
                    allowAcquisition_(allowAcquisition),
@@ -558,6 +560,10 @@ void Recorder::closeEvent(QCloseEvent *event) {
     else if (closeStudy()) {
         study_->save();
         patient_->save();
+        /// TODO if useDiskCache() copy/burn to optical
+        // if not exporting to network, delete study data from
+        // system cache.  If exporting to network, at some point
+        // data is copied to network and deleted from System catalog.
         patientStatusBar_->stop();
         if (parentWidget())
             parentWidget()->show();        
