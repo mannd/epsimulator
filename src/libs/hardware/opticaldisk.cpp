@@ -28,6 +28,7 @@
 #include <QDateTime>
 #include <QDir>
 #include <QMessageBox>
+#include <QProcess>
 #include <QSettings>
 #include <QStringList>
 
@@ -81,9 +82,16 @@ QString OpticalDisk::makeStudiesPath(const QString& path) {
  * @param w This is the parent window calling this function.
  */
 void OpticalDisk::eject(QWidget* w) {
-    QMessageBox::information( w, tr("Eject Disk"),
-                              tr("Change Disk and select OK when done." ));
-    // Would be nice to mechanically eject disk here.
+    // needs to identify particular disk in case multiple disks
+    // are present
+    QProcess process;
+    process.start("wodim", QStringList() << "-eject");
+    process.waitForFinished();
+    QMessageBox msgBox(w);
+    msgBox.setWindowTitle(tr("Eject Disk"));
+    msgBox.setText(tr("Change Disk and select OK when done." ));
+
+    msgBox.exec();
 }
 
 /**

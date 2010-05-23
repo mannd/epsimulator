@@ -246,14 +246,22 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
 ** Use either?
    Not sure that will work -- might not be able to upgrade from one to
    the other.
+*** MySql could be option for the network database.
+    For the System and Optical database Sqlite or binary storage.
 ** What is stored on the optical disk?
-   The study data itself is not a database file.  
+   The study data itself is not a database file.  The study data is
+   streamed to the optical disk as a separate thread, until it fills
+   up.  The study data is also stored on the System directory, until
+   the study is completed.  It is left on the System directory until
+   data is exported if network export is enabled, after which it
+   disappears from the system directory.  Studies can be reviewed from
+   the Network directory, studies can be continued only if optical
+   disk in place.
 ** Database tables
    - catalog
    - lists
    - intervals
    - etc
-** Test case
 ** QMysql -- Up and Running!!!
    This is an clarification of the method to compile the mysql plugin
    for the Qt SDK found in the the Help documents.  Originally I was

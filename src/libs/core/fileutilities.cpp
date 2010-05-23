@@ -22,6 +22,7 @@
 
 #include <QDir>
 #include <QFileInfo>
+#include <QProcess>
 
 #include <QtDebug>
 
@@ -223,4 +224,14 @@ bool EpCore::useDiskCache(const QString& path) {
     return epOptions->diskCache == Options::ForceCache ||
         (epOptions->diskCache == Options::AutoCache &&
          EpCore::isRemovableMedia(path));
+}
+
+void EpCore::testCdTools(QObject* obj) {
+    QStringList arguments;
+    arguments << "-scanbus";
+    QProcess process(obj);
+    process.start("cdrecord", arguments);
+    process.waitForFinished();
+    QByteArray output = process.readAllStandardOutput();
+    qDebug() << "CD/DVD devices:\n" << output;
 }

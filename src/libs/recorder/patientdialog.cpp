@@ -36,6 +36,7 @@ PatientDialog::PatientDialog(QWidget* parent) :
             metricWeight_(0.0) {
     setupUi(this);
     ageLineEdit->setEnabled(false);
+    tabWidget->setCurrentIndex(0);
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -166,6 +167,7 @@ void PatientDialog::setFields(const Study* study) {
     weightKgLineEdit->setText(QString::number(study->weight()));
     manualEditBsaCheckBox->setChecked(study->bsaManualEdit());
     bsaLineEdit->setText(QString::number(study->bsa()));
+    //heartComboBox->
     efSpinBox->setValue(study->ef());
     vagalToneSpinBox->setValue(study->vagalTone());
     sympatheticToneSpinBox->setValue(study->sympatheticTone());

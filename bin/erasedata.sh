@@ -5,11 +5,12 @@
 # on data you want to save!!
 # Note location of configuration files is different in Qt4 vs 3
 
+echo "Note that this script does not erase Windows data files"
 dirname=`dirname $0`
 if [ "${dirname:0:1}" != "/" ]; then
     dirname=$PWD/$dirname
 fi
-echo $dirname
+echo "Erasing from "$dirname/../System
 
 rm -i -f ~/.config/EP\ Studios/EPSimulator.conf
 rm -fr ~/MyStudies/*
@@ -22,8 +23,9 @@ rm -f $dirname/../System/intervals.dat
 rm -f $dirname/../System/label.dat
 rm -f $dirname/../System/protocols.dat
 rm -f $dirname/../System/windowsettings.dat
+rm -fr $dirname/../System/studies
 
-echo $HOME
+echo "Erasing from "$HOME/.epsimulator
 
 rm -f $HOME/.epsimulator/catalog.dat
 rm -f $HOME/.epsimulator/config.dat
@@ -33,4 +35,4 @@ rm -f $HOME/.epsimulator/intervals.dat
 rm -f $HOME/.epsimulator/label.dat
 rm -f $HOME/.epsimulator/protocols.dat
 rm -f $HOME/.epsimulator/windowsettings.dat
-
+rm -fr $HOME/.epsimulator/studies

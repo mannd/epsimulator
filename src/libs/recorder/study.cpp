@@ -22,25 +22,20 @@
 
 #include "error.h"
 #include "fileutilities.h"
-#include "heart.h"
 #include "studyconfiguration.h"
 
 #include <QtCore/QDataStream>
 #include <QtCore/QDir>
 
-/// TODO Change these to programmable options
-/// These will be set with the simulator settings dialog
-/// or another dialog specific to physiology
-#define DEFAULT_EF 55
-#define DEFAULT_VAGAL_TONE 70
-#define DEFAULT_SYMPATHETIC_TONE 30
-#define DEFAULT_BIRTH_DATE (QDate(1950,1,1))
-
 namespace EpStudy {
 
-    using EpPatient::Heart;
     using EpPatient::Sex;
     using EpPatient::AutonomicTone;
+
+    const int defaultEf = 55;
+    const QDate defaultBirthDate = QDate::currentDate().addYears(-50);
+    const AutonomicTone defaultVagalTone = 70;
+    const AutonomicTone defaultSympatheticTone = 30;
 
     Name::Name(const QString& last,
                const QString& first,
@@ -100,18 +95,19 @@ namespace EpStudy {
     Study::Study() :
             dateTime_(QDateTime::currentDateTime()),
             name_(),
-            dateOfBirth_(DEFAULT_BIRTH_DATE),
+            dateOfBirth_(defaultBirthDate),
             mrn_(), number_(), accountNumber_(),
             sex_(EpPatient::Male), height_(0), weight_(0),
             heightIn_(0), weightLbs_(0), bsa_(0),
             bsaManualEdit_(false),
-            vagalTone_(DEFAULT_VAGAL_TONE),
-            sympatheticTone_(DEFAULT_SYMPATHETIC_TONE),
-            ef_(DEFAULT_EF),
+            vagalTone_(defaultVagalTone),
+            sympatheticTone_(defaultSympatheticTone),
+            ef_(defaultEf),
             ischemia_(false),
             path_(),
-            isPregisterStudy_(true) {
-        heart_ = new Heart;
+            isPregisterStudy_(true),
+            heartName_(QObject::tr("<default>")),
+            studyConfigName_(QObject::tr("<default>")) {
         studyConfiguration_ = new StudyConfiguration;
         testInvariant();
     }
@@ -123,7 +119,6 @@ namespace EpStudy {
     }
 
     Study::~Study() {
-        delete heart_;
         delete studyConfiguration_;
     }
 
@@ -233,8 +228,10 @@ namespace EpStudy {
         path_ = study.path_;
         key_ = study.key_;
         isPregisterStudy_ = study.isPregisterStudy_;
+        heartName_ = study.heartName_;
+        studyConfigName_ = study.studyConfigName_;
         // copy the heart pointer
-        heart_ = new Heart(*study.heart_);
+        //heart_ = new Heart(*study.heart_);
         studyConfiguration_ = new StudyConfiguration(*study.studyConfiguration_);
     }
 
@@ -251,7 +248,9 @@ namespace EpStudy {
                 << (qint32)study.sympatheticTone_ << (qint32)study.ef_
                 << (qint32)study.ischemia_ << study.path_ << study.key_
                 << study.isPregisterStudy_
-                << *study.heart_ << *study.studyConfiguration_;
+                << study.heartName_
+                << study.studyConfigName_
+                << *study.studyConfiguration_;
         return out;
     }
 
@@ -267,7 +266,9 @@ namespace EpStudy {
                 >> vagalTone >> sympatheticTone >> ef
                 >> ischemia >> study.path_ >> study.key_
                 >> study.isPregisterStudy_
-                >> *study.heart_ >> *study.studyConfiguration_;
+                >> study.heartName_
+                >> study.studyConfigName_
+                >> *study.studyConfiguration_;
         study.sex_ = (sex != 0) ? EpPatient::Female : EpPatient::Male;
         study.bsaManualEdit_ = bsaManualEdit;
         study.vagalTone_ = vagalTone;

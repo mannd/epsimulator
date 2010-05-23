@@ -99,6 +99,8 @@ QString getMachineName();
 long diskFreeSpace(const QString& path);
 
 
+void testCdTools(QObject* = 0);
+
 // definitions
 
 template<typename T> 

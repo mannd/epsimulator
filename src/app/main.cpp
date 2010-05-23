@@ -26,6 +26,7 @@
  * normal cardiac electrophysiology and arrhythmias.
  */
 
+#include "fileutilities.h"
 #include "navigator.h"
 
 #include <QtGui/QApplication>
@@ -94,6 +95,7 @@ int main(int argc, char **argv) {
 #endif
     app.installTranslator( &translator );
 #endif
+    EpCore::testCdTools(&app);
     if (!createConnection())
         return 1;
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
