@@ -19,3 +19,4 @@ LIBS += -lpatient \
 SOURCES += main.cpp
 RESOURCES = ../resources/resources.qrc
 QMAKE_CXXFLAGS += -DAPP_DATE=\\\"`date +'\"%a_%b_%d,_%Y\"'`\\\"
+QMAKE_CXXFLAGS += -DAPP_VERSION=\\\"`git describe`\\\"
