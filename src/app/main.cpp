@@ -37,6 +37,10 @@
 
 #include <QtDebug>
 
+#ifndef APP_DATE
+#define APP_DATE "1/1/1970"
+#endif
+
 // Languages
 // Only define 1 of the below
 //#define GERMAN
@@ -77,6 +81,7 @@ bool createConnection() {
 
 int main(int argc, char **argv) {
     qDebug() << "Compiled using Qt Version " << qVersion();
+    qDebug() << "Application date " << QLatin1String(APP_DATE);
 
     QApplication app(argc, argv);
 

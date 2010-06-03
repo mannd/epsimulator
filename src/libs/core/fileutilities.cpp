@@ -228,7 +228,7 @@ bool EpCore::useDiskCache(const QString& path) {
 
 void EpCore::testCdTools(QObject* obj) {
     QStringList arguments;
-    arguments << "-scanbus";
+    arguments << "--devices";
     QProcess process(obj);
     process.start("cdrecord", arguments);
     process.waitForFinished();

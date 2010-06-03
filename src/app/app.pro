@@ -18,4 +18,4 @@ LIBS += -lpatient \
     -lrecorder
 SOURCES += main.cpp
 RESOURCES = ../resources/resources.qrc
-
+QMAKE_CXXFLAGS += -DAPP_DATE=\\\"`date +'\"%a_%b_%d,_%Y\"'`\\\"
