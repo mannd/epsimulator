@@ -61,4 +61,5 @@ VersionInfo::VersionInfo(): appName_(appNameC),
     versionMajor_ = list[0].toInt();
     versionMinor_ = list[1].toInt();
     qDebug() << "EP Simulator Version " << version_;
+    qDebug() << "Compiled " << __DATE__ << __TIME__;
 }

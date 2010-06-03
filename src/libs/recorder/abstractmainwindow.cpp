@@ -83,14 +83,17 @@ void AbstractMainWindow::about() {
                        QObject::tr("About %1")
                        .arg(versionInfo_->programName()),
                        QObject::tr("<h2>%1 %2</h2>"
-                       "<p>Copyright &copy; %3 EP Studios, Inc."
-                       "<p>EP Simulator simulates an EP recording "
-                       "system."
-                       "<p><a href=http://www.epstudiossoftware.com> "
+                       "Built on %4 at %5<br /><br />"
+                       "EP Simulator simulates an EP recording "
+                       "system.<br /><br />"
+                       "Copyright &copy; %3 EP Studios, Inc.<br /><br />"
+                       "<a href=http://www.epstudiossoftware.com> "
                        "http://www.epstudiossoftware.com</a>")
                        .arg(versionInfo_->programName())
                        .arg(versionInfo_->version())
-                       .arg(versionInfo_->copyrightYear()));
+                       .arg(versionInfo_->copyrightYear())
+                       .arg(QLatin1String(__DATE__))
+                       .arg(QLatin1String(__TIME__)));
 }
 
 void AbstractMainWindow::login() {
