@@ -503,6 +503,8 @@ void Recorder::updateSimulatorSettings() {
     updateMenus();
     //setupInitialScreen(true);
     // signal update simulator settings in Navigator
+    /// TODO ? how to handle disk caching in middle of study
+    // ? disallow it
     emit simulatorSettingsChanged();
 }
 

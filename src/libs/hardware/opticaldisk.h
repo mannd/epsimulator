@@ -21,6 +21,9 @@
 #ifndef OPTICALDISK_H
 #define OPTICALDISK_H
 
+#include "fileutilities.h"
+#include "options.h"
+
 #include <QCoreApplication>
 #include <QString>
 
@@ -61,6 +64,7 @@ public:
     static QString makeStudiesPath(const QString& path);
 
     virtual void eject(QWidget*);
+    virtual void burn();
 
 
     virtual void readLabel();
@@ -82,11 +86,15 @@ public:
         setLabel(label);
         setSide(side);
     }
+    void setDiskCache(EpCore::Options::DiskCache diskCache) {
+        diskCache_ = diskCache;
+    }
 
     bool isLabeled() const {return isLabeled_;}
     LabelData labelData() const;
     QString label() const; 
     QString side() const;
+    EpCore::Options::DiskCache diskCache() const {return diskCache_;}
 
     virtual bool allowSideChange() const {return true;}
     virtual bool showAllSideButtons() const {return true;}
@@ -106,19 +114,29 @@ protected:
     // first bytes of label file
     enum {MagicNumber = 0x99c798f3};    
     static const QString labelFileName_;
+    static const QString cacheDirName_;
 
     void load(const QString& fileName);
     void save(const QString& fileName) const;
 
+    void clearCache();
+    void loadCache();   // copy optical disk catalog to cache
+
 private:
     OpticalDisk(OpticalDisk&);
+    bool isRemovable() const {return false;}
+    bool useDiskCache() const {
+        return EpCore::useDiskCache(path_);
+    }
     
     static const QString studiesDirName_;
 
     QString path_;  // optical drive path, all the way to study dir
                     // e.g. /home/user/MyStudies
+    QString cachePath_; // path to optical disk cache
     LabelData labelData_;
     bool isLabeled_;
+    EpCore::Options::DiskCache diskCache_;
 
 };
 
@@ -132,6 +150,7 @@ public:
     static EmulatedOpticalDisk* getLastDisk(const QString& path);    
 
     void eject(QWidget*);
+    void burn();
 
     void readLabel();
     void writeLabel() const;

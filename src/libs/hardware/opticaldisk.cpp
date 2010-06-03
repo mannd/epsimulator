@@ -38,6 +38,8 @@
 
 namespace EpHardware { namespace EpOpticalDisk {
 
+using EpCore::Options;
+
 // struct LabelData
 
 bool LabelData::operator==(const LabelData& rhs) const {
@@ -61,17 +63,42 @@ QDataStream& operator>>(QDataStream& in, LabelData& labelData) {
 // class OpticalDisk
 
 const QString OpticalDisk::labelFileName_ = "label.dat";
+const QString OpticalDisk::cacheDirName_ = ".cache";
 const QString OpticalDisk::studiesDirName_ = "studies";
 
 OpticalDisk::OpticalDisk(const QString& path) 
-    : path_(path), isLabeled_(false) {
+    : path_(path),
+    cachePath_(EpCore::joinPaths(epOptions->systemCatalogPath, cacheDirName_)),
+    isLabeled_(false),
+    diskCache_(Options::AutoCache) {
     qDebug() << "Studies path:\t" << path_;
+    qDebug() << "Cache path:\t" << cachePath_;
+    clearCache();
 }
 
-OpticalDisk::~OpticalDisk() {}
+OpticalDisk::~OpticalDisk() {
+    clearCache();
+}
 
 QString OpticalDisk::makeStudiesPath(const QString& path) {
     return EpCore::joinPaths(path, studiesDirName_);
+}
+
+void OpticalDisk::clearCache() {
+    if (!useDiskCache())
+        return;
+    QDir cacheDir(cachePath_);
+    if (cacheDir.exists())
+        EpCore::deleteDir(cachePath_);
+    if (!cacheDir.exists() && !cacheDir.mkdir(cachePath_))
+        throw EpCore::SystemDirectoryNotFoundError(cachePath_,
+                                                   "could not create cache.");
+}
+
+void OpticalDisk::loadCache() {
+    if (!useDiskCache())
+        return;
+
 }
 
 /**
@@ -84,15 +111,19 @@ QString OpticalDisk::makeStudiesPath(const QString& path) {
 void OpticalDisk::eject(QWidget* w) {
     // needs to identify particular disk in case multiple disks
     // are present
-    QProcess process;
-    process.start("wodim", QStringList() << "-eject");
-    process.waitForFinished();
-    QMessageBox msgBox(w);
-    msgBox.setWindowTitle(tr("Eject Disk"));
-    msgBox.setText(tr("Change Disk and select OK when done." ));
-
-    msgBox.exec();
+    if (isRemovable()) {
+        QProcess process;
+        // ? linux specific ?
+        process.start("eject", QStringList() << path_);
+        process.waitForFinished();
+        QMessageBox msgBox(w);
+        msgBox.setWindowTitle(tr("Eject Disk"));
+        msgBox.setText(tr("Change Disk and select OK when done." ));
+        msgBox.exec();
+    }
 }
+
+void OpticalDisk::burn() {}
 
 /**
  * 
@@ -293,6 +324,8 @@ void EmulatedOpticalDisk::eject(QWidget* w) {
     }
     delete d;
 }
+
+void EmulatedOpticalDisk::burn() {}
 
 QString EmulatedOpticalDisk::labelFilePath() const {
     return EpCore::joinPaths(labelPath(), labelFileName_);

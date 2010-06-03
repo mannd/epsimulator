@@ -230,6 +230,41 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
    Note that "the windows settings are unique to each acquisition
    system and review workstation."
    
+** OpticalDisk
+*** Expanding OpticalDisk
+    The OpticalDisk class is initialized by a path.  This is either a
+    path to a true optical media drive or a regular directory.  The
+    system can detect if this is a true optical drive or not.  A true
+    optical drive must use disk caching.  A regular directory or an
+    emulated optical drive can either use disk caching or not.  With
+    disk caching, a temporary directory is used to read and write
+    data.  Data is then "burned" or just copied to the actual optical
+    drive.  OpticalDisk handles all this internally.
+*** System Catalog
+    The System catalog is separate from the Optical catalog.  The
+    System catalog tracks which optical disk has which studies.  It is
+    supplanted by the Network catalog in a networked system.  If study
+    data is kept on network than the system catalog entry for that
+    study is deleted after the data is copied/archived to the
+    network.  The optical disk though is a permanent copy of the
+    study.  A study can be reviewed from the network catalog, but you
+    cannot continue a study without the optical disk.
+*** Preregister studies
+    These studies only appear in the System and Network catalogs.
+    They disappear when a study is started or continued.  No
+    preregistered study data is written to the optical disk.
+*** Optical Catalog
+**** Burning times
+     When a study is started or continued from Navigator, the catalog
+     database is burned to the drive.  When the Recorder windows is
+     closed, the catalog is updated if necessary and burned to the
+     CD.  Data is burned to the CD after being written to the cache,
+     in chunks, in a separate thread.  When the study is closed, any
+     unburned data is burned.
+**** Burning
+     If no disk cache is used then all writing is directly to the
+     "optical disk" directory, and burning is a no-op.  The disk cache
+     is the directory.
 * Database
 ** Background
    It has become obvious that, similar to the Prucka system, the data

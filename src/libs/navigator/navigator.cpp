@@ -887,6 +887,8 @@ void Navigator::initializeOpticalDisk() {
         else
             currentDisk_ = new OpticalDisk(epOptions->opticalStudyPath);
         currentDisk_->readLabel();
+        currentDisk_->setDiskCache(epOptions->diskCache);
+
     }
     catch (EpCore::IoError& e) { 
         int ret = QMessageBox::warning(this, tr("Error"),
