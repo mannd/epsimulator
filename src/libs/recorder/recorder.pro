@@ -1,4 +1,5 @@
 include(../../epsimulatorlibrary.pri)
+include(../../version.pri)
 TEMPLATE = lib
 TARGET = recorder
 SOURCES += recorder.cpp \
@@ -52,6 +53,5 @@ LIBS += -lcore \
     -lgui \
     -lhardware \
     -lstimulator
-QMAKE_CXXFLAGS += -DAPP_VERSION=\\\"`git describe`\\\"
 
 

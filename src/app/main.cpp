@@ -26,6 +26,7 @@
  * normal cardiac electrophysiology and arrhythmias.
  */
 
+#include "coreconstants.h"
 #include "fileutilities.h"
 #include "navigator.h"
 
@@ -36,10 +37,6 @@
 #include <QtSql/QSqlError>
 
 #include <QtDebug>
-
-#ifndef APP_VERSION
-#define APP_VERSION "local-dev"
-#endif
 
 // Languages
 // Only define 1 of the below
@@ -62,7 +59,7 @@
 #   define BACKEND_DB "QSQLITE"
 #endif
 
-bool createConnection() {
+static bool createConnection() {
     qDebug() << "Available DB drivers " << QSqlDatabase::drivers();
     qDebug() << "Backend DB driver in use is " << BACKEND_DB;
     QSqlDatabase db = QSqlDatabase::addDatabase(BACKEND_DB);
@@ -80,8 +77,12 @@ bool createConnection() {
 }
 
 int main(int argc, char **argv) {
-    qDebug() << "Compiled using Qt Version " << qVersion();
-    qDebug() << "Application build " << QLatin1String(APP_VERSION);
+    qDebug() << "Application version "
+            << EpCore::Constants::EPSIM_VERSION;
+    qDebug() << "Application build "
+            << QLatin1String(EpCore::Constants::APP_VERSION_BUILD_STR);
+    qDebug() << "Compiled using Qt Version "
+            << qVersion();
 
     QApplication app(argc, argv);
 

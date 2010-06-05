@@ -51,8 +51,8 @@ bool VersionInfo::versionOk(int major, int minor) {
 }
 
 QString VersionInfo::buildVersion() const {
-#ifdef APP_VERSION
-    return QLatin1String(APP_VERSION);
+#ifdef APP_VERSION_BUILD
+    return QLatin1String(APP_VERSION_BUILD);
 #else
     return QString();
 #endif

@@ -27,7 +27,8 @@ HEADERS += options.h \
     interval.h \
     itemlist.h \
     mark.h \
-    columnformat.h
+    columnformat.h \
+    coreconstants.h
 win32:LIBS += -lws2_32 \
     -lkernel32 \
     -loleaut32

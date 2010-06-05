@@ -22,6 +22,7 @@
 
 #include "actions.h"
 #include "changepassworddialog.h"
+#include "coreconstants.h"
 #include "editintervalsdialog.h"
 #include "editcolumnformatsdialog.h"
 #include "editprotocolsdialog.h"
@@ -42,6 +43,7 @@ using EpCore::Options;
 using EpCore::VersionInfo;
 using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
+using namespace EpCore::Constants;
 
 AbstractMainWindow::AbstractMainWindow(QWidget *parent)
     : QMainWindow(parent), versionInfo_(VersionInfo::instance()) {
@@ -80,29 +82,31 @@ void AbstractMainWindow::help() {
 
 void AbstractMainWindow::about() {
     QString buildVersion;
-#ifdef APP_VERSION
-    if (!versionInfo_->buildVersion().isEmpty())
-        buildVersion = tr("Build version %1<br />").arg(
-                QString::fromLatin1(APP_VERSION));
+#ifdef APP_VERSION_BUILD
+    buildVersion = tr("Build version %1<br />")
+                   .arg(QString::fromLatin1(APP_VERSION_BUILD));
 #endif
     QMessageBox::about(this, 
                        QObject::tr("About %1")
                        .arg(versionInfo_->programName()),
                        QObject::tr("<h2>%1 %2</h2>"
-                       "Built on %4 at %5<br />"
+                       "Built on %4 at %5 (%9 bit)<br />"
                        "%6"
                        "<br />"
                        "EP Simulator simulates an EP recording "
                        "system.<br /><br />"
-                       "Copyright &copy; %3 EP Studios, Inc.<br />"
+                       "Copyright &copy; 2006-%3 %10<br />"
+                       "Licensed under the GNU GPL Version 2<br />"
                        "<a href=http://www.epstudiossoftware.com> "
                        "http://www.epstudiossoftware.com</a>")
                        .arg(versionInfo_->programName())
-                       .arg(versionInfo_->version())
-                       .arg(versionInfo_->copyrightYear())
+                       .arg(QLatin1String(EPSIM_VERSION))
+                       .arg(QLatin1String(EPSIM_YEAR))
                        .arg(QLatin1String(__DATE__))
                        .arg(QLatin1String(__TIME__))
-                       .arg(buildVersion));
+                       .arg(buildVersion)
+                       .arg(QString::number(QSysInfo::WordSize))
+                       .arg(QLatin1String(EPSIM_AUTHOR)));
 }
 
 void AbstractMainWindow::login() {

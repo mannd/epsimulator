@@ -27,12 +27,6 @@ namespace EpCore {
 
 /**
  * Provides version and application information for a program.
- * This is a Singleton class, and instances are forced to be
- * const due to a factory method that returns a const instance.
- * It should be ok to let this be a Singleton; there can
- * only be one instance, it is const, and we'll let it
- * be globally available.
- *
  *	@author David Mann <mannd@epstudiossoftware.com>
  */
 

@@ -12,4 +12,6 @@ CONFIG += ordered
 
 SUBDIRS = src
 
+OTHER_FILES = README
+
 
