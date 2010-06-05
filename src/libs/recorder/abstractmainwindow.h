@@ -27,7 +27,6 @@ class QAction;
 
 namespace EpCore {
     class User;
-    class VersionInfo;
 }
 
 namespace EpHardware { namespace EpOpticalDisk { class OpticalDisk; }}
@@ -92,8 +91,6 @@ signals:
 
 private:
     void createActions();
-
-    const EpCore::VersionInfo* versionInfo_;
 
     QAction* intervalsAction_;
     QAction* columnFormatsAction_;

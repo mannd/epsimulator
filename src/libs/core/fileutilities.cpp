@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include "coreconstants.h"
 #include "fileutilities.h"
 
 #include <QDir>
@@ -25,6 +26,8 @@
 #include <QProcess>
 
 #include <QtDebug>
+
+using namespace EpCore::Constants;
 
 /**
  * @namespace EpCore Program functions that only require QtCore, not QtGui.
@@ -37,10 +40,10 @@
  * @param out QDataStream written to.
  */
 void EpCore::saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
+    QStringList epsimVersion = QString(EPSIM_VERSION).split(".");
     out << static_cast<quint32>(magicNumber);
-    const VersionInfo* v = VersionInfo::instance();
-    out << static_cast<quint32>(v->versionMajor())
-        << static_cast<quint32>(v->versionMinor())
+    out << static_cast<quint32>(epsimVersion[0].toInt())
+        << static_cast<quint32>(epsimVersion[1].toInt())
         << static_cast<quint16>(out.version());
 }
 
@@ -60,7 +63,7 @@ unsigned int EpCore::magicNumber(const QString& filePath) {
     // go further and make sure file version is ok
     quint32 versionMajor, versionMinor;
     in >> versionMajor >> versionMinor;
-    if (!VersionInfo::versionOk(versionMajor, versionMinor))
+    if (!versionOk(versionMajor, versionMinor))
         throw WrongEpSimVersionError(file.fileName());
     quint16 streamVersion;
     in >> streamVersion;
@@ -71,6 +74,8 @@ unsigned int EpCore::magicNumber(const QString& filePath) {
     file.close();
     return magic;
 }
+
+
 
 /**
  * Deletes the directory, and all subdirs and files.

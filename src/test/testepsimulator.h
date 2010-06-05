@@ -64,9 +64,6 @@ private slots:
     void testPasswordHandler();
     // class User
     void testUser();
-    // class VersionInfo
-    void testVersionInfo();
-    void testVersionOk();
     // class Catalog, Catalogs
     void testCatalog();
     void testCatalogs();

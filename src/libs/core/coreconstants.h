@@ -41,14 +41,19 @@ const char* const EPSIM_AUTHOR      = "EP Studios, Inc.";
 const char* const EPSIM_YEAR        = "2010";
 
 #undef APP_VERSION
+#undef APP_VERSION_MAJOR
+#undef APP_VERSION_MINOR
+#undef APP_VERSION_RELEASE
 #undef STRINGIFY
 #undef STRINGIFY_INTERNAL
 
+#ifdef APP_VERSION_BUILD
+const char* const APP_VERSION_BUILD_STR = APP_VERSION_BUILD;
+#else
+const char* const APP_VERSION_BUILD_STR = "";
+#endif
 
-
-
-
-}
-}
+} // Constants
+} // EpCore
 
 #endif // CORECONSTANTS_H

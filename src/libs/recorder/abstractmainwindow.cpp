@@ -33,20 +33,18 @@
 #include "simulatorsettingsdialog.h"
 #include "systemdialog.h"
 #include "user.h"
-#include "versioninfo.h"
 
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QUrl>
 
 using EpCore::Options;
-using EpCore::VersionInfo;
 using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
 using namespace EpCore::Constants;
 
 AbstractMainWindow::AbstractMainWindow(QWidget *parent)
-    : QMainWindow(parent), versionInfo_(VersionInfo::instance()) {
+    : QMainWindow(parent) {
     createActions();
 }
 
@@ -84,11 +82,12 @@ void AbstractMainWindow::about() {
     QString buildVersion;
 #ifdef APP_VERSION_BUILD
     buildVersion = tr("Build version %1<br />")
-                   .arg(QString::fromLatin1(APP_VERSION_BUILD));
+                   .arg(QString::fromLatin1(APP_VERSION_BUILD_STR));
 #endif
+    QString programName = QObject::tr("EP Simulator");
     QMessageBox::about(this, 
                        QObject::tr("About %1")
-                       .arg(versionInfo_->programName()),
+                       .arg(programName),
                        QObject::tr("<h2>%1 %2</h2>"
                        "Built on %4 at %5 (%9 bit)<br />"
                        "%6"
@@ -99,7 +98,7 @@ void AbstractMainWindow::about() {
                        "Licensed under the GNU GPL Version 2<br />"
                        "<a href=http://www.epstudiossoftware.com> "
                        "http://www.epstudiossoftware.com</a>")
-                       .arg(versionInfo_->programName())
+                       .arg(programName)
                        .arg(QLatin1String(EPSIM_VERSION))
                        .arg(QLatin1String(EPSIM_YEAR))
                        .arg(QLatin1String(__DATE__))
@@ -175,8 +174,9 @@ bool AbstractMainWindow::showSimulatorSettings() {
 }
 
 void AbstractMainWindow::updateWindowTitle(const QString& title) {
-    QString windowTitle = title.isEmpty() ? VersionInfo::instance()->programName() :
-        QString("%1 %2").arg(VersionInfo::instance()->programName()).arg(title);
+    const QString appTitle(QObject::tr("EP Simulator"));
+    QString windowTitle = title.isEmpty() ? appTitle :
+        QString("%1 %2").arg(appTitle).arg(title);
     windowTitle = user()->isAdministrator() ? 
         QString("%1 %2").arg(windowTitle).arg(QObject::tr("[Administrator]")) 
         : windowTitle;

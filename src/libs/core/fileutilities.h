@@ -23,7 +23,6 @@
 
 #include "error.h"
 #include "options.h"
-#include "versioninfo.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
@@ -57,6 +56,8 @@ bool systemFileExists(const QString& fileName);
 
 // gets a MagicNumber from a file
 unsigned int magicNumber(const QString& filePath);
+// check that file version is readable
+bool versionOk(int majorVersion, int MinorVersion);
 
 /**
  * Saves data to both Network and local System paths, if network storage
@@ -103,6 +104,13 @@ void testCdTools(QObject* = 0);
 
 // definitions
 
+inline bool versionOk(int /* versionMajor */,
+               int /* versionMinor */) {
+    // check for incompatible file versions here
+    // at present no such creature
+    return true;
+}
+
 template<typename T> 
 void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
     QFile file(filePath);
@@ -122,7 +130,7 @@ void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
         throw EpCore::WrongFileTypeError(file.fileName());
     quint32 versionMajor, versionMinor;
     in >> versionMajor >> versionMinor;
-    if (!VersionInfo::versionOk(versionMajor, versionMinor))
+    if (!versionOk(versionMajor, versionMinor))
         throw WrongEpSimVersionError(file.fileName());
     quint16 streamVersion;
     in >> streamVersion;

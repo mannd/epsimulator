@@ -21,7 +21,6 @@
 #include "changepassworddialog.h"
 
 #include "passwordhandler.h"
-#include "versioninfo.h"
 
 #include <QMessageBox>
 
@@ -54,7 +53,7 @@ void ChangePasswordDialog::clear() {
 void ChangePasswordDialog::accept() {
     QMessageBox msgBox(this);
     msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setWindowTitle(EpCore::VersionInfo::instance()->programName());
+    msgBox.setWindowTitle(tr("EP Simulator Administrator Login"));
     if (!pwHandler_->testPassword(oldLineEdit->text())) {
         msgBox.setText(tr("Wrong Password"));
         msgBox.setInformativeText(tr("Old password is wrong. "

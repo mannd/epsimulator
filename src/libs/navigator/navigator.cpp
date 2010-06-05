@@ -50,7 +50,6 @@
 #include "studyconfiguration.h"
 #include "tablelistview.h"
 #include "user.h"
-#include "versioninfo.h"
 
 #include <QAction>
 #include <QCloseEvent>
@@ -78,7 +77,6 @@ using EpCore::Interval;
 using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;
-using EpCore::VersionInfo;
 using EpGui::EditListDialog;
 using EpGui::PatientDialog;
 using EpGui::SelectStudyConfigDialog;
@@ -119,7 +117,6 @@ Navigator::~Navigator() {
     delete currentDisk_;
     delete user_;
     Options::destroy();
-    VersionInfo::destroy();
 }
 
 void Navigator::clearSelection() {

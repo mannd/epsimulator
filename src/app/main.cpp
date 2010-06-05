@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
     qDebug() << "Application version "
             << EpCore::Constants::EPSIM_VERSION;
     qDebug() << "Application build "
-            << QLatin1String(EpCore::Constants::APP_VERSION_BUILD_STR);
+            << QString::fromLatin1(EpCore::Constants::APP_VERSION_BUILD_STR);
     qDebug() << "Compiled using Qt Version "
             << qVersion();
 

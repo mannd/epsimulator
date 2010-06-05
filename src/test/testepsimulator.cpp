@@ -39,7 +39,6 @@
 #include "study.h"
 #include "studyconfiguration.h"
 #include "user.h"
-#include "versioninfo.h"
 
 #include <QDir>
 #include <QListView>
@@ -505,20 +504,6 @@ void TestEpSimulator::testUser() {
     QVERIFY(u->role() == tr("EPSIMUSER"));
     delete u;
 }
-    
-void TestEpSimulator::testVersionInfo() {
-    const VersionInfo* v = VersionInfo::instance();
-    QVERIFY(v->programName() == tr("EP Simulator"));
-    QVERIFY(v->appName() == "epsimulator");
-}
-    
-void TestEpSimulator::testVersionOk() {
-    const VersionInfo* v = VersionInfo::instance();
-    QVERIFY(VersionInfo::versionOk(v->versionMajor(), v->versionMinor()));
-    QVERIFY(!VersionInfo::versionOk(-99999,0));
-    QVERIFY(!VersionInfo::versionOk(-99999,-999999));
-    QVERIFY(!VersionInfo::versionOk(0,-999999));
-}
 
 void TestEpSimulator::testCatalog() {
     Catalog c(Options::instance()->systemCatalogPath, "catalog.dat");
@@ -781,7 +766,6 @@ void TestEpSimulator::cleanupTestCase() {
 	EpCore::deleteDir(workingPath_ + "/tmp");
 	QCOMPARE(QDir::current().exists("tmp"), false);
     }
-    VersionInfo::destroy();
     Options::destroy();
 }
 
