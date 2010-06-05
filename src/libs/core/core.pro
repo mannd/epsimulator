@@ -1,4 +1,5 @@
 include(../../epsimulatorlibrary.pri)
+include(../../version.pri)
 TEMPLATE = lib
 TARGET = core
 QT -= gui

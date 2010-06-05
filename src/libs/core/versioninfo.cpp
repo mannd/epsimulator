@@ -50,6 +50,14 @@ bool VersionInfo::versionOk(int major, int minor) {
         && minor >= GoodMinorVersion);
 }
 
+QString VersionInfo::buildVersion() const {
+#ifdef APP_VERSION
+    return QLatin1String(APP_VERSION);
+#else
+    return QString();
+#endif
+}
+
 // protected constructor
 
 VersionInfo::VersionInfo(): appName_(appNameC),

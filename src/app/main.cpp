@@ -37,10 +37,6 @@
 
 #include <QtDebug>
 
-#ifndef APP_DATE
-#define APP_DATE "1/1/1970"
-#endif
-
 #ifndef APP_VERSION
 #define APP_VERSION "local-dev"
 #endif
@@ -85,8 +81,7 @@ bool createConnection() {
 
 int main(int argc, char **argv) {
     qDebug() << "Compiled using Qt Version " << qVersion();
-    qDebug() << "Application version " <<
-            QLatin1String(APP_VERSION) << " " << QLatin1String(APP_DATE);
+    qDebug() << "Application build " << QLatin1String(APP_VERSION);
 
     QApplication app(argc, argv);
 

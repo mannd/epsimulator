@@ -1,4 +1,5 @@
 include(../../epsimulator.pri)
+include(../version.pri)
 TEMPLATE = app
 TARGET = $$EPSIM_APP_TARGET
 DESTDIR = $$EPSIM_APP_PATH
@@ -18,5 +19,3 @@ LIBS += -lpatient \
     -lrecorder
 SOURCES += main.cpp
 RESOURCES = ../resources/resources.qrc
-QMAKE_CXXFLAGS += -DAPP_DATE=\\\"`date +'\"%a_%b_%d,_%Y\"'`\\\"
-QMAKE_CXXFLAGS += -DAPP_VERSION=\\\"`git describe`\\\"

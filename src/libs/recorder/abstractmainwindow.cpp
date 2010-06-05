@@ -79,21 +79,30 @@ void AbstractMainWindow::help() {
 }
 
 void AbstractMainWindow::about() {
+    QString buildVersion;
+#ifdef APP_VERSION
+    if (!versionInfo_->buildVersion().isEmpty())
+        buildVersion = tr("Build version %1<br />").arg(
+                QString::fromLatin1(APP_VERSION));
+#endif
     QMessageBox::about(this, 
                        QObject::tr("About %1")
                        .arg(versionInfo_->programName()),
                        QObject::tr("<h2>%1 %2</h2>"
-                       "Built on %4 at %5<br /><br />"
+                       "Built on %4 at %5<br />"
+                       "%6"
+                       "<br />"
                        "EP Simulator simulates an EP recording "
                        "system.<br /><br />"
-                       "Copyright &copy; %3 EP Studios, Inc.<br /><br />"
+                       "Copyright &copy; %3 EP Studios, Inc.<br />"
                        "<a href=http://www.epstudiossoftware.com> "
                        "http://www.epstudiossoftware.com</a>")
                        .arg(versionInfo_->programName())
                        .arg(versionInfo_->version())
                        .arg(versionInfo_->copyrightYear())
                        .arg(QLatin1String(__DATE__))
-                       .arg(QLatin1String(__TIME__)));
+                       .arg(QLatin1String(__TIME__))
+                       .arg(buildVersion));
 }
 
 void AbstractMainWindow::login() {

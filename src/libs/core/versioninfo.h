@@ -54,6 +54,7 @@ public:
     int versionMinor() const {return versionMinor_;}
     QString version() const {return version_;}
     QString copyrightYear() const {return copyrightYear_;}
+    QString buildVersion() const;
 
 protected:
     VersionInfo(); 

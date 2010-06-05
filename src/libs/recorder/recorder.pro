@@ -52,5 +52,6 @@ LIBS += -lcore \
     -lgui \
     -lhardware \
     -lstimulator
+QMAKE_CXXFLAGS += -DAPP_VERSION=\\\"`git describe`\\\"
 
 
