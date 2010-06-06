@@ -95,7 +95,7 @@ void AbstractMainWindow::about() {
                        "EP Simulator simulates an EP recording "
                        "system.<br /><br />"
                        "Copyright &copy; 2006-%3 %10<br />"
-                       "Licensed under the GNU GPL Version 2<br />"
+                       "Licensed under the GNU GPL Version 2<br /><br />"
                        "<a href=http://www.epstudiossoftware.com> "
                        "http://www.epstudiossoftware.com</a>")
                        .arg(programName)

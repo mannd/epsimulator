@@ -28,7 +28,6 @@
 
 bool EpCore::isRemovableMedia(const QDir& dir) {
     QString path = dir.absolutePath();
-    qDebug() << "Path is " << path;
     path = path.toUpper() + "\\";
     UINT ret;
     const char* pathAnsi = path.toLatin1().constData();

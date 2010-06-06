@@ -65,7 +65,7 @@ User::User() : isAdministrator_(false) {
     name_ = getUserName();
     machineName_ = getMachineName();
 
-    qDebug() << "User is " << name_ << " and machine is "
+    qDebug() << "User is" << name_ << "and machine is"
             << machineName_;
 }
 

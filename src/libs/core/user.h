@@ -29,10 +29,8 @@ namespace EpCore {
  * The user of the program.  In CardioLab V5 there are 2 users, the
  * regular user and the administrator.  In V6, there are apparently
  * multiple users, with different roles, and probably simultaneous
- * logins from multiple terminals in a single study.  Given this,
- * and the disadvantages of Singletons, User is no longer a 
- * Singleton class, though I am still using the factory method.
- * Also, perhaps contains host machine info.
+ * logins from multiple terminals in a single study. 
+ *
  * @author David Mann <mannd@epstudiossoftware.com>
  */
 class User {

@@ -60,11 +60,12 @@
 #endif
 
 static bool createConnection() {
-    qDebug() << "Available DB drivers " << QSqlDatabase::drivers();
-    qDebug() << "Backend DB driver in use is " << BACKEND_DB;
+    qDebug() << "Available DB drivers" << QSqlDatabase::drivers();
+    qDebug() << "Backend DB driver in use is" << BACKEND_DB;
     QSqlDatabase db = QSqlDatabase::addDatabase(BACKEND_DB);
     db.setHostName("localhost");
-    db.setDatabaseName("epsimulator");
+    db.setDatabaseName(EpCore::joinPaths(
+            EpCore::systemPath(),"epsimulator.db"));
     db.setUserName("epsimuser");
     db.setPassword("epsimpassword");
     if (!db.open()) {
@@ -72,24 +73,58 @@ static bool createConnection() {
                               db.lastError().text());
         return false;
     }
-    qDebug() << "Database name is " << db.databaseName();
+    qDebug() << "Database name is" << db.databaseName();
     return true;
 }
 
-int main(int argc, char **argv) {
-    qDebug() << "Application version "
-            << EpCore::Constants::EPSIM_VERSION;
-    qDebug() << "Application build "
-            << QString::fromLatin1(EpCore::Constants::APP_VERSION_BUILD_STR);
-    qDebug() << "Compiled using Qt Version "
+static void displayVersion() {
+    qDebug() << "EP Simulator"
+            << "Version"
+            << EpCore::Constants::EPSIM_VERSION
+            << "Build"
+            << EpCore::Constants::APP_VERSION_BUILD_STR;
+    qDebug() << "Compiled using Qt Version"
             << qVersion();
+}
 
+static void displayHelp() {
+    const char* const helpText =
+            "Usage:\n"
+            "epsimulator [OPTION]\n"
+            "Options:\n"
+            "    --help          Display this help\n"
+            "    --version       Display program version\n";
+    qWarning("%s", helpText);
+}
+
+static void displayError() {
+    qCritical("epsimulator: unknown option");
+}
+
+int main(int argc, char **argv) {
     QApplication app(argc, argv);
+    QStringList arguments = app.arguments();
+    if (arguments.contains("--help") || arguments.contains("-h")) {
+        displayHelp();
+        return 0;
+    }
+    if (arguments.contains("--version") || arguments.contains("-v")) {
+        displayVersion();
+        return 0;	// quit after displaying version info
+    }
+    if (argc > 1) {     // hey, some other unknown option was given
+        displayError();
+        return 1;
+    }
+
+    // display version information with routine start
+    displayVersion();
 
     app.setOrganizationName("EP Studios");
     app.setOrganizationDomain("epstudiossoftware.com");
     app.setApplicationName("EPSimulator");
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
+
     // International stuff below
 #ifndef ENGLISH
     QTranslator translator( 0 );
@@ -101,6 +136,7 @@ int main(int argc, char **argv) {
 #endif
     app.installTranslator( &translator );
 #endif
+
     EpCore::testCdTools(&app);
     if (!createConnection())
         return 1;

@@ -28,7 +28,6 @@
 
 bool EpCore::isRemovableMedia(const QDir& dir) {
     QString path = dir.absolutePath();
-    qDebug() << "Path is " << path;
     QStringList elements = path.split("/");
     return elements.contains("media");
 }
