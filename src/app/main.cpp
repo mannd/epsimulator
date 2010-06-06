@@ -97,8 +97,8 @@ static void displayHelp() {
     qWarning("%s", helpText);
 }
 
-static void displayError() {
-    qCritical("epsimulator: unknown option");
+static void displayError(const char* const option) {
+    qCritical("epsimulator: unknown option %s", option);
 }
 
 int main(int argc, char **argv) {
@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
         return 0;	// quit after displaying version info
     }
     if (argc > 1) {     // hey, some other unknown option was given
-        displayError();
+        displayError(argv[1]);
         return 1;
     }
 

@@ -31,7 +31,28 @@ using EpCore::Options;
 
 Options* Options::instance_ = 0;
 
-Options::Options() :  systemCatalogPath(systemPath()) {
+Options::Options() :  screenFlags(DefaultScreenFlags),
+		      recorderFlags(DefaultRecorderFlags),
+		      bluePanelStyle(OpaqueButtons),
+		      bluePanelTweak(false),
+		      oldStyleNavigator(false),
+		      opticalDiskFlags(NoOpticalDiskFlags),
+		      emulatedOpticalDiskCapacity(0),
+		      opticalStudyPath(joinPaths(QDir::homePath(), 
+						 "MyStudies")),
+		      networkStudyPath(),
+		      exportFilePath(),
+		      tempStudyPath(),
+		      systemCatalogPath(systemPath()),
+		      labName(),
+		      useLabName(false),
+		      filePathFlags(EnableAcquisition),
+		      administratorAccountRequired(false),
+		      hideSimulatorMenu(false),
+		      permanentDelete(false),
+		      passwordHash(0),
+		      diskCache(AutoCache),
+		      numChannels(48) {
     qDebug() << "EP Simulator Directories";
     qDebug() << "========================";
     qDebug() << "System path:\t" << systemCatalogPath;
@@ -39,6 +60,7 @@ Options::Options() :  systemCatalogPath(systemPath()) {
     qDebug() << "Temp path:\t" << QDir::tempPath();
     qDebug() << "Current path:\t" << QDir::currentPath();
     qDebug() << "App path:\t" << rootDirectory().absolutePath();
+
     readSettings();
 }
 
