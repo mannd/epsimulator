@@ -86,15 +86,17 @@ Recorder::Recorder(QWidget* parent,
                    Study* study, 
                    OpticalDisk* currentDisk,
                    User* user,
+                   Options* options,
                    bool allowAcquisition,
                    RecorderWindow recorderWindow)
                    : 
-                   AbstractMainWindow(parent), 
+                   AbstractMainWindow(parent),
                    openDisplayWindowList_(LastDisplayWindow + 1),
                    study_(study), 
                    studyConfig_(0),
                    patient_(0),
                    user_(user),
+                   options_(options),
                    currentDisk_(currentDisk),
                    allowAcquisition_(allowAcquisition),
                    recorderWindow_(recorderWindow),
@@ -112,9 +114,9 @@ Recorder::Recorder(QWidget* parent,
     setAttribute(Qt::WA_DeleteOnClose);
 
     if (recorderWindow_ == Primary &&
-        epOptions->screenFlags.testFlag(Options::TwoRecorderWindows)) {
+        options_->screenFlags.testFlag(Options::TwoRecorderWindows)) {
         Recorder* recorder = new Recorder(this, study_, 
-            currentDisk_, user_, false, Secondary);
+            currentDisk_, user_, options_, false, Secondary);
         recorder->restore();
     }
 
@@ -217,7 +219,7 @@ bool Recorder::eventFilter(QObject* target, QEvent* event) {
     /// window and change the other windows accordingly.
 
     // no event filtering unless we are emulating the Prucka windows manager
-    if (!epOptions->screenFlags.testFlag(Options::EmulateWindowsManager))
+    if (!options_->screenFlags.testFlag(Options::EmulateWindowsManager))
         return QMainWindow::eventFilter(target, event);
     static bool inNoMansZone = false;
     static bool atStartPosition = true;
@@ -312,7 +314,7 @@ void Recorder::setupInitialScreen(bool tile) {
         hide();
     centralWidget_->update();
     centralWidget_->closeAllSubWindows();
-    if (epOptions->screenFlags.testFlag(Options::TwoRecorderWindows)) {
+    if (options_->screenFlags.testFlag(Options::TwoRecorderWindows)) {
         if (recorderWindow_ == Primary && allowAcquisition_) {
             realTimeWindowOpen(true);
         }
@@ -491,10 +493,10 @@ void Recorder::updateSystemSettings() {
 void Recorder::updateSimulatorSettings() {
     QDockWidget* dockWidget =
         qobject_cast<QDockWidget*>(patientStatusBar_->parentWidget());
-    dockWidget->setWindowTitle(epOptions->recorderFlags
+    dockWidget->setWindowTitle(options_->recorderFlags
                                .testFlag(Options::PatientStatusBarHasTitle)
         ? tr("Patient Status") : "");
-    if (epOptions->recorderFlags.testFlag(Options::ImmovablePatientStatusBar))
+    if (options_->recorderFlags.testFlag(Options::ImmovablePatientStatusBar))
         dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     else
         dockWidget->setFeatures(QDockWidget::DockWidgetClosable
@@ -523,7 +525,7 @@ void Recorder::connectReviewWindows() {
 void Recorder::realTimeWindowOpen(bool open) {
     openSubWindow(open, realTimeSubWindow_, realTimeWindow_, study_);
     // no system menu or close button if we are emulating Prucka
-    if (open && epOptions->screenFlags.testFlag(Options::EmulateWindowsManager))
+    if (open && options_->screenFlags.testFlag(Options::EmulateWindowsManager))
         realTimeSubWindow_->setWindowFlags(realTimeSubWindow_->windowFlags() 
             & ~Qt::WindowSystemMenuHint);
 }
@@ -577,7 +579,7 @@ void Recorder::closeEvent(QCloseEvent *event) {
 }
 
 void Recorder::resizeEvent(QResizeEvent*) {
-    if (epOptions->screenFlags.testFlag(Options::EmulateWindowsManager))
+    if (options_->screenFlags.testFlag(Options::EmulateWindowsManager))
         tileSubWindows();
 }
 
@@ -678,8 +680,8 @@ void Recorder::openSatMonitor() {
 }
 
 void Recorder::tileSubWindows() {
-    if (epOptions->screenFlags.testFlag(Options::EmulateWindowsManager) ||
-        epOptions->screenFlags.testFlag(Options::EmulatePruckaTiling))
+    if (options_->screenFlags.testFlag(Options::EmulateWindowsManager) ||
+        options_->screenFlags.testFlag(Options::EmulatePruckaTiling))
         // Prucka-like tiling
         setupInitialScreen(true);
     else
@@ -703,7 +705,7 @@ void Recorder::cascadeSubWindows() {
  * to the PatientStatusBar.
  */
 void Recorder::createStatusBar() {
-    if (epOptions->recorderFlags.testFlag(Options::RecorderHasStatusBar))
+    if (options_->recorderFlags.testFlag(Options::RecorderHasStatusBar))
         statusBar()->showMessage(QString());
     else
         statusBar()->hide();
@@ -1074,12 +1076,12 @@ void Recorder::updateMenus() {
     review2Action_->setEnabled(review1Present); 
     review2Action_->setChecked(review2Present);
     logAction_->setChecked(logPresent);
-    realTimeAction_->setEnabled(epOptions->
+    realTimeAction_->setEnabled(options_->
         filePathFlags.testFlag(Options::EnableAcquisition)  &&
-        !epOptions->screenFlags.testFlag(Options::EmulateWindowsManager));
+        !options_->screenFlags.testFlag(Options::EmulateWindowsManager));
     // Tile and cascade menu items only appear if Prucka windows manager emulation is off
-    tileAction_->setVisible(!epOptions->screenFlags.testFlag(Options::EmulateWindowsManager));
-    cascadeAction_->setVisible(!epOptions->screenFlags.testFlag
+    tileAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
+    cascadeAction_->setVisible(!options_->screenFlags.testFlag
                               (Options::EmulateWindowsManager));
 }
 

@@ -27,17 +27,17 @@
 using EpCore::PasswordHandler;
 using EpGui::PasswordDialog;
 
-PasswordDialog::PasswordDialog(QWidget* parent)
+PasswordDialog::PasswordDialog(const QString& passwordHash, QWidget* parent)
     : QDialog(parent) {
     setupUi(this);
     passwordLineEdit->setText("");
-    pwHandler_ = new PasswordHandler;
+    pwHandler_ = new PasswordHandler(passwordHash);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 PasswordDialog::~PasswordDialog() {
-    //delete pwHandler_;
+    delete pwHandler_;
 }
 
 void PasswordDialog::setPassword(const QString& pw) {

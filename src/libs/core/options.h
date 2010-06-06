@@ -45,7 +45,9 @@ namespace EpCore {
 struct Options {
 
 public:
-    enum ScreenFlag {
+   ~Options();
+
+   enum ScreenFlag {
         NoScreenEmulation       = 0x000000,
         // Puts everything on the left-hand screen, even if dual monitors,
         // no effect if only one monitor.
@@ -142,7 +144,7 @@ public:
 
     int numChannels;
 
-    inline static Options* instance();
+    static Options* instance() {return new Options;}
 
     // read and write options to disk
     void readSettings();
@@ -151,22 +153,9 @@ public:
     void load() {readSettings();}
     void save() {writeSettings();}
 
-    // call ONLY at end or program
-    // see www.informit.com/guides/content.asp?g=cplusplus&seqNum=148&rl=1
-    static void destroy() {delete instance_; instance_ = 0;}    
-
 protected:
     Options();
-    ~Options();
-
-    static Options* instance_;
 };
-
-inline Options* Options::instance() {
-    if (instance_ == 0)
-        instance_ = new Options;
-    return instance_;
-}
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Options::ScreenFlags)
 Q_DECLARE_OPERATORS_FOR_FLAGS(Options::OpticalDiskFlags)

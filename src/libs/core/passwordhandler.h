@@ -34,16 +34,19 @@ class PasswordHandler {
     Q_DECLARE_TR_FUNCTIONS(PasswordHandler)
 
 public:
-    PasswordHandler();
+    PasswordHandler(const QString& passwordHash = "0");
     ~PasswordHandler();
 
     void setPassword(const QString&);
     bool testPassword(const QString&);
 
+    QString passwordHash() const {return passwordHash_;}
+
 private:
     enum {MagicNumber = 0x33f788f6};  // for study.dat file
 
     QCryptographicHash hash_;
+    QString passwordHash_;
 };
 
 } // namespace EpCore

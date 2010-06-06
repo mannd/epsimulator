@@ -33,7 +33,7 @@ namespace EpCore {
     template<typename T>
     class ItemList {
     public:
-        ItemList();
+        ItemList(EpCore::Options* const options);
 
         T& operator[](int i) {
             return list_[i];
@@ -75,10 +75,12 @@ namespace EpCore {
         void makeDefault();
 
         QList<T> list_;
+        EpCore::Options* options_;
     };
 
     template<typename T>
-    ItemList<T>::ItemList() {
+    ItemList<T>::ItemList(EpCore::Options* options)
+        : options_(options) {
         load();
         if (list_.isEmpty()) {
             makeDefault();
@@ -141,7 +143,7 @@ namespace EpCore {
     void ItemList<T>::load() {
         try {
             EpCore::loadSystemData(T::magicNumber(), T::fileName(),
-                                   list_, epOptions);
+                                   list_, options_);
         }
         catch (EpCore::IoError&) {
             // ignore failure to read, leave list empty
@@ -151,7 +153,7 @@ namespace EpCore {
     template<typename T>
     void ItemList<T>::save() {
         EpCore::saveSystemData(T::magicNumber(), T::fileName(),
-                               list_, epOptions);
+                               list_, options_);
     }
 
     template<typename T>

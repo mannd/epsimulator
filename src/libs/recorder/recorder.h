@@ -74,6 +74,7 @@ public:
     Recorder(QWidget* parent, EpStudy::Study* study,
              EpHardware::EpOpticalDisk::OpticalDisk* currentDisk,
              EpCore::User* user,
+             EpCore::Options* options,
              bool allowAcquisition = true,
              RecorderWindow = Primary);
     ~Recorder();
@@ -95,6 +96,7 @@ protected:
     bool eventFilter(QObject*, QEvent*);
     void closeEvent(QCloseEvent*);
     void resizeEvent(QResizeEvent*);
+    virtual EpCore::Options* options() const {return options_;}
 
 signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
@@ -158,8 +160,6 @@ private:
     static const int edgeWidth = 80; // width of edges that are ignored by mouse
     bool noMansZone(const QPoint& p);
  
-    std::vector<bool> openDisplayWindowList_;
-
     void loadPatient();
     void loadAmplifier();
 
@@ -190,10 +190,12 @@ private:
     void openSubWindow(bool, QMdiSubWindow*&,
                        T*&, EpStudy::Study*, int number = 0);
 
+    std::vector<bool> openDisplayWindowList_;
     EpStudy::Study* study_;
     EpStudy::StudyConfiguration* studyConfig_;
     EpPatient::Patient* patient_;
-    EpCore::User* user_;
+    EpCore::User* user_;            // owned by Navigator
+    EpCore::Options* options_;      // owned by Navigator
 
     // hardware
     EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;

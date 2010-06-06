@@ -29,31 +29,32 @@
 using EpCore::Options;
 using EpGui::SystemDialog;
 
-SystemDialog::SystemDialog(const QString& path,
+SystemDialog::SystemDialog(Options* const options, const QString& path,
                            const QString& label, const QString& side,
                            QWidget *parent, bool allowAcquisitionChange)
-                           : QDialog(parent), path_(path) {
+                           : QDialog(parent), options_(options),
+                           path_(path) {
 
     setupUi(this);
     enableExportFilePathLineEdit();
     enableNetworkStudyPathLineEdit();
     // set up dialog here, from system settings on disk
-    opticalStudyPathLineEdit->setText(epOptions->opticalStudyPath);
-    networkStudyPathLineEdit->setText(epOptions->networkStudyPath);
-    exportFilePathLineEdit->setText(epOptions->exportFilePath);
-    enableAcquisitionCheckBox->setChecked(epOptions->
+    opticalStudyPathLineEdit->setText(options_->opticalStudyPath);
+    networkStudyPathLineEdit->setText(options_->networkStudyPath);
+    exportFilePathLineEdit->setText(options_->exportFilePath);
+    enableAcquisitionCheckBox->setChecked(options_->
         filePathFlags.testFlag(Options::EnableAcquisition));
     // don't allow change of acquisition mode from Recorder window
     enableAcquisitionCheckBox->setEnabled(allowAcquisitionChange);
 
-    setEnableFileExport(epOptions->filePathFlags.testFlag(
+    setEnableFileExport(options_->filePathFlags.testFlag(
         Options::EnableFileExport));
-    setEnableNetworkStorage(epOptions->filePathFlags.testFlag(
+    setEnableNetworkStorage(options_->filePathFlags.testFlag(
         Options::EnableNetworkStorage));
 
     studyPathLabel->setText(studyPathLabel->text().arg(path));
     diskLabel->setText(diskLabel->text().arg(label));
-    long kBytes = diskFreeSpace(epOptions->opticalStudyPath);
+    long kBytes = diskFreeSpace(options_->opticalStudyPath);
     QString space;
     space.setNum(kBytes);
     space += "K";
@@ -87,17 +88,15 @@ void SystemDialog::removeFilePathsTab() {
 }
 
 void SystemDialog::setOptions() {
-    epOptions->opticalStudyPath = opticalStudyPathLineEdit->text();
-    epOptions->networkStudyPath = networkStudyPathLineEdit->text();
-    epOptions->exportFilePath = exportFilePathLineEdit->text();
-    setFlag(epOptions->filePathFlags, Options::EnableAcquisition,
+    options_->opticalStudyPath = opticalStudyPathLineEdit->text();
+    options_->networkStudyPath = networkStudyPathLineEdit->text();
+    options_->exportFilePath = exportFilePathLineEdit->text();
+    setFlag(options_->filePathFlags, Options::EnableAcquisition,
         enableAcquisitionCheckBox->isChecked());
-    setFlag(epOptions->filePathFlags, Options::EnableFileExport,
+    setFlag(options_->filePathFlags, Options::EnableFileExport,
         enableFileExportCheckBox->isChecked());
-    setFlag(epOptions->filePathFlags, Options::EnableNetworkStorage,
+    setFlag(options_->filePathFlags, Options::EnableNetworkStorage,
         enableNetworkStorageCheckBox->isChecked());
-
-    epOptions->writeSettings();
 }
 
 
@@ -137,7 +136,7 @@ void SystemDialog::setEnableFileExport(bool enabled) {
 }
 
 long SystemDialog::diskFreeSpace(const QString& path) const {
-    int emulatedDiskMBytes = epOptions->emulatedOpticalDiskCapacity;
+    int emulatedDiskMBytes = options_->emulatedOpticalDiskCapacity;
     if (emulatedDiskMBytes  > 0) 
         return emulatedDiskMBytes * 1024;
     else

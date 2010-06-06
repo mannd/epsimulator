@@ -38,7 +38,7 @@ class PasswordDialog : public QDialog, private Ui::PasswordDialog {
     Q_OBJECT
 
 public:
-    PasswordDialog(QWidget* parent = 0);
+    PasswordDialog(const QString& passwordHash, QWidget* parent = 0);
     ~PasswordDialog();
 
     // public function, just for debugging and testing.

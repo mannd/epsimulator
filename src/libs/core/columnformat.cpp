@@ -39,10 +39,6 @@ namespace EpCore {
     bool operator<(const ColumnFormat& value1, const ColumnFormat& value2) {
         return value1.name_ < value2.name_;
     }
-
-
-
-
 }
 
 using EpCore::ColumnFormat;

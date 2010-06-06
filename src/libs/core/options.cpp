@@ -29,8 +29,6 @@
 
 using EpCore::Options;
 
-Options* Options::instance_ = 0;
-
 Options::Options() :  screenFlags(DefaultScreenFlags),
 		      recorderFlags(DefaultRecorderFlags),
 		      bluePanelStyle(OpaqueButtons),
@@ -53,13 +51,13 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      passwordHash(0),
 		      diskCache(AutoCache),
 		      numChannels(48) {
-    qDebug() << "EP Simulator Directories";
-    qDebug() << "========================";
-    qDebug() << "System path:\t" << systemCatalogPath;
-    qDebug() << "Home path:\t" << QDir::homePath();
-    qDebug() << "Temp path:\t" << QDir::tempPath();
-    qDebug() << "Current path:\t" << QDir::currentPath();
-    qDebug() << "App path:\t" << rootDirectory().absolutePath();
+//    qDebug() << "EP Simulator Directories";
+//    qDebug() << "========================";
+//    qDebug() << "System path:\t" << systemCatalogPath;
+//    qDebug() << "Home path:\t" << QDir::homePath();
+//    qDebug() << "Temp path:\t" << QDir::tempPath();
+//    qDebug() << "Current path:\t" << QDir::currentPath();
+//    qDebug() << "App path:\t" << rootDirectory().absolutePath();
 
     readSettings();
 }

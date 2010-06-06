@@ -33,6 +33,7 @@ class QToolBar;
 
 namespace EpCore {
     class User;
+    class Options;
 }
 
 namespace EpHardware { namespace EpOpticalDisk { class OpticalDisk; }}
@@ -72,6 +73,7 @@ protected:
     virtual EpCore::User* user() const {return user_;}
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const {
         return currentDisk_;}
+    virtual EpCore::Options* options() const {return options_;}
 
 private slots:
     void newStudy();
@@ -184,6 +186,7 @@ private:
     StatusBar* statusBar_;
     EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;
     EpCore::User* user_;
+    EpCore::Options* options_;
 
     // central widget stuff
     QSplitter* centralWidget_;

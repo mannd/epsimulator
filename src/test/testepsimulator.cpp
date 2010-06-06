@@ -24,6 +24,7 @@
 #include "bloodpressure.h"
 #include "catalog.h"
 #include "catalogcombobox.h"
+#include "changepassworddialog.h"
 #include "epdefs.h"
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
@@ -323,12 +324,7 @@ void TestEpSimulator::testOptions() {
     QVERIFY(s == o->opticalStudyPath);
     o->opticalStudyPath = s;
     QVERIFY(s == o->opticalStudyPath);
-    //o->destroy();
-    Options* o2 = Options::instance();
-    QVERIFY(o == o2);    // confirm all options identical
-    // test epOptions macro
-    QVERIFY(o2 == epOptions);
-    QVERIFY(o2->opticalDiskFlags == Options::instance()->opticalDiskFlags);
+    delete o;
 }
 
 void TestEpSimulator::testOptionsFlags() {
@@ -452,45 +448,21 @@ void TestEpSimulator::testGetSetPatientDialogDefaultStudies() {
 }
 
 void TestEpSimulator::testPasswordDialog() {
-    Options* o = Options::instance();
-    PasswordDialog* d = new PasswordDialog();
+    PasswordDialog* d = new PasswordDialog("0");
     // test consistency, will fail if line edit is giving gibberish
-    bool result1 = d->testPassword();
+    d->setPassword("admin");
+    QVERIFY(d->testPassword());
     delete d;
-    PasswordDialog* d1 = new PasswordDialog();
-    bool result2 = d1->testPassword();
-    QVERIFY(result1 == result2);
-    // another consistency test
-    QString pw = "abcdefghi";
-    d1->setPassword(pw);
-    QVERIFY(!d1->testPassword());
-    // different password
-    d1->setPassword("nonsense");
-    QVERIFY(!d1->testPassword());
-    // need way to set password to do more testing
-    d1->setPassword("");
-    QString emptyPasswordHash = o->passwordHash;
-    d1->setPassword("admin");   // should be same as empty pw
-    QString adminPasswordHash = o->passwordHash;
-    QCOMPARE(emptyPasswordHash, adminPasswordHash);   
-    delete d1;
-    o->destroy();
 }
 
 void TestEpSimulator::testPasswordHandler() {
-    Options* o = Options::instance();
     PasswordHandler* ph = new PasswordHandler();
+    QVERIFY(ph->testPassword("admin"));
     QString s = "password1";
     ph->setPassword(s);
-    QString testPasswordHash = o->passwordHash;
-    QVERIFY(ph->testPassword(s));
-    QVERIFY(!ph->testPassword("wrongpassword"));
-    // tests for non-zero password hash    
-    QVERIFY(!o->passwordHash.isEmpty());
-    ph->setPassword("random");
-    QVERIFY(testPasswordHash != o->passwordHash);
+    QVERIFY(!ph->testPassword("admin"));
+    QVERIFY(ph->testPassword("password1"));
     delete ph;
-    o->destroy();
 }
 
 void TestEpSimulator::testUser() {
@@ -506,8 +478,9 @@ void TestEpSimulator::testUser() {
 }
 
 void TestEpSimulator::testCatalog() {
-    Catalog c(Options::instance()->systemCatalogPath, "catalog.dat");
-    QVERIFY(c.filePath() == Options::instance()->systemCatalogPath + "/catalog.dat");
+    Options* o = Options::instance();
+    Catalog c(o->systemCatalogPath, "catalog.dat");
+    QVERIFY(c.filePath() == o->systemCatalogPath + "/catalog.dat");
     c.setPath("/testpath/");
     // make sure no duplicate backslashes
     QVERIFY(c.filePath() == "/testpath/catalog.dat");
@@ -515,6 +488,7 @@ void TestEpSimulator::testCatalog() {
 //     Catalog* cp = new OpticalCatalog("../System", "catalog.dat");
 //     cerr <<   "catalog filepath" << cp->filePath();
 //    delete cp;
+    delete o;
 }
 
 void TestEpSimulator::testCatalogs() {
@@ -573,6 +547,7 @@ void TestEpSimulator::testCatalogComboBox() {
     setFlag(o->filePathFlags, Options::EnableNetworkStorage, 
         originalEnableNetwork);
     delete c;
+    delete o;
 }
     
 void TestEpSimulator::testDeleteDir() {
@@ -766,7 +741,6 @@ void TestEpSimulator::cleanupTestCase() {
 	EpCore::deleteDir(workingPath_ + "/tmp");
 	QCOMPARE(QDir::current().exists("tmp"), false);
     }
-    Options::destroy();
 }
 
 // private functions

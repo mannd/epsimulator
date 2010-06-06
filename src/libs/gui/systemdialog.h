@@ -25,12 +25,17 @@
 
 #include <QDialog>
 
+namespace EpCore {
+    class Options;
+}
+
 namespace EpGui {
 
 class SystemDialog : public QDialog, private Ui::SystemDialog {
     Q_OBJECT
 public:
-    SystemDialog(const QString& path,
+    SystemDialog(EpCore::Options* const options,
+                 const QString& path,
                  const QString& label, 
                  const QString& side,
                  QWidget* parent = 0,
@@ -54,6 +59,7 @@ private:
     long diskFreeSpace(const QString& path) const;
     long timeRemaining(long kBytes) const;
 
+    EpCore::Options* options_;
     QString path_;
 };
 

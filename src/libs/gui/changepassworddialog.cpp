@@ -27,10 +27,11 @@
 using EpCore::PasswordHandler;
 using EpGui::ChangePasswordDialog;
 
-ChangePasswordDialog::ChangePasswordDialog(QWidget *parent)
+ChangePasswordDialog::ChangePasswordDialog(const QString& oldPasswordHash,
+                                           QWidget *parent)
     : QDialog(parent) {
     setupUi(this);
-    pwHandler_ = new PasswordHandler;
+    pwHandler_ = new PasswordHandler(oldPasswordHash);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
@@ -80,6 +81,7 @@ void ChangePasswordDialog::accept() {
     }
 }
 
-void ChangePasswordDialog::changePassword() const {
+QString ChangePasswordDialog::changePassword()  {
     pwHandler_->setPassword(newLineEdit->text());
+    return pwHandler_->passwordHash();
 }

@@ -52,22 +52,24 @@ AbstractMainWindow::~AbstractMainWindow() {}
 
 void AbstractMainWindow::simulatorSettings() {
     if (administrationAllowed()) {
-        SimulatorSettingsDialog simDialog(this);
+        SimulatorSettingsDialog simDialog(options(), this);
         if (simDialog.exec() == QDialog::Accepted) {
             simDialog.setOptions();
             updateSimulatorSettings();
+            options()->save();
         }
     }
 }
 
 void AbstractMainWindow::systemSettings() {
     if (administrationAllowed()) {
-        SystemDialog systemDialog(
+        SystemDialog systemDialog(options(),
             currentDisk()->studiesPath(), currentDisk()->label(),
             currentDisk()->translatedSide(), this);
         if (systemDialog.exec() == QDialog::Accepted) {
             systemDialog.setOptions();
             updateSystemSettings();
+            options()->save();
         }
     }
 }
@@ -110,7 +112,7 @@ void AbstractMainWindow::about() {
 
 void AbstractMainWindow::login() {
     if (!user()->isAdministrator()) {
-        PasswordDialog pwDialog(this);
+        PasswordDialog pwDialog(options()->passwordHash, this);
         if (pwDialog.exec() == QDialog::Accepted) {
             user()->setIsAdministrator(true);
             updateAll();
@@ -125,9 +127,11 @@ void AbstractMainWindow::logout() {
 
 void AbstractMainWindow::changePassword() {
     if (administrationAllowed()) {
-        ChangePasswordDialog cpDialog(this);
-        if (cpDialog.exec() == QDialog::Accepted) 
-            cpDialog.changePassword();
+        ChangePasswordDialog cpDialog(options()->passwordHash, this);
+        if (cpDialog.exec() == QDialog::Accepted) {
+            options()->passwordHash = cpDialog.changePassword();
+            options()->save();
+        }
     }
 }
 
@@ -162,7 +166,7 @@ void AbstractMainWindow::setProtocols() {
 /// and not logged in as administrator, will do a login, then
 /// will allow adminstration if user successfully logged in.
 bool AbstractMainWindow::administrationAllowed() {
-    if (!epOptions->administratorAccountRequired)
+    if (!options()->administratorAccountRequired)
         return true;
     login();
     return user()->isAdministrator();
@@ -170,7 +174,7 @@ bool AbstractMainWindow::administrationAllowed() {
 
 /// Shows the *Simulator Settings* menu item.
 bool AbstractMainWindow::showSimulatorSettings() {
-    return !epOptions->hideSimulatorMenu || user()->isAdministrator();
+    return !options()->hideSimulatorMenu || user()->isAdministrator();
 }
 
 void AbstractMainWindow::updateWindowTitle(const QString& title) {

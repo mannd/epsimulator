@@ -20,14 +20,12 @@
 
 #include "passwordhandler.h"
 
-#include "options.h"
-
 using EpCore::PasswordHandler;
 
-PasswordHandler::PasswordHandler() :
-    hash_(QCryptographicHash::Sha1){
+PasswordHandler::PasswordHandler(const QString& passwordHash) :
+    hash_(QCryptographicHash::Sha1), passwordHash_(passwordHash) {
     // set original password to "admin"
-    if (epOptions->passwordHash == "0")
+    if (passwordHash == "0")
         setPassword(tr("admin"));
 }
 
@@ -36,12 +34,11 @@ PasswordHandler::~PasswordHandler() {}
 void PasswordHandler::setPassword(const QString& pw) {    
     hash_.reset();
     hash_.addData(pw.toAscii());
-    epOptions->passwordHash = hash_.result();
-    epOptions->writeSettings();
+    passwordHash_ = QString(hash_.result());
 }
 
 bool PasswordHandler::testPassword(const QString& pw) {
     hash_.reset();
     hash_.addData(pw.toAscii());
-    return hash_.result() == epOptions->passwordHash.toAscii();
+    return hash_.result() == passwordHash_.toAscii();
 }

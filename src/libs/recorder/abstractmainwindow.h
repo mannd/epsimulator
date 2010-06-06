@@ -26,10 +26,15 @@
 class QAction;
 
 namespace EpCore {
+    class Options;
     class User;
 }
 
-namespace EpHardware { namespace EpOpticalDisk { class OpticalDisk; }}
+namespace EpHardware {
+    namespace EpOpticalDisk {
+        class OpticalDisk;
+    }
+}
 
 namespace EpGui {
 
@@ -50,6 +55,7 @@ public slots:
 
 protected:
     virtual EpCore::User* user() const = 0;
+    virtual EpCore::Options* options() const = 0;
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const = 0;
     virtual void updateSimulatorSettings() = 0;
     virtual void updateSystemSettings() = 0;
