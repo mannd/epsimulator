@@ -359,3 +359,50 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
         is true, 
       - otherwise returns StudyData.location and
         StudyLocation.side.
+* Singleton elimination
+** fileutilies.h
+   Need a polymorphic class that can save system data.  E.g.
+
+template<typename T>
+class SystemData {
+public:
+    SystemData(T* t, const QString& systemPath);
+    
+    virtual void save();
+    virtual void load();
+private:
+    T* t_;
+    QString systemPath_;
+};
+
+template<typename T>
+class NetworkData : public SystemData {
+public:
+    NetworkData(T* t, const QString& systemPath,
+    const QString& networkPath) : SystemData(t,systemPath) {}
+
+    virtual void save();
+    virtual void load();
+
+private:
+    QString networkPath_;
+};
+
+template<typename T>
+SystemData::SystemData(T* t) : t_(t) {}
+
+template<typename T>
+void SystemData::save() {
+
+
+}
+
+Actually need a SystemData object that is initialized correctly (?
+polymorphic) and is passed to classes that need to system save data.
+** class ItemList
+   problem here is initializing list.  There is a makeDefaults()
+   function that does that, but should only do this if no list has
+   been saved to disk.  We must not save and load in constructors, the
+   constructor should construct a basic object, that can be populated
+   either from makeDefaults() or from the saved data file, as a
+   separate method.

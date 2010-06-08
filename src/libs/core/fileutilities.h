@@ -99,10 +99,93 @@ QString getUserName();
 QString getMachineName();
 long diskFreeSpace(const QString& path);
 
+template<typename T>
+class DataStream {
+public:
+    virtual void save(unsigned int magicNumber,
+                      const QString& fileName,
+                      const T& data) = 0;
+    virtual void load(unsigned int magicNumber,
+                      const QString& filNname,
+                      T& data) = 0;
+};
+
+
+template<typename T>
+class SystemStream : public DataStream<T> {
+public:
+    SystemStream(const QString& systemPath);
+
+    virtual void save(unsigned int magicNumber,
+                      const QString& fileName,
+                      const T& data);
+    virtual void load(unsigned int magicNumber,
+                      const QString& filNname,
+                      T& data);
+private:
+    QString systemPath_;
+};
+
+template<typename T>
+class NetworkStream : public SystemStream<T> {
+public:
+    NetworkStream(const QString& networkPath,
+                  const QString& systemPath);
+    virtual void save(unsigned int magicNumber,
+                      const QString& fileName,
+                      const T& data);
+    virtual void load(unsigned int magicNumber,
+                      const QString& fileNname,
+                      T& data);
+private:
+    QString networkPath_;
+};
+
 
 void testCdTools(QObject* = 0);
 
 // definitions
+
+template<typename T>
+SystemStream<T>::SystemStream(const QString &systemPath)
+    : systemPath_(systemPath) {}
+
+template<typename T>
+void SystemStream<T>::save(unsigned int magicNumber,
+                       const QString& fileName,
+                       const T& data) {
+    saveData(joinPaths(systemPath_, fileName), magicNumber, data);
+}
+
+template<typename T>
+void SystemStream<T>::load(unsigned int magicNumber,
+                        const QString& fileName,
+                        T& data) {
+    loadData(joinPaths(systemPath_, fileName), magicNumber, data);
+}
+
+template<typename T>
+NetworkStream<T>::NetworkStream(const QString& networkPath,
+                             const QString& systemPath)
+    : SystemStream<T>(systemPath), networkPath_(networkPath) {}
+
+template<typename T>
+void NetworkStream<T>::save(unsigned int magicNumber,
+                         const QString& fileName,
+                         const T& data) {
+    SystemStream<T>::save(magicNumber, fileName, data);
+    saveData(joinPaths(networkPath_, fileName), magicNumber, data);
+}
+
+template<typename T>
+void NetworkStream<T>::load(unsigned int magicNumber,
+                            const QString& fileName,
+                            T& data) {
+    SystemStream<T>::load(magicNumber, fileName, data);
+    loadData(joinPaths(networkPath_, fileName), magicNumber, data);
+}
+
+
 
 inline bool versionOk(int /* versionMajor */,
                int /* versionMinor */) {

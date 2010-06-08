@@ -30,138 +30,145 @@
 
 namespace EpCore {
 
-    template<typename T>
-    class ItemList {
-    public:
-        ItemList(EpCore::Options* const options);
+template<typename T>
+class ItemList {
+public:
+    ItemList();
+    ItemList(EpCore::Options* const options)
+        : list_(), options_(options) {}
 
-        T& operator[](int i) {
+    T& operator[](int i) {
+        return list_[i];
+    }
+
+    T& operator[](const QString& name);
+
+    T value(int i) const {
+        return list_.value(i);
+    }
+
+    bool contains(const T& value) const {
+        return list_.contains(value);
+    }
+
+    void removeAt(int i) {
+        list_.removeAt(i);
+    }
+
+    void remove(const QString&);
+
+    void append(const T& value) {
+        list_.append(value);
+    }
+
+    int index(const T& value) const;
+    int index(const QString& name) const;
+
+    bool nameIsPresent(const QString& name) const;
+    bool duplicate(const T&) const;
+    int size() const {return list_.size();}
+    void loadList();
+    void update() {save();}
+    QList<T> list() const {return list_;}
+
+private:
+    void load();
+    void save();
+
+    void makeDefault();
+
+    QList<T> list_;
+    EpCore::Options* options_;
+};
+
+template<typename T>
+ItemList<T>::ItemList()
+    : list_(), options_(0) {}
+
+template<typename T>
+void ItemList<T>::loadList() {
+    load();
+    if (list_.isEmpty()) {
+        makeDefault();
+        save();
+    }
+}
+
+template<typename T>
+T& ItemList<T>::operator[](const QString& name) {
+    for (int i = 0; i < list_.size(); ++i) {
+        if (list_.at(i).name() == name)
             return list_[i];
-        }
+    }
+    // return 1st in list if not found
+    return list_.front();
 
-        T& operator[](const QString& name);
+}
 
-        T value(int i) const {
-            return list_.value(i);
-        }
-
-        bool contains(const T& value) const {
-            return list_.contains(value);
-        }
-
-        void removeAt(int i) {
+template<typename T>
+void ItemList<T>::remove(const QString& name) {
+    for (int i = 0; i < list_.size(); ++i) {
+        if (list_.at(i).name() == name)
             list_.removeAt(i);
-        }
-
-        void remove(const QString&);
-
-        void append(const T& value) {
-            list_.append(value);
-        }
-
-        int index(const T& value) const;
-        int index(const QString& name) const;
-
-        bool nameIsPresent(const QString& name) const;
-        bool duplicate(const T&) const;
-        int size() const {return list_.size();}
-        void update() {save();}
-        QList<T> list() const {return list_;}
-
-    private:
-        void load();
-        void save();
-
-        void makeDefault();
-
-        QList<T> list_;
-        EpCore::Options* options_;
-    };
-
-    template<typename T>
-    ItemList<T>::ItemList(EpCore::Options* options)
-        : options_(options) {
-        load();
-        if (list_.isEmpty()) {
-            makeDefault();
-            save();
-        }
     }
+}
 
-    template<typename T>
-    T& ItemList<T>::operator[](const QString& name) {
-        for (int i = 0; i < list_.size(); ++i) {
-            if (list_.at(i).name() == name)
-                return list_[i];
-        }
-        // return 1st in list if not found
-        return list_.front();
-
+template<typename T>
+int ItemList<T>::index(const T& item) const {
+    for (int i = 0; i < list_.size(); ++i) {
+        if (list_.at(i).name() == item.name())
+            return i;
     }
+    return -1;
+}
 
-    template<typename T>
-    void ItemList<T>::remove(const QString& name) {
-        for (int i = 0; i < list_.size(); ++i) {
-            if (list_.at(i).name() == name)
-                list_.removeAt(i);
-        }
+template<typename T>
+int ItemList<T>::index(const QString &name) const {
+    for (int i = 0; i < list_.size(); ++i) {
+        if (list_.at(i).name() == name)
+            return i;
     }
+    return -1;
+}
 
-    template<typename T>
-    int ItemList<T>::index(const T& item) const {
-        for (int i = 0; i < list_.size(); ++i) {
-            if (list_.at(i).name() == item.name())
-                return i;
-        }
-        return -1;
+template<typename T>
+bool ItemList<T>::duplicate(const T & item) const {
+    return nameIsPresent(item.name());
+}
+
+template<typename T>
+bool ItemList<T>::nameIsPresent(const QString &name) const {
+    for (int i = 0; i < list_.size(); ++i) {
+        if (list_.at(i).name() == name)
+            return true;
     }
+    return false;
+}
 
-    template<typename T>
-    int ItemList<T>::index(const QString &name) const {
-        for (int i = 0; i < list_.size(); ++i) {
-            if (list_.at(i).name() == name)
-                return i;
-        }
-        return -1;
-    }
-
-    template<typename T>
-    bool ItemList<T>::duplicate(const T & item) const {
-        return nameIsPresent(item.name());
-    }
-
-    template<typename T>
-    bool ItemList<T>::nameIsPresent(const QString &name) const {
-        for (int i = 0; i < list_.size(); ++i) {
-            if (list_.at(i).name() == name)
-                return true;
-        }
-        return false;
-    }
-
-    template<typename T>
-    void ItemList<T>::load() {
-        try {
-            EpCore::loadSystemData(T::magicNumber(), T::fileName(),
-                                   list_, options_);
-        }
-        catch (EpCore::IoError&) {
-            // ignore failure to read, leave list empty
-        }
-    }
-
-    template<typename T>
-    void ItemList<T>::save() {
-        EpCore::saveSystemData(T::magicNumber(), T::fileName(),
+template<typename T>
+void ItemList<T>::load() {
+    try {
+        EpCore::loadSystemData(T::magicNumber(), T::fileName(),
                                list_, options_);
     }
-
-    template<typename T>
-    void ItemList<T>::makeDefault() {
-        QList<T> defaults = T::defaultItems();
-        list_.clear();
-        list_ = defaults;
+    catch (EpCore::IoError&) {
+        // ignore failure to read, leave list empty
     }
+}
+
+template<typename T>
+void ItemList<T>::save() {
+    EpCore::saveSystemData(T::magicNumber(), T::fileName(),
+                           list_, options_);
+}
+
+template<typename T>
+void ItemList<T>::makeDefault() {
+    QList<T> defaults = T::defaultItems();
+    list_.clear();
+    list_ = defaults;
+}
+
 }
 
 #endif
