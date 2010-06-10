@@ -61,6 +61,7 @@
 
 #include <QMouseEvent>
 
+using EpCore::DataStream;
 using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;
@@ -98,6 +99,7 @@ Recorder::Recorder(QWidget* parent,
                    user_(user),
                    options_(options),
                    currentDisk_(currentDisk),
+                   amplifier_(),
                    allowAcquisition_(allowAcquisition),
                    recorderWindow_(recorderWindow),
                    realTimeWindow_(0),
@@ -169,8 +171,10 @@ Recorder::Recorder(QWidget* parent,
 }
 
 Recorder::~Recorder() {
-    writeSettings();
     if (recorderWindow_ == Primary) {
+        writeSettings();
+        amplifier_->save(DataStream<Amplifier>::createDataStream(options_));
+        delete amplifier_;
         delete patient_;
         // Recorder took possession of study_, so has to kill it now.
         delete study_;
@@ -178,7 +182,7 @@ Recorder::~Recorder() {
 }
 
 void Recorder::loadAmplifier() {
-    // amplifier_->load();
+    amplifier_->load(DataStream<Amplifier>::createDataStream(options_));
 }
 
 void Recorder::loadPatient() {

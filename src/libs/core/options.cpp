@@ -59,7 +59,7 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 //    qDebug() << "Current path:\t" << QDir::currentPath();
 //    qDebug() << "App path:\t" << rootDirectory().absolutePath();
 
-    readSettings();
+    //readSettings();
 }
 
 /**

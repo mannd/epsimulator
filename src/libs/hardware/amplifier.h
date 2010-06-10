@@ -22,10 +22,14 @@
 #define AMPLIFIER_H
 
 #include <QColor>
-#include <QCoreApplication>
+#include <QtCore/QCoreApplication>
 #include <QList>
 
 class QDataStream;
+
+namespace EpCore {
+    template<typename T> class DataStream;
+}
 
 namespace EpHardware { 
     namespace EpAmplifier {
@@ -68,6 +72,9 @@ public:
 
     Channel* channel(int n);  // return channel number n
 
+    void load(EpCore::DataStream<Amplifier>* const);
+    void save(EpCore::DataStream<Amplifier>* const);
+
 private:
     enum {MagicNumber = 0x93dff321};
 
@@ -75,8 +82,6 @@ private:
 
     void copyAmplifier(const Amplifier&);
 
-    void load();
-    void save();
 
     int numChannels_;
     QList<Channel*> channels_;

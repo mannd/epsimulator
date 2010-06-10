@@ -100,14 +100,29 @@ QString getMachineName();
 long diskFreeSpace(const QString& path);
 
 template<typename T>
+class SystemStream;
+
+template<typename T>
+class NetworkStream;
+
+template<typename T>
 class DataStream {
 public:
     virtual void save(unsigned int magicNumber,
                       const QString& fileName,
                       const T& data) = 0;
     virtual void load(unsigned int magicNumber,
-                      const QString& filNname,
+                      const QString& fileNname,
                       T& data) = 0;
+
+    static DataStream<T>* createDataStream(Options* const options) {
+        if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
+            return new NetworkStream<T>(options->networkStudyPath,
+                                        options->systemCatalogPath);
+        else
+            return new SystemStream<T>(options->systemCatalogPath);
+    }
+
 };
 
 
@@ -260,6 +275,8 @@ void loadSystemData(unsigned int magicNumber, const QString& fileName, T& data, 
 }
 
 inline QString capitalize(const QString& s) {
+    if (s.isEmpty())
+        return s;
     QString capitalized = s;
     capitalized[0] = capitalized[0].toUpper();
     return capitalized;

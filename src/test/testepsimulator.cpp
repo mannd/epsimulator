@@ -29,6 +29,7 @@
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
 #include "listselector.h"
+#include "mockdatastream.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "passworddialog.h"
@@ -636,6 +637,20 @@ void TestEpSimulator::testAmplifier() {
     QVERIFY(c17->label().isEmpty());
     EpAmplifier::Channel* clast = amp3.channel(amp3.numChannels());
     QVERIFY(clast->channelType() == EpAmplifier::Channel::Stim2);
+}
+
+void TestEpSimulator::testAmplifierStream() {
+    Amplifier a;
+    QCOMPARE(a.numChannels(), 48);
+    a.channel(1)->setLabel("XYZ");
+    QVERIFY(a.channel(1)->label() == "XYZ");
+    DataStream<Amplifier>* dataStream = new MockDataStream<Amplifier>;
+    a.save(dataStream);
+    Amplifier b;
+    b.load(dataStream);
+    QVERIFY(b.channel(1)->label() == "XYZ");
+    Amplifier c;
+    QVERIFY(c.channel(1)->label() == "I");
 }
 
 void TestEpSimulator::testStudyConfigurations() {

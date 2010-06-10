@@ -86,12 +86,17 @@ Amplifier::~Amplifier() {
     qDeleteAll(channels_);
 }
 
-void Amplifier::load() {
-    EpCore::loadSystemData(MagicNumber, fileName_, *this, epOptions);
+void Amplifier::load(EpCore::DataStream<Amplifier>* const dataStream) {
+    try {
+        dataStream->load(MagicNumber, fileName_, *this);
+    }
+    catch (EpCore::IoError&) {
+        // ignore failure to read, keep default amplifier settings
+    }
 }
 
-void Amplifier::save() {
-    EpCore::saveSystemData(MagicNumber, fileName_, *this, epOptions);
+void Amplifier::save(EpCore::DataStream<Amplifier>* const dataStream) {
+    dataStream->save(MagicNumber, fileName_, *this);
 }
 
 void Amplifier::reset() {

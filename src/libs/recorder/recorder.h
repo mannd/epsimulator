@@ -199,6 +199,7 @@ private:
 
     // hardware
     EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;
+    EpHardware::EpAmplifier::Amplifier* amplifier_;
 
     // types of Recorder window
     bool allowAcquisition_;

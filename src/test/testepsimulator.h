@@ -78,6 +78,7 @@ private slots:
     void testSaturation();
     // class Amplifier
     void testAmplifier();
+    void testAmplifierStream();
     // class StudyConfiguration
     void testStudyConfigurations();
     // class BloodPressure
