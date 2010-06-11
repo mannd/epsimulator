@@ -80,7 +80,7 @@ void TestEpSimulator::initTestCase() {
         workingDir.mkdir("tmp");
     QCOMPARE(dir.exists(), true);
     workingPath_ = workingDir.absolutePath();
-    qDebug() << workingPath_;
+    //qDebug() << workingPath_;
     // must set below up for QSettings to work right
     qApp->setOrganizationName("EP Studios");
     qApp->setOrganizationDomain("epstudiossoftware.com");
@@ -250,7 +250,7 @@ void TestEpSimulator::testStudyFileName() {
 void TestEpSimulator::testStudyLoadSave() {
     Study s;
     s.setPath("tmp");
-    qDebug() << "tmp path = " << s.filePath();
+    //qDebug() << "tmp path = " << s.filePath();
     Name name("Doe", "James", "");
     s.setName(name);
     s.save();
@@ -609,6 +609,28 @@ void TestEpSimulator::testSaturation() {
     QVERIFY(sat2 == sat);
     ++sat2;
     QVERIFY(sat2 != sat);
+}
+
+void TestEpSimulator::testDataStream() {
+    DataStream<QString>* dataStream = new MockDataStream<QString>;
+    QString test = "Test";
+    QString fileName = "testdatastream.dat";
+    int magic = 123456;
+    dataStream->save(magic, fileName, test);
+    QString result;
+    dataStream->load(magic, fileName, result);
+    QVERIFY(result == "Test");
+    magic = 0;  // bad magic
+    try {
+        dataStream->load(magic, fileName, result);
+    }
+    catch (IoError& e) {
+        QVERIFY(true);
+        delete dataStream;
+        return;
+    }
+    delete dataStream;
+    QVERIFY(false);     // should throw and not reach here
 }
 
 void TestEpSimulator::testAmplifier() {
