@@ -20,6 +20,8 @@
 
 #include "editstudyconfigsdialog.h"
 
+#include "options.h"
+#include "user.h"
 #include "studyconfiguration.h"
 #include "studyconfigurationdialog.h"
 
@@ -29,13 +31,17 @@
 #include <QMessageBox>
 #include <QPushButton>
 
+using EpCore::Options;
+using EpCore::User;
 using EpNavigator::EditStudyConfigsDialog;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyConfigurations;
 using EpGui::RealTimeStudyConfigurationDialog;
 
-EditStudyConfigsDialog::EditStudyConfigsDialog(QWidget *parent)
-    : QDialog(parent) {
+EditStudyConfigsDialog::EditStudyConfigsDialog(const User* const user,
+                                               const Options* const options,
+                                               QWidget *parent)
+    : QDialog(parent), user_(user), options_(options)  {
     setupUi(this);
 
     connect(closeButton, SIGNAL(clicked()), this, SLOT(accept()));
@@ -79,7 +85,7 @@ void EditStudyConfigsDialog::newStudyConfig() {
     }
     StudyConfiguration config(name);
     configList_.add(config);
-    RealTimeStudyConfigurationDialog d(&config, this);
+    RealTimeStudyConfigurationDialog d(&config, true, this); /// FIXME
     d.exec();
     // The study configuration dialog writes changes to disk, but
     // doesn't affect configList_, so refresh from disk.
@@ -97,7 +103,7 @@ void EditStudyConfigsDialog::editStudyConfig() {
     QString configName = configListWidget->currentItem()->text();
     StudyConfiguration* config = new StudyConfiguration(
             *configList_.studyConfiguration(configName));
-    RealTimeStudyConfigurationDialog d(config, this);
+    RealTimeStudyConfigurationDialog d(config, true, this);  ///FIXME
     d.exec();
     delete config;
     // The study configuration dialog writes changes to disk, but
@@ -136,7 +142,7 @@ void EditStudyConfigsDialog::copyStudyConfig() {
         config.setName(newName);
         // commit to keeping copy here, even if Close button used.
         configList_.add(config);
-        RealTimeStudyConfigurationDialog d(&config, this);
+        RealTimeStudyConfigurationDialog d(&config, true, this);///FIXME
         d.exec();
         // The study configuration dialog writes changes to disk, but
         // doesn't affect configList_, so refresh from disk.

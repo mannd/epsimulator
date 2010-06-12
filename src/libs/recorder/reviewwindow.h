@@ -41,7 +41,11 @@ namespace EpRecorder {
 using EpGui::StudyConfigurationDialog;
 
 /**
-This window is used to review already saved signal.  You can scroll through the data, or click on a time-stamp in the log window and bring up a window of signals.  This behaves like the RealTimeWindow, except there is no live updating of signals.
+This window is used to review already saved signal.
+You can scroll through the data, or click on a time-stamp in the log window
+and bring up a window of signals.
+This behaves like the RealTimeWindow,
+except there is no live updating of signals.
 
 	@author David Mann <mannd@epstudiossoftware.com>
 */

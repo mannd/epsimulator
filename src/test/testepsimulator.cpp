@@ -520,12 +520,10 @@ void TestEpSimulator::testCatalogAddStudy() {
 
 void TestEpSimulator::testCatalogComboBox() {
     Options* o = Options::instance();
-    CatalogComboBox* c = new CatalogComboBox;
-    bool originalEnableNetwork =
-        o->filePathFlags.testFlag(Options::EnableNetworkStorage);
+    CatalogComboBox* c = new CatalogComboBox(o->includeNetworkCatalog());
     clearFlag(o->filePathFlags, Options::EnableNetworkStorage);
     // must refresh catalogcombobox after system options changed!
-    c->refresh();
+    c->refresh(o->includeNetworkCatalog());
     QVERIFY(c->source() == Catalog::System);
     QVERIFY(c->currentIndex() == 0);   // there should be no Network
     c->setSource(Catalog::Network);  // should not work because of above
@@ -534,7 +532,7 @@ void TestEpSimulator::testCatalogComboBox() {
     QVERIFY(c->source() != Catalog::Network);
     // should be System
     setFlag(o->filePathFlags, Options::EnableNetworkStorage, true);
-    c->refresh();
+    c->refresh(o->includeNetworkCatalog());
     QVERIFY(c->source() == Catalog::System);
     c->setSource(Catalog::Network);
     QVERIFY(c->source() == Catalog::Network);
@@ -545,8 +543,6 @@ void TestEpSimulator::testCatalogComboBox() {
     c->setSource(Catalog::System);
     QVERIFY(c->source() == Catalog::System);
     // reset options
-    setFlag(o->filePathFlags, Options::EnableNetworkStorage, 
-        originalEnableNetwork);
     delete c;
     delete o;
 }

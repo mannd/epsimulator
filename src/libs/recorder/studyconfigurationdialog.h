@@ -42,6 +42,7 @@ class StudyConfigurationDialog : public QDialog,
 
 public:
     StudyConfigurationDialog(EpStudy::StudyConfiguration*,
+                             bool administrationAllowed,
                              QWidget* parent = 0);
     ~StudyConfigurationDialog() = 0;
 
@@ -72,6 +73,7 @@ private:
 
     QStandardItemModel* model_;
     EpStudy::StudyConfiguration* studyConfiguration_;
+    bool administrationAllowed_;
     ListSelector* protocolListSelector_;
 
 };
@@ -81,6 +83,7 @@ class RealTimeStudyConfigurationDialog : public StudyConfigurationDialog {
 
 public:
     RealTimeStudyConfigurationDialog(EpStudy::StudyConfiguration*,
+                                     bool administrationAllowed,
                                      QWidget* parent = 0);
 };
 
@@ -89,6 +92,7 @@ class ReviewStudyConfigurationDialog: public StudyConfigurationDialog {
 
 public:
     ReviewStudyConfigurationDialog(EpStudy::StudyConfiguration*,
+                                   bool administrationAllowed,
                                    QWidget* parent = 0,
                                    int windowNum = 1);
 };

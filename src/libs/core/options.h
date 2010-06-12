@@ -131,6 +131,11 @@ public:
     Q_DECLARE_FLAGS(FilePathFlags, FilePathFlag)
     FilePathFlags filePathFlags;
 
+    // utility function, since this is a popular request
+    inline bool includeNetworkCatalog() {
+        return filePathFlags.testFlag(Options::EnableNetworkStorage);
+    }
+
     bool administratorAccountRequired;
     bool hideSimulatorMenu;
     bool permanentDelete;

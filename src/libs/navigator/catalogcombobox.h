@@ -23,7 +23,7 @@
 
 #include "catalog.h"
 
-#include <QComboBox>
+#include <QtGui/QComboBox>
 
 #include <map>
 
@@ -38,10 +38,10 @@ class CatalogComboBox : public QComboBox {
     Q_OBJECT
 
 public:
-    CatalogComboBox(QWidget *parent = 0);
+    CatalogComboBox(bool includeNetworkCatalog, QWidget *parent = 0);
     ~CatalogComboBox();
 
-    void refresh();
+    void refresh(bool includeNetworkCatalog);
 
     void setSource(Catalog::Source source); 
 
@@ -57,7 +57,7 @@ private:
     void setBrowse(bool browse);
 
     bool browse_;   // puts in blank line in combobox if true
-    bool includeNetwork_;  // if network enabled...
+    bool includeNetworkCatalog_;  // if network enabled...
     typedef std::map<Catalog::Source, int> CatalogMap;
     CatalogMap sourceMap_;
 };

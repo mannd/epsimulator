@@ -336,7 +336,7 @@ void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow,
         connect(closeAct, SIGNAL(triggered()), subWindow, SLOT(close()));
         systemMenu->addAction(closeAct);
         subWindow->setSystemMenu(systemMenu);
-        subWindow->setOption(QMdiSubWindow::RubberBandResize, epOptions->
+        subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
             screenFlags.testFlag(EpCore::Options::EmulateWindowsManager));
         subWindow->installEventFilter(this);
         subWindow->setMouseTracking(true);

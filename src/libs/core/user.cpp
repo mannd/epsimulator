@@ -69,6 +69,6 @@ User::User() : isAdministrator_(false) {
             << machineName_;
 }
 
-bool User::administrationAllowed() const {
-    return isAdministrator_ || !epOptions->administratorAccountRequired;
+bool User::administrationAllowed(const Options* const options) const {
+    return isAdministrator_ || !options->administratorAccountRequired;
 }

@@ -432,7 +432,9 @@ void Navigator::unfilterStudies() {
 }
 
 void Navigator::refreshCatalogs() {
-    catalogComboBox_->refresh();
+    bool includeNetwork = options_->
+                          filePathFlags.testFlag(Options::EnableNetworkStorage);
+    catalogComboBox_->refresh(includeNetwork);
     catalogs_->refresh();
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
     tableListView_->load(catalogs_->currentCatalog());
@@ -504,7 +506,7 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                 if (flow == Export) {
                     statusBar()->showMessage(tr("Copying files..."));
                     EpCore::copyFilesToPath(selectedFiles,
-                                            EpCore::activeSystemPath(),
+                                            EpCore::activeSystemPath(options_),
                                             path, EpCore::Overwrite);
                     statusBar()->clearMessage();
                 }
@@ -765,7 +767,7 @@ void Navigator::noStudySelectedError() {
 
 void Navigator::setStudyConfigurations() {
     if (administrationAllowed()) {
-        EditStudyConfigsDialog d(this);
+        EditStudyConfigsDialog d(user_, options_, this);
         d.exec();
     }
 }
@@ -986,11 +988,11 @@ void Navigator::createLists() {
     // just initializing these lists writes default values for each
     // of them to disk if the files aren't there already.
     // But don't bother if the file is already there.
-    if (!EpCore::systemFileExists(EpLists::fileName()))
+    if (!EpCore::systemFileExists(options_, EpLists::fileName()))
         EpLists lists;
-    if (!EpCore::systemFileExists(Interval::fileName()))
+    if (!EpCore::systemFileExists(options_, Interval::fileName()))
         ItemList<Interval> intervals;
-    if (!EpCore::systemFileExists(ColumnFormat::fileName()))
+    if (!EpCore::systemFileExists(options_, ColumnFormat::fileName()))
         ItemList<ColumnFormat> columnformats;
 }
 
@@ -1137,7 +1139,7 @@ void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator")); 
     navigatorToolBar_->setObjectName("NavigatorToolBar");
     navigatorToolBar_->setAutoFillBackground(true);
-    catalogComboBox_ = new CatalogComboBox;
+    catalogComboBox_ = new CatalogComboBox(options_->includeNetworkCatalog());
     navigatorToolBar_->addWidget(catalogComboBox_);
     navigatorToolBar_->addSeparator();
     navigatorToolBar_->addAction(filterStudiesAction_);

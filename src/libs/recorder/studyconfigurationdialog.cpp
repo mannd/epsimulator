@@ -22,9 +22,7 @@
 
 #include "amplifier.h"
 #include "listselector.h"
-#include "options.h"
 #include "studyconfiguration.h"
-#include "user.h"
 
 #include <QHeaderView>
 #include <QInputDialog>
@@ -43,9 +41,11 @@ using EpStudy::StudyConfiguration;
 using EpStudy::StudyConfigurations;
 \
 StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
-    QWidget* parent)
+                                                   bool administrationAllowed,
+                                                   QWidget* parent)
     : QDialog(parent), Ui::StudyConfigurationDialog(),
-      model_(new QStandardItemModel), studyConfiguration_(config) {
+    model_(new QStandardItemModel), studyConfiguration_(config),
+    administrationAllowed_(administrationAllowed) {
     setupUi(this);
     protocolListSelector_ = new ListSelector(availableListView,
                                              selectedListView);
@@ -107,7 +107,7 @@ void StudyConfigurationDialog::updateStudyConfiguration() {
 }
 
 void StudyConfigurationDialog::save() {
-    if (User::instance()->administrationAllowed()) {
+    if (administrationAllowed_) {
         StudyConfigurations configList;
         updateStudyConfiguration();
         configList.replace(*studyConfiguration_);
@@ -119,7 +119,7 @@ void StudyConfigurationDialog::save() {
 }
 
 void StudyConfigurationDialog::saveAs() {
-    if (User::instance()->administrationAllowed()) {
+    if (administrationAllowed_) {
             QString configName = studyConfiguration_->name();
             StudyConfigurations configList;
             bool ok;
@@ -190,8 +190,9 @@ void StudyConfigurationDialog::unselectAllProtocols() {
 }
 
 RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
-    StudyConfiguration* config, QWidget* parent) 
-    : StudyConfigurationDialog(config, parent) {
+    StudyConfiguration* config,
+    bool administrationAllowed, QWidget* parent)
+    : StudyConfigurationDialog(config, administrationAllowed, parent) {
     QStandardItem* rootItem = new QStandardItem(tr("EP Simulator"));
     int pageNum = 0;
     rootItem->setData(pageNum);
@@ -272,8 +273,9 @@ RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
 }
 
 ReviewStudyConfigurationDialog::ReviewStudyConfigurationDialog(
-    StudyConfiguration* config, QWidget* parent, int windowNum) 
-    : StudyConfigurationDialog(config, parent) {
+    StudyConfiguration* config,
+    bool administrationAllowed, QWidget* parent, int windowNum)
+    : StudyConfigurationDialog(config, administrationAllowed, parent) {
     Q_ASSERT(windowNum == 1 || windowNum == 2);
     QStandardItem* rootItem = new QStandardItem(tr("EP Simulator"));
     int pageNum = 0;  // blank page

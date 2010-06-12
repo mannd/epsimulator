@@ -406,3 +406,9 @@ polymorphic) and is passed to classes that need to system save data.
    constructor should construct a basic object, that can be populated
    either from makeDefaults() or from the saved data file, as a
    separate method.
+** detangling administrationAllowed()
+   user->administrationAllowed(Options*) depends on user and options.  Rather than
+   pass user and options object pointers to everything that needs this
+   info, should just pass bool administrationAllowed.  Alternatively,
+   adminstrator and user version of the objects requiring this info
+   could be created, but this is probably overkill.

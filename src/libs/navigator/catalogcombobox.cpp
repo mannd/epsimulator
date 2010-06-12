@@ -33,10 +33,11 @@ using EpNavigator::Catalog;
  * is selected from the menu, and goes away as soon as possible.  
  * Default is no Network
 */
-CatalogComboBox::CatalogComboBox(QWidget *parent) :
+CatalogComboBox::CatalogComboBox(bool includeNetworkCatalog, QWidget *parent) :
                                  QComboBox(parent), 
                                  browse_(false),
-                                 includeNetwork_(false) {
+                                 includeNetworkCatalog_(
+                                         includeNetworkCatalog) {
 
     setup();
     connect(this, SIGNAL(activated(int)), this, SLOT(resetOther()));
@@ -74,7 +75,7 @@ void CatalogComboBox::setSource(Catalog::Source source) {
         setBrowse(true);
     if (source != Catalog::Other && browse_)
         setBrowse(false);
-    if (source == Catalog::Network && !includeNetwork_) 
+    if (source == Catalog::Network && !includeNetworkCatalog_)
         source = Catalog::System;  // setSource assumes sourceMap has been 
                                    // setup correctly and 
                                    // this assignment is wrong.
@@ -85,11 +86,12 @@ void CatalogComboBox::setSource(Catalog::Source source) {
  * Used after system options changed.
  * Sets source back to first item, either Network or System.
  */
-void CatalogComboBox::refresh() {
+void CatalogComboBox::refresh(bool includeNetworkCatalog) {
+    includeNetworkCatalog_ = includeNetworkCatalog;
     Catalog::Source oldSource = source();
     setup();
     // must account for Network disappearing
-    if (source() == Catalog::Network && !includeNetwork_)
+    if (source() == Catalog::Network && !includeNetworkCatalog_)
         setSource(Catalog::System);
     else
         setSource(oldSource);
@@ -129,9 +131,7 @@ void CatalogComboBox::setup() {
     clear();
     sourceMap_.clear();
     int index = 0;
-    includeNetwork_ = epOptions->
-        filePathFlags.testFlag(Options::EnableNetworkStorage);
-    if (includeNetwork_) {
+    if (includeNetworkCatalog_) {
         insertItem(index, tr("Network"));
         sourceMap_[Catalog::Network] = index++;
     }

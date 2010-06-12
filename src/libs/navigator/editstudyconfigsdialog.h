@@ -26,7 +26,10 @@
 
 #include <QDialog>
 
-class QString;
+namespace EpCore {
+    class Options;
+    class User;
+}
 
 namespace EpNavigator {
 
@@ -35,7 +38,9 @@ class EditStudyConfigsDialog: public QDialog,
     Q_OBJECT
 
 public:
-    EditStudyConfigsDialog(QWidget *parent = 0);
+    EditStudyConfigsDialog(const EpCore::User* const,
+                           const EpCore::Options* const,
+                           QWidget *parent = 0);
 
     EpStudy::StudyConfiguration config() const {
         return configList_[configListWidget->currentRow()];}
@@ -51,8 +56,9 @@ private:
     void createConfigListWidget();
     void noSelectionError();
 
+    const EpCore::User* user_;
+    const EpCore::Options* options_;
     EpStudy::StudyConfigurations configList_;
-
 };
 
 }

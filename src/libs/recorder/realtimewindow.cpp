@@ -90,7 +90,8 @@ void RealTimeWindow::decreaseSweepSpeed() {
 }
 
 StudyConfigurationDialog* RealTimeWindow::studyConfigurationDialog() {
-    return new RealTimeStudyConfigurationDialog(study()->studyConfiguration(), 
+    return new RealTimeStudyConfigurationDialog(study()->studyConfiguration(),
+                                                true, /// FIXME
                                                 this);
 }
 

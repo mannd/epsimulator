@@ -25,6 +25,8 @@
 
 namespace EpCore {
 
+    class Options;
+
 /**
  * The user of the program.  In CardioLab V5 there are 2 users, the
  * regular user and the administrator.  In V6, there are apparently
@@ -43,7 +45,7 @@ public:
         isAdministrator_ = isAdministrator;}
 
     bool isAdministrator() const {return isAdministrator_;}
-    bool administrationAllowed() const;
+    bool administrationAllowed(const Options* const) const;
     QString machineName() const;
     QString name() const;
     QString role() const;  // returns EPSIMUSER or ADMINISTRATOR
