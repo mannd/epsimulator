@@ -28,6 +28,10 @@ class QCloseEvent;
 class QComboBox;
 class QSettings;
 
+namespace EpCore {
+    class Options;
+}
+
 namespace EpGui {
     class StudyConfigurationDialog;
 }
@@ -52,13 +56,17 @@ except there is no live updating of signals.
 class ReviewWindow : public SignalDisplayWindow  {
     Q_OBJECT
 public:
-    ReviewWindow(EpStudy::Study*, int number = 1, QWidget *parent = 0);
+    ReviewWindow(EpStudy::Study*, 
+		 const EpCore::Options* const options,
+		 int number = 1, 
+		 QWidget *parent = 0);
+    ~ReviewWindow();
 
     virtual void writeSettings(QSettings&);
     virtual void readSettings(QSettings&);
-    virtual QString key() const {return QString("review%1Window").arg(number());}
-
-    ~ReviewWindow();
+    virtual QString key() const {
+	return QString("review%1Window").arg(number());
+    }
 
     virtual void createToolBars();
     virtual void createActions();

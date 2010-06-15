@@ -27,6 +27,10 @@
 class QAction;
 class QSettings;
 
+namespace EpCore {
+    class Options;
+}
+
 namespace EpGui {
     class StudyConfigurationDialog;
 }
@@ -57,13 +61,16 @@ public:
 
 protected:
     DisplayWindow(const QString& name, EpStudy::Study* study, 
+		  const EpCore::Options* const options,
                   int number = 0, 
                   QWidget* parent = 0); 
     EpStudy::Study* study() const {return study_;}
+    const EpCore::Options* options() const {return options_;}
 
 private:
     const QString name_;
     EpStudy::Study* study_;
+    const EpCore::Options* const options_;
     const int number_;
 };
 
@@ -97,14 +104,16 @@ signals:
 
 protected:
     SignalDisplayWindow(const QString& name, EpStudy::Study* study,
-        int number = 0, QWidget* parent = 0);
+			const EpCore::Options* const options, 
+			int number = 0,
+			QWidget* parent = 0);
     virtual EpGui::StudyConfigurationDialog* studyConfigurationDialog() = 0;
 
 private:
-    SignalWidget* signalWidget_;
-
     static const int minPage = 1;
     static const int maxPage = 8;
+
+    SignalWidget* signalWidget_;
     int currentPage_;
 
     QAction* previousPageAction_;

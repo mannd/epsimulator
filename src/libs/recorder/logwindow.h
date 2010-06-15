@@ -29,6 +29,10 @@ class QAction;
 class QComboBox;
 class QSettings;
 
+namespace EpCore {
+    class Options;
+}
+
 namespace EpStudy {
     class Study;
 }
@@ -43,13 +47,14 @@ Horizontally situation window at the bottom of the Central Widget, for logging e
 class LogWindow : public DisplayWindow  {
     Q_OBJECT
 public:
-    LogWindow(EpStudy::Study*, int number = 0, QWidget *parent = 0);
+    LogWindow(EpStudy::Study*, 
+	      const EpCore::Options* const options,
+	      int number = 0, QWidget *parent = 0);
+    ~LogWindow();
 
     virtual void writeSettings(QSettings&);
     virtual void readSettings(QSettings&);
     virtual QString key() const {return EpRecorder::logWindowKey;}
-
-    ~LogWindow();
 
 private:
     void createActions();

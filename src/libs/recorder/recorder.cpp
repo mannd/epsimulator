@@ -527,7 +527,7 @@ void Recorder::connectReviewWindows() {
 }
 
 void Recorder::realTimeWindowOpen(bool open) {
-    openSubWindow(open, realTimeSubWindow_, realTimeWindow_, study_);
+    openSubWindow(open, realTimeSubWindow_, realTimeWindow_);
     // no system menu or close button if we are emulating Prucka
     if (open && options_->screenFlags.testFlag(Options::EmulateWindowsManager))
         realTimeSubWindow_->setWindowFlags(realTimeSubWindow_->windowFlags() 
@@ -538,7 +538,7 @@ void Recorder::review1WindowOpen(bool open) {
      // if closing and review2 is open, close that too
     if (!open && subWindowIsOpen(review2SubWindow_))
         review2WindowOpen(false);
-    openSubWindow(open, review1SubWindow_, review1Window_, study_, 1);
+    openSubWindow(open, review1SubWindow_, review1Window_, 1);
     if (open) {
         connectReviewWindows();
         review1Window_->makeWindowActive(true);
@@ -549,7 +549,7 @@ void Recorder::review2WindowOpen(bool open) {
     // must have a review1window open first
     if (open && !subWindowIsOpen(review1SubWindow_))
         return;
-    openSubWindow(open, review2SubWindow_, review2Window_, study_, 2);
+    openSubWindow(open, review2SubWindow_, review2Window_, 2);
     if (open) {
         connectReviewWindows();
         review2Window_->makeWindowActive(false);
@@ -557,7 +557,7 @@ void Recorder::review2WindowOpen(bool open) {
 } 
 
 void Recorder::logWindowOpen(bool open) {
-    openSubWindow(open, logSubWindow_, logWindow_, study_);
+    openSubWindow(open, logSubWindow_, logWindow_);
 }
 
 void Recorder::closeEvent(QCloseEvent *event) {

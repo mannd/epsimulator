@@ -21,6 +21,7 @@
 #include "realtimewindow.h"
 
 #include "actions.h"
+#include "options.h"
 #include "study.h"
 #include "studyconfigurationdialog.h"
 
@@ -36,6 +37,7 @@
 
 #include <QtDebug>
 
+using EpCore::Options;
 using EpGui::createAction;
 using EpGui::RealTimeStudyConfigurationDialog;
 using EpGui::StudyConfigurationDialog;
@@ -65,8 +67,11 @@ void ColorButton::setActivated(bool activated) {
     changeState();
 }
 
-RealTimeWindow::RealTimeWindow(Study* study, int number, QWidget* parent)
- : SignalDisplayWindow(tr("Real-Time"), study,number, parent) {
+RealTimeWindow::RealTimeWindow(Study* study, 
+			       const Options* const options,
+			       int number, 
+			       QWidget* parent)
+    : SignalDisplayWindow(tr("Real-Time"), study, options, number, parent) {
     updateWindowTitle();
     createCentralWidget();
     createActions();

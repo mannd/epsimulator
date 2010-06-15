@@ -30,6 +30,10 @@ class QAction;
 class QComboBox;
 class QSettings;
 
+namespace EpCore {
+    class Options;
+}
+
 namespace EpGui {
     class RealTimeStudyConfigurationDialog;
 }
@@ -45,7 +49,7 @@ namespace EpRecorder {
     public slots:
         void changeState();
     private:
-       QPalette originalPalette_;
+	       QPalette originalPalette_;
        QPalette activatedPalette_;
        bool activated_;
     };
@@ -58,13 +62,15 @@ The real-time recording window, central widget of recorder.  Uses multiple inher
 class RealTimeWindow : public SignalDisplayWindow  {
     Q_OBJECT
 public:
-    RealTimeWindow(EpStudy::Study* study, int number = 0, QWidget* parent = 0);
-    
+    RealTimeWindow(EpStudy::Study* study, 
+		   const EpCore::Options* const options,
+		   int number = 0, 
+		   QWidget* parent = 0);
+    ~RealTimeWindow();
+
     virtual void writeSettings(QSettings&);
     virtual void readSettings(QSettings&);
     virtual QString key() const {return EpRecorder::realTimeWindowKey;}
-
-    ~RealTimeWindow();
 
 public slots:
 //     virtual void updateWindowTitle();

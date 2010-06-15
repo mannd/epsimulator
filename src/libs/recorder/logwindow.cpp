@@ -21,17 +21,20 @@
 #include "logwindow.h"
 
 #include "actions.h"
+#include "options.h"
 
 #include <QAction>
 #include <QComboBox>
 #include <QSettings>
 #include <QToolBar>
 
+using EpCore::Options;
 using EpRecorder::LogWindow;
 using EpStudy::Study;
 
-LogWindow::LogWindow(Study* study, int number, QWidget *parent)
- : DisplayWindow(tr("Log"), study, number, parent) {
+LogWindow::LogWindow(Study* study, const Options* const options,
+		     int number, QWidget *parent)
+    : DisplayWindow(tr("Log"), study, options, number, parent) {
 
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle(name());

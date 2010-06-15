@@ -21,6 +21,7 @@
 #include "reviewwindow.h"
 
 #include "actions.h"
+#include "options.h"
 #include "study.h"
 #include "studyconfigurationdialog.h"
 
@@ -32,13 +33,18 @@
 #include <QSplitter>
 #include <QToolBar>
 
+using EpCore::Options;
 using EpGui::ReviewStudyConfigurationDialog;
 using EpGui::StudyConfigurationDialog;
 using EpRecorder::ReviewWindow;
 using EpStudy::Study;
 
-ReviewWindow::ReviewWindow(Study* study, int number, QWidget *parent)
- : SignalDisplayWindow(tr("Review"), study, number, parent) {
+ReviewWindow::ReviewWindow(Study* study,
+			   const Options* const options,
+			   int number, 
+			   QWidget *parent)
+    : SignalDisplayWindow(tr("Review"), study, options, 
+			  number, parent) {
     createCentralWidget();
     createActions();
     createToolBars();

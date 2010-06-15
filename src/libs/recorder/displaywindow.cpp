@@ -21,6 +21,7 @@
 #include "displaywindow.h"
 
 #include "actions.h"
+#include "options.h"
 #include "signalwidget.h"
 #include "study.h"
 #include "studyconfigurationdialog.h"
@@ -31,13 +32,16 @@
 #include <QtDebug>
 
 using namespace EpRecorder;
+using EpCore::Options;
 using EpStudy::Study;
 
 DisplayWindow::DisplayWindow(const QString& name,
                              Study* study, 
-                             int number, 
+                             const Options* const options,
+			     int number, 
                              QWidget* parent) 
-    : QMainWindow(parent), name_(name), study_(study),number_(number) {
+    : QMainWindow(parent), name_(name), study_(study),
+      options_(options), number_(number) {
     // don't keep unused windows in memory
     setAttribute(Qt::WA_DeleteOnClose);
     // probably reasonable initial size for these windows
@@ -49,9 +53,11 @@ const int SignalDisplayWindow::maxPage;
 
 SignalDisplayWindow::SignalDisplayWindow(const QString& name, 
                                          Study* study,
+					 const Options* const options,
                                          int number,
                                          QWidget *parent) 
-    : DisplayWindow(name, study, number, parent), currentPage_(minPage) {
+    : DisplayWindow(name, study, options, number, parent), 
+      currentPage_(minPage) {
     createCentralWidget();
     createActions();
     connect(this, SIGNAL(pageChanged(int)), this,
@@ -76,7 +82,6 @@ void SignalDisplayWindow::studyConfiguration() {
     }
     delete dialog;
 }
-
 
 void SignalDisplayWindow::setCurrentPage(int page) {
     currentPage_ = qBound(minPage, page, maxPage);

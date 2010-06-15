@@ -188,7 +188,8 @@ private:
 
     template<typename T>
     void openSubWindow(bool, QMdiSubWindow*&,
-                       T*&, EpStudy::Study*, int number = 0);
+                       T*&, 
+		       int number = 0);
 
     std::vector<bool> openDisplayWindowList_;
     EpStudy::Study* study_;
@@ -320,14 +321,14 @@ private:
  */
 template<typename T> 
 void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow, 
-    T*& internalWidget, EpStudy::Study* study, int number) {
+    T*& internalWidget, int number) {
     bool alreadyOpen = subWindowIsOpen(subWindow);
     if (open && alreadyOpen)
         return;
     if (!open && !alreadyOpen)
         return;
     if (open) {
-        internalWidget = new T(study, number);
+        internalWidget = new T(study_, options_, number);
         subWindow = centralWidget_->addSubWindow(internalWidget, 
             Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
         QMenu* systemMenu = new QMenu(subWindow);
