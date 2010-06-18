@@ -55,11 +55,9 @@ AbstractButtonFrame::AbstractButtonFrame(QWidget* parent)
     setAutoFillBackground(true);
     setMaximumWidth(200);
     buttonFrameLayout_ = new QGridLayout(this);
-    buttonFrameLayout_->setVerticalSpacing(6);  // ? this is right
-
-
-
-    //buttonFrameLayout_ = new QGridLayout(this, 1, 1, 11, 6, "");
+    // any larger value makes window height too large for small displays
+    const int verticalSpacing = 5;
+    buttonFrameLayout_->setVerticalSpacing(verticalSpacing);
 }
 
 /**

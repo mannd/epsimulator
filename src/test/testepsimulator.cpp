@@ -342,11 +342,11 @@ void TestEpSimulator::testOptionsFlags() {
 void TestEpSimulator::testOpticalDisk() {
     QCOMPARE(OpticalDisk::makeStudiesPath("test"), QString("test/studies"));
     QCOMPARE(OpticalDisk::studiesDirName(), QString("studies"));
-    OpticalDisk* o = new OpticalDisk(".");
+    OpticalDisk* o = new OpticalDisk(".", ".");
     QCOMPARE(o->path(), o->labelPath());
     QCOMPARE(o->path(), QString("."));
     delete o;
-    EmulatedOpticalDisk* e = new EmulatedOpticalDisk(".", true);
+    EmulatedOpticalDisk* e = new EmulatedOpticalDisk(".", ".", true);
     QVERIFY(e->path() != e->labelPath());
     delete e;
 }

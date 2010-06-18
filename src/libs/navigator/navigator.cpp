@@ -111,7 +111,7 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent),
         this, SLOT(changeCatalog()));
 
     updateWindowTitle();
-    readSettings();
+    options_->readSettings();
 }
 
 Navigator::~Navigator() {
@@ -881,12 +881,14 @@ void Navigator::initializeOpticalDisk() {
             if (!currentDisk_) {
                 currentDisk_ = new EmulatedOpticalDisk(
                     options_->opticalStudyPath,
+                    options_->systemCatalogPath,
                     options_->opticalDiskFlags.testFlag(Options::DualSided));
                 currentDisk_->saveLastDisk();
             }
         }
         else
-            currentDisk_ = new OpticalDisk(options_->opticalStudyPath);
+            currentDisk_ = new OpticalDisk(options_->opticalStudyPath,
+                                           options_->systemCatalogPath);
         currentDisk_->readLabel();
         currentDisk_->setDiskCache(options_->diskCache);
 

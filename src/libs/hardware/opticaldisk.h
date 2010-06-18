@@ -53,7 +53,7 @@ class OpticalDisk {
     Q_DECLARE_TR_FUNCTIONS(OpticalDisk)
 
 public:
-    OpticalDisk(const QString& path);
+    OpticalDisk(const QString& path, const QString& cachePath);
     virtual ~OpticalDisk();
 
     // returns the QString::null or the local translation of "A" and "B"
@@ -143,7 +143,8 @@ private:
 class EmulatedOpticalDisk : public OpticalDisk {
 
 public:
-    EmulatedOpticalDisk(const QString& path, bool isTwoSided = false);
+    EmulatedOpticalDisk(const QString& path, const QString& cachePath,
+                        bool isTwoSided = false);
     ~EmulatedOpticalDisk();
 
     // returns last disk or 0 if none
@@ -173,7 +174,8 @@ public:
                                 // /.../MyStudies/disks/disk_xxxxx/B/studies
 
 private:
-    EmulatedOpticalDisk(const QString& path, const QString& diskName);
+    EmulatedOpticalDisk(const QString& path, const QString& cachePath,
+                        const QString& diskName);
     EmulatedOpticalDisk(EmulatedOpticalDisk&);
     struct DiskInfo {
         QString name;

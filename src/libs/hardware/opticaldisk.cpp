@@ -66,9 +66,9 @@ const QString OpticalDisk::labelFileName_ = "label.dat";
 const QString OpticalDisk::cacheDirName_ = ".cache";
 const QString OpticalDisk::studiesDirName_ = "studies";
 
-OpticalDisk::OpticalDisk(const QString& path) 
+OpticalDisk::OpticalDisk(const QString& path, const QString& cachePath)
     : path_(path),
-    cachePath_(EpCore::joinPaths(epOptions->systemCatalogPath, cacheDirName_)),
+    cachePath_(EpCore::joinPaths(cachePath, cacheDirName_)),
     isLabeled_(false),
     diskCache_(Options::AutoCache) {
     qDebug() << "Studies path:\t" << path_;
@@ -204,8 +204,9 @@ QString OpticalDisk::translateSide(const QString& side) {
 // class EmulatedOpticalDisk
 
 EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
-                                         bool isTwoSided) 
-                                         : OpticalDisk(path),
+                                         const QString& cachePath,
+                                         bool isTwoSided)
+                                         : OpticalDisk(path, cachePath),
                                          isTwoSided_(isTwoSided) {
     diskName_ = "disk_" + QDateTime::currentDateTime().toString(
             "ddMMyyyyhhmmsszzz");
@@ -213,9 +214,10 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
 //    saveLastDisk();  // this must be done by calling function
 }
 
-EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path, 
+EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
+                                         const QString& cachePath,
                                          const QString& diskName)
-                                         : OpticalDisk(path), 
+                                         : OpticalDisk(path, cachePath),
                                          diskName_(diskName) {}
 
 EmulatedOpticalDisk::~EmulatedOpticalDisk() {}

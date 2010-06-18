@@ -20,14 +20,10 @@
 
 #include "catalogcombobox.h"
 
-#include "options.h"
-
-using EpCore::Options;
 using EpNavigator::CatalogComboBox;
 using EpNavigator::Catalog;
 
 /** 
- * Ctor.  Gets the epOptions instance, sets up the combobox.
  * Default item is 1st, which is either System or Network depending on options.
  * Other selection is not present unless Browse...
  * is selected from the menu, and goes away as soon as possible.  

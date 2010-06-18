@@ -211,7 +211,7 @@ RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
     amplifierItem->appendRow(pressureItem);
     char c = 'A';
     for (int i = 0; 
-         i < Amplifier::numCIMConnections(epOptions->numChannels); ++i) {
+         i < Amplifier::numCIMConnections(config->numChannels()); ++i) {
         QStandardItem* block = new QStandardItem(tr("Catheter Block %1").arg(c++));
         block->setData(pageNum++);
         amplifierItem->appendRow(block);
@@ -254,6 +254,7 @@ RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
     treeView->expandAll();
     treeView->setSelectionBehavior(QAbstractItemView::SelectItems);
     treeView->setSelectionMode(QAbstractItemView::SingleSelection);
+    treeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     QItemSelectionModel* selectionModel = treeView->selectionModel();
     QModelIndex rootIndex = model()->index(0, 0, QModelIndex());
@@ -294,7 +295,7 @@ ReviewStudyConfigurationDialog::ReviewStudyConfigurationDialog(
     reviewItem->appendRow(pressureItem);
     char c = 'A';
     for (int i = 0; 
-         i < Amplifier::numCIMConnections(epOptions->numChannels); ++i) {
+         i < Amplifier::numCIMConnections(config->numChannels()); ++i) {
         QStandardItem* block = new QStandardItem(tr("Catheter Block %1").arg(c++));
         block->setData(pageNum++);
         reviewItem->appendRow(block);

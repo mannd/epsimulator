@@ -210,6 +210,8 @@ public:
 
     static const QString configFileName() {return configFileName_;}
 
+    int numChannels() const {return amplifier_->numChannels();}
+
     Channel& channel(int n);
     QList<Protocol> protocolList() const {return protocolList_;}
     QList<Protocol> unselectedProtocols() const;
