@@ -948,7 +948,8 @@ void Navigator::createCentralWidget() {
 void Navigator::createButtonFrame() {
     if (options_->bluePanelStyle ==
         Options::TransparentButtons) // set up flat buttons
-        buttonFrame_ = new NewStyleButtonFrame(centralWidget_);
+        buttonFrame_ = new NewStyleButtonFrame(centralWidget_,
+                                               options_->bluePanelTweak);
     else
         buttonFrame_ = new OldStyleButtonFrame(centralWidget_);
     if (options_->filePathFlags.testFlag(Options::EnableAcquisition)) {

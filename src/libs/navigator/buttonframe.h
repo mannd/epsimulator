@@ -80,7 +80,7 @@ public:
  */
 class NewStyleButtonFrame : public AbstractButtonFrame {
 public:
-    NewStyleButtonFrame(QWidget* parent = 0);
+    NewStyleButtonFrame(QWidget* parent = 0, bool buttonTweak = false);
     ~NewStyleButtonFrame() {}
 
     virtual void addButton(const QString& name, const QString& pixmapName, 

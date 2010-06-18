@@ -20,8 +20,6 @@
 
 #include "buttonframe.h"
 
-#include "options.h"
-
 #include <QLabel>
 #include <QLayout>
 #include <QPushButton>
@@ -33,8 +31,6 @@
 using EpNavigator::AbstractButtonFrame;
 using EpNavigator::OldStyleButtonFrame;
 using EpNavigator::NewStyleButtonFrame;
-
-using EpCore::Options;
 
 const int AbstractButtonFrame::buttonHeight_;
 const int AbstractButtonFrame::buttonWidth_;
@@ -134,7 +130,8 @@ void OldStyleButtonFrame::addButton(const QString& name,
 
 // NewStyleButtonFrame
 
-NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent)
+NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent,
+                                         bool buttonTweak)
     : AbstractButtonFrame(parent) {
     // we give the buttons a darkBlue color so they don't get whited out.
     // Unfortunately doesn't seem to work on WinXP, only on Linux.
@@ -142,7 +139,7 @@ NewStyleButtonFrame::NewStyleButtonFrame(QWidget* parent)
     // Sluggo, but works on SuperSluggo.  If you remove below,
     // buttons turn white when highlighted on SuperSluggo, but
     // have expected white border on Sluggo.  ??? why
-    if (epOptions->bluePanelTweak) {
+    if (buttonTweak) {
         QPalette framePalette = palette();
         framePalette.setColor(QPalette::Button, Qt::darkBlue);
         setPalette(framePalette);

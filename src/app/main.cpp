@@ -136,8 +136,8 @@ int main(int argc, char **argv) {
 #endif
     app.installTranslator( &translator );
 #endif
-
-    EpCore::testCdTools(&app);
+    // below gives error message 'cannot connect to X server' on ubuntu
+    //EpCore::testCdTools(&app);
     if (!createConnection())
         return 1;
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
