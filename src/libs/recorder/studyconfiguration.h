@@ -1,21 +1,17 @@
 /***************************************************************************
- *   Copyright (C) 2007 by EP Studios, Inc.                                *
- *   mannd@epstudiossoftware.com                                           *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *   Copyright (C) 2007 by EP Studios, Inc.  *
+ *   mannd@epstudiossoftware.com * * This program is free software;
+ *   you can redistribute it and/or modify * it under the terms of the
+ *   GNU General Public License as published by * the Free Software
+ *   Foundation; either version 2 of the License, or * (at your
+ *   option) any later version.  * * This program is distributed in
+ *   the hope that it will be useful, * but WITHOUT ANY WARRANTY;
+ *   without even the implied warranty of * MERCHANTABILITY or FITNESS
+ *   FOR A PARTICULAR PURPOSE.  See the * GNU General Public License
+ *   for more details.  * * You should have received a copy of the GNU
+ *   General Public License * along with this program; if not, write
+ *   to the * Free Software Foundation, Inc., * 59 Temple Place -
+ *   Suite 330, Boston, MA 02111-1307, USA.  *
  ***************************************************************************/
 
 #ifndef STUDYCONFIGURATION_H
@@ -199,7 +195,9 @@ class StudyConfiguration {
 public:
     enum {MagicNumber = 0x88827393};
 
-    StudyConfiguration(const QString& name = tr("<default>"));
+    StudyConfiguration(const QString& name = tr("<default>"),
+		       EpHardware::EpAmplifier::Amplifier* const amplifier
+		       = 0);
     StudyConfiguration(const StudyConfiguration&);
     ~StudyConfiguration();
 
@@ -240,24 +238,34 @@ private:
 
 class StudyConfigurations {
 public:
+    typedef QList<StudyConfiguration> StudyConfigurationList;
+
     StudyConfigurations();
 
     const StudyConfiguration& operator[](int i) const;
-    void refresh() {readStudyConfigurations();}
 
-    void add(const StudyConfiguration& config);
-    void replace(const StudyConfiguration& config);
+    void refresh(EpCore::DataStream<StudyConfigurationList>* const dataStream) {
+	readStudyConfigurations(dataStream);}
+    void load(EpCore::DataStream<StudyConfigurationList>* const dataStream) {
+	readStudyConfigurations(dataStream);}
+    void save(EpCore::DataStream<StudyConfigurationList>* const dataStream) {
+	writeStudyConfigurations(dataStream);}
+
+    // below don't change permanently unless save() called
+    bool add(const StudyConfiguration& config);
+    bool replace(const StudyConfiguration& config);
+    bool remove(const QString& name);
+
     bool isPresent(const QString& name) const;
     int index(const QString& name) const;
-    void remove(const QString& name);
     int size() const {return configList_.size();}
     StudyConfiguration* studyConfiguration(const QString& name);
 
 private:
-    typedef QList<StudyConfiguration> StudyConfigurationList;
-
-    void readStudyConfigurations();
-    void writeStudyConfigurations();
+    void readStudyConfigurations(EpCore::DataStream<StudyConfigurationList>* 
+				 const dataStream);
+    void writeStudyConfigurations(EpCore::DataStream<StudyConfigurationList>* 
+				  const dataStream);
 
     StudyConfigurationList configList_;
 };

@@ -31,6 +31,7 @@
 
 namespace EpStudy {
 
+using EpCore::DataStream;
 using EpCore::Options;
 using EpHardware::EpAmplifier::Amplifier;
 
@@ -135,19 +136,18 @@ QList<Protocol> Protocol::defaultItems() {
 
 const QString StudyConfiguration::configFileName_ = "config.dat";
 
-StudyConfiguration::StudyConfiguration(const QString& name) : name_(name),
-        protocolList_(Protocol::defaultItems()),
-        channelList_(), currentProtocolIndex_(0) {
-    amplifier_ = new Amplifier(epOptions->numChannels);
-}
+    StudyConfiguration::StudyConfiguration(const QString& name,
+					   Amplifier* const amplifier) 
+	: name_(name), 
+	  protocolList_(Protocol::defaultItems()),
+	  channelList_(), currentProtocolIndex_(0),
+	  amplifier_(amplifier) {}
 
 StudyConfiguration::StudyConfiguration(const StudyConfiguration& rhs) {
     copyStudyConfiguration(rhs);
 }
 
-StudyConfiguration::~StudyConfiguration() {
-    delete amplifier_;
-}
+    StudyConfiguration::~StudyConfiguration() {}
 
 StudyConfiguration& StudyConfiguration::operator=(
         const StudyConfiguration& rhs) {
@@ -167,7 +167,7 @@ void StudyConfiguration::copyStudyConfiguration(const StudyConfiguration& rhs) {
     protocolList_ = rhs.protocolList_;
     channelList_ = rhs.channelList_;
     currentProtocolIndex_ = rhs.currentProtocolIndex_;
-    amplifier_ = new Amplifier(*rhs.amplifier_);
+    amplifier_ = rhs.amplifier_;
 }
 
 QList<Protocol> StudyConfiguration::unselectedProtocols() const {
@@ -181,40 +181,42 @@ QList<Protocol> StudyConfiguration::unselectedProtocols() const {
 
 StudyConfigurations::StudyConfigurations()
     : configList_() {
-    readStudyConfigurations();
+    //readStudyConfigurations();
 }
 
-void StudyConfigurations::readStudyConfigurations() {
-    EpCore::loadSystemData(StudyConfiguration::MagicNumber,
-                           StudyConfiguration::configFileName(),
-                           configList_, epOptions);
+void StudyConfigurations::
+readStudyConfigurations(DataStream<StudyConfigurationList>* const dataStream) {
+    dataStream->load(StudyConfiguration::MagicNumber,
+			       StudyConfiguration::configFileName(),
+			       configList_);
     if (configList_.isEmpty()) {
         StudyConfiguration config;
         configList_.append(config);
-        writeStudyConfigurations();
+        writeStudyConfigurations(dataStream);
     }
 }
 
-void StudyConfigurations::writeStudyConfigurations() {
-    EpCore::saveSystemData(StudyConfiguration::MagicNumber,
+void StudyConfigurations::
+writeStudyConfigurations(DataStream<StudyConfigurationList>* const dataStream) {
+    dataStream->save(StudyConfiguration::MagicNumber,
                            StudyConfiguration::configFileName(),
-                           configList_, epOptions);
+                           configList_);
 }
 
 const StudyConfiguration& StudyConfigurations::operator [](int i) const {
     return configList_[i];
 }
-
-void StudyConfigurations::add(const StudyConfiguration& config) {
+    // returns true if item added, false if item is duplicate
+    bool StudyConfigurations::add(const StudyConfiguration& config) {
     // check for duplicates first, only adds if no duplicates,
     // otherwise does nothing.
     if (isPresent(config.name()))
-        return;
+        return false;
     configList_.append(config);
-    writeStudyConfigurations();
+    return true;
 }
-
-void StudyConfigurations::replace(const StudyConfiguration& config) {
+    // returns true if item replaced, false if not found (item is added then)
+    bool StudyConfigurations::replace(const StudyConfiguration& config) {
     // remove study configuration with same name
     bool found = false;
     for (int i = 0; i < size(); ++i)
@@ -225,10 +227,11 @@ void StudyConfigurations::replace(const StudyConfiguration& config) {
         }
     if (!found)
         configList_.append(config);
-    writeStudyConfigurations();
+    return found;
+    //writeStudyConfigurations(dataStream);
 }
-
-void StudyConfigurations::remove(const QString& name) {
+    // returns true is item found and removed, otherwise false
+    bool StudyConfigurations::remove(const QString& name) {
     bool found = false;
     for (int i = 0; i < size(); ++i)
         if (configList_.at(i).name() == name) {
@@ -236,8 +239,8 @@ void StudyConfigurations::remove(const QString& name) {
             found = true;
             break;
         }
-    if (found)
-        writeStudyConfigurations();
+    return found;
+    //        writeStudyConfigurations(dataStream);
 }
 
 bool StudyConfigurations::isPresent(const QString& name) const {

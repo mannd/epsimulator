@@ -1093,7 +1093,12 @@ void Recorder::saveStudyConfiguration() {
     if (!administrationAllowed())
         return;
     StudyConfigurations configList;
+    DataStream<StudyConfigurations::StudyConfigurationList>* dataStream = 
+	DataStream<StudyConfigurations::StudyConfigurationList>::
+	createDataStream(options_);
     configList.replace(*study_->studyConfiguration());
+    configList.save(dataStream);
+    delete dataStream;
 }
 
 void Recorder::saveAsStudyConfiguration() {
@@ -1123,6 +1128,7 @@ void Recorder::saveAsStudyConfiguration() {
         }
         study_->studyConfiguration()->setName(text);
         configList.add(*study_->studyConfiguration());
+	/// TODO save data here
     }
 }
 
