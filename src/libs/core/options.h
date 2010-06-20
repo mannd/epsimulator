@@ -26,12 +26,17 @@
 #include <QString>
 
 // convenient evil macro
+/// DEPRECATED!!!!!
 #define epOptions (EpCore::Options::instance())
 
 namespace EpCore {
 
 /**
- * Singleton class providing one-stop shopping for all program options.
+ * NOT a Singleton class providing one-stop shopping for all program options.
+ * At present program invokes only a single Options* pointer in the
+ * Navigator class and passes it around.  This allows for testing with
+ * mock Options.  Note that loading and saving Options are separate from
+ * construction and destruction.
  * These are set both in SystemDialog and SimulatorSettingsDialog.
  * Options are stored on disk as QSettings.
  * As there seems little point to "protect" option data members
