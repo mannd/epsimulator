@@ -91,7 +91,8 @@ void EditStudyConfigsDialog::newStudyConfig() {
     // doesn't affect configList_, so refresh from disk.
     // Need to do this here because user could do a few "Save As"
     // clicks and create more study configurations from the dialog.
-    configList_.refresh();
+    /// FIXME
+    //configList_.refresh();
     createConfigListWidget();
 }
 
@@ -108,7 +109,8 @@ void EditStudyConfigsDialog::editStudyConfig() {
     delete config;
     // The study configuration dialog writes changes to disk, but
     // doesn't affect configList_, so refresh from disk.
-    configList_.refresh();
+    /// FIXME
+    //configList_.refresh();
     createConfigListWidget();
 }
 
@@ -148,7 +150,8 @@ void EditStudyConfigsDialog::copyStudyConfig() {
         // doesn't affect configList_, so refresh from disk.
         // Need to do this here because user could do a few "Save As"
         // clicks and create more study configurations from the dialog.
-        configList_.refresh();
+        /// FIXME
+        //configList_.refresh();
         createConfigListWidget();
     }
 }

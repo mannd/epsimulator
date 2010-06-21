@@ -109,12 +109,8 @@ class NetworkStream;
 template<typename T>
 class DataStream {
 public:
-    virtual void save(unsigned int magicNumber,
-                      const QString& fileName,
-                      const T& data) = 0;
-    virtual void load(unsigned int magicNumber,
-                      const QString& fileNname,
-                      T& data) = 0;
+    virtual void save(const T& data) = 0;
+    virtual void load(T& data) = 0;
 
     static DataStream<T>* createDataStream(Options* const options) {
         if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
@@ -132,12 +128,8 @@ class SystemStream : public DataStream<T> {
 public:
     SystemStream(const QString& systemPath);
 
-    virtual void save(unsigned int magicNumber,
-                      const QString& fileName,
-                      const T& data);
-    virtual void load(unsigned int magicNumber,
-                      const QString& filNname,
-                      T& data);
+    virtual void save(const T& data);
+    virtual void load(T& data);
 private:
     QString systemPath_;
 };
@@ -147,12 +139,8 @@ class NetworkStream : public SystemStream<T> {
 public:
     NetworkStream(const QString& networkPath,
                   const QString& systemPath);
-    virtual void save(unsigned int magicNumber,
-                      const QString& fileName,
-                      const T& data);
-    virtual void load(unsigned int magicNumber,
-                      const QString& fileNname,
-                      T& data);
+    virtual void save(const T& data);
+    virtual void load(T& data);
 private:
     QString networkPath_;
 };
@@ -167,17 +155,13 @@ SystemStream<T>::SystemStream(const QString &systemPath)
     : systemPath_(systemPath) {}
 
 template<typename T>
-void SystemStream<T>::save(unsigned int magicNumber,
-                       const QString& fileName,
-                       const T& data) {
-    saveData(joinPaths(systemPath_, fileName), magicNumber, data);
+void SystemStream<T>::save(const T& data) {
+    saveData(joinPaths(systemPath_, T::fileName()), T::magicNumber(), data);
 }
 
 template<typename T>
-void SystemStream<T>::load(unsigned int magicNumber,
-                        const QString& fileName,
-                        T& data) {
-    loadData(joinPaths(systemPath_, fileName), magicNumber, data);
+void SystemStream<T>::load(T& data) {
+    loadData(joinPaths(systemPath_, T::fileName()), T::magicNumber(), data);
 }
 
 template<typename T>
@@ -186,19 +170,15 @@ NetworkStream<T>::NetworkStream(const QString& networkPath,
     : SystemStream<T>(systemPath), networkPath_(networkPath) {}
 
 template<typename T>
-void NetworkStream<T>::save(unsigned int magicNumber,
-                         const QString& fileName,
-                         const T& data) {
-    SystemStream<T>::save(magicNumber, fileName, data);
-    saveData(joinPaths(networkPath_, fileName), magicNumber, data);
+void NetworkStream<T>::save(const T& data) {
+    SystemStream<T>::save(data);
+    saveData(joinPaths(networkPath_, T::fileName()), T::magicNumber(), data);
 }
 
 template<typename T>
-void NetworkStream<T>::load(unsigned int magicNumber,
-                            const QString& fileName,
-                            T& data) {
-    SystemStream<T>::load(magicNumber, fileName, data);
-    loadData(joinPaths(networkPath_, fileName), magicNumber, data);
+void NetworkStream<T>::load(T& data) {
+    SystemStream<T>::load(data);
+    loadData(joinPaths(networkPath_, T::fileName()), T::magicNumber(), data);
 }
 
 
