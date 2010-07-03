@@ -607,28 +607,6 @@ void TestEpSimulator::testSaturation() {
     QVERIFY(sat2 != sat);
 }
 
-void TestEpSimulator::testDataStream() {
-    DataStream<QString>* dataStream = new MockDataStream<QString>;
-    QString test = "Test";
-    QString fileName = "testdatastream.dat";
-    int magic = 123456;
-    dataStream->save(magic, fileName, test);
-    QString result;
-    dataStream->load(magic, fileName, result);
-    QVERIFY(result == "Test");
-    magic = 0;  // bad magic
-    try {
-        dataStream->load(magic, fileName, result);
-    }
-    catch (IoError& e) {
-        QVERIFY(true);
-        delete dataStream;
-        return;
-    }
-    delete dataStream;
-    QVERIFY(false);     // should throw and not reach here
-}
-
 void TestEpSimulator::testAmplifier() {
     Amplifier amp;  // default is 48 channels
     QCOMPARE(amp.numChannels(), 48);
@@ -669,22 +647,27 @@ void TestEpSimulator::testAmplifierStream() {
     QVERIFY(b.channel(1)->label() == "XYZ");
     Amplifier c;
     QVERIFY(c.channel(1)->label() == "I");
+    delete dataStream;
 }
 
 void TestEpSimulator::testStudyConfigurations() {
     StudyConfigurations list;
-    QVERIFY(list.size() >= 1);
+    QVERIFY(list.size() == 1);
+    StudyConfiguration config;
+    config.setName("testing123");
+    list.add(config);
+    QVERIFY(list.size() == 2);
     for (int i = 0; i < list.size(); ++i)
         if (list[i].name() == tr("<default>")) {
             QVERIFY(list[i].amplifier()->channel(1)->label() == tr("I"));
             QVERIFY(list[i].amplifier()->numChannels()
                 == Options::instance()->numChannels);
         }
-    StudyConfiguration* config = new StudyConfiguration;
-    config->setName("testing123");
-    Study s;
-    s.setStudyConfiguration(config);
-    QVERIFY(s.studyConfiguration()->name() == "testing123");
+    list.remove("testing123");
+    QVERIFY(list.size() == 1);
+    list.remove("No Such Config");
+    QVERIFY(list.size() == 1);
+    // ? can the default study config be removed?
 }
 
 void TestEpSimulator::testBloodPressure() {

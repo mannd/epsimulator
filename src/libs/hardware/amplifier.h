@@ -64,6 +64,9 @@ public:
     // The rest are plain intracardiac channels.
     static int numCIMConnections(int numChannels) {
         return (numChannels - 16) / 16;}
+    static unsigned int magicNumber() {return MagicNumber;}
+    static QString fileName() {return fileName_;}
+
     void reset();  // perform hardware reset
 
     int numChannels() const {return numChannels_;}
@@ -81,7 +84,6 @@ private:
     const static QString fileName_;
 
     void copyAmplifier(const Amplifier&);
-
 
     int numChannels_;
     QList<Channel*> channels_;

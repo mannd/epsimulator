@@ -31,12 +31,8 @@ template<typename T>
 class MockDataStream : public DataStream<T> {
 public:
     MockDataStream();
-    virtual void save(unsigned int magicNumber,
-                      const QString& fileName,
-                      const T& data);
-    virtual void load(unsigned int magicNumber,
-                      const QString& fileNname,
-                      T& data);
+    virtual void save(const T& data);
+    virtual void load(T& data);
 private:
     QString tempPath_;
 };
@@ -47,17 +43,13 @@ template<typename T>
 MockDataStream<T>::MockDataStream() : tempPath_(QDir::tempPath()) {}
 
 template<typename T>
-void MockDataStream<T>::save(unsigned int magicNumber,
-                             const QString& fileName,
-                             const T& data) {
-    saveData(joinPaths(tempPath_, fileName), magicNumber, data);
+void MockDataStream<T>::save(const T& data) {
+    saveData(joinPaths(tempPath_, T::fileName()), T::magicNumber(), data);
 }
 
 template<typename T>
-void MockDataStream<T>::load(unsigned int magicNumber,
-                             const QString& fileName,
-                             T& data) {
-    loadData(joinPaths(tempPath_, fileName), magicNumber, data);
+void MockDataStream<T>::load(T& data) {
+    loadData(joinPaths(tempPath_, T::fileName()), T::magicNumber(), data);
 }
 
 }

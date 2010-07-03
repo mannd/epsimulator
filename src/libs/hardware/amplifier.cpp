@@ -88,7 +88,7 @@ Amplifier::~Amplifier() {
 
 void Amplifier::load(EpCore::DataStream<Amplifier>* const dataStream) {
     try {
-        dataStream->load(MagicNumber, fileName_, *this);
+        dataStream->load(*this);
     }
     catch (EpCore::IoError&) {
         // ignore failure to read, keep default amplifier settings
@@ -96,7 +96,7 @@ void Amplifier::load(EpCore::DataStream<Amplifier>* const dataStream) {
 }
 
 void Amplifier::save(EpCore::DataStream<Amplifier>* const dataStream) {
-    dataStream->save(MagicNumber, fileName_, *this);
+    dataStream->save(*this);
 }
 
 void Amplifier::reset() {

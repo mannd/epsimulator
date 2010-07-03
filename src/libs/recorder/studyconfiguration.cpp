@@ -96,6 +96,17 @@ QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
     return in;
 }
 
+QDataStream& operator<<(QDataStream& out,
+                        const StudyConfigurations& studyConfigs) {
+    out << studyConfigs.configList_;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, StudyConfigurations& studyConfigs) {
+    in >> studyConfigs.configList_;
+    return in;
+}
+
 const QString Protocol::fileName_ = "protocols.dat";
 
 Protocol::Protocol(const Protocol& rhs) {
@@ -136,12 +147,15 @@ QList<Protocol> Protocol::defaultItems() {
 
 const QString StudyConfiguration::configFileName_ = "config.dat";
 
-    StudyConfiguration::StudyConfiguration(const QString& name,
-					   Amplifier* const amplifier) 
+StudyConfiguration::StudyConfiguration(const QString& name,
+                                       Amplifier* const amplifier)
 	: name_(name), 
 	  protocolList_(Protocol::defaultItems()),
 	  channelList_(), currentProtocolIndex_(0),
-	  amplifier_(amplifier) {}
+          amplifier_(amplifier) {
+    if (!amplifier_)
+        amplifier_ = new Amplifier;
+}
 
 StudyConfiguration::StudyConfiguration(const StudyConfiguration& rhs) {
     copyStudyConfiguration(rhs);
@@ -179,28 +193,29 @@ QList<Protocol> StudyConfiguration::unselectedProtocols() const {
     return unselectedProtocols;
 }
 
+const QString StudyConfigurations::fileName_ = "configs.dat";
+
 StudyConfigurations::StudyConfigurations()
     : configList_() {
+    // always have one default StudyConfiguration in the list
+    StudyConfiguration config;
+    configList_.append(config);
     //readStudyConfigurations();
 }
 
 void StudyConfigurations::
-readStudyConfigurations(DataStream<StudyConfigurationList>* const dataStream) {
-    dataStream->load(StudyConfiguration::MagicNumber,
-			       StudyConfiguration::configFileName(),
-			       configList_);
-    if (configList_.isEmpty()) {
-        StudyConfiguration config;
-        configList_.append(config);
-        writeStudyConfigurations(dataStream);
-    }
+readStudyConfigurations(DataStream<StudyConfigurations>* const dataStream) {
+    dataStream->load(*this);
+//    if (configList_.isEmpty()) {
+//        StudyConfiguration config;
+//        configList_.append(config);
+//        writeStudyConfigurations(dataStream);
+//    }
 }
 
 void StudyConfigurations::
-writeStudyConfigurations(DataStream<StudyConfigurationList>* const dataStream) {
-    dataStream->save(StudyConfiguration::MagicNumber,
-                           StudyConfiguration::configFileName(),
-                           configList_);
+writeStudyConfigurations(DataStream<StudyConfigurations>* const dataStream) {
+    dataStream->save(*this);
 }
 
 const StudyConfiguration& StudyConfigurations::operator [](int i) const {

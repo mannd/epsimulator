@@ -68,7 +68,7 @@ public:
     Catalog(const QString& path, const QString& fileName = defaultFileName_);
     virtual ~Catalog(); 
 
-    static const QString defaultFileName() {return defaultFileName_;}
+    static QString defaultFileName() {return defaultFileName_;}
 
     CatalogMap::const_iterator begin() {return catalog_.begin();}
     CatalogMap::const_iterator end() {return catalog_.end();}

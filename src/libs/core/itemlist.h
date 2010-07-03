@@ -34,7 +34,7 @@ template<typename T>
 class ItemList {
 public:
     ItemList();
-    ItemList(EpCore::Options* const options)
+    ItemList(Options* const options)
         : list_(), options_(options) {}
 
     T& operator[](int i) {
@@ -78,7 +78,7 @@ private:
     void makeDefault();
 
     QList<T> list_;
-    EpCore::Options* options_;
+    Options* options_;
 };
 
 template<typename T>
@@ -148,17 +148,18 @@ bool ItemList<T>::nameIsPresent(const QString &name) const {
 template<typename T>
 void ItemList<T>::load() {
     try {
-        EpCore::loadSystemData(T::magicNumber(), T::fileName(),
+        loadSystemData(T::magicNumber(), T::fileName(),
                                list_, options_);
     }
-    catch (EpCore::IoError&) {
+    catch (IoError&) {
         // ignore failure to read, leave list empty
     }
 }
 
+
 template<typename T>
 void ItemList<T>::save() {
-    EpCore::saveSystemData(T::magicNumber(), T::fileName(),
+    saveSystemData(T::magicNumber(), T::fileName(),
                            list_, options_);
 }
 

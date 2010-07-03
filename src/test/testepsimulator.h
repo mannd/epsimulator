@@ -76,8 +76,6 @@ private slots:
     void testCopyDir();
     // class Saturation
     void testSaturation();
-    // class DataStream;
-    void testDataStream();
     // class Amplifier
     void testAmplifier();
     void testAmplifierStream();

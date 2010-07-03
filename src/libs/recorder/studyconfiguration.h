@@ -193,7 +193,6 @@ class StudyConfiguration {
     Q_DECLARE_TR_FUNCTIONS(StudyConfiguration)
 
 public:
-    enum {MagicNumber = 0x88827393};
 
     StudyConfiguration(const QString& name = tr("<default>"),
 		       EpHardware::EpAmplifier::Amplifier* const amplifier
@@ -206,7 +205,8 @@ public:
 
     StudyConfiguration& operator=(const StudyConfiguration&);
 
-    static const QString configFileName() {return configFileName_;}
+    static unsigned int magicNumber() {return MagicNumber;}
+    static QString fileName() {return configFileName_;}
 
     int numChannels() const {return amplifier_->numChannels();}
 
@@ -224,6 +224,8 @@ public:
     EpHardware::EpAmplifier::Amplifier* amplifier() const {return amplifier_;}
 
 private:
+    enum {MagicNumber = 0x88827393};
+
     void copyStudyConfiguration(const StudyConfiguration&);
 
     static const QString configFileName_;
@@ -238,17 +240,23 @@ private:
 
 class StudyConfigurations {
 public:
+    friend QDataStream& operator<<(QDataStream&, const StudyConfigurations&);
+    friend QDataStream& operator>>(QDataStream&, StudyConfigurations&);
+
     typedef QList<StudyConfiguration> StudyConfigurationList;
 
     StudyConfigurations();
 
     const StudyConfiguration& operator[](int i) const;
 
-    void refresh(EpCore::DataStream<StudyConfigurationList>* const dataStream) {
+    static unsigned int magicNumber() {return MagicNumber;}
+    static QString fileName() {return fileName_;}
+
+    void refresh(EpCore::DataStream<StudyConfigurations>* const dataStream) {
 	readStudyConfigurations(dataStream);}
-    void load(EpCore::DataStream<StudyConfigurationList>* const dataStream) {
+    void load(EpCore::DataStream<StudyConfigurations>* const dataStream) {
 	readStudyConfigurations(dataStream);}
-    void save(EpCore::DataStream<StudyConfigurationList>* const dataStream) {
+    void save(EpCore::DataStream<StudyConfigurations>* const dataStream) {
 	writeStudyConfigurations(dataStream);}
 
     // below don't change permanently unless save() called
@@ -262,9 +270,13 @@ public:
     StudyConfiguration* studyConfiguration(const QString& name);
 
 private:
-    void readStudyConfigurations(EpCore::DataStream<StudyConfigurationList>* 
+    enum {MagicNumber = 0x85827300};
+
+    static const QString fileName_;
+
+    void readStudyConfigurations(EpCore::DataStream<StudyConfigurations>*
 				 const dataStream);
-    void writeStudyConfigurations(EpCore::DataStream<StudyConfigurationList>* 
+    void writeStudyConfigurations(EpCore::DataStream<StudyConfigurations>*
 				  const dataStream);
 
     StudyConfigurationList configList_;

@@ -181,8 +181,6 @@ void NetworkStream<T>::load(T& data) {
     loadData(joinPaths(networkPath_, T::fileName()), T::magicNumber(), data);
 }
 
-
-
 inline bool versionOk(int /* versionMajor */,
                int /* versionMinor */) {
     // check for incompatible file versions here

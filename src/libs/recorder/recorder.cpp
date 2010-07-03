@@ -182,7 +182,9 @@ Recorder::~Recorder() {
 }
 
 void Recorder::loadAmplifier() {
-    amplifier_->load(DataStream<Amplifier>::createDataStream(options_));
+    DataStream<Amplifier>* dataStream = DataStream<Amplifier>::createDataStream(options_);
+    amplifier_->load(dataStream);
+    delete dataStream;
 }
 
 void Recorder::loadPatient() {
@@ -1093,8 +1095,8 @@ void Recorder::saveStudyConfiguration() {
     if (!administrationAllowed())
         return;
     StudyConfigurations configList;
-    DataStream<StudyConfigurations::StudyConfigurationList>* dataStream = 
-	DataStream<StudyConfigurations::StudyConfigurationList>::
+    DataStream<StudyConfigurations>* dataStream =
+        DataStream<StudyConfigurations>::
 	createDataStream(options_);
     configList.replace(*study_->studyConfiguration());
     configList.save(dataStream);
