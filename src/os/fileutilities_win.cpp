@@ -18,13 +18,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "fileutilities.h"
+#include "../libs/core/fileutilities.h"
 
 #include <QtCore/QDir>
 #include <QtCore/QProcessEnvironment>
 
 #include <windows.h>
 #include <winsock2.h>
+
+#include <cstdlib>
 
 bool EpCore::isRemovableMedia(const QDir& dir) {
     QString path = dir.absolutePath();
@@ -48,7 +50,8 @@ bool EpCore::isRemovableMedia(const QDir& dir) {
 
 QString EpCore::osDependentSystemPath() {
     QString appData = QProcessEnvironment::systemEnvironment().value("APPDATA");
-    path = joinPaths(appData, "epsimulator");
+    QString path = joinPaths(appData, "epsimulator");
+    return path;
 }
 
 QString EpCore::getUserName() {
