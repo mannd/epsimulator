@@ -1,1 +1,1 @@
-QMAKE_CXXFLAGS += -DAPP_VERSION_BUILD=\\\"`git describe`\\\"
+unix:QMAKE_CXXFLAGS += -DAPP_VERSION_BUILD=\\\"`git describe`\\\"
