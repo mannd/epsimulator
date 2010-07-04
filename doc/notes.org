@@ -416,4 +416,5 @@ polymorphic) and is passed to classes that need to system save data.
 ** Local vs System data
    A common scenario is loading configuration data.  All configuration data is
    stored in the top level folder of each study.  When there is new study, the
-   configuration data is initially loaded from the system directory.  
+   configuration data is initially loaded from the system directory.  Thus the
+   st
