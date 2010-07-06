@@ -153,7 +153,6 @@ private slots:
     void resizeDisplayWindows(QWidget*);
 
 private:
-    // disallowed
     Recorder(const Recorder&);
     Recorder& operator=(const Recorder&);
 
