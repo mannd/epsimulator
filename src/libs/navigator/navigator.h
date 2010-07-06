@@ -36,9 +36,14 @@ namespace EpCore {
     class Options;
 }
 
-namespace EpHardware { namespace EpOpticalDisk { class OpticalDisk; }}
+namespace EpHardware { 
+    namespace EpOpticalDisk { 
+	class OpticalDisk; }
+}
 
-namespace EpStudy { class Study; }
+namespace EpStudy { 
+    class Study; 
+}
 
 namespace EpNavigator {
 
@@ -61,15 +66,11 @@ public:
 
 public slots:
     void regenerateCatalogs();
-
-    // these are redefinitions of abstract virtual functions in AbstractMainWindow
     virtual void updateSimulatorSettings();
     virtual void updateSystemSettings();
 
 protected:
     void closeEvent(QCloseEvent*);
-
-    // these are redefinitions of abstract virtual functions in AbstractMainWindow
     virtual EpCore::User* user() const {return user_;}
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const {
         return currentDisk_;}
@@ -117,7 +118,6 @@ private slots:
     void updateAll();
 
 private:
-    // disallowed
     Navigator(const Navigator&);
     Navigator& operator=(const Navigator&);
 
@@ -193,6 +193,8 @@ private:
     AbstractButtonFrame* buttonFrame_;
     TableListView* tableListView_;
 
+    // Actions
+
     // Study menu
     QAction* newAction_;
     QAction* continueAction_;
@@ -241,16 +243,15 @@ private:
     QAction* manageSectionsAction_;
     QAction* manageFormatsAction_;
     QAction* templatesAction_;
-
-    // Non-menu actions
-    QAction* clearSelectionAction_;
-
 #ifndef NDEBUG
     QAction* testWidgetAction_;
 #endif
 
     // Help menu
     // Actions returned by AbstractMainWindow
+
+    // Non-menu actions
+    QAction* clearSelectionAction_;
 
     // top-level menus
     QMenu* studyMenu_;

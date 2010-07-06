@@ -59,9 +59,7 @@ protected:
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const = 0;
     virtual void updateSimulatorSettings() = 0;
     virtual void updateSystemSettings() = 0;
-
     virtual void readSettings() = 0;
-
     void filler();
     bool showSimulatorSettings();
     void updateWindowTitle(const QString& title = QString());

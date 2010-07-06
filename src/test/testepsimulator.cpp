@@ -640,14 +640,13 @@ void TestEpSimulator::testAmplifierStream() {
     QCOMPARE(a.numChannels(), 48);
     a.channel(1)->setLabel("XYZ");
     QVERIFY(a.channel(1)->label() == "XYZ");
-    DataStream<Amplifier>* dataStream = new MockDataStream<Amplifier>;
-    a.save(dataStream);
+    MockDataStream<Amplifier> dataStream;
+    a.save(&dataStream);
     Amplifier b;
-    b.load(dataStream);
+    b.load(&dataStream);
     QVERIFY(b.channel(1)->label() == "XYZ");
     Amplifier c;
     QVERIFY(c.channel(1)->label() == "I");
-    delete dataStream;
 }
 
 void TestEpSimulator::testStudyConfigurations() {

@@ -33,33 +33,31 @@ class QString;
 
 namespace EpCore {
 
-enum CopyFlag { DoNotOverwrite  = 0x000000,
-                Overwrite       = 0x000001
+enum CopyFlag {
+    DoNotOverwrite  = 0x000000,
+    Overwrite       = 0x000001
 };
 
 /**
- * Loads data from QDataStream identified by filePath.  File must be proper
- * type, matching magicNumber.
- */
-template<typename T> 
-void loadData(const QString& filePath, unsigned int magicNumber, T& data); 
-
-/**
- * Save data to QDataStream identified by filePath.  magicNumber is saved to
- * stream for identification purposes.
+ * Basic raw function to save data to a file.
  */
 template<typename T> 
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data);
+
+/**
+ * Basic raw function to load data from a file.
+ */
+template<typename T> 
+void loadData(const QString& filePath, unsigned int magicNumber, T& data); 
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out);
 bool systemFileExists(const Options* const options,
                       const QString& fileName);
 
-// gets a MagicNumber from a file
 unsigned int magicNumber(const QString& filePath);
-// check that file version is readable
 bool versionOk(int majorVersion, int MinorVersion);
 
+/// NB: Both functions below are deprecated, use DataSteam class instead.
 /**
  * Saves data to both Network and local System paths, if network storage
  * enabled, otherwise only to local System path.
@@ -90,6 +88,7 @@ void copyFilesToSystem(const QStringList& files, const QString& sourcePath,
                        CopyFlag = DoNotOverwrite);
 
 QString joinPaths(const QString&, const QString&);
+
 QString capitalize(const QString&);
 
 bool isRemovableMedia(const QDir& dir);     // attempts to determine if
@@ -100,6 +99,7 @@ QString getUserName();
 QString getMachineName();
 long diskFreeSpace(const QString& path);
 
+// must forward declare these DataStream subclasses
 template<typename T>
 class SystemStream;
 
@@ -109,6 +109,7 @@ class NetworkStream;
 template<typename T>
 class DataStream {
 public:
+    // save and load only save to system
     virtual void save(const T& data) = 0;
     virtual void load(T& data) = 0;
 
@@ -119,7 +120,6 @@ public:
         else
             return new SystemStream<T>(options->systemCatalogPath);
     }
-
 };
 
 
@@ -130,6 +130,7 @@ public:
 
     virtual void save(const T& data);
     virtual void load(T& data);
+
 private:
     QString systemPath_;
 };
@@ -149,7 +150,7 @@ private:
 void testCdTools(QObject* = 0);
 
 // definitions
-
+    
 template<typename T>
 SystemStream<T>::SystemStream(const QString &systemPath)
     : systemPath_(systemPath) {}

@@ -174,6 +174,7 @@ namespace EpStudy {
         EpPatient::AutonomicTone adjustTone(EpPatient::AutonomicTone tone);
 
         static const QString fileName_; // name of studies data file
+	/// does not belong in Study
         static const QString configFileName_; // name of study config file
 
         QDateTime dateTime_;
@@ -199,6 +200,7 @@ namespace EpStudy {
         mutable QString key_;   // unique key for each study
         QString heartName_;
         QString studyConfigName_;
+	/// deprecated, Study will only contain the configuration name
         StudyConfiguration* studyConfiguration_;
 
     };
