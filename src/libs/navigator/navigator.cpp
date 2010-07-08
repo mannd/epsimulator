@@ -162,8 +162,8 @@ void Navigator::newStudy() {
             StudyConfigurations configList;
             if (configList.isPresent(configName)) {
                 study->setStudyConfigName(configName);
-                study->setStudyConfiguration(
-                        configList.studyConfiguration(configName));
+                // study->setStudyConfiguration(
+                //         configList.studyConfiguration(configName));
             }
             else
                 throw EpCore::StudyConfigurationNotFoundError(configName);
@@ -195,8 +195,8 @@ void Navigator::continueStudy() {
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
             study->setStudyConfiguration(
                     selectStudyConfigDialog->studyConfiguration());
-            study->setStudyConfigName(selectStudyConfigDialog->
-                                      studyConfiguration()->name());
+            // study->setStudyConfigName(selectStudyConfigDialog->
+            //                           studyConfiguration()->name());
             catalogs_->deleteStudy(study);
             study->setPreregisterStudy(false);
             catalogs_->addStudy(study, currentDisk_->label(),

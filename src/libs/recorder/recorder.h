@@ -161,6 +161,7 @@ private:
  
     void loadPatient();
     void loadAmplifier();
+    void loadStudyConfiguration();
 
     void updateOpenDisplayWindowList();  
     void connectReviewWindows();

@@ -418,3 +418,60 @@ polymorphic) and is passed to classes that need to system save data.
    stored in the top level folder of each study.  When there is new study, the
    configuration data is initially loaded from the system directory.  Thus the
    st
+* What does Study know?
+** Before refactoring
+   - Name
+   - unique key
+   - unique file name generated from key
+   - stuff listed in catalog columns
+     - Study Type
+       - Study
+       - Pre-register
+     - Name
+     - MRN
+     - Study Date/Time
+     - Study Config name
+     - Study Number
+     - Location (disk label, or network location)
+   - Patient stuff, not in catalog, invariant, in Patient Information Dialog
+     - date of birth
+     - sex
+   - Patient stuff, not in catalog, possibly variant, in Patient Information Dialog
+     - height, weight, bsa
+   - Patient stuff, not in catalog, possibly variant, not in Prucka Patient
+     Information Dialog
+     - ef
+     - ischemia
+   - Links to other data
+     - Study Configuration
+     - Heart name
+   - Path related
+     - path() returns path to specific study directory
+     - filePath() returns full path to study.dat file
+     - configFilePath() returns full path of config.dat file
+     - dirName() returns name of study dir ("/study_" + key())
+     - fileName() returns "study.dat"
+* Patient simulation
+** Situations
+*** New patient (not copied from previous data)
+**** Patient Information blank
+**** Physiology tab
+***** Select/Edit initial patient physiology
+***** Note Physiology tab can be adminitrator only function
+      If this is the case, users cannot enter new patients.  Patients must be
+      preregistered by the adminstrator, who must fill in the Physiology tab.
+      Alternatively, new users who create a patient can get a default
+      physiology.  Of course if users are allowed to adjust physiology they
+      can do it themselves.
+***** Drop-down list of named physiologies
+***** Options to save or save as altered physiology
+      Otherwise altered physiologies just apply to single patient.
+***** Checkboxes, etc. to set physiology parameters
+**** Drug tab
+***** Initial drugs are set here
+***** Other drugs are added during the procedure
+***** This can include sedation
+***** Can be represented as table of drugs, doses, routes
+**** Heart tab
+***** Similar to Physiology tab, ability to save, save as
+***** Ability to alter cellular and macro physiology

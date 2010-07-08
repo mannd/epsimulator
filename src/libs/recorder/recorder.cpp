@@ -123,7 +123,7 @@ Recorder::Recorder(QWidget* parent,
     }
 
     loadAmplifier();
-    study_->loadStudyConfiguration();
+    loadStudyConfiguration();
     // applyProtocol(study_->studyConfiguration()->currentProtocol();
     qDebug() << "Study configuration name = "
             << study_->studyConfiguration()->name();
@@ -185,6 +185,10 @@ void Recorder::loadAmplifier() {
     DataStream<Amplifier>* dataStream = DataStream<Amplifier>::createDataStream(options_);
     amplifier_->load(dataStream);
     delete dataStream;
+}
+
+void Recorder::loadStudyConfiguration() {
+   study_->loadStudyConfiguration();
 }
 
 void Recorder::loadPatient() {
