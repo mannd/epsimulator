@@ -48,6 +48,7 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      administratorAccountRequired(false),
 		      hideSimulatorMenu(false),
 		      permanentDelete(false),
+		      simulationControlFlags(DefaultUserControl),
 		      passwordHash(0),
 		      diskCache(AutoCache),
 		      numChannels(48) {
@@ -92,12 +93,7 @@ void Options::readSettings() {
     hideSimulatorMenu = settings.value("hideSimulatorMenu", 
                                         false).toBool();
     permanentDelete = settings.value("permanentDelete", false).toBool();
-    /// FIXME This should probably be deviously named, like "/signalFrameCountOffset",
-    /// so that the password can't be set back to blank by putting 0 in here.  Other
-    /// things that could be done would be to store this in a config file not in the user
-    /// directory that the user can't access, or store settings in binary, or encrypt the
-    /// settings file, etc.  One problem is all this seems like overkill to prevent users
-    /// from having access to some minor setup functions.
+    simulationControlFlags = readFlags<SimulationControlFlags>(			       "simulationControlFlags", DefaultUserControl, settings);
     passwordHash = settings.value("passwordHash", "0").toString();
     numChannels = settings.value("numChannels", 48).toInt();
     screenFlags = readFlags<ScreenFlags>("screenFlags", 
@@ -134,6 +130,7 @@ void Options::writeSettings() {
     settings.setValue("administratorAccountRequired", administratorAccountRequired);
     settings.setValue("hideSimulatorMenu", hideSimulatorMenu);
     settings.setValue("permanentDelete", permanentDelete);
+    settings.setValue("simulationControlFlags", int(simulationControlFlags));
     settings.setValue("passwordHash", passwordHash);
     settings.setValue("numChannels", int(numChannels));
     settings.setValue("screenFlags", int(screenFlags));

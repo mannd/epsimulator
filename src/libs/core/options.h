@@ -144,6 +144,17 @@ public:
     bool administratorAccountRequired;
     bool hideSimulatorMenu;
     bool permanentDelete;
+    
+    // control tweakable aspects of the simulation
+    enum SimulationControlFlag {
+	NoUserControls = 0x000000,
+	UserPhysiologyControl = 0x000001,
+	UserHeartControl = 0x000002,
+	UserPatientControl = UserPhysiologyControl | UserHeartControl,
+	DefaultUserControl = UserPatientControl
+    };
+    Q_DECLARE_FLAGS(SimulationControlFlags, SimulationControlFlag)
+    SimulationControlFlags simulationControlFlags;
 
     // not a real option, but convenient to have the password hash here
     QString passwordHash;
