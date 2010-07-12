@@ -182,9 +182,11 @@ Recorder::~Recorder() {
 }
 
 void Recorder::loadAmplifier() {
-    DataStream<Amplifier>* dataStream = DataStream<Amplifier>::createDataStream(options_);
-    amplifier_->load(dataStream);
-    delete dataStream;
+    // DataStream<Amplifier>* dataStream = DataStream<Amplifier>::createDataStream(options_);
+    // amplifier_->load(dataStream);
+    // delete dataStream;
+    EpCore::SystemData<EpHardware::EpAmplifier::Amplifier> systemData(options_);
+    systemData.load(*amplifier_);
 }
 
 void Recorder::loadStudyConfiguration() {
@@ -1100,8 +1102,7 @@ void Recorder::saveStudyConfiguration() {
         return;
     StudyConfigurations configList;
     DataStream<StudyConfigurations>* dataStream =
-        DataStream<StudyConfigurations>::
-	createDataStream(options_);
+        DataStream<StudyConfigurations>::createDataStream(options_);
     configList.replace(*study_->studyConfiguration());
     configList.save(dataStream);
     delete dataStream;

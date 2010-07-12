@@ -105,6 +105,9 @@ public:
     SystemData(const Options* const options);
     virtual void save(const T& data);
     virtual void load(T& data);
+    virtual SystemData<T>& operator<<(const T&);
+    virtual SystemData<T>& operator>>(T&);
+    
 private:
     QString systemPath_;
     QString networkPath_;
@@ -135,6 +138,18 @@ void SystemData<T>::load(T& data) {
     if (useNetwork_)
         loadData(joinPaths(networkPath_, T::fileName()),
 		 T::magicNumber(), data);
+}
+
+template<typename T>
+SystemData<T>& SystemData<T>::operator<<(const T& data) {
+    save(data);
+    return *this;
+}
+
+template<typename T>
+SystemData<T>& SystemData<T>::operator>>(T& data) {
+    load(data);
+    return *this;
 }
 
 // must forward declare these DataStream subclasses

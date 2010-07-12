@@ -26,7 +26,7 @@
       <bool>true</bool>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="caseTab">
       <attribute name="title">
@@ -694,6 +694,11 @@
         </item>
        </layout>
       </widget>
+     </widget>
+     <widget class="QWidget" name="tabHeart">
+      <attribute name="title">
+       <string>Heart</string>
+      </attribute>
      </widget>
     </widget>
    </item>
