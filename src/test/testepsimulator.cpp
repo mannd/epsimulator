@@ -647,6 +647,10 @@ void TestEpSimulator::testAmplifierStream() {
     QVERIFY(b.channel(1)->label() == "XYZ");
     Amplifier c;
     QVERIFY(c.channel(1)->label() == "I");
+    MockSystemData<Amplifier> systemDataStream;
+    systemDataStream.save(c);
+    systemDataStream.load(c);
+    QVERIFY(c.channel(1)->label() == "I");
 }
 
 void TestEpSimulator::testStudyConfigurations() {

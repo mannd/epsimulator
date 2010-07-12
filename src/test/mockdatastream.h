@@ -50,7 +50,8 @@ private:
 // definitions
 
 template<typename T>
-MockSystemData<T>::MockSystemData() : tempPath_(QDir::tempPath()) {}
+MockSystemData<T>::MockSystemData() : 
+    SystemData<T>(0), tempPath_(QDir::tempPath()) {}
 
 template<typename T>
 void MockSystemData<T>::save(const T& data) {

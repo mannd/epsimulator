@@ -103,8 +103,8 @@ template<typename T>
 class SystemData {
 public:
     SystemData(const Options* const options);
-    void save(const T& data);
-    void load(T& data);
+    virtual void save(const T& data);
+    virtual void load(T& data);
 private:
     QString systemPath_;
     QString networkPath_;
@@ -113,25 +113,27 @@ private:
 
 template<typename T>
 SystemData<T>::SystemData(const Options* const options)  {
-    systemPath_ = options->systemCatalogPath;
-    networkPath_ = options->networkStudyPath;
-    useNetwork_ = options->
-	filePathFlags.testFlag(Options::EnableNetworkStorage);
+    if (options) {
+	systemPath_ = options->systemCatalogPath;
+	networkPath_ = options->networkStudyPath;
+	useNetwork_ = options->
+	    filePathFlags.testFlag(Options::EnableNetworkStorage);
+    }
 }
 
 template<typename T>
 void SystemData<T>::save(const T& data)  {
     saveData(joinPaths(systemPath_, T::fileName()), T::magicNumber(), data);
     if (useNetwork_)
-	loadData(joinPaths(networkPath_, T::fileName()), 
+        saveData(joinPaths(networkPath_, T::fileName()),
 		 T::magicNumber(), data);
 }
 
 template<typename T>
 void SystemData<T>::load(T& data) {
-    saveData(joinPaths(systemPath_, T::fileName()), T::magicNumber(), data);
+    loadData(joinPaths(systemPath_, T::fileName()), T::magicNumber(), data);
     if (useNetwork_)
-	saveData(joinPaths(networkPath_, T::fileName()), 
+        loadData(joinPaths(networkPath_, T::fileName()),
 		 T::magicNumber(), data);
 }
 
