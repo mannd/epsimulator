@@ -37,7 +37,30 @@ private:
     QString tempPath_;
 };
 
+template<typename T>
+class MockSystemData : public SystemData<T> {
+public:
+    MockSystemData();
+    virtual void save(const T& data);
+    virtual void load(T& data);
+private:
+    QString tempPath_;
+};
+
 // definitions
+
+template<typename T>
+MockSystemData<T>::MockSystemData() : tempPath_(QDir::tempPath()) {}
+
+template<typename T>
+void MockSystemData<T>::save(const T& data) {
+    saveData(joinPaths(tempPath_, T::fileName()), T::magicNumber(), data);
+}
+
+template<typename T>
+void MockSystemData<T>::load(T& data) {
+    loadData(joinPaths(tempPath_, T::fileName()), T::magicNumber(), data);
+} 
 
 template<typename T>
 MockDataStream<T>::MockDataStream() : tempPath_(QDir::tempPath()) {}
