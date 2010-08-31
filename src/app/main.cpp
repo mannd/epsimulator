@@ -60,12 +60,27 @@
 #endif
 
 static bool createConnection() {
+    QString dbFileName(EpCore::joinPaths(EpCore::systemPath(),
+					 "epsimulator.db"));
+    QFile dbFile(dbFileName);
+    if (!dbFile.exists()) {
+	// copy language specific default database
+#ifdef ENGLISH
+	QString langSubDir = "en";
+#elif defined GERMAN
+	QString langSubDir = "de";
+#elif defined FRENCH
+	QString langSubDir = "fr";
+#endif
+	QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
+				     "db/" + langSubDir + "/epsimulator.db"), 
+		   dbFileName);
+    }
     qDebug() << "Available DB drivers" << QSqlDatabase::drivers();
     qDebug() << "Backend DB driver in use is" << BACKEND_DB;
     QSqlDatabase db = QSqlDatabase::addDatabase(BACKEND_DB);
     db.setHostName("localhost");
-    db.setDatabaseName(EpCore::joinPaths(
-            EpCore::systemPath(),"epsimulator.db"));
+    db.setDatabaseName(dbFileName);
     db.setUserName("epsimuser");
     db.setPassword("epsimpassword");
     if (!db.open()) {
@@ -116,15 +131,12 @@ int main(int argc, char **argv) {
         displayError(argv[1]);
         return 1;
     }
-
     // display version information with routine start
     displayVersion();
-
     app.setOrganizationName("EP Studios");
     app.setOrganizationDomain("epstudiossoftware.com");
     app.setApplicationName("EPSimulator");
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
-
     // International stuff below
 #ifndef ENGLISH
     QTranslator translator( 0 );

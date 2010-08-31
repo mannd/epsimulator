@@ -93,7 +93,8 @@ void Options::readSettings() {
     hideSimulatorMenu = settings.value("hideSimulatorMenu", 
                                         false).toBool();
     permanentDelete = settings.value("permanentDelete", false).toBool();
-    simulationControlFlags = readFlags<SimulationControlFlags>(			       "simulationControlFlags", DefaultUserControl, settings);
+    simulationControlFlags = readFlags<SimulationControlFlags>(
+            "simulationControlFlags", DefaultUserControl, settings);
     passwordHash = settings.value("passwordHash", "0").toString();
     numChannels = settings.value("numChannels", 48).toInt();
     screenFlags = readFlags<ScreenFlags>("screenFlags", 

@@ -35,7 +35,6 @@ namespace Constants {
     "." STRINGIFY(APP_VERSION_MINOR) \
     "." STRINGIFY(APP_VERSION_RELEASE)
 
-
 const char* const EPSIM_VERSION     = APP_VERSION;
 const char* const EPSIM_AUTHOR      = "EP Studios, Inc.";
 const char* const EPSIM_YEAR        = "2010";

@@ -165,6 +165,10 @@ QDir EpCore::rootDirectory() {
     return directoryOf(".");
 }
 
+QString EpCore::rootPath() {
+    return rootDirectory().path();
+}
+
 QDir EpCore::systemDirectory() {
     /// TODO windows shouldn't use subdirectory of program directory
     return directoryOf("System");

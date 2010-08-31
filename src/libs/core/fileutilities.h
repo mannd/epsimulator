@@ -86,6 +86,7 @@ void deleteDir(const QString& path);
 void copyDir(const QString& sourcePath, const QString& destinationPath);
 QDir directoryOf(const QString& subdir);
 QDir rootDirectory();
+QString rootPath();
 QDir systemDirectory();
 QString activeSystemPath(const Options* const);
 
