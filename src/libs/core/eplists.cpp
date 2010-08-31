@@ -34,11 +34,12 @@ EpLists::EpLists() {
     lookupMap_[ArrhythmiaTolerances] = "ArrhythmiaTolerances";
     lookupMap_[BlockDescriptions] = "BlockDescriptions";
     lookupMap_[RefractoryLocations] = "RefractoryLocations";
+}
+
+void EpLists::init() {
     load();
-    if (map_.isEmpty()) {
+    if (map_.isEmpty())
         makeDefaultEpLists();
-        save();
-    }
 }
 
 void EpLists::load() {

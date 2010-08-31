@@ -59,6 +59,7 @@
 #   define BACKEND_DB "QSQLITE"
 #endif
 
+// If a network connection is used, this should be handled in Navigator?
 static bool createConnection() {
     QString dbFileName(EpCore::joinPaths(EpCore::systemPath(),
 					 "epsimulator.db"));
@@ -72,9 +73,15 @@ static bool createConnection() {
 #elif defined FRENCH
 	QString langSubDir = "fr";
 #endif
-	QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
-				     "db/" + langSubDir + "/epsimulator.db"), 
-		   dbFileName);
+	if (!QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
+					   "db/" + langSubDir +
+					   "/epsimulator.db"), 
+			 dbFileName)) {
+	    QMessageBox::critical(0, QObject::tr("Database Error"),
+				  QObject::tr("Cannot copy default "
+					      "Database file."));
+	    return false;
+	}
     }
     qDebug() << "Available DB drivers" << QSqlDatabase::drivers();
     qDebug() << "Backend DB driver in use is" << BACKEND_DB;

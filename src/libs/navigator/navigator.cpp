@@ -732,6 +732,7 @@ void Navigator::editEpList(EpLists::EpListType type,
                            const QString& title,
                            const QString& label) {
     EpLists epLists;
+    epLists.init();
     QStringList list = epLists[type];
     EditListDialog d(list, title, label, this);
     if (d.exec()) {

@@ -36,12 +36,14 @@ public:
                      RefractoryLocations};
     EpLists();
 
-    QStringList& operator[](EpListType key) {
-        return map_[lookupMap_[key]];}
-    void update() {save();}
-
     static unsigned int magicNumber() {return MagicNumber;}
     static QString fileName() {return fileName_;}
+
+    QStringList& operator[](EpListType key) {
+        return map_[lookupMap_[key]];}
+
+    void init();
+    void update() {save();}
 
 private:
     enum {MagicNumber = 0x99f818f0};
