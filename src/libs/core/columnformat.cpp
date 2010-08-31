@@ -48,8 +48,8 @@ const QString ColumnFormat::fileName_ = "columnformats.dat";
 
 ColumnFormat::ColumnFormat(const QString& name,
                            const QList<Interval>& selectedIntervals)
-                               : name_(name)
-                               , selectedIntervals_(selectedIntervals) {
+                               : name_(name),
+                               selectedIntervals_(selectedIntervals) {
 }
 
 QList<Interval> ColumnFormat::unselectedIntervals() const {

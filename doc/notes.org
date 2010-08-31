@@ -1,3 +1,26 @@
+* Style
+** Style guides
+*** Google C++ Style Guide
+    http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#The__define_Guard
+*** C++ Programming Style Guidelines
+    http://geosoft.no/development/cppstyle.html
+** Specifics
+*** Header files
+**** Include guards
+***** EP_FILENAME_H
+      Note all uppercase, and use of EP_ prefix to insure uniqueness.
+*** Namespaces
+**** Indentation
+     Because everything is wrapped in a namespace, indenting namespace
+     contents really wastes space.  Exception might be forwardly declared
+     classes in namespaces, but perhaps this should also be disallowed.  In
+     order to disambiguate the 2 right braces at the end of a namespace,
+     adding the namespace name in a comment after the closing brace is important.
+**** Names
+     Namespace names are capitalized, CamelCase, and begin with Ep.  Thus,
+     EpHardware, EpNavigator, EpCore.  The base name is derived from the most
+     important class, or function of the namespace.  Namespaces can and should
+     span files and even library boundaries.
 * Prucka window management implementation
 ** Major behavior to emulate
    - outer borders of the central widget are not moveable.
@@ -399,6 +422,7 @@ void SystemData::save() {
 
 Actually need a SystemData object that is initialized correctly (?
 polymorphic) and is passed to classes that need to system save data.
+*** class Data
 ** class ItemList
    problem here is initializing list.  There is a makeDefaults()
    function that does that, but should only do this if no list has

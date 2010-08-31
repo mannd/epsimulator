@@ -118,8 +118,7 @@ private slots:
     void updateAll();
 
 private:
-    Navigator(const Navigator&);
-    Navigator& operator=(const Navigator&);
+    Q_DISABLE_COPY(Navigator)
 
     enum DataFlow {Import, Export};
     enum DataType {Lists, ReportFormats};

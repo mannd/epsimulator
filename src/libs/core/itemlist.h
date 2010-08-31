@@ -81,6 +81,8 @@ private:
     Options* options_;
 };
 
+// definitions
+
 template<typename T>
 ItemList<T>::ItemList()
     : list_(), options_(0) {}

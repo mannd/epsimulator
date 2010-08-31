@@ -80,6 +80,7 @@ private slots:
     void testAmplifier();
     void testAmplifierStream();
     // class StudyConfiguration
+    void testStudyConfigurationStream();
     void testStudyConfigurations();
     // class BloodPressure
     void testBloodPressure();

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2006-2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef FILEUTILITIES_H
-#define FILEUTILITIES_H
+#ifndef EP_FILEUTILITIES_H
+#define EP_FILEUTILITIES_H
 
 #include "error.h"
 #include "options.h"
@@ -44,11 +44,18 @@ enum CopyFlag {
 template<typename T> 
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data);
 
+// overloaded version of above
+template<typename T>
+void saveData(const T& data);
+
 /**
  * Basic raw function to load data from a file.
  */
 template<typename T> 
 void loadData(const QString& filePath, unsigned int magicNumber, T& data); 
+
+template<typename T>
+void loadData(T& data);
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out);
 bool systemFileExists(const Options* const options,
@@ -64,7 +71,8 @@ bool versionOk(int majorVersion, int MinorVersion);
  */
 template<typename T>
 void saveSystemData(unsigned int magicNumber, const QString& fileName, const T& data, 
-    Options* options);
+		    Options* options);
+
 
 /**
  * Loads data from the Network path if network storage enabled, otherwise
@@ -72,7 +80,7 @@ void saveSystemData(unsigned int magicNumber, const QString& fileName, const T& 
  */
 template<typename T>
 void loadSystemData(unsigned int magicNumber, const QString& fileName, 
-    T& data, Options* options);
+		    T& data, Options* options);
 
 void deleteDir(const QString& path);
 void copyDir(const QString& sourcePath, const QString& destinationPath);
@@ -220,7 +228,7 @@ void SystemStream<T>::load(T& data) {
 
 template<typename T>
 NetworkStream<T>::NetworkStream(const QString& networkPath,
-                             const QString& systemPath)
+				const QString& systemPath)
     : SystemStream<T>(systemPath), networkPath_(networkPath) {}
 
 template<typename T>
@@ -236,7 +244,7 @@ void NetworkStream<T>::load(T& data) {
 }
 
 inline bool versionOk(int /* versionMajor */,
-               int /* versionMinor */) {
+		      int /* versionMinor */) {
     // check for incompatible file versions here
     // at present no such creature
     return true;
@@ -275,6 +283,11 @@ void loadData(const QString& filePath, unsigned int magicNumber, T& data) {
 }
 
 template<typename T>
+void loadData(T& data) {
+    loadData(T::filePath(), T::magicNumber(), data);
+}
+
+template<typename T>
 void saveData(const QString& filePath, unsigned int magicNumber, const T& data) {
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly))
@@ -287,11 +300,16 @@ void saveData(const QString& filePath, unsigned int magicNumber, const T& data) 
     file.close();
 }
 
+template<typename T>
+void saveData(const T& data) {
+    saveData(T::filePath(), T::magicNumber(), data);
+}
+
 // System data is always saved to both the local System dir and
 // the Network study path, if network storage is enabled.
 template<typename T>
 void saveSystemData(unsigned int magicNumber, const QString& fileName,
-    const T& data, Options* options) {
+		    const T& data, Options* options) {
     saveData(joinPaths(options->systemCatalogPath, fileName), magicNumber, data);
     if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
         saveData(joinPaths(options->networkStudyPath, fileName), magicNumber, data);

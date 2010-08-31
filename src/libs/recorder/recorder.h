@@ -153,8 +153,7 @@ private slots:
     void resizeDisplayWindows(QWidget*);
 
 private:
-    Recorder(const Recorder&);
-    Recorder& operator=(const Recorder&);
+    Q_DISABLE_COPY(Recorder)
 
     static const int edgeWidth = 80; // width of edges that are ignored by mouse
     bool noMansZone(const QPoint& p);

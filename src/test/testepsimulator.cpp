@@ -1,3 +1,4 @@
+                                                                                
 /***************************************************************************
  *   Copyright (C) 2007 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
@@ -664,6 +665,19 @@ void TestEpSimulator::testAmplifierStream() {
     QVERIFY(f.channel(2)->label() == "YYY");
 }
 
+void TestEpSimulator::testStudyConfigurationStream() {
+    StudyConfiguration sc;
+    QVERIFY(sc.name() == tr("<default>"));
+    sc.setName("TEST");
+    QVERIFY(sc.name() == "TEST");
+    MockSystemData<StudyConfiguration> m;
+    m << sc;
+    StudyConfiguration sc1;
+    m >> sc1;
+    QVERIFY(sc1.name() == "TEST");
+}
+
+
 void TestEpSimulator::testStudyConfigurations() {
     StudyConfigurations list;
     QVERIFY(list.size() == 1);
@@ -682,6 +696,14 @@ void TestEpSimulator::testStudyConfigurations() {
     list.remove("No Such Config");
     QVERIFY(list.size() == 1);
     // ? can the default study config be removed?
+    QVERIFY(list[0].name() == tr("<default>"));
+    list.add(config);
+    QVERIFY(list.size() == 2);
+    MockSystemData<StudyConfigurations> m;
+    m << list;
+    StudyConfigurations list2;
+    m >> list2;
+    QVERIFY(list.size() == 2);
 }
 
 void TestEpSimulator::testBloodPressure() {
