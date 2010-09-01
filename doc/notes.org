@@ -382,6 +382,11 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
         is true, 
       - otherwise returns StudyData.location and
         StudyLocation.side.
+** Database reconsidered
+*** EpLists
+    These are simple StringLists.  They are rarely edited.  There are no
+    problems with concurrancy.  They can be simple binary files.  One database
+    option would be to use an sqlite database to initialize the data.
 * Singleton elimination
 ** fileutilies.h
    Need a polymorphic class that can save system data.  E.g.
@@ -499,3 +504,4 @@ polymorphic) and is passed to classes that need to system save data.
 **** Heart tab
 ***** Similar to Physiology tab, ability to save, save as
 ***** Ability to alter cellular and macro physiology
+

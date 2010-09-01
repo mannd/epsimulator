@@ -188,6 +188,12 @@ QString EpCore::joinPaths(const QString & p1, const QString & p2) {
     return QDir::cleanPath(p1 + "/" + p2);
 }
 
+// 3 path version of joinPaths()
+QString EpCore::joinPaths( const QString& p1, const QString& p2,
+			   const QString& p3) {
+    return joinPaths(joinPaths(p1, p2), p3);
+}
+
 void EpCore::copyFilesToPath(const QStringList& files,
                              const QString& sourcePath,
                              const QString& destPath,

@@ -97,6 +97,7 @@ void copyFilesToSystem(const QStringList& files, const QString& sourcePath,
                        CopyFlag = DoNotOverwrite);
 
 QString joinPaths(const QString&, const QString&);
+QString joinPaths(const QString&, const QString&, const QString&);
 
 QString capitalize(const QString&);
 
@@ -122,6 +123,8 @@ private:
     QString networkPath_;
     bool useNetwork_;
 };
+
+// template implementations
 
 template<typename T>
 SystemData<T>::SystemData(const Options* const options)  {
