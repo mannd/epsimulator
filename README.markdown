@@ -2,12 +2,12 @@
 
 ## Purpose
 
-*EP Simulator* is intended to simulator the operation of the GE/Prucka Cardiac
+**EP Simulator** is intended to simulate the operation of the GE/Prucka Cardiac
 Electrophysiology recording system.  
 
 ## Note to Developers
 
-EP Simulator can be built and run using Qt Creator.  Just open the
+**EP Simulator** can be built and run using Qt Creator.  Just open the
 `epsimulator.pro` file inside Qt Creator.
 
 Add :`../lib` to the end of the `LD_LIBRARY_PATH` variable under Build
