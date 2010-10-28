@@ -49,7 +49,7 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      hideSimulatorMenu(false),
 		      permanentDelete(false),
 		      simulationControlFlags(DefaultUserControl),
-		      passwordHash(0),
+                      passwordHash(),
 		      diskCache(AutoCache),
 		      numChannels(48) {
 //    qDebug() << "EP Simulator Directories";

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,46 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef HEART_H
-#define HEART_H
 
-#include "epdefs.h"
-#include "patientdefs.h"
+#ifndef EDITSIMPLETABLEDIALOG_H
+#define EDITSIMPLETABLEDIALOG_H
 
-#include <QCoreApplication>
+#include <QDialog>
 
-class QDataStream;
+class QSqlTableModel;
 
-namespace EpPatient {
+namespace EpGui {
 
-/**
- * Heart simulation.  For now essentially an empty class.
- * @author David Mann <mannd@epstudiossoftware.com>
- */
-class Heart {
-    Q_DECLARE_TR_FUNCTIONS(Heart)
-
+class EditSimpleTableDialog : public QDialog
+{
+    Q_OBJECT
 public:
-    friend QDataStream& operator<<(QDataStream&, const Heart&);
-    friend QDataStream& operator>>(QDataStream&, Heart&);
+    explicit EditSimpleTableDialog(QWidget *parent = 0);
 
-    Heart(const QString& name = tr("<default>"));
-    Heart (const Heart& heart);
-    ~Heart();
+signals:
 
-    QString name() const {return name_;}
-
-    // do nothing below for now
-    void setHeartRate(HeartRate) {}
-
-    // these functions are used to update Patient physiology numbers
-    HeartRate meanHeartRate() const;
-    Ep::CL meanCL() const;
+public slots:
+    void commit();
 
 private:
-    QString name_;
+    QSqlTableModel* model_;
+
 };
 
-}
+} // namespace EpGui
 
-#endif
+#endif // EDITSIMPLETABLEDIALOG_H

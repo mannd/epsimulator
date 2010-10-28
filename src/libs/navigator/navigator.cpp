@@ -32,6 +32,7 @@
 #include "columnformat.h"
 #include "disklabeldialog.h"
 #include "editlistdialog.h"
+#include "editsimpletabledialog.h"
 #include "error.h"
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
@@ -734,11 +735,13 @@ void Navigator::editEpList(EpLists::EpListType type,
     EpLists epLists;
     epLists.init();
     QStringList list = epLists[type];
+    //EpGui::EditSimpleTableDialog d(this);
     EditListDialog d(list, title, label, this);
     if (d.exec()) {
-        list = d.items();
-        epLists[type] = list;
-        epLists.update();
+        ;
+//        list = d.items();
+//        epLists[type] = list;
+//        epLists.update();
     }
 }
 

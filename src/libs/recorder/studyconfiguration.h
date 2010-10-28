@@ -214,7 +214,7 @@ public:
     QList<Protocol> protocolList() const {return protocolList_;}
     QList<Protocol> unselectedProtocols() const;
     int currentProtocolIndex() const {return currentProtocolIndex_;}
-    Protocol currentProtocol() {return protocolList_[currentProtocolIndex_];}
+    Protocol currentProtocol() const {return protocolList_[currentProtocolIndex_];}
 
     void setName(const QString& name) {name_ = name;}
     void setCurrentProtocolIndex(int index) {currentProtocolIndex_ = index;}

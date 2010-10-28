@@ -37,7 +37,7 @@ using EpPatient::HeartRate;
 const QString Patient::fileName_ = "patient.dat";
 
 Patient::Patient(const QString& name)
-    : name_(name), path_(0),
+    : name_(name), path_(),
     sex_(Male),
     vagalTone_(50),
     sympatheticTone_(50),
