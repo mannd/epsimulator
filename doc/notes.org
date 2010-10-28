@@ -387,6 +387,89 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
     These are simple StringLists.  They are rarely edited.  There are no
     problems with concurrancy.  They can be simple binary files.  One database
     option would be to use an sqlite database to initialize the data.
+*** Updated Rationale for database use
+**** Networked vs Standalone system
+     This is a simulator, most users will use it as a standalone system.  All
+     files will then be on one machine.  In a networked system, multiple users
+     share the same database.  One would still not expect many users even in
+     this type of system.
+**** Switching types of systems
+     If a system is switched from single user to multiple users, it is
+     necessary to set up the database on the network server.  Default
+     databases can be constructed automatically, or, more realistically, a
+     single user database can be exported (either to merge or replace) to the
+     server.  The reverse process would take a network database and move it to
+     a single machine.  These functions are handled by the 
+     import and export lists and report format functions.  If a database is
+     not present at startup, a default one can be created.
+**** Database storage vs binary formats
+     Although binary formats are fast, it is necessary to serialize the data
+     back and forth from and to the disk, and each data file is separate.  In
+     addition, sorting, finding, etc. have to be done in code.  Using a
+     backend database, data can be handled by SQL statements, models, and by
+     Qt views that can deal directly with models.  In addition, there is
+     better scalability: if Sqlite eventually doesn't cut it, it is relatively
+     easy to use MySql, especially if we avoid low-level sql queries.  Thus
+     the application could be recompiled with MySql support if needed.
+*** Databases
+**** Structure
+***** Primary key
+      All tables will have an autoincrement primary key.
+***** Unique values
+      It does not appear necessary to enforce unique values.  However having
+      unique values might help in queries, making sure the right answer is
+      delivered when there are duplicates.
+***** Indices
+      Sortable fields will be indexed.
+**** Databases
+***** epsimulator.db
+      Will contain lists, protocols, study configurations, etc.  Note that
+      window configurations are not kept on the network, they are always per
+      machine, per the Prucka manual.  Also note that an individual study
+      configuration is a separate file, with a copy kept in each study
+      folder.  Thus the data contained in a study configuration in
+      epsimulator.db will need to be copied in a non-database format to each
+      study folder.
+***** catalog.db
+      These database files reside on each optical disk, each system and each
+      network.  When waveform data is archived to the network, the system
+      catalog is cleared out.  I believe that is a networked study is
+      continued or reviewed, it goes back into the system catalog.  (not sure).
+***** Non-database files
+****** ? Report formats 
+       These might be ok for databasing, but will defer thinking about them
+       for now.
+****** Window settings
+       These can be streamed in binary format to local disk.  These are never shared.
+****** Study data
+       The catalog identifies the location of study data on disk.  There is a
+       unique folder for each patient.  This folder name, based on the study
+       key, doesn't vary, only the path does.  This study data is copied whole
+       from disk to disk.  Examples follow:
+******* Standalone system
+******** New study
+	 - study directory is created in .epsimulator/Studies
+	 - when study complete, folder is copied or burned to Optical drive (which may
+           or may not be an optical disk).  Optical drive catalog updated.
+	 - Study data removed from system after being copied to drive
+	 - System catalog maintains study info permanently (but not waveforms,
+           etc.)
+******** Review, continue study
+	 - Insert optical disk
+	 - Copy disk data to cache
+	 - when done, clear cache again
+******** Lists, etc
+	 All kept in .epsimulator/ on local machine.
+******* Networked system
+******** New Study
+	 - waveform data kept locally, other study data duplicate kept on server
+	 - same copying to optical disk when done
+	 - waveform data archived periodically to server.  System catalog is
+           cleared out after archiving.
+******** Review, continue study
+	 Same as standalone system.
+******** Lists, etc.
+	 All kept in .epsimulator/ on server.
 * Singleton elimination
 ** fileutilies.h
    Need a polymorphic class that can save system data.  E.g.
