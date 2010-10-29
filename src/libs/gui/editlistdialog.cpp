@@ -72,7 +72,7 @@ void EditListDialog::allowEdits(bool allow) {
     if (allow)
         listView->setEditTriggers(QAbstractItemView::AnyKeyPressed
                                   | QAbstractItemView::DoubleClicked);
-    else
+    else 
         listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
@@ -90,7 +90,7 @@ void EditListDialog::editItem() {
     // Get "edit: editing failed" error if you don't do below.
     // Error is caused by trying to edit while editing already in progress.
     listView->closePersistentEditor(index); 
-    //listView->setCurrentIndex(index);
+    listView->setCurrentIndex(index);
     listView->edit(index);
 }
 
