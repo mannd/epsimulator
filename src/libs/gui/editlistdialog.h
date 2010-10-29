@@ -25,7 +25,7 @@
 
 #include <QDialog>
 
-class QStringListModel;
+class QSqlTableModel;
 
 namespace EpGui {
 
@@ -33,12 +33,10 @@ class EditListDialog: public QDialog, private Ui::EditListDialog {
     Q_OBJECT
 
 public:
-    EditListDialog(const QStringList& items,
+    EditListDialog(const QString& table,
                    const QString& title,
                    const QString& label,
                    QWidget* parent = 0);
-
-    QStringList items();
 
 private slots:
     void allowEdits(bool);
@@ -46,9 +44,14 @@ private slots:
     void editItem();
     void newItem();
     void deleteItem();
+    void accept();
 
 private:
-    QStringListModel* model_;
+    enum {
+	List_Id = 0,
+	List_Name = 1
+    };
+    QSqlTableModel* model_;
 };
 
 }

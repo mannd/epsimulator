@@ -22,10 +22,13 @@
 
 #include <QStringList>
 #include <QStringListModel>
+#include <QSqlTableModel>
+
+#include <QtDebug>
 
 using EpGui::EditListDialog;
 
-EditListDialog::EditListDialog(const QStringList& items,
+EditListDialog::EditListDialog(const QString& table,
                                const QString& title,
                                const QString& label,
                                QWidget* parent)
@@ -33,11 +36,12 @@ EditListDialog::EditListDialog(const QStringList& items,
     setupUi(this);
     setWindowTitle(title);
     listLabel->setText(label);
-    model_ = new QStringListModel(this);
-    model_->setStringList(items);
+    model_ = new QSqlTableModel(this);
+    model_->setTable(table);
+    model_->select();
 
     listView->setModel(model_);
-
+    listView->setModelColumn(List_Name);
 
     connect(insertButton, SIGNAL(clicked(bool)),
             this, SLOT(newItem()));
@@ -49,8 +53,14 @@ EditListDialog::EditListDialog(const QStringList& items,
             this, SLOT(allowEdits(bool)));
     connect(listView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(enableButtons()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     allowEdits(false);
     enableButtons();
+}
+
+void EditListDialog::accept() {
+    model_->submitAll();
+    QDialog::accept();
 }
 
 void EditListDialog::allowEdits(bool allow) {
@@ -76,10 +86,11 @@ void EditListDialog::enableButtons() {
 void EditListDialog::editItem() {
 
     int row = listView->currentIndex().row();
-    QModelIndex index = model_->index(row);
+    QModelIndex index = model_->index(row, 0);
     // Get "edit: editing failed" error if you don't do below.
     // Error is caused by trying to edit while editing already in progress.
-    listView->closePersistentEditor(index);
+    listView->closePersistentEditor(index); 
+    //listView->setCurrentIndex(index);
     listView->edit(index);
 }
 
@@ -87,7 +98,7 @@ void EditListDialog::newItem() {
     int row = listView->currentIndex().row();
     model_->insertRows(++row, 1);
 
-    QModelIndex index = model_->index(row);
+    QModelIndex index = model_->index(row, 1);
     listView->setCurrentIndex(index);
     listView->edit(index);
 }
@@ -95,8 +106,3 @@ void EditListDialog::newItem() {
 void EditListDialog::deleteItem() {
     model_->removeRows(listView->currentIndex().row(), 1);
 }
-
-QStringList EditListDialog::items() {
-    return model_->stringList();
-}
-

@@ -154,7 +154,7 @@ private:
     void setCatalog(Catalog::Source);
 
     // List related
-    void editEpList(EpCore::EpLists::EpListType type,
+    void editEpList(const QString& table,
                     const QString& title,
                     const QString& label);
 

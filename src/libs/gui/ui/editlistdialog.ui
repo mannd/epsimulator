@@ -60,6 +60,9 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Edit item</string>
+   </property>
    <property name="text">
     <string>Edit</string>
    </property>
@@ -76,6 +79,9 @@
      <width>61</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Allow editing</string>
    </property>
    <property name="text">
     <string>Edit</string>
@@ -100,6 +106,9 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Delete item</string>
+   </property>
    <property name="text">
     <string>Delete</string>
    </property>
@@ -116,6 +125,9 @@
      <width>26</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Add new item</string>
    </property>
    <property name="text">
     <string>New</string>
@@ -140,7 +152,6 @@
   </widget>
  </widget>
  <resources>
-  <include location="../../../resources/resources.qrc"/>
   <include location="../../../resources/resources.qrc"/>
   <include location="../../../resources/resources.qrc"/>
   <include location="../../../resources/resources.qrc"/>

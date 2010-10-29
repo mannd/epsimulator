@@ -697,52 +697,43 @@ void Navigator::relabelDisk() {
 }
 
 void Navigator::pacingSites() {
-    editEpList(EpLists::PacingSites,
+    editEpList("PacingSites",
                tr("Pacing Sites"),
                tr("Site"));
 }
 
 void Navigator::phases() {
-    editEpList(EpLists::Phases,
+    editEpList("Phases",
                tr("Phases"),
                tr("Phase"));
 }
 
 void Navigator::arrhythmiaTypes() {
-    editEpList(EpLists::ArrhythmiaTypes,
+    editEpList("ArrhythmiaTypes",
                tr("Arrhythmia Types"),
                tr("Type"));
 }
 
 void Navigator::arrhythmiaTolerances() {
-    editEpList(EpLists::ArrhythmiaTolerances,
+    editEpList("ArrhythmiaTolerances",
                tr("Arrhythmia Tolerances"),
                tr("Tolerance"));}
 
 void Navigator::blockDescriptions() {
-    editEpList(EpLists::BlockDescriptions,
+    editEpList("BlockDescription",
                tr("Block Descriptions"),
                tr("Description"));}
 
 void Navigator::refractoryLocations() {
-    editEpList(EpLists::RefractoryLocations,
+    editEpList("RefractoryLocations",
                tr("Refractory Locations"),
                tr("Location"));}
 
-void Navigator::editEpList(EpLists::EpListType type,
+void Navigator::editEpList(const QString& table,
                            const QString& title,
                            const QString& label) {
-    EpLists epLists;
-    epLists.init();
-    QStringList list = epLists[type];
-    //EpGui::EditSimpleTableDialog d(this);
-    EditListDialog d(list, title, label, this);
-    if (d.exec()) {
-        ;
-//        list = d.items();
-//        epLists[type] = list;
-//        epLists.update();
-    }
+    EditListDialog d(table, title, label, this);
+    d.exec();
 }
 
 void Navigator::manageSections() {}
