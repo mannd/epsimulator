@@ -42,7 +42,9 @@ enum CopyFlag {
  * Basic raw function to save data to a file.
  */
 template<typename T> 
-void saveData(const QString& filePath, unsigned int magicNumber, const T& data);
+void saveData(const QString& filePath, 
+	      unsigned int magicNumber, 
+	      const T& data);
 
 // overloaded version of above
 template<typename T>
@@ -52,7 +54,9 @@ void saveData(const T& data);
  * Basic raw function to load data from a file.
  */
 template<typename T> 
-void loadData(const QString& filePath, unsigned int magicNumber, T& data); 
+void loadData(const QString& filePath, 
+	      unsigned int magicNumber, 
+	      T& data); 
 
 template<typename T>
 void loadData(T& data);

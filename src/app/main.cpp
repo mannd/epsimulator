@@ -29,6 +29,7 @@
 #include "coreconstants.h"
 #include "fileutilities.h"
 #include "navigator.h"
+#include "options.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QMessageBox>
@@ -59,12 +60,35 @@
 #   define BACKEND_DB "QSQLITE"
 #endif
 
-// If a network connection is used, this should be handled in Navigator?
 static bool createConnection() {
-    QString dbFileName(EpCore::joinPaths(EpCore::systemPath(),
-					 "epsimulator.db"));
-    QFile dbFile(dbFileName);
-    if (!dbFile.exists()) {
+    using EpCore::Options;
+    Options* options = Options::instance();
+    options->load();
+    const QString dbFileName = "epsimulator.db";
+    QString dbFilePath(EpCore::joinPaths(EpCore::systemPath(),
+					 dbFileName));
+    QString networkDbFilePath;
+    if (options->includeNetworkCatalog()) {
+	networkDbFilePath = EpCore::joinPaths(options->networkStudyPath,
+					      dbFileName);
+	if (!QFile::exists(networkDbFilePath)) {
+	    QMessageBox::information(0, QObject::tr("Database Error"),
+				     QObject::tr("Cannot find Network "
+						 "Database file. "
+						 "Will use local "
+						 "Database file. "
+						 "Network storage is "
+						 "disabled."));
+	    // get rid of network storage until user fixes the problem
+	    EpCore::clearFlag(options->filePathFlags, 
+			       Options::EnableNetworkStorage);
+	}
+	else {
+	    dbFilePath = networkDbFilePath;
+	}
+    }
+    delete options;
+    if (!QFile::exists(dbFilePath)) {
 	// copy language specific default database
 #ifdef ENGLISH
 	QString langSubDir = "en";
@@ -78,8 +102,8 @@ static bool createConnection() {
 					   "/epsimulator.db"), 
 			 dbFileName)) {
 	    QMessageBox::critical(0, QObject::tr("Database Error"),
-				  QObject::tr("Cannot copy default "
-					      "Database file."));
+				  QObject::tr("Cannot find or create "
+					      "default Database file."));
 	    return false;
 	}
     }
@@ -87,7 +111,7 @@ static bool createConnection() {
     qDebug() << "Backend DB driver in use is" << BACKEND_DB;
     QSqlDatabase db = QSqlDatabase::addDatabase(BACKEND_DB);
     db.setHostName("localhost");
-    db.setDatabaseName(dbFileName);
+    db.setDatabaseName(dbFilePath);
     db.setUserName("epsimuser");
     db.setPassword("epsimpassword");
     if (!db.open()) {
