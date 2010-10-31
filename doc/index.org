@@ -18,7 +18,8 @@ EP Simulator Help
 ** Navigator blue side bar
    This is programmable to version 5 or version 6 appearance.
 ** Patient Information dialog
-   Second tab is not Contact, but Physiology (may change).
+   Second tab is not Contact, but Physiology.  The Patient Information dialog
+   in EP Simulator is used to set up the patient simulation.
 ** Administrator mode
    Administrator mode is optional and can be turned off.
 ** Optical disk emulation
@@ -26,4 +27,11 @@ EP Simulator Help
    directory, or a hard drive directory disguised to mimic an optical disk.
 ** EP List edit boxes
    The items in these boxes don't have "bullet points" preceding them.
+** Look and feel
+   It is not possible (and probably not desirable) to reproduce the exact
+   "look and feel" of the Prucka system.  Several properties of the Prucka
+   system depend on non-standard handling of windows specific to MS Windows.
+   These properties are not easily transferred to a cross-platform system.
+   The look and feel will remain recognizable to Prucka users, but will not be
+   slavishly exact.
 ** No ADT option in Navigator

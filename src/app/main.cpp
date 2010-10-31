@@ -64,13 +64,12 @@ static bool createConnection() {
     using EpCore::Options;
     Options* options = Options::instance();
     options->load();
-    const QString dbFileName = "epsimulator.db";
+    const QString dbFileName("epsimulator.db");
     QString dbFilePath(EpCore::joinPaths(EpCore::systemPath(),
 					 dbFileName));
-    QString networkDbFilePath;
     if (options->includeNetworkCatalog()) {
-	networkDbFilePath = EpCore::joinPaths(options->networkStudyPath,
-					      dbFileName);
+	QString networkDbFilePath = EpCore::joinPaths(options->networkStudyPath,
+						      dbFileName);
 	if (!QFile::exists(networkDbFilePath)) {
 	    QMessageBox::information(0, QObject::tr("Database Error"),
 				     QObject::tr("Cannot find Network "
@@ -99,8 +98,8 @@ static bool createConnection() {
 #endif
 	if (!QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
 					   "db/" + langSubDir +
-					   "/epsimulator.db"), 
-			 dbFileName)) {
+					   "/" + dbFileName), 
+			 dbFilePath)) {
 	    QMessageBox::critical(0, QObject::tr("Database Error"),
 				  QObject::tr("Cannot find or create "
 					      "default Database file."));
@@ -170,14 +169,14 @@ int main(int argc, char **argv) {
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
     // International stuff below
 #ifndef ENGLISH
-    QTranslator translator( 0 );
+    QTranslator translator(0);
 #ifdef GERMAN
-    translator.load( "epsimulator_de.qm", "." );
+    translator.load("epsimulator_de.qm", ".");
 #endif
 #ifdef FRENCH
-    translator.load( "epsimulator_fr.qm", "." );
+    translator.load("epsimulator_fr.qm", ".");
 #endif
-    app.installTranslator( &translator );
+    app.installTranslator(&translator);
 #endif
     // below gives error message 'cannot connect to X server' on ubuntu
     //EpCore::testCdTools(&app);
