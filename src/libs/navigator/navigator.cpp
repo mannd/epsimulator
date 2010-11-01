@@ -979,8 +979,8 @@ void Navigator::createLists() {
     // just initializing these lists writes default values for each
     // of them to disk if the files aren't there already.
     // But don't bother if the file is already there.
-    if (!EpCore::systemFileExists(options_, EpLists::fileName()))
-        EpLists lists;
+    // if (!EpCore::systemFileExists(options_, EpLists::fileName()))
+    //     EpLists lists;
     if (!EpCore::systemFileExists(options_, Interval::fileName()))
         ItemList<Interval> intervals;
     if (!EpCore::systemFileExists(options_, ColumnFormat::fileName()))

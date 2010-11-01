@@ -138,28 +138,31 @@ void AbstractMainWindow::changePassword() {
 void AbstractMainWindow::setIntervals() {
     if (administrationAllowed()) {
         EditIntervalsDialog d(this);
-        if (d.exec()) {
-            d.intervals().update();
-        }
+        d.exec();
+        // if (d.exec()) {
+        //     d.intervals().update();
+        //}
     }
 }
 
 void AbstractMainWindow::setColumnFormats() {
-    if (administrationAllowed()) {
-        EditColumnFormatsDialog d(this);
-        if (d.exec()) {
-            d.columnFormats().update();
-        }
-    }
+    // if (administrationAllowed()) {
+    //     EditColumnFormatsDialog d(this);
+    //     d.exec();
+    //     // if (d.exec()) {
+    //     //     d.columnFormats().update();
+    //     // }
+    // }
 }
 
 void AbstractMainWindow::setProtocols() {
-    if (administrationAllowed()) {
-        EditProtocolsDialog d(this);
-        if (d.exec()) {
-            d.protocols().update();
-        }
-    }
+    // if (administrationAllowed()) {
+    //     EditProtocolsDialog d(this);
+    //     d.exec();
+    //     // if (d.exec()) {
+    //     //     d.protocols().update();
+    //     // }
+    //    }
 }
 
 /// Checks to see if administrator access if required, if it is,

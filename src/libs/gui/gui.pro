@@ -38,7 +38,8 @@ FORMS += ui/simulatorsettingsdialog.ui \
     ui/passworddialog.ui \
     ui/editlistdialog.ui \
     ui/abstractedititemsdialog.ui \
-    ui/editcolumnformatdialog.ui
+    ui/editcolumnformatdialog.ui \
+    ui/edititemsdialog.ui
 LIBS += -lpatient \
     -lcore \
     -lhardware
