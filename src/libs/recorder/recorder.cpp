@@ -186,6 +186,7 @@ void Recorder::loadAmplifier() {
     // amplifier_->load(dataStream);
     // delete dataStream;
     EpCore::SystemData<EpHardware::EpAmplifier::Amplifier> systemData(options_);
+    // FIXME statement below crashes with SIGABRT
     systemData.load(*amplifier_);
 }
 

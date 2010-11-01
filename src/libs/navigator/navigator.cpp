@@ -135,20 +135,14 @@ void Navigator::closeEvent(QCloseEvent* event) {
 
 // private slots
 
-bool Navigator::acquisitionEnabled() {
+// Blue bar actions
+void Navigator::newStudy() {
     if (!options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
         QMessageBox::information(this, tr("Acquisition Not Enabled"),
             tr("This workstation is not set up for acquisition. "
             "Select the System Settings menu item to enable acquisition."));
-        return false;
-    }
-    return true;
-}
-
-// Blue bar actions
-void Navigator::newStudy() {
-    if (!acquisitionEnabled())
 	return;
+    }
     if (!currentDisk_->isLabeled()) 
         relabelDisk();
     // if after all the above we finally have a label...
@@ -161,11 +155,8 @@ void Navigator::newStudy() {
                     selectStudyConfigDialog->config();
             study->setPreregisterStudy(false);
             StudyConfigurations configList;
-            if (configList.isPresent(configName)) {
+            if (configList.isPresent(configName))
                 study->setStudyConfigName(configName);
-                // study->setStudyConfiguration(
-                //         configList.studyConfiguration(configName));
-            }
             else
                 throw EpCore::StudyConfigurationNotFoundError(configName);
             if (getStudyInformation(study)) {
@@ -196,8 +187,6 @@ void Navigator::continueStudy() {
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
             study->setStudyConfiguration(
                     selectStudyConfigDialog->studyConfiguration());
-            // study->setStudyConfigName(selectStudyConfigDialog->
-            //                           studyConfiguration()->name());
             catalogs_->deleteStudy(study);
             study->setPreregisterStudy(false);
             catalogs_->addStudy(study, currentDisk_->label(),
@@ -258,6 +247,7 @@ void Navigator::reports()  {
     }
     else
         noStudySelectedError();
+    delete study;
 }
 
 void Navigator::editStudyInCatalogs(const Study* study) {
@@ -307,14 +297,17 @@ void Navigator::moveStudyMessageBox(MoveType moveType) {
         moveTypeName = tr("copy");
         break;
     }
-    QMessageBox::information(this, tr("Study %1 Wizard").arg(capitalize(moveTypeName)),
-        tr("This wizard will enable you to %1 patient studies"
-           " from one location to another.  You will need to provide"
-           " the location of the source and destination"
-           " folders to complete the %1.").arg(moveTypeName));
+    QMessageBox::information(this, 
+                             tr("Study %1 Wizard")
+                             .arg(capitalize(moveTypeName)),
+        tr("This wizard will enable you to %1 patient studies "
+           "from one location to another.  You will need to provide "
+           "the location of the source and destination "
+           "folders to complete the %1.").arg(moveTypeName));
 }
 
-void Navigator::moveStudyData(MoveCopyStudyDialog& dialog, MoveType moveType) {
+void Navigator::moveStudyData(MoveCopyStudyDialog& dialog, 
+                              MoveType moveType) {
     if (dialog.exec()) {
         // handle badness first: source and destination can't be the same
         // UNLESS they both are the optical disk.
@@ -398,10 +391,10 @@ void Navigator::deleteStudy() {
                     EpCore::deleteDir(currentDisk_->studiesPath() 
                         + study->dirName());
             }
-            delete study;
         } 
         else 
             noStudySelectedError();
+        delete study;
     }
     catch (EpCore::FileNotFoundError& e) {
         QMessageBox::warning(this, tr("Problem Deleting Study"),

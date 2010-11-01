@@ -177,7 +177,6 @@ private:
 
     // misc
     void noStudySelectedError();
-    bool acquisitionEnabled();
 
     // Data members
     FilterCatalogDialog* filterCatalogDialog_;  // FilterCatalog Dialog box
