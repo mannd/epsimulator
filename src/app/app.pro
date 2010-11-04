@@ -19,3 +19,17 @@ LIBS += -lpatient \
     -lrecorder
 SOURCES += main.cpp
 RESOURCES = ../resources/resources.qrc
+
+# Build database
+
+DATABASEPATH = ../../db/en/
+DATABASE = $${DATABASEPATH}epsimulator.db
+DATABASESCRIPT = $${DATABASEPATH}databasescript.sh
+DATABASESCHEMA = $${DATABASEPATH}databaseschema
+
+make_database.target = $$DATABASE
+make_database.depends = $$DATABASESCRIPT $$DATABASESCHEMA
+make_database.commands = -($$DATABASESCRIPT)
+
+QMAKE_EXTRA_TARGETS += make_database
+PRE_TARGETDEPS += $$DATABASE

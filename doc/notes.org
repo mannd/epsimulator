@@ -470,6 +470,24 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
 	 Same as standalone system.
 ******** Lists, etc.
 	 All kept in .epsimulator/ on server.
+** Database naming style and structure
+*** General
+    There is a lot of debate between different styles, including singular vs
+    plural table names, MixedCase vs underlined_words, prefixing table names
+    to id, etc.  I have chosen a style which is somewhat distinct from my
+    naming style for Qt/C++.
+*** Table names
+    Will use plural names, e.g. intervals, not interval.
+*** Case
+    Will use exclusive lower case.  Hyphens to separate words.  e.g. interval_type.
+*** Id
+    In order to have automatic joins on primary and foreign keys, the names
+    need to be the same.  So, for Id only, will preface table name (singular
+    form).  E.g. interval_id.
+*** Primary key
+    All tables will have a primary autonumber integer key.  This includes
+    single column tables with supposedly unique values.  There seems to be no
+    particular reason to restrict duplicate values, they can always be deleted.
 * Singleton elimination
 ** fileutilies.h
    Need a polymorphic class that can save system data.  E.g.

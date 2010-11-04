@@ -1,0 +1,132 @@
+CREATE TABLE ArrhythmiaTolerances (ArrhythmiaToleranceID INTEGER PRIMARY KEY, 
+       Name TEXT);
+CREATE TABLE ArrhythmiaTypes (ArrhythmiaTypeID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE BlockDescriptions (BlockDescriptionID INTEGER PRIMARY KEY,
+       Name TEXT);
+CREATE TABLE Intervals (IntervalID INTEGER PRIMARY KEY, Name TEXT, 
+       Mark1 TEXT, Mark2 TEXT, Width NUMERIC);
+CREATE TABLE PacingSites (PacingSiteID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE Phases (PhaseID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE RefractoryLocations (RefractoryLocationID INTEGER PRIMARY KEY, 
+       Name TEXT);
+
+BEGIN TRANSACTION;
+INSERT INTO ArrhythmiaTolerances (Name) VALUES ("SOB");
+INSERT INTO ArrhythmiaTolerances (Name) VALUES ("Diaphoretic");
+INSERT INTO ArrhythmiaTolerances (Name) VALUES ("Conscious");
+INSERT INTO ArrhythmiaTolerances (Name) VALUES ("Unconscious");
+INSERT INTO ArrhythmiaTolerances (Name) VALUES ("Drop in BP");
+INSERT INTO ArrhythmiaTolerances (Name) VALUES ("Stable");
+INSERT INTO ArrhythmiaTolerances (Name) VALUES ("Unstable");
+INSERT INTO ArrhythmiaTolerances (Name) VALUES ("Chest Pain");
+
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("SVT");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Sinus Node Reentry");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Inappropriate Sinus Tachycardia");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Ectopic Reentrant Tachycardia");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Multifocal Atrial Tachycardia");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Type 1 Atrial Flutter, CW");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Type 1 Atrial Flutter, CCW");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Type 2 Atrial Flutter");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Chronic Atrial Fibrillation");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Paroxysmal Atrial Fibrillation");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Premature Atrial Complexes");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Premature Ventricular Complexes");
+INSERT INTO ArrhythmiaTypes (Name) VALUES 
+       ("Nonsustained Ventricular Tachycardia");
+INSERT INTO ArrhythmiaTypes (Name) VALUES 
+       ("Sustained Monomorphic Ventricular Tachycardia");
+INSERT INTO ArrhythmiaTypes (Name) VALUES 
+       ("Sustained Polymorphic Ventricular Tachycardia");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Ventricular Fibrillation");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("2nd Degree AV Block Mobitz I");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("2nd Degree AV Block Mobitz II");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("2nd Degree AV Block 2:1");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("2nd Degree AV Block High Grade");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("3rd Degree AV Block");
+INSERT INTO ArrhythmiaTypes (Name) VALUES ("Other");
+
+INSERT INTO BlockDescriptions (Name) VALUES ("AV Nodal Block");
+INSERT INTO BlockDescriptions (Name) VALUES ("1st Degree AV Block");
+INSERT INTO BlockDescriptions (Name) VALUES ("Wenckebach");
+INSERT INTO BlockDescriptions (Name) VALUES ("AV Mobitz II");
+INSERT INTO BlockDescriptions (Name) VALUES ("2:1 AV Block");
+INSERT INTO BlockDescriptions (Name) VALUES ("AV Dissociation");
+INSERT INTO BlockDescriptions (Name) VALUES ("Complete Heart Block");
+INSERT INTO BlockDescriptions (Name) VALUES ("Antegrade Wenckebach");
+INSERT INTO BlockDescriptions (Name) VALUES ("VA Block");
+INSERT INTO BlockDescriptions (Name) VALUES ("Retrograde");
+
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("None", "None", "None", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("A1A1", "A1", "A1", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("A1A2", "A1", "A2", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("A2A3", "A2", "A3", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("A3A4", "A3", "A4", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("A1H1", "A1", "H1", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("A2H2", "A2", "H2",0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("AA", "A", "A", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("SCL", "A", "A", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("PR", "P", "QRSonset", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("QRS", "QRSonset", "QRSoffset", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("QT", "QRSonset", "Toffset", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("PA", "P", "A", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("AH", "A", "H", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("HV", "H", "QRSonset", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("H1H1", "H1", "H1", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("H1H2", "H1", "H2", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("V1V2", "V1", "V2", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("V2V3", "V2", "V3", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("V3V4", "V3", "V4", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("S1", "S1", "S1", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("S2", "S1", "S2", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("S3", "S2", "S3", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("S4", "S3", "S4", 0);
+INSERT INTO Intervals (Name, Mark1, Mark2, Width)
+       VALUES ("S5", "S4", "S5", 0);
+
+INSERT INTO PacingSites (Name) VALUES ("None");
+INSERT INTO PacingSites (Name) VALUES ("HRA");
+INSERT INTO PacingSites (Name) VALUES ("CS");
+INSERT INTO PacingSites (Name) VALUES ("RVa");
+INSERT INTO PacingSites (Name) VALUES ("RVot");
+INSERT INTO PacingSites (Name) VALUES ("ABL");
+INSERT INTO PacingSites (Name) VALUES ("HIS");
+
+INSERT INTO Phases (Name) VALUES ("BASELINE");
+INSERT INTO Phases (Name) VALUES ("Post-Drug");
+INSERT INTO Phases (Name) VALUES ("Post-Ablation");
+INSERT INTO Phases (Name) VALUES ("Isoproterenol");
+
+INSERT INTO RefractoryLocations (Name) VALUES ("Atrial");
+INSERT INTO RefractoryLocations (Name) VALUES ("AV Nodal");
+INSERT INTO RefractoryLocations (Name) VALUES ("Retrograde");
+INSERT INTO RefractoryLocations (Name) VALUES ("Ventricular");
+
+COMMIT TRANSACTION;
+
+
+
