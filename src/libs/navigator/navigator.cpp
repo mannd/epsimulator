@@ -530,6 +530,8 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                         statusBar()->showMessage(tr("Copying files..."));
                         EpCore::copyFilesToSystem(selectedFiles, path,
                                               EpCore::Overwrite);
+                        // copy epsimulator.db file
+                        //EpCore::copyFilesToSystem(
                         statusBar()->clearMessage();
                     }
                 }

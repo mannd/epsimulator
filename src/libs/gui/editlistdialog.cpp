@@ -20,8 +20,6 @@
 
 #include "editlistdialog.h"
 
-#include <QStringList>
-#include <QStringListModel>
 #include <QSqlTableModel>
 
 #include <QtDebug>

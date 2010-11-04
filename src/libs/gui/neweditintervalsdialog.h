@@ -29,10 +29,11 @@
 #include <QDialog>
 
 class QComboBox;
+class QDataWidgetMapper;
 class QDialogButtonBox;
 class QLineEdit;
 class QSpinBox;
-class QSqlTableModel;
+class QSqlRelationalTableModel;
 
 namespace EpGui {
 
@@ -41,15 +42,6 @@ class NewEditIntervalsDialog : public QDialog,
     Q_OBJECT
 public:
     enum EditorType {NewItem, EditItem, CopyItem};
-
-    NewEditIntervalsDialog(QWidget* parent = 0);
-
-private slots:
-    void createListWidget();
-    void removeItem();
-    void editItem(EditorType);
-
-private:
     enum {
         Interval_Id = 0,
         Interval_Name = 1,
@@ -57,30 +49,49 @@ private:
         Interval_Mark2 = 3,
         Interval_Width = 4
     };
-    QSqlTableModel* model_;
+    NewEditIntervalsDialog(QWidget* parent = 0);
+
+private slots:
+    void removeItem();
+    void insert();
+    void edit();
+    // void copy();
+
+
+private:
+    void editItem(EditorType);
+    void selectionIsEmptyWarning();
+    QSqlRelationalTableModel* model_;
 };
 
-// class EditIntervalTypeDialog : public QDialog {
-//     Q_OBJECT
-// public:
-//     EditIntervalTypeDialog(EditIntervalsDialog::EditorType,
-//                            QWidget* parent = 0);
 
-//     void setInterval(const EpCore::Interval&);
 
-//     EpCore::Interval interval() const;
+class EditIntervalTypeDialog : public QDialog {
+    Q_OBJECT
+public:
+    EditIntervalTypeDialog(NewEditIntervalsDialog::EditorType,
+                           QSqlRelationalTableModel* model,
+                           int id,
+                           QWidget* parent = 0);
 
-// private slots:
-//     void enableOkButton(const QString&);
+    //    void setInterval(const EpCore::Interval&);
 
-// private:
-//     QLineEdit* nameLineEdit_;
-//     QComboBox* mark1ComboBox_;
-//     QComboBox* mark2ComboBox_;
-//     QSpinBox* widthSpinBox_;
-//     QDialogButtonBox* buttonBox_;
-// };
+    //EpCore::Interval interval() const;
+public slots:
+    virtual void accept();
+
+private slots:
+    void enableOkButton(const QString&);
+
+private:
+    QDataWidgetMapper* mapper_;
+    QLineEdit* nameLineEdit_;
+    QComboBox* mark1ComboBox_;
+    QComboBox* mark2ComboBox_;
+    QSpinBox* widthSpinBox_;
+    QDialogButtonBox* buttonBox_;
+};
 
 } // namespace EpGui
 
-#endif // EDITINTERVALSDIALOG_H
+#endif // NEW_EDITINTERVALSDIALOG_H

@@ -11,12 +11,11 @@ SOURCES += simulatorsettingsdialog.cpp \
     actions.cpp \
     editlistdialog.cpp \
     abstractedititemsdialog.cpp \
-    editintervalsdialog.cpp \
     editcolumnformatdialog.cpp \
     editcolumnformatsdialog.cpp \
     listselector.cpp \
     editsimpletabledialog.cpp \
-    neweditintervaldialog.cpp
+    neweditintervalsdialog.cpp
 win32:SOURCES += ../../os/guiutilities_win.cpp
 unix:SOURCES += ../../os/guiutilities_unix.cpp
 HEADERS += simulatorsettingsdialog.h \
@@ -26,7 +25,6 @@ HEADERS += simulatorsettingsdialog.h \
     actions.h \
     editlistdialog.h \
     abstractedititemsdialog.h \
-    editintervalsdialog.h \
     guiutilities.h \
     editcolumnformatdialog.h \
     editcolumnformatsdialog.h \

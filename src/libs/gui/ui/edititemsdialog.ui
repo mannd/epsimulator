@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AbstractEditItemsDialog</class>
- <widget class="QDialog" name="AbstractEditItemsDialog">
+ <class>EditItemsDialog</class>
+ <widget class="QDialog" name="EditItemsDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -82,7 +82,7 @@
   <connection>
    <sender>closeButton</sender>
    <signal>clicked()</signal>
-   <receiver>AbstractEditItemsDialog</receiver>
+   <receiver>EditItemsDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">

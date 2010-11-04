@@ -4,11 +4,14 @@ CREATE TABLE ArrhythmiaTypes (ArrhythmiaTypeID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE BlockDescriptions (BlockDescriptionID INTEGER PRIMARY KEY,
        Name TEXT);
 CREATE TABLE Intervals (IntervalID INTEGER PRIMARY KEY, Name TEXT, 
-       Mark1 TEXT, Mark2 TEXT, Width NUMERIC);
+       Mark1 INTEGER NOT NULL REFERENCES Marks,
+       Mark2 INTEGER NOT NULL REFERENCES Marks,
+       Width NUMERIC);
 CREATE TABLE PacingSites (PacingSiteID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE Phases (PhaseID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE RefractoryLocations (RefractoryLocationID INTEGER PRIMARY KEY, 
        Name TEXT);
+CREATE TABLE Marks (MarkID INTEGER PRIMARY KEY, Name TEXT);
 
 BEGIN TRANSACTION;
 INSERT INTO ArrhythmiaTolerances (Name) VALUES ("SOB");
@@ -58,55 +61,55 @@ INSERT INTO BlockDescriptions (Name) VALUES ("VA Block");
 INSERT INTO BlockDescriptions (Name) VALUES ("Retrograde");
 
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("None", "None", "None", 0);
+       VALUES ("None", 1, 1, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A1A1", "A1", "A1", 0);
+       VALUES ("A1A1", 15, 15, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A1A2", "A1", "A2", 0);
+       VALUES ("A1A2", 15, 16, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A2A3", "A2", "A3", 0);
+       VALUES ("A2A3", 16, 17, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A3A4", "A3", "A4", 0);
+       VALUES ("A3A4", 17, 18, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A1H1", "A1", "H1", 0);
+       VALUES ("A1H1", 15, 20, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A2H2", "A2", "H2",0);
+       VALUES ("A2H2", 16, 21, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("AA", "A", "A", 0);
+       VALUES ("AA", 7, 7, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("SCL", "A", "A", 0);
+       VALUES ("SCL", 7, 7, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("PR", "P", "QRSonset", 0);
+       VALUES ("PR", 2, 3, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("QRS", "QRSonset", "QRSoffset", 0);
+       VALUES ("QRS", 3, 4, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("QT", "QRSonset", "Toffset", 0);
+       VALUES ("QT", 3, 6, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("PA", "P", "A", 0);
+       VALUES ("PA", 1, 7, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("AH", "A", "H", 0);
+       VALUES ("AH", 7, 8, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("HV", "H", "QRSonset", 0);
+       VALUES ("HV", 8, 3, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("H1H1", "H1", "H1", 0);
+       VALUES ("H1H1", 20, 20, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("H1H2", "H1", "H2", 0);
+       VALUES ("H1H2", 20, 21, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("V1V2", "V1", "V2", 0);
+       VALUES ("V1V2", 23, 24, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("V2V3", "V2", "V3", 0);
+       VALUES ("V2V3", 24, 25, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("V3V4", "V3", "V4", 0);
+       VALUES ("V3V4", 25, 26, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S1", "S1", "S1", 0);
+       VALUES ("S1", 11, 11, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S2", "S1", "S2", 0);
+       VALUES ("S2", 11, 12, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S3", "S2", "S3", 0);
+       VALUES ("S3", 12, 13, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S4", "S3", "S4", 0);
+       VALUES ("S4", 13, 14, 0);
 INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S5", "S4", "S5", 0);
+       VALUES ("S5", 14, 15, 0);
 
 INSERT INTO PacingSites (Name) VALUES ("None");
 INSERT INTO PacingSites (Name) VALUES ("HRA");
@@ -125,6 +128,34 @@ INSERT INTO RefractoryLocations (Name) VALUES ("Atrial");
 INSERT INTO RefractoryLocations (Name) VALUES ("AV Nodal");
 INSERT INTO RefractoryLocations (Name) VALUES ("Retrograde");
 INSERT INTO RefractoryLocations (Name) VALUES ("Ventricular");
+
+INSERT INTO Marks (MarkID, Name) VALUES (1, "None");
+INSERT INTO Marks (MarkID, Name) VALUES (2, "P");
+INSERT INTO Marks (MarkID, Name) VALUES (3, "QRS onset");
+INSERT INTO Marks (MarkID, Name) VALUES (4, "QRS offset");
+INSERT INTO Marks (MarkID, Name) VALUES (5, "T onset");
+INSERT INTO Marks (MarkID, Name) VALUES (6, "T offset");
+INSERT INTO Marks (MarkID, Name) VALUES (7, "A");
+INSERT INTO Marks (MarkID, Name) VALUES (8, "H");
+INSERT INTO Marks (MarkID, Name) VALUES (9, "H offset");
+INSERT INTO Marks (MarkID, Name) VALUES (10, "V");
+INSERT INTO Marks (MarkID, Name) VALUES (11, "S1");
+INSERT INTO Marks (MarkID, Name) VALUES (12, "S2");
+INSERT INTO Marks (MarkID, Name) VALUES (13, "S3");
+INSERT INTO Marks (MarkID, Name) VALUES (14, "S5");
+INSERT INTO Marks (MarkID, Name) VALUES (15, "A1");
+INSERT INTO Marks (MarkID, Name) VALUES (16, "A2");
+INSERT INTO Marks (MarkID, Name) VALUES (17, "A3");
+INSERT INTO Marks (MarkID, Name) VALUES (18, "A4");
+INSERT INTO Marks (MarkID, Name) VALUES (19, "A5");
+INSERT INTO Marks (MarkID, Name) VALUES (20, "H1");
+INSERT INTO Marks (MarkID, Name) VALUES (21, "H2");
+INSERT INTO Marks (MarkID, Name) VALUES (22, "H3");
+INSERT INTO Marks (MarkID, Name) VALUES (23, "V1");
+INSERT INTO Marks (MarkID, Name) VALUES (24, "V2");
+INSERT INTO Marks (MarkID, Name) VALUES (25, "V3");
+INSERT INTO Marks (MarkID, Name) VALUES (26, "V4");
+INSERT INTO Marks (MarkID, Name) VALUES (27, "V5");
 
 COMMIT TRANSACTION;
 

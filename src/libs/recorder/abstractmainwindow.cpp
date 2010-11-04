@@ -23,7 +23,8 @@
 #include "actions.h"
 #include "changepassworddialog.h"
 #include "coreconstants.h"
-#include "editintervalsdialog.h"
+#include "neweditintervalsdialog.h"
+//#include "editintervalsdialog.h"
 #include "editcolumnformatsdialog.h"
 #include "editprotocolsdialog.h"
 #include "fileutilities.h"
@@ -137,7 +138,7 @@ void AbstractMainWindow::changePassword() {
 
 void AbstractMainWindow::setIntervals() {
     if (administrationAllowed()) {
-        EditIntervalsDialog d(this);
+        NewEditIntervalsDialog d(this);
         d.exec();
         // if (d.exec()) {
         //     d.intervals().update();
