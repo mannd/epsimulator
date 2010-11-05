@@ -13,6 +13,9 @@ CREATE TABLE RefractoryLocations (RefractoryLocationID INTEGER PRIMARY KEY,
        Name TEXT);
 CREATE TABLE Marks (MarkID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE ColumnFormats (ColumnFormatID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE ColumnFormatInterval (ColumnFormatID INTEGER NOT NULL
+       REFERENCES ColumnFormats, IntervalID INTEGER NOT NULL
+       REFERENCES Intervals);
 
 BEGIN TRANSACTION;
 INSERT INTO ArrhythmiaTolerances (Name) VALUES ("SOB");
@@ -61,56 +64,58 @@ INSERT INTO BlockDescriptions (Name) VALUES ("Antegrade Wenckebach");
 INSERT INTO BlockDescriptions (Name) VALUES ("VA Block");
 INSERT INTO BlockDescriptions (Name) VALUES ("Retrograde");
 
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("None", 1, 1, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A1A1", 15, 15, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A1A2", 15, 16, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A2A3", 16, 17, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A3A4", 17, 18, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A1H1", 15, 20, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("A2H2", 16, 21, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("AA", 7, 7, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("SCL", 7, 7, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("PR", 2, 3, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("QRS", 3, 4, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("QT", 3, 6, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("PA", 1, 7, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("AH", 7, 8, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("HV", 8, 3, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("H1H1", 20, 20, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("H1H2", 20, 21, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("V1V2", 23, 24, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("V2V3", 24, 25, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("V3V4", 25, 26, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S1", 11, 11, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S2", 11, 12, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S3", 12, 13, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S4", 13, 14, 0);
-INSERT INTO Intervals (Name, Mark1, Mark2, Width)
-       VALUES ("S5", 14, 15, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (1, "None", 1, 1, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (2, "A1A1", 15, 15, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (3, "A1A2", 15, 16, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (4, "A2A3", 16, 17, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (5, "A3A4", 17, 18, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (6, "A1H1", 15, 20, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (7, "A2H2", 16, 21, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (8, "AA", 7, 7, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (9, "SCL", 7, 7, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (10, "PR", 2, 3, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (11, "QRS", 3, 4, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (12, "QT", 3, 6, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (13, "PA", 1, 7, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (14, "AH", 7, 8, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (15, "HV", 8, 3, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (16, "H1H1", 20, 20, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (17, "H1H2", 20, 21, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (18, "V1V1", 23, 24, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (19, "V1V2", 23, 24, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (20, "V2V3", 24, 25, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (21, "V3V4", 25, 26, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (22, "S1", 11, 11, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (23, "S2", 11, 12, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (24, "S3", 12, 13, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (25, "S4", 13, 14, 0);
+INSERT INTO Intervals (IntervalID, Name, Mark1, Mark2, Width)
+       VALUES (26, "S5", 14, 15, 0);
 
 INSERT INTO PacingSites (Name) VALUES ("None");
 INSERT INTO PacingSites (Name) VALUES ("HRA");
@@ -157,6 +162,34 @@ INSERT INTO Marks (MarkID, Name) VALUES (24, "V2");
 INSERT INTO Marks (MarkID, Name) VALUES (25, "V3");
 INSERT INTO Marks (MarkID, Name) VALUES (26, "V4");
 INSERT INTO Marks (MarkID, Name) VALUES (27, "V5");
+
+INSERT INTO ColumnFormats (ColumnFormatID, Name) VALUES (1, "BASELINE");
+INSERT INTO ColumnFormats (ColumnFormatID, Name) VALUES (2, "A PACE");
+INSERT INTO ColumnFormats (ColumnFormatID, Name) VALUES (3, "AEST");
+INSERT INTO ColumnFormats (ColumnFormatID, Name) VALUES (4, "V PACE");
+INSERT INTO ColumnFormats (ColumnFormatID, Name) VALUES (5, "VEST");
+
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 9);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 10);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 11);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 12);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 14);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 15);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 22);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 23);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 24);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 25);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 26);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 9);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 2);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 3);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 4);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 16);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 17);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 18);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 19);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 20);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 21);
 
 COMMIT TRANSACTION;
 

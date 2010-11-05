@@ -25,7 +25,7 @@ RESOURCES = ../resources/resources.qrc
 DATABASEPATH = ../../db/en/
 DATABASE = $${DATABASEPATH}epsimulator.db
 DATABASESCRIPT = $${DATABASEPATH}databasescript.sh
-DATABASESCHEMA = $${DATABASEPATH}databaseschema
+DATABASESCHEMA = $${DATABASEPATH}databaseschema.sql
 
 make_database.target = $$DATABASE
 make_database.depends = $$DATABASESCRIPT $$DATABASESCHEMA

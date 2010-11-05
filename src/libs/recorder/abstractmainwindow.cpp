@@ -147,13 +147,13 @@ void AbstractMainWindow::setIntervals() {
 }
 
 void AbstractMainWindow::setColumnFormats() {
-    // if (administrationAllowed()) {
-    //     EditColumnFormatsDialog d(this);
-    //     d.exec();
+    if (administrationAllowed()) {
+        EditColumnFormatsDialog d(this);
+        d.exec();
     //     // if (d.exec()) {
     //     //     d.columnFormats().update();
     //     // }
-    // }
+    }
 }
 
 void AbstractMainWindow::setProtocols() {

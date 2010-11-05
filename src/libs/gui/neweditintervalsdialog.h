@@ -23,9 +23,6 @@
 
 #include "ui_edititemsdialog.h"
 
-// #include "interval.h"
-// #include "itemlist.h"
-
 #include <QDialog>
 
 class QComboBox;
@@ -61,6 +58,7 @@ private slots:
 private:
     void editItem(EditorType);
     void selectionIsEmptyWarning();
+    void showCopyButton(bool);
     QSqlRelationalTableModel* model_;
 };
 

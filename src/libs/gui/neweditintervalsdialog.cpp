@@ -20,8 +20,6 @@
 
 #include "neweditintervalsdialog.h"
 
-#include "mark.h"
-
 #include <QComboBox>
 #include <QDataWidgetMapper>
 #include <QDialogButtonBox>
@@ -31,17 +29,13 @@
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QSqlDatabase>
-#include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlRelation>
 #include <QSqlRelationalDelegate>
 #include <QSqlRelationalTableModel>
 
-#include <QStringList>
-
 #include <QtDebug>
 
-using EpCore::Mark;
 using EpGui::NewEditIntervalsDialog;
 using EpGui::EditIntervalTypeDialog;
 
@@ -49,7 +43,7 @@ NewEditIntervalsDialog::NewEditIntervalsDialog(QWidget* parent)
     : QDialog(parent) {
     setupUi(this);
     setWindowTitle(tr("Intervals"));
-    //showCopyButton(false);
+    showCopyButton(false);
     model_ = new QSqlRelationalTableModel(this);
     model_->setTable("Intervals");
     model_->setRelation(Interval_Mark1,
@@ -106,33 +100,21 @@ void NewEditIntervalsDialog::editItem(EditorType type) {
         selectionIsEmptyWarning();
         return;
     }
-    int id = index.row();
-    EditIntervalTypeDialog d(type, model_, id, this);
-    //QString intervalName;
-    // if (type == EditItem) {
-    //     intervalName = listView->currentIndex()->text();
-    //     d.setInterval(intervals_[intervalName]);
-    // }
-    // if (d.exec()) {
-    //     EpCore::Interval interval = d.interval();
-    //     if (itemIsDuplicated(type, intervalName, interval, intervals_))
-    //         return;
-    //     if (type == NewItem)
-    //         intervals_.append(d.interval());
-    //     else  if (type == EditItem)
-    //         intervals_[d.interval().name()] = d.interval();
-    //     createListWidget();
-    //       }
+    int row = index.row();
+    EditIntervalTypeDialog d(type, model_, row, this);
     d.exec();
+}
+
+void NewEditIntervalsDialog::showCopyButton(bool show) {
+    copyButton->setVisible(show);
 }
 
 EditIntervalTypeDialog::EditIntervalTypeDialog(
        NewEditIntervalsDialog::EditorType type,
        QSqlRelationalTableModel* model,
-       int id,
+       int row,
        QWidget* parent)
    : QDialog(parent) {
-   QStringList markList = Mark::markNames();
    QString editType;
    if (type == NewEditIntervalsDialog::NewItem)
        editType = tr("New");
@@ -150,27 +132,22 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
    QLabel* nameLabel = new QLabel(tr("Name:"));
    nameLineEdit_ = new QLineEdit;
    nameLabel->setBuddy(nameLineEdit_);
-
    mapper_->addMapping(nameLineEdit_, NewEditIntervalsDialog::Interval_Name);
 
    QLabel* mark1Label = new QLabel(tr("Mark 1"));
    mark1ComboBox_ = new QComboBox;
-   mark1ComboBox_->insertItems(0, markList);
    mark1Label->setBuddy(mark1ComboBox_);
    QLabel* mark2Label = new QLabel(tr("Mark 2"));
    mark2ComboBox_ = new QComboBox;
-   mark2ComboBox_->insertItems(0, markList);
    mark2Label->setBuddy(mark2ComboBox_);
-
    QSqlTableModel* mark1Model =
            model->relationModel(NewEditIntervalsDialog::Interval_Mark1);
    QSqlTableModel* mark2Model =
            model->relationModel(NewEditIntervalsDialog::Interval_Mark2);
    mark1ComboBox_->setModel(mark1Model);
-   mark2ComboBox_->setModel(mark2Model);
    mark1ComboBox_->setModelColumn(mark1Model->fieldIndex("Name"));
+   mark2ComboBox_->setModel(mark2Model);
    mark2ComboBox_->setModelColumn(mark2Model->fieldIndex("Name"));
-
    mapper_->addMapping(mark1ComboBox_, NewEditIntervalsDialog::Interval_Mark1);
    mapper_->addMapping(mark2ComboBox_, NewEditIntervalsDialog::Interval_Mark2);
 
@@ -180,11 +157,9 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
    // though I think actual Prucka shows 0.
    //widthSpinBox_->setValue(5);
    widthLabel->setBuddy(widthSpinBox_);
-
    mapper_->addMapping(widthSpinBox_, NewEditIntervalsDialog::Interval_Width);
-   buttonBox_ =
-           new QDialogButtonBox(QDialogButtonBox::Ok
-                                | QDialogButtonBox::Cancel);
+   buttonBox_ = new QDialogButtonBox(QDialogButtonBox::Ok
+                                     | QDialogButtonBox::Cancel);
 
    QHBoxLayout* layout1 = new QHBoxLayout;
    layout1->addWidget(nameLabel);
@@ -204,17 +179,17 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
    vertLayout->addLayout(layout3);
    vertLayout->addLayout(layout4);
    vertLayout->addWidget(buttonBox_);
-
    setLayout(vertLayout);
+
    connect(nameLineEdit_, SIGNAL(textChanged(const QString&)),
            this, SLOT(enableOkButton(const QString&)));
    connect(buttonBox_, SIGNAL(accepted()), this, SLOT(accept()));
    connect(buttonBox_, SIGNAL(rejected()), this, SLOT(reject()));
    enableOkButton(nameLineEdit_->text());
-   mapper_->setCurrentIndex(id);
+
+   mapper_->setCurrentIndex(row);
    if (type == NewEditIntervalsDialog::NewItem) {
-        model->insertRow(id);
-        mapper_->setCurrentIndex(id);  // redundant?
+        model->insertRow(row);
         nameLineEdit_->clear();
         widthSpinBox_->setValue(0);
         mark1ComboBox_->setCurrentIndex(0);
@@ -226,28 +201,8 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
 
 void EditIntervalTypeDialog::accept() {
     mapper_->submit();
-    qDebug() << "Accepting dialog";
     QDialog::accept();
 }
-
-//void EditIntervalTypeDialog::setInterval(const EpCore::Interval& interval) {
-//    nameLineEdit_->setText(interval.name());
-//    mark1ComboBox_->setCurrentIndex(static_cast<int>(interval.mark1().type()));
-//    mark2ComboBox_->setCurrentIndex(static_cast<int>(interval.mark2().type()));
-//    widthSpinBox_->setValue(interval.width());
-//    enableOkButton(nameLineEdit_->text());
-//}
-
-//EpCore::Interval EditIntervalTypeDialog::interval() const {
-//    EpCore::Interval interval;
-//    interval.setName(nameLineEdit_->text());
-//    interval.setMark1(Mark(static_cast<Mark::MarkType>(
-//            mark1ComboBox_->currentIndex())));
-//    interval.setMark2(Mark(static_cast<Mark::MarkType>(
-//            mark2ComboBox_->currentIndex())));
-//    interval.setWidth(widthSpinBox_->value());
-//    return interval;
-//}
 
 void EditIntervalTypeDialog::enableOkButton(const QString& text) {
    buttonBox_->button(QDialogButtonBox::Ok)->setEnabled(!text.isEmpty());

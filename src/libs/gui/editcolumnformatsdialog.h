@@ -32,15 +32,15 @@ class EditColumnFormatsDialog : public AbstractEditItemsDialog {
 public:
     EditColumnFormatsDialog(QWidget* parent = 0);
 
-    EpCore::ItemList<EpCore::ColumnFormat> columnFormats() {
-        return columnFormats_;}
+    // EpCore::ItemList<EpCore::ColumnFormat> columnFormats() {
+    //     return columnFormats_;}
 
 private:
     void createListWidget();
     void removeItem();
     void editItem(EditorType);
     void copyItem(const QList<QListWidgetItem*>&);
-    EpCore::ItemList<EpCore::ColumnFormat> columnFormats_;
+    //    EpCore::ItemList<EpCore::ColumnFormat> columnFormats_;
 };
 
 }

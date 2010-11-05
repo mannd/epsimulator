@@ -2,7 +2,7 @@
 
 echo making database now....
 rm -f ../../db/en/epsimulator.db
-sqlite3 ../../db/en/epsimulator.db < ../../db/en/databaseschema
+sqlite3 ../../db/en/epsimulator.db < ../../db/en/databaseschema.sql
 
 
 

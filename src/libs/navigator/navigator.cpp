@@ -983,8 +983,8 @@ void Navigator::createLists() {
     // But don't bother if the file is already there.
     // if (!EpCore::systemFileExists(options_, EpLists::fileName()))
     //     EpLists lists;
-    if (!EpCore::systemFileExists(options_, Interval::fileName()))
-        ItemList<Interval> intervals;
+    //if (!EpCore::systemFileExists(options_, Interval::fileName()))
+    //    ItemList<Interval> intervals;
     if (!EpCore::systemFileExists(options_, ColumnFormat::fileName()))
         ItemList<ColumnFormat> columnformats;
 }
