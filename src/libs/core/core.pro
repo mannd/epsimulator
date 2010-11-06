@@ -8,7 +8,6 @@ SOURCES += options.cpp \
     fileutilities.cpp \
     passwordhandler.cpp \
     probability.cpp \
-    eplists.cpp \
     interval.cpp \
     mark.cpp \
     columnformat.cpp
@@ -21,7 +20,6 @@ HEADERS += options.h \
     passwordhandler.h \
     probability.h \
     epdefs.h \
-    eplists.h \
     interval.h \
     itemlist.h \
     mark.h \

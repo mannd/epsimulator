@@ -23,7 +23,6 @@
 
 #include "abstractmainwindow.h"
 #include "catalog.h"
-#include "eplists.h"
 
 class QAction;
 class QCloseEvent;

@@ -73,7 +73,6 @@
 
 using EpCore::capitalize;
 using EpCore::ColumnFormat;
-using EpCore::EpLists;
 using EpCore::Interval;
 using EpCore::ItemList;
 using EpCore::Options;
@@ -486,8 +485,8 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                 QStringList selectedFiles;
                 QList<unsigned int> magicNumbers;
                 if (type == Lists) {
-                    selectedFiles.append(EpLists::fileName());
-                    magicNumbers.append(EpLists::magicNumber());
+                    //selectedFiles.append(EpLists::fileName());
+                    //magicNumbers.append(EpLists::magicNumber());
                     selectedFiles.append(Interval::fileName());
                     magicNumbers.append(Interval::magicNumber());
                     selectedFiles.append(ColumnFormat::fileName());
