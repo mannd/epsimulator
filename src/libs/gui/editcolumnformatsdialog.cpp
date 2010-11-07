@@ -23,41 +23,51 @@
 #include "editcolumnformatdialog.h"
 
 #include <QMessageBox>
+#include <QSqlTableModel>
 
 using EpCore::ColumnFormat;
-using EpCore::ItemList;
+//using EpCore::ItemList;
 using EpGui::EditColumnFormatDialog;
 using EpGui::EditColumnFormatsDialog;
 
 EditColumnFormatsDialog::EditColumnFormatsDialog(QWidget* parent)
-    : AbstractEditItemsDialog(tr("Column Formats"), parent ){
+    : QDialog(parent ) {
+    setupUi(this);
+    setWindowTitle((tr("Column Formats")));
     showCopyButton(true);
 
-    //createListWidget();
-}
+    model_ = new QSqlTableModel(this);
+    model_->setTable("ColumnFormats");
+    model_->select();
 
-void EditColumnFormatsDialog::createListWidget() {
-    //createListWidgetItems(columnFormats_);
-}
+    listView->setModel(model_);
+    listView->setModelColumn(ColumnFormat_Name);
+    listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-void EditColumnFormatsDialog::removeItem() {
-    //removeItemFromList(columnFormats_);
+    connect(deleteButton, SIGNAL(clicked()), this, SLOT(removeItem()));
+    connect(newButton, SIGNAL(clicked()), this, SLOT(insert()));
+    connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
+    connect(listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(edit()));
+
+    listView->setFocus();
+
 }
 
 void EditColumnFormatsDialog::editItem(EditorType type) {
-    // if (type == EditItem && selectionIsEmpty()) {
-    //     selectionIsEmptyWarning();
-    //     return;
-    // }
-    // EditColumnFormatDialog d(type, this);
-    // QString columnFormatName;
-    // if (type == EditItem) {
-    //     columnFormatName = listWidget->currentItem()->text();
-    //     d.setColumnFormat(columnFormats_[columnFormatName]);
-    // }
-    // else if (type == NewItem) {
-    //     d.setColumnFormat(ColumnFormat());
-    // }
+    QModelIndex index = listView->currentIndex();
+    if (type == EditItem && !index.isValid()) {
+        selectionIsEmptyWarning();
+        return;
+    }
+    int row = index.row();
+    EditColumnFormatDialog d(type, this);
+    QString columnFormatName;
+    if (type == EditItem) {
+        columnFormatName = model_->data(index, Qt::DisplayRole).toString();
+        d.setColumnFormat(columnFormatName);
+    }
+    else if (type == NewItem)
+        d.setColumnFormat(QString());
     // if (d.exec()) {
     //     EpCore::ColumnFormat columnFormat = d.columnFormat();
     //     if (itemIsDuplicated(type, columnFormatName, columnFormat,
@@ -69,15 +79,62 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
     //         columnFormats_[d.columnFormat().name()] = d.columnFormat();
     //     createListWidget();
     // }
+    d.exec();
 }
 
-void EditColumnFormatsDialog::copyItem(const QList<QListWidgetItem*>&
-                                       selectedItems) {
-    // QString name = selectedItems[0]->text();
-    // ColumnFormat cf = columnFormats_[name];
-    // name = tr("Copy of %1").arg(name);
-    // cf.setName(name);
-    // columnFormats_.append(cf);
-    // editCopiedItem(name);
+void EditColumnFormatsDialog::copyItem() {
+    QModelIndex index = listView->currentIndex();
+    QString name = model_->data(index, Qt::DisplayRole).toString();
+    //    ColumnFormat cf = columnFormats_[name];
+    name = tr("Copy of %1").arg(name);
+    //    cf.setName(name);
+    //columnFormats_.append(cf);
+    //editCopiedItem(name);
+}
+
+
+void EditColumnFormatsDialog::insert() {
+    editItem(NewItem);
+}
+
+void EditColumnFormatsDialog::edit() {
+    editItem(EditItem);
+}
+
+void EditColumnFormatsDialog::removeItem() {
+    QModelIndex index = listView->currentIndex();
+    if (!index.isValid())
+        return;
+    int result = QMessageBox::warning(this, tr("Delete Item?"),
+                         tr("The selected item will be permanently deleted."
+                            " Do you wish to continue?"),
+                            QMessageBox::Yes | QMessageBox::No);
+    if (result == QMessageBox::Yes) {
+        QSqlDatabase::database().transaction();
+        model_->removeRow(index.row());
+        model_->submitAll();
+        QSqlDatabase::database().commit();
+    }
+    listView->setFocus();
+}
+
+void EditColumnFormatsDialog::selectionIsEmptyWarning() {
+    QMessageBox::information(this, tr("No Item"),
+                             tr("You must select an item first"));
+}
+
+// void EditColumnFormatsDialog::editItem(EditorType type) {
+//     // QModelIndex index = listView->currentIndex();
+//     // if (type == EditItem && !index.isValid()) {
+//     //     selectionIsEmptyWarning();
+//     //     return;
+//     // }
+//     // int row = index.row();
+//     // EditIntervalTypeDialog d(type, model_, row, this);
+//     // d.exec();
+// }
+
+void EditColumnFormatsDialog::showCopyButton(bool show) {
+    copyButton->setVisible(show);
 }
 

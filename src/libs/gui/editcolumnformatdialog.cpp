@@ -31,7 +31,7 @@ using EpCore::ItemList;
 using EpGui::EditColumnFormatDialog;
 
 EditColumnFormatDialog::EditColumnFormatDialog(
-        AbstractEditItemsDialog::EditorType type,
+        EditColumnFormatsDialog::EditorType type,
         QWidget *parent)
             :  QDialog(parent) {
     setupUi(this);

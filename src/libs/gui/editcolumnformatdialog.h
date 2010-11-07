@@ -24,6 +24,7 @@
 #include "ui_editcolumnformatdialog.h"
 
 #include "abstractedititemsdialog.h"
+#include "editcolumnformatsdialog.h"
 #include "columnformat.h"
 
 #include <QStringListModel>
@@ -36,7 +37,7 @@ class EditColumnFormatDialog : public QDialog,
         private Ui::EditColumnFormatDialog {
     Q_OBJECT
 public:
-    EditColumnFormatDialog(AbstractEditItemsDialog::EditorType,
+    EditColumnFormatDialog(EditColumnFormatsDialog::EditorType,
                            QWidget *parent = 0);
     ~EditColumnFormatDialog();
 
