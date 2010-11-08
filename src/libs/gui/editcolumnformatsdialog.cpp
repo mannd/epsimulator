@@ -50,7 +50,7 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
         selectionIsEmptyWarning();
         return;
     }
-    int row = index.row();
+    //int row = index.row();
     EditColumnFormatDialog d(type, this);
     QString columnFormatName;
     if (type == EditItem) {
