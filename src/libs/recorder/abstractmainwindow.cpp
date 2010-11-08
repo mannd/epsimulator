@@ -23,7 +23,7 @@
 #include "actions.h"
 #include "changepassworddialog.h"
 #include "coreconstants.h"
-#include "neweditintervalsdialog.h"
+#include "editintervalsdialog.h"
 //#include "editcolumnformatsdialog.h"
 //#include "editprotocolsdialog.h"
 #include "fileutilities.h"
