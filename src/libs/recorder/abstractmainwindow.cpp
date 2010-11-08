@@ -24,7 +24,7 @@
 #include "changepassworddialog.h"
 #include "coreconstants.h"
 #include "editintervalsdialog.h"
-//#include "editcolumnformatsdialog.h"
+#include "editcolumnformatsdialog.h"
 //#include "editprotocolsdialog.h"
 #include "fileutilities.h"
 #include "opticaldisk.h"
@@ -137,7 +137,7 @@ void AbstractMainWindow::changePassword() {
 
 void AbstractMainWindow::setIntervals() {
     if (administrationAllowed()) {
-        NewEditIntervalsDialog d(this);
+        EditIntervalsDialog d(this);
         d.exec();
         // if (d.exec()) {
         //     d.intervals().update();
@@ -147,8 +147,8 @@ void AbstractMainWindow::setIntervals() {
 
 void AbstractMainWindow::setColumnFormats() {
     if (administrationAllowed()) {
-//        EditColumnFormatsDialog d(this);
-//        d.exec();
+        EditColumnFormatsDialog d(this);
+        d.exec();
     //     // if (d.exec()) {
     //     //     d.columnFormats().update();
     //     // }

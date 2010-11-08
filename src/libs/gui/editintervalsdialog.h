@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef NEW_EDITINTERVALSDIALOG_H
-#define NEW_EDITINTERVALSDIALOG_H
+#ifndef EDITINTERVALSDIALOG_H
+#define EDITINTERVALSDIALOG_H
 
 #include "abstractedititemsdialog.h"
 
@@ -55,14 +55,11 @@ private:
 class EditIntervalTypeDialog : public QDialog {
     Q_OBJECT
 public:
-    EditIntervalTypeDialog(EditIntervalsDialog::EditorType,
+    EditIntervalTypeDialog(AbstractEditItemsDialog::EditorType,
                            QSqlRelationalTableModel* model,
                            int id,
                            QWidget* parent = 0);
 
-    //    void setInterval(const EpCore::Interval&);
-
-    //EpCore::Interval interval() const;
 public slots:
     virtual void accept();
 
@@ -80,4 +77,4 @@ private:
 
 } // namespace EpGui
 
-#endif // NEW_EDITINTERVALSDIALOG_H
+#endif // EDITINTERVALSDIALOG_H

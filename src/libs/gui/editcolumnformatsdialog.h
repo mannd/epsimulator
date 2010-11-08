@@ -21,41 +21,26 @@
 #ifndef EDITCOLUMNFORMATSDIALOG_H
 #define EDITCOLUMNFORMATSDIALOG_H
 
-#include "ui_edititemsdialog.h"
-
-#include <QDialog>
+#include "abstractedititemsdialog.h"
 
 class QSqlTableModel;
 
 namespace EpGui {
 
-class EditColumnFormatsDialog : public QDialog,
-                                private Ui::EditItemsDialog {
+class EditColumnFormatsDialog : public AbstractEditItemsDialog {
     Q_OBJECT
 public:
-    enum EditorType {NewItem, EditItem, CopyItem};
     enum {
         ColumnFormat_Id = 0,
         ColumnFormat_Name = 1,
     };
     EditColumnFormatsDialog(QWidget* parent = 0);
 
-    // EpCore::ItemList<EpCore::ColumnFormat> columnFormats() {
-    //     return columnFormats_;}
-
-private slots:
-    void removeItem();
-    void insert();
-    void edit();
-    void copy();
-
 private:
-   // void createListWidget();
-    void selectionIsEmptyWarning();
-    void editItem(EditorType);
-    void showCopyButton(bool);
-    void copyItem();
-    //    EpCore::ItemList<EpCore::ColumnFormat> columnFormats_;
+    virtual void removeItem();
+    virtual void editItem(EditorType);
+    //void showCopyButton(bool);
+    //void copyItem();
     QSqlTableModel* model_;
 };
 

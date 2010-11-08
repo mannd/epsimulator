@@ -21,6 +21,8 @@
 #include "abstractedititemsdialog.h"
 
 #include <QMessageBox>
+#include <QSqlDatabase>
+#include <QSqlTableModel>
 
 using EpGui::AbstractEditItemsDialog;
 
@@ -67,6 +69,15 @@ void AbstractEditItemsDialog::edit() {
 //                                                      Qt::MatchExactly)[0]);
 //     editItem(EditItem);
 // }
+
+void AbstractEditItemsDialog::removeItem(QSqlTableModel* model) {
+    QSqlDatabase::database().transaction();
+    QModelIndex index = listView->currentIndex();
+    model->removeRow(index.row());
+    model->submitAll();
+    QSqlDatabase::database().commit();
+    listView->setFocus();
+}
 
 void AbstractEditItemsDialog::del() {
     QModelIndex index = listView->currentIndex();

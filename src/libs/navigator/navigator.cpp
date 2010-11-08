@@ -32,7 +32,6 @@
 #include "columnformat.h"
 #include "disklabeldialog.h"
 #include "editlistdialog.h"
-#include "editsimpletabledialog.h"
 #include "error.h"
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"

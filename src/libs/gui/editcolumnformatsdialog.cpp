@@ -22,18 +22,16 @@
 
 #include "editcolumnformatdialog.h"
 
-#include <QMessageBox>
 #include <QSqlTableModel>
 
-using EpCore::ColumnFormat;
+//using EpCore::ColumnFormat;
 //using EpCore::ItemList;
+using EpGui::AbstractEditItemsDialog;
 using EpGui::EditColumnFormatDialog;
 using EpGui::EditColumnFormatsDialog;
 
 EditColumnFormatsDialog::EditColumnFormatsDialog(QWidget* parent)
-    : QDialog(parent ) {
-    setupUi(this);
-    setWindowTitle((tr("Column Formats")));
+    : AbstractEditItemsDialog(tr("Column Formats"), parent ) {
     showCopyButton(true);
 
     model_ = new QSqlTableModel(this);
@@ -43,14 +41,7 @@ EditColumnFormatsDialog::EditColumnFormatsDialog(QWidget* parent)
     listView->setModel(model_);
     listView->setModelColumn(ColumnFormat_Name);
     listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    connect(deleteButton, SIGNAL(clicked()), this, SLOT(removeItem()));
-    connect(newButton, SIGNAL(clicked()), this, SLOT(insert()));
-    connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
-    connect(listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(edit()));
-
     listView->setFocus();
-
 }
 
 void EditColumnFormatsDialog::editItem(EditorType type) {
@@ -68,73 +59,19 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
     }
     else if (type == NewItem)
         d.setColumnFormat(QString());
-    // if (d.exec()) {
-    //     EpCore::ColumnFormat columnFormat = d.columnFormat();
-    //     if (itemIsDuplicated(type, columnFormatName, columnFormat,
-    //                          columnFormats_))
-    //         return;
-    //     if (type == NewItem)
-    //         columnFormats_.append(d.columnFormat());
-    //     else if (type == EditItem)
-    //         columnFormats_[d.columnFormat().name()] = d.columnFormat();
-    //     createListWidget();
-    // }
     d.exec();
 }
 
-void EditColumnFormatsDialog::copyItem() {
-    QModelIndex index = listView->currentIndex();
-    QString name = model_->data(index, Qt::DisplayRole).toString();
-    //    ColumnFormat cf = columnFormats_[name];
-    name = tr("Copy of %1").arg(name);
-    //    cf.setName(name);
-    //columnFormats_.append(cf);
-    //editCopiedItem(name);
-}
-
-
-void EditColumnFormatsDialog::insert() {
-    editItem(NewItem);
-}
-
-void EditColumnFormatsDialog::edit() {
-    editItem(EditItem);
-}
+//void EditColumnFormatsDialog::copyItem() {
+//    QModelIndex index = listView->currentIndex();
+//    QString name = model_->data(index, Qt::DisplayRole).toString();
+//    //    ColumnFormat cf = columnFormats_[name];
+//    name = tr("Copy of %1").arg(name);
+//    //    cf.setName(name);
+//    //columnFormats_.append(cf);
+//    //editCopiedItem(name);
+//}
 
 void EditColumnFormatsDialog::removeItem() {
-    QModelIndex index = listView->currentIndex();
-    if (!index.isValid())
-        return;
-    int result = QMessageBox::warning(this, tr("Delete Item?"),
-                         tr("The selected item will be permanently deleted."
-                            " Do you wish to continue?"),
-                            QMessageBox::Yes | QMessageBox::No);
-    if (result == QMessageBox::Yes) {
-        QSqlDatabase::database().transaction();
-        model_->removeRow(index.row());
-        model_->submitAll();
-        QSqlDatabase::database().commit();
-    }
-    listView->setFocus();
+    AbstractEditItemsDialog::removeItem(model_);
 }
-
-void EditColumnFormatsDialog::selectionIsEmptyWarning() {
-    QMessageBox::information(this, tr("No Item"),
-                             tr("You must select an item first"));
-}
-
-// void EditColumnFormatsDialog::editItem(EditorType type) {
-//     // QModelIndex index = listView->currentIndex();
-//     // if (type == EditItem && !index.isValid()) {
-//     //     selectionIsEmptyWarning();
-//     //     return;
-//     // }
-//     // int row = index.row();
-//     // EditIntervalTypeDialog d(type, model_, row, this);
-//     // d.exec();
-// }
-
-void EditColumnFormatsDialog::showCopyButton(bool show) {
-    copyButton->setVisible(show);
-}
-

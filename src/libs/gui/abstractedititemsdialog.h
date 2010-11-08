@@ -25,6 +25,8 @@
 
 #include <QDialog>
 
+class QSqlTableModel;
+
 namespace EpGui {
 
 class AbstractEditItemsDialog : public QDialog,
@@ -40,6 +42,7 @@ protected:
     void selectionIsEmptyWarning();
     //void duplicateItemWarning();
     void editCopiedItem(const QString& name);
+    void removeItem(QSqlTableModel*);
 
 private slots:
     void insert();

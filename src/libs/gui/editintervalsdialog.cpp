@@ -57,18 +57,13 @@ EditIntervalsDialog::EditIntervalsDialog(QWidget* parent)
 }
 
 void EditIntervalsDialog::removeItem() {
-    QSqlDatabase::database().transaction();
-    QModelIndex index = listView->currentIndex();
-    model_->removeRow(index.row());
-    model_->submitAll();
-    QSqlDatabase::database().commit();
-    listView->setFocus();
+    AbstractEditItemsDialog::removeItem(model_);
 }
 
 
 void EditIntervalsDialog::editItem(EditorType type) {
     QModelIndex index = listView->currentIndex();
-    if (type == AbstractEditItemsDialog::EditItem && !index.isValid()) {
+    if (type == EditItem && !index.isValid()) {
         selectionIsEmptyWarning();
         return;
     }
@@ -78,13 +73,13 @@ void EditIntervalsDialog::editItem(EditorType type) {
 }
 
 EditIntervalTypeDialog::EditIntervalTypeDialog(
-       EditIntervalsDialog::EditorType type,
+       AbstractEditItemsDialog::EditorType type,
        QSqlRelationalTableModel* model,
        int row,
        QWidget* parent)
    : QDialog(parent) {
    QString editType;
-   if (type == EditIntervalsDialog::NewItem)
+   if (type == AbstractEditItemsDialog::NewItem)
        editType = tr("New");
    else
        editType = tr("Edit");
