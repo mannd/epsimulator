@@ -30,7 +30,7 @@ class QSqlTableModel;
 namespace EpGui {
 
 class AbstractEditItemsDialog : public QDialog,
-    protected Ui::AbstractEditItemsDialog {
+                                protected Ui::AbstractEditItemsDialog {
     Q_OBJECT
 public:
     enum EditorType {NewItem, EditItem, CopyItem};
@@ -39,25 +39,23 @@ public:
 
 protected:
     void showCopyButton(bool);
+    bool selectionIsEmpty();
     void selectionIsEmptyWarning();
-    //void duplicateItemWarning();
-    void editCopiedItem(const QString& name);
     void removeItem(QSqlTableModel*);
 
 private slots:
     void insert();
     void edit();
-    //void copy();
+    void copy();
     void del();
 
 private:
     virtual void removeItem() = 0;
     virtual void editItem(EditorType) = 0;
     // copyItem is not abstract, since not implemented for all item types
-    //virtual void copyItem() {}
+    virtual void copyItem() {}
 };
 
-
-}
+}  // namespace EpGui
 
 #endif // ABSTRACTEDITITEMSDIALOG_H
