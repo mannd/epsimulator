@@ -16,8 +16,8 @@ SOURCES += recorder.cpp \
     studyinformationdialog.cpp \
     studyconfiguration.cpp \
     windowsetting.cpp \
-    editprotocoldialog.cpp \
-    editprotocolsdialog.cpp \
+    #editprotocoldialog.cpp \
+    #editprotocolsdialog.cpp \
     abstractmainwindow.cpp
 HEADERS += recorder.h \
     patientdialog.h \
@@ -34,8 +34,8 @@ HEADERS += recorder.h \
     study.h \
     studyinformationdialog.h \
     windowsetting.h \
-    editprotocoldialog.h \
-    editprotocolsdialog.h \
+    #editprotocoldialog.h \
+    #editprotocolsdialog.h \
     abstractmainwindow.h
 INCLUDEPATH += ../gui \
     ../stimulator \

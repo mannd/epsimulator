@@ -23,8 +23,6 @@
 
 #include "ui_abstractedititemsdialog.h"
 
-#include "itemlist.h"
-
 #include <QDialog>
 
 namespace EpGui {
@@ -39,61 +37,23 @@ public:
 
 protected:
     void showCopyButton(bool);
-    bool selectionIsEmpty() const;
     void selectionIsEmptyWarning();
-    void duplicateItemWarning(const QString& name);
-    template<typename T>
-    void removeItemFromList(T& items);
-    template<typename T>
-    void createListWidgetItems(T&);
+    //void duplicateItemWarning();
     void editCopiedItem(const QString& name);
-    template<typename T, typename K>
-    bool itemIsDuplicated(const EditorType type,
-                          const QString& originalName,
-                          const T& item,
-                          const K& items);
 
 private slots:
-    virtual void insert();
-    virtual void edit();
-    virtual void copy();
+    void insert();
+    void edit();
+    //void copy();
     void del();
 
 private:
-    virtual void createListWidget() = 0;
     virtual void removeItem() = 0;
     virtual void editItem(EditorType) = 0;
     // copyItem is not abstract, since not implemented for all item types
-    virtual void copyItem(const QList<QListWidgetItem*>&) {}
+    //virtual void copyItem() {}
 };
 
-
-template<typename T>
-void AbstractEditItemsDialog::removeItemFromList(T& items) {
-    items.remove(listWidget->currentItem()->text());
-}
-
-template<typename T>
-void AbstractEditItemsDialog::createListWidgetItems(T& items) {
-    listWidget->clear();
-    listWidget->setSortingEnabled(true);
-    for (int i = 0; i < items.size(); ++i) {
-        new QListWidgetItem(items[i].name(), listWidget);
-    }
-}
-
-template<typename T, typename K>
-bool AbstractEditItemsDialog::itemIsDuplicated(const EditorType type,
-                                               const QString& originalName,
-                                               const T& item,
-                                               const K& items) {
-    bool duplicate = ((type == NewItem && items.duplicate(item)) ||
-                      (type == EditItem && item.name() != originalName &&
-                       items.duplicate(item)));
-    if (duplicate)
-        duplicateItemWarning(item.name());
-    return duplicate;
-}
 
 }
 

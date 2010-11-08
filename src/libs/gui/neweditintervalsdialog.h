@@ -21,9 +21,7 @@
 #ifndef NEW_EDITINTERVALSDIALOG_H
 #define NEW_EDITINTERVALSDIALOG_H
 
-#include "ui_edititemsdialog.h"
-
-#include <QDialog>
+#include "abstractedititemsdialog.h"
 
 class QComboBox;
 class QDataWidgetMapper;
@@ -34,11 +32,9 @@ class QSqlRelationalTableModel;
 
 namespace EpGui {
 
-class NewEditIntervalsDialog : public QDialog,
-                               private Ui::EditItemsDialog {
+class NewEditIntervalsDialog : public AbstractEditItemsDialog {
     Q_OBJECT
 public:
-    enum EditorType {NewItem, EditItem, CopyItem};
     enum {
         Interval_Id = 0,
         Interval_Name = 1,
@@ -48,17 +44,9 @@ public:
     };
     NewEditIntervalsDialog(QWidget* parent = 0);
 
-private slots:
-    void removeItem();
-    void insert();
-    void edit();
-    // void copy();
-
-
 private:
-    void editItem(EditorType);
-    void selectionIsEmptyWarning();
-    void showCopyButton(bool);
+    virtual void removeItem();
+    virtual void editItem(EditorType);
     QSqlRelationalTableModel* model_;
 };
 

@@ -36,13 +36,12 @@
 
 #include <QtDebug>
 
+using EpGui::AbstractEditItemsDialog;
 using EpGui::NewEditIntervalsDialog;
 using EpGui::EditIntervalTypeDialog;
 
 NewEditIntervalsDialog::NewEditIntervalsDialog(QWidget* parent)
-    : QDialog(parent) {
-    setupUi(this);
-    setWindowTitle(tr("Intervals"));
+    : AbstractEditItemsDialog(tr("Intervals"), parent) {
     showCopyButton(false);
     model_ = new QSqlRelationalTableModel(this);
     model_->setTable("Intervals");
@@ -55,58 +54,28 @@ NewEditIntervalsDialog::NewEditIntervalsDialog(QWidget* parent)
     listView->setModel(model_);
     listView->setModelColumn(Interval_Name);
     listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    connect(deleteButton, SIGNAL(clicked()), this, SLOT(removeItem()));
-    connect(newButton, SIGNAL(clicked()), this, SLOT(insert()));
-    connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
-    connect(listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(edit()));
-
     listView->setFocus();
-}
-
-void NewEditIntervalsDialog::insert() {
-    editItem(NewItem);
-}
-
-void NewEditIntervalsDialog::edit() {
-    editItem(EditItem);
 }
 
 void NewEditIntervalsDialog::removeItem() {
+    QSqlDatabase::database().transaction();
     QModelIndex index = listView->currentIndex();
-    if (!index.isValid())
-        return;
-    int result = QMessageBox::warning(this, tr("Delete Item?"),
-                         tr("The selected item will be permanently deleted."
-                            " Do you wish to continue?"),
-                            QMessageBox::Yes | QMessageBox::No);
-    if (result == QMessageBox::Yes) {
-        QSqlDatabase::database().transaction();
-        model_->removeRow(index.row());
-        model_->submitAll();
-        QSqlDatabase::database().commit();
-    }
+    model_->removeRow(index.row());
+    model_->submitAll();
+    QSqlDatabase::database().commit();
     listView->setFocus();
 }
 
-void NewEditIntervalsDialog::selectionIsEmptyWarning() {
-    QMessageBox::information(this, tr("No Item"),
-                             tr("You must select an item first"));
-}
 
 void NewEditIntervalsDialog::editItem(EditorType type) {
     QModelIndex index = listView->currentIndex();
-    if (type == EditItem && !index.isValid()) {
+    if (type == AbstractEditItemsDialog::EditItem && !index.isValid()) {
         selectionIsEmptyWarning();
         return;
     }
     int row = index.row();
     EditIntervalTypeDialog d(type, model_, row, this);
     d.exec();
-}
-
-void NewEditIntervalsDialog::showCopyButton(bool show) {
-    copyButton->setVisible(show);
 }
 
 EditIntervalTypeDialog::EditIntervalTypeDialog(

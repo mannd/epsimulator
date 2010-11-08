@@ -32,9 +32,9 @@ AbstractEditItemsDialog::AbstractEditItemsDialog(const QString& title,
 
     connect(newButton, SIGNAL(clicked()), this, SLOT(insert()));
     connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
-    connect(copyButton, SIGNAL(clicked()), this, SLOT(copy()));
+    //connect(copyButton, SIGNAL(clicked()), this, SLOT(copy()));
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(del()));
-    connect(listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+    connect(listView, SIGNAL(doubleClicked(QModelIndex)),
                                this, SLOT(edit()));
 }
 
@@ -50,44 +50,42 @@ void AbstractEditItemsDialog::edit() {
     editItem(EditItem);
 }
 
-void AbstractEditItemsDialog::copy() {
-    if (selectionIsEmpty())
-        return;
-    else {
-        copyItem(listWidget->selectedItems());
-        createListWidget();
-    }
-}
+// void AbstractEditItemsDialog::copy() {
+//     if (selectionIsEmpty())
+//         return;
+//     else {
+//         copyItem(listWidget->selectedItems());
+//         createListWidget();
+//     }
+// }
 
-void AbstractEditItemsDialog::editCopiedItem(const QString& name) {
-    createListWidget();
-    listWidget->setCurrentItem(listWidget->findItems(name,
-                                                     Qt::MatchExactly)[0]);
-    editItem(EditItem);
-}
+
+
+// void AbstractEditItemsDialog::editCopiedItem(const QString& name) {
+//     createListWidget();
+//     listWidget->setCurrentItem(listWidget->findItems(name,
+//                                                      Qt::MatchExactly)[0]);
+//     editItem(EditItem);
+// }
 
 void AbstractEditItemsDialog::del() {
-    if (selectionIsEmpty())
+    QModelIndex index = listView->currentIndex();
+    if (!index.isValid())
         return;
     int result = QMessageBox::warning(this, tr("Delete Item?"),
                          tr("The selected item will be permanently deleted."
                              "Do you wish to continue?"),
                             QMessageBox::Yes | QMessageBox::No);
-    if (result == QMessageBox::Yes) {
+    if (result == QMessageBox::Yes)
         removeItem();
-        createListWidget();
-    }
 }
 
-bool AbstractEditItemsDialog::selectionIsEmpty() const {
-    return listWidget->selectedItems().size() == 0;
-}
 
-void AbstractEditItemsDialog::duplicateItemWarning(const QString& name) {
-    QMessageBox::information(this, tr("Duplicate Item"),
-                            tr("%1 is already present "
-                            "in the list").arg(name));
-}
+//void AbstractEditItemsDialog::duplicateItemWarning(const QString& name) {
+//    QMessageBox::information(this, tr("Duplicate Item"),
+//                            tr("%1 is already present "
+//                            "in the list").arg(name));
+//}
 
 void AbstractEditItemsDialog::selectionIsEmptyWarning() {
     QMessageBox::information(this, tr("No Item"),
