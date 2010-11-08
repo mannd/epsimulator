@@ -29,7 +29,6 @@
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QSqlDatabase>
-#include <QSqlRecord>
 #include <QSqlRelation>
 #include <QSqlRelationalDelegate>
 #include <QSqlRelationalTableModel>
@@ -37,10 +36,10 @@
 #include <QtDebug>
 
 using EpGui::AbstractEditItemsDialog;
-using EpGui::NewEditIntervalsDialog;
+using EpGui::EditIntervalsDialog;
 using EpGui::EditIntervalTypeDialog;
 
-NewEditIntervalsDialog::NewEditIntervalsDialog(QWidget* parent)
+EditIntervalsDialog::EditIntervalsDialog(QWidget* parent)
     : AbstractEditItemsDialog(tr("Intervals"), parent) {
     showCopyButton(false);
     model_ = new QSqlRelationalTableModel(this);
@@ -57,7 +56,7 @@ NewEditIntervalsDialog::NewEditIntervalsDialog(QWidget* parent)
     listView->setFocus();
 }
 
-void NewEditIntervalsDialog::removeItem() {
+void EditIntervalsDialog::removeItem() {
     QSqlDatabase::database().transaction();
     QModelIndex index = listView->currentIndex();
     model_->removeRow(index.row());
@@ -67,7 +66,7 @@ void NewEditIntervalsDialog::removeItem() {
 }
 
 
-void NewEditIntervalsDialog::editItem(EditorType type) {
+void EditIntervalsDialog::editItem(EditorType type) {
     QModelIndex index = listView->currentIndex();
     if (type == AbstractEditItemsDialog::EditItem && !index.isValid()) {
         selectionIsEmptyWarning();
@@ -79,13 +78,13 @@ void NewEditIntervalsDialog::editItem(EditorType type) {
 }
 
 EditIntervalTypeDialog::EditIntervalTypeDialog(
-       NewEditIntervalsDialog::EditorType type,
+       EditIntervalsDialog::EditorType type,
        QSqlRelationalTableModel* model,
        int row,
        QWidget* parent)
    : QDialog(parent) {
    QString editType;
-   if (type == NewEditIntervalsDialog::NewItem)
+   if (type == EditIntervalsDialog::NewItem)
        editType = tr("New");
    else
        editType = tr("Edit");
@@ -101,7 +100,7 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
    QLabel* nameLabel = new QLabel(tr("Name:"));
    nameLineEdit_ = new QLineEdit;
    nameLabel->setBuddy(nameLineEdit_);
-   mapper_->addMapping(nameLineEdit_, NewEditIntervalsDialog::Interval_Name);
+   mapper_->addMapping(nameLineEdit_, EditIntervalsDialog::Interval_Name);
 
    QLabel* mark1Label = new QLabel(tr("Mark 1"));
    mark1ComboBox_ = new QComboBox;
@@ -110,15 +109,15 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
    mark2ComboBox_ = new QComboBox;
    mark2Label->setBuddy(mark2ComboBox_);
    QSqlTableModel* mark1Model =
-           model->relationModel(NewEditIntervalsDialog::Interval_Mark1);
+           model->relationModel(EditIntervalsDialog::Interval_Mark1);
    QSqlTableModel* mark2Model =
-           model->relationModel(NewEditIntervalsDialog::Interval_Mark2);
+           model->relationModel(EditIntervalsDialog::Interval_Mark2);
    mark1ComboBox_->setModel(mark1Model);
    mark1ComboBox_->setModelColumn(mark1Model->fieldIndex("Name"));
    mark2ComboBox_->setModel(mark2Model);
    mark2ComboBox_->setModelColumn(mark2Model->fieldIndex("Name"));
-   mapper_->addMapping(mark1ComboBox_, NewEditIntervalsDialog::Interval_Mark1);
-   mapper_->addMapping(mark2ComboBox_, NewEditIntervalsDialog::Interval_Mark2);
+   mapper_->addMapping(mark1ComboBox_, EditIntervalsDialog::Interval_Mark1);
+   mapper_->addMapping(mark2ComboBox_, EditIntervalsDialog::Interval_Mark2);
 
    QLabel* widthLabel = new QLabel(tr("Width"));
    widthSpinBox_ = new QSpinBox;
@@ -126,7 +125,7 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
    // though I think actual Prucka shows 0.
    //widthSpinBox_->setValue(5);
    widthLabel->setBuddy(widthSpinBox_);
-   mapper_->addMapping(widthSpinBox_, NewEditIntervalsDialog::Interval_Width);
+   mapper_->addMapping(widthSpinBox_, EditIntervalsDialog::Interval_Width);
    buttonBox_ = new QDialogButtonBox(QDialogButtonBox::Ok
                                      | QDialogButtonBox::Cancel);
 
@@ -157,7 +156,7 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
    enableOkButton(nameLineEdit_->text());
 
    mapper_->setCurrentIndex(row);
-   if (type == NewEditIntervalsDialog::NewItem) {
+   if (type == EditIntervalsDialog::NewItem) {
         model->insertRow(row);
         nameLineEdit_->clear();
         widthSpinBox_->setValue(0);

@@ -32,7 +32,7 @@ class QSqlRelationalTableModel;
 
 namespace EpGui {
 
-class NewEditIntervalsDialog : public AbstractEditItemsDialog {
+class EditIntervalsDialog : public AbstractEditItemsDialog {
     Q_OBJECT
 public:
     enum {
@@ -42,7 +42,7 @@ public:
         Interval_Mark2 = 3,
         Interval_Width = 4
     };
-    NewEditIntervalsDialog(QWidget* parent = 0);
+    EditIntervalsDialog(QWidget* parent = 0);
 
 private:
     virtual void removeItem();
@@ -55,7 +55,7 @@ private:
 class EditIntervalTypeDialog : public QDialog {
     Q_OBJECT
 public:
-    EditIntervalTypeDialog(NewEditIntervalsDialog::EditorType,
+    EditIntervalTypeDialog(EditIntervalsDialog::EditorType,
                            QSqlRelationalTableModel* model,
                            int id,
                            QWidget* parent = 0);
