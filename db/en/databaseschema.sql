@@ -15,7 +15,7 @@ CREATE TABLE Marks (MarkID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE ColumnFormats (ColumnFormatID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE ColumnFormatInterval (ColumnFormatID INTEGER NOT NULL
        REFERENCES ColumnFormats, IntervalID INTEGER NOT NULL
-       REFERENCES Intervals);
+       REFERENCES Intervals, SortOrder Integer NOT NULL);
 
 BEGIN TRANSACTION;
 INSERT INTO ArrhythmiaTolerances (Name) VALUES ("SOB");
@@ -169,27 +169,27 @@ INSERT INTO ColumnFormats (ColumnFormatID, Name) VALUES (3, "AEST");
 INSERT INTO ColumnFormats (ColumnFormatID, Name) VALUES (4, "V PACE");
 INSERT INTO ColumnFormats (ColumnFormatID, Name) VALUES (5, "VEST");
 
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 9);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 10);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 11);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 12);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 14);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (1, 15);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 22);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 23);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 24);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 25);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 26);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 9);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 2);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 3);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 4);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 16);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 17);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 18);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 19);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 20);
-INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID) VALUES (2, 21);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (1, 9, 0);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (1, 10, 1);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (1, 11, 2);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (1, 12, 3);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (1, 14, 4);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (1, 15, 5);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 22, 0);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 23, 1);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 24, 2);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 25, 3);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 26, 4);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 9, 5);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 2, 6);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 3, 7);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 4, 8);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 16, 9);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 17, 10);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 18, 11);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 19, 12);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 20, 13);
+INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 21, 14);
 
 COMMIT TRANSACTION;
 
