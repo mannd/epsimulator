@@ -20,12 +20,14 @@
 
 #include "editcolumnformatsdialog.h"
 
+#include "columnformat.h"
+#include "interval.h"
 #include "editcolumnformatdialog.h"
 
+#include <QSqlQuery>
+#include <QSqlRecord>
 #include <QSqlTableModel>
 
-//using EpCore::ColumnFormat;
-//using EpCore::ItemList;
 using EpGui::AbstractEditItemsDialog;
 using EpGui::EditColumnFormatDialog;
 using EpGui::EditColumnFormatsDialog;
@@ -45,20 +47,44 @@ EditColumnFormatsDialog::EditColumnFormatsDialog(QWidget* parent)
 }
 
 void EditColumnFormatsDialog::editItem(EditorType type) {
-    QModelIndex index = listView->currentIndex();
-    if (type == EditItem && !index.isValid()) {
+    if (type == EditItem && selectionIsEmpty()) {
         selectionIsEmptyWarning();
         return;
     }
-    //int row = index.row();
+    QModelIndex index = listView->currentIndex();
+    //QSqlDatabase::database().transaction();
+    QSqlRecord record = model_->record(index.row());
+    int id = record.value(ColumnFormat_Id).toInt();
+    QSqlQuery query(QString("SELECT Intervals.Name FROM ColumnFormats "
+                    "JOIN ColumnFormatInterval USING (ColumnFormatID) "
+                    "JOIN Intervals USING (IntervalID) "
+                    "WHERE ColumnFormatInterval.ColumnFormatID = %1 "
+                              "ORDER BY SortOrder").arg(id));
+    QList<EpCore::Interval> intervals;
+    while (query.next()) {
+        QString value = query.value(0).toString();
+        qDebug() << "value " << value;
+        intervals.append(value);
+    }
+    QList<EpCore::Interval> allIntervals;
+    QSqlQuery intervalQuery(QString("SELECT Intervals.Name FROM Intervals"));
+    while (intervalQuery.next()) {
+        QString value = intervalQuery.value(0).toString();
+        allIntervals.append(value);
+    }
     EditColumnFormatDialog d(type, this);
     QString columnFormatName;
     if (type == EditItem) {
-        columnFormatName = model_->data(index, Qt::DisplayRole).toString();
-        d.setColumnFormat(columnFormatName);
+        columnFormatName = record.value(ColumnFormat_Name).toString();
+        EpCore::ColumnFormat columnFormat(columnFormatName, intervals);
+        columnFormat.setIntervals(allIntervals);
+        d.setColumnFormat(columnFormat);
     }
-    else if (type == NewItem)
-        d.setColumnFormat(QString());
+    else if (type == NewItem) {
+        EpCore::ColumnFormat columnFormat;
+        columnFormat.setIntervals(allIntervals);
+        d.setColumnFormat(columnFormat);
+    }
     d.exec();
 }
 

@@ -53,7 +53,7 @@ ColumnFormat::ColumnFormat(const QString& name,
 }
 
 QList<Interval> ColumnFormat::unselectedIntervals() const {
-    QList<Interval> unselectedIntervals = intervals_.list();
+    QList<Interval> unselectedIntervals = intervals_;
     QListIterator<Interval> iter(selectedIntervals_);
     while (iter.hasNext())
         unselectedIntervals.removeAll(iter.next());

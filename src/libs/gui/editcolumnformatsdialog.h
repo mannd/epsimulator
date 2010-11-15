@@ -39,7 +39,6 @@ public:
 private:
     virtual void removeItem();
     virtual void editItem(EditorType);
-    //void showCopyButton(bool);
     //void copyItem();
     QSqlTableModel* model_;
 };

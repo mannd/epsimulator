@@ -49,6 +49,7 @@ public:
     static QStringList allIntervalNames();
 
     void setName(const QString& name) {name_ = name;}
+    void setIntervals(const QList<Interval>& intervals) {intervals_ = intervals;}
 
     QString name() const {return name_;}
     QList<Interval> selectedIntervals() const {return selectedIntervals_;}
@@ -61,7 +62,7 @@ private:
     static const QString fileName_;
     QString name_;
     QList<Interval> selectedIntervals_;
-    EpCore::ItemList<EpCore::Interval> intervals_;
+    QList<Interval> intervals_;
 };
 
 }

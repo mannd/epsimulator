@@ -62,11 +62,11 @@ void EditIntervalsDialog::removeItem() {
 
 
 void EditIntervalsDialog::editItem(EditorType type) {
-    QModelIndex index = listView->currentIndex();
-    if (type == EditItem && !index.isValid()) {
+    if (type == EditItem && selectionIsEmpty()) {
         selectionIsEmptyWarning();
         return;
     }
+    QModelIndex index = listView->currentIndex();
     int row = index.row();
     EditIntervalTypeDialog d(type, model_, row, this);
     d.exec();
@@ -151,7 +151,7 @@ EditIntervalTypeDialog::EditIntervalTypeDialog(
    enableOkButton(nameLineEdit_->text());
 
    mapper_->setCurrentIndex(row);
-   if (type == EditIntervalsDialog::NewItem) {
+   if (type == AbstractEditItemsDialog::NewItem) {
         model->insertRow(row);
         nameLineEdit_->clear();
         widthSpinBox_->setValue(0);
