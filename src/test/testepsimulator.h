@@ -93,6 +93,7 @@ private slots:
     void testListSelector();
     // class Protocol
     void testProtocol();
+    void testColumnFormat();
 
     void cleanupTestCase();
 

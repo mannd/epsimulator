@@ -786,6 +786,16 @@ void TestEpSimulator::testProtocol() {
     QVERIFY(names[0] == tr("<default>"));
 }
 
+void TestEpSimulator::testColumnFormat() {
+    QList<Interval> intervals;
+    intervals.append(Interval("Int1"));
+    intervals.append(Interval("Int2"));
+    ColumnFormat cf("Test", intervals);
+    QVERIFY(cf.name() == "Test");
+    QVERIFY(cf.selectedIntervals()[0].name() == "Int1");
+    QVERIFY(cf.selectedIntervals()[1].name() == "Int2");
+}
+
 void TestEpSimulator::cleanupTestCase() {
     bool workingPathUnchanged = QDir::currentPath() == workingPath_;
     QVERIFY(workingPathUnchanged);

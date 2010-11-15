@@ -22,7 +22,7 @@
 #define COLUMNFORMAT_H
 
 #include "interval.h"
-#include "itemlist.h"
+//#include "itemlist.h"
 
 #include <QtCore/QCoreApplication>
 
@@ -43,10 +43,10 @@ public:
 
     static unsigned int magicNumber() {return MagicNumber;}
     static QString fileName() {return fileName_;}
-    static QList<ColumnFormat> defaultItems();
+    //static QList<ColumnFormat> defaultItems();
     static QStringList intervalNames(const QList<Interval>&);
-    static QList<Interval> allIntervals();
-    static QStringList allIntervalNames();
+    //static QList<Interval> allIntervals();
+    //static QStringList allIntervalNames();
 
     void setName(const QString& name) {name_ = name;}
     void setIntervals(const QList<Interval>& intervals) {intervals_ = intervals;}

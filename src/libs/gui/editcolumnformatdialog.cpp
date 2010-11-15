@@ -20,6 +20,7 @@
 
 #include "editcolumnformatdialog.h"
 
+#include "columnformat.h"
 #include "itemlist.h"
 #include "listselector.h"
 

@@ -21,6 +21,7 @@
 #include "studyconfigurationdialog.h"
 
 #include "amplifier.h"
+#include "itemlist.h"
 #include "listselector.h"
 #include "studyconfiguration.h"
 

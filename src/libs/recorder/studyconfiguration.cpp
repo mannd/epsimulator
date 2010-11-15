@@ -22,6 +22,7 @@
 
 #include "amplifier.h"
 #include "fileutilities.h"
+#include "itemlist.h"
 #include "options.h"
 
 #include <QtCore/QDataStream>

@@ -28,6 +28,8 @@
 #include <QSqlRecord>
 #include <QSqlTableModel>
 
+#include <QtDebug>
+
 using EpGui::AbstractEditItemsDialog;
 using EpGui::EditColumnFormatDialog;
 using EpGui::EditColumnFormatsDialog;
