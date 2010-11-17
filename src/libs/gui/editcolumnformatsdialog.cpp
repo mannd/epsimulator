@@ -110,7 +110,6 @@ void EditColumnFormatsDialog::copyItem() {
    QSqlQuery insertQuery;
    QSqlDatabase::database().transaction();
    while (query.next()) {
-       qDebug() << newId << query.value(1).toInt() << " " << query.value(2).toInt();
        insertQuery.exec(QString("INSERT INTO ColumnFormatInterval "
                                  "(ColumnFormatID, IntervalID, SortOrder) "
                                 "VALUES (%1, %2, %3)").arg(newId).arg(query.value(1).toInt())
@@ -118,11 +117,15 @@ void EditColumnFormatsDialog::copyItem() {
        
    }
    QSqlDatabase::database().commit();
-   //    cf.setName(name);
-   //columnFormats_.append(cf);
-   //editCopiedItem(name);
 }
 
 void EditColumnFormatsDialog::removeItem() {
+    QSqlDatabase::database().transaction();
+    QModelIndex index = listView->currentIndex();
+    QSqlRecord record = model_->record(index.row());
+    int id = record.value(ColumnFormat_Id).toInt();
+    QSqlQuery query;
+    query.exec(QString("DELETE FROM ColumnFormatInterval WHERE ColumnFormatID = %1").arg(id));
+    QSqlDatabase::database().commit();
     AbstractEditItemsDialog::removeItem(model_);
 }
