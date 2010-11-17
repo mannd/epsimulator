@@ -65,7 +65,6 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
     QList<EpCore::Interval> intervals;
     while (query.next()) {
         QString value = query.value(0).toString();
-        qDebug() << "value " << value;
         intervals.append(value);
     }
     QList<EpCore::Interval> allIntervals;
@@ -90,15 +89,39 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
     d.exec();
 }
 
-//void EditColumnFormatsDialog::copyItem() {
-//    QModelIndex index = listView->currentIndex();
-//    QString name = model_->data(index, Qt::DisplayRole).toString();
-//    //    ColumnFormat cf = columnFormats_[name];
-//    name = tr("Copy of %1").arg(name);
-//    //    cf.setName(name);
-//    //columnFormats_.append(cf);
-//    //editCopiedItem(name);
-//}
+void EditColumnFormatsDialog::copyItem() {
+   QModelIndex index = listView->currentIndex();
+   QSqlRecord record = model_->record(index.row());
+   QString name = record.value(ColumnFormat_Name).toString();
+   int id = record.value(ColumnFormat_Id).toInt();
+   name = tr("Copy of %1").arg(name);
+   int lastRow = model_->rowCount();
+   model_->insertRow(lastRow);
+   index = model_->index(lastRow, ColumnFormat_Name);
+   listView->setCurrentIndex(index);
+   model_->setData(index, name);
+   model_->submitAll();
+   QSqlRecord newRecord = model_->record(index.row());
+   int newId = newRecord.value(0).toInt();
+   qDebug() << id;
+   qDebug() << newId;
+   QSqlQuery query(QString("SELECT * FROM ColumnFormatInterval "
+                           "WHERE ColumnFormatInterval.ColumnFormatID = %1 ").arg(id));
+   QSqlQuery insertQuery;
+   QSqlDatabase::database().transaction();
+   while (query.next()) {
+       qDebug() << newId << query.value(1).toInt() << " " << query.value(2).toInt();
+       insertQuery.exec(QString("INSERT INTO ColumnFormatInterval "
+                                 "(ColumnFormatID, IntervalID, SortOrder) "
+                                "VALUES (%1, %2, %3)").arg(newId).arg(query.value(1).toInt())
+                        .arg(query.value(2).toInt()));
+       
+   }
+   QSqlDatabase::database().commit();
+   //    cf.setName(name);
+   //columnFormats_.append(cf);
+   //editCopiedItem(name);
+}
 
 void EditColumnFormatsDialog::removeItem() {
     AbstractEditItemsDialog::removeItem(model_);
