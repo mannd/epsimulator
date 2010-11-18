@@ -27,12 +27,12 @@
 namespace EpCore {
 
     QDataStream& operator<<(QDataStream& out, const ColumnFormat& cf) {
-        out << cf.name_ << cf.selectedIntervals_;
+        out << cf.name_ << cf.intervals_;
         return out;
     }
 
     QDataStream& operator>>(QDataStream& in, ColumnFormat& cf) {
-        in >> cf.name_ >> cf.selectedIntervals_;
+        in >> cf.name_ >> cf.intervals_;
         return in;
     }
 
@@ -47,17 +47,9 @@ using EpCore::Interval;
 const QString ColumnFormat::fileName_ = "columnformats.dat";
 
 ColumnFormat::ColumnFormat(const QString& name,
-                           const QList<Interval>& selectedIntervals)
+                           const QList<Interval>& intervals)
                                : name_(name),
-                               selectedIntervals_(selectedIntervals) {
-}
-
-QList<Interval> ColumnFormat::unselectedIntervals() const {
-    QList<Interval> unselectedIntervals = intervals_;
-    QListIterator<Interval> iter(selectedIntervals_);
-    while (iter.hasNext())
-        unselectedIntervals.removeAll(iter.next());
-    return unselectedIntervals;
+                               intervals_(intervals) {
 }
 
 QStringList ColumnFormat::intervalNames(const QList<Interval>& intervals) {
@@ -67,59 +59,3 @@ QStringList ColumnFormat::intervalNames(const QList<Interval>& intervals) {
         names << iter.next().name();
     return names;
 }
-
-
-// QList<Interval> ColumnFormat::allIntervals() {
-//     ItemList<Interval> allIntervals;
-//     return allIntervals.list();
-// }
-
-// QStringList ColumnFormat::allIntervalNames() {
-//     return intervalNames(allIntervals());
-// }
-
-// QList<ColumnFormat> ColumnFormat::defaultItems() {
-//     QList<ColumnFormat> columnFormats;
-//     QList<Interval> intervals;
-//     ItemList<Interval> defaultIntervals;
-//     QString name;
-//     name = tr("BASELINE");
-//     intervals.append(defaultIntervals[tr("SCL")]);
-//     intervals.append(defaultIntervals[tr("PR")]);
-//     intervals.append(defaultIntervals[tr("QRS")]);
-//     intervals.append(defaultIntervals[tr("QT")]);
-//     intervals.append(defaultIntervals[tr("AH")]);
-//     columnFormats.append(ColumnFormat(name, intervals));
-//     name = tr("A PACE");
-//     intervals.clear();
-//     intervals.append(defaultIntervals[tr("S1")]);
-//     intervals.append(defaultIntervals[tr("S2")]);
-//     intervals.append(defaultIntervals[tr("S3")]);
-//     intervals.append(defaultIntervals[tr("S4")]);
-//     intervals.append(defaultIntervals[tr("S5")]);
-//     intervals.append(defaultIntervals[tr("SCL")]);
-//     intervals.append(defaultIntervals[tr("A1A1")]);
-//     intervals.append(defaultIntervals[tr("A1A2")]);
-//     intervals.append(defaultIntervals[tr("A2A3")]);
-//     intervals.append(defaultIntervals[tr("H1H1")]);
-//     intervals.append(defaultIntervals[tr("H1H2")]);
-//     intervals.append(defaultIntervals[tr("V1V1")]);
-//     intervals.append(defaultIntervals[tr("V1V2")]);
-//     intervals.append(defaultIntervals[tr("V2V3")]);
-//     intervals.append(defaultIntervals[tr("V3V4")]);
-//     columnFormats.append(ColumnFormat(name, intervals));
-//     name = tr("AEST");
-//     intervals.clear();
-//     // add intervals here
-//     columnFormats.append(ColumnFormat(name, intervals));
-//     name = tr("V Pace");
-//     intervals.clear();
-//     columnFormats.append(ColumnFormat(name, intervals));
-//     name = tr("VEST");
-//     intervals.clear();
-//     columnFormats.append(ColumnFormat(name, intervals));
-//     // etc.
-//     return columnFormats;
-// }
-
-

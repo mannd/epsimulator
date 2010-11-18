@@ -792,8 +792,8 @@ void TestEpSimulator::testColumnFormat() {
     intervals.append(Interval("Int2"));
     ColumnFormat cf("Test", intervals);
     QVERIFY(cf.name() == "Test");
-    QVERIFY(cf.selectedIntervals()[0].name() == "Int1");
-    QVERIFY(cf.selectedIntervals()[1].name() == "Int2");
+    QVERIFY(cf.intervals()[0].name() == "Int1");
+    QVERIFY(cf.intervals()[1].name() == "Int2");
 }
 
 void TestEpSimulator::cleanupTestCase() {

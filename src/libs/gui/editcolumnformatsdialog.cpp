@@ -21,8 +21,8 @@
 #include "editcolumnformatsdialog.h"
 
 #include "columnformat.h"
-#include "interval.h"
 #include "editcolumnformatdialog.h"
+#include "interval.h"
 
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -66,27 +66,18 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
         QString value = query.value(0).toString();
         intervals.append(value);
     }
-    QList<EpCore::Interval> allIntervals;
-    QSqlQuery intervalQuery(QString("SELECT Intervals.Name FROM Intervals"));
-    while (intervalQuery.next()) {
-          QString value = intervalQuery.value(0).toString();
-        allIntervals.append(value);
-    }
     EditColumnFormatDialog d(type, this);
     if (type == EditItem) {
         QString columnFormatName = record.value(ColumnFormat_Name).toString();
         EpCore::ColumnFormat columnFormat(columnFormatName, intervals);
-        columnFormat.setIntervals(allIntervals);
         d.setColumnFormat(columnFormat);
     }
     else if (type == NewItem) {
         EpCore::ColumnFormat columnFormat;
-        columnFormat.setIntervals(allIntervals);
         d.setColumnFormat(columnFormat);
     }
     if (d.exec() == QDialog::Accepted) {
         EpCore::ColumnFormat columnFormat = d.columnFormat();
-        qDebug() << columnFormat.name();
         if (type == NewItem) {
             int row = index.row();
             model_->insertRows(row, 1);
@@ -105,7 +96,7 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
                 newId = record.value(0).toInt();
                 newName = record.value(1).toString();
             }
-            QList<EpCore::Interval> intervals = columnFormat.selectedIntervals();
+            QList<EpCore::Interval> intervals = columnFormat.intervals();
             QListIterator<EpCore::Interval> iter(intervals);
             int i = 0;
             QSqlDatabase::database().transaction();
@@ -115,16 +106,13 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
                 int lookupId;
                 while (lookup.next()) {
                     lookupId = lookup.value(0).toInt();
-                    qDebug() << newId << " " << lookupId << " " << i;
-                    QSqlQuery insertQuery;
-                    insertQuery.exec(QString("INSERT INTO ColumnFormatInterval "
-                                            "(ColumnFormatID, IntervalID, SortOrder) "
-                                            "VALUES (%1, %2, %3)")
-                                            .arg(newId).arg(lookupId).arg(i++));
+                    QSqlQuery insertQuery(QString("INSERT INTO ColumnFormatInterval "
+                                                  "(ColumnFormatID, IntervalID, SortOrder) "
+                                                  "VALUES (%1, %2, %3)")
+                                          .arg(newId).arg(lookupId).arg(i++));
                 }
             }
             QSqlDatabase::database().commit();
-            model_->submitAll();
         }
     }
 }

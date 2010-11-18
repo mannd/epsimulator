@@ -23,6 +23,7 @@
 #include "columnformat.h"
 #include "listselector.h"
 
+#include <QSqlQuery>
 #include <QStringListModel>
 
 using EpCore::ColumnFormat;
@@ -84,12 +85,19 @@ void EditColumnFormatDialog::unselectAll() {
 }
 
 void EditColumnFormatDialog::setColumnFormat(const EpCore::ColumnFormat& cf) {
+    QList<EpCore::Interval> allIntervals;
+    QSqlQuery intervalQuery(QString("SELECT Intervals.Name FROM Intervals"));
+    while (intervalQuery.next()) {
+        QString value = intervalQuery.value(0).toString();
+        allIntervals.append(value);
+    }
+    QList<Interval> unselectedIntervals = allIntervals;
+    QListIterator<Interval> iter(cf.intervals());
+    while (iter.hasNext())
+        unselectedIntervals.removeAll(iter.next());
     nameLineEdit->setText(cf.name());
-    listSelector_->
-            initialize(ColumnFormat::intervalNames(
-                        cf.unselectedIntervals()),
-                    ColumnFormat::intervalNames(
-                        cf.selectedIntervals()));
+    listSelector_->initialize(ColumnFormat::intervalNames(unselectedIntervals),
+                              ColumnFormat::intervalNames(cf.intervals()));
 }
 
 EpCore::ColumnFormat EditColumnFormatDialog::columnFormat() const {
