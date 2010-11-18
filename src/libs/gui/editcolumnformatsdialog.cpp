@@ -54,7 +54,6 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
         return;
     }
     QModelIndex index = listView->currentIndex();
-    //QSqlDatabase::database().transaction();
     QSqlRecord record = model_->record(index.row());
     int id = record.value(ColumnFormat_Id).toInt();
     QSqlQuery query(QString("SELECT Intervals.Name FROM ColumnFormats "
@@ -70,13 +69,12 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
     QList<EpCore::Interval> allIntervals;
     QSqlQuery intervalQuery(QString("SELECT Intervals.Name FROM Intervals"));
     while (intervalQuery.next()) {
-        QString value = intervalQuery.value(0).toString();
+          QString value = intervalQuery.value(0).toString();
         allIntervals.append(value);
     }
     EditColumnFormatDialog d(type, this);
-    QString columnFormatName;
     if (type == EditItem) {
-        columnFormatName = record.value(ColumnFormat_Name).toString();
+        QString columnFormatName = record.value(ColumnFormat_Name).toString();
         EpCore::ColumnFormat columnFormat(columnFormatName, intervals);
         columnFormat.setIntervals(allIntervals);
         d.setColumnFormat(columnFormat);
@@ -86,7 +84,49 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
         columnFormat.setIntervals(allIntervals);
         d.setColumnFormat(columnFormat);
     }
-    d.exec();
+    if (d.exec() == QDialog::Accepted) {
+        EpCore::ColumnFormat columnFormat = d.columnFormat();
+        qDebug() << columnFormat.name();
+        if (type == NewItem) {
+            int row = index.row();
+            model_->insertRows(row, 1);
+            model_->setData(model_->index(row, ColumnFormat_Name), columnFormat.name());
+
+            model_->submitAll();
+            model_->select();
+            QSqlTableModel updateModel;
+            updateModel.setTable("ColumnFormats");
+            updateModel.setFilter(QString("Name = '%1'").arg(columnFormat.name()));
+            updateModel.select();
+            int newId = 0;
+            QString newName;
+            if (updateModel.rowCount() >= 1) {
+                QSqlRecord record = updateModel.record(0);
+                newId = record.value(0).toInt();
+                newName = record.value(1).toString();
+            }
+            QList<EpCore::Interval> intervals = columnFormat.selectedIntervals();
+            QListIterator<EpCore::Interval> iter(intervals);
+            int i = 0;
+            QSqlDatabase::database().transaction();
+            while (iter.hasNext()) {
+                QSqlQuery lookup(QString("SELECT IntervalID FROM Intervals "
+                                         "WHERE Name = '%1'").arg(iter.next().name()));
+                int lookupId;
+                while (lookup.next()) {
+                    lookupId = lookup.value(0).toInt();
+                    qDebug() << newId << " " << lookupId << " " << i;
+                    QSqlQuery insertQuery;
+                    insertQuery.exec(QString("INSERT INTO ColumnFormatInterval "
+                                            "(ColumnFormatID, IntervalID, SortOrder) "
+                                            "VALUES (%1, %2, %3)")
+                                            .arg(newId).arg(lookupId).arg(i++));
+                }
+            }
+            QSqlDatabase::database().commit();
+            model_->submitAll();
+        }
+    }
 }
 
 void EditColumnFormatsDialog::copyItem() {

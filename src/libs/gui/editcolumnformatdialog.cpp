@@ -21,14 +21,12 @@
 #include "editcolumnformatdialog.h"
 
 #include "columnformat.h"
-#include "itemlist.h"
 #include "listselector.h"
 
 #include <QStringListModel>
 
 using EpCore::ColumnFormat;
 using EpCore::Interval;
-using EpCore::ItemList;
 using EpGui::EditColumnFormatDialog;
 
 EditColumnFormatDialog::EditColumnFormatDialog(
@@ -96,10 +94,9 @@ void EditColumnFormatDialog::setColumnFormat(const EpCore::ColumnFormat& cf) {
 
 EpCore::ColumnFormat EditColumnFormatDialog::columnFormat() const {
     QStringListIterator iter(listSelector_->selected());
-    ItemList<Interval> allIntervals;
     QList<Interval> intervals;
     while (iter.hasNext())
-        intervals.append(allIntervals[iter.next()]);
+        intervals.append(Interval(iter.next()));
     EpCore::ColumnFormat cf(nameLineEdit->text(), intervals);
     return cf;
 }
