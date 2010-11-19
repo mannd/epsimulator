@@ -37,6 +37,7 @@ public:
     EditColumnFormatsDialog(QWidget* parent = 0);
 
 private:
+    void removeIntervals();
     virtual void removeItem();
     virtual void editItem(EditorType);
     virtual void copyItem();

@@ -23,15 +23,11 @@
 
 #include "interval.h"
 
-#include <QtCore/QCoreApplication>
-
 class QDataStream;
 
 namespace EpCore {
 
 class ColumnFormat {
-    Q_DECLARE_TR_FUNCTIONS(ColumnFormat)
-
 public:
     friend QDataStream& operator<<(QDataStream&, const ColumnFormat&);
     friend QDataStream& operator>>(QDataStream&, ColumnFormat&);

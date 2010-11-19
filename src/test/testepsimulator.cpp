@@ -796,6 +796,82 @@ void TestEpSimulator::testColumnFormat() {
     QVERIFY(cf.intervals()[1].name() == "Int2");
 }
 
+void TestEpSimulator::testInterval() {
+    Interval interval;
+    Mark mark1, mark2;
+    mark1.setPoint(0, 0);
+    mark2.setPoint(100, 100);
+    interval.setMark1(mark1);
+    interval.setMark2(mark2);
+    int rawInterval = interval.rawInterval();
+    QVERIFY(rawInterval == 100);
+    mark1.setX(1);
+    mark2.setX(99);
+    interval.setMark1(mark1);
+    interval.setMark2(mark2);
+    rawInterval = interval.rawInterval();
+    QVERIFY(rawInterval == 98);
+}
+
+void TestEpSimulator::testMark() {
+    Mark mark(Mark::None);
+    QVERIFY(mark.name() == tr("None"));
+    mark.setType(Mark::P);
+    QVERIFY(mark.name() == tr("P"));
+    mark.setType(Mark::QRSonset);
+    QVERIFY(mark.name() == tr("QRS onset"));
+    mark.setType(Mark::QRSoffset);
+    QVERIFY(mark.name() == tr("QRS offset"));
+    mark.setType(Mark::Tonset);
+    QVERIFY(mark.name() == tr("T onset"));
+    mark.setType(Mark::Toffset);
+    QVERIFY(mark.name() == tr("T offset"));
+    mark.setType(Mark::A);
+    QVERIFY(mark.name() == tr("A"));
+    mark.setType(Mark::H);
+    QVERIFY(mark.name() == tr("H"));
+    mark.setType(Mark::Hoffset);
+    QVERIFY(mark.name() == tr("H offset"));
+    mark.setType(Mark::V);
+    QVERIFY(mark.name() == tr("V"));
+    mark.setType(Mark::S1);
+    QVERIFY(mark.name() == tr("S1"));
+    mark.setType(Mark::S2);
+    QVERIFY(mark.name() == tr("S2"));
+    mark.setType(Mark::S3);
+    QVERIFY(mark.name() == tr("S3"));
+    mark.setType(Mark::S4);
+    QVERIFY(mark.name() == tr("S4"));
+    mark.setType(Mark::S5);
+    QVERIFY(mark.name() == tr("S5"));
+    mark.setType(Mark::A1);
+    QVERIFY(mark.name() == tr("A1"));
+    mark.setType(Mark::A2);
+    QVERIFY(mark.name() == tr("A2"));
+    mark.setType(Mark::A3);
+    QVERIFY(mark.name() == tr("A3"));
+    mark.setType(Mark::A4);
+    QVERIFY(mark.name() == tr("A4"));
+    mark.setType(Mark::A5);
+    QVERIFY(mark.name() == tr("A5"));
+    mark.setType(Mark::H1);
+    QVERIFY(mark.name() == tr("H1"));
+    mark.setType(Mark::H2);
+    QVERIFY(mark.name() == tr("H2"));
+    mark.setType(Mark::H3);
+    QVERIFY(mark.name() == tr("H3"));
+    mark.setType(Mark::V1);
+    QVERIFY(mark.name() == tr("V1"));
+    mark.setType(Mark::V2);
+    QVERIFY(mark.name() == tr("V2"));
+    mark.setType(Mark::V3);
+    QVERIFY(mark.name() == tr("V3"));
+    mark.setType(Mark::V4);
+    QVERIFY(mark.name() == tr("V4"));
+    mark.setType(Mark::V5);
+    QVERIFY(mark.name() == tr("V5"));
+}
+
 void TestEpSimulator::cleanupTestCase() {
     bool workingPathUnchanged = QDir::currentPath() == workingPath_;
     QVERIFY(workingPathUnchanged);

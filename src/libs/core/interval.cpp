@@ -66,46 +66,6 @@ Interval& Interval::operator=(const Interval& rhs) {
     return *this;
 }
 
-const Interval::IntervalParameter Interval::defaultParameters_[]
-        = {{tr("None"), Mark::None, Mark::None},
-           {tr("A1A1"), Mark::A1, Mark::A1},
-           {tr("A1A2"), Mark::A1, Mark::A2},
-           {tr("A2A3"), Mark::A2, Mark::A3},
-           {tr("A3A4"), Mark::A3, Mark::A4},
-           {tr("A1H1"), Mark::A1, Mark::H1},
-           {tr("A2H2"), Mark::A2, Mark::H2},
-           {tr("AA"), Mark::A, Mark::A},
-           {tr("SCL"), Mark::A, Mark::A},
-           {tr("PR"), Mark::P, Mark::QRSonset},
-           {tr("QRS"), Mark::QRSonset, Mark::QRSoffset},
-           {tr("QT"), Mark::QRSonset, Mark::Toffset},
-           {tr("PA"), Mark::P, Mark::A},
-           {tr("AH"), Mark::A, Mark::H},
-           {tr("HV"), Mark::H, Mark::QRSonset},
-           {tr("H1H1"), Mark::H1, Mark::H1},
-           {tr("H1H2"), Mark::H1, Mark::H2},
-           {tr("V1V2"), Mark::V1, Mark::V2},
-           {tr("V2V3"), Mark::V2, Mark::V3},
-           {tr("V3V4"), Mark::V3, Mark::V4},
-           // note that CardioLab uses S1 label for S1S1, etc.
-           {tr("S1"), Mark::S1, Mark::S1},
-           {tr("S2"), Mark::S1, Mark::S2},
-           {tr("S3"), Mark::S2, Mark::S3},
-           {tr("S4"), Mark::S3, Mark::S4},
-           {tr("S5"), Mark::S4, Mark::S5}};
-
-
-QList<Interval> Interval::defaultItems() {
-    QList<Interval> intervals;
-    int size = sizeof(defaultParameters_) / sizeof(IntervalParameter);
-    for (int i = 0; i < size; ++i)
-        intervals.append(Interval(defaultParameters_[i].name,
-                                  Mark(defaultParameters_[i].mark1),
-                                  Mark(defaultParameters_[i].mark2),
-                                  5));
-    return intervals;
-}
-
 void Interval::copyInterval(const Interval& interval) {
     name_ = interval.name_;
     mark1_ = interval.mark1_;

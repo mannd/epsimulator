@@ -33,8 +33,6 @@ class QDataStream;
 namespace EpCore {
 
 class Interval {
-    Q_DECLARE_TR_FUNCTIONS(Interval)
-
 public:
     friend QDataStream& operator<<(QDataStream&, const Interval&);
     friend QDataStream& operator>>(QDataStream&, Interval&);
@@ -53,7 +51,6 @@ public:
 
     static unsigned int magicNumber() {return MagicNumber;}
     static QString fileName() {return fileName_;}
-    static QList<Interval> defaultItems();
 
     void setName(const QString& name) {name_  = name;}
     void setMark1(const Mark& mark) {mark1_ = mark;}
@@ -78,7 +75,6 @@ private:
 
     void copyInterval(const Interval&);
 
-    static const IntervalParameter defaultParameters_[];
     static const QString fileName_;
     QString name_;
     Mark mark1_;
