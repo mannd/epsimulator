@@ -148,6 +148,13 @@ public:
                                         : IoError(name, msg) {}
 };
 
+class DatabaseError : public IoError {
+public:
+    DatabaseError(const QString& databaseName, 
+                  const char* msg = "database error.")
+        : IoError(databaseName, msg) {}
+};
+
 }
 
 #endif

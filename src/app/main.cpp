@@ -39,8 +39,8 @@
 
 #include <QtDebug>
 
-// Languages
-// Only define 1 of the below
+
+// Languages -- only define 1 of the below
 //#define GERMAN
 //#define FRENCH
 #define ENGLISH
@@ -49,22 +49,11 @@
 #   include <QtCore/QTranslator>
 #endif
 
-// Database
-// Only define 1 of the below
-//#define MYSQL
-#define SQLITE
-
-#ifdef MYSQL
-#   define BACKEND_DB "QMYSQL"
-#elif defined SQLITE
-#   define BACKEND_DB "QSQLITE"
-#endif
-
 static bool createConnection() {
     using EpCore::Options;
     Options* options = Options::instance();
     options->load();
-    const QString dbFileName("epsimulator.db");
+    const QString dbFileName(EpCore::Constants::EPSIM_DB_FILENAME);
     QString dbFilePath(EpCore::joinPaths(EpCore::systemPath(),
 					 dbFileName));
     if (options->includeNetworkCatalog()) {
@@ -107,12 +96,13 @@ static bool createConnection() {
 	}
     }
     qDebug() << "Available DB drivers" << QSqlDatabase::drivers();
-    qDebug() << "Backend DB driver in use is" << BACKEND_DB;
-    QSqlDatabase db = QSqlDatabase::addDatabase(BACKEND_DB);
-    db.setHostName("localhost");
+    qDebug() << "Backend DB driver in use is" << EpCore::Constants::EPSIM_BACKEND_DB;
+    QSqlDatabase db = QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB);
+    qDebug() << "Connection name is " << db.connectionName();
+    db.setHostName(EpCore::Constants::EPSIM_DB_HOSTNAME);
     db.setDatabaseName(dbFilePath);
-    db.setUserName("epsimuser");
-    db.setPassword("epsimpassword");
+    db.setUserName(EpCore::Constants::EPSIM_DB_USERNAME);
+    db.setPassword(EpCore::Constants::EPSIM_DB_PASSWORD);
     if (!db.open()) {
         QMessageBox::critical(0, QObject::tr("Database Error"),
                               db.lastError().text());

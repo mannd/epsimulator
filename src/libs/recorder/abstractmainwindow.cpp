@@ -26,6 +26,7 @@
 #include "editintervalsdialog.h"
 #include "editcolumnformatsdialog.h"
 //#include "editprotocolsdialog.h"
+#include "error.h"
 #include "fileutilities.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -36,6 +37,8 @@
 
 #include <QDesktopServices>
 #include <QMessageBox>
+#include <QSqlDatabase>
+#include <QSqlError>
 #include <QUrl>
 
 using EpCore::Options;
@@ -61,13 +64,75 @@ void AbstractMainWindow::simulatorSettings() {
     }
 }
 
+void AbstractMainWindow::changeDatabase() {
+    if (options()->includeNetworkCatalog()) {
+        QString networkPath = options()->networkStudyPath;
+        QString networkDbFilePath = 
+            EpCore::joinPaths(networkPath, EPSIM_DB_FILENAME);
+        if (!QFile::exists(networkDbFilePath)) {
+            QMessageBox::information(0, QObject::tr("Database Error"),
+				     QObject::tr("Cannot find Network "
+						 "Database file. "
+						 "Will use local "
+						 "Database file. "
+						 "Network storage is "
+						 "disabled."));
+	    // get rid of network storage until user fixes the problem
+	    EpCore::clearFlag(options()->filePathFlags, 
+                              Options::EnableNetworkStorage);
+            return;
+        }
+        QSqlDatabase::removeDatabase(QSqlDatabase::database().connectionName());
+        // add database here
+        QSqlDatabase db = QSqlDatabase::addDatabase(EPSIM_BACKEND_DB);
+        db.setHostName(EPSIM_DB_HOSTNAME);
+        db.setDatabaseName(networkDbFilePath);
+        db.setUserName(EPSIM_DB_USERNAME);
+        db.setPassword(EPSIM_DB_PASSWORD);
+        if (!db.open()) {
+	    QMessageBox::information(0, QObject::tr("Database Error"),
+				     QObject::tr("Cannot open Network "
+						 "Database file. "
+						 "Will use local "
+						 "Database file. "
+						 "Network storage is "
+						 "disabled."));
+	    // get rid of network storage until user fixes the problem
+	    EpCore::clearFlag(options()->filePathFlags, 
+			       Options::EnableNetworkStorage);
+           
+        }
+        else
+            return;
+    }
+    // use local database
+    QString systemDbFilePath(EpCore::joinPaths(EpCore::systemPath(),
+                                               EPSIM_DB_FILENAME));
+    QSqlDatabase db = QSqlDatabase::addDatabase(EPSIM_BACKEND_DB);
+    db.setHostName(EPSIM_DB_HOSTNAME);
+    db.setDatabaseName(systemDbFilePath);
+    db.setUserName(EPSIM_DB_USERNAME);
+    db.setPassword(EPSIM_DB_PASSWORD);
+    if (!db.open()) {
+        QMessageBox::critical(0, QObject::tr("Database Error"),
+                              db.lastError().text());
+        throw EpCore::DatabaseError(db.databaseName());
+    }
+}
+
 void AbstractMainWindow::systemSettings() {
     if (administrationAllowed()) {
+        // store catalog in use since changing is expensive
+        bool usingNetwork = options()->includeNetworkCatalog();
         SystemDialog systemDialog(options(),
             currentDisk()->studiesPath(), currentDisk()->label(),
             currentDisk()->translatedSide(), this);
         if (systemDialog.exec() == QDialog::Accepted) {
             systemDialog.setOptions();
+            if (usingNetwork != options()->includeNetworkCatalog()) {
+                qDebug() << "Using network changed!";
+                changeDatabase();
+            }
             updateSystemSettings();
             options()->save();
         }

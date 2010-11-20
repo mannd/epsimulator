@@ -95,6 +95,7 @@ signals:
 
 private:
     void createActions();
+    void changeDatabase();
 
     QAction* intervalsAction_;
     QAction* columnFormatsAction_;

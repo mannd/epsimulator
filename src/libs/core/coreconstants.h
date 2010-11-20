@@ -39,18 +39,38 @@ const char* const EPSIM_VERSION     = APP_VERSION;
 const char* const EPSIM_AUTHOR      = "EP Studios, Inc.";
 const char* const EPSIM_YEAR        = "2010";
 
+// Database -- only define 1 of the below
+//#define MYSQL
+#define SQLITE
+
+#ifdef MYSQL
+#   define BACKEND_DB "QMYSQL"
+#elif defined SQLITE
+#   define BACKEND_DB "QSQLITE"
+#endif
+
+const char* const EPSIM_BACKEND_DB  = BACKEND_DB;
+const char* const EPSIM_DB_FILENAME = "epsimulator.db";
+const char* const EPSIM_DB_HOSTNAME = "localhost";
+const char* const EPSIM_DB_USERNAME = "epsimuser";
+const char* const EPSIM_DB_PASSWORD = "epsimpassword";
+
 #undef APP_VERSION
 #undef APP_VERSION_MAJOR
 #undef APP_VERSION_MINOR
 #undef APP_VERSION_RELEASE
 #undef STRINGIFY
 #undef STRINGIFY_INTERNAL
+#undef MYSQL
+#undef SQLITE
+#undef BACKEND_DB
 
 #ifdef APP_VERSION_BUILD
 const char* const APP_VERSION_BUILD_STR = APP_VERSION_BUILD;
 #else
 const char* const APP_VERSION_BUILD_STR = "";
 #endif
+// don't #undef APP_VERSION_BUILD
 
 } // Constants
 } // EpCore

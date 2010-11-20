@@ -811,6 +811,8 @@ void TestEpSimulator::testInterval() {
     interval.setMark2(mark2);
     rawInterval = interval.rawInterval();
     QVERIFY(rawInterval == 98);
+    Interval interval1 = interval;
+    QVERIFY(interval1.rawInterval() == 98);
 }
 
 void TestEpSimulator::testMark() {
