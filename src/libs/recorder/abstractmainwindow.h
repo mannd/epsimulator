@@ -45,7 +45,9 @@ namespace EpGui {
 class AbstractMainWindow : public QMainWindow {
     Q_OBJECT
 public:
-    AbstractMainWindow(EpCore::Options* options, QWidget *parent = 0);
+    AbstractMainWindow(EpCore::Options* options,
+                       EpCore::User* user,
+                       QWidget *parent = 0);
     ~AbstractMainWindow();
 
     void restore();
@@ -54,7 +56,7 @@ public slots:
     virtual void updateAll() = 0;
 
 protected:
-    virtual EpCore::User* user() const = 0;
+    virtual EpCore::User* user() const {return user_;}
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const = 0;
     virtual void updateSimulatorSettings() = 0;
     virtual void updateSystemSettings() = 0;
@@ -78,7 +80,7 @@ protected:
 
     // protected data members not so bad in this case :)
     EpCore::Options* options_;
-                             
+    EpCore::User* user_;                             
 
 protected slots:
     void about();

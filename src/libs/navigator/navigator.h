@@ -181,7 +181,7 @@ private:
     Catalogs* catalogs_;
     StatusBar* statusBar_;
     EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;
-    EpCore::User* user_;
+    //EpCore::User* user_;
 
     // central widget stuff
     QSplitter* centralWidget_;

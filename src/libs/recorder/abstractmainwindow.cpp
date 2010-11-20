@@ -42,12 +42,15 @@
 #include <QUrl>
 
 using EpCore::Options;
+using EpCore::User;
 using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
 using namespace EpCore::Constants;
 
-AbstractMainWindow::AbstractMainWindow(Options* options, QWidget *parent)
-    : QMainWindow(parent), options_(options) {
+AbstractMainWindow::AbstractMainWindow(Options* options, 
+                                       User* user,
+                                       QWidget *parent)
+    : QMainWindow(parent), options_(options), user_(user) {
     createActions();
 }
 
