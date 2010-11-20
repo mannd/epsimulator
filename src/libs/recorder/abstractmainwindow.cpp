@@ -46,8 +46,8 @@ using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
 using namespace EpCore::Constants;
 
-AbstractMainWindow::AbstractMainWindow(QWidget *parent)
-    : QMainWindow(parent) {
+AbstractMainWindow::AbstractMainWindow(Options* options, QWidget *parent)
+    : QMainWindow(parent), options_(options) {
     createActions();
 }
 
@@ -55,18 +55,18 @@ AbstractMainWindow::~AbstractMainWindow() {}
 
 void AbstractMainWindow::simulatorSettings() {
     if (administrationAllowed()) {
-        SimulatorSettingsDialog simDialog(options(), this);
+        SimulatorSettingsDialog simDialog(options_, this);
         if (simDialog.exec() == QDialog::Accepted) {
             simDialog.setOptions();
             updateSimulatorSettings();
-            options()->save();
+            options_->save();
         }
     }
 }
 
 void AbstractMainWindow::changeDatabase() {
-    if (options()->includeNetworkCatalog()) {
-        QString networkPath = options()->networkStudyPath;
+    if (options_->includeNetworkCatalog()) {
+        QString networkPath = options_->networkStudyPath;
         QString networkDbFilePath = 
             EpCore::joinPaths(networkPath, EPSIM_DB_FILENAME);
         if (!QFile::exists(networkDbFilePath)) {
@@ -78,10 +78,12 @@ void AbstractMainWindow::changeDatabase() {
 						 "Network storage is "
 						 "disabled."));
 	    // get rid of network storage until user fixes the problem
-	    EpCore::clearFlag(options()->filePathFlags, 
+	    EpCore::clearFlag(options_->filePathFlags, 
                               Options::EnableNetworkStorage);
             return;
         }
+        // Note that Qt will display warning here,
+        // and there seems no way to suppress it.
         QSqlDatabase::removeDatabase(QSqlDatabase::database().connectionName());
         // add database here
         QSqlDatabase db = QSqlDatabase::addDatabase(EPSIM_BACKEND_DB);
@@ -98,7 +100,7 @@ void AbstractMainWindow::changeDatabase() {
 						 "Network storage is "
 						 "disabled."));
 	    // get rid of network storage until user fixes the problem
-	    EpCore::clearFlag(options()->filePathFlags, 
+	    EpCore::clearFlag(options_->filePathFlags, 
 			       Options::EnableNetworkStorage);
            
         }
@@ -123,18 +125,18 @@ void AbstractMainWindow::changeDatabase() {
 void AbstractMainWindow::systemSettings() {
     if (administrationAllowed()) {
         // store catalog in use since changing is expensive
-        bool usingNetwork = options()->includeNetworkCatalog();
-        SystemDialog systemDialog(options(),
+        bool usingNetwork = options_->includeNetworkCatalog();
+        SystemDialog systemDialog(options_,
             currentDisk()->studiesPath(), currentDisk()->label(),
             currentDisk()->translatedSide(), this);
         if (systemDialog.exec() == QDialog::Accepted) {
             systemDialog.setOptions();
-            if (usingNetwork != options()->includeNetworkCatalog()) {
+            if (usingNetwork != options_->includeNetworkCatalog()) {
                 qDebug() << "Using network changed!";
                 changeDatabase();
             }
             updateSystemSettings();
-            options()->save();
+            options_->save();
         }
     }
 }
@@ -177,7 +179,7 @@ void AbstractMainWindow::about() {
 
 void AbstractMainWindow::login() {
     if (!user()->isAdministrator()) {
-        PasswordDialog pwDialog(options()->passwordHash, this);
+        PasswordDialog pwDialog(options_->passwordHash, this);
         if (pwDialog.exec() == QDialog::Accepted) {
             user()->setIsAdministrator(true);
             updateAll();
@@ -192,10 +194,10 @@ void AbstractMainWindow::logout() {
 
 void AbstractMainWindow::changePassword() {
     if (administrationAllowed()) {
-        ChangePasswordDialog cpDialog(options()->passwordHash, this);
+        ChangePasswordDialog cpDialog(options_->passwordHash, this);
         if (cpDialog.exec() == QDialog::Accepted) {
-            options()->passwordHash = cpDialog.changePassword();
-            options()->save();
+            options_->passwordHash = cpDialog.changePassword();
+            options_->save();
         }
     }
 }
@@ -225,7 +227,7 @@ void AbstractMainWindow::setProtocols() {
 /// and not logged in as administrator, will do a login, then
 /// will allow adminstration if user successfully logged in.
 bool AbstractMainWindow::administrationAllowed() {
-    if (!options()->administratorAccountRequired)
+    if (!options_->administratorAccountRequired)
         return true;
     login();
     return user()->isAdministrator();
@@ -233,7 +235,7 @@ bool AbstractMainWindow::administrationAllowed() {
 
 /// Shows the *Simulator Settings* menu item.
 bool AbstractMainWindow::showSimulatorSettings() {
-    return !options()->hideSimulatorMenu || user()->isAdministrator();
+    return !options_->hideSimulatorMenu || user()->isAdministrator();
 }
 
 void AbstractMainWindow::updateWindowTitle(const QString& title) {

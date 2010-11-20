@@ -96,7 +96,6 @@ protected:
     bool eventFilter(QObject*, QEvent*);
     void closeEvent(QCloseEvent*);
     void resizeEvent(QResizeEvent*);
-    virtual EpCore::Options* options() const {return options_;}
 
 signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
@@ -195,7 +194,7 @@ private:
     EpStudy::StudyConfiguration* studyConfig_;
     EpPatient::Patient* patient_;
     EpCore::User* user_;            // owned by Navigator
-    EpCore::Options* options_;      // owned by Navigator
+    //EpCore::Options* options_;      // owned by Navigator
 
     // hardware
     EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;

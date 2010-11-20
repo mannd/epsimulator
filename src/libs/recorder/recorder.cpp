@@ -89,27 +89,25 @@ Recorder::Recorder(QWidget* parent,
                    User* user,
                    Options* options,
                    bool allowAcquisition,
-                   RecorderWindow recorderWindow)
-                   : 
-                   AbstractMainWindow(parent),
-                   openDisplayWindowList_(LastDisplayWindow + 1),
-                   study_(study), 
-                   studyConfig_(0),
-                   patient_(0),
-                   user_(user),
-                   options_(options),
-                   currentDisk_(currentDisk),
-                   amplifier_(),
-                   allowAcquisition_(allowAcquisition),
-                   recorderWindow_(recorderWindow),
-                   realTimeWindow_(0),
-                   review1Window_(0),
-                   review2Window_(0),
-                   logWindow_(0),
-                   realTimeSubWindow_(0),
-                   review1SubWindow_(0),
-                   review2SubWindow_(0),
-                   logSubWindow_(0) {
+                   RecorderWindow recorderWindow) 
+    : AbstractMainWindow(options, parent),
+      openDisplayWindowList_(LastDisplayWindow + 1),
+      study_(study), 
+      studyConfig_(0),
+      patient_(0),
+      user_(user),
+      currentDisk_(currentDisk),
+      amplifier_(),
+      allowAcquisition_(allowAcquisition),
+      recorderWindow_(recorderWindow),
+      realTimeWindow_(0),
+      review1Window_(0),
+      review2Window_(0),
+      logWindow_(0),
+      realTimeSubWindow_(0),
+      review1SubWindow_(0),
+      review2SubWindow_(0),
+      logSubWindow_(0) {
     Q_ASSERT(parent != 0);  // never call Recorder without parent
     Q_ASSERT(study_ != 0);  // should never be called with a null Study
 
@@ -118,7 +116,7 @@ Recorder::Recorder(QWidget* parent,
     if (recorderWindow_ == Primary &&
         options_->screenFlags.testFlag(Options::TwoRecorderWindows)) {
         Recorder* recorder = new Recorder(this, study_, 
-            currentDisk_, user_, options_, false, Secondary);
+                                          currentDisk_, user_, options_, false, Secondary);
         recorder->restore();
     }
 
@@ -126,12 +124,12 @@ Recorder::Recorder(QWidget* parent,
     loadStudyConfiguration();
     // applyProtocol(study_->studyConfiguration()->currentProtocol();
     qDebug() << "Study configuration name = "
-            << study_->studyConfiguration()->name();
+             << study_->studyConfiguration()->name();
     qDebug() << "Protocol name = "
-            << study_->studyConfiguration()->currentProtocol().name();
+             << study_->studyConfiguration()->currentProtocol().name();
     qDebug() << "Window Settings = "
-            << study_->studyConfiguration()->currentProtocol().windowSetting()
-            .name();
+             << study_->studyConfiguration()->currentProtocol().windowSetting()
+        .name();
     loadPatient();
 
     // must build menus and toolbars before creating the central widget,
@@ -146,18 +144,18 @@ Recorder::Recorder(QWidget* parent,
     // connect(parent, SIGNAL(opticalDiskChanged(OpticalDisk*)),
     //    this, SLOT(changeOpticalDisk(OpticalDisk*)));
     connect(patientStatusBar_, SIGNAL(manualSave(bool)),
-        this, SLOT(setManualSave(bool)));
+            this, SLOT(setManualSave(bool)));
     connect(this, SIGNAL(emergencySave(bool)),
-        this, SLOT(setEmergencySave(bool)));
+            this, SLOT(setEmergencySave(bool)));
     connect(patientStatusBar_, SIGNAL(showPatientInformation()),
-        this, SLOT(patientInformation()));
+            this, SLOT(patientInformation()));
     connect(centralWidget_, SIGNAL(subWindowActivated(QMdiSubWindow*)),
-        this, SLOT(updateMenus()));
+            this, SLOT(updateMenus()));
     connect(this, SIGNAL(patientInformationClosed()),
-        patientStatusBar_, SLOT(patientInformationClosed()));
+            patientStatusBar_, SLOT(patientInformationClosed()));
 
     connect(this, SIGNAL(displayWindowResized(QWidget*)),
-        this, SLOT(resizeDisplayWindows(QWidget*)));
+            this, SLOT(resizeDisplayWindows(QWidget*)));
 
     /// TODO
     // if (recorderWindow_ == Secondary) {

@@ -88,11 +88,10 @@ using EpNavigator::StatusBar;
 
 using namespace EpHardware::EpOpticalDisk;
 
-Navigator::Navigator(QWidget* parent) : AbstractMainWindow(parent),
+Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(), parent),
                                         filterCatalogDialog_(0),
                                         currentDisk_(0),
-                                        user_(User::instance()),
-                                        options_(Options::instance()) {
+                                        user_(User::instance()) {
     setAttribute(Qt::WA_DeleteOnClose);
     setMinimumWidth(800);
     options_->load();
