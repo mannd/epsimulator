@@ -60,7 +60,7 @@ static bool createConnection() {
 	QString networkDbFilePath = EpCore::joinPaths(options->networkStudyPath,
 						      dbFileName);
 	if (!QFile::exists(networkDbFilePath)) {
-	    QMessageBox::information(0, QObject::tr("Database Error"),
+	    QMessageBox::warning(0, QObject::tr("Database Error"),
 				     QObject::tr("Cannot find Network "
 						 "Database file. "
 						 "Will use local "

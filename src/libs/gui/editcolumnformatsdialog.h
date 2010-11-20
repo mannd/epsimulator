@@ -32,7 +32,7 @@ class EditColumnFormatsDialog : public AbstractEditItemsDialog {
 public:
     enum {
         ColumnFormat_Id = 0,
-        ColumnFormat_Name = 1,
+        ColumnFormat_Name = 1
     };
     EditColumnFormatsDialog(QWidget* parent = 0);
 
@@ -41,6 +41,7 @@ private:
     virtual void removeItem();
     virtual void editItem(EditorType);
     virtual void copyItem();
+
     QSqlTableModel* model_;
 };
 

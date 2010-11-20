@@ -52,8 +52,6 @@ EditIntervalsDialog::EditIntervalsDialog(QWidget* parent)
 
     listView->setModel(model_);
     listView->setModelColumn(Interval_Name);
-    listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    listView->setFocus();
 }
 
 void EditIntervalsDialog::removeItem() {

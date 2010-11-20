@@ -32,6 +32,9 @@ AbstractEditItemsDialog::AbstractEditItemsDialog(const QString& title,
     setupUi(this);
     setWindowTitle(title);
 
+    listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    listView->setFocus();
+
     connect(newButton, SIGNAL(clicked()), this, SLOT(insert()));
     connect(editButton, SIGNAL(clicked()), this, SLOT(edit()));
     connect(copyButton, SIGNAL(clicked()), this, SLOT(copy()));

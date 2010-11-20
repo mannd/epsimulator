@@ -16,6 +16,7 @@ CREATE TABLE ColumnFormats (ColumnFormatID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE ColumnFormatInterval (ColumnFormatID INTEGER NOT NULL
        REFERENCES ColumnFormats, IntervalID INTEGER NOT NULL
        REFERENCES Intervals, SortOrder Integer NOT NULL);
+CREATE TABLE Protocols (ProtocolID INTEGER PRIMARY KEY, Name TEXT);
 
 BEGIN TRANSACTION;
 INSERT INTO ArrhythmiaTolerances (Name) VALUES ("SOB");
@@ -191,7 +192,14 @@ INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES 
 INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 20, 13);
 INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 21, 14);
 
+INSERT INTO Protocols (ProtocolID, Name) VALUES (1, "BASELINE");
+INSERT INTO Protocols (ProtocolID, Name) VALUES (2, "A PACE");
+INSERT INTO Protocols (ProtocolID, Name) VALUES (3, "V PACE");
+INSERT INTO Protocols (ProtocolID, Name) VALUES (4, "IMPLANT/TILT");
+INSERT INTO Protocols (ProtocolID, Name) VALUES (5, "ABLATION");
+INSERT INTO Protocols (ProtocolID, Name) VALUES (6, "RVOT");
+INSERT INTO Protocols (ProtocolID, Name) VALUES (7, "AEST");
+INSERT INTO Protocols (ProtocolID, Name) VALUES (8, "RAP");
+INSERT INTO Protocols (ProtocolID, Name) VALUES (10, "VEST");
+
 COMMIT TRANSACTION;
-
-
-

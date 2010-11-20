@@ -25,23 +25,29 @@
 
 #include "studyconfiguration.h"
 
+class QSqlTableModel;
+
 namespace EpGui {
 
 class EditProtocolsDialog : public AbstractEditItemsDialog {
     Q_OBJECT
 public:
+    enum {
+        Protocol_Id = 0,
+        Protocol_Name = 1
+    };
     EditProtocolsDialog(QWidget* parent = 0);
 
-    EpCore::ItemList<EpStudy::Protocol> protocols() {
-        return protocols_;}
+    // EpCore::ItemList<EpStudy::Protocol> protocols() {
+        // return protocols_;}
 
 private:
-    void createListWidget();
-    void removeItem();
-    void editItem(EditorType);
-    void copyItem(const QList<QListWidgetItem *>&);
+    //void createListWidget();
+    virtual void removeItem();
+    virtual void editItem(EditorType);
+    virtual void copyItem();
 
-    EpCore::ItemList<EpStudy::Protocol> protocols_;
+    QSqlTableModel* model_; 
 };
 
 }

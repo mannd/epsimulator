@@ -25,7 +25,7 @@
 #include "coreconstants.h"
 #include "editintervalsdialog.h"
 #include "editcolumnformatsdialog.h"
-//#include "editprotocolsdialog.h"
+#include "editprotocolsdialog.h"
 #include "error.h"
 #include "fileutilities.h"
 #include "opticaldisk.h"
@@ -90,7 +90,7 @@ void AbstractMainWindow::changeDatabase() {
         db.setUserName(EPSIM_DB_USERNAME);
         db.setPassword(EPSIM_DB_PASSWORD);
         if (!db.open()) {
-	    QMessageBox::information(0, QObject::tr("Database Error"),
+	    QMessageBox::warning(0, QObject::tr("Database Error"),
 				     QObject::tr("Cannot open Network "
 						 "Database file. "
 						 "Will use local "
@@ -204,9 +204,6 @@ void AbstractMainWindow::setIntervals() {
     if (administrationAllowed()) {
         EditIntervalsDialog d(this);
         d.exec();
-        // if (d.exec()) {
-        //     d.intervals().update();
-        //}
     }
 }
 
@@ -214,20 +211,14 @@ void AbstractMainWindow::setColumnFormats() {
     if (administrationAllowed()) {
         EditColumnFormatsDialog d(this);
         d.exec();
-    //     // if (d.exec()) {
-    //     //     d.columnFormats().update();
-    //     // }
     }
 }
 
 void AbstractMainWindow::setProtocols() {
-    // if (administrationAllowed()) {
-    //     EditProtocolsDialog d(this);
-    //     d.exec();
-    //     // if (d.exec()) {
-    //     //     d.protocols().update();
-    //     // }
-    //    }
+    if (administrationAllowed()) {
+        EditProtocolsDialog d(this);
+        d.exec();
+    }
 }
 
 /// Checks to see if administrator access if required, if it is,

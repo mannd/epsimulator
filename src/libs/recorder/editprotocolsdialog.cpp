@@ -22,61 +22,71 @@
 
 #include "editprotocoldialog.h"
 
+#include <QSqlRecord>
+#include <QSqlTableModel>
+
 using EpGui::EditProtocolDialog;
 using EpGui::EditProtocolsDialog;
 
 EditProtocolsDialog::EditProtocolsDialog(QWidget* parent)
     : AbstractEditItemsDialog(tr("Protocols"), parent) {
     showCopyButton(true);
-    createListWidget();
+
+    model_ = new QSqlTableModel(this);
+    model_->setTable("Protocols");
+    model_->select();
+
+    listView->setModel(model_);
+    listView->setModelColumn(Protocol_Name);
 }
 
-void EditProtocolsDialog::createListWidget() {
-    createListWidgetItems(protocols_);
-}
+// void EditProtocolsDialog::createListWidget() {
+//     createListWidgetItems(protocols_);
+// }
 
 void EditProtocolsDialog::removeItem() {
-    removeItemFromList(protocols_);
+    AbstractEditItemsDialog::removeItem(model_);
 }
 
-/// TODO maybe can templatize duplicate code here and
-/// in editcolumnformatsdialog.cpp.
 void EditProtocolsDialog::editItem(EditorType type) {
     if (type == EditItem && selectionIsEmpty()) {
         selectionIsEmptyWarning();
         return;
     }
+    QModelIndex index = listView->currentIndex();
+    QSqlRecord record = model_->record(index.row());
+    int id = record.value(Protocol_Id).toInt();
     EditProtocolDialog d(type, this);
-    QString protocolName;
-    if (type == EditItem) {
-        protocolName = listWidget->currentItem()->text();
-        d.setProtocol(protocols_[protocolName]);
-    }
-    if (d.exec()) {
-        EpStudy::Protocol protocol = d.protocol();
-        if (itemIsDuplicated(type, protocolName, protocol, protocols_))
-            return;
-        if (type == NewItem)
-            protocols_.append(d.protocol());
-        else if (type == EditItem)
-            protocols_[protocolName] = d.protocol();
-        createListWidget();
-    }
+    // QString protocolName;
+    // if (type == EditItem) {
+    //     protocolName = listWidget->currentItem()->text();
+    //     d.setProtocol(protocols_[protocolName]);
+    // }
+    // if (d.exec()) {
+    //     EpStudy::Protocol protocol = d.protocol();
+    //     if (itemIsDuplicated(type, protocolName, protocol, protocols_))
+    //         return;
+    //     if (type == NewItem)
+    //         protocols_.append(d.protocol());
+    //     else if (type == EditItem)
+    //         protocols_[protocolName] = d.protocol();
+    //     createListWidget();
+    //}
 }
 
-void EditProtocolsDialog::copyItem(const QList<QListWidgetItem*>& selectedItems) {
-    QString name = selectedItems[0]->text();
-    EpStudy::Protocol protocol = protocols_[name];
-    name = tr("Copy of %1").arg(name);
-    protocol.setName(name);
-    int n = 1;
-    QString originalName = name;
-    while (protocols_.duplicate(protocol)) {
-        name = originalName + QString::number(n++);
-        protocol.setName(name);
-    }
-    protocols_.append(protocol);
-    editCopiedItem(name);
+void EditProtocolsDialog::copyItem() {
+    // QString name = selectedItems[0]->text();
+//     EpStudy::Protocol protocol = protocols_[name];
+//     name = tr("Copy of %1").arg(name);
+//     protocol.setName(name);
+//     int n = 1;
+//     QString originalName = name;
+//     while (protocols_.duplicate(protocol)) {
+//         name = originalName + QString::number(n++);
+//         protocol.setName(name);
+//     }
+//     protocols_.append(protocol);
+//     editCopiedItem(name);
 }
 
 

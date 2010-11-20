@@ -24,6 +24,8 @@
 #include "editcolumnformatdialog.h"
 #include "interval.h"
 
+#include <QMessageBox>
+#include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlTableModel>
@@ -44,8 +46,6 @@ EditColumnFormatsDialog::EditColumnFormatsDialog(QWidget* parent)
 
     listView->setModel(model_);
     listView->setModelColumn(ColumnFormat_Name);
-    listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    listView->setFocus();
 }
 
 void EditColumnFormatsDialog::editItem(EditorType type) {
@@ -61,6 +61,11 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
                     "JOIN Intervals USING (IntervalID) "
                     "WHERE ColumnFormatInterval.ColumnFormatID = %1 "
                               "ORDER BY SortOrder").arg(id));
+    if (!query.isActive()) {
+        QMessageBox::warning(this, tr("Database Error"),
+                             query.lastError().text());
+        return;
+    }
     QList<EpCore::Interval> intervals;
     while (query.next()) {
         QString value = query.value(0).toString();
