@@ -181,17 +181,17 @@ void AbstractMainWindow::about() {
 }
 
 void AbstractMainWindow::login() {
-    if (!user()->isAdministrator()) {
+    if (!user_->isAdministrator()) {
         PasswordDialog pwDialog(options_->passwordHash, this);
         if (pwDialog.exec() == QDialog::Accepted) {
-            user()->setIsAdministrator(true);
+            user_->setIsAdministrator(true);
             updateAll();
         }
     }
 }
 
 void AbstractMainWindow::logout() {
-    user()->setIsAdministrator(false);
+    user_->setIsAdministrator(false);
     updateAll();
 }
 
@@ -233,19 +233,19 @@ bool AbstractMainWindow::administrationAllowed() {
     if (!options_->administratorAccountRequired)
         return true;
     login();
-    return user()->isAdministrator();
+    return user_->isAdministrator();
 }
 
 /// Shows the *Simulator Settings* menu item.
 bool AbstractMainWindow::showSimulatorSettings() {
-    return !options_->hideSimulatorMenu || user()->isAdministrator();
+    return !options_->hideSimulatorMenu || user_->isAdministrator();
 }
 
 void AbstractMainWindow::updateWindowTitle(const QString& title) {
     const QString appTitle(QObject::tr("EP Simulator"));
     QString windowTitle = title.isEmpty() ? appTitle :
         QString("%1 %2").arg(appTitle).arg(title);
-    windowTitle = user()->isAdministrator() ? 
+    windowTitle = user_->isAdministrator() ? 
         QString("%1 %2").arg(windowTitle).arg(QObject::tr("[Administrator]")) 
         : windowTitle;
     setWindowTitle(windowTitle);

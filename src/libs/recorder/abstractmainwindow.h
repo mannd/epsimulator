@@ -56,7 +56,6 @@ public slots:
     virtual void updateAll() = 0;
 
 protected:
-    virtual EpCore::User* user() const {return user_;}
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const = 0;
     virtual void updateSimulatorSettings() = 0;
     virtual void updateSystemSettings() = 0;
