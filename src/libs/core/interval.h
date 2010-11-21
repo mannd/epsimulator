@@ -23,11 +23,6 @@
 
 #include "mark.h"
 
-#include <QCoreApplication>
-#include <QtCore/QAbstractListModel>
-#include <QtCore/QList>
-#include <QtCore/QString>
-
 class QDataStream;
 
 namespace EpCore {

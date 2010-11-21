@@ -20,11 +20,7 @@
 
 #include "interval.h"
 
-#include "fileutilities.h"
-#include "options.h"
-
 #include <QDataStream>
-#include <QStringList>
 
 namespace EpCore {
 
@@ -44,7 +40,7 @@ bool operator<(const Interval& value1, const Interval& value2) {
     return value1.name() < value2.name();
 }
 
-}
+} // namespace EpCore
 
 using EpCore::Interval;
 using EpCore::Mark;

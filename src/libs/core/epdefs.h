@@ -53,7 +53,6 @@ namespace Ep {
         return std::abs(60000 / rate);
     }
 
-
-}
+} // namespace Ep
 
 #endif

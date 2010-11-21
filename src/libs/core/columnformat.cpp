@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "columnformat.h"
+
 #include "interval.h"
 
 #include <QDataStream>
@@ -26,20 +27,21 @@
 
 namespace EpCore {
 
-    QDataStream& operator<<(QDataStream& out, const ColumnFormat& cf) {
-        out << cf.name_ << cf.intervals_;
-        return out;
-    }
-
-    QDataStream& operator>>(QDataStream& in, ColumnFormat& cf) {
-        in >> cf.name_ >> cf.intervals_;
-        return in;
-    }
-
-    bool operator<(const ColumnFormat& value1, const ColumnFormat& value2) {
-        return value1.name_ < value2.name_;
-    }
+QDataStream& operator<<(QDataStream& out, const ColumnFormat& cf) {
+    out << cf.name_ << cf.intervals_;
+    return out;
 }
+
+QDataStream& operator>>(QDataStream& in, ColumnFormat& cf) {
+    in >> cf.name_ >> cf.intervals_;
+    return in;
+}
+
+bool operator<(const ColumnFormat& value1, const ColumnFormat& value2) {
+    return value1.name_ < value2.name_;
+}
+
+} // namespace EpCore
 
 using EpCore::ColumnFormat;
 using EpCore::Interval;

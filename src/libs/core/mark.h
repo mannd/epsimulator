@@ -21,9 +21,9 @@
 #ifndef MARK_H
 #define MARK_H
 
-#include <QtCore/QPoint>
-#include <QtCore/QString>
-#include <QMap>     // Qt Creator flags QMap if #include <QtCore/QMap> ???
+#include <QMap>
+#include <QPoint>
+#include <QString>
 
 class QStringList;
 
