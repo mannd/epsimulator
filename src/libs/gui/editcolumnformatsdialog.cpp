@@ -57,10 +57,10 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
     QSqlRecord record = model_->record(index.row());
     int id = record.value(ColumnFormat_Id).toInt();
     QSqlQuery query(QString("SELECT Intervals.Name FROM ColumnFormats "
-                    "JOIN ColumnFormatInterval USING (ColumnFormatID) "
-                    "JOIN Intervals USING (IntervalID) "
-                    "WHERE ColumnFormatInterval.ColumnFormatID = %1 "
-                              "ORDER BY SortOrder").arg(id));
+                            "JOIN ColumnFormatInterval USING (ColumnFormatID) "
+                            "JOIN Intervals USING (IntervalID) "
+                            "WHERE ColumnFormatInterval.ColumnFormatID = %1 "
+                            "ORDER BY SortOrder").arg(id));
     if (!query.isActive()) {
         QMessageBox::warning(this, tr("Database Error"),
                              query.lastError().text());
@@ -88,7 +88,8 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
         int row = index.row();
         if (type == NewItem)
             model_->insertRows(row, 1);
-        model_->setData(model_->index(row, ColumnFormat_Name), columnFormat.name());
+        model_->setData(model_->index(row, ColumnFormat_Name), 
+                        columnFormat.name());
         model_->submitAll();
         model_->select();
         QSqlTableModel updateModel;
@@ -108,12 +109,15 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
         QSqlDatabase::database().transaction();
         while (iter.hasNext()) {
             QSqlQuery lookup(QString("SELECT IntervalID FROM Intervals "
-                                     "WHERE Name = '%1'").arg(iter.next().name()));
+                                     "WHERE Name = '%1'")
+                             .arg(iter.next().name()));
             int lookupId;
             while (lookup.next()) {
                 lookupId = lookup.value(0).toInt();
-                QSqlQuery insertQuery(QString("INSERT INTO ColumnFormatInterval "
-                                              "(ColumnFormatID, IntervalID, SortOrder) "
+                QSqlQuery insertQuery(QString("INSERT INTO "
+                                              "ColumnFormatInterval "
+                                              "(ColumnFormatID, "
+                                              "IntervalID, SortOrder) "
                                               "VALUES (%1, %2, %3)")
                                       .arg(newId).arg(lookupId).arg(i++));
             }
@@ -123,33 +127,32 @@ void EditColumnFormatsDialog::editItem(EditorType type) {
 }
 
 void EditColumnFormatsDialog::copyItem() {
-   QModelIndex index = listView->currentIndex();
-   QSqlRecord record = model_->record(index.row());
-   QString name = record.value(ColumnFormat_Name).toString();
-   int id = record.value(ColumnFormat_Id).toInt();
-   name = tr("Copy of %1").arg(name);
-   int lastRow = model_->rowCount();
-   model_->insertRow(lastRow);
-   index = model_->index(lastRow, ColumnFormat_Name);
-   listView->setCurrentIndex(index);
-   model_->setData(index, name);
-   model_->submitAll();
-   QSqlRecord newRecord = model_->record(index.row());
-   int newId = newRecord.value(0).toInt();
-   qDebug() << id;
-   qDebug() << newId;
-   QSqlQuery query(QString("SELECT * FROM ColumnFormatInterval "
-                           "WHERE ColumnFormatInterval.ColumnFormatID = %1 ").arg(id));
-   QSqlQuery insertQuery;
-   QSqlDatabase::database().transaction();
-   while (query.next()) {
-       insertQuery.exec(QString("INSERT INTO ColumnFormatInterval "
+    QModelIndex index = listView->currentIndex();
+    QSqlRecord record = model_->record(index.row());
+    QString name = record.value(ColumnFormat_Name).toString();
+    int id = record.value(ColumnFormat_Id).toInt();
+    name = tr("Copy of %1").arg(name);
+    int lastRow = model_->rowCount();
+    model_->insertRow(lastRow);
+    index = model_->index(lastRow, ColumnFormat_Name);
+    listView->setCurrentIndex(index);
+    model_->setData(index, name);
+    model_->submitAll();
+    QSqlRecord newRecord = model_->record(index.row());
+    int newId = newRecord.value(0).toInt();
+    QSqlQuery query(QString("SELECT * FROM ColumnFormatInterval "
+                            "WHERE ColumnFormatInterval.ColumnFormatID = %1 ").arg(id));
+    QSqlQuery insertQuery;
+    QSqlDatabase::database().transaction();
+    while (query.next()) {
+        insertQuery.exec(QString("INSERT INTO ColumnFormatInterval "
                                  "(ColumnFormatID, IntervalID, SortOrder) "
-                                "VALUES (%1, %2, %3)").arg(newId).arg(query.value(1).toInt())
-                        .arg(query.value(2).toInt()));
+                                 "VALUES (%1, %2, %3)")
+                         .arg(newId).arg(query.value(1).toInt())
+                         .arg(query.value(2).toInt()));
        
-   }
-   QSqlDatabase::database().commit();
+    }
+    QSqlDatabase::database().commit();
 }
 
 void EditColumnFormatsDialog::removeIntervals() {

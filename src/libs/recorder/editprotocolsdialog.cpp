@@ -22,8 +22,12 @@
 
 #include "editprotocoldialog.h"
 
+#include <QSqlQuery>
 #include <QSqlRecord>
-#include <QSqlTableModel>
+#include <QSqlRelation>
+#include <QSqlRelationalTableModel>
+
+#include <QtDebug>
 
 using EpGui::EditProtocolDialog;
 using EpGui::EditProtocolsDialog;
@@ -32,17 +36,42 @@ EditProtocolsDialog::EditProtocolsDialog(QWidget* parent)
     : AbstractEditItemsDialog(tr("Protocols"), parent) {
     showCopyButton(true);
 
-    model_ = new QSqlTableModel(this);
+    model_ = new QSqlRelationalTableModel(this);
     model_->setTable("Protocols");
+    model_->setRelation(Protocol_SenseChannelLabelID,
+                        QSqlRelation("ChannelLabels",
+                                     "ChannelLabelID",
+                                     "Name"));
+    model_->setRelation(Protocol_ColumnFormatID,
+                        QSqlRelation("ColumnFormats",
+                                     "ColumnFormatID",
+                                     "Name"));
+    model_->setRelation(Protocol_WindowSettingID,
+                        QSqlRelation("WindowSettings",
+                                     "WindowSettingID",
+                                     "Name"));
+    model_->setRelation(Protocol_MacroCategoryID,
+                        QSqlRelation("MacroCategories",
+                                     "MacroCategoryID",
+                                     "Name"));
+    model_->setRelation(Protocol_UpdateReviewWindowID,
+                        QSqlRelation("OnOff",
+                                     "OnOffID",
+                                     "Name"));
+    model_->setRelation(Protocol_FocalPointID,
+                        QSqlRelation("FocalPoints",
+                                     "FocalPointID",
+                                     "Name"));
+    model_->setRelation(Protocol_DisplayPageID,
+                        QSqlRelation("DisplayPages",
+                                     "DisplayPageID",
+                                     "Name"));
+
     model_->select();
 
     listView->setModel(model_);
     listView->setModelColumn(Protocol_Name);
 }
-
-// void EditProtocolsDialog::createListWidget() {
-//     createListWidgetItems(protocols_);
-// }
 
 void EditProtocolsDialog::removeItem() {
     AbstractEditItemsDialog::removeItem(model_);
@@ -54,39 +83,41 @@ void EditProtocolsDialog::editItem(EditorType type) {
         return;
     }
     QModelIndex index = listView->currentIndex();
-    QSqlRecord record = model_->record(index.row());
-    int id = record.value(Protocol_Id).toInt();
-    EditProtocolDialog d(type, this);
-    // QString protocolName;
-    // if (type == EditItem) {
-    //     protocolName = listWidget->currentItem()->text();
-    //     d.setProtocol(protocols_[protocolName]);
-    // }
-    // if (d.exec()) {
-    //     EpStudy::Protocol protocol = d.protocol();
-    //     if (itemIsDuplicated(type, protocolName, protocol, protocols_))
-    //         return;
-    //     if (type == NewItem)
-    //         protocols_.append(d.protocol());
-    //     else if (type == EditItem)
-    //         protocols_[protocolName] = d.protocol();
-    //     createListWidget();
-    //}
+    int row = index.row();
+    EditProtocolDialog d(type, model_, row, this);
+    d.exec();
 }
 
 void EditProtocolsDialog::copyItem() {
-    // QString name = selectedItems[0]->text();
-//     EpStudy::Protocol protocol = protocols_[name];
-//     name = tr("Copy of %1").arg(name);
-//     protocol.setName(name);
-//     int n = 1;
-//     QString originalName = name;
-//     while (protocols_.duplicate(protocol)) {
-//         name = originalName + QString::number(n++);
-//         protocol.setName(name);
-//     }
-//     protocols_.append(protocol);
-//     editCopiedItem(name);
+    // Don't use the model here, it doesn't give you
+    // the foreign keys you need to do this!
+    QModelIndex index = listView->currentIndex();
+    if (!index.isValid())
+        return;
+    QSqlRecord record = model_->record(index.row());
+    int id = record.value(Protocol_Id).toInt();
+    QSqlQuery query(QString("SELECT * FROM Protocols WHERE ProtocolID "
+                            "= %1").arg(id));
+    while (query.next()) {
+        QString name = query.value(Protocol_Name).toString();
+        name = tr("Copy of %1").arg(name);
+        int senseChannelLabelID = query.value(Protocol_SenseChannelLabelID).toInt();
+        int columnFormatID = query.value(Protocol_ColumnFormatID).toInt();
+        int windowSettingID = query.value(Protocol_WindowSettingID).toInt();
+        int macroCategoryID = query.value(Protocol_MacroCategoryID).toInt();
+        int updateReviewWindowID = query.value(Protocol_UpdateReviewWindowID).toInt();
+        int focalPointID = query.value(Protocol_FocalPointID).toInt();
+        int displayPageID = query.value(Protocol_DisplayPageID).toInt();
+        QSqlQuery insertQuery(QString("INSERT INTO Protocols (Name, SenseChannelLabelID, "
+                                      "ColumnFormatID, WindowSettingID, "
+                                      "MacroCategoryID, UpdateReviewWindowID, "
+                                      "FocalPointID, DisplayPageID) VALUES "
+                                      "('%1', %2, %3, %4, %5, %6, %7, %8)")
+                              .arg(name).arg(senseChannelLabelID).arg(columnFormatID)
+                              .arg(windowSettingID).arg(macroCategoryID)
+                              .arg(updateReviewWindowID).arg(focalPointID)
+                              .arg(displayPageID));
+        Q_ASSERT(insertQuery.isActive());
+    }
+    model_->select();
 }
-
-

@@ -25,7 +25,7 @@
 
 #include "studyconfiguration.h"
 
-class QSqlTableModel;
+class QSqlRelationalTableModel;
 
 namespace EpGui {
 
@@ -34,21 +34,25 @@ class EditProtocolsDialog : public AbstractEditItemsDialog {
 public:
     enum {
         Protocol_Id = 0,
-        Protocol_Name = 1
+        Protocol_Name = 1,
+        Protocol_SenseChannelLabelID = 2,
+        Protocol_ColumnFormatID = 3,
+        Protocol_WindowSettingID = 4,
+        Protocol_MacroCategoryID = 5,
+        Protocol_UpdateReviewWindowID = 6,
+        Protocol_FocalPointID = 7,
+        Protocol_DisplayPageID = 8
     };
     EditProtocolsDialog(QWidget* parent = 0);
 
-    // EpCore::ItemList<EpStudy::Protocol> protocols() {
-        // return protocols_;}
-
 private:
-    //void createListWidget();
     virtual void removeItem();
     virtual void editItem(EditorType);
     virtual void copyItem();
 
-    QSqlTableModel* model_; 
+    QSqlRelationalTableModel* model_; 
 };
 
-}
+} // namespace EpGuid
+
 #endif // EDITPROTOCOLSDIALOG_H

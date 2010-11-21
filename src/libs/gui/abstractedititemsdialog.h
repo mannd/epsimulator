@@ -34,6 +34,7 @@ class AbstractEditItemsDialog : public QDialog,
     Q_OBJECT
 public:
     enum EditorType {NewItem, EditItem, CopyItem};
+    enum {Column_Id, Column_Name};
     AbstractEditItemsDialog(const QString& title,
                             QWidget* parent = 0);
 

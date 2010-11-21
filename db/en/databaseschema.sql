@@ -16,7 +16,20 @@ CREATE TABLE ColumnFormats (ColumnFormatID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE ColumnFormatInterval (ColumnFormatID INTEGER NOT NULL
        REFERENCES ColumnFormats, IntervalID INTEGER NOT NULL
        REFERENCES Intervals, SortOrder Integer NOT NULL);
-CREATE TABLE Protocols (ProtocolID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE ChannelLabels (ChannelLabelID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE WindowSettings (WindowSettingID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE MacroCategories (MacroCategoryID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE OnOff (OnOffID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE FocalPoints (FocalPointID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE DisplayPages (DisplayPageID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE Protocols (ProtocolID INTEGER PRIMARY KEY, Name TEXT,
+       SenseChannelLabelID INTEGER NOT NULL REFERENCES ChannelLabels,
+       ColumnFormatID INTEGER NOT NULL REFERENCES ColumnFormats,
+       WindowSettingID INTEGER NOT NULL REFERENCES WindowSettings,
+       MacroCategoryID INTEGER NOT NULL REFERENCES MacroCategories,
+       UpdateReviewWindowID INTEGER NOT NULL REFERENCES OnOff,
+       FocalPointID INTEGER NOT NULL REFERENCES FocalPoints,
+       DisplayPageID INTEGER NOT NULL REFERENCES DisplayPages);
 
 BEGIN TRANSACTION;
 INSERT INTO ArrhythmiaTolerances (Name) VALUES ("SOB");
@@ -192,14 +205,61 @@ INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES 
 INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 20, 13);
 INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 21, 14);
 
-INSERT INTO Protocols (ProtocolID, Name) VALUES (1, "BASELINE");
-INSERT INTO Protocols (ProtocolID, Name) VALUES (2, "A PACE");
-INSERT INTO Protocols (ProtocolID, Name) VALUES (3, "V PACE");
-INSERT INTO Protocols (ProtocolID, Name) VALUES (4, "IMPLANT/TILT");
-INSERT INTO Protocols (ProtocolID, Name) VALUES (5, "ABLATION");
-INSERT INTO Protocols (ProtocolID, Name) VALUES (6, "RVOT");
-INSERT INTO Protocols (ProtocolID, Name) VALUES (7, "AEST");
-INSERT INTO Protocols (ProtocolID, Name) VALUES (8, "RAP");
-INSERT INTO Protocols (ProtocolID, Name) VALUES (10, "VEST");
+INSERT INTO ChannelLabels (ChannelLabelID, Name) VALUES (1, "HRA");
+INSERT INTO ChannelLabels (ChannelLabelID, Name) VALUES (2, "HRA-d");
+-- insert more labels here
+
+INSERT INTO WindowSettings (WindowSettingID, Name) VALUES (1, "BASELINE");
+-- insert more window settings here
+
+INSERT INTO MacroCategories (MacroCategoryID, Name) VALUES (1, "BASELINE");
+-- insert more macro categories here
+
+INSERT INTO OnOff (OnOffID, Name) VALUES (0, "Off");
+INSERT INTO OnOff (OnOffID, Name) VALUES (1, "On");
+
+INSERT INTO FocalPoints (FocalPointID, Name) VALUES (0, "Left");
+INSERT INTO FocalPoints (FocalPointID, Name) VALUES (1, "1/4");
+INSERT INTO FocalPoints (FocalPointID, Name) VALUES (2, "Center");
+INSERT INTO FocalPoints (FocalPointID, Name) VALUES (3, "3/4");
+INSERT INTO FocalPoints (FocalPointID, Name) VALUES (4, "Right");
+
+INSERT INTO DisplayPages (DisplayPageID, Name) VALUES (1, "Page 1");
+INSERT INTO DisplayPages (DisplayPageID, Name) VALUES (2, "Page 2");
+INSERT INTO DisplayPages (DisplayPageID, Name) VALUES (3, "Page 3");
+INSERT INTO DisplayPages (DisplayPageID, Name) VALUES (4, "Page 4");
+INSERT INTO DisplayPages (DisplayPageID, Name) VALUES (5, "Page 5");
+INSERT INTO DisplayPages (DisplayPageID, Name) VALUES (6, "Page 6");
+INSERT INTO DisplayPages (DisplayPageID, Name) VALUES (7, "Page 7");
+INSERT INTO DisplayPages (DisplayPageID, Name) VALUES (8, "Page 8");
+
+
+INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
+       WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
+       VALUES (1, "BASELINE", 1, 1, 1, 1, 0, 1, 1);
+INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
+       WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
+       VALUES (2, "A PACE", 1, 1, 1, 1, 0, 1, 1);
+INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
+       WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
+       VALUES (3, "V PACE", 1, 1, 1, 1, 0, 1, 1);
+INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
+       WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
+       VALUES (4, "IMPLANT/TILT", 1, 1, 1, 1, 0, 1, 1);
+INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
+       WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
+       VALUES (5, "ABLATION", 1, 1, 1, 1, 0, 1, 1);
+INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
+       WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
+       VALUES (6, "RVOT", 1, 1, 1, 1, 0, 1, 1);
+INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
+       WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
+       VALUES (7, "AEST", 1, 1, 1, 1, 0, 1, 1);
+INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
+       WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
+       VALUES (8, "RAP", 1, 1, 1, 1, 0, 1, 1);
+INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
+       WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
+       VALUES (10, "VEST", 1, 1, 1, 1, 0, 1, 1);
 
 COMMIT TRANSACTION;

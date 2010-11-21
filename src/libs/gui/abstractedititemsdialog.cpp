@@ -22,6 +22,7 @@
 
 #include <QMessageBox>
 #include <QSqlDatabase>
+#include <QSqlRecord>
 #include <QSqlTableModel>
 
 using EpGui::AbstractEditItemsDialog;

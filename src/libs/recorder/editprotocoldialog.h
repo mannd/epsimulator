@@ -24,9 +24,9 @@
 #include "ui_editprotocoldialog.h"
 
 #include "abstractedititemsdialog.h"
-#include "itemlist.h"
-#include "studyconfiguration.h"
-#include "windowsetting.h"
+
+class QDataWidgetMapper;
+class QSqlRelationalTableModel;
 
 namespace EpGui {
 
@@ -34,18 +34,19 @@ class EditProtocolDialog : public QDialog, private Ui::EditProtocolDialog {
     Q_OBJECT
 public:
     EditProtocolDialog(AbstractEditItemsDialog::EditorType,
+                       QSqlRelationalTableModel* model,
+                       int row,
                        QWidget *parent = 0);
-    void setProtocol(const EpStudy::Protocol&);
-    EpStudy::Protocol protocol() const;
+public slots:
+    virtual void accept();
 
 private slots:
-    void enableOkButton(const QString&);
+    void enableOkButton();
 
 private:
-    EpCore::ItemList<EpCore::ColumnFormat> columnFormats_;
-    EpCore::ItemList<EpRecorder::WindowSetting> windowSettings_;
+    QDataWidgetMapper* mapper_;
 };
 
-}
+} // namespace EpGui
 
 #endif // EDITPROTOCOLDIALOG_H
