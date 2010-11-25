@@ -10,6 +10,10 @@ EP Simulator Help
    http://www.epstudiossoftware.com/
 ** Git repository
    http://github.com/mannd/epsimulator
+** Screenshots
+   https://sourceforge.net/projects/epsimulator/
+** EP Studios Blog
+   http://www.epstudiossoftware.com/blog
 * Differences between EP Simulator and the GE/Prucka System
 ** Help System
    The Prucka help system opens a PDF version of the manual.  For now,
@@ -21,12 +25,15 @@ EP Simulator Help
    Second tab is not Contact, but Physiology.  The Patient Information dialog
    in EP Simulator is used to set up the patient simulation.
 ** Administrator mode
-   Administrator mode is optional and can be turned off.
+   - Administrator mode is optional and can be turned off.
+   - List, intervals, etc. can only be viewed by administrator.  In Prucka
+     lists can be viewed by not edited by non-administrators.
 ** Optical disk emulation
    Study data can be stored on an actual optical disk, a hard drive
    directory, or a hard drive directory disguised to mimic an optical disk.
 ** EP List edit boxes
-   The items in these boxes don't have "bullet points" preceding them.
+   - There are numbered rows rather than "bullets" preceding items.
+   - Administrator mode works differently (see Administrator mode).
 ** Look and feel
    It is not possible (and probably not desirable) to reproduce the exact
    "look and feel" of the Prucka system.  Several properties of the Prucka

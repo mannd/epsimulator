@@ -56,7 +56,7 @@ private:
         List_Name = 1,
         List_Other = 2
     };
-    void init();
+    void init(const QString& title, const QStringList& labels);
     QSqlTableModel* model_;
 };
 

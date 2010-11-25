@@ -692,18 +692,22 @@ void Navigator::relabelDisk() {
 }
 
 void Navigator::channelLabels() {
-//    editEpList("ChannelLabels",
-//               tr("Channel Labels"),
-//               QStringList() << tr("Channel") << tr("Meas. Type"));
+    enum {
+        ChannelLabel_Id = 0,
+        ChannelLabel_Name = 1,
+        ChannelLabel_MeasurementTypeId = 2
+    };
     QSqlRelationalTableModel* model = new QSqlRelationalTableModel;
     model->setTable("ChannelLabels");
-    model->setRelation(2, QSqlRelation("MeasurementTypes",
-                                       "MeasurementTypeID",
-                                       "Name"));
+    model->setRelation(ChannelLabel_MeasurementTypeId,
+                       QSqlRelation("MeasurementTypes",
+                                    "MeasurementTypeID",
+                                    "Name"));
     connect(model, SIGNAL(primeInsert(int, QSqlRecord&)),
             this, SLOT(createDefaultChannelLabel(int, QSqlRecord&)));
     EditListDialog d(model, tr("Channel Labels"),
-                     QStringList() << tr("Channel") << tr("Meas. Type"),
+                     QStringList() << tr("Channel")
+                        << tr("Measurement Type"),
                      this);
     d.exec();
     delete model;
@@ -711,7 +715,9 @@ void Navigator::channelLabels() {
 
 void Navigator::createDefaultChannelLabel(int /* row */,
                                           QSqlRecord& record) {
-    record.setValue(2, 1);
+    const int measurementTypeId = 2;
+    const int intracardiacType = 1;
+    record.setValue(measurementTypeId, intracardiacType);
 }
 
 void Navigator::pacingSites() {

@@ -20,6 +20,7 @@
 
 #include "editlistdialog.h"
 
+
 #include <QSqlRelationalDelegate>
 #include <QSqlTableModel>
 #include <QStringList>
@@ -34,21 +35,9 @@ EditListDialog::EditListDialog(const QString& table,
                                QWidget* parent)
                                    : QDialog(parent) {
     setupUi(this);
-    setWindowTitle(title);
     model_ = new QSqlTableModel(this);
     model_->setTable(table);
-    model_->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    model_->select();
-
-    tableView->setModel(model_);
-    tableView->hideColumn(0);
-    tableView->setShowGrid(false);
-    tableView->horizontalHeader()->setStretchLastSection(true);
-    tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-    for (int i = 0; i < labels.count(); ++i) {
-        model_->setHeaderData(i+1, Qt::Horizontal, labels[i]);
-    }
-    init();
+    init(title, labels);
 }
 
 EditListDialog::EditListDialog(QSqlTableModel* model,
@@ -57,12 +46,17 @@ EditListDialog::EditListDialog(QSqlTableModel* model,
                                QWidget* parent)
                                    : QDialog(parent), model_(model) {
     setupUi(this);
+    tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
+    init(title, labels);
+}
+
+void EditListDialog::init(const QString& title,
+                          const QStringList& labels) {
     setWindowTitle(title);
     model_->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_->select();
 
     tableView->setModel(model_);
-    tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
     tableView->hideColumn(0);
     tableView->setShowGrid(false);
     tableView->horizontalHeader()->setStretchLastSection(true);
@@ -70,10 +64,6 @@ EditListDialog::EditListDialog(QSqlTableModel* model,
     for (int i = 0; i < labels.count(); ++i) {
         model_->setHeaderData(i+1, Qt::Horizontal, labels[i]);
     }
-    init();
-}
-
-void EditListDialog::init() {
     connect(insertButton, SIGNAL(clicked(bool)),
             this, SLOT(newItem()));
     connect(deleteButton, SIGNAL(clicked(bool)),
