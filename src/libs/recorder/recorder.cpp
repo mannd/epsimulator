@@ -461,6 +461,8 @@ void Recorder::setProtocol(int index) {
     study_->studyConfiguration()->setCurrentProtocolIndex(index);
 }
 
+void Recorder::newWindow() {}
+
 void Recorder::winSave() {
     if (administrationAllowed()) {
         ItemList<WindowSetting> windows;
@@ -811,6 +813,9 @@ void Recorder::createActions() {
     dataExtractionAction_ = createAction(this, tr("Data Extraction"),
         tr("Extract data"));
     // Windows Menu
+    newWindowAction_ = createAction(this, tr("New Window"),
+                                    tr("Open new window"), 
+                                    SLOT(newWindow()));
     winSaveAction_ = createAction(this, tr("Save"),
         tr("Save window configuration"), SLOT(winSave()));
     winSaveAsAction_ = createAction(this, tr("Save As..."),
@@ -979,6 +984,8 @@ void Recorder::createMenus() {
     measurementsMenu_->addAction(dataExtractionAction_);
 
     windowsMenu_ = menuBar()->addMenu(tr("&Windows"));
+    windowsMenu_->addAction(newWindowAction_);
+    windowsMenu_->addSeparator();
     windowsMenu_->addAction(winSaveAction_);
     windowsMenu_->addAction(winSaveAsAction_);
     windowsMenu_->addAction(winSwitchAction_);

@@ -93,6 +93,22 @@
    recorder window currently does store subwindow locations in
    EPSimulator.conf.  This is only the last configuration when the
    window is closed.  Need to work on study configuration data.
+** Single document format as key to multiple displays
+*** Multiple recorder windows
+    The original Recorder window can spawn a new window with a default
+    layout.  The new window is a child of the original, so will die when the
+    original is killed (I think).  
+*** New Window menu item and action
+    Essentially this slot will do this:
+    Recorder* newRecorder = new Recorder(this, ...);
+    This "secondary window" (and there can be more) needs:
+      - to have acquisition disabled (can't have 2 real time windows)
+      - to leave the primary window there if closed
+      - to close automatically when the primary window is closed
+*** WindowSetting
+    WindowSettings are saved for each Recorder window, as well as the layout
+    of the subwindows in each Recorder window.  It would seem WindowSettings
+    should be machine-specific, but I am not sure this is the case.
 * Qt-creator issues
 ** gdb problem
    Solution: downloaded later version of gdb from here:

@@ -23,7 +23,7 @@
 
 #include "recorder.h"
 
-#include <QtCore/QCoreApplication>
+#include <QCoreApplication>
 
 class QDataStream;
 

@@ -28,6 +28,7 @@ class QAction;
 class QCloseEvent;
 class QMenu;
 class QSplitter;
+class QSqlRecord;
 class QToolBar;
 
 namespace EpCore {
@@ -94,6 +95,8 @@ private slots:
     void importReportFormats();
     void ejectDisk();
     void relabelDisk();
+    void channelLabels();
+    void createDefaultChannelLabel(int, QSqlRecord&);
     void pacingSites();
     void phases();
     void arrhythmiaTypes();
@@ -154,7 +157,7 @@ private:
     // List related
     void editEpList(const QString& table,
                     const QString& title,
-                    const QString& label);
+                    const QStringList& label);
 
     // Study related
     void startStudy(EpStudy::Study*, bool review = false);
@@ -228,8 +231,9 @@ private:
     QAction* medicationsAction_;
     QAction* complicationsAction_;
     QAction* contrastAction_;
-    QAction* pacingSitesAction_;
+    QAction* channelLabelsAction_;
     QAction* phasesAction_;
+    QAction* pacingSitesAction_;
     QAction* arrhythmiaTypesAction_;
     QAction* arrhythmiaTolerancesAction_;
     QAction* blockDescriptionsAction_;

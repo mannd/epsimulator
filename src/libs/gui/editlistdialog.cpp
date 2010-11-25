@@ -20,7 +20,9 @@
 
 #include "editlistdialog.h"
 
+#include <QSqlRelationalDelegate>
 #include <QSqlTableModel>
+#include <QStringList>
 
 #include <QtDebug>
 
@@ -28,19 +30,50 @@ using EpGui::EditListDialog;
 
 EditListDialog::EditListDialog(const QString& table,
                                const QString& title,
-                               const QString& label,
+                               const QStringList& labels,
                                QWidget* parent)
                                    : QDialog(parent) {
     setupUi(this);
     setWindowTitle(title);
-    listLabel->setText(label);
     model_ = new QSqlTableModel(this);
     model_->setTable(table);
+    model_->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model_->select();
 
-    listView->setModel(model_);
-    listView->setModelColumn(List_Name);
+    tableView->setModel(model_);
+    tableView->hideColumn(0);
+    tableView->setShowGrid(false);
+    tableView->horizontalHeader()->setStretchLastSection(true);
+    tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
+    for (int i = 0; i < labels.count(); ++i) {
+        model_->setHeaderData(i+1, Qt::Horizontal, labels[i]);
+    }
+    init();
+}
 
+EditListDialog::EditListDialog(QSqlTableModel* model,
+                               const QString& title,
+                               const QStringList& labels,
+                               QWidget* parent)
+                                   : QDialog(parent), model_(model) {
+    setupUi(this);
+    setWindowTitle(title);
+    model_->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model_->select();
+
+    tableView->setModel(model_);
+    tableView->setItemDelegate(new QSqlRelationalDelegate(tableView));
+    tableView->hideColumn(0);
+    tableView->setShowGrid(false);
+    tableView->horizontalHeader()->setStretchLastSection(true);
+    tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
+    for (int i = 0; i < labels.count(); ++i) {
+        model_->setHeaderData(i+1, Qt::Horizontal, labels[i]);
+    }
+    init();
+}
+
+void EditListDialog::init() {
     connect(insertButton, SIGNAL(clicked(bool)),
             this, SLOT(newItem()));
     connect(deleteButton, SIGNAL(clicked(bool)),
@@ -49,7 +82,7 @@ EditListDialog::EditListDialog(const QString& table,
             this, SLOT(editItem()));
     connect(allowEditsButton, SIGNAL(clicked(bool)),
             this, SLOT(allowEdits(bool)));
-    connect(listView, SIGNAL(clicked(QModelIndex)),
+    connect(tableView, SIGNAL(clicked(QModelIndex)),
             this, SLOT(enableButtons()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     allowEdits(false);
@@ -68,39 +101,37 @@ void EditListDialog::allowEdits(bool allow) {
     // line is the separator in the toolbar
     line->setVisible(allow);
     if (allow)
-        listView->setEditTriggers(QAbstractItemView::AnyKeyPressed
+        tableView->setEditTriggers(QAbstractItemView::AnyKeyPressed
                                   | QAbstractItemView::DoubleClicked);
-    else 
-        listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    else {
+        tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        QModelIndex index = tableView->currentIndex();
+        tableView->closePersistentEditor(index);
+    }
 }
 
 void EditListDialog::enableButtons() {
-       bool itemIsSelected = (listView->currentIndex().row() > -1);
+       bool itemIsSelected = (tableView->currentIndex().row() > -1);
        editButton->setEnabled(itemIsSelected);
        deleteButton->setEnabled(itemIsSelected);
 
 }
 
 void EditListDialog::editItem() {
-
-    int row = listView->currentIndex().row();
-    QModelIndex index = model_->index(row, 0);
-    // Get "edit: editing failed" error if you don't do below.
-    // Error is caused by trying to edit while editing already in progress.
-    listView->closePersistentEditor(index); 
-    listView->setCurrentIndex(index);
-    listView->edit(index);
+    QModelIndex index = tableView->currentIndex();
+    // prevents error message when edit button hit twice
+    tableView->closePersistentEditor(index);
+    tableView->edit(index);
 }
 
 void EditListDialog::newItem() {
-    int row = listView->currentIndex().row();
+    int row = tableView->currentIndex().row();
     model_->insertRows(++row, 1);
-
     QModelIndex index = model_->index(row, 1);
-    listView->setCurrentIndex(index);
-    listView->edit(index);
+    tableView->setCurrentIndex(index);
+    tableView->edit(index);
 }
 
 void EditListDialog::deleteItem() {
-    model_->removeRows(listView->currentIndex().row(), 1);
+    model_->removeRows(tableView->currentIndex().row(), 1);
 }

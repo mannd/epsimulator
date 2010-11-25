@@ -16,7 +16,11 @@ CREATE TABLE ColumnFormats (ColumnFormatID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE ColumnFormatInterval (ColumnFormatID INTEGER NOT NULL
        REFERENCES ColumnFormats, IntervalID INTEGER NOT NULL
        REFERENCES Intervals, SortOrder Integer NOT NULL);
-CREATE TABLE ChannelLabels (ChannelLabelID INTEGER PRIMARY KEY, Name TEXT);
+CREATE TABLE ChannelLabels (ChannelLabelID INTEGER PRIMARY KEY, Name TEXT,
+       MeasurementTypeID INTEGER NOT NULL DEFAULT 1
+        REFERENCES MeasurementTypes);
+CREATE TABLE MeasurementTypes (MeasurementTypeID INTEGER PRIMARY KEY,
+       Name TEXT);
 CREATE TABLE WindowSettings (WindowSettingID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE MacroCategories (MacroCategoryID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE OnOff (OnOffID INTEGER PRIMARY KEY, Name TEXT);
@@ -205,9 +209,45 @@ INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES 
 INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 20, 13);
 INSERT INTO ColumnFormatInterval (ColumnFormatID, IntervalID, SortOrder) VALUES (2, 21, 14);
 
-INSERT INTO ChannelLabels (ChannelLabelID, Name) VALUES (1, "HRA");
-INSERT INTO ChannelLabels (ChannelLabelID, Name) VALUES (2, "HRA-d");
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (0, "P1", 0);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (1, "P2", 0);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (2, "P3", 0);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (3, "P4", 0);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES 
+       (4, "HRA", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (5, "HRA-d", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (6, "RVA", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (7, "RVOT", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (8, "His-p", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (9, "His-m", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (10, "His-d", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (11, "CS 9,10", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (12, "CS 7,8", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (13, "CS 5,6", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (14, "CS 3,4", 1);
+INSERT INTO ChannelLabels (ChannelLabelID, Name, MeasurementTypeID) VALUES
+       (15, "CS 1,2", 1);
+
 -- insert more labels here
+
+INSERT INTO MeasurementTypes (MeasurementTypeID, Name) VALUES
+       (0, "Pressure");
+INSERT INTO MeasurementTypes (MeasurementTypeID, Name) VALUES
+       (1, "Intracardiac");
 
 INSERT INTO WindowSettings (WindowSettingID, Name) VALUES (1, "BASELINE");
 -- insert more window settings here

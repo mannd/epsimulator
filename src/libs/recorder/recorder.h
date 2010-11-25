@@ -131,6 +131,7 @@ private slots:
     void openComplications();
     void openContrast();
     void switchStudyConfiguration();
+    void newWindow();
     void winSave();
     void winSaveAs();
     void winSwitch();
@@ -253,6 +254,7 @@ private:
     QAction* dataExtractionAction_;
 
     // Windows
+    QAction* newWindowAction_;
     QAction* winSaveAction_;   // note Study Config menu has duplicate names
     QAction* winSaveAsAction_;
     QAction* winSwitchAction_;

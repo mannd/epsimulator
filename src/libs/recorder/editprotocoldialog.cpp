@@ -91,6 +91,7 @@ EditProtocolDialog::EditProtocolDialog(AbstractEditItemsDialog::EditorType type,
 
     connect(nameLineEdit, SIGNAL(textChanged(const QString&)),
             this, SLOT(enableOkButton()));
+    buttonBox->button(QDialogButtonBox::Ok)->setDefault(false);
     enableOkButton();
 }
 

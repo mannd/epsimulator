@@ -64,6 +64,8 @@
 #include <QRegExp>
 #include <QSettings>
 #include <QSplitter>
+#include <QSqlRecord>
+#include <QSqlRelationalTableModel>
 #include <QToolBar>
 #include <QVariant>
 
@@ -689,43 +691,66 @@ void Navigator::relabelDisk() {
     labelDisk(true, currentDisk_);
 }
 
+void Navigator::channelLabels() {
+//    editEpList("ChannelLabels",
+//               tr("Channel Labels"),
+//               QStringList() << tr("Channel") << tr("Meas. Type"));
+    QSqlRelationalTableModel* model = new QSqlRelationalTableModel;
+    model->setTable("ChannelLabels");
+    model->setRelation(2, QSqlRelation("MeasurementTypes",
+                                       "MeasurementTypeID",
+                                       "Name"));
+    connect(model, SIGNAL(primeInsert(int, QSqlRecord&)),
+            this, SLOT(createDefaultChannelLabel(int, QSqlRecord&)));
+    EditListDialog d(model, tr("Channel Labels"),
+                     QStringList() << tr("Channel") << tr("Meas. Type"),
+                     this);
+    d.exec();
+    delete model;
+}
+
+void Navigator::createDefaultChannelLabel(int /* row */,
+                                          QSqlRecord& record) {
+    record.setValue(2, 1);
+}
+
 void Navigator::pacingSites() {
     editEpList("PacingSites",
                tr("Pacing Sites"),
-               tr("Site"));
+               QStringList() << tr("Site"));
 }
 
 void Navigator::phases() {
     editEpList("Phases",
                tr("Phases"),
-               tr("Phase"));
+               QStringList() << tr("Phase"));
 }
 
 void Navigator::arrhythmiaTypes() {
     editEpList("ArrhythmiaTypes",
                tr("Arrhythmia Types"),
-               tr("Type"));
+               QStringList() << tr("Type"));
 }
 
 void Navigator::arrhythmiaTolerances() {
     editEpList("ArrhythmiaTolerances",
                tr("Arrhythmia Tolerances"),
-               tr("Tolerance"));}
+               QStringList() << tr("Tolerance"));}
 
 void Navigator::blockDescriptions() {
     editEpList("BlockDescription",
                tr("Block Descriptions"),
-               tr("Description"));}
+               QStringList() << tr("Description"));}
 
 void Navigator::refractoryLocations() {
     editEpList("RefractoryLocations",
                tr("Refractory Locations"),
-               tr("Location"));}
+               QStringList() << tr("Location"));}
 
 void Navigator::editEpList(const QString& table,
                            const QString& title,
-                           const QString& label) {
-    EditListDialog d(table, title, label, this);
+                           const QStringList& labels) {
+    EditListDialog d(table, title, labels, this);
     d.exec();
 }
 
@@ -1084,6 +1109,9 @@ void Navigator::createActions() {
                                         tr("Complications"), 0,
                                         tr("Alt+M"));
     contrastAction_ = createAction(this, tr("Contrast"), tr("Contrast"));
+    channelLabelsAction_ = createAction(this, tr("Channel Labels"),
+                                        tr("Channel labels"),
+                                        SLOT(channelLabels()));
     pacingSitesAction_ = createAction(this, tr("Pacing Sites"),
                                       tr("Pacing sites"), SLOT(pacingSites()));
     phasesAction_ = createAction(this, tr("Phases"),
@@ -1196,8 +1224,9 @@ void Navigator::createMenus() {
     listsSubMenu->addAction(complicationsAction_);
     listsSubMenu->addAction(contrastAction_);
     listsSubMenu->addSeparator();
-    listsSubMenu->addAction(pacingSitesAction_);
+    listsSubMenu->addAction(channelLabelsAction_);
     listsSubMenu->addAction(phasesAction_);
+    listsSubMenu->addAction(pacingSitesAction_);
     listsSubMenu->addAction(arrhythmiaTypesAction_);
     listsSubMenu->addAction(arrhythmiaTolerancesAction_);
     listsSubMenu->addAction(blockDescriptionsAction_);

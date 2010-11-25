@@ -86,6 +86,7 @@ void EditProtocolsDialog::editItem(EditorType type) {
     int row = index.row();
     EditProtocolDialog d(type, model_, row, this);
     d.exec();
+
 }
 
 void EditProtocolsDialog::copyItem() {

@@ -35,8 +35,12 @@ class EditListDialog: public QDialog, private Ui::EditListDialog {
 public:
     EditListDialog(const QString& table,
                    const QString& title,
-                   const QString& label,
+                   const QStringList& labels,
                    QWidget* parent = 0);
+    EditListDialog(QSqlTableModel* model,
+                   const QString &title,
+                   const QStringList &labels,
+                   QWidget *parent = 0);
 
 private slots:
     void allowEdits(bool);
@@ -49,8 +53,10 @@ private slots:
 private:
     enum {
 	List_Id = 0,
-	List_Name = 1
+        List_Name = 1,
+        List_Other = 2
     };
+    void init();
     QSqlTableModel* model_;
 };
 
