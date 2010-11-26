@@ -71,6 +71,10 @@ StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
             this, SLOT(selectProtocols()));
     connect(selectedListView, SIGNAL(doubleClicked(QModelIndex)),
             this, SLOT(unselectProtocols()));
+    connect(moveUpButton, SIGNAL(clicked()), this,
+            SLOT(moveUpProtocol()));
+    connect(moveDownButton, SIGNAL(clicked()), this,
+            SLOT(moveDownProtocol()));
     connect(saveButton, SIGNAL(clicked()),
         this, SLOT(save()));
     connect(saveAsButton, SIGNAL(clicked()),
@@ -188,6 +192,14 @@ void StudyConfigurationDialog::selectAllProtocols() {
 void StudyConfigurationDialog::unselectAllProtocols() {
     protocolListSelector_->unselectAll();
     enableProtocolSelectButtons();
+}
+
+void StudyConfigurationDialog::moveUpProtocol() {
+    protocolListSelector_->moveUp();
+}
+
+void StudyConfigurationDialog::moveDownProtocol() {
+    protocolListSelector_->moveDown();
 }
 
 RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(

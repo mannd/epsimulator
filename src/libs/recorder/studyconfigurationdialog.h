@@ -67,6 +67,8 @@ private slots:
     void unselectProtocols();
     void selectAllProtocols();
     void unselectAllProtocols();
+    void moveUpProtocol();
+    void moveDownProtocol();
 
 private:
     void updateWindowTitle();

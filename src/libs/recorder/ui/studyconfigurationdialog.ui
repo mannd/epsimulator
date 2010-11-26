@@ -753,6 +753,46 @@
           </item>
          </layout>
         </widget>
+        <widget class="QPushButton" name="moveUpButton">
+         <property name="geometry">
+          <rect>
+           <x>690</x>
+           <y>160</y>
+           <width>100</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Move selected item up the list</string>
+         </property>
+         <property name="text">
+          <string>Move Up</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../resources/resources.qrc">
+           <normaloff>:/images/h32-uparrow.png</normaloff>:/images/h32-uparrow.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="moveDownButton">
+         <property name="geometry">
+          <rect>
+           <x>690</x>
+           <y>210</y>
+           <width>100</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>Move selected item down the list</string>
+         </property>
+         <property name="text">
+          <string>Move Down</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../resources/resources.qrc">
+           <normaloff>:/images/h32-downarrow.png</normaloff>:/images/h32-downarrow.png</iconset>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>
@@ -796,7 +836,17 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>closeButton</sender>
