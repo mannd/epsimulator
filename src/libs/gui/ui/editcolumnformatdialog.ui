@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>605</width>
+    <width>705</width>
     <height>531</height>
    </rect>
   </property>
@@ -63,6 +63,9 @@
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QPushButton" name="selectPushButton">
+          <property name="toolTip">
+           <string>Select item</string>
+          </property>
           <property name="text">
            <string>&gt;</string>
           </property>
@@ -70,6 +73,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="selectAllPushButton">
+          <property name="toolTip">
+           <string>Select all items</string>
+          </property>
           <property name="text">
            <string>&gt;&gt;</string>
           </property>
@@ -77,6 +83,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="unselectPushButton">
+          <property name="toolTip">
+           <string>Unselect item</string>
+          </property>
           <property name="text">
            <string>&lt;</string>
           </property>
@@ -84,6 +93,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="unselectAllPushButton">
+          <property name="toolTip">
+           <string>Unselect all items</string>
+          </property>
           <property name="text">
            <string>&lt;&lt;</string>
           </property>
@@ -122,8 +134,58 @@
     </item>
    </layout>
   </widget>
+  <widget class="QPushButton" name="moveUpButton">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>130</y>
+     <width>100</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Move selected item up the list</string>
+   </property>
+   <property name="text">
+    <string>Move Up</string>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../resources/resources.qrc">
+     <normaloff>:/images/h32-uparrow.png</normaloff>:/images/h32-uparrow.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="moveDownButton">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>200</y>
+     <width>100</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Move selected item down the list</string>
+   </property>
+   <property name="text">
+    <string>Move Down</string>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../resources/resources.qrc">
+     <normaloff>:/images/h32-downarrow.png</normaloff>:/images/h32-downarrow.png</iconset>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

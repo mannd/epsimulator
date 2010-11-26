@@ -52,6 +52,8 @@ private slots:
     void unselect();
     void selectAll();
     void unselectAll();
+    void moveUp();
+    void moveDown();
 
 private:
     ListSelector* listSelector_;

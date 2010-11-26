@@ -23,6 +23,8 @@
 #include <QListView>
 #include <QStringListModel>
 
+#include <QtDebug>
+
 using EpGui::ListSelector;
 
 ListSelector::ListSelector(QListView* unselectedListView,
@@ -78,6 +80,31 @@ void ListSelector::unselectAll() {
     QStringList allItems = all();
     selectedModel_->setStringList(QStringList());
     unselectedModel_->setStringList(allItems);
+}
+
+void ListSelector::moveUp() {
+    QModelIndex index = selectedListView_->currentIndex();
+    if (index.row() <= 0)       // at top
+        return;
+    QString selectedString = index.data().toString();
+    QModelIndex previousIndex = selectedModel_->index(index.row() -1);
+    QString previousString = previousIndex.data().toString();
+    selectedModel_->setData(index, previousString);
+    selectedModel_->setData(previousIndex, selectedString);
+    selectedListView_->setCurrentIndex(previousIndex);
+}
+
+void ListSelector::moveDown() {
+    QModelIndex index = selectedListView_->currentIndex();
+    if (index.row() == selectedModel_->rowCount() - 1 ||
+        index.row() < 0) // at bottom or invalid row
+        return;
+    QString selectedString = index.data().toString();
+    QModelIndex afterIndex = selectedModel_->index(index.row() + 1);
+    QString afterString = afterIndex.data().toString();
+    selectedModel_->setData(index, afterString);
+    selectedModel_->setData(afterIndex, selectedString);
+    selectedListView_->setCurrentIndex(afterIndex);
 }
 
 QStringList ListSelector::all() {

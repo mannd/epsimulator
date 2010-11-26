@@ -56,6 +56,8 @@ EditColumnFormatDialog::EditColumnFormatDialog(
             this, SLOT(unselect()));
     connect(nameLineEdit, SIGNAL(textChanged(const QString&)),
             this, SLOT(enableOkButton(const QString&)));
+    connect(moveUpButton, SIGNAL(clicked()), this, SLOT(moveUp()));
+    connect(moveDownButton, SIGNAL(clicked()), this, SLOT(moveDown()));
     enableSelectButtons();
     enableOkButton(nameLineEdit->text());
 }
@@ -82,6 +84,14 @@ void EditColumnFormatDialog::selectAll() {
 void EditColumnFormatDialog::unselectAll() {
     listSelector_->unselectAll();
     enableSelectButtons();
+}
+
+void EditColumnFormatDialog::moveUp() {
+    listSelector_->moveUp();
+}
+
+void EditColumnFormatDialog::moveDown() {
+    listSelector_->moveDown();
 }
 
 void EditColumnFormatDialog::setColumnFormat(const EpCore::ColumnFormat& cf) {

@@ -45,6 +45,9 @@ public:
     void selectAll();
     void unselectAll();
 
+    void moveUp();
+    void moveDown();
+
     QStringList selected();
     QStringList all();
 

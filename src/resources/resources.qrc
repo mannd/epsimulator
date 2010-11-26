@@ -63,5 +63,7 @@
         <file>images/trash.png</file>
         <file>images/dot.png</file>
         <file>images/edit.png</file>
+        <file>images/h32-uparrow.png</file>
+        <file>images/h32-downarrow.png</file>
     </qresource>
 </RCC>
