@@ -19,8 +19,9 @@ EP Simulator Help
    The Prucka help system opens a PDF version of the manual.  For now,
    EP Simulator Help will open this set of notes.
 ** Simulator Settings menu
-** Navigator blue side bar
-   This is programmable to version 5 or version 6 appearance.
+** Navigator blue sidebar
+   - This is programmable to version 5 or version 6 appearance.
+   - There is no "Mac-Lab" version of the sidebar.
 ** Patient Information dialog
    Second tab is not Contact, but Physiology.  The Patient Information dialog
    in EP Simulator is used to set up the patient simulation.

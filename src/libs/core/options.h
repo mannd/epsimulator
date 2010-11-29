@@ -137,7 +137,7 @@ public:
     FilePathFlags filePathFlags;
 
     // utility function, since this is a popular request
-    inline bool includeNetworkCatalog() {
+    inline bool includeNetworkCatalog() const {
         return filePathFlags.testFlag(Options::EnableNetworkStorage);
     }
 

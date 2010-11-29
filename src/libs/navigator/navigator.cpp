@@ -30,6 +30,7 @@
 #include "buttonframe.h"
 #include "catalogcombobox.h"
 #include "columnformat.h"
+#include "coreconstants.h"
 #include "disklabeldialog.h"
 #include "editlistdialog.h"
 #include "error.h"
@@ -63,6 +64,7 @@
 #include <QRegExp>
 #include <QSettings>
 #include <QSplitter>
+#include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlRelationalTableModel>
 #include <QToolBar>
@@ -481,15 +483,11 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                 qDebug() << "Selected Dir = " << d.selectedFiles();
                 QString path = d.selectedFiles()[0];
                 QStringList selectedFiles;
-                QList<unsigned int> magicNumbers;
+                // place lock on database
+                QSqlQuery("BEGIN IMMEDIATE;");  // ? Sqlite specific?
                 if (type == Lists) {
-                    //selectedFiles.append(EpLists::fileName());
-                    //magicNumbers.append(EpLists::magicNumber());
-                    selectedFiles.append(Interval::fileName());
-                    magicNumbers.append(Interval::magicNumber());
-                    selectedFiles.append(ColumnFormat::fileName());
-                    magicNumbers.append(ColumnFormat::magicNumber());
-                    // add the rest here
+                    selectedFiles.append(EpCore::Constants::EPSIM_DB_FILENAME);
+                    // append any other files here
                 }
                 else if (type == ReportFormats) {
                     // add here
@@ -502,10 +500,7 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                     statusBar()->clearMessage();
                 }
                 else if (flow == Import) {
-                    // check magic numbers since your are overwriting
-                    // system files.
                     QStringListIterator iter(selectedFiles);
-                    QListIterator<unsigned int> magicIter(magicNumbers);
                     QString filePath;
                     int result = QMessageBox::warning(this,
                                  tr("Overwriting Critical System Files"),
@@ -519,19 +514,19 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                     if (result == QMessageBox::Ok)  {
                         while (iter.hasNext()) {
                             filePath = EpCore::joinPaths(path, iter.next());
-                            if (EpCore::magicNumber(filePath)
-                                    != magicIter.next()) {
-                                throw EpCore::WrongFileTypeError(filePath);
                             }
-                        }
                         statusBar()->showMessage(tr("Copying files..."));
                         EpCore::copyFilesToSystem(selectedFiles, path,
                                               EpCore::Overwrite);
-                        // copy epsimulator.db file
-                        //EpCore::copyFilesToSystem(
                         statusBar()->clearMessage();
                     }
                 }
+                // unlock database
+                QSqlQuery("ROLLBACK;"); // Sqlite specific?
+                // reset database connection
+                QSqlDatabase db = QSqlDatabase::database();
+                db.close();;
+                db.open();
             }
         }
     }

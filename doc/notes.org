@@ -490,16 +490,16 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
 *** General
     There is a lot of debate between different styles, including singular vs
     plural table names, MixedCase vs underlined_words, prefixing table names
-    to id, etc.  I have chosen a style which is somewhat distinct from my
-    naming style for Qt/C++.
+    to id, etc.  I have chosen MixedCase style or tables and fields, similar
+    to class names and constants in the C++ code.
 *** Table names
-    Will use plural names, e.g. intervals, not interval.
+    Will use plural names, e.g. Intervals, not Interval.
 *** Case
-    Will use exclusive lower case.  Hyphens to separate words.  e.g. interval_type.
+    MixedCase style.
 *** Id
     In order to have automatic joins on primary and foreign keys, the names
     need to be the same.  So, for Id only, will preface table name (singular
-    form).  E.g. interval_id.
+    form).  E.g. Interval_ID.  Note that ID is capitalized for this use.
 *** Primary key
     All tables will have a primary autonumber integer key.  This includes
     single column tables with supposedly unique values.  There seems to be no
@@ -552,12 +552,16 @@ polymorphic) and is passed to classes that need to system save data.
    constructor should construct a basic object, that can be populated
    either from makeDefaults() or from the saved data file, as a
    separate method.
+** TODO ItemList is DEPRECATED!
 ** detangling administrationAllowed()
    user->administrationAllowed(Options*) depends on user and options.  Rather than
    pass user and options object pointers to everything that needs this
    info, should just pass bool administrationAllowed.  Alternatively,
    adminstrator and user version of the objects requiring this info
    could be created, but this is probably overkill.
+** TODO Consider having Administrator as subclass of User.
+   - Make isAdministrator() virtual bool function.
+   - user->name() can also be virtual.
 * Data handling
 ** Local vs System data
    A common scenario is loading configuration data.  All configuration data is

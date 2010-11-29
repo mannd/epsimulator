@@ -176,7 +176,7 @@ QDir EpCore::systemDirectory() {
 
 // returns the main System path, depending on whether networking is used
 QString EpCore::activeSystemPath(const Options* const options) {
-    if (options->EnableNetworkStorage)
+    if (options->includeNetworkCatalog())
         return options->networkStudyPath;
     else
         return options->systemCatalogPath;
