@@ -23,7 +23,6 @@
 #include "actions.h"
 #include "amplifier.h"
 #include "guiutilities.h"
-#include "itemlist.h"
 #include "logwindow.h"
 #include "opticaldisk.h"
 #include "patient.h"
@@ -62,7 +61,6 @@
 #include <QMouseEvent>
 
 using EpCore::DataStream;
-using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;
 using EpGui::AbstractMainWindow;
@@ -465,17 +463,13 @@ void Recorder::newWindow() {}
 
 void Recorder::winSave() {
     if (administrationAllowed()) {
-        ItemList<WindowSetting> windows;
-        WindowSetting w("test");
-        windows[w.name()] = w;
-        windows.update();
+        filler();
     }
 }
 
 void Recorder::winSaveAs() {
     if (administrationAllowed()) {
-
-
+        filler();
     }
 }
 

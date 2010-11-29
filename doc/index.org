@@ -34,6 +34,7 @@ EP Simulator Help
 ** EP List edit boxes
    - There are numbered rows rather than "bullets" preceding items.
    - Administrator mode works differently (see Administrator mode).
+   - IMPROVEMENT: List selectors have up/down buttons to rearrange ordered lists.
 ** Look and feel
    It is not possible (and probably not desirable) to reproduce the exact
    "look and feel" of the Prucka system.  Several properties of the Prucka

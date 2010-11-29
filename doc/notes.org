@@ -621,4 +621,116 @@ polymorphic) and is passed to classes that need to system save data.
 **** Heart tab
 ***** Similar to Physiology tab, ability to save, save as
 ***** Ability to alter cellular and macro physiology
+* File management
+** Where are the files?
+*** fileutilies
+    - functions
+      - in namespace EpCore
+      - saveData() saves binary data to filePath with magicNumber
+      - loadData() loads binary data from filePath with magicNumber
+      - saveSystemData()
+	- saves data to both network and system paths
+	- depends on Options
+	- deprecated?
+      - loadSystemData()
+	- loads data from network path if network storage enabled, otherwise
+          system path
+	- depends on Options
+	- deprecated?
+      - systemFileExists(Options*, QString fileName)
+	- return true if fileName is in activeSystemPath(options)
+      - deleteDir()
+      - copyDir()
+      - directoryOf()
+      - rootDirectory()
+	- directoryOf(".")
+      - rootPath()
+	- directoryOf(".").path()
+      - systemDirectory()
+	- directoryOf("System")
+	- should be deprecated
+      - activeSystemPath(Options*)
+	- if network storage enabled then returns options->networkStudyPath
+	  else options->systemCatalogPath
+      - copyFilesToPath()
+      - copyFilesToSystem()
+	- copies files to epOptions->systemCatalogPath
+	- also copies to epOptions->networkCatalogPath if Options::EnableNetworkStorage
+	- has epOptions macro !!!!
+      - joinPaths()
+      - capitalize(const QString&)
+      - isRemovableMedia(QDir)
+      - useDiskCache(QString path)
+	- uses epOptions macro !!!!
+	- checks to see if path isRemovableMedia()
+	- returns true depending on disk cache options in Options
+      - osDependentSystemPath()
+      - diskFreeSpace()
+	- undefined
+    - classes
+      - SystemData
+	- SystemData(const Options*)
+	- save(const T& data)
+	- load(T& data)
+	- << and >>
+      - SystemStream
+	- SystemStream(const QString& systemPath)
+      - NetworkStream
+	- NetworkStream(const QString& networkPath, const QString& systemPath)
+      - DataStream 
+	- abstract base class to above 2 classes
+	- static DataStream<T>* createDataStream(Options*)
+	- save(const T& data)
+	- load(T& data)
+*** options
+    - paths
+      - opticalStudyPath
+      - networkStudyPath
+      - exportFilePath
+      - tempStudyPath
+      - systemCatalogPath
+    - functions
+      - includeNetworkCatalog()
+      - EpCore::systemPath()
+	- uses osDependentSystemPath()
+	- attempts to create path if it doesn't exit
+	- throws exception if can't do above
+*** user
+    - no file functions
+    - administrationAllowed() depends on Options
+*** main
+    - createConnections()
+      - EpCore::Constants::EPSIM_DB_FILENAME from coreconstants.h 
+	- EPSIM_DB_FILENAME = "epsimulator.db"
+      - EpCore::systemPath() from options.h
+	- systemPath() = osDependentSystemPath()
+	- osDependentSystemPath() = 
+	  - Mac: systemDirectory()
+	  - Linux: ~/.epsimulator/
+	  - Windows: [APPDATA]\epsimulator\
+	    - note: APPDATA on Vista is X:\Users\{username}\AppData\Roaming and on XP
+              is X:\Documents and Settings\{username}\Application Data
+      - Network catalog
+	- options->includeNetworkCatalog()
+	- options->networkStudyPath
+      - Default database
+	- EpCore::rootPath() + db/ + langSubDir + dbFileName
+	- EpCore::rootPath() from fileutilities.h
+	  - rootPath() = rootDirectory().path() [fileutilities.h]
+	  - rootDirectory() = directoryOf(".") [fileutilities.h]
+	  - directoryOf() is os dependent
+	    - windows 1 dir up from debug/ or release/ otherwise active dir
+	    - mac 3 dirs up from active dir
+	    - linux 1 up from bin, otherwise active dir
+	    - active dir is QCoreApplication::applicationDirPath()
 
+*** abstractmainwindow
+    - AbstractMainWindow(Options*, ...)
+    - changeDatabase()
+*** opticaldisk
+    - various cache function, path functions, etc.
+** Database files
+*** System files
+**** epsimulator.db
+*** Study files
+** Binary files

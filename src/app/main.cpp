@@ -39,7 +39,6 @@
 
 #include <QtDebug>
 
-
 // Languages -- only define 1 of the below
 //#define GERMAN
 //#define FRENCH

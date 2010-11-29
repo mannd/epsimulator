@@ -203,6 +203,6 @@ inline void clearFlag(T& flags, const K& flag) {
 
 QString systemPath();
 
-}
+} // EpCore
 
 #endif

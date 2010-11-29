@@ -37,7 +37,6 @@
 #include "filtercatalogdialog.h"
 #include "guiutilities.h"
 #include "interval.h"
-#include "itemlist.h"
 #include "movecopystudydialog.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -75,7 +74,6 @@
 using EpCore::capitalize;
 using EpCore::ColumnFormat;
 using EpCore::Interval;
-using EpCore::ItemList;
 using EpCore::Options;
 using EpCore::User;
 using EpGui::EditListDialog;
@@ -106,7 +104,6 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
     createToolBars();
     createCentralWidget();
     createStatusBar();
-    createLists();
 
     connect(catalogComboBox_, SIGNAL(activated(int)),
         this, SLOT(changeCatalog()));
@@ -883,8 +880,6 @@ void Navigator::updateSystemSettings() {
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_
         ->currentCatalog()->path());
-    // might need to create lists if Network storage now enabled.
-    createLists();
     updateMenus();
 }
 
@@ -1003,19 +998,6 @@ void Navigator::createStatusBar() {
     statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this);
     setStatusBar(statusBar_);
     updateStatusBarUserLabel();
-}
-
-// make sure default lists are present on first run of program
-void Navigator::createLists() {
-    // just initializing these lists writes default values for each
-    // of them to disk if the files aren't there already.
-    // But don't bother if the file is already there.
-    // if (!EpCore::systemFileExists(options_, EpLists::fileName()))
-    //     EpLists lists;
-    //if (!EpCore::systemFileExists(options_, Interval::fileName()))
-    //    ItemList<Interval> intervals;
-    if (!EpCore::systemFileExists(options_, ColumnFormat::fileName()))
-        ItemList<ColumnFormat> columnformats;
 }
 
 void Navigator::updateMenus() {

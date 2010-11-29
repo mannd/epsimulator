@@ -23,8 +23,6 @@
 #include <QListView>
 #include <QStringListModel>
 
-#include <QtDebug>
-
 using EpGui::ListSelector;
 
 ListSelector::ListSelector(QListView* unselectedListView,
