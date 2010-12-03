@@ -778,7 +778,7 @@ void Navigator::noStudySelectedError() {
 
 void Navigator::setStudyConfigurations() {
     if (administrationAllowed()) {
-        EditStudyConfigsDialog d(user_, options_, this);
+        EditStudyConfigsDialog d(this);
         d.exec();
     }
 }

@@ -35,6 +35,9 @@ CREATE TABLE Protocols (ProtocolID INTEGER PRIMARY KEY, Name TEXT,
        FocalPointID INTEGER NOT NULL REFERENCES FocalPoints,
        DisplayPageID INTEGER NOT NULL REFERENCES DisplayPages);
 
+CREATE TABLE StudyConfigurations (StudyConfigurationID INTEGER PRIMARY KEY,
+       Name TEXT);
+
 BEGIN TRANSACTION;
 INSERT INTO ArrhythmiaTolerances (Name) VALUES ("SOB");
 INSERT INTO ArrhythmiaTolerances (Name) VALUES ("Diaphoretic");
@@ -301,5 +304,7 @@ INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
 INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
        WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
        VALUES (10, "VEST", 1, 1, 1, 1, 0, 1, 1);
+
+INSERT INTO StudyConfigurations (StudyConfigurationID, Name) VALUES (0, "BASELINE");
 
 COMMIT TRANSACTION;

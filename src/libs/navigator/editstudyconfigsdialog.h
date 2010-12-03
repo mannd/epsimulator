@@ -17,48 +17,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #ifndef EDITSTUDYCONFIGSDIALOG_H
 #define EDITSTUDYCONFIGSDIALOG_H
 
-#include "ui_editstudyconfigsdialog.h"
+#include "abstractedititemsdialog.h"
 
 #include "studyconfiguration.h"
 
-#include <QDialog>
+class QSqlTableModel;
 
-namespace EpCore {
-    class Options;
-    class User;
+// namespace EpCore {
+//     class Options;
+//     class User;
+// }
+
+namespace EpGui {
+
+class AbstractEditItemsDialog;
+
 }
 
 namespace EpNavigator {
 
-class EditStudyConfigsDialog: public QDialog,
-    private Ui::EditStudyConfigsDialog {
+    class EditStudyConfigsDialog: public EpGui::AbstractEditItemsDialog {
     Q_OBJECT
 
 public:
-    EditStudyConfigsDialog(const EpCore::User* const,
-                           const EpCore::Options* const,
-                           QWidget *parent = 0);
-
-    EpStudy::StudyConfiguration config() const {
-        return configList_[configListWidget->currentRow()];}
-
-private slots:
-    //void enableOkButton();
-    void newStudyConfig();
-    void editStudyConfig();
-    void copyStudyConfig();
-    void deleteStudyConfig();
+    enum {
+        StudyConfiguration_Id = 0,
+        StudyConfiguration_Name = 1
+    };
+    EditStudyConfigsDialog(QWidget *parent = 0);
 
 private:
-    void createConfigListWidget();
-    void noSelectionError();
-
-    const EpCore::User* user_;
-    const EpCore::Options* options_;
-    EpStudy::StudyConfigurations configList_;
+    virtual void removeItem();
+    virtual void copyItem();
+    virtual void editItem(EditorType);
+    QSqlTableModel* model_;
 };
 
 }
