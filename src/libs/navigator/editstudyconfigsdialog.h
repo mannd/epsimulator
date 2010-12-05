@@ -23,20 +23,7 @@
 
 #include "abstractedititemsdialog.h"
 
-#include "studyconfiguration.h"
-
 class QSqlTableModel;
-
-// namespace EpCore {
-//     class Options;
-//     class User;
-// }
-
-namespace EpGui {
-
-class AbstractEditItemsDialog;
-
-}
 
 namespace EpNavigator {
 

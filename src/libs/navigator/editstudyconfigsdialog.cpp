@@ -30,14 +30,15 @@
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QSqlRecord>
 #include <QSqlTableModel>
 
-using EpCore::Options;
-using EpCore::User;
+// using EpCore::Options;
+// using EpCore::User;
 using EpNavigator::EditStudyConfigsDialog;
-using EpStudy::StudyConfiguration;
-using EpStudy::StudyConfigurations;
-using EpGui::AbstractEditItemsDialog;
+// using EpStudy::StudyConfiguration;
+// using EpStudy::StudyConfigurations;
+// using EpGui::AbstractEditItemsDialog;
 using EpGui::RealTimeStudyConfigurationDialog;
 
 EditStudyConfigsDialog::EditStudyConfigsDialog(QWidget *parent)
@@ -52,7 +53,19 @@ EditStudyConfigsDialog::EditStudyConfigsDialog(QWidget *parent)
 }
 
 
-void EditStudyConfigsDialog::copyItem() {}
+void EditStudyConfigsDialog::copyItem() {
+    QModelIndex index = listView->currentIndex();
+    QSqlRecord record = model_->record(index.row());
+    QString name = record.value(StudyConfiguration_Name).toString();
+    int id = record.value(StudyConfiguration_Id).toInt();
+    name = tr("Copy of %1").arg(name);
+    int lastRow = model_->rowCount();
+    model_->insertRow(lastRow);
+    index = model_->index(lastRow, StudyConfiguration_Name);
+    listView->setCurrentIndex(index);
+    model_->setData(index, name);
+    model_->submitAll();
+}
 
 void EditStudyConfigsDialog::removeItem() {
     AbstractEditItemsDialog::removeItem(model_);

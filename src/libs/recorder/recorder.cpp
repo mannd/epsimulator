@@ -459,7 +459,13 @@ void Recorder::setProtocol(int index) {
     study_->studyConfiguration()->setCurrentProtocolIndex(index);
 }
 
-void Recorder::newWindow() {}
+void Recorder::newWindow() {
+    if (administrationAllowed()) {
+        Recorder* newRecorder = new Recorder(this, study_, currentDisk_,
+                                             user_, options_, false, Secondary);
+        newRecorder->show();
+    }
+}
 
 void Recorder::winSave() {
     if (administrationAllowed()) {
