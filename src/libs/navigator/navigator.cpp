@@ -1348,8 +1348,9 @@ void Navigator::startStudy(Study* study, bool review) {
     bool allowAcquisition = options_->
         filePathFlags.testFlag(Options::EnableAcquisition) && !review;
     using EpRecorder::Recorder;
-    Recorder* recorder = new Recorder(this, study, currentDisk_, user_,
-                                      options_, allowAcquisition);
+    Recorder* recorder = new Recorder(study, currentDisk_, user_,
+                                      options_, allowAcquisition,
+                                      EpRecorder::Primary, this);
     recorder->restore();
     //recorder->setupInitialScreen();
     connect(recorder, SIGNAL(simulatorSettingsChanged()),

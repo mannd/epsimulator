@@ -79,15 +79,13 @@ using namespace EpHardware::EpAmplifier;
 using namespace EpHardware::EpOpticalDisk;
 using namespace EpHardware::EpStimulator;
 
-const int Recorder::edgeWidth;
-
-Recorder::Recorder(QWidget* parent, 
-                   Study* study, 
+Recorder::Recorder(Study* study, 
                    OpticalDisk* currentDisk,
                    User* user,
                    Options* options,
                    bool allowAcquisition,
-                   RecorderWindow recorderWindow) 
+                   RecorderWindow recorderWindow,
+                   QWidget* parent) 
     : AbstractMainWindow(options, user, parent),
       openDisplayWindowList_(LastDisplayWindow + 1),
       study_(study), 
@@ -97,7 +95,7 @@ Recorder::Recorder(QWidget* parent,
       amplifier_(),
       allowAcquisition_(allowAcquisition),
       recorderWindow_(recorderWindow),
-      realTimeWindow_(0),
+      realTimeWindow_(0),       // initialize subwindow pointers
       review1Window_(0),
       review2Window_(0),
       logWindow_(0),
@@ -105,17 +103,11 @@ Recorder::Recorder(QWidget* parent,
       review1SubWindow_(0),
       review2SubWindow_(0),
       logSubWindow_(0) {
+
     Q_ASSERT(parent != 0);  // never call Recorder without parent
     Q_ASSERT(study_ != 0);  // should never be called with a null Study
 
     setAttribute(Qt::WA_DeleteOnClose);
-
-    if (recorderWindow_ == Primary &&
-        options_->screenFlags.testFlag(Options::TwoRecorderWindows)) {
-        Recorder* recorder = new Recorder(this, study_, 
-                                          currentDisk_, user_, options_, false, Secondary);
-        recorder->restore();
-    }
 
     loadAmplifier();
     loadStudyConfiguration();
@@ -151,24 +143,15 @@ Recorder::Recorder(QWidget* parent,
     connect(this, SIGNAL(patientInformationClosed()),
             patientStatusBar_, SLOT(patientInformationClosed()));
 
-    connect(this, SIGNAL(displayWindowResized(QWidget*)),
-            this, SLOT(resizeDisplayWindows(QWidget*)));
-
-    /// TODO
-    // if (recorderWindow_ == Secondary) {
-    // /* connect signals and slots that only affect Secondary window */
-    // }
-
-    /// FIXME this is bad! This is probably why initial screen doesn't
-    /// work because you are updating in the constructor!!!!!!!!!!
-    updateAll();
+//    connect(this, SIGNAL(displayWindowResized(QWidget*)),
+//            this, SLOT(resizeDisplayWindows(QWidget*)));
 
 }
 
 Recorder::~Recorder() {
     if (recorderWindow_ == Primary) {
-        writeSettings();
-        amplifier_->save(DataStream<Amplifier>::createDataStream(options_));
+        writeSettings();    // ? deprecate
+        //amplifier_->save(DataStream<Amplifier>::createDataStream(options_));
         delete amplifier_;
         delete patient_;
         // Recorder took possession of study_, so has to kill it now.
@@ -180,87 +163,29 @@ void Recorder::loadAmplifier() {
     // DataStream<Amplifier>* dataStream = DataStream<Amplifier>::createDataStream(options_);
     // amplifier_->load(dataStream);
     // delete dataStream;
-    EpCore::SystemData<EpHardware::EpAmplifier::Amplifier> systemData(options_);
+    //EpCore::SystemData<EpHardware::EpAmplifier::Amplifier> systemData(options_);
     // FIXME statement below crashes with SIGABRT
-    systemData.load(*amplifier_);
+    //systemData.load(*amplifier_);
 }
 
 void Recorder::loadStudyConfiguration() {
    study_->loadStudyConfiguration();
 }
 
-void Recorder::loadPatient() {
-    patient_ = new Patient;
-    patient_->setPath(study_->path());
-    patient_->load();
-}
-
-void Recorder::resizeDisplayWindows(QWidget*) {
-    qDebug() << "new new " << static_cast<QMdiArea*>(centralWidget_)->
-            activeSubWindow()->size();
-}
-
-/**
- * Defines area in central Widget that mouse can't drag.
- * @return true if in the edges of the central Widget.
- */
-inline bool Recorder::noMansZone(const QPoint& p) {
-    QPoint origin = centralWidget_->mapToGlobal(QPoint(0,0));
-    return (p.x() < origin.x() + edgeWidth) ||
-           (p.x() > origin.x() + centralWidget_->width() - edgeWidth) ||
-           (p.y() < origin.y() + edgeWidth) ||
-           (p.y() > origin.y() + centralWidget_->height() - edgeWidth);
-}
-
-bool Recorder::eventFilter(QObject* target, QEvent* event) {
-    // if we are emulating the windows event manager then we must:
-    //     1) prevent moving the mdisubwindows around in the central widget
-    //     2) prevent resizing the outside edges of the mdisubwindows
-    //     3) retile the mdisubwindows when the mouse if released
-
-    /// FIXME Goals 1 and 2 work now, at least in KDE and Linux.
-    /// Need to retile based on window positions when mouse button released.
-    /// One way to do this would be to take the sizes of the focus window,
-    /// if it is the log window, change the other windows' height to that
-    /// of the central widget - the log window height, otherwise
-    /// change the log window top position to the bottom of the resized
-    /// window and change the other windows accordingly.
-
-    // no event filtering unless we are emulating the Prucka windows manager
-    if (!options_->screenFlags.testFlag(Options::EmulateWindowsManager))
-        return QMainWindow::eventFilter(target, event);
-    static bool inNoMansZone = false;
-    static bool atStartPosition = true;
-    if (event->type() == QEvent::MouseMove) {
-         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
-         if (mouseEvent->buttons() & Qt::LeftButton)   {
-            if (atStartPosition) {
-                //qDebug() << "mouseEvent->y() = " << mouseEvent->y();
-                inNoMansZone = noMansZone(mouseEvent->globalPos()) ||
-                  (4 < mouseEvent->y() && mouseEvent->y() < 30);
-                //qDebug() << "inNoMansZone = " << inNoMansZone;
-                //qDebug() << "mouse globalPos() = " << mouseEvent->globalPos()
-                //         << " mouse pos() = " << mouseEvent->pos();
-                atStartPosition = false;
-                if (inNoMansZone)
-                    QApplication::setOverrideCursor(QCursor(Qt::ForbiddenCursor));
-           }
-            if (inNoMansZone)
-                return true;
-         }
-        else {
-            inNoMansZone = false;   // reset this
-            atStartPosition = true;
-        }
-    }
-    QApplication::restoreOverrideCursor();
-    return QMainWindow::eventFilter(target, event);
-}
-
 void Recorder::createCentralWidget() {
     centralWidget_ = new QMdiArea;
     setCentralWidget(centralWidget_);
     readSettings();
+}
+
+void Recorder::loadPatient() {
+    patient_ = new Patient;
+    patient_->setPath(study_->path());
+    patient_->load();
+    // better to do this?
+    // QFile file(study_->path());
+    // QDataStream in(&file);
+    // patient_ << in;
 }
 
 /// TODO Further complexities:
@@ -460,10 +385,13 @@ void Recorder::setProtocol(int index) {
 }
 
 void Recorder::newWindow() {
+    if (recorderWindow_ == Secondary)
+        return;                 // only allow a single secondary window
     if (administrationAllowed()) {
-        Recorder* newRecorder = new Recorder(this, study_, currentDisk_,
-                                             user_, options_, false, Secondary);
-        newRecorder->show();
+        Recorder* newRecorder = new Recorder(study_, currentDisk_,
+                                             user_, options_, false, Secondary,
+                                             this);
+        newRecorder->restore();
     }
 }
 
@@ -588,11 +516,6 @@ void Recorder::closeEvent(QCloseEvent *event) {
     }
     else
         event->ignore();
-}
-
-void Recorder::resizeEvent(QResizeEvent*) {
-    if (options_->screenFlags.testFlag(Options::EmulateWindowsManager))
-        tileSubWindows();
 }
 
 bool Recorder::closeStudy() {
@@ -1095,7 +1018,8 @@ void Recorder::updateMenus() {
     logAction_->setChecked(logPresent);
     realTimeAction_->setEnabled(options_->
         filePathFlags.testFlag(Options::EnableAcquisition)  &&
-        !options_->screenFlags.testFlag(Options::EmulateWindowsManager));
+        !options_->screenFlags.testFlag(Options::EmulateWindowsManager)
+        && recorderWindow_ != Secondary);
     // Tile and cascade menu items only appear if Prucka windows manager emulation is off
     tileAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
     cascadeAction_->setVisible(!options_->screenFlags.testFlag

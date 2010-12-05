@@ -71,12 +71,13 @@ class Review2Window;
 class Recorder : public EpGui::AbstractMainWindow {
     Q_OBJECT
 public:
-    Recorder(QWidget* parent, EpStudy::Study* study,
+    Recorder(EpStudy::Study* study,
              EpHardware::EpOpticalDisk::OpticalDisk* currentDisk,
              EpCore::User* user,
              EpCore::Options* options,
-             bool allowAcquisition = true,
-             RecorderWindow = Primary);
+             bool allowAcquisition,
+             RecorderWindow,
+             QWidget* parent = 0);
     ~Recorder();
 
     RecorderWindow recorderWindow() const {return recorderWindow_;}
@@ -92,10 +93,7 @@ protected:
     // these are definitions of abstract virtual functions in EpGui::AbstractMainWindow
     virtual EpCore::User* user() const {return user_;}
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const {return currentDisk_;}
-
-    bool eventFilter(QObject*, QEvent*);
     void closeEvent(QCloseEvent*);
-    void resizeEvent(QResizeEvent*);
 
 signals:
     void manualSave(bool);  // emitted if Save toolbar button changed
@@ -150,13 +148,9 @@ private slots:
     void logWindowOpen(bool);
     void tileSubWindows();
     void cascadeSubWindows();
-    void resizeDisplayWindows(QWidget*);
 
 private:
     Q_DISABLE_COPY(Recorder)
-
-    static const int edgeWidth = 80; // width of edges that are ignored by mouse
-    bool noMansZone(const QPoint& p);
  
     void loadPatient();
     void loadAmplifier();
@@ -194,8 +188,6 @@ private:
     EpStudy::Study* study_;
     EpStudy::StudyConfiguration* studyConfig_;
     EpPatient::Patient* patient_;
-    EpCore::User* user_;            // owned by Navigator
-    //EpCore::Options* options_;      // owned by Navigator
 
     // hardware
     EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;

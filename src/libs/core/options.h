@@ -50,9 +50,10 @@ namespace EpCore {
 struct Options {
 
 public:
-   ~Options();
+    ~Options();
 
-   enum ScreenFlag {
+    enum ScreenFlag {
+        // NB: Screen options involving multiple screens are deprecated
         NoScreenEmulation       = 0x000000,
         // Puts everything on the left-hand screen, even if dual monitors,
         // no effect if only one monitor.
@@ -86,7 +87,7 @@ public:
         PatientStatusBarHasTitle    = 0x000002,
         RecorderHasStatusBar        = 0x000004,
         DefaultRecorderFlags        = ImmovablePatientStatusBar 
-                                      | RecorderHasStatusBar  
+        | RecorderHasStatusBar  
     };
     Q_DECLARE_FLAGS(RecorderFlags, RecorderFlag)
     RecorderFlags recorderFlags;
@@ -184,7 +185,7 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(Options::FilePathFlags)
 
 template<typename T, typename K>
 inline T readFlags(const QString& name, const K& defaultValue, 
-            const QSettings& settings) {
+                   const QSettings& settings) {
     return static_cast<T>(settings.value(name, int(defaultValue)).toInt());
 }
 

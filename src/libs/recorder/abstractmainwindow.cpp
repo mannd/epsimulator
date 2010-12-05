@@ -111,8 +111,8 @@ void AbstractMainWindow::changeDatabase() {
             return;
     }
     // use local database
-    QString systemDbFilePath(EpCore::joinPaths(EpCore::systemPath(),
-                                               EPSIM_DB_FILENAME));
+    QString systemDbFilePath(EpCore::joinPaths(QString(EpCore::systemPath()),
+                                               QString(EPSIM_DB_FILENAME)));
     QSqlDatabase db = QSqlDatabase::addDatabase(EPSIM_BACKEND_DB);
     db.setHostName(EPSIM_DB_HOSTNAME);
     db.setDatabaseName(systemDbFilePath);
@@ -254,6 +254,7 @@ void AbstractMainWindow::updateWindowTitle(const QString& title) {
 void AbstractMainWindow::restore() {
     readSettings();
     show();
+    updateAll();
 }
 
 /// This is not for final production, just during development.
