@@ -21,13 +21,16 @@
 #ifndef GUIUTILITIES_H
 #define GUIUTILITIES_H
 
+#include <QString>
+
 class QSettings;
 class QWidget;
 
 namespace EpGui {
     int appDpiX();
     int appDpiY();
-    void osDependentRestoreGeometry(QWidget*, const QSettings&);
+    void osDependentRestoreGeometry(QWidget*, QSettings&,
+                                    const QString& subkey = QString());
 }
 
 #endif // GUIUTILITIES_H

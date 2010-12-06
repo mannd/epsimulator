@@ -24,6 +24,8 @@
 #include <QtGui/QWidget>
 #include <QtGui/QX11Info>
 
+#include <QtDebug>
+
 namespace EpGui {
 
 int appDpiX() {
@@ -36,12 +38,18 @@ int appDpiY() {
     return x.appDpiY();
 }
 
-void osDependentRestoreGeometry(QWidget* window, const QSettings& settings) {
+void osDependentRestoreGeometry(QWidget* window,
+                                QSettings& settings,
+                                const QString& subKey) {
     // restoreGeometry doesn't work on X11
     // but resize() and move() work ok.
     // see Window Geometry section of Qt Reference Doc
+    if (!subKey.isEmpty())
+        settings.beginGroup(subKey);
     window->resize(settings.value("size").toSize());
     window->move(settings.value("pos").toPoint());
+    if (!subKey.isEmpty())
+        settings.endGroup();
 }
 
-}
+} // namespace EpGui

@@ -37,9 +37,16 @@ int appDpiY() {
     return 0;
 }
 
-void osDependentRestoreGeometry(QWidget* window, const QSettings& settings) {
-    window->restoreGeometry(settings.value("geometry").toByteArray());
+void osDependentRestoreGeometry(QWidget* window,
+                                QSettings& settings,
+                                const QString& subkey) {
+    if (!subKey.isEmpty())
+        settings.beginGroup(subKey);
+    window->restoreGeometry(settings.value("geometry")
+                            .toByteArray());
+    if (!subKey.isEmpty())
+        settings.endGroup();
 }
 
-}
+} // namespace EpGui
 

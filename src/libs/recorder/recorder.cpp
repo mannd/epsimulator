@@ -175,7 +175,6 @@ void Recorder::loadStudyConfiguration() {
 void Recorder::createCentralWidget() {
     centralWidget_ = new QMdiArea;
     setCentralWidget(centralWidget_);
-    readSettings();
 }
 
 void Recorder::loadPatient() {
@@ -307,7 +306,7 @@ void Recorder::setEmergencySave(bool enable) {
 }
 
 void Recorder::updateAll() {
-    //updateMenus();
+    updateMenus();
     updateWindowTitle();
     updateSimulatorSettings();
 }
@@ -534,8 +533,7 @@ bool Recorder::subWindowIsOpen(QMdiSubWindow* subWindow) {
 
 void Recorder::writeSettings() {
     QSettings settings;
-    int recorderNumber = (recorderWindow_ == Primary ? 1 : 2);
-    settings.beginGroup(QString("recorder%1").arg(recorderNumber));
+    settings.beginGroup(QString("recorder%1").arg(recorderWindow_));
     settings.setValue("geometry", saveGeometry());
     settings.setValue("size", size());
     settings.setValue("pos", pos()); 
@@ -591,15 +589,37 @@ void Recorder::restoreDisplayWindow(const QString& key,
 
 void Recorder::readSettings() {
     QSettings settings;
-    int recorderNumber = (recorderWindow_ == Primary ? 1 : 2);
-    settings.beginGroup(QString("recorder%1").arg(recorderNumber));
+    settings.beginGroup(QString("recorder%1").arg(recorderWindow_));
     QVariant size = settings.value("size");
-    if (size.isNull()) {
-        setWindowState(windowState() ^ Qt::WindowMaximized);
-    }
+    if (size.isNull())  // initial run use default show()
+        return;
     else {
         EpGui::osDependentRestoreGeometry(this, settings);
         restoreState(settings.value("state").toByteArray());
+    }
+    //QString currentWindowKey = settings.value("currentWindowKey").toString();
+    qDebug() << "SubwindowList "
+            << settings.value("subWindowList").toStringList();
+    QStringList subWindowList = settings.value("subWindowList").toStringList();
+    if (subWindowList.contains(realTimeWindowKey)) {
+        realTimeWindowOpen(true);
+        EpGui::osDependentRestoreGeometry(realTimeSubWindow_, settings,
+                                          realTimeWindowKey);
+    }
+    if (subWindowList.contains(review1WindowKey)) {
+        review1WindowOpen(true);
+        EpGui::osDependentRestoreGeometry(review1SubWindow_, settings,
+                                          review1WindowKey);
+    }
+    if (subWindowList.contains(review2WindowKey)) {
+        review2WindowOpen(true);
+        EpGui::osDependentRestoreGeometry(review2SubWindow_, settings,
+                                          review2WindowKey);
+    }
+    if (subWindowList.contains(logWindowKey)) {
+        logWindowOpen(true);
+        EpGui::osDependentRestoreGeometry(logSubWindow_, settings,
+                                          logWindowKey);
     }
     settings.endGroup();
 }
@@ -1016,10 +1036,8 @@ void Recorder::updateMenus() {
     review2Action_->setEnabled(review1Present); 
     review2Action_->setChecked(review2Present);
     logAction_->setChecked(logPresent);
-    realTimeAction_->setEnabled(options_->
-        filePathFlags.testFlag(Options::EnableAcquisition)  &&
-        !options_->screenFlags.testFlag(Options::EmulateWindowsManager)
-        && recorderWindow_ != Secondary);
+    realTimeAction_->setEnabled(allowAcquisition_
+                                && recorderWindow_ != Secondary);
     // Tile and cascade menu items only appear if Prucka windows manager emulation is off
     tileAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
     cascadeAction_->setVisible(!options_->screenFlags.testFlag
