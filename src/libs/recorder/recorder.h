@@ -211,6 +211,10 @@ private:
     // patient status bar
     PatientStatusBar* patientStatusBar_;
 
+    // Secondary Recorder window is present
+    bool secondaryRecorderPresent_;
+    bool allowWriteSettings_;
+
     // Study Menu
     QAction* patientInformationAction_;
     QAction* consciousSedationAction_;

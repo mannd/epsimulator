@@ -102,7 +102,9 @@ Recorder::Recorder(Study* study,
       realTimeSubWindow_(0),
       review1SubWindow_(0),
       review2SubWindow_(0),
-      logSubWindow_(0) {
+      logSubWindow_(0),
+      secondaryRecorderPresent_(false),
+      allowWriteSettings_(true) {
 
     Q_ASSERT(parent != 0);  // never call Recorder without parent
     Q_ASSERT(study_ != 0);  // should never be called with a null Study
@@ -149,7 +151,8 @@ Recorder::Recorder(Study* study,
 }
 
 Recorder::~Recorder() {
-    writeSettings();
+    if (allowWriteSettings_)
+        writeSettings();
     if (recorderWindow_ == Primary) {
         //amplifier_->save(DataStream<Amplifier>::createDataStream(options_));
         delete amplifier_;
@@ -384,13 +387,14 @@ void Recorder::setProtocol(int index) {
 }
 
 void Recorder::newWindow() {
-    if (recorderWindow_ == Secondary)
+    if (recorderWindow_ == Secondary || secondaryRecorderPresent_)
         return;                 // only allow a single secondary window
     if (administrationAllowed()) {
         Recorder* newRecorder = new Recorder(study_, currentDisk_,
                                              user_, options_, false, Secondary,
                                              this);
         newRecorder->restore();
+        secondaryRecorderPresent_ = true;
     }
 }
 
@@ -497,12 +501,18 @@ void Recorder::logWindowOpen(bool open) {
 
 void Recorder::closeEvent(QCloseEvent *event) {
     if (recorderWindow_ == Secondary) {
+        QSettings settings;
+        settings.beginGroup("recorder1");
+        settings.remove("");
+        settings.endGroup();
+        allowWriteSettings_ = false;
         event->accept();
-//        QMessageBox::information(this, tr("Close Primary Window First"),
+//        QMessageBox::information(this,
+//                                 tr("Close Primary Window First"),
 //                                 tr("Please close the RealTime window first."));
 //        event->ignore();
     }
-    else if (closeStudy()) {
+    else if (closeStudy()) {    // Primary Recorder window
         study_->save();
         patient_->save();
         /// TODO if useDiskCache() copy/burn to optical
@@ -933,8 +943,10 @@ void Recorder::createMenus() {
     measurementsMenu_->addAction(dataExtractionAction_);
 
     windowsMenu_ = menuBar()->addMenu(tr("&Windows"));
-    windowsMenu_->addAction(newWindowAction_);
-    windowsMenu_->addSeparator();
+    if (recorderWindow_ == Primary) {
+        windowsMenu_->addAction(newWindowAction_);
+        windowsMenu_->addSeparator();
+    }
     windowsMenu_->addAction(winSaveAction_);
     windowsMenu_->addAction(winSaveAsAction_);
     windowsMenu_->addAction(winSwitchAction_);
