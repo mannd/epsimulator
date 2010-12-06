@@ -599,6 +599,16 @@ void Recorder::restoreDisplayWindow(const QString& key,
         currentSubWindow = sw;
 }
 
+void Recorder::restoreSubWindow(const QString& key,
+                                const QString& activeWindowKey,
+                                QSettings& settings,
+                                QMdiSubWindow* subWindow) {
+        EpGui::osDependentRestoreGeometry(subWindow, settings,
+                                          key);
+        if (activeWindowKey == key)
+            centralWidget_->setActiveSubWindow(subWindow);
+}
+
 void Recorder::readSettings() {
     QSettings settings;
     settings.beginGroup(QString("recorder%1").arg(recorderWindow_));
@@ -609,29 +619,27 @@ void Recorder::readSettings() {
         EpGui::osDependentRestoreGeometry(this, settings);
         restoreState(settings.value("state").toByteArray());
     }
-    //QString currentWindowKey = settings.value("currentWindowKey").toString();
-    qDebug() << "SubwindowList "
-            << settings.value("subWindowList").toStringList();
+    QString currentWindowKey = settings.value("currentWindowKey").toString();
     QStringList subWindowList = settings.value("subWindowList").toStringList();
     if (subWindowList.contains(realTimeWindowKey)) {
         realTimeWindowOpen(true);
-        EpGui::osDependentRestoreGeometry(realTimeSubWindow_, settings,
-                                          realTimeWindowKey);
+        restoreSubWindow(realTimeWindowKey, currentWindowKey, settings,
+                         realTimeSubWindow_);
     }
     if (subWindowList.contains(review1WindowKey)) {
         review1WindowOpen(true);
-        EpGui::osDependentRestoreGeometry(review1SubWindow_, settings,
-                                          review1WindowKey);
+        restoreSubWindow(review1WindowKey, currentWindowKey, settings,
+                         review1SubWindow_);
     }
     if (subWindowList.contains(review2WindowKey)) {
         review2WindowOpen(true);
-        EpGui::osDependentRestoreGeometry(review2SubWindow_, settings,
-                                          review2WindowKey);
+        restoreSubWindow(review2WindowKey, currentWindowKey, settings,
+                         review2SubWindow_);
     }
     if (subWindowList.contains(logWindowKey)) {
         logWindowOpen(true);
-        EpGui::osDependentRestoreGeometry(logSubWindow_, settings,
-                                          logWindowKey);
+        restoreSubWindow(logWindowKey, currentWindowKey, settings,
+                         logSubWindow_);
     }
     settings.endGroup();
     // load the Secondary window

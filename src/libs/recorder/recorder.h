@@ -156,6 +156,10 @@ private:
     void loadAmplifier();
     void loadStudyConfiguration();
 
+    void restoreSubWindow(const QString& key, 
+                          const QString& activeWindowKey,
+                          QSettings& settings,
+                          QMdiSubWindow* subWindow);
     void updateOpenDisplayWindowList();  
     void connectReviewWindows();
     
