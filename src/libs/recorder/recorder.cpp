@@ -149,8 +149,8 @@ Recorder::Recorder(Study* study,
 }
 
 Recorder::~Recorder() {
+    writeSettings();
     if (recorderWindow_ == Primary) {
-        writeSettings();    // ? deprecate
         //amplifier_->save(DataStream<Amplifier>::createDataStream(options_));
         delete amplifier_;
         delete patient_;
@@ -497,9 +497,10 @@ void Recorder::logWindowOpen(bool open) {
 
 void Recorder::closeEvent(QCloseEvent *event) {
     if (recorderWindow_ == Secondary) {
-        QMessageBox::information(this, tr("Close Primary Window First"),
-                                 tr("Please close the RealTime window first."));
-        event->ignore();
+        event->accept();
+//        QMessageBox::information(this, tr("Close Primary Window First"),
+//                                 tr("Please close the RealTime window first."));
+//        event->ignore();
     }
     else if (closeStudy()) {
         study_->save();
@@ -533,6 +534,7 @@ bool Recorder::subWindowIsOpen(QMdiSubWindow* subWindow) {
 
 void Recorder::writeSettings() {
     QSettings settings;
+    //settings.clear();
     settings.beginGroup(QString("recorder%1").arg(recorderWindow_));
     settings.setValue("geometry", saveGeometry());
     settings.setValue("size", size());
@@ -622,6 +624,10 @@ void Recorder::readSettings() {
                                           logWindowKey);
     }
     settings.endGroup();
+    // load the Secondary window
+    if (settings.contains("recorder1/size")
+        && recorderWindow_ == Primary)
+        newWindow();
 }
 
 void Recorder::openStimulator() {
