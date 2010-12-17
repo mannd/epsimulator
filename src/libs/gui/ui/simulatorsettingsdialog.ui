@@ -231,55 +231,41 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QCheckBox" name="emulateTwoScreensCheckBox">
+        <widget class="QCheckBox" name="showTileCascadeCheckBox">
          <property name="text">
-          <string>Emulate 2 Screens</string>
+          <string>Show Tile and Cascade Menu Items</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QCheckBox" name="emulateOneScreenCheckBox">
-         <property name="text">
-          <string>Emulate 1 Screen</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="useTwoRecorderWindowsCheckBox">
-         <property name="text">
-          <string>Use 2 Windows</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
         <widget class="QCheckBox" name="emulateWindowsManagerCheckBox">
          <property name="text">
           <string>Emulate CardioLab Windows Manager</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="2" column="0">
         <widget class="QCheckBox" name="emulatePruckaTilingCheckBox">
          <property name="text">
           <string>Tiling Using CardioLab Layout</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="3" column="0">
         <widget class="QCheckBox" name="immovablePatientStatusBarCheckBox">
          <property name="text">
           <string>Immovable Patient Status Bar</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
+       <item row="4" column="0">
         <widget class="QCheckBox" name="patientStatusBarHasTitleCheckBox">
          <property name="text">
           <string>Patient Status Bar Has Title</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="5" column="0">
         <widget class="QCheckBox" name="recorderHasStatusBarCheckBox">
          <property name="text">
           <string>Recorder Window Has Status Bar</string>
@@ -372,9 +358,7 @@
   <tabstop>labNameLineEdit</tabstop>
   <tabstop>useLabNameCheckBox</tabstop>
   <tabstop>permanentDeleteCheckBox</tabstop>
-  <tabstop>emulateTwoScreensCheckBox</tabstop>
-  <tabstop>emulateOneScreenCheckBox</tabstop>
-  <tabstop>useTwoRecorderWindowsCheckBox</tabstop>
+  <tabstop>showTileCascadeCheckBox</tabstop>
   <tabstop>emulateWindowsManagerCheckBox</tabstop>
   <tabstop>emulatePruckaTilingCheckBox</tabstop>
   <tabstop>immovablePatientStatusBarCheckBox</tabstop>

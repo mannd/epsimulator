@@ -79,6 +79,7 @@ private slots:
     // class Amplifier
     void testAmplifier();
     void testAmplifierStream();
+    void testChannel();
     // class StudyConfiguration
     void testStudyConfigurationStream();
     void testStudyConfigurations();

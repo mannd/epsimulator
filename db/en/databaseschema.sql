@@ -15,7 +15,8 @@ CREATE TABLE Marks (MarkID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE ColumnFormats (ColumnFormatID INTEGER PRIMARY KEY, Name TEXT);
 CREATE TABLE ColumnFormatInterval (ColumnFormatID INTEGER NOT NULL
        REFERENCES ColumnFormats, IntervalID INTEGER NOT NULL
-       REFERENCES Intervals, SortOrder Integer NOT NULL);
+       REFERENCES Intervals, SortOrder INTEGER NOT NULL,
+       PRIMARY KEY (ColumnFormatID, IntervalID));
 CREATE TABLE ChannelLabels (ChannelLabelID INTEGER PRIMARY KEY, Name TEXT,
        MeasurementTypeID INTEGER NOT NULL DEFAULT 1
         REFERENCES MeasurementTypes);
@@ -34,9 +35,21 @@ CREATE TABLE Protocols (ProtocolID INTEGER PRIMARY KEY, Name TEXT,
        UpdateReviewWindowID INTEGER NOT NULL REFERENCES OnOff,
        FocalPointID INTEGER NOT NULL REFERENCES FocalPoints,
        DisplayPageID INTEGER NOT NULL REFERENCES DisplayPages);
-
+CREATE TABLE Channels (ChannelID INTEGER PRIMARY KEY, ChannelNumber INTEGER,
+       Label TEXT, Scale INTEGER, Clip INTEGER, Color INTEGER, DisplayPages INTEGER,
+       AlwaysSave INTEGER, Type INTEGER, PosInput INTEGER, NegInput INTEGER,
+       Gain INTEGER, HighPass NUMERIC, LowPass NUMERIC, Notch INTEGER);
 CREATE TABLE StudyConfigurations (StudyConfigurationID INTEGER PRIMARY KEY,
        Name TEXT);
+CREATE TABLE StudyConfigurationProtocol (StudyConfigurationID INTEGER NOT NULL
+       REFERENCES StudyConfigurations, ProtocolID INTEGER NOT NULL
+       REFERENCES Protocols, SortOrder INTEGER NOT NULL,
+       PRIMARY KEY (StudyConfigurationID, ProtocolID));
+CREATE TABLE StudyConfigurationChannel (StudyConfigurationID INTEGER NOT NULL
+       REFERENCES StudyConfigurations, ChannelID INTEGER NOT NULL
+       REFERENCES Channels, PRIMARY KEY (StudyConfigurationID, ChannelID));
+
+-- Translation specific data is below
 
 BEGIN TRANSACTION;
 INSERT INTO ArrhythmiaTolerances (Name) VALUES ("SOB");
@@ -306,5 +319,12 @@ INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
        VALUES (10, "VEST", 1, 1, 1, 1, 0, 1, 1);
 
 INSERT INTO StudyConfigurations (StudyConfigurationID, Name) VALUES (0, "BASELINE");
+INSERT INTO StudyConfigurationProtocol (StudyConfigurationID, ProtocolID, SortOrder)
+       VALUES (0, 1, 1);
+INSERT INTO StudyConfigurationChannel (StudyConfigurationID, ChannelID)
+       VALUES (0, 0);
+INSERT INTO Channels (ChannelID, ChannelNumber, Label, Scale, Clip, Color,
+       DisplayPages, AlwaysSave, Type, PosInput, NegInput, Gain, HighPass, 
+       LowPass, Notch) VALUES (0, 1, "I", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 COMMIT TRANSACTION;

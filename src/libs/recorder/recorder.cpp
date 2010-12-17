@@ -1064,10 +1064,10 @@ void Recorder::updateMenus() {
     logAction_->setChecked(logPresent);
     realTimeAction_->setEnabled(allowAcquisition_
                                 && recorderWindow_ != Secondary);
-    // Tile and cascade menu items only appear if Prucka windows manager emulation is off
-    tileAction_->setVisible(!options_->screenFlags.testFlag(Options::EmulateWindowsManager));
-    cascadeAction_->setVisible(!options_->screenFlags.testFlag
-                              (Options::EmulateWindowsManager));
+    tileAction_->setVisible(options_->screenFlags
+                            .testFlag(Options::ShowTileCascade));
+    cascadeAction_->setVisible(options_->screenFlags.testFlag
+                              (Options::ShowTileCascade));
 }
 
 void Recorder::saveStudyConfiguration() {

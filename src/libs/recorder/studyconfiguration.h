@@ -17,8 +17,8 @@
 #ifndef STUDYCONFIGURATION_H
 #define STUDYCONFIGURATION_H
 
-#include "amplifier.h"
 #include "columnformat.h"
+#include "fileutilities.h"
 #include "windowsetting.h"
 
 #include <QtCore/QBitArray>
@@ -31,36 +31,69 @@ class QDataStream;
 
 namespace EpStudy {
 
-    class Channel : public EpHardware::EpAmplifier::Channel {
+class Channel {
 
 public:
     friend QDataStream& operator<<(QDataStream&, const Channel&);
     friend QDataStream& operator>>(QDataStream&, Channel&);
 
     enum Clip {NoClip, C1, C2};
-
-    Channel(int number = 1);
+    enum Scale {OneSixteenth, OneEighth, OneQuarter, OneHalf, One};
+    enum ChannelType {NotUsed, ECG, Pressure, Bipolar, 
+                      UnipolarWCT, UnipolarAuxRef,
+                      AblateRecord, Stim1, Stim2, Stim3, Stim4};
+    explicit Channel(int number = 1);
     ~Channel() {}
 
-    void setNumber(int n) {number_ = n;}
-    void setClip(Clip clip) {clip_ = clip;}
-    void setColor(const QColor& color) {color_ = color;}
-    void setDisplayPages(const QBitArray& pages) {displayPages_ = pages;}
-    void setAlwaysSave(bool enable) {alwaysSave_ = enable;}
-
+    // display settings
     int number() const {return number_;}
+    QString label() const {return label_;} 
     Clip clip() const {return clip_;}
     QColor color() const {return color_;}
     QBitArray displayPages() const {return displayPages_;}
     bool alwaysSave() const {return alwaysSave_;}
 
+    // hardware settings
+    ChannelType channelType() const {return channelType_;}
+    int negInput() const {return negInput_;}
+    int posInput() const {return posInput_;}
+    int gain() const {return gain_;}
+    double highPassFilter() const {return highPassFilter_;}
+    double lowPassFilter() const {return lowPassFilter_;}
+    bool notchFilter() const {return notchFilter_;}
+
+    // display settings
+    void setNumber(int n) {number_ = n;}
+    void setLabel(const QString& label) {label_ = label;}
+    void setClip(Clip clip) {clip_ = clip;}
+    void setColor(const QColor& color) {color_ = color;}
+    void setDisplayPages(const QBitArray& pages) {displayPages_ = pages;}
+    void setAlwaysSave(bool enable) {alwaysSave_ = enable;}
+
+    // hardware settings
+    void setChannelType(const ChannelType& type) {channelType_ = type;}
+    void setNegInput(int n) {negInput_ = n;}
+    void setPosInput(int n) {posInput_ = n;}
+    void setGain(int gain) {gain_ = gain;}
+    void setHighPassFilter(double freq) {highPassFilter_ = freq;}
+    void setLowPassFilter(double freq) {lowPassFilter_ = freq;}
+    void setNotchFilter(bool enable) {notchFilter_ = enable;}
+
 private:
     int number_;
+    QString label_;
     Clip clip_;
     QColor color_; 
     QBitArray displayPages_;
     bool alwaysSave_;
-    EpHardware::EpAmplifier::Amplifier* amplifier_;
+    Scale scale_;
+    ChannelType channelType_;
+    int posInput_;
+    int negInput_;
+    int gain_;
+    double highPassFilter_;
+    double lowPassFilter_;
+    bool notchFilter_;
 };
 
 class MacroList {
@@ -79,8 +112,6 @@ public:
 private:
     QString name_;
 };
-
-
 
 class Protocol {
     Q_DECLARE_TR_FUNCTIONS(Protocol)
@@ -112,12 +143,9 @@ public:
 
     Protocol& operator=(const Protocol&);
 
-
     bool operator==(const Protocol& rhs) const {
         return name_ == rhs.name_;
     }
-
-
 
     static unsigned int magicNumber() {return MagicNumber;}
     static QString fileName() {return fileName_;}
@@ -188,15 +216,26 @@ private:
  *       - Protocol List              list of protocols available in the study
  *       - Activation Alignment       configuration for activation alignment
  *       - Mapping                    mapping configuration 
- */
+ * A pointer to the current StudyConfiguration is passed to each
+ * Recorder subwindow and to the Amplifier.  The ChannelSettings are
+ * used to set up each subwindow and the Channels in the Amplifier.
+ * The StudyConfiguration doesn't care how it's used; it is just a 
+ * receptical for configuration data.  
+ *
+ * The StudyConfiguration does need to know the number of amplifier 
+ * channels in use, so as not to display unused channels.  It is
+ * passed the number of channels in its constructor.  If the user
+ * changes the amplifier, study channels are either truncated or
+ * displayed as unused channels, depending on whether the number of 
+ * channels increases or decreases.
+ */                             
 class StudyConfiguration {
     Q_DECLARE_TR_FUNCTIONS(StudyConfiguration)
 
 public:
 
     StudyConfiguration(const QString& name = tr("<default>"),
-		       EpHardware::EpAmplifier::Amplifier* const amplifier
-		       = 0);
+		       int numChannels = 32);
     StudyConfiguration(const StudyConfiguration&);
     ~StudyConfiguration();
 
@@ -208,7 +247,7 @@ public:
     static unsigned int magicNumber() {return MagicNumber;}
     static QString fileName() {return configFileName_;}
 
-    int numChannels() const {return amplifier_->numChannels();}
+    int numChannels() const {return numChannels_;}
 
     Channel& channel(int n);
     QList<Protocol> protocolList() const {return protocolList_;}
@@ -221,7 +260,6 @@ public:
     void setProtocolList(const QList<Protocol>& list) {protocolList_ = list;}
 
     QString name() const {return name_;}
-    EpHardware::EpAmplifier::Amplifier* amplifier() const {return amplifier_;}
 
 private:
     enum {MagicNumber = 0x88827393};
@@ -231,11 +269,41 @@ private:
     static const QString configFileName_;
 
     QString name_;
+    int numChannels_;
     QList<Protocol> protocolList_;  // == selectedProtocols_
 
     QList<Channel> channelList_;
     int currentProtocolIndex_;
-    EpHardware::EpAmplifier::Amplifier* amplifier_;
+
+    // Measurements | Measurements tab
+    Channel* surfaceLeadChannel1_;
+    Channel* surfaceLeadChannel2_;
+    Channel* surfaceLeadChannel3_;
+    Channel* atrialChannel_;
+    Channel* hisBundleChannel_;
+    Channel* ventricularChannel_;
+    // int markPosition_;
+    Channel* triggerChannel_;
+    int minIntervalBetweenStimTrains_;
+    // Measurements | AutoSave Setting tab
+    int hrChannel1HighThreshold_;
+    int hrChannel1LowThreshold_;
+    int hrChannel2HighThreshold_;
+    int hrChannel2LowThreshold_;
+    bool saveUsingHrChannel1_;
+    bool saveUsingHrChannel2_;
+    bool saveForStimDetection_;
+    // Measurements | Vital Configuration
+    Channel* monitoringBP_;
+    Channel* vitalLogBP_;
+    Channel* hrChannel1_;
+    Channel* hrChannel2_;
+    bool useAutoNbp_;
+    int nbpTimeInterval_;
+    int cuffSize_;
+    bool useAutoVitalLog_;
+    int vitalLogTimeInterval_;
+
 };
 
 class StudyConfigurations {
@@ -282,7 +350,7 @@ private:
     StudyConfigurationList configList_;
 };
 
-}
+} // namespace EpStudy
 
 
 

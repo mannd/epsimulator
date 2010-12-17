@@ -160,7 +160,8 @@ void StudyConfigurationDialog::saveAs() {
 }
 
 void StudyConfigurationDialog::amplifierReset() {
-    studyConfiguration_->amplifier()->reset();
+    //studyConfiguration_->amplifier()->reset();
+    //emit(ampliferReset();
     QMessageBox::information(this, tr("Amplifier Reset"),
 			     tr("Amplifier successfully reset"));
 }

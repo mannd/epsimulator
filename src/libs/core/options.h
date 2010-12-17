@@ -77,7 +77,8 @@ public:
         // Simpler to just set a flag for 2 recorder windows, have Recorder
         // constructor figure out what to do.  When there are 2 screens,
         // positioning acts like there is only one large screen.
-        DefaultScreenFlags      = EmulateWindowsManager | EmulatePruckaTiling
+        ShowTileCascade         = 0x000012,
+        DefaultScreenFlags      = ShowTileCascade
     };
     Q_DECLARE_FLAGS(ScreenFlags, ScreenFlag)
     ScreenFlags screenFlags;

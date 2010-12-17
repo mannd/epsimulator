@@ -20,8 +20,6 @@
 
 #include "studyconfiguration.h"
 
-#include "amplifier.h"
-#include "fileutilities.h"
 #include "itemlist.h"
 #include "options.h"
 
@@ -34,25 +32,45 @@ namespace EpStudy {
 
 using EpCore::DataStream;
 using EpCore::Options;
-using EpHardware::EpAmplifier::Amplifier;
 
 QDataStream& operator<<(QDataStream& out, const Channel& channel) {
-    out << (qint32)channel.number_ << (qint16)channel.clip_ 
-        << channel.displayPages_ << channel.alwaysSave_; 
+    out << (qint16)channel.number_ << (qint16)channel.clip_ 
+        << channel.color_ << channel.displayPages_ 
+        << channel.alwaysSave_ << (qint16)channel.scale_
+        << (qint16)channel.channelType_ << (qint16)channel.posInput_
+        << (qint16)channel.negInput_ << (qint16)channel.gain_
+        << channel.highPassFilter_ << channel.lowPassFilter_
+        << channel.notchFilter_ ; 
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Channel& channel) {
     qint16 clip;
-    in >> channel.number_ >> clip 
-       >> channel.displayPages_ >> channel.alwaysSave_;
+    qint16 scale;
+    qint16 channelType;
+    in >> channel.number_ >> clip >> channel.color_
+       >> channel.displayPages_ >> channel.alwaysSave_
+       >> scale >> channelType >> channel.posInput_
+       >> channel.negInput_ >> channel.gain_
+       >> channel.highPassFilter_ >> channel.lowPassFilter_
+       >> channel.notchFilter_;
     channel.clip_ = static_cast<Channel::Clip>(clip);
+    channel.scale_ = static_cast<Channel::Scale>(scale);
+    channel.channelType_ = static_cast<Channel::ChannelType>(channelType);
     return in;
 }
 
-Channel::Channel(int number) : number_(number), clip_(NoClip), 
-			       color_(Qt::white), displayPages_(QBitArray()),
-			       alwaysSave_(false) {} 
+Channel::Channel(int number) : number_(number), 
+                               clip_(NoClip), 
+			       color_(Qt::white), 
+                               alwaysSave_(false),
+                               channelType_(NotUsed),
+                               posInput_(0),
+                               negInput_(0),
+                               gain_(500),
+                               highPassFilter_(30.0),
+                               lowPassFilter_(500.0),
+                               notchFilter_(false) {} 
 
 QDataStream& operator<<(QDataStream& out, const MacroList& m) {
     out << m.name_;
@@ -149,14 +167,10 @@ QList<Protocol> Protocol::defaultItems() {
 const QString StudyConfiguration::configFileName_ = "config.dat";
 
 StudyConfiguration::StudyConfiguration(const QString& name,
-                                       Amplifier* const amplifier)
-	: name_(name), 
-	  protocolList_(Protocol::defaultItems()),
-	  channelList_(), currentProtocolIndex_(0),
-          amplifier_(amplifier) {
-    if (!amplifier_)
-        amplifier_ = new Amplifier;
-}
+                                       int numChannels)
+    : name_(name), numChannels_(numChannels),
+      protocolList_(Protocol::defaultItems()),
+      channelList_(), currentProtocolIndex_(0) {}
 
 StudyConfiguration::StudyConfiguration(const StudyConfiguration& rhs) {
     copyStudyConfiguration(rhs);
@@ -173,16 +187,16 @@ StudyConfiguration& StudyConfiguration::operator=(
 }
 
 Channel& StudyConfiguration::channel(int n) {
-    n = qBound(1, n, amplifier_->numChannels());
+    n = qBound(1, n, numChannels_);
     return channelList_[n-1];
 }
 
 void StudyConfiguration::copyStudyConfiguration(const StudyConfiguration& rhs) {
     name_ = rhs.name_;
+    numChannels_ = rhs.numChannels_;
     protocolList_ = rhs.protocolList_;
     channelList_ = rhs.channelList_;
     currentProtocolIndex_ = rhs.currentProtocolIndex_;
-    amplifier_ = rhs.amplifier_;
 }
 
 QList<Protocol> StudyConfiguration::unselectedProtocols() const {

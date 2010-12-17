@@ -738,3 +738,20 @@ polymorphic) and is passed to classes that need to system save data.
 **** epsimulator.db
 *** Study files
 ** Binary files
+* Channels
+** How does the simulation work - the basic loop
+   - QTimer member of RealTimeWindow
+   - A rectangular window is drawn at the head of the sweep using the
+     background color
+   - Each channel on display page is polled in order
+   - An int is received from each channel
+   - This int is the Y coordinate of the output of the channel
+     - which is an amplitude in reference to each channels zero Y coordinate
+   - The X coordinate is determined by sweep speed and screen size
+   - A QPoint is generated and a line is drawn from the last QPoint to the
+     current one
+   - The process loops
+   - When the X coordinate reaches its max value it goes back to 0
+** Whiteboarding channels
+   RealTimeWindow is polling each channel.  This is a QList<Channel>
+   presumably.  So, 

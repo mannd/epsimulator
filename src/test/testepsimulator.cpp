@@ -665,6 +665,24 @@ void TestEpSimulator::testAmplifierStream() {
     QVERIFY(f.channel(2)->label() == "YYY");
 }
 
+void TestEpSimulator::testChannel() {
+    EpStudy::Channel c;
+    QVERIFY(c.number() == 1);   // default Channel number 
+    QVERIFY(c.clip() == EpStudy::Channel::NoClip);
+    QVERIFY(c.color() == Qt::white);
+    QVERIFY(c.alwaysSave() == false);
+    QVERIFY(c.label().isEmpty());
+    QVERIFY(c.negInput() == 0);
+    QVERIFY(c.posInput() == 0);
+    QVERIFY(c.gain() == 500);
+    QVERIFY(c.highPassFilter() == 30.0);
+    QVERIFY(c.lowPassFilter() == 500);
+    QVERIFY(c.notchFilter() == false);
+    EpStudy::Channel c1(5);
+    QVERIFY(c1.number() == 5);
+
+}
+
 void TestEpSimulator::testStudyConfigurationStream() {
     StudyConfiguration sc;
     QVERIFY(sc.name() == tr("<default>"));
