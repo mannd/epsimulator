@@ -21,7 +21,6 @@ HEADERS += options.h \
     probability.h \
     epdefs.h \
     interval.h \
-    itemlist.h \
     mark.h \
     columnformat.h \
     coreconstants.h

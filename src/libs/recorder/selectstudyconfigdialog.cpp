@@ -23,10 +23,11 @@
 #include <QList>
 #include <QListWidgetItem>
 #include <QPushButton>
+#include <QSqlTableModel>
 
 using EpGui::SelectStudyConfigDialog;
 using EpStudy::StudyConfiguration;
-using EpStudy::StudyConfigurations;
+using EpStudy::StudyConfigurations;  // delete after refactoring
 
 SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     : QDialog(parent) {
@@ -35,29 +36,45 @@ SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(configListWidget, SIGNAL(itemClicked(QListWidgetItem*)), 
+    connect(configListView, SIGNAL(itemClicked(QListWidgetItem*)),
         this, SLOT(enableOkButton()));
-    connect(configListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+    connect(configListView, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
         this, SLOT(accept()));
 
-    configListWidget->setSortingEnabled(true);
+    //configListView->setSortingEnabled(true);
 
-    for (int i = 0; i < configList_.size(); ++i)
-        new QListWidgetItem(configList_[i].name(), configListWidget);
+    model_ = new QSqlTableModel(this);
+    model_->setTable("StudyConfigurations");
+    model_->select();
+    configListView->setModel(model_);
+    configListView->setModelColumn(StudyConfiguration_Name);
+
+    /*for (int i = 0; i < configList_.size(); ++i)
+        new QListWidgetItem(configList_[i].name(), configListWidget)*/;
 }
 
 SelectStudyConfigDialog::~SelectStudyConfigDialog() {}
 
 void SelectStudyConfigDialog::enableOkButton() {
-    buttonBox->button(QDialogButtonBox::Ok)->
-        setEnabled(configListWidget->selectedItems().size() > 0);
+//    buttonBox->button(QDialogButtonBox::Ok)->
+//        setEnabled(configListView->selectedItems().size() > 0);
 }
+
+// returns StudyConfiguration* selected, or 0 if none selected
+StudyConfiguration* SelectStudyConfigDialog::studyConfiguration() {
+    QModelIndex index = configListView->currentIndex();
+    if (!index.isValid())
+        return 0;
+    StudyConfiguration* s = new StudyConfiguration;
+    return s;
+}
+
 
 void SelectStudyConfigDialog::setStudyConfiguration(
         const StudyConfiguration& s) {
-    int n;
-    if ((n = configList_.index(s.name())) > -1) {
-        configListWidget->setCurrentRow(n);
-        enableOkButton();
-    }
+//    int n;
+//    if ((n = configList_.index(s.name())) > -1) {
+//        configListView->setCurrentRow(n);
+//        enableOkButton();
+//    }
 }

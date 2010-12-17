@@ -53,6 +53,6 @@ private:
     QList<Interval> intervals_;
 };
 
-}
+} // namespace EpCore
 
 #endif // COLUMNFORMAT_H

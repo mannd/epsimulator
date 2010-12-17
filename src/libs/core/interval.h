@@ -77,6 +77,6 @@ private:
     int width_;
 };
 
-}
+} // namespace EpCore
 
 #endif // INTERVAL_H

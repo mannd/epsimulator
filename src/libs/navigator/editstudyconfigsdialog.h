@@ -44,6 +44,6 @@ private:
     QSqlTableModel* model_;
 };
 
-}
+} // namespace EpNavigator
 
 #endif // EDITSTUDYCONFIGSDIALOG_H

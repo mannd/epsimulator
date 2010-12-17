@@ -20,7 +20,6 @@
 
 #include "studyconfiguration.h"
 
-#include "itemlist.h"
 #include "options.h"
 
 #include <QtCore/QDataStream>
@@ -200,12 +199,13 @@ void StudyConfiguration::copyStudyConfiguration(const StudyConfiguration& rhs) {
 }
 
 QList<Protocol> StudyConfiguration::unselectedProtocols() const {
-    EpCore::ItemList<Protocol> protocols;
-    QList<Protocol> unselectedProtocols = protocols.list();
-    QListIterator<Protocol> iter(protocolList_);
-    while (iter.hasNext())
-        unselectedProtocols.removeAll(iter.next());
-    return unselectedProtocols;
+    return QList<Protocol>();
+//    EpCore::ItemList<Protocol> protocols;
+//    QList<Protocol> unselectedProtocols = protocols.list();
+//    QListIterator<Protocol> iter(protocolList_);
+//    while (iter.hasNext())
+//        unselectedProtocols.removeAll(iter.next());
+//    return unselectedProtocols;
 }
 
 const QString StudyConfigurations::fileName_ = "configs.dat";

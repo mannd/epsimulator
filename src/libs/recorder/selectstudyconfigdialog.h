@@ -26,7 +26,7 @@
 
 #include <QDialog>
 
-class QString;
+class QSqlTableModel;
 
 namespace EpGui {
 
@@ -35,14 +35,17 @@ class SelectStudyConfigDialog: public QDialog,
     Q_OBJECT
 
 public:
+    enum {
+        StudyConfiguration_Id = 0,
+        StudyConfiguration_Name = 1
+    };
     SelectStudyConfigDialog(QWidget *parent = 0);
     ~SelectStudyConfigDialog();
 
     QString config() const {
-        return configListWidget->selectedItems()[0]->text();}
-    EpStudy::StudyConfiguration* studyConfiguration() {
-        return configList_.studyConfiguration(config());
-    }
+        //return configListView->selectedItems()[0]->text();}
+        return "<<TEST>>";}
+    EpStudy::StudyConfiguration* studyConfiguration();
 
     void setStudyConfiguration(const EpStudy::StudyConfiguration&);
 
@@ -50,6 +53,7 @@ private slots:
     void enableOkButton();
 
 private:
+    QSqlTableModel* model_;
     EpStudy::StudyConfigurations configList_;
 
 };

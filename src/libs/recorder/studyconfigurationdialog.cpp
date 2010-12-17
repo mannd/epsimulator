@@ -21,7 +21,6 @@
 #include "studyconfigurationdialog.h"
 
 #include "amplifier.h"
-#include "itemlist.h"
 #include "listselector.h"
 #include "studyconfiguration.h"
 
@@ -103,12 +102,12 @@ void StudyConfigurationDialog::changePage(const QModelIndex& index) {
 void StudyConfigurationDialog::updateStudyConfiguration() {
     // update studyConfiguration_ before saving or returning
     // bunch of other updating here
-    QStringListIterator iter(protocolListSelector_->selected());
-    EpCore::ItemList<Protocol> allProtocols;
-    QList<Protocol> protocols;
-    while (iter.hasNext())
-        protocols.append(allProtocols[iter.next()]);
-    studyConfiguration_->setProtocolList(protocols);
+//    QStringListIterator iter(protocolListSelector_->selected());
+//    EpCore::ItemList<Protocol> allProtocols;
+//    QList<Protocol> protocols;
+//    while (iter.hasNext())
+//        protocols.append(allProtocols[iter.next()]);
+//    studyConfiguration_->setProtocolList(protocols);
 }
 
 void StudyConfigurationDialog::save() {

@@ -321,11 +321,11 @@ public:
     static QString fileName() {return fileName_;}
 
     void refresh(EpCore::DataStream<StudyConfigurations>* const dataStream) {
-	readStudyConfigurations(dataStream);}
+        readStudyConfigurations(dataStream);}
     void load(EpCore::DataStream<StudyConfigurations>* const dataStream) {
-	readStudyConfigurations(dataStream);}
+        readStudyConfigurations(dataStream);}
     void save(EpCore::DataStream<StudyConfigurations>* const dataStream) {
-	writeStudyConfigurations(dataStream);}
+        writeStudyConfigurations(dataStream);}
 
     // below don't change permanently unless save() called
     bool add(const StudyConfiguration& config);
@@ -343,9 +343,9 @@ private:
     static const QString fileName_;
 
     void readStudyConfigurations(EpCore::DataStream<StudyConfigurations>*
-				 const dataStream);
+                                 const dataStream);
     void writeStudyConfigurations(EpCore::DataStream<StudyConfigurations>*
-				  const dataStream);
+                                  const dataStream);
 
     StudyConfigurationList configList_;
 };
