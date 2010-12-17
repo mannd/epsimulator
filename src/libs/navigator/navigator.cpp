@@ -153,11 +153,14 @@ void Navigator::newStudy() {
             const QString configName =
                     selectStudyConfigDialog->config();
             study->setPreregisterStudy(false);
-            StudyConfigurations configList;
-            if (configList.isPresent(configName))
+            study->setStudyConfiguration(selectStudyConfigDialog
+                                         ->studyConfiguration());
+            //StudyConfigurations configList;
+
+            /*if (configList.isPresent(configName))
                 study->setStudyConfigName(configName);
             else
-                throw EpCore::StudyConfigurationNotFoundError(configName);
+                throw EpCore::StudyConfigurationNotFoundError(configName);*/
             if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),

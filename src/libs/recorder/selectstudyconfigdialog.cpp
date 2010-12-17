@@ -36,9 +36,9 @@ SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(configListView, SIGNAL(itemClicked(QListWidgetItem*)),
+    connect(configListView, SIGNAL(clicked(const QModelIndex&)),
         this, SLOT(enableOkButton()));
-    connect(configListView, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+    connect(configListView, SIGNAL(doubleClicked(const QModelIndex&)),
         this, SLOT(accept()));
 
     //configListView->setSortingEnabled(true);
@@ -56,8 +56,9 @@ SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
 SelectStudyConfigDialog::~SelectStudyConfigDialog() {}
 
 void SelectStudyConfigDialog::enableOkButton() {
-//    buttonBox->button(QDialogButtonBox::Ok)->
-//        setEnabled(configListView->selectedItems().size() > 0);
+    QModelIndex index = configListView->currentIndex();
+    buttonBox->button(QDialogButtonBox::Ok)->
+        setEnabled(index.isValid());
 }
 
 // returns StudyConfiguration* selected, or 0 if none selected
@@ -65,7 +66,7 @@ StudyConfiguration* SelectStudyConfigDialog::studyConfiguration() {
     QModelIndex index = configListView->currentIndex();
     if (!index.isValid())
         return 0;
-    StudyConfiguration* s = new StudyConfiguration;
+    StudyConfiguration* s = new StudyConfiguration(index.data().toString());
     return s;
 }
 
