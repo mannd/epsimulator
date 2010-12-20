@@ -106,8 +106,7 @@ namespace EpStudy {
             ischemia_(false),
             path_(),
             isPregisterStudy_(true),
-            heartName_(QObject::tr("<default>")),
-            studyConfigName_(QObject::tr("<default>")) {
+            heartName_(QObject::tr("<default>")) {
         studyConfiguration_ = new StudyConfiguration;
         testInvariant();
     }
@@ -229,7 +228,6 @@ namespace EpStudy {
         key_ = study.key_;
         isPregisterStudy_ = study.isPregisterStudy_;
         heartName_ = study.heartName_;
-        studyConfigName_ = study.studyConfigName_;
         // copy the heart pointer
         //heart_ = new Heart(*study.heart_);
         studyConfiguration_ = new StudyConfiguration(*study.studyConfiguration_);
@@ -249,7 +247,6 @@ namespace EpStudy {
                 << (qint32)study.ischemia_ << study.path_ << study.key_
                 << study.isPregisterStudy_
                 << study.heartName_
-                << study.studyConfigName_
                 << *study.studyConfiguration_;
         return out;
     }
@@ -267,7 +264,6 @@ namespace EpStudy {
                 >> ischemia >> study.path_ >> study.key_
                 >> study.isPregisterStudy_
                 >> study.heartName_
-                >> study.studyConfigName_
                 >> *study.studyConfiguration_;
         study.sex_ = (sex != 0) ? EpPatient::Female : EpPatient::Male;
         study.bsaManualEdit_ = bsaManualEdit;

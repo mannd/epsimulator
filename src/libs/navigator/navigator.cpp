@@ -155,12 +155,6 @@ void Navigator::newStudy() {
             study->setPreregisterStudy(false);
             study->setStudyConfiguration(selectStudyConfigDialog
                                          ->studyConfiguration());
-            //StudyConfigurations configList;
-
-            /*if (configList.isPresent(configName))
-                study->setStudyConfigName(configName);
-            else
-                throw EpCore::StudyConfigurationNotFoundError(configName);*/
             if (getStudyInformation(study)) {
                 catalogs_->addStudy(study, currentDisk_->label(),
                                     currentDisk_->translatedSide(),

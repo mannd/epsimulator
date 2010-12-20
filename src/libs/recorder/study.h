@@ -123,9 +123,6 @@ namespace EpStudy {
         void setPath(const QString& path) {path_ = path;}
         //void setStudyConfiguration(const StudyConfiguration&);
         void setHeartName(const QString& name) {heartName_ = name;}
-        void setStudyConfigName(const QString& name) {
-            studyConfigName_ = name;
-        }
 
         void setStudyConfiguration(StudyConfiguration* config);
 
@@ -150,7 +147,6 @@ namespace EpStudy {
         // to identify study uniquely.
         bool isPreregisterStudy() const {return isPregisterStudy_;}
         QString heartName() const {return heartName_;}
-        QString studyConfigName() const {return studyConfigName_;}
         StudyConfiguration* studyConfiguration() const { 
             return studyConfiguration_;}
 
@@ -199,8 +195,6 @@ namespace EpStudy {
 
         mutable QString key_;   // unique key for each study
         QString heartName_;
-        QString studyConfigName_;
-	/// deprecated, Study will only contain the configuration name
         StudyConfiguration* studyConfiguration_;
 
     };
