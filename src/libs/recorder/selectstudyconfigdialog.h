@@ -42,12 +42,9 @@ public:
     SelectStudyConfigDialog(QWidget *parent = 0);
     ~SelectStudyConfigDialog();
 
-    QString config() const {
-        //return configListView->selectedItems()[0]->text();}
-        return "<<TEST>>";}
     EpStudy::StudyConfiguration* studyConfiguration();
 
-    void setStudyConfiguration(const EpStudy::StudyConfiguration&);
+    //void setStudyConfiguration(const EpStudy::StudyConfiguration&);
 
 private slots:
     void enableOkButton();

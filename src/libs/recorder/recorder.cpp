@@ -367,18 +367,12 @@ void Recorder::openContrast() {
 
 void Recorder::switchStudyConfiguration() {
     SelectStudyConfigDialog s(this);
-    s.setStudyConfiguration(*study_->studyConfiguration());
-    if (s.exec() == QDialog::Accepted) {
-        const QString configName = s.config();
-        // don't bother unless study configuration is changed
-        if (configName != study_->studyConfiguration()->name()) {
-            StudyConfigurations configList;
-            if (configList.isPresent(configName)) {
-                study_->setStudyConfiguration(
-                    configList.studyConfiguration(configName));
-                resetProtocolComboBox();
-            }
-        }
+    // not sure it's really necessary to setStudyConfiguration()
+    //s.setStudyConfiguration(*study_->studyConfiguration());
+    if (s.exec() == QDialog::Accepted
+        && s.studyConfiguration()) {
+        study_->setStudyConfiguration(s.studyConfiguration());
+        resetProtocolComboBox();
     }
 }
 

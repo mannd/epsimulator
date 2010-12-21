@@ -71,11 +71,11 @@ StudyConfiguration* SelectStudyConfigDialog::studyConfiguration() {
 }
 
 
-void SelectStudyConfigDialog::setStudyConfiguration(
-        const StudyConfiguration& s) {
-//    int n;
-//    if ((n = configList_.index(s.name())) > -1) {
-//        configListView->setCurrentRow(n);
-//        enableOkButton();
-//    }
-}
+//void SelectStudyConfigDialog::setStudyConfiguration(
+//        const StudyConfiguration& s) {
+////    int n;
+////    if ((n = configList_.index(s.name())) > -1) {
+////        configListView->setCurrentRow(n);
+////        enableOkButton();
+////    }
+//}
