@@ -258,6 +258,7 @@ public:
     void setName(const QString& name) {name_ = name;}
     void setCurrentProtocolIndex(int index) {currentProtocolIndex_ = index;}
     void setProtocolList(const QList<Protocol>& list) {protocolList_ = list;}
+    
 
     QString name() const {return name_;}
 
@@ -276,14 +277,14 @@ private:
     int currentProtocolIndex_;
 
     // Measurements | Measurements tab
-    Channel* surfaceLeadChannel1_;
-    Channel* surfaceLeadChannel2_;
-    Channel* surfaceLeadChannel3_;
-    Channel* atrialChannel_;
-    Channel* hisBundleChannel_;
-    Channel* ventricularChannel_;
+    int surfaceLeadChannel1Index_;
+    int surfaceLeadChannel2Index_;
+    int surfaceLeadChannel3Index_;
+    int atrialChannelIndex_;
+    int hisBundleChannelIndex_;
+    int ventricularChannelIndex_;
     // int markPosition_;
-    Channel* triggerChannel_;
+    int triggerChannelIndex_;
     int minIntervalBetweenStimTrains_;
     // Measurements | AutoSave Setting tab
     int hrChannel1HighThreshold_;
@@ -294,10 +295,10 @@ private:
     bool saveUsingHrChannel2_;
     bool saveForStimDetection_;
     // Measurements | Vital Configuration
-    Channel* monitoringBP_;
-    Channel* vitalLogBP_;
-    Channel* hrChannel1_;
-    Channel* hrChannel2_;
+    int monitoringBPIndex_;
+    int vitalLogBPIndex_;
+    int hrChannel1Index_;
+    int hrChannel2Index_;
     bool useAutoNbp_;
     int nbpTimeInterval_;
     int cuffSize_;

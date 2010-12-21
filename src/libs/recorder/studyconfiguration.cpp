@@ -99,18 +99,105 @@ QDataStream& operator>>(QDataStream& in, Protocol& p) {
 
 QDataStream& operator<<(QDataStream& out,
                         const StudyConfiguration& studyConfig) {
-    out << studyConfig.name_ << studyConfig.protocolList_
+    out << studyConfig.name_ << studyConfig.numChannels_
+        << studyConfig.protocolList_ 
         << studyConfig.channelList_
-        << (qint32)studyConfig.currentProtocolIndex_;
+        << (qint16)studyConfig.currentProtocolIndex_
+        << (qint16)studyConfig.surfaceLeadChannel1Index_
+        << (qint16)studyConfig.surfaceLeadChannel2Index_
+        << (qint16)studyConfig.surfaceLeadChannel3Index_
+        << (qint16)studyConfig.atrialChannelIndex_
+        << (qint16)studyConfig.hisBundleChannelIndex_
+        << (qint16)studyConfig.ventricularChannelIndex_
+        << (qint16)studyConfig.triggerChannelIndex_
+        << (qint16)studyConfig.minIntervalBetweenStimTrains_
+        << (qint16)studyConfig.hrChannel1HighThreshold_
+        << (qint16)studyConfig.hrChannel1LowThreshold_
+        << (qint16)studyConfig.hrChannel2HighThreshold_
+        << (qint16)studyConfig.hrChannel2LowThreshold_
+        << studyConfig.saveUsingHrChannel1_
+        << studyConfig.saveUsingHrChannel2_
+        << studyConfig.saveForStimDetection_
+        << studyConfig.monitoringBPIndex_
+        << (qint16)studyConfig.vitalLogBPIndex_
+        << (qint16)studyConfig.hrChannel1Index_
+        << (qint16)studyConfig.hrChannel2Index_
+        << studyConfig.useAutoNbp_
+        << (qint16)studyConfig.nbpTimeInterval_
+        << (qint16)studyConfig.cuffSize_
+        << studyConfig.useAutoVitalLog_
+        << (qint16)studyConfig.vitalLogTimeInterval_;
     return out;
 }
 
 QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
-    qint32 currentProtocolIndex;
+    qint16 currentProtocolIndex;
+    qint16 surfaceLeadChannel1Index;
+    qint16 surfaceLeadChannel2Index;
+    qint16 surfaceLeadChannel3Index;
+    qint16 atrialChannelIndex;
+    qint16 hisBundleChannelIndex;
+    qint16 ventricularChannelIndex;
+    qint16 triggerChannelIndex;
+    qint16 minIntervalBetweenStimTrains;
+    qint16 hrChannel1HighThreshold;
+    qint16 hrChannel1LowThreshold;
+    qint16 hrChannel2HighThreshold;
+    qint16 hrChannel2LowThreshold;
+    qint16 vitalLogBPIndex;
+    qint16 hrChannel1Index;
+    qint16 hrChannel2Index;
+    qint16 nbpTimeInterval;
+    qint16 cuffSize;
+    qint16 vitalLogTimeInterval;
+
+    
     in >> studyConfig.name_ >> studyConfig.protocolList_
        >> studyConfig.channelList_
-       >> currentProtocolIndex;
-       studyConfig.currentProtocolIndex_ = (qint32)currentProtocolIndex;
+       >> currentProtocolIndex
+       >> surfaceLeadChannel1Index
+       >> surfaceLeadChannel2Index
+       >> surfaceLeadChannel3Index
+       >> atrialChannelIndex
+       >> hisBundleChannelIndex
+       >> ventricularChannelIndex
+       >> triggerChannelIndex
+       >> minIntervalBetweenStimTrains
+       >> hrChannel1HighThreshold
+       >> hrChannel1LowThreshold
+       >> hrChannel2HighThreshold
+       >> hrChannel2LowThreshold
+       >> studyConfig.saveUsingHrChannel1_
+       >> studyConfig.saveUsingHrChannel2_
+       >> studyConfig.saveForStimDetection_
+       >> studyConfig.monitoringBPIndex_
+       >> vitalLogBPIndex
+       >> hrChannel1Index
+       >> hrChannel2Index
+       >> studyConfig.useAutoNbp_
+       >> nbpTimeInterval
+       >> cuffSize
+       >> studyConfig.useAutoVitalLog_
+       >> vitalLogTimeInterval;
+    studyConfig.currentProtocolIndex_ = currentProtocolIndex;
+    studyConfig.surfaceLeadChannel1Index_ = surfaceLeadChannel1Index;
+    studyConfig.surfaceLeadChannel2Index_ = surfaceLeadChannel2Index;
+    studyConfig.surfaceLeadChannel3Index_ = surfaceLeadChannel3Index;
+    studyConfig.atrialChannelIndex_ = atrialChannelIndex;
+    studyConfig.hisBundleChannelIndex_ = hisBundleChannelIndex;
+    studyConfig.ventricularChannelIndex_ = ventricularChannelIndex;
+    studyConfig.triggerChannelIndex_ = triggerChannelIndex;
+    studyConfig.minIntervalBetweenStimTrains_ = minIntervalBetweenStimTrains;
+    studyConfig.hrChannel1HighThreshold_ = hrChannel1HighThreshold;
+    studyConfig.hrChannel1LowThreshold_ = hrChannel1LowThreshold;
+    studyConfig.hrChannel2HighThreshold_ = hrChannel2HighThreshold;
+    studyConfig.hrChannel2LowThreshold_ = hrChannel2LowThreshold;
+    studyConfig.vitalLogBPIndex_ = vitalLogBPIndex;
+    studyConfig.hrChannel1Index_ = hrChannel1Index;
+    studyConfig.hrChannel2Index_ = hrChannel2Index;
+    studyConfig.nbpTimeInterval_ = nbpTimeInterval;
+    studyConfig.cuffSize_ = cuffSize;
+    studyConfig.vitalLogTimeInterval_ = vitalLogTimeInterval;
     return in;
 }
 
