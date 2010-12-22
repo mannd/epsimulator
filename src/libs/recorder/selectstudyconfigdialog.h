@@ -51,8 +51,6 @@ private slots:
 
 private:
     QSqlTableModel* model_;
-    EpStudy::StudyConfigurations configList_;
-
 };
 
 }

@@ -307,50 +307,6 @@ private:
 
 };
 
-class StudyConfigurations {
-public:
-    friend QDataStream& operator<<(QDataStream&, const StudyConfigurations&);
-    friend QDataStream& operator>>(QDataStream&, StudyConfigurations&);
-
-    typedef QList<StudyConfiguration> StudyConfigurationList;
-
-    StudyConfigurations();
-
-    const StudyConfiguration& operator[](int i) const;
-
-    static unsigned int magicNumber() {return MagicNumber;}
-    static QString fileName() {return fileName_;}
-
-    void refresh(EpCore::DataStream<StudyConfigurations>* const dataStream) {
-        readStudyConfigurations(dataStream);}
-    void load(EpCore::DataStream<StudyConfigurations>* const dataStream) {
-        readStudyConfigurations(dataStream);}
-    void save(EpCore::DataStream<StudyConfigurations>* const dataStream) {
-        writeStudyConfigurations(dataStream);}
-
-    // below don't change permanently unless save() called
-    bool add(const StudyConfiguration& config);
-    bool replace(const StudyConfiguration& config);
-    bool remove(const QString& name);
-
-    bool isPresent(const QString& name) const;
-    int index(const QString& name) const;
-    int size() const {return configList_.size();}
-    StudyConfiguration* studyConfiguration(const QString& name);
-
-private:
-    enum {MagicNumber = 0x85827300};
-
-    static const QString fileName_;
-
-    void readStudyConfigurations(EpCore::DataStream<StudyConfigurations>*
-                                 const dataStream);
-    void writeStudyConfigurations(EpCore::DataStream<StudyConfigurations>*
-                                  const dataStream);
-
-    StudyConfigurationList configList_;
-};
-
 } // namespace EpStudy
 
 

@@ -27,7 +27,6 @@
 
 using EpGui::SelectStudyConfigDialog;
 using EpStudy::StudyConfiguration;
-using EpStudy::StudyConfigurations;  // delete after refactoring
 
 SelectStudyConfigDialog::SelectStudyConfigDialog(QWidget *parent)
     : QDialog(parent) {

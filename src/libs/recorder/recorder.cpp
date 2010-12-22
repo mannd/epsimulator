@@ -71,7 +71,6 @@ using EpRecorder::Recorder;
 using EpStudy::Protocol;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
-using EpStudy::StudyConfigurations;
 using EpStudy::StudyInformationDialog;
 
 using namespace EpHardware;
@@ -1067,42 +1066,42 @@ void Recorder::updateMenus() {
 void Recorder::saveStudyConfiguration() {
     if (!administrationAllowed())
         return;
-    StudyConfigurations configList;
-    DataStream<StudyConfigurations>* dataStream =
-        DataStream<StudyConfigurations>::createDataStream(options_);
-    configList.replace(*study_->studyConfiguration());
-    configList.save(dataStream);
-    delete dataStream;
+//    StudyConfigurations configList;
+//    DataStream<StudyConfigurations>* dataStream =
+//        DataStream<StudyConfigurations>::createDataStream(options_);
+//    configList.replace(*study_->studyConfiguration());
+//    configList.save(dataStream);
+//    delete dataStream;
 }
 
 void Recorder::saveAsStudyConfiguration() {
     if (!administrationAllowed())
         return;
-    QString configName = study_->studyConfiguration()->name();
-    StudyConfigurations configList;
-    bool ok;
-    QString text =
-            QInputDialog::getText(this,
-                                  tr("Enter Study Configuration Name"),
-                                  tr("Study configuration name:"),
-                                  QLineEdit::Normal,
-                                  configName, &ok);
-    if (ok && !text.isEmpty()) {
-        // search for duplicate study configuration name
-        if (configList.isPresent(text)) {
-            int result =
-                QMessageBox::warning(this,
-                                     tr("Duplicate Study Configuration Name"),
-                                     tr("Study configuration name "
-                                        "already exists.  Overwrite?"));
-            if (result != QMessageBox::Ok)
-                return;
-            // remove study configuration with the same name
-            configList.remove(text);
-        }
-        study_->studyConfiguration()->setName(text);
-        configList.add(*study_->studyConfiguration());
-	/// TODO save data here
-    }
+//    QString configName = study_->studyConfiguration()->name();
+//    StudyConfigurations configList;
+//    bool ok;
+//    QString text =
+//            QInputDialog::getText(this,
+//                                  tr("Enter Study Configuration Name"),
+//                                  tr("Study configuration name:"),
+//                                  QLineEdit::Normal,
+//                                  configName, &ok);
+//    if (ok && !text.isEmpty()) {
+//        // search for duplicate study configuration name
+//        if (configList.isPresent(text)) {
+//            int result =
+//                QMessageBox::warning(this,
+//                                     tr("Duplicate Study Configuration Name"),
+//                                     tr("Study configuration name "
+//                                        "already exists.  Overwrite?"));
+//            if (result != QMessageBox::Ok)
+//                return;
+//            // remove study configuration with the same name
+//            configList.remove(text);
+//        }
+//        study_->studyConfiguration()->setName(text);
+//        configList.add(*study_->studyConfiguration());
+//        /// TODO save data here
+//    }
 }
 

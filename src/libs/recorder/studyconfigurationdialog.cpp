@@ -38,8 +38,7 @@ using EpCore::User;
 using EpHardware::EpAmplifier::Amplifier;
 using EpStudy::Protocol;
 using EpStudy::StudyConfiguration;
-using EpStudy::StudyConfigurations;
-\
+
 StudyConfigurationDialog::StudyConfigurationDialog(StudyConfiguration* config,
                                                    bool administrationAllowed,
                                                    QWidget* parent)
@@ -111,51 +110,51 @@ void StudyConfigurationDialog::updateStudyConfiguration() {
 }
 
 void StudyConfigurationDialog::save() {
-    if (administrationAllowed_) {
-        StudyConfigurations configList;
-        updateStudyConfiguration();
-        configList.replace(*studyConfiguration_);
-    }
-    else
-        QMessageBox::information(this, tr("Administrator account required"),
-                                 tr("You must be an Administrator to permanently "
-                                    "change study configurations"));
+    // if (administrationAllowed_) {
+    //     StudyConfigurations configList;
+    //     updateStudyConfiguration();
+    //     configList.replace(*studyConfiguration_);
+    // }
+    // else
+    //     QMessageBox::information(this, tr("Administrator account required"),
+    //                              tr("You must be an Administrator to permanently "
+    //                                 "change study configurations"));
 }
 
 void StudyConfigurationDialog::saveAs() {
-    if (administrationAllowed_) {
-            QString configName = studyConfiguration_->name();
-            StudyConfigurations configList;
-            bool ok;
-            QString text =
-                    QInputDialog::getText(this,
-                                          tr("Enter Study Configuration Name"),
-                                          tr("Study configuration name:"),
-                                          QLineEdit::Normal,
-                                          configName, &ok);
-            if (ok && !text.isEmpty()) {
-                // search for duplicate study configuration name
-                if (configList.isPresent(text)) {
-                    int result =
-                        QMessageBox::warning(this,
-                                             tr("Duplicate Study Configuration Name"),
-                                             tr("Study configuration name "
-                                                "already exists.  Overwrite?"));
-                    if (result != QMessageBox::Ok)
-                        return;
-                    // remove study configuration with the same name
-                    configList.remove(text);
-                }
-                studyConfiguration_->setName(text);
-                updateStudyConfiguration();
-                configList.add(*studyConfiguration_);
-                updateWindowTitle();
-            }
-        }
-    else
-        QMessageBox::information(this, tr("Administrator account required"),
-                                 tr("You must be an Administrator to permanently "
-                                    "change study configurations"));
+    // if (administrationAllowed_) {
+    //         QString configName = studyConfiguration_->name();
+    //         StudyConfigurations configList;
+    //         bool ok;
+    //         QString text =
+    //                 QInputDialog::getText(this,
+    //                                       tr("Enter Study Configuration Name"),
+    //                                       tr("Study configuration name:"),
+    //                                       QLineEdit::Normal,
+    //                                       configName, &ok);
+    //         if (ok && !text.isEmpty()) {
+    //             // search for duplicate study configuration name
+    //             if (configList.isPresent(text)) {
+    //                 int result =
+    //                     QMessageBox::warning(this,
+    //                                          tr("Duplicate Study Configuration Name"),
+    //                                          tr("Study configuration name "
+    //                                             "already exists.  Overwrite?"));
+    //                 if (result != QMessageBox::Ok)
+    //                     return;
+    //                 // remove study configuration with the same name
+    //                 configList.remove(text);
+    //             }
+    //             studyConfiguration_->setName(text);
+    //             updateStudyConfiguration();
+    //             configList.add(*studyConfiguration_);
+    //             updateWindowTitle();
+    //         }
+    //     }
+    // else
+    //     QMessageBox::information(this, tr("Administrator account required"),
+    //                              tr("You must be an Administrator to permanently "
+    //                                 "change study configurations"));
 }
 
 void StudyConfigurationDialog::amplifierReset() {

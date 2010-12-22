@@ -201,17 +201,6 @@ QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
     return in;
 }
 
-QDataStream& operator<<(QDataStream& out,
-                        const StudyConfigurations& studyConfigs) {
-    out << studyConfigs.configList_;
-    return out;
-}
-
-QDataStream& operator>>(QDataStream& in, StudyConfigurations& studyConfigs) {
-    in >> studyConfigs.configList_;
-    return in;
-}
-
 const QString Protocol::fileName_ = "protocols.dat";
 
 Protocol::Protocol(const Protocol& rhs) {
@@ -295,95 +284,5 @@ QList<Protocol> StudyConfiguration::unselectedProtocols() const {
 //    return unselectedProtocols;
 }
 
-const QString StudyConfigurations::fileName_ = "configs.dat";
-
-StudyConfigurations::StudyConfigurations()
-    : configList_() {
-    // always have one default StudyConfiguration in the list
-    StudyConfiguration config;
-    configList_.append(config);
-    //readStudyConfigurations();
-}
-
-void StudyConfigurations::
-readStudyConfigurations(DataStream<StudyConfigurations>* const dataStream) {
-    dataStream->load(*this);
-//    if (configList_.isEmpty()) {
-//        StudyConfiguration config;
-//        configList_.append(config);
-//        writeStudyConfigurations(dataStream);
-//    }
-}
-
-void StudyConfigurations::
-writeStudyConfigurations(DataStream<StudyConfigurations>* const dataStream) {
-    dataStream->save(*this);
-}
-
-const StudyConfiguration& StudyConfigurations::operator [](int i) const {
-    return configList_[i];
-}
-    // returns true if item added, false if item is duplicate
-    bool StudyConfigurations::add(const StudyConfiguration& config) {
-    // check for duplicates first, only adds if no duplicates,
-    // otherwise does nothing.
-    if (isPresent(config.name()))
-        return false;
-    configList_.append(config);
-    return true;
-}
-    // returns true if item replaced, false if not found (item is added then)
-    bool StudyConfigurations::replace(const StudyConfiguration& config) {
-    // remove study configuration with same name
-    bool found = false;
-    for (int i = 0; i < size(); ++i)
-        if (configList_.at(i).name() == config.name()) {
-            configList_.replace(i, config);
-            found = true;
-            break;
-        }
-    if (!found)
-        configList_.append(config);
-    return found;
-    //writeStudyConfigurations(dataStream);
-}
-    // returns true is item found and removed, otherwise false
-    bool StudyConfigurations::remove(const QString& name) {
-    bool found = false;
-    for (int i = 0; i < size(); ++i)
-        if (configList_.at(i).name() == name) {
-            configList_.removeAt(i);
-            found = true;
-            break;
-        }
-    return found;
-    //        writeStudyConfigurations(dataStream);
-}
-
-bool StudyConfigurations::isPresent(const QString& name) const {
-    for (int i = 0; i < size(); ++i) {
-        if (configList_.at(i).name() == name)
-            return true;
-    }
-    return false;
-}
-
-// returns index of name in StudyConfigurations, -1 if not found
-int StudyConfigurations::index(const QString& name) const {
-    for (int i = 0; i < size(); ++i) {
-        if (configList_.at(i).name() == name)
-            return i;
-    }
-    return -1;
-}
-
-StudyConfiguration* StudyConfigurations::
-        studyConfiguration(const QString& name) {
-    for (int i = 0; i < size(); ++i) {
-        if (configList_.at(i).name() == name)
-            return new StudyConfiguration(configList_.at(i));
-    }
-    return 0;
-}
 
 }
