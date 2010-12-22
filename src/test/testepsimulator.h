@@ -82,7 +82,6 @@ private slots:
     void testChannel();
     // class StudyConfiguration
     void testStudyConfigurationStream();
-    void testStudyConfigurations();
     // class BloodPressure
     void testBloodPressure();
     // conversion functions

@@ -83,7 +83,6 @@ using EpGui::PatientDialog;
 using EpGui::SelectStudyConfigDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
-using EpStudy::StudyConfigurations;
 using EpNavigator::EditStudyConfigsDialog;
 using EpNavigator::Navigator;
 using EpNavigator::StatusBar;
@@ -150,8 +149,6 @@ void Navigator::newStudy() {
         SelectStudyConfigDialog* selectStudyConfigDialog  =
             new SelectStudyConfigDialog(this);
         if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
-            const QString configName =
-                    selectStudyConfigDialog->config();
             study->setPreregisterStudy(false);
             study->setStudyConfiguration(selectStudyConfigDialog
                                          ->studyConfiguration());

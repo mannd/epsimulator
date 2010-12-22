@@ -695,35 +695,6 @@ void TestEpSimulator::testStudyConfigurationStream() {
     QVERIFY(sc1.name() == "TEST");
 }
 
-
-void TestEpSimulator::testStudyConfigurations() {
-    StudyConfigurations list;
-    QVERIFY(list.size() == 1);
-    StudyConfiguration config;
-    config.setName("testing123");
-    list.add(config);
-    QVERIFY(list.size() == 2);
-//    for (int i = 0; i < list.size(); ++i)
-//        if (list[i].name() == tr("<default>")) {
-//            QVERIFY(list[i].amplifier()->channel(1)->label() == tr("I"));
-//            QVERIFY(list[i].amplifier()->numChannels()
-//                == Options::instance()->numChannels);
-//        }
-    list.remove("testing123");
-    QVERIFY(list.size() == 1);
-    list.remove("No Such Config");
-    QVERIFY(list.size() == 1);
-    // ? can the default study config be removed?
-    QVERIFY(list[0].name() == tr("<default>"));
-    list.add(config);
-    QVERIFY(list.size() == 2);
-    MockSystemData<StudyConfigurations> m;
-    m << list;
-    StudyConfigurations list2;
-    m >> list2;
-    QVERIFY(list.size() == 2);
-}
-
 void TestEpSimulator::testBloodPressure() {
     BloodPressure bp(100, 50);
     QVERIFY(bp.bp() == "100/50");
