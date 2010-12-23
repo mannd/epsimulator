@@ -27,7 +27,7 @@
    <item row="0" column="2" colspan="2">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>17</number>
+      <number>16</number>
      </property>
      <widget class="QWidget" name="blankPage"/>
      <widget class="QWidget" name="amplifierPage">
@@ -62,7 +62,7 @@
      <widget class="QWidget" name="ecgPage">
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <widget class="QTabWidget" name="scaleComboBox1">
+        <widget class="QTabWidget" name="ecgTabWidget">
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -114,7 +114,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox_2">
+             <widget class="QComboBox" name="scaleComboBox">
               <item>
                <property name="text">
                 <string>1/16</string>
@@ -144,7 +144,7 @@
             </item>
            </layout>
            <zorder>label_3</zorder>
-           <zorder>comboBox_2</zorder>
+           <zorder>scaleComboBox</zorder>
            <zorder>horizontalSpacer_2</zorder>
           </widget>
          </widget>
@@ -256,15 +256,84 @@
      <widget class="QWidget" name="stimPage"/>
      <widget class="QWidget" name="inputChannelPage"/>
      <widget class="QWidget" name="imagingPage"/>
-     <widget class="QWidget" name="analogOutPage"/>
+     <widget class="QWidget" name="analogOutPage">
+      <widget class="QTabWidget" name="analogOutTabWidget">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>4</y>
+         <width>771</width>
+         <height>771</height>
+        </rect>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="analogOutTab">
+        <attribute name="title">
+         <string>EP Analog Output Configuration</string>
+        </attribute>
+        <widget class="QComboBox" name="comboBox">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>50</y>
+           <width>153</width>
+           <height>25</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>Single Sense Channel</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLabel" name="label_8">
+         <property name="geometry">
+          <rect>
+           <x>74</x>
+           <y>50</y>
+           <width>32</width>
+           <height>25</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Mode</string>
+         </property>
+         <property name="buddy">
+          <cstring>comboBox</cstring>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_11">
+         <property name="geometry">
+          <rect>
+           <x>73</x>
+           <y>99</y>
+           <width>241</width>
+           <height>61</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Note: The selection of sense channel is determined by the Protocol Setting.  The current setting is V1.</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+     </widget>
      <widget class="QWidget" name="ablationPage">
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QTabWidget" name="tabWidget">
+        <widget class="QTabWidget" name="ablationTabWidget">
          <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="tab_2">
+         <widget class="QWidget" name="ablationTab">
           <attribute name="title">
            <string>Configuration</string>
           </attribute>
@@ -650,7 +719,133 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="measurementsPage"/>
+     <widget class="QWidget" name="measurementsPage">
+      <widget class="QTabWidget" name="measurementsTabWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>801</width>
+         <height>781</height>
+        </rect>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="measurementsTab">
+        <attribute name="title">
+         <string>Measurements</string>
+        </attribute>
+        <widget class="QLabel" name="label_14">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>20</y>
+           <width>221</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Computer assisted measurements</string>
+         </property>
+        </widget>
+        <widget class="QFrame" name="frame_2">
+         <property name="geometry">
+          <rect>
+           <x>440</x>
+           <y>40</y>
+           <width>301</width>
+           <height>141</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_12">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>470</y>
+           <width>241</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Minimum interval betwen stim trains:</string>
+         </property>
+         <property name="buddy">
+          <cstring>minIntervalBetweenStimTrains</cstring>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_13">
+         <property name="geometry">
+          <rect>
+           <x>440</x>
+           <y>470</y>
+           <width>55</width>
+           <height>15</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ms</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="minIntervalBetweenStimTrains">
+         <property name="geometry">
+          <rect>
+           <x>312</x>
+           <y>470</y>
+           <width>121</width>
+           <height>25</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QFrame" name="frame">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>40</y>
+           <width>351</width>
+           <height>351</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_15">
+         <property name="geometry">
+          <rect>
+           <x>440</x>
+           <y>20</y>
+           <width>201</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Trigger</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="autosaveTab">
+        <attribute name="title">
+         <string>Autosave Setting</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="vitalTab">
+        <attribute name="title">
+         <string>Vital Configuration</string>
+        </attribute>
+       </widget>
+      </widget>
+     </widget>
      <widget class="QWidget" name="protocolListPage">
       <widget class="QTabWidget" name="tabWidget_2">
        <property name="geometry">

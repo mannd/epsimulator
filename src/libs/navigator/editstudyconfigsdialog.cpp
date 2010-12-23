@@ -22,7 +22,7 @@
 
 // #include "options.h"
 // #include "user.h"
-// #include "studyconfiguration.h"
+#include "studyconfiguration.h"
 #include "studyconfigurationdialog.h"
 
 #include <QInputDialog>
@@ -36,9 +36,9 @@
 // using EpCore::Options;
 // using EpCore::User;
 using EpNavigator::EditStudyConfigsDialog;
-// using EpStudy::StudyConfiguration;
+using EpStudy::StudyConfiguration;
 // using EpStudy::StudyConfigurations;
-// using EpGui::AbstractEditItemsDialog;
+using EpGui::AbstractEditItemsDialog;
 using EpGui::RealTimeStudyConfigurationDialog;
 
 EditStudyConfigsDialog::EditStudyConfigsDialog(QWidget *parent)
@@ -77,9 +77,11 @@ void EditStudyConfigsDialog::editItem(EditorType type) {
         return;
     }
     QModelIndex index = listView->currentIndex();
-    int row = index.row();
-    // EditIntervalTypeDialog d(type, model_, row, this);
-    // d.exec();
+    if (type == NewItem) {
+            StudyConfiguration* config = new StudyConfiguration;
+            RealTimeStudyConfigurationDialog d(config, true, this);
+            d.exec();
+    }
 }
 
 

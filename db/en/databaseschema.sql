@@ -40,7 +40,17 @@ CREATE TABLE Channels (ChannelID INTEGER PRIMARY KEY, ChannelNumber INTEGER,
        AlwaysSave INTEGER, Type INTEGER, PosInput INTEGER, NegInput INTEGER,
        Gain INTEGER, HighPass NUMERIC, LowPass NUMERIC, Notch INTEGER);
 CREATE TABLE StudyConfigurations (StudyConfigurationID INTEGER PRIMARY KEY,
-       Name TEXT);
+       Name TEXT, NumChannels INTEGER, CurrentProtocolIndex INTEGER,
+       SurfaceLeadChannel1Index INTEGER, SurfaceLeadChannel2Index INTEGER,
+       SurfaceLeadChannel3Index INTEGER, AtrialChannelIndex INTEGER,
+       HisBundleChannelIndex INTEGER, TriggerChannelIndex INTEGER,
+       MinIntervalBetweenStimTrains INTEGER, HrChannel1HighThreshold INTEGER,
+       HrChannel1LowThreshold INTEGER, HrChannel2HighThreshold INTEGER,
+       HrChannel2LowThreshold INTEGER, SaveUsingHrChannel1 INTEGER,
+       SaveUsingHrChannel2 INTEGER, SaveForStimDetection INTEGER,
+       MonitoringBPIndex INTEGER, VitalLogBPIndex INTEGER, HrChannel1Index INTEGER,
+       HrChannel2Index INTEGER, UseAutoNbp INTEGER, NbpTimeInterval INTEGER,
+       CuffSize INTEGER, UseAutoVitalLog INTEGER, VitalLogTimeInterval INTEGER);
 CREATE TABLE StudyConfigurationProtocol (StudyConfigurationID INTEGER NOT NULL
        REFERENCES StudyConfigurations, ProtocolID INTEGER NOT NULL
        REFERENCES Protocols, SortOrder INTEGER NOT NULL,
@@ -318,7 +328,18 @@ INSERT INTO Protocols (ProtocolID, Name, SenseChannelLabelID, ColumnFormatID,
        WindowSettingID, MacroCategoryID, UpdateReviewWindowID, FocalPointID, DisplayPageID) 
        VALUES (10, "VEST", 1, 1, 1, 1, 0, 1, 1);
 
-INSERT INTO StudyConfigurations (StudyConfigurationID, Name) VALUES (0, "BASELINE");
+INSERT INTO StudyConfigurations (StudyConfigurationID, Name, NumChannels, 
+       CurrentProtocolIndex, SurfaceLeadChannel1Index, SurfaceLeadChannel2Index,
+       SurfaceLeadChannel3Index, AtrialChannelIndex,
+       HisBundleChannelIndex, TriggerChannelIndex,
+       MinIntervalBetweenStimTrains, HrChannel1HighThreshold,
+       HrChannel1LowThreshold, HrChannel2HighThreshold,
+       HrChannel2LowThreshold, SaveUsingHrChannel1,
+       SaveUsingHrChannel2, SaveForStimDetection,
+       MonitoringBPIndex, VitalLogBPIndex, HrChannel1Index,
+       HrChannel2Index, UseAutoNbp, NbpTimeInterval,
+       CuffSize, UseAutoVitalLog, VitalLogTimeInterval) VALUES (0, "BASELINE",
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO StudyConfigurationProtocol (StudyConfigurationID, ProtocolID, SortOrder)
        VALUES (0, 1, 1);
 INSERT INTO StudyConfigurationChannel (StudyConfigurationID, ChannelID)
