@@ -42,6 +42,7 @@
 #include "study.h"
 #include "studyconfiguration.h"
 #include "studymanager.h"
+#include "systempath.h"
 #include "user.h"
 
 #include <QDir>
@@ -192,12 +193,6 @@ void TestEpSimulator::testNameWithSpaces() {
     QVERIFY(n1.lastFirst() == "Mahoney, Ladeda");
     QVERIFY(n1.last() == "Mahoney");
 
-}
-
-void TestEpSimulator::testSystemPath() {
-    // obsolete.  systemPath() replaces systemDirectory()
-    QVERIFY (EpCore::systemDirectory().absolutePath() ==
-             EpCore::rootDirectory().absolutePath() + "/" + "System");
 }
 
 void TestEpSimulator::testFilePath() {
@@ -869,6 +864,14 @@ void TestEpSimulator::testStudyManager() {
     QVERIFY(s.cachePath() == "system/cache");
     StudyManager s1;            // test default constructor
     QVERIFY(s1.cachePath() == QString());
+}
+
+void TestEpSimulator::testSystemPath() {
+    SystemPath s;
+    // os and machine dependent
+    QString path = QDir::homePath();
+    path = joinPaths(path, ".epsimulator");
+    QVERIFY(s.path() == path);
 }
 
 void TestEpSimulator::testRemovableMedia() {

@@ -40,7 +40,6 @@ private slots:
     void testFullName();
     void testNameWithSpaces();
     void testName();
-    void testSystemPath();
     void testFilePath();
     void testStudyKey();
     void testStudyFileName();
@@ -78,6 +77,7 @@ private slots:
     void testMark();
     void testColumnFormat();
     void testStudyManager();
+    void testSystemPath();
     void testRemovableMedia();
 
     void cleanupTestCase();

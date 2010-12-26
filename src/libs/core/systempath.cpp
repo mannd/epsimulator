@@ -25,6 +25,7 @@
 using EpCore::SystemPath;
 
 SystemPath::SystemPath() {
+    path_ = EpCore::osDependentSystemPath();
 }
 
 void SystemPath::init() {}

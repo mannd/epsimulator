@@ -29,9 +29,9 @@ class SystemPath {
 public:
     SystemPath();
     void init();                // creates system directory if nonexistant
-    QString systemPath() const {return systemPath_;}
+    QString path() const {return path_;}
 private:
-    QString systemPath_;
+    QString path_;
 };
 
 } // namespace EpCore
