@@ -36,6 +36,10 @@ namespace EpHardware {
     }
 }
 
+namespace EpStudy {
+class StudyManager;
+}
+
 namespace EpGui {
 
 /** Contains methods and actions common to both the 
@@ -80,7 +84,8 @@ protected:
     // protected data members not so bad in this case :)
     EpCore::Options* options_;
     EpCore::User* user_;                             
-
+    EpStudy::StudyManager* studyManager_;
+                       
 protected slots:
     void about();
     void help();

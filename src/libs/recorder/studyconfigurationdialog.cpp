@@ -287,7 +287,7 @@ RealTimeStudyConfigurationDialog::RealTimeStudyConfigurationDialog(
 
 ReviewStudyConfigurationDialog::ReviewStudyConfigurationDialog(
     StudyConfiguration* config,
-    bool administrationAllowed, QWidget* parent, int windowNum)
+    bool administrationAllowed, int windowNum, QWidget* parent)
     : StudyConfigurationDialog(config, administrationAllowed, parent) {
     Q_ASSERT(windowNum == 1 || windowNum == 2);
     QStandardItem* rootItem = new QStandardItem(tr("EP Simulator"));

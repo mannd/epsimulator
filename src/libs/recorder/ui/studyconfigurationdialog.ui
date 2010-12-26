@@ -764,6 +764,31 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
+         <widget class="QWidget" name="">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>20</y>
+            <width>251</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QLabel" name="label_41">
+             <property name="text">
+              <string>Trigger channel</string>
+             </property>
+             <property name="buddy">
+              <cstring>comboBox_23</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_23"/>
+           </item>
+          </layout>
+         </widget>
         </widget>
         <widget class="QLabel" name="label_12">
          <property name="geometry">
@@ -819,6 +844,104 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
+         <widget class="QWidget" name="layoutWidget_4">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>20</y>
+            <width>281</width>
+            <height>311</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_19">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_58">
+             <property name="text">
+              <string>Surface lead channel 1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="comboBox_29"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_59">
+             <property name="text">
+              <string>Surface lead channel 2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="comboBox_30"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_60">
+             <property name="text">
+              <string>Surface lead channel 3</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="comboBox_31"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_61">
+             <property name="text">
+              <string>Atrial channel</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="comboBox_32"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_62">
+             <property name="text">
+              <string>His bundle channel</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="comboBox_33"/>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_63">
+             <property name="text">
+              <string>Ventricular channel</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QComboBox" name="comboBox_34"/>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_64">
+             <property name="text">
+              <string>Mark Position</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QComboBox" name="comboBox_35">
+             <item>
+              <property name="text">
+               <string>Onset</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Max Positive</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Min Negative</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
         <widget class="QLabel" name="label_15">
          <property name="geometry">
@@ -838,11 +961,384 @@
         <attribute name="title">
          <string>Autosave Setting</string>
         </attribute>
+        <widget class="QFrame" name="frame_5">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>40</y>
+           <width>301</width>
+           <height>191</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_12">
+          <item row="0" column="0" colspan="2">
+           <widget class="QLabel" name="label_45">
+            <property name="text">
+             <string>High threshold</string>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLineEdit" name="lineEdit"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_46">
+            <property name="text">
+             <string>Low threshold</string>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_2</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QLineEdit" name="lineEdit_2"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QFrame" name="frame_6">
+         <property name="geometry">
+          <rect>
+           <x>390</x>
+           <y>40</y>
+           <width>341</width>
+           <height>191</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_13">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_47">
+            <property name="text">
+             <string>High threshold</string>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_3</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_3"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_48">
+            <property name="text">
+             <string>Low threshold</string>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_4</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_4"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QFrame" name="frame_7">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>300</y>
+           <width>291</width>
+           <height>221</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_14">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_9">
+            <property name="text">
+             <string>Heart rate channel one</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_10">
+            <property name="text">
+             <string>Heart rate channel two</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkBox_11">
+            <property name="text">
+             <string>Stim detection</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QLabel" name="label_42">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>20</y>
+           <width>181</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Heart rate channel one</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_43">
+         <property name="geometry">
+          <rect>
+           <x>390</x>
+           <y>20</y>
+           <width>211</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Heart rate channel two</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_44">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>270</y>
+           <width>171</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Save criteria</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="vitalTab">
         <attribute name="title">
          <string>Vital Configuration</string>
         </attribute>
+        <widget class="QFrame" name="frame_8">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>40</y>
+           <width>331</width>
+           <height>221</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_16">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_49">
+            <property name="text">
+             <string>Monitoring blood pressure</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_24</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox_24"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_50">
+            <property name="text">
+             <string>Vital log blood pressure</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_25</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBox_25"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QFrame" name="frame_9">
+         <property name="geometry">
+          <rect>
+           <x>390</x>
+           <y>40</y>
+           <width>401</width>
+           <height>221</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_15">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_51">
+            <property name="text">
+             <string>Heart rate channel 1</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_26</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox_26"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_52">
+            <property name="text">
+             <string>Heart rate channel 2</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_27</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBox_27"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QFrame" name="frame_10">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>340</y>
+           <width>321</width>
+           <height>251</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_18">
+          <item row="0" column="0" colspan="2">
+           <widget class="QCheckBox" name="checkBox_12">
+            <property name="text">
+             <string>Auto NBP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_53">
+            <property name="text">
+             <string>NBP time interval</string>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_5</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_5"/>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_56">
+            <property name="text">
+             <string>minute(s)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_54">
+            <property name="text">
+             <string>Cuff size</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_28</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="2">
+           <widget class="QComboBox" name="comboBox_28">
+            <item>
+             <property name="text">
+              <string>Adult</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pediatric</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Thigh</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QFrame" name="frame_11">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>340</y>
+           <width>381</width>
+           <height>251</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_17">
+          <item row="0" column="0" colspan="2">
+           <widget class="QCheckBox" name="checkBox_13">
+            <property name="text">
+             <string>Auto vital log</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_55">
+            <property name="text">
+             <string>Vital log time interval</string>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_6</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_6"/>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_57">
+            <property name="text">
+             <string>minute(s)</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </widget>
      </widget>

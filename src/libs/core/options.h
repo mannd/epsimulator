@@ -108,7 +108,12 @@ public:
     enum OpticalDiskFlag {
         NoOpticalDiskFlags      = 0x000000,
         Emulation               = 0x000001,
-        DualSided               = 0x000002
+        DualSided               = 0x000002,
+        UseOpticalDiskAsDefault = 0x000004, // on initial run, use real optical
+                                            // disk as opticalStudyPath
+        AllowRealOpticalDisk    = 0x000008  // ok to use real optical disk
+                                            // if not set don't allow real
+                                            // optical disk as opticalStudyPath
     };
     Q_DECLARE_FLAGS(OpticalDiskFlags, OpticalDiskFlag)
     OpticalDiskFlags opticalDiskFlags;

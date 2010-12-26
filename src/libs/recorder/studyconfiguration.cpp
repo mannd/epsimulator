@@ -196,7 +196,7 @@ QDataStream& operator>>(QDataStream& in, StudyConfiguration& studyConfig) {
     studyConfig.hrChannel1Index_ = hrChannel1Index;
     studyConfig.hrChannel2Index_ = hrChannel2Index;
     studyConfig.nbpTimeInterval_ = nbpTimeInterval;
-    studyConfig.cuffSize_ = cuffSize;
+    studyConfig.cuffSize_ = static_cast<StudyConfiguration::CuffSize>(cuffSize);
     studyConfig.vitalLogTimeInterval_ = vitalLogTimeInterval;
     return in;
 }

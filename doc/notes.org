@@ -1,3 +1,4 @@
+#+TITLE: EP Simulator Development Notes
 * Style
 ** Style guides
 *** Google C++ Style Guide
@@ -755,3 +756,31 @@ polymorphic) and is passed to classes that need to system save data.
 ** Whiteboarding channels
    RealTimeWindow is polling each channel.  This is a QList<Channel>
    presumably.  So, 
+* StudyManager class
+** Rationale
+   Managing the intricacies of using studies is highly complex.   
+** Roles
+   - Set up directory structure for a new study
+   - Needs to know
+     - Study directory name (study.dirName())
+     - Optical disk path
+       - is it a real optical disk or not?
+     - cache path
+     - network path
+     - hold study data in System?
+     - copy study data to Network?
+   - Methods
+     - Constructor
+       ? pass all the specific options as a struct/class, as opposed to
+       passing const Options& ?
+     - class StudyPaths?
+       data class only?
+#+BEGIN_SRC c++
+class StudyPaths {
+    QString opticalDrivePath;
+    QString cachePath;
+    QString systemPath;
+    QString networkPath;
+};
+#+END_SRC
+

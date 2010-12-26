@@ -233,6 +233,7 @@ class StudyConfiguration {
     Q_DECLARE_TR_FUNCTIONS(StudyConfiguration)
 
 public:
+    enum CuffSize {Adult, Pediatric, Thigh};
 
     StudyConfiguration(const QString& name = tr("<default>"),
 		       int numChannels = 32);
@@ -301,7 +302,7 @@ private:
     int hrChannel2Index_;
     bool useAutoNbp_;
     int nbpTimeInterval_;
-    int cuffSize_;
+    CuffSize cuffSize_;
     bool useAutoVitalLog_;
     int vitalLogTimeInterval_;
 

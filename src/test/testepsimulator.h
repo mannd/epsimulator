@@ -31,7 +31,7 @@ class TestEpSimulator : public QObject {
 
 private slots:
     void initTestCase();
-    // class Study
+
     void testStudyConstructor();
     void testStudyCopyConstructor();
     void testStudyOperatorEquals();
@@ -47,57 +47,38 @@ private slots:
     void testStudyLoadSave();
     void testIsPreregisterStudy();
     void testEF();
-    // class Options
     void testOptions();
     void testOptionsFlags();
-    // class OpticalDisk
     void testOpticalDisk();
-    // class PatientDialog
     void testPatientDialog();
     void testPatientDialogCalculations();
     void testGetSetPatientDialogDefaultStudies();
-    // class FilterCatalogDialog
     void testFilterCatalogDialog();
-    // class PasswordDialog
     void testPasswordDialog();
-    // class PasswordHandler
     void testPasswordHandler();
-    // class User
     void testUser();
-    // class Catalog, Catalogs
     void testCatalog();
     void testCatalogs();
     void testCatalogAddStudy();
-    // class CatalogComboBox
     void testCatalogComboBox();
-    // function deleteDir()
     void testDeleteDir();
-    // function copyDir()
     void testCopyDir();
-    // class Saturation
     void testSaturation();
-    // class Amplifier
     void testAmplifier();
     void testAmplifierStream();
     void testChannel();
-    // class StudyConfiguration
     void testStudyConfigurationStream();
-    // class BloodPressure
     void testBloodPressure();
-    // conversion functions
     void testConversions();
-    // utilities
     void testJoinPaths();
     void testIsRemovableMedia();
-    // class ListSelector
     void testListSelector();
-    // class Protocol
     void testProtocol();
-    // class Interval
     void testInterval();
-    // class Mark
     void testMark();
     void testColumnFormat();
+    void testStudyManager();
+    void testRemovableMedia();
 
     void cleanupTestCase();
 

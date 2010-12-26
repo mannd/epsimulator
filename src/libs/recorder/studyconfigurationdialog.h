@@ -95,8 +95,8 @@ class ReviewStudyConfigurationDialog: public StudyConfigurationDialog {
 public:
     ReviewStudyConfigurationDialog(EpStudy::StudyConfiguration*,
                                    bool administrationAllowed,
-                                   QWidget* parent = 0,
-                                   int windowNum = 1);
+                                   int windowNum = 1,
+                                   QWidget* parent = 0);
 };
 
 }

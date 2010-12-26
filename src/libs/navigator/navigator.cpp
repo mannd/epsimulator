@@ -48,6 +48,7 @@
 #include "statusbar.h"
 #include "study.h"
 #include "studyconfiguration.h"
+#include "studymanager.h"
 #include "tablelistview.h"
 #include "user.h"
 
@@ -83,6 +84,7 @@ using EpGui::PatientDialog;
 using EpGui::SelectStudyConfigDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
+using EpStudy::StudyManager;
 using EpNavigator::EditStudyConfigsDialog;
 using EpNavigator::Navigator;
 using EpNavigator::StatusBar;
@@ -111,6 +113,10 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
 
     updateWindowTitle();
     options_->readSettings();
+    studyManager_ = new StudyManager(options_->systemCatalogPath,
+                                     QString(".epsimulator"),
+                                     options_->opticalStudyPath,
+                                     options_->networkStudyPath);
 }
 
 Navigator::~Navigator() {
@@ -118,6 +124,7 @@ Navigator::~Navigator() {
     delete currentDisk_;
     delete user_;
     delete options_;
+    delete studyManager_;
 }
 
 void Navigator::clearSelection() {
@@ -135,6 +142,8 @@ void Navigator::closeEvent(QCloseEvent* event) {
 
 // Blue bar actions
 void Navigator::newStudy() {
+    // actually New Study button is grayed out if EnableAcquisition not set,
+    // but just in case...
     if (!options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
         QMessageBox::information(this, tr("Acquisition Not Enabled"),
             tr("This workstation is not set up for acquisition. "

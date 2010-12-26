@@ -41,6 +41,7 @@
 #include "saturation.h"
 #include "study.h"
 #include "studyconfiguration.h"
+#include "studymanager.h"
 #include "user.h"
 
 #include <QDir>
@@ -861,6 +862,20 @@ void TestEpSimulator::testMark() {
     QVERIFY(mark.name() == tr("V4"));
     mark.setType(Mark::V5);
     QVERIFY(mark.name() == tr("V5"));
+}
+
+void TestEpSimulator::testStudyManager() {
+    StudyManager s("system","cache", "", "");
+    QVERIFY(s.cachePath() == "system/cache");
+    StudyManager s1;            // test default constructor
+    QVERIFY(s1.cachePath() == QString());
+}
+
+void TestEpSimulator::testRemovableMedia() {
+    // home dir should not be removable
+    QVERIFY(!EpCore::isRemovableMedia(QDir::home()));
+    // this test is system specific -- modify it for your CD drive
+    QVERIFY(EpCore::isRemovableMedia(QDir("/media/cdrom")));
 }
 
 void TestEpSimulator::cleanupTestCase() {

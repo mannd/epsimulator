@@ -86,7 +86,7 @@ void ReviewWindow::otherWindowActive(bool enable) {
 StudyConfigurationDialog* ReviewWindow::studyConfigurationDialog() {
     return new ReviewStudyConfigurationDialog(study()->studyConfiguration(),
                                               true, /// administrationAllowed FIXME
-                                              this, number());
+                                              number(), this);
 }
 
 void ReviewWindow::writeSettings(QSettings& settings) {

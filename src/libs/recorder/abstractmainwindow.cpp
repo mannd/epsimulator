@@ -32,6 +32,7 @@
 #include "options.h"
 #include "passworddialog.h"
 #include "simulatorsettingsdialog.h"
+#include "studymanager.h"
 #include "systemdialog.h"
 #include "user.h"
 
@@ -45,12 +46,13 @@ using EpCore::Options;
 using EpCore::User;
 using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
+using EpStudy::StudyManager;
 using namespace EpCore::Constants;
 
 AbstractMainWindow::AbstractMainWindow(Options* options, 
                                        User* user,
                                        QWidget *parent)
-    : QMainWindow(parent), options_(options), user_(user) {
+    : QMainWindow(parent), options_(options), user_(user), studyManager_(0) {
     createActions();
 }
 
@@ -139,6 +141,12 @@ void AbstractMainWindow::systemSettings() {
                 changeDatabase();
             }
             updateSystemSettings();
+            delete studyManager_;
+            studyManager_ = new StudyManager(options_->systemCatalogPath,
+                                     QString(".epsimulator"),
+                                     options_->opticalStudyPath,
+                                     options_->networkStudyPath);
+
             options_->save();
         }
     }
