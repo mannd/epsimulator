@@ -10,7 +10,8 @@ SOURCES += options.cpp \
     probability.cpp \
     interval.cpp \
     mark.cpp \
-    columnformat.cpp
+    columnformat.cpp \
+    systempath.cpp
 unix:SOURCES += ../../os/fileutilities_unix.cpp
 win32:SOURCES += ../../os/fileutilities_win.cpp
 HEADERS += options.h \
@@ -23,7 +24,8 @@ HEADERS += options.h \
     interval.h \
     mark.h \
     columnformat.h \
-    coreconstants.h
+    coreconstants.h \
+    systempath.h
 win32:LIBS += -lws2_32 \
     -lkernel32 \
     -loleaut32
