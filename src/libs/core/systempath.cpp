@@ -22,10 +22,25 @@
 
 #include "fileutilities.h"
 
+#include <QDir>
+
 using EpCore::SystemPath;
 
 SystemPath::SystemPath() {
     path_ = EpCore::osDependentSystemPath();
 }
 
-void SystemPath::init() {}
+bool SystemPath::init() {
+    QDir dir = QDir(path_);
+    if (!exists() && !dir.mkpath(path_))
+        return false;
+    return true;                // path_ exists or was made
+}
+
+QString SystemPath::filePath(const QString& fileName) const {
+    return EpCore::joinPaths(path_, fileName);
+}
+
+bool SystemPath::exists() const {
+    return QDir(path_).exists();
+}

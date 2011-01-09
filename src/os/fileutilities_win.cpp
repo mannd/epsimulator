@@ -18,7 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "../libs/core/fileutilities.h"
+#include "fileutilities.h"
+
+#include "coreconstants.h"
 
 #include <QtCore/QDir>
 #include <QtCore/QProcessEnvironment>
@@ -50,7 +52,7 @@ bool EpCore::isRemovableMedia(const QDir& dir) {
 
 QString EpCore::osDependentSystemPath() {
     QString appData = QProcessEnvironment::systemEnvironment().value("APPDATA");
-    QString path = joinPaths(appData, "epsimulator");
+    QString path = joinPaths(appData, EpCore::Constants::EPSIM_SYSTEM_DIRNAME);
     return path;
 }
 

@@ -55,6 +55,8 @@ const char* const EPSIM_DB_HOSTNAME = "localhost";
 const char* const EPSIM_DB_USERNAME = "epsimuser";
 const char* const EPSIM_DB_PASSWORD = "epsimpassword";
 
+const char* const EPSIM_SYSTEM_DIRNAME = ".epsimulator";
+
 #undef APP_VERSION
 #undef APP_VERSION_MAJOR
 #undef APP_VERSION_MINOR

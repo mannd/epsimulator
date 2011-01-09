@@ -208,8 +208,6 @@ inline void clearFlag(T& flags, const K& flag) {
     setFlag(flags, flag, false);
 }
 
-QString systemPath();
-
 } // EpCore
 
 #endif

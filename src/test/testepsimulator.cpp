@@ -872,6 +872,16 @@ void TestEpSimulator::testSystemPath() {
     QString path = QDir::homePath();
     path = joinPaths(path, ".epsimulator");
     QVERIFY(s.path() == path);
+    s.setPath("dkdkd/dkdks/ddk/nonsense");
+    QVERIFY(!s.exists());
+    s.setPath(QDir::homePath());
+    QVERIFY(s.exists());
+    s.setPath("test");
+    QVERIFY(s.filePath("hello") == "test/hello");
+    // test complicated paths
+    s.setPath("test2/");
+    QString fileName("/wow/");
+    QVERIFY(s.filePath(fileName) == "test2/wow");
 }
 
 void TestEpSimulator::testRemovableMedia() {

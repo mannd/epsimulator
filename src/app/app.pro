@@ -31,5 +31,15 @@ make_database.target = $$DATABASE
 make_database.depends = $$DATABASESCRIPT $$DATABASESCHEMA
 make_database.commands = -($$DATABASESCRIPT)
 
-QMAKE_EXTRA_TARGETS += make_database
-PRE_TARGETDEPS += $$DATABASE
+# Build empty study database
+STUDYDBPATH = ../../db/
+STUDYDB = $${STUDYDBPATH}emptystudy.db
+STUDYDBSCRIPT = $${STUDYDBPATH}createstudydb.sh
+STUDYDBSCHEMA = $${STUDYDBPATH}studydbschema.sql
+
+make_studydb.target = $$STUDYDB
+make_studydb.depends = $$STUDYDBSCRIPT $$STUDYDBSCHEMA
+make_studydb.commands = -($$STUDYDBSCRIPT)
+
+QMAKE_EXTRA_TARGETS += make_database make_studydb
+PRE_TARGETDEPS += $$DATABASE $$STUDYDB

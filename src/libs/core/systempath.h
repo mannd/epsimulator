@@ -28,8 +28,14 @@ namespace EpCore {
 class SystemPath {
 public:
     SystemPath();
-    void init();                // creates system directory if nonexistant
+    bool init();                // creates system directory if nonexistant
     QString path() const {return path_;}
+    QString filePath(const QString& fileName) const; // returns full system
+                                                     // path of fileName,
+                                                     // does not create file
+    bool exists() const;
+
+    void setPath(QString path) {path_ = path;} // mostly for testing
 private:
     QString path_;
 };

@@ -30,6 +30,7 @@
 #include "fileutilities.h"
 #include "navigator.h"
 #include "options.h"
+#include "systempath.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QMessageBox>
@@ -48,13 +49,27 @@
 #   include <QtCore/QTranslator>
 #endif
 
+static bool createSystemPath() {
+    EpCore::SystemPath systemPath;
+    // The systemPath should never change during program
+    // so you should only have to init() it once here.
+    if (!systemPath.init()) {   
+        QMessageBox::critical(0, QObject::tr("System Path Error"),
+                              QObject::tr("Cannot find or create "
+                                          "default System path %1.")
+                              .arg(systemPath.path()));
+        return false;
+    }
+    return true;
+}
+
 static bool createConnection() {
+    EpCore::SystemPath systemPath;
     using EpCore::Options;
     Options* options = Options::instance();
     options->load();
     const QString dbFileName(EpCore::Constants::EPSIM_DB_FILENAME);
-    QString dbFilePath(EpCore::joinPaths(EpCore::systemPath(),
-					 dbFileName));
+    QString dbFilePath(systemPath.filePath(dbFileName));
     if (options->includeNetworkCatalog()) {
 	QString networkDbFilePath = EpCore::joinPaths(options->networkStudyPath,
 						      dbFileName);
@@ -94,10 +109,7 @@ static bool createConnection() {
 	    return false;
 	}
     }
-    qDebug() << "Available DB drivers" << QSqlDatabase::drivers();
-    qDebug() << "Backend DB driver in use is" << EpCore::Constants::EPSIM_BACKEND_DB;
     QSqlDatabase db = QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB);
-    qDebug() << "Connection name is " << db.connectionName();
     db.setHostName(EpCore::Constants::EPSIM_DB_HOSTNAME);
     db.setDatabaseName(dbFilePath);
     db.setUserName(EpCore::Constants::EPSIM_DB_USERNAME);
@@ -107,7 +119,6 @@ static bool createConnection() {
                               db.lastError().text());
         return false;
     }
-    qDebug() << "Database name is" << db.databaseName();
     return true;
 }
 
@@ -167,6 +178,10 @@ int main(int argc, char **argv) {
 #endif
     app.installTranslator(&translator);
 #endif
+    // SystemPath must be created before database connection
+    // or Options used.
+    if (!createSystemPath())
+        return 1;
     // below gives error message 'cannot connect to X server' on ubuntu
     //EpCore::testCdTools(&app);
     if (!createConnection())

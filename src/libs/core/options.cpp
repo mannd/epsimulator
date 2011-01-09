@@ -21,6 +21,7 @@
 #include "options.h"
 
 #include "fileutilities.h"
+#include "systempath.h"
 
 #include <QCoreApplication>
 #include <QDir>
@@ -41,7 +42,6 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      networkStudyPath(),
 		      exportFilePath(),
 		      tempStudyPath(),
-		      systemCatalogPath(systemPath()),
 		      labName(),
 		      useLabName(false),
 		      filePathFlags(EnableAcquisition),
@@ -52,6 +52,8 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
                       passwordHash(),
 		      diskCache(AutoCache),
 		      numChannels(48) {
+    EpCore::SystemPath systemPath;
+    systemCatalogPath = systemPath.path();
 //    qDebug() << "EP Simulator Directories";
 //    qDebug() << "========================";
 //    qDebug() << "System path:\t" << systemCatalogPath;
@@ -147,12 +149,4 @@ void Options::writeSettings() {
 
 Options::~Options() {
     writeSettings();
-}
-
-QString EpCore::systemPath() {
-    QString path = osDependentSystemPath();
-    QDir dir = QDir(path);
-    if (!dir.exists() && !dir.mkdir(path))
-        throw SystemDirectoryNotFoundError(path);
-    return path;
 }

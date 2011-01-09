@@ -49,6 +49,7 @@
 #include "study.h"
 #include "studyconfiguration.h"
 #include "studymanager.h"
+#include "systempath.h"
 #include "tablelistview.h"
 #include "user.h"
 
@@ -1331,8 +1332,10 @@ void Navigator::processFilter() {
 void Navigator::startStudy(Study* study, bool review) {
     // write study files
     QString studiesPath = currentDisk_->studiesPath();
-    if (EpCore::useDiskCache(studiesPath))
-        studiesPath = EpCore::systemPath() + "/studies";
+    if (EpCore::useDiskCache(studiesPath)) {
+        EpCore::SystemPath systemPath;
+        studiesPath = systemPath.filePath("studies");
+    }
     QDir studiesDir(studiesPath);
     /// FIXME this will fail for an optical disk
     if (!studiesDir.exists() && !studiesDir.mkdir(studiesPath)) {

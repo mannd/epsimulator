@@ -20,6 +20,8 @@
 
 #include "fileutilities.h"
 
+#include "coreconstants.h"
+
 #include <QtCore/QDir>
 
 #include <sys/vfs.h>
@@ -37,7 +39,8 @@ QString EpCore::osDependentSystemPath() {
 #ifdef Q_OS_MAC
     path = systemDirectory();
 #else   // unix, linux
-    path = joinPaths(QDir::homePath(), ".epsimulator");
+    path = joinPaths(QDir::homePath(), 
+                     EpCore::Constants::EPSIM_SYSTEM_DIRNAME);
 #endif
     return path;
 }

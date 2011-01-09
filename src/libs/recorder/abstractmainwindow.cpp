@@ -34,6 +34,7 @@
 #include "simulatorsettingsdialog.h"
 #include "studymanager.h"
 #include "systemdialog.h"
+#include "systempath.h"
 #include "user.h"
 
 #include <QDesktopServices>
@@ -52,7 +53,8 @@ using namespace EpCore::Constants;
 AbstractMainWindow::AbstractMainWindow(Options* options, 
                                        User* user,
                                        QWidget *parent)
-    : QMainWindow(parent), options_(options), user_(user), studyManager_(0) {
+    : QMainWindow(parent), options_(options),
+    user_(user), studyManager_(0) {
     createActions();
 }
 
@@ -113,8 +115,8 @@ void AbstractMainWindow::changeDatabase() {
             return;
     }
     // use local database
-    QString systemDbFilePath(EpCore::joinPaths(QString(EpCore::systemPath()),
-                                               QString(EPSIM_DB_FILENAME)));
+    EpCore::SystemPath systemPath;
+    QString systemDbFilePath(systemPath.filePath(EPSIM_DB_FILENAME));
     QSqlDatabase db = QSqlDatabase::addDatabase(EPSIM_BACKEND_DB);
     db.setHostName(EPSIM_DB_HOSTNAME);
     db.setDatabaseName(systemDbFilePath);
