@@ -24,14 +24,12 @@
 #include "epdefs.h"
 
 namespace EpPatient {
-
     typedef Ep::Rate HeartRate;
     typedef Ep::Rate RespRate;
 
     typedef int AutonomicTone;
 
     enum Sex {Male, Female};
-
 }
 
 #endif // PATIENTDEFS_H

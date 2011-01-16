@@ -32,17 +32,17 @@ class QSqlRecord;
 class QToolBar;
 
 namespace EpCore {
-    class User;
-    class Options;
+class User;
+class Options;
 }
 
 namespace EpHardware { 
-    namespace EpOpticalDisk { 
-	class OpticalDisk; }
+namespace EpOpticalDisk { 
+class OpticalDisk; }
 }
 
 namespace EpStudy { 
-    class Study; 
+class Study; 
 }
 
 namespace EpNavigator {
@@ -54,12 +54,8 @@ class MoveCopyStudyDialog;
 class StatusBar;
 class TableListView;
 
-/**
- * @author David Mann <mannd@epstudiossoftware.com>
- */
 class Navigator : public EpGui::AbstractMainWindow {
     Q_OBJECT
-
 public:
     Navigator(QWidget* parent = 0);
     ~Navigator();

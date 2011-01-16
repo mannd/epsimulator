@@ -33,6 +33,59 @@ using namespace Ep;
 using EpCore::Probability;
 using EpPatient::Patient;
 using EpPatient::HeartRate;
+using EpPatient::Name;
+
+Name::Name(const QString& last,
+           const QString& first,
+           const QString& middle) {
+    setLastFirstMiddle(last, first, middle);
+}
+
+void Name::setLastFirstMiddle(const QString& last,
+                              const QString& first,
+                              const QString& middle) {
+    last_ = last.simplified();
+    first_ = first.simplified();
+    middle_ = middle.simplified();
+}
+
+QString Name::firstMiddleLast() const {
+    return fullName(false, true);
+}
+
+QString Name::lastFirstMiddle() const {
+    return fullName(true, true);
+}
+
+QString Name::lastFirst() const {
+    return fullName(true, false);
+}
+
+QString Name::fullName(bool lastFirst, bool useMiddleName) const {
+    QString middleName;
+    if (useMiddleName && !middle_.isEmpty())
+        middleName = " " + middle_ + " ";
+    else
+        middleName = " ";
+    if (lastFirst)
+        return (last_ + ", " + first_ + middleName).simplified();
+    else
+        return (first_ + middleName + last_).simplified();
+}
+
+namespace EpPatient {
+
+QDataStream& operator<<(QDataStream& out, const Name& name) {
+    out << name.first_ << name.middle_ << name.last_;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, Name& name) {
+    in >> name.first_ >> name.middle_ >> name.last_;
+    return in;
+}
+
+}
 
 const QString Patient::fileName_ = "patient.dat";
 

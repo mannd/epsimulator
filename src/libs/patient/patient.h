@@ -25,22 +25,45 @@
 #include "bloodpressure.h"
 #include "saturation.h"
 
-#include <QtCore/QCoreApplication>
-
+#include <QCoreApplication>
+#include <QDate>
 
 class QDataStream;
 
 namespace EpPatient {
-    class Heart;
 
- /**
- * real-time patient simulation
- *
- * @author David Mann <mannd@epstudiossoftware.com>
- */
-class Patient{
+class Heart;
+
+class Name {
+public:
+    Name(const QString& last = QString(),
+         const QString& first = QString(),
+         const QString& middle = QString());
+
+    void setLastFirstMiddle(const QString& last,
+                            const QString& first,
+                            const QString& middle = QString());
+
+    QString firstMiddleLast() const;
+    QString lastFirstMiddle() const;
+    QString lastFirst() const;
+    QString last() const {return last_;}
+    QString first() const {return first_;}
+    QString middle() const {return middle_;}
+    QString fullName(bool lastFirst = false,
+                     bool useMiddleName = false) const;
+
+    friend QDataStream& operator<<(QDataStream&, const Name&);
+    friend QDataStream& operator>>(QDataStream&, Name&);
+
+private:
+    QString last_;
+    QString first_;
+    QString middle_;
+};
+
+class Patient {
     Q_DECLARE_TR_FUNCTIONS(Patient)
-
 public:
     friend QDataStream& operator<<(QDataStream&, const Patient&);
     friend QDataStream& operator>>(QDataStream&, Patient&);
@@ -86,8 +109,25 @@ private:
     RespRate respRate_;
     unsigned long int secs_;    // total simulation time
     Heart* heart_;
-
 };
+
+class PatientDemographics {
+private:
+    Name name_;
+    QDate dateOfBirth_;
+    QString mrn_;
+    QString accountNumber_;
+    Sex sex_;
+    double height_;
+    double weight_;
+    double heightIn_;
+    double weightLbs_;
+    double bsa_;
+    AutonomicTone vagalTone_;
+    AutonomicTone sympatheticTone_;
+    int ef_;
+    bool ischemia_;
+};    
 
 }
 

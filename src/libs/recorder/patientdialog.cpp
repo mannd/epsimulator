@@ -27,7 +27,7 @@
 using EpGui::PatientDialog;
 //using EpStudy::Female;
 //using EpStudy::Male;
-using EpStudy::Name;
+using EpPatient::Name;
 using EpPatient::Sex;
 using EpStudy::Study;
 

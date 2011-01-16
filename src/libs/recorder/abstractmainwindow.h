@@ -26,14 +26,14 @@
 class QAction;
 
 namespace EpCore {
-    class Options;
-    class User;
+class Options;
+class User;
 }
 
 namespace EpHardware {
-    namespace EpOpticalDisk {
-        class OpticalDisk;
-    }
+namespace EpOpticalDisk {
+class OpticalDisk;
+}
 }
 
 namespace EpStudy {
@@ -42,10 +42,6 @@ class StudyManager;
 
 namespace EpGui {
 
-/** Contains methods and actions common to both the 
- *  Navigator and Recorder windows.
- *  @author David Mann <mannd@epstudiossoftware.com>
- */
 class AbstractMainWindow : public QMainWindow {
     Q_OBJECT
 public:

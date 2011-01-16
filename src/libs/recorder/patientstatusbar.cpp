@@ -32,7 +32,6 @@
 namespace EpRecorder {
 
 using EpPatient::Saturation;
-using EpStudy::Name;
 
 const int PatientStatusBar::updateInterval;
 
@@ -96,9 +95,9 @@ void PatientStatusBar::createPalettes() {
     spO2Label->setAutoFillBackground(true);
 }
 
-void PatientStatusBar::setPatientInfo(const Name& name, 
+void PatientStatusBar::setPatientInfo(const QString& name, 
     double kg, double bsa) {
-    nameLabel->setText(name.lastFirst());
+    nameLabel->setText(name);
     kgLabel->setText(tr("Kg ") + QString::number(kg, 'f', 1));
     bsaLabel->setText(tr("BSA ") + QString::number(bsa, 'f', 2));
 }

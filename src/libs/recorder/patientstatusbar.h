@@ -35,10 +35,6 @@ namespace EpPatient {
     class Patient;
 }
 
-namespace EpStudy {
-    struct Name;
-}
-
 namespace EpRecorder {
 
 class PatientStatusBar : public QWidget, private Ui::PatientStatusBar {
@@ -52,7 +48,7 @@ public:
     void stop();
 
     void setPatient(EpPatient::Patient* patient) {patient_ = patient;} 
-    void setPatientInfo(const EpStudy::Name&, double kg, double bsa);
+    void setPatientInfo(const QString& name, double kg, double bsa);
 
     void displayO2Sat();
 

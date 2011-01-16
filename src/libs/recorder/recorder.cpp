@@ -319,7 +319,7 @@ void Recorder::patientInformation() {
     if (patientDialog->exec() == QDialog::Accepted) {
         patientDialog->getFields(study_);
         study_->save();
-        patientStatusBar_->setPatientInfo(study_->name(), 
+        patientStatusBar_->setPatientInfo(study_->name().lastFirst(), 
             study_->weight(), study_->bsa());
         emit studyDataChanged(study_);
 
@@ -694,7 +694,7 @@ void Recorder::createPatientStatusBar() {
     addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 
     patientStatusBar_->setPatient(patient_);
-    patientStatusBar_->setPatientInfo(study_->name(), 
+    patientStatusBar_->setPatientInfo(study_->name().lastFirst(), 
         study_->weight(), study_->bsa());
     patientStatusBar_->start();
 }

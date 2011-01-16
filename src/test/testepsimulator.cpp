@@ -1,6 +1,6 @@
                                                                                 
 /***************************************************************************
- *   Copyright (C) 2007 by EP Studios, Inc.                                *
+ *   Copyright (C) 2007 - 2011 by EP Studios, Inc.                         *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -159,7 +159,7 @@ void TestEpSimulator::testFullName() {
 
     Name name(lastName, firstName, middleName);
     s.setName(name);
-    QCOMPARE(s.name().testFullName(lastFirst, useMiddleName), results);
+    QCOMPARE(s.name().fullName(lastFirst, useMiddleName), results);
 }
 
 void TestEpSimulator::testName() {
