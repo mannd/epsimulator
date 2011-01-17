@@ -28,10 +28,10 @@ const int BloodPressure::rateCutoff = 120;
 
 BloodPressure::BloodPressure(const int systolic, const int diastolic)
     : systolic_(systolic), diastolic_(diastolic) {
-    normalizeBp();
+    normalize();
 }
 
-void BloodPressure::normalizeBp() {
+void BloodPressure::normalize() {
     // make sure BP is reasonable
     // no negatives
     if (systolic_ < 0)
@@ -45,32 +45,32 @@ void BloodPressure::normalizeBp() {
 
 void BloodPressure::setSystolic(const int systolic) {
     systolic_ = systolic;
-    normalizeBp();
+    normalize();
 }
 
 void BloodPressure::setDiastolic(const int diastolic) {
     diastolic_ = diastolic;
-    normalizeBp();
+    normalize();
 }
 
-void BloodPressure::setBp(const int systolic, const int diastolic) {
+void BloodPressure::setValue(const int systolic, const int diastolic) {
     systolic_ = systolic;
     diastolic_ = diastolic;
-    normalizeBp();
+    normalize();
 }
 
-QString BloodPressure::bp() const {
+QString BloodPressure::toString() const {
     return QString::number(systolic_) + "/" + QString::number(diastolic_);
 }
 
-int BloodPressure::meanBp() const {
+int BloodPressure::mean() const {
     // doesn't account for heart rate
     return diastolic_ + (systolic_ - diastolic_)/3;
 }
 
-int BloodPressure::meanBp(int heartRate) const {
+int BloodPressure::mean(int heartRate) const {
     if (heartRate < rateCutoff)
-        return meanBp();
+        return mean();
     else
         // better estimate of mean BP at faster heart rates
         // http://en.wikipedia.org/wiki/Mean_arterial_pressure
@@ -89,4 +89,4 @@ QDataStream& operator>>(QDataStream& in, BloodPressure& bp) {
     return in;
 }
 
-}
+} // namespace EpPatient

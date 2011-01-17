@@ -32,9 +32,8 @@ Heart::Heart(const Heart& heart) : name_(heart.name_) {}
 
 Heart::~Heart() {}
 
-// FAKE!!!
 HeartRate Heart::meanHeartRate() const {
-    return 70;
+    return heartRate_;
 }
 
 Ep::msec Heart::meanCL() const {

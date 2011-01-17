@@ -32,20 +32,20 @@ public:
 
     BloodPressure(const int systolic, const int diastolic);
 
-    QString bp() const;
-    int systolicBp() const {return systolic_;}
-    int diastolicBp() const {return diastolic_;}
-    int meanBp() const;
-    int meanBp(int heartRate) const;
+    QString toString() const;
+    int systolic() const {return systolic_;}
+    int diastolic() const {return diastolic_;}
+    int mean() const;
+    int mean(int heartRate) const;
 
     void setSystolic(const int systolic);
     void setDiastolic(const int diastlic);
-    void setBp(const int systolic, const int diastolic);
+    void setValue(const int systolic, const int diastolic);
 
     static const int rateCutoff; // heart rate at which mean BP formula changes
 
 private:
-    void normalizeBp();
+    void normalize();
 
     int systolic_;
     int diastolic_;

@@ -111,24 +111,6 @@ private:
     Heart* heart_;
 };
 
-class PatientDemographics {
-private:
-    Name name_;
-    QDate dateOfBirth_;
-    QString mrn_;
-    QString accountNumber_;
-    Sex sex_;
-    double height_;
-    double weight_;
-    double heightIn_;
-    double weightLbs_;
-    double bsa_;
-    AutonomicTone vagalTone_;
-    AutonomicTone sympatheticTone_;
-    int ef_;
-    bool ischemia_;
-};    
-
 }
 
 #endif

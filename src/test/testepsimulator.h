@@ -79,6 +79,7 @@ private slots:
     void testStudyManager();
     void testSystemPath();
     void testRemovableMedia();
+    void testPatient();
 
     void cleanupTestCase();
 

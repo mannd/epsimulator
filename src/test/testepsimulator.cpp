@@ -693,23 +693,23 @@ void TestEpSimulator::testStudyConfigurationStream() {
 
 void TestEpSimulator::testBloodPressure() {
     BloodPressure bp(100, 50);
-    QVERIFY(bp.bp() == "100/50");
-    QVERIFY(bp.meanBp() == 66);
-    QVERIFY(bp.meanBp(60) == 66);
-    QVERIFY(bp.meanBp(BloodPressure::rateCutoff) == 75);
+    QVERIFY(bp.toString() == "100/50");
+    QVERIFY(bp.mean() == 66);
+    QVERIFY(bp.mean(60) == 66);
+    QVERIFY(bp.mean(BloodPressure::rateCutoff) == 75);
 
     // give bad blood pressure
     BloodPressure bp1(-100, -80);
-    QVERIFY(bp1.bp() == "0/0");
-    QVERIFY(bp1.meanBp() == 0);
+    QVERIFY(bp1.toString() == "0/0");
+    QVERIFY(bp1.mean() == 0);
     // another bad bp
     BloodPressure bp2(50, 100);
-    QVERIFY(bp2.bp() == "100/100");
+    QVERIFY(bp2.toString() == "100/100");
     bp2.setSystolic(150);
     bp2.setDiastolic(90);
-    QVERIFY(bp2.bp() == "150/90");
-    bp2.setBp(200, 100);
-    QVERIFY(bp2.bp() == "200/100");
+    QVERIFY(bp2.toString() == "150/90");
+    bp2.setValue(200, 100);
+    QVERIFY(bp2.toString() == "200/100");
 
 }
 
@@ -889,6 +889,18 @@ void TestEpSimulator::testRemovableMedia() {
     QVERIFY(!EpCore::isRemovableMedia(QDir::home()));
     // this test is system specific -- modify it for your CD drive
     QVERIFY(EpCore::isRemovableMedia(QDir("/media/cdrom")));
+}
+
+void TestEpSimulator::testPatient() {
+    Patient patient;
+    QVERIFY(patient.sex() == Male);
+    QVERIFY(patient.vagalTone() == 50);
+    QVERIFY(patient.sympatheticTone() == 50);
+    QVERIFY(patient.bp().systolic() == 0);
+    patient.setHeartRate(60);
+    QVERIFY(patient.meanCL() == 1000);
+    patient.setHeartRate(50);
+    QVERIFY(patient.meanCL() == 1200);
 }
 
 void TestEpSimulator::cleanupTestCase() {

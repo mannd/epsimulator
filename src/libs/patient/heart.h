@@ -47,7 +47,7 @@ public:
     QString name() const {return name_;}
 
     // do nothing below for now
-    void setHeartRate(HeartRate) {}
+    void setHeartRate(HeartRate rate) {heartRate_ = rate;}
 
     // these functions are used to update Patient physiology numbers
     HeartRate meanHeartRate() const;
@@ -55,6 +55,7 @@ public:
 
 private:
     QString name_;
+    HeartRate heartRate_;
 };
 
 }
