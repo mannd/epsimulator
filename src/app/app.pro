@@ -32,14 +32,14 @@ make_database.depends = $$DATABASESCRIPT $$DATABASESCHEMA
 make_database.commands = -($$DATABASESCRIPT)
 
 # Build empty study database
-STUDYDBPATH = ../../db/
-STUDYDB = $${STUDYDBPATH}emptystudy.db
-STUDYDBSCRIPT = $${STUDYDBPATH}createstudydb.sh
-STUDYDBSCHEMA = $${STUDYDBPATH}studydbschema.sql
+CATALOGDBPATH = ../../db/
+CATALOGDB = $${CATALOGDBPATH}emptycatalog.db
+CATALOGDBSCRIPT = $${CATALOGDBPATH}createcatalogdb.sh
+CATALOGDBSCHEMA = $${CATALOGDBPATH}catalogdbschema.sql
 
-make_studydb.target = $$STUDYDB
-make_studydb.depends = $$STUDYDBSCRIPT $$STUDYDBSCHEMA
-make_studydb.commands = -($$STUDYDBSCRIPT)
+make_catalogdb.target = $$CATALOGDB
+make_catalogdb.depends = $$CATALOGDBSCRIPT $$CATALOGDBSCHEMA
+make_catalogdb.commands = -($$CATALOGDBSCRIPT)
 
-QMAKE_EXTRA_TARGETS += make_database make_studydb
-PRE_TARGETDEPS += $$DATABASE $$STUDYDB
+QMAKE_EXTRA_TARGETS += make_database make_catalogdb
+PRE_TARGETDEPS += $$DATABASE $$CATALOGDB

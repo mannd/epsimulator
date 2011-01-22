@@ -165,8 +165,9 @@ namespace EpPatient {
 // friends
 
 QDataStream& operator<<(QDataStream& out, const Patient& patient) {
-    out << patient.name_ << patient.path_ << patient.o2Saturation_
-            << patient.bp_ << *patient.heart_;
+    out << patient.name_ << patient.path_ 
+        << patient.o2Saturation_ 
+        << patient.bp_ << *patient.heart_;
     return out;
 }
 
