@@ -18,13 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/**
- * @file catalog.h
- * Contains all catalog related classes, including 
- * Catalog (base class), SystemCatalog,
- * OpticalCatalog, NetworkCatalog, and the group of catalogs: Catalogs.
- */
-
 #ifndef CATALOG_H
 #define CATALOG_H
 
@@ -52,14 +45,7 @@ struct StudyData {
     QString machineName;   // name of machine for Network catalog
 };
 
-/**
- * @author David Mann <mannd@epstudiossoftware.com>
- * Base class for NetworkCatalog, OpticalCatalog, and SystemCatalog.
- * Note that this is set up like an STL container, with its own
- * iterator, and an operator[].
- */
 class Catalog {
-
 public:
     enum Source {Network, System, Optical, Other};
     typedef QMap<QString, StudyData> CatalogMap;
@@ -226,6 +212,26 @@ private:
 
 };
 
-}
+class CatalogEntry {
+public:
+    CatalogEntry();
 
+private:
+    int id_;
+    QString studyKey_;
+    //Name name_;
+    QString lastName_;
+    QString firstName_;
+    QString middleName_;
+    QString mrn_;
+    QDateTime studyDateTime_;
+    QString studyConfig_;
+    QString studyNumber_;
+    QString studyLocation_;
+    QString diskSide_;
+    QString labName_;
+    QString machineName_;
+};
+
+}
 #endif

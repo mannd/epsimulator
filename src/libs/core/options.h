@@ -31,24 +31,7 @@
 
 namespace EpCore {
 
-/**
- * NOT a Singleton class providing one-stop shopping for all program options.
- * At present program invokes only a single Options* pointer in the
- * Navigator class and passes it around.  This allows for testing with
- * mock Options.  Note that loading and saving Options are separate from
- * construction and destruction.
- * These are set both in SystemDialog and SimulatorSettingsDialog.
- * Options are stored on disk as QSettings.
- * As there seems little point to "protect" option data members
- * behind setter and getter functions, we will break an OOP rule
- * and make the data members public.  Options is basically a POD
- * class with the means to read and write itself to disk, so this
- * should be ok.  To emphasize this, we have changed the 
- * data type from class to struct.
- * @author David Mann <mannd@epstudiossoftware.com>
- */
 struct Options {
-
 public:
     ~Options();
 

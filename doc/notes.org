@@ -305,6 +305,24 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
      If no disk cache is used then all writing is directly to the
      "optical disk" directory, and burning is a no-op.  The disk cache
      is the directory.
+*** Disk Cache reconsidered
+**** True optical drive vs hard drive
+     The optical path can be a true optical drive or a hard drive directory.
+     The software can tell the difference.  File handling is different
+     depending on this.  Specifically, a disk cache is only used if a true
+     optical drive is present.
+***** Optical drive present
+      When Catalog is set to Optical, the optical path catalog database is
+      copied to disk cache and read.  When a study is continued, the study
+      directory is copied to the cache and all reading and writing is to the
+      cache.  When the study is closed, the catalog database and study
+      directory in the cache is copied to the optical disk, and the cache is
+      cleared on successful copying.
+***** Hard drive directory used as optical drive
+      In this case, NO disk cache is used.  The catalog and study files are
+      written to directly to the hard drive.  When the study is opened and
+      closed, nothing special happens.  This behavior can be overwritten by an
+      Option flag.
 * Database
 ** Background
    It has become obvious that, similar to the Prucka system, the data
@@ -626,6 +644,21 @@ polymorphic) and is passed to classes that need to system save data.
 **** Heart tab
 ***** Similar to Physiology tab, ability to save, save as
 ***** Ability to alter cellular and macro physiology
+*** Patient class
+**** Basal characteristics
+     Each patient has certain basal characteristics that exist at the start of
+     a study.  Patient generation is much like character generation in a
+     computer game.  You can start from scratch.  All physiology has default
+     setting, heart is normal, etc.  You name the patient, adjust age, sex,
+     basal autonomic tone, basal heart rate (calculated as intrinsic heart
+     rate before effects of autonomic tone), add drugs, add diseases, etc.
+     You can create a new study based on an old patient, make some changes to
+     the physiology, or make marked changes and make it into a new patient.
+**** Copying a Patient
+     A patient is copied when starting a new study based on that patient.  It
+     is only the basal characteristics that are copied.  E.g. patient at end
+     of first study had last BP of 127/89.  Basal BP though is 120/60.  That
+     value is copied.  
 * File management
 ** Where are the files?
 *** fileutilies

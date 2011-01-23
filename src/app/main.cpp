@@ -18,14 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/**
- * @mainpage
- * EP Simulator is a simulation of a cardiac electrophysiology laboratory, 
- * complete with recording equipment, programmable stimulator, and,
- * most importantly, a heart simulator that can be set up to mimic
- * normal cardiac electrophysiology and arrhythmias.
- */
-
 #include "coreconstants.h"
 #include "fileutilities.h"
 #include "navigator.h"
@@ -134,16 +126,21 @@ static void displayVersion() {
 
 static void displayHelp() {
     const char* const helpText =
-            "Usage:\n"
-            "epsimulator [OPTION]\n"
-            "Options:\n"
-            "    --help          Display this help\n"
-            "    --version       Display program version\n";
+        "Usage:\n"
+        "epsimulator [OPTION]\n"
+        "Options:\n"
+        "    --help          Display this help\n"
+        "    --version       Display program version\n"
+        "    --testcd        Display CD drive status\n";
     qWarning("%s", helpText);
 }
 
 static void displayError(const char* const option) {
     qCritical("epsimulator: unknown option %s", option);
+}
+
+static void testCd() {
+    EpCore::testCdTools();
 }
 
 int main(int argc, char **argv) {
@@ -156,6 +153,10 @@ int main(int argc, char **argv) {
     if (arguments.contains("--version") || arguments.contains("-v")) {
         displayVersion();
         return 0;	// quit after displaying version info
+    }
+    if (arguments.contains("--testcd")) {
+        testCd();
+        return 0;
     }
     if (argc > 1) {     // hey, some other unknown option was given
         displayError(argv[1]);
