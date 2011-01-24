@@ -128,6 +128,7 @@ private:
     void createCentralWidget();
     void createButtonFrame();
     void createTableListView();
+    void createStudyTable();
     void createStatusBar();
     void createActions();
     void createMenus();

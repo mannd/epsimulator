@@ -28,6 +28,9 @@
 
 #include <QtDebug>
 
+// for testing and development, don't allow real optical disk
+#define epNoRemovableMediaAllowed
+
 using EpCore::Options;
 
 Options::Options() :  screenFlags(DefaultScreenFlags),
@@ -113,6 +116,10 @@ void Options::readSettings() {
     /// TODO other options here...
 
     settings.endGroup();
+#ifdef epNoRemovableMediaAllowed
+    opticalDiskFlags = opticalDiskFlags ^ AllowRealOpticalDisk;
+    qDebug() << "No optical disk use permitted.\n";
+#endif
 }
 
 /**

@@ -993,6 +993,10 @@ void Navigator::createTableListView() {
         int)), this, SLOT(newStudy()));
 }
 
+void Navigator::createStudyTable() {
+
+}
+
 void Navigator::createStatusBar() {
     statusBar_ = new StatusBar(catalogs_->currentCatalog()->path(), this);
     setStatusBar(statusBar_);

@@ -21,13 +21,9 @@
 #ifndef EPDEFS_H
 #define EPDEFS_H
 
-/**
- * @file epdefs.h
- * Contains basic electrophysiologic typedefs, enums, etc.
- */
-
 #include <cstdlib>
 
+// Contains basic electrophysiologic typedefs, enums, etc.
 namespace Ep {
 
     typedef int msec;

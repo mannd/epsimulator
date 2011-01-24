@@ -114,6 +114,25 @@ static bool createConnection() {
     return true;
 }
 
+static bool createEmptyCatalog() {
+    EpCore::SystemPath systemPath;
+    const QString catalogDbFileName(EpCore::Constants
+                                          ::EPSIM_CATALOG_DB_FILENAME);
+    QString systemCatalogDbFilePath(systemPath
+                                    .filePath(catalogDbFileName));
+    if (!QFile::exists(systemCatalogDbFilePath)) {
+        if (!QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
+                                           "db/" + catalogDbFileName), 
+                         systemCatalogDbFilePath)) {
+            QMessageBox::critical(0, QObject::tr("Database Error"),
+                                  QObject::tr("Cannot find or create "
+                                              "system catalog database."));
+            return false;
+        }
+    }
+    return true;
+}
+
 static void displayVersion() {
     qDebug() << "EP Simulator"
             << "Version"
@@ -186,6 +205,8 @@ int main(int argc, char **argv) {
     // below gives error message 'cannot connect to X server' on ubuntu
     //EpCore::testCdTools(&app);
     if (!createConnection())
+        return 1;
+    if (!createEmptyCatalog())
         return 1;
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
     navigator->restore();
