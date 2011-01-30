@@ -208,17 +208,9 @@ void TestEpSimulator::testStudyKey() {
     Study s;
     Name name("Doe", "John");
     s.setName(name);
-    QCOMPARE(s.key(), "Doe_John_" + 
-        s.dateTime().toString("ddMMyyyyhhmmsszzz"));
-    QString first = "    John  ";
-    QString last = "   Doe        ";
-    name.setLastFirstMiddle(last, first);
-    s.setName(name);
-    QCOMPARE(s.key(), "Doe_John_" + 
-            s.dateTime().toString("ddMMyyyyhhmmsszzz"));
     // make sure keys stay constant when name changes
     QString originalKey = s.key();
-    last = "Nobody";
+    QString last = "Nobody";
     name.setLastFirstMiddle(last, QString());
     s.setName(name);
     QCOMPARE(s.key(), originalKey);
@@ -232,7 +224,9 @@ void TestEpSimulator::testStudyKey() {
     s1.setDateTime(QDateTime::currentDateTime());
     // now keys should be different
     QVERIFY(s1.key() != s.key());
-    
+    // make sure 2 studies have different keys
+    Study s2, s3;
+    QVERIFY(s2.key() != s3.key());
 }
 
 void TestEpSimulator::testStudyFileName() {
@@ -434,11 +428,8 @@ void TestEpSimulator::testGetSetPatientDialogDefaultStudies() {
     s3->setName(n3);
     pd.setFields(s3);
     pd.getFields(s4);
-    QVERIFY(s3->key() == s4->key()); // here keys are set
-                                     // after dateTime is made
-                                     // the same
+    QVERIFY(s3->key() != s4->key());
     s3->setName(n3);
-    
     delete s1;
     delete s2;
     delete s3;

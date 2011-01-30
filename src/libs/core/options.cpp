@@ -54,7 +54,8 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      simulationControlFlags(DefaultUserControl),
                       passwordHash(),
 		      diskCache(AutoCache),
-		      numChannels(48) {
+		      numChannels(48)
+{
     EpCore::SystemPath systemPath;
     systemCatalogPath = systemPath.path();
 //    qDebug() << "EP Simulator Directories";

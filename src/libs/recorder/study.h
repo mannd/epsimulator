@@ -104,7 +104,7 @@ public:
     // specific study directory
     QString filePath();     // Returns full path of study.dat file,
     QString configFilePath();   // returns full path of config.dat file
-    QString dirName() const {return "/study_" + key();}
+    QString dirName() const {return "/" + key();}
     QString fileName() const {return fileName_;}
 
 private:

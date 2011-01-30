@@ -26,6 +26,7 @@
 
 #include <QDataStream>
 #include <QDir>
+#include <QUuid>
 
 namespace EpStudy {
 
@@ -46,22 +47,23 @@ const int Study::maxTone_;
 const QString Study::fileName_ = "study.dat";
 const QString Study::configFileName_ = "config.dat";
 
-Study::Study() :
-    dateTime_(QDateTime::currentDateTime()),
-    name_(),
-    dateOfBirth_(defaultBirthDate),
-    mrn_(), number_(), accountNumber_(),
-    sex_(EpPatient::Male), height_(0), weight_(0),
-    heightIn_(0), weightLbs_(0), bsa_(0),
-    bsaManualEdit_(false),
-    vagalTone_(defaultVagalTone),
-    sympatheticTone_(defaultSympatheticTone),
-    ef_(defaultEf),
-    ischemia_(false),
-    path_(),
-    isPregisterStudy_(true),
-    heartName_(QObject::tr("<default>")) {
+Study::Study() 
+    : dateTime_(QDateTime::currentDateTime()),
+      name_(),
+      dateOfBirth_(defaultBirthDate),
+      mrn_(), number_(), accountNumber_(),
+      sex_(EpPatient::Male), height_(0), weight_(0),
+      heightIn_(0), weightLbs_(0), bsa_(0),
+      bsaManualEdit_(false),
+      vagalTone_(defaultVagalTone),
+      sympatheticTone_(defaultSympatheticTone),
+      ef_(defaultEf),
+      ischemia_(false),
+      path_(),
+      isPregisterStudy_(true),
+      heartName_(QObject::tr("<default>")) {
     studyConfiguration_ = new StudyConfiguration;
+    key_ = QUuid::createUuid().toString();
     testInvariant();
 }
 
@@ -131,17 +133,7 @@ void Study::setSympatheticTone(AutonomicTone tone) {
 // searching, etc.  Once generated, will not change,
 // even if name, study date, etc. change.
 QString Study::key() const {
-    // Under normal circumstances PatientDialog won't allow a
-    // blank last name, so shouldn't happen.
-    Q_ASSERT(!name_.last().isEmpty());
-    if (name_.last().isEmpty())
-        return QString();
-    if (key_.isEmpty())
-        key_ = name_.last().simplified() + "_"
-            + name_.first().simplified()
-            + "_" + dateTime_.toString("ddMMyyyyhhmmsszzz");
     return key_;
-
 }
 
 QString Study::filePath() {
