@@ -114,21 +114,40 @@ static bool createConnection() {
     return true;
 }
 
-static bool createEmptyCatalog() {
+static QString systemCatalogDbFilePath() {
     EpCore::SystemPath systemPath;
-    const QString catalogDbFileName(EpCore::Constants
-                                          ::EPSIM_CATALOG_DB_FILENAME);
-    QString systemCatalogDbFilePath(systemPath
-                                    .filePath(catalogDbFileName));
-    if (!QFile::exists(systemCatalogDbFilePath)) {
+    const QString catalogDbFileName(EpCore::Constants::
+                                    EPSIM_CATALOG_DB_FILENAME);
+    return systemPath.filePath(catalogDbFileName);
+}
+
+static bool createEmptyCatalog() {
+    if (!QFile::exists(systemCatalogDbFilePath())) {
         if (!QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
-                                           "db/" + catalogDbFileName), 
-                         systemCatalogDbFilePath)) {
+                                           "db/"
+                                           + QString(EpCore::Constants::
+                                                     EPSIM_CATALOG_DB_FILENAME)), 
+                         systemCatalogDbFilePath())) {
             QMessageBox::critical(0, QObject::tr("Database Error"),
                                   QObject::tr("Cannot find or create "
                                               "system catalog database."));
             return false;
         }
+    }
+    return true;
+}
+
+static bool createSystemCatalogDbConnection() {
+    QSqlDatabase db = QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB,
+                                                EpCore::Constants::EPSIM_SYSTEM_DB);
+    db.setHostName(EpCore::Constants::EPSIM_DB_HOSTNAME);
+    db.setDatabaseName(systemCatalogDbFilePath());
+    db.setUserName(EpCore::Constants::EPSIM_DB_USERNAME);
+    db.setPassword(EpCore::Constants::EPSIM_DB_PASSWORD);
+    if (!db.open()) {
+        QMessageBox::critical(0, QObject::tr("Database Error"),
+                              db.lastError().text());
+        return false;
     }
     return true;
 }
@@ -141,6 +160,13 @@ static void displayVersion() {
             << EpCore::Constants::APP_VERSION_BUILD_STR;
     qDebug() << "Compiled using Qt Version"
             << qVersion();
+}
+
+static void displaySpecialOptions() {
+    using EpCore::Options;
+    Options* options = Options::instance();
+    if (!options->opticalDiskFlags.testFlag(Options::AllowRealOpticalDisk))
+        qDebug() << "No optical disk use permitted.";
 }
 
 static void displayHelp() {
@@ -183,6 +209,7 @@ int main(int argc, char **argv) {
     }
     // display version information with routine start
     displayVersion();
+    displaySpecialOptions();
     app.setOrganizationName("EP Studios");
     app.setOrganizationDomain("epstudiossoftware.com");
     app.setApplicationName("EPSimulator");
@@ -207,6 +234,8 @@ int main(int argc, char **argv) {
     if (!createConnection())
         return 1;
     if (!createEmptyCatalog())
+        return 1;
+    if (!createSystemCatalogDbConnection())
         return 1;
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
     navigator->restore();

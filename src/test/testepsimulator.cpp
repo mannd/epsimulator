@@ -42,6 +42,7 @@
 #include "study.h"
 #include "studyconfiguration.h"
 #include "studymanager.h"
+#include "studytable.h"
 #include "systempath.h"
 #include "user.h"
 
@@ -892,6 +893,11 @@ void TestEpSimulator::testPatient() {
     QVERIFY(patient.meanCL() == 1000);
     patient.setHeartRate(50);
     QVERIFY(patient.meanCL() == 1200);
+}
+
+void TestEpSimulator::testStudyTable() {
+    StudyTable t;
+    QVERIFY(t.parent() == 0);
 }
 
 void TestEpSimulator::cleanupTestCase() {

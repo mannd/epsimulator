@@ -119,7 +119,6 @@ void Options::readSettings() {
     settings.endGroup();
 #ifdef epNoRemovableMediaAllowed
     opticalDiskFlags = opticalDiskFlags ^ AllowRealOpticalDisk;
-    qDebug() << "No optical disk use permitted.\n";
 #endif
 }
 

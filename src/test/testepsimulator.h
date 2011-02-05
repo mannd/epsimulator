@@ -80,6 +80,7 @@ private slots:
     void testSystemPath();
     void testRemovableMedia();
     void testPatient();
+    void testStudyTable();
 
     void cleanupTestCase();
 
