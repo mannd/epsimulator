@@ -29,6 +29,7 @@ class SystemPath {
 public:
     SystemPath();
     bool init();                // creates system directory if nonexistant
+    QString operator()() const {return path_;}
     QString path() const {return path_;}
     QString filePath(const QString& fileName) const; // returns full system
                                                      // path of fileName,

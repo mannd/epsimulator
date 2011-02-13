@@ -269,7 +269,6 @@ Calculate offset in buffer: actual time mod buffer_size and read that Moment fro
 ** System data
    Note that "the windows settings are unique to each acquisition
    system and review workstation."
-   
 ** OpticalDisk
 *** Expanding OpticalDisk
     The OpticalDisk class is initialized by a path.  This is either a

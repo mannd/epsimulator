@@ -55,24 +55,30 @@ static bool createSystemPath() {
     return true;
 }
 
+// The default database is set to either the Network or System path.
+// If no default database is found on the Network path, the System path
+// is used.  The System database is created automatically if it does
+// not exist already.  The Network database must be exported from a
+// System database; it is not created automatically.
 static bool createConnection() {
     EpCore::SystemPath systemPath;
     using EpCore::Options;
+    using EpCore::joinPaths;
     Options* options = Options::instance();
     options->load();
     const QString dbFileName(EpCore::Constants::EPSIM_DB_FILENAME);
     QString dbFilePath(systemPath.filePath(dbFileName));
     if (options->includeNetworkCatalog()) {
-	QString networkDbFilePath = EpCore::joinPaths(options->networkStudyPath,
-						      dbFileName);
+	QString networkDbFilePath = joinPaths(options->networkStudyPath,
+                                              dbFileName);
 	if (!QFile::exists(networkDbFilePath)) {
 	    QMessageBox::warning(0, QObject::tr("Database Error"),
-				     QObject::tr("Cannot find Network "
-						 "Database file. "
-						 "Will use local "
-						 "Database file. "
-						 "Network storage is "
-						 "disabled."));
+                                 QObject::tr("Cannot find Network "
+                                             "Database file. "
+                                             "Will use local "
+                                             "Database file. "
+                                             "Network storage is "
+                                             "disabled."));
 	    // get rid of network storage until user fixes the problem
 	    EpCore::clearFlag(options->filePathFlags, 
 			       Options::EnableNetworkStorage);
@@ -91,9 +97,9 @@ static bool createConnection() {
 #elif defined FRENCH
 	QString langSubDir = "fr";
 #endif
-	if (!QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
-					   "db/" + langSubDir +
-					   "/" + dbFileName), 
+	if (!QFile::copy(joinPaths(EpCore::rootPath(),
+                                   "db", langSubDir,
+                                   dbFileName), 
 			 dbFilePath)) {
 	    QMessageBox::critical(0, QObject::tr("Database Error"),
 				  QObject::tr("Cannot find or create "
@@ -101,7 +107,8 @@ static bool createConnection() {
 	    return false;
 	}
     }
-    QSqlDatabase db = QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB);
+    QSqlDatabase db = 
+        QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB);
     db.setHostName(EpCore::Constants::EPSIM_DB_HOSTNAME);
     db.setDatabaseName(dbFilePath);
     db.setUserName(EpCore::Constants::EPSIM_DB_USERNAME);
@@ -138,8 +145,9 @@ static bool createEmptyCatalog() {
 }
 
 static bool createSystemCatalogDbConnection() {
-    QSqlDatabase db = QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB,
-                                                EpCore::Constants::EPSIM_SYSTEM_DB);
+    QSqlDatabase db = 
+        QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB,
+                                  EpCore::Constants::EPSIM_SYSTEM_DB);
     db.setHostName(EpCore::Constants::EPSIM_DB_HOSTNAME);
     db.setDatabaseName(systemCatalogDbFilePath());
     db.setUserName(EpCore::Constants::EPSIM_DB_USERNAME);
@@ -154,19 +162,22 @@ static bool createSystemCatalogDbConnection() {
 
 static void displayVersion() {
     qDebug() << "EP Simulator"
-            << "Version"
-            << EpCore::Constants::EPSIM_VERSION
-            << "Build"
-            << EpCore::Constants::APP_VERSION_BUILD_STR;
+             << "Version"
+             << EpCore::Constants::EPSIM_VERSION
+             << "Build"
+             << EpCore::Constants::APP_VERSION_BUILD_STR;
     qDebug() << "Compiled using Qt Version"
-            << qVersion();
+             << QT_VERSION_STR;
+    qDebug() << "Running on Qt Version"
+             << qVersion();
 }
 
-static void displaySpecialOptions() {
+static void displayMessages() {
     using EpCore::Options;
     Options* options = Options::instance();
     if (!options->opticalDiskFlags.testFlag(Options::AllowRealOpticalDisk))
         qDebug() << "No optical disk use permitted.";
+    delete options;
 }
 
 static void displayHelp() {
@@ -176,12 +187,12 @@ static void displayHelp() {
         "Options:\n"
         "    --help          Display this help\n"
         "    --version       Display program version\n"
-        "    --testcd        Display CD drive status\n";
+        "    --testcd        Display CD drive status";
     qWarning("%s", helpText);
 }
 
 static void displayError(const char* const option) {
-    qCritical("epsimulator: unknown option %s", option);
+    qWarning("epsimulator: unknown option %s", option);
 }
 
 static void testCd() {
@@ -209,11 +220,12 @@ int main(int argc, char **argv) {
     }
     // display version information with routine start
     displayVersion();
-    displaySpecialOptions();
+
     app.setOrganizationName("EP Studios");
     app.setOrganizationDomain("epstudiossoftware.com");
     app.setApplicationName("EPSimulator");
     app.setWindowIcon(QIcon(":/images/hi48-app-epsimulator.png"));
+
     // International stuff below
 #ifndef ENGLISH
     QTranslator translator(0);
@@ -225,6 +237,7 @@ int main(int argc, char **argv) {
 #endif
     app.installTranslator(&translator);
 #endif
+
     // SystemPath must be created before database connection
     // or Options used.
     if (!createSystemPath())
@@ -237,6 +250,8 @@ int main(int argc, char **argv) {
         return 1;
     if (!createSystemCatalogDbConnection())
         return 1;
+    displayMessages();          // special settings are displayed
+
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
     navigator->restore();
     return app.exec();

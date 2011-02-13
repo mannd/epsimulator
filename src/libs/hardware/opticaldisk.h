@@ -34,7 +34,8 @@ class QFile;
 class QStringList;
 class QWidget;
 
-namespace EpHardware { namespace EpOpticalDisk {
+namespace EpHardware { 
+namespace EpOpticalDisk {
 
 struct LabelData {
     QString label;
@@ -45,13 +46,8 @@ struct LabelData {
     bool operator!=(const LabelData&) const;
 };
 
-/**
- * Base class for real optical disk and optical disk emulation.
- * @author David Mann <mannd@epstudiossoftware.com>
- */
 class OpticalDisk {
     Q_DECLARE_TR_FUNCTIONS(OpticalDisk)
-
 public:
     OpticalDisk(const QString& path, const QString& cachePath);
     virtual ~OpticalDisk();

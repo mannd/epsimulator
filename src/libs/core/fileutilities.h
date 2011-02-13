@@ -102,6 +102,8 @@ void copyFilesToSystem(const QStringList& files, const QString& sourcePath,
 
 QString joinPaths(const QString&, const QString&);
 QString joinPaths(const QString&, const QString&, const QString&);
+QString joinPaths(const QString&, const QString&, const QString&, 
+                  const QString&);
 
 QString capitalize(const QString&);
 

@@ -31,7 +31,7 @@
 
 namespace EpCore {
 
-struct Options {
+class Options {
 public:
     ~Options();
 

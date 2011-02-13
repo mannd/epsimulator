@@ -718,18 +718,21 @@ void TestEpSimulator::testJoinPaths() {
 #ifdef Q_OS_WIN
     QString p1 = "\\hello\\.\\";
     QString p2 = "\\tmp";
+    QString p3 = "\\test1\\";
+    QString p4 = "test4";
 #else
     QString p1 = "///hello/./";
     QString p2 = "/tmp";
+    QString p3 = "/test1/";
+    QString p4 = "test4";
 #endif
     QVERIFY(joinPaths(p1, p2) == "/hello/tmp");
     // note that trailing slash is always removed
     p2 = "/tmp/";
     QVERIFY(QDir::cleanPath(p2) == "/tmp");
     QVERIFY(joinPaths(p1, p2) == "/hello/tmp");
-    // backslashs are converted to forward slashes
-    QString p3 = "\\hello";
-    QVERIFY(joinPaths(p1, p2) == "/hello/tmp");
+    QVERIFY(joinPaths(p1, p2, p3) == "/hello/tmp/test1");
+    QVERIFY(joinPaths(p1, p2, p3, p4) == "/hello/tmp/test1/test4");
 }
 
 void TestEpSimulator::testIsRemovableMedia() {
