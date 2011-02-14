@@ -43,7 +43,7 @@
 #include "studyconfiguration.h"
 #include "studymanager.h"
 #include "studytable.h"
-#include "systempath.h"
+#include "systemstorage.h"
 #include "user.h"
 
 #include <QDir>
@@ -861,8 +861,8 @@ void TestEpSimulator::testStudyManager() {
     QVERIFY(s1.cachePath() == QString());
 }
 
-void TestEpSimulator::testSystemPath() {
-    SystemPath s;
+void TestEpSimulator::testSystemStorage() {
+    SystemStorage s;
     // os and machine dependent
     QString path = QDir::homePath();
     path = joinPaths(path, ".epsimulator");

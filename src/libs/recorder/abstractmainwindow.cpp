@@ -34,7 +34,7 @@
 #include "simulatorsettingsdialog.h"
 #include "studymanager.h"
 #include "systemdialog.h"
-#include "systempath.h"
+#include "systemstorage.h"
 #include "user.h"
 
 #include <QDesktopServices>
@@ -115,8 +115,8 @@ void AbstractMainWindow::changeDatabase() {
             return;
     }
     // use local database
-    EpCore::SystemPath systemPath;
-    QString systemDbFilePath(systemPath.filePath(EPSIM_DB_FILENAME));
+    EpCore::SystemStorage systemStorage;
+    QString systemDbFilePath(systemStorage.filePath(EPSIM_DB_FILENAME));
     QSqlDatabase db = QSqlDatabase::addDatabase(EPSIM_BACKEND_DB);
     db.setHostName(EPSIM_DB_HOSTNAME);
     db.setDatabaseName(systemDbFilePath);

@@ -49,7 +49,7 @@
 #include "study.h"
 #include "studyconfiguration.h"
 #include "studymanager.h"
-#include "systempath.h"
+#include "systemstorage.h"
 #include "tablelistview.h"
 #include "user.h"
 
@@ -1337,8 +1337,8 @@ void Navigator::startStudy(Study* study, bool review) {
     // write study files
     QString studiesPath = currentDisk_->studiesPath();
     if (EpCore::useDiskCache(studiesPath)) {
-        EpCore::SystemPath systemPath;
-        studiesPath = systemPath.filePath("studies");
+        EpCore::SystemStorage systemStorage;
+        studiesPath = systemStorage.filePath("studies");
     }
     QDir studiesDir(studiesPath);
     /// FIXME this will fail for an optical disk

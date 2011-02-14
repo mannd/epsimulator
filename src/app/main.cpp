@@ -22,7 +22,7 @@
 #include "fileutilities.h"
 #include "navigator.h"
 #include "options.h"
-#include "systempath.h"
+#include "systemstorage.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QMessageBox>
@@ -41,15 +41,15 @@
 #   include <QtCore/QTranslator>
 #endif
 
-static bool createSystemPath() {
-    EpCore::SystemPath systemPath;
-    // The systemPath should never change during program
+static bool createSystemStorage() {
+    EpCore::SystemStorage systemStorage;
+    // The SystemStorage should never change during program
     // so you should only have to init() it once here.
-    if (!systemPath.init()) {   
-        QMessageBox::critical(0, QObject::tr("System Path Error"),
+    if (!systemStorage.init()) {   
+        QMessageBox::critical(0, QObject::tr("System Storage Error"),
                               QObject::tr("Cannot find or create "
-                                          "default System path %1.")
-                              .arg(systemPath.path()));
+                                          "default System storage path %1.")
+                              .arg(systemStorage.path()));
         return false;
     }
     return true;
@@ -61,13 +61,13 @@ static bool createSystemPath() {
 // not exist already.  The Network database must be exported from a
 // System database; it is not created automatically.
 static bool createConnection() {
-    EpCore::SystemPath systemPath;
+    EpCore::SystemStorage systemStorage;
     using EpCore::Options;
     using EpCore::joinPaths;
     Options* options = Options::instance();
     options->load();
     const QString dbFileName(EpCore::Constants::EPSIM_DB_FILENAME);
-    QString dbFilePath(systemPath.filePath(dbFileName));
+    QString dbFilePath(systemStorage.filePath(dbFileName));
     if (options->includeNetworkCatalog()) {
 	QString networkDbFilePath = joinPaths(options->networkStudyPath,
                                               dbFileName);
@@ -122,10 +122,10 @@ static bool createConnection() {
 }
 
 static QString systemCatalogDbFilePath() {
-    EpCore::SystemPath systemPath;
+    EpCore::SystemStorage systemStorage;
     const QString catalogDbFileName(EpCore::Constants::
                                     EPSIM_CATALOG_DB_FILENAME);
-    return systemPath.filePath(catalogDbFileName);
+    return systemStorage.filePath(catalogDbFileName);
 }
 
 static bool createEmptyCatalog() {
@@ -238,9 +238,9 @@ int main(int argc, char **argv) {
     app.installTranslator(&translator);
 #endif
 
-    // SystemPath must be created before database connection
+    // SystemStorage must be created before database connection
     // or Options used.
-    if (!createSystemPath())
+    if (!createSystemStorage())
         return 1;
     // below gives error message 'cannot connect to X server' on ubuntu
     //EpCore::testCdTools(&app);

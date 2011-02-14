@@ -21,7 +21,7 @@
 #include "options.h"
 
 #include "fileutilities.h"
-#include "systempath.h"
+#include "systemstorage.h"
 
 #include <QCoreApplication>
 #include <QDir>
@@ -56,8 +56,8 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      diskCache(AutoCache),
 		      numChannels(48)
 {
-    EpCore::SystemPath systemPath;
-    systemCatalogPath = systemPath.path();
+    EpCore::SystemStorage systemStorage;
+    systemCatalogPath = systemStorage.path();
 //    qDebug() << "EP Simulator Directories";
 //    qDebug() << "========================";
 //    qDebug() << "System path:\t" << systemCatalogPath;
