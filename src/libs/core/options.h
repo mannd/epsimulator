@@ -166,6 +166,8 @@ public:
 
 protected:
     Options();
+private:
+    void disallowOpticalDisk();
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Options::ScreenFlags)

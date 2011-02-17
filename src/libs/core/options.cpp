@@ -68,7 +68,8 @@ void Options::readSettings() {
     QSettings settings;
     settings.beginGroup("options");
     opticalStudyPath = settings.value("opticalStudyPath",
-                                       opticalStudyPath).toString();
+
+                                      opticalStudyPath).toString();
     networkStudyPath = settings.value("networkStudyPath", 
                                        networkStudyPath).toString();
     exportFilePath = settings.value("exportFilePath", 
@@ -110,17 +111,25 @@ void Options::readSettings() {
     settings.endGroup();
 #ifdef epNoRemovableMediaAllowed
     opticalDiskFlags = opticalDiskFlags ^ AllowRealOpticalDisk;
+    disallowOpticalDisk();
+#endif
+}
+
+void Options::disallowOpticalDisk() {
     if (isRemovableMedia(QDir(opticalStudyPath))) {
         LocalStorage localStorage;
         opticalStudyPath = localStorage.hardDrivePath();
     }
-#endif
 }
 
 /**
  * Writes options to QSettings (platform-dependent location).
  */
 void Options::writeSettings() {
+#ifdef epNoRemovableMediaAllowed
+    opticalDiskFlags = opticalDiskFlags ^ AllowRealOpticalDisk;
+    disallowOpticalDisk();
+#endif
     QSettings settings;
     settings.beginGroup("options");
 
@@ -150,5 +159,5 @@ void Options::writeSettings() {
 }
 
 Options::~Options() {
-    writeSettings();
+   // writeSettings();
 }

@@ -142,6 +142,7 @@ void AbstractMainWindow::systemSettings() {
                 qDebug() << "Using network changed!";
                 changeDatabase();
             }
+            options_->save();
             updateSystemSettings();
             delete studyManager_;
             studyManager_ = new StudyManager(options_->systemCatalogPath,
@@ -149,7 +150,6 @@ void AbstractMainWindow::systemSettings() {
                                      options_->opticalStudyPath,
                                      options_->networkStudyPath);
 
-            options_->save();
         }
     }
 }
