@@ -30,6 +30,7 @@
 #include "fileutilities.h"
 #include "filtercatalogdialog.h"
 #include "listselector.h"
+#include "localstorage.h"
 #include "mockdatastream.h"
 #include "opticaldisk.h"
 #include "options.h"
@@ -901,6 +902,11 @@ void TestEpSimulator::testPatient() {
 void TestEpSimulator::testStudyTable() {
     StudyTable t;
     QVERIFY(t.parent() == 0);
+}
+
+void TestEpSimulator::testLocalStorage() {
+    LocalStorage l;
+    QVERIFY(l.hardDrivePath() == QDir::homePath() + "/epsim_studies");
 }
 
 void TestEpSimulator::cleanupTestCase() {

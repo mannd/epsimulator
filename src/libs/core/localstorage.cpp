@@ -20,6 +20,7 @@
 
 #include "localstorage.h"
 
+#include "coreconstants.h"
 #include "fileutilities.h"
 
 #include <QDir>
@@ -29,12 +30,14 @@ using EpCore::LocalStorage;
 LocalStorage::LocalStorage() {
     // Unix only so far.  Must fix when allowing optical disks
     opticalDiskPath_ = "/media/cdrom";
-    hardDrivePath_ = "";
+    hardDrivePath_ = EpCore::joinPaths(QDir::homePath(), 
+                                       EpCore::Constants::EPSIM_STUDIES_DIRNAME);
 }
 
 bool LocalStorage::init() {
-    // QDir dir = QDir(path_);
-    // if (!exists() && !dir.mkpath(path_))
-    //     return false;
-    return true;                // path_ exists or was made
+    // create default hard drive path
+    QDir dir = QDir(hardDrivePath_);
+    if (!dir.exists() && !dir.mkpath(hardDrivePath_))
+        return false;
+    return true;
 }

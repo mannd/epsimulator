@@ -21,6 +21,7 @@
 #include "options.h"
 
 #include "fileutilities.h"
+#include "localstorage.h"
 #include "systemstorage.h"
 
 #include <QCoreApplication>
@@ -40,8 +41,6 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      oldStyleNavigator(false),
 		      opticalDiskFlags(NoOpticalDiskFlags),
 		      emulatedOpticalDiskCapacity(0),
-		      opticalStudyPath(joinPaths(QDir::homePath(), 
-						 "MyStudies")),
 		      networkStudyPath(),
 		      exportFilePath(),
 		      tempStudyPath(),
@@ -58,15 +57,8 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 {
     EpCore::SystemStorage systemStorage;
     systemCatalogPath = systemStorage.path();
-//    qDebug() << "EP Simulator Directories";
-//    qDebug() << "========================";
-//    qDebug() << "System path:\t" << systemCatalogPath;
-//    qDebug() << "Home path:\t" << QDir::homePath();
-//    qDebug() << "Temp path:\t" << QDir::tempPath();
-//    qDebug() << "Current path:\t" << QDir::currentPath();
-//    qDebug() << "App path:\t" << rootDirectory().absolutePath();
-
-    //readSettings();
+    EpCore::LocalStorage localStorage;
+    opticalStudyPath = localStorage.opticalDiskPath();
 }
 
 /**
@@ -75,34 +67,33 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 void Options::readSettings() {
     QSettings settings;
     settings.beginGroup("options");
-
-    QString defaultOpticalPath = joinPaths(QDir::homePath(),"MyStudies");
     opticalStudyPath = settings.value("opticalStudyPath",
-                                       defaultOpticalPath).toString();
+                                       opticalStudyPath).toString();
     networkStudyPath = settings.value("networkStudyPath", 
-                                       "").toString();
+                                       networkStudyPath).toString();
     exportFilePath = settings.value("exportFilePath", 
-                                     "").toString();
-    labName = settings.value("labName", "").toString();
+                                     exportFilePath).toString();
+    labName = settings.value("labName", labName).toString();
     emulatedOpticalDiskCapacity = settings.value(
                                     "emulatedOpticalDiskCapacity", 
-                                    0).toInt();
+                                    emulatedOpticalDiskCapacity).toInt();
     oldStyleNavigator = settings.value("oldStyleNavigator", 
-                                        false).toBool();
+                                        oldStyleNavigator).toBool();
     bluePanelTweak = settings.value("bluePanelTweak",
-                                     false).toBool();
+                                     bluePanelTweak).toBool();
     useLabName = settings.value("useLabName", 
-                                 false).toBool();
+                                 useLabName).toBool();
     administratorAccountRequired = settings.value(
                                     "administratorAccountRequired", 
-                                    false).toBool();
+                                    administratorAccountRequired).toBool();
     hideSimulatorMenu = settings.value("hideSimulatorMenu", 
-                                        false).toBool();
-    permanentDelete = settings.value("permanentDelete", false).toBool();
+                                        hideSimulatorMenu).toBool();
+    permanentDelete = settings.value("permanentDelete", 
+                                     permanentDelete).toBool();
     simulationControlFlags = readFlags<SimulationControlFlags>(
             "simulationControlFlags", DefaultUserControl, settings);
     passwordHash = settings.value("passwordHash", "0").toString();
-    numChannels = settings.value("numChannels", 48).toInt();
+    numChannels = settings.value("numChannels", numChannels).toInt();
     screenFlags = readFlags<ScreenFlags>("screenFlags", 
         DefaultScreenFlags, settings);
     bluePanelStyle = readFlags<BluePanelStyle>("bluePanelStyle", 
@@ -119,6 +110,10 @@ void Options::readSettings() {
     settings.endGroup();
 #ifdef epNoRemovableMediaAllowed
     opticalDiskFlags = opticalDiskFlags ^ AllowRealOpticalDisk;
+    if (isRemovableMedia(QDir(opticalStudyPath))) {
+        LocalStorage localStorage;
+        opticalStudyPath = localStorage.hardDrivePath();
+    }
 #endif
 }
 

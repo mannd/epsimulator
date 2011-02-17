@@ -20,6 +20,7 @@
 
 #include "coreconstants.h"
 #include "fileutilities.h"
+#include "localstorage.h"
 #include "navigator.h"
 #include "options.h"
 #include "systemstorage.h"
@@ -54,6 +55,20 @@ static bool createSystemStorage() {
     }
     return true;
 }
+
+static bool createLocalStorage() {
+    EpCore::LocalStorage localStorage;
+    // default hard drive studies directory is created if not already present
+    if (!localStorage.init()) {
+        QMessageBox::critical(0, QObject::tr("Local Storage Error"),
+                              QObject::tr("Cannot find or create "
+                                          "default Local storage path %1.")
+                              .arg(localStorage.hardDrivePath()));
+        return false;
+    }
+    return true;
+}
+
 
 // The default database is set to either the Network or System path.
 // If no default database is found on the Network path, the System path
@@ -241,6 +256,8 @@ int main(int argc, char **argv) {
     // SystemStorage must be created before database connection
     // or Options used.
     if (!createSystemStorage())
+        return 1;
+    if (!createLocalStorage())
         return 1;
     // below gives error message 'cannot connect to X server' on ubuntu
     //EpCore::testCdTools(&app);

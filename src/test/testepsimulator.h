@@ -81,6 +81,7 @@ private slots:
     void testRemovableMedia();
     void testPatient();
     void testStudyTable();
+    void testLocalStorage();
 
     void cleanupTestCase();
 
