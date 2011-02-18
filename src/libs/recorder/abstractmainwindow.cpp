@@ -45,6 +45,7 @@
 
 using EpCore::Options;
 using EpCore::User;
+using EpCore::isRemovableMedia;
 using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
 using EpStudy::StudyManager;
@@ -123,7 +124,7 @@ void AbstractMainWindow::changeDatabase() {
     db.setUserName(EPSIM_DB_USERNAME);
     db.setPassword(EPSIM_DB_PASSWORD);
     if (!db.open()) {
-        QMessageBox::critical(0, QObject::tr("Database Error"),
+        QMessageBox::critical(this, QObject::tr("Database Error"),
                               db.lastError().text());
         throw EpCore::DatabaseError(db.databaseName());
     }
@@ -133,6 +134,7 @@ void AbstractMainWindow::systemSettings() {
     if (administrationAllowed()) {
         // store catalog in use since changing is expensive
         bool usingNetwork = options_->includeNetworkCatalog();
+        QString opticalDiskPath = options_->opticalStudyPath;
         SystemDialog systemDialog(options_,
             currentDisk()->studiesPath(), currentDisk()->label(),
             currentDisk()->translatedSide(), this);
@@ -141,6 +143,17 @@ void AbstractMainWindow::systemSettings() {
             if (usingNetwork != options_->includeNetworkCatalog()) {
                 qDebug() << "Using network changed!";
                 changeDatabase();
+            }
+            if (!options_->opticalDiskFlags
+                .testFlag(Options::AllowRealOpticalDisk)
+                && isRemovableMedia(options_->opticalStudyPath)) {
+                QMessageBox::information(this, 
+                                         QObject::tr("Removable Media Error"),
+                                         QObject::tr("No optical disk use "
+                                                     "permitted.  Reverting "
+                                                     "to %1")
+                                         .arg(opticalDiskPath));
+                options_->opticalStudyPath = opticalDiskPath;
             }
             options_->save();
             updateSystemSettings();

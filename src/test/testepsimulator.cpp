@@ -493,7 +493,7 @@ void TestEpSimulator::testCatalogs() {
 
 void TestEpSimulator::testCatalogAddStudy() {
     Options* o = Options::instance();
-    Catalogs* cats = new Catalogs(o, o->opticalStudyPath);
+    Catalogs* cats = new Catalogs(o, "tmp/");
     Study* s = new Study;
     Name n("Doe", "John", "E");
     s->setName(n);
