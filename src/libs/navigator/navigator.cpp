@@ -899,7 +899,9 @@ void Navigator::initializeOpticalDisk() {
                 currentDisk_->saveLastDisk();
             }
         }
-        else
+        else if (!EpCore::isRemovableMedia(options_->opticalStudyPath))
+            currentDisk_ = new HardDrive(options_->opticalStudyPath);
+        else 
             currentDisk_ = new OpticalDisk(options_->opticalStudyPath,
                                            options_->systemCatalogPath);
         currentDisk_->readLabel();

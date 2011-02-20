@@ -196,6 +196,16 @@ private:
     QString diskName_;
 };
 
-}}
+class HardDrive : public OpticalDisk {
+public:
+    HardDrive(const QString& path) :
+        OpticalDisk(path, path) {
+        setLabel(path);
+    }
+    
+};
+
+} // namespace EpOpticalDisk
+} // namespace EpHardware
 
 #endif
