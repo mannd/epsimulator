@@ -95,6 +95,7 @@ public:
     virtual bool allowSideChange() const {return true;}
     virtual bool showAllSideButtons() const {return true;}
     // below might check to see if the drive actually is two sided.
+    // actually it is the disks that are two sided, not the drive
     virtual bool isTwoSided() const {return true;}
 
     QString path() const {return path_;}    // root path of this optical disk
@@ -198,11 +199,7 @@ private:
 
 class HardDrive : public OpticalDisk {
 public:
-    HardDrive(const QString& path) :
-        OpticalDisk(path, path) {
-        setLabel(path);
-    }
-    
+    HardDrive(const QString& path);
 };
 
 } // namespace EpOpticalDisk

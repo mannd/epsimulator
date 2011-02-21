@@ -20,8 +20,9 @@
 
 #include "opticaldisk.h"
 
-#include "fileutilities.h"
+#include "coreconstants.h"
 #include "error.h"
+#include "fileutilities.h"
 #include "selectemulateddiskdialog.h"
 
 #include <QDataStream>
@@ -403,5 +404,21 @@ void EmulatedOpticalDisk::saveLastDisk() {
     settings.setValue("/lastSide", side());
 }
 
-}}
+HardDrive::HardDrive(const QString& path) :
+        OpticalDisk(path, path) {
+    setLabel(path);
+    setIsLabeled(true);
+    using EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
+    if (!QFile::exists(EpCore::joinPaths(path, EPSIM_CATALOG_DB_FILENAME)))
+        if (!QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
+                                           "db/"
+                                           + QString(EPSIM_CATALOG_DB_FILENAME)), 
+                         EpCore::joinPaths(path, EPSIM_CATALOG_DB_FILENAME))) {
+            QMessageBox::critical(0, QObject::tr("Database Error"),
+                                  QObject::tr("Cannot find or create "
+                                              "local catalog database."));
+        }
+}
 
+} // namespace EpOpticalDisk
+} // namespace EpHardware

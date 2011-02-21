@@ -25,10 +25,6 @@
 #include <QSettings>
 #include <QString>
 
-// convenient evil macro
-/// DEPRECATED!!!!!
-#define epOptions (EpCore::Options::instance())
-
 namespace EpCore {
 
 class Options {

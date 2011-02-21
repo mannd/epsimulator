@@ -236,17 +236,24 @@ void EpCore::copyFilesToSystem(const QStringList& files,
                                const QString& sourcePath,
                                EpCore::CopyFlag copyFlag) {
     // always copy to System Directory
-    copyFilesToPath(files, sourcePath, epOptions->systemCatalogPath,
+    Options* options = Options::instance();
+    options->load();
+    copyFilesToPath(files, sourcePath, options->systemCatalogPath,
                     copyFlag);
-    if (epOptions->filePathFlags.testFlag(Options::EnableNetworkStorage))
-        copyFilesToPath(files, sourcePath, epOptions->networkStudyPath,
+    if (options->filePathFlags.testFlag(Options::EnableNetworkStorage))
+        copyFilesToPath(files, sourcePath, options->networkStudyPath,
                         copyFlag);
+    delete options;
 }
 
 bool EpCore::useDiskCache(const QString& path) {
-    return epOptions->diskCache == Options::ForceCache ||
-        (epOptions->diskCache == Options::AutoCache &&
-         EpCore::isRemovableMedia(path));
+    Options* options = Options::instance();
+    options->load();
+    bool useCache = (options->diskCache == Options::ForceCache ||
+        (options->diskCache == Options::AutoCache &&
+         EpCore::isRemovableMedia(path)));
+    delete options;
+    return useCache;
 }
 
 void EpCore::testCdTools(QObject* obj) {

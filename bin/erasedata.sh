@@ -14,6 +14,7 @@ echo "Erasing from "$dirname/../System
 
 rm -i -f ~/.config/EP\ Studios/EPSimulator.conf
 rm -fr ~/MyStudies/*
+rm -fr ~/epsim_studies
 rm -f $dirname/../src/test/catalog.dat
 rm -f $dirname/../System/amplifier.dat
 rm -f $dirname/../System/catalog.dat
@@ -38,3 +39,4 @@ rm -f $HOME/.epsimulator/label.dat
 rm -f $HOME/.epsimulator/protocols.dat
 rm -f $HOME/.epsimulator/windowsettings.dat
 rm -fr $HOME/.epsimulator/studies
+rm -fr $HOME/.epsimulator/.cache

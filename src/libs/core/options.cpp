@@ -39,7 +39,7 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      bluePanelStyle(OpaqueButtons),
 		      bluePanelTweak(false),
 		      oldStyleNavigator(false),
-		      opticalDiskFlags(NoOpticalDiskFlags),
+                      opticalDiskFlags(AllowRealOpticalDisk),
 		      emulatedOpticalDiskCapacity(0),
 		      networkStudyPath(),
 		      exportFilePath(),
@@ -92,25 +92,25 @@ void Options::readSettings() {
     permanentDelete = settings.value("permanentDelete", 
                                      permanentDelete).toBool();
     simulationControlFlags = readFlags<SimulationControlFlags>(
-            "simulationControlFlags", DefaultUserControl, settings);
+            "simulationControlFlags", simulationControlFlags, settings);
     passwordHash = settings.value("passwordHash", "0").toString();
     numChannels = settings.value("numChannels", numChannels).toInt();
     screenFlags = readFlags<ScreenFlags>("screenFlags", 
-        DefaultScreenFlags, settings);
+        screenFlags, settings);
     bluePanelStyle = readFlags<BluePanelStyle>("bluePanelStyle", 
-        OpaqueButtons, settings);
+        bluePanelStyle, settings);
     opticalDiskFlags = readFlags<OpticalDiskFlags>("opticalDiskFlags",
-        NoOpticalDiskFlags, settings);
+        opticalDiskFlags, settings);
     filePathFlags = readFlags<FilePathFlags>("filePathFlags",
-        EnableAcquisition, settings);
+        filePathFlags, settings);
     recorderFlags = readFlags<RecorderFlags>("recorderFlags",
-        DefaultRecorderFlags, settings);
-    diskCache = readFlags<DiskCache>("diskCache", AutoCache, settings);
+        recorderFlags, settings);
+    diskCache = readFlags<DiskCache>("diskCache", diskCache, settings);
     /// TODO other options here...
 
     settings.endGroup();
 #ifdef epNoRemovableMediaAllowed
-    opticalDiskFlags = opticalDiskFlags ^ AllowRealOpticalDisk;
+    opticalDiskFlags = opticalDiskFlags & ~AllowRealOpticalDisk;
     disallowOpticalDisk();
 #endif
 }
