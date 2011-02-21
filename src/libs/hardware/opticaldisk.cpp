@@ -70,7 +70,6 @@ const QString OpticalDisk::studiesDirName_ = "studies";
 OpticalDisk::OpticalDisk(const QString& path, const QString& cachePath)
     : path_(path),
     cachePath_(EpCore::joinPaths(cachePath, cacheDirName_)),
-    isLabeled_(false),
     diskCache_(Options::AutoCache) {
     qDebug() << "Studies path:\t" << path_;
     qDebug() << "Cache path:\t" << cachePath_;
@@ -161,7 +160,6 @@ void OpticalDisk::save(const QString& fileName) const {
 
 void OpticalDisk::readLabel() {
     load(labelFilePath());
-    isLabeled_ = !label().isEmpty();
 }
 
 void OpticalDisk::writeLabel() const {
@@ -382,7 +380,7 @@ void EmulatedOpticalDisk::readLabel() {
     // create /disks dir if not already present.
     makePath();
     OpticalDisk::load(labelFilePath());
-    setIsLabeled(!label().isEmpty());
+    //setIsLabeled(!label().isEmpty());
 }
 
 void EmulatedOpticalDisk::writeLabel() const {
@@ -407,7 +405,7 @@ void EmulatedOpticalDisk::saveLastDisk() {
 HardDrive::HardDrive(const QString& path) :
         OpticalDisk(path, path) {
     setLabel(path);
-    setIsLabeled(true);
+    //setIsLabeled(true);
     using EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
     if (!QFile::exists(EpCore::joinPaths(path, EPSIM_CATALOG_DB_FILENAME)))
         if (!QFile::copy(EpCore::joinPaths(EpCore::rootPath(),

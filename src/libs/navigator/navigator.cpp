@@ -674,7 +674,7 @@ void Navigator::labelDisk(bool reLabel, OpticalDisk* disk) {
         disk->setLabelSide(diskLabelDialog->label(), 
             diskLabelDialog->side());
         disk->writeLabel();
-        disk->setIsLabeled(true);
+        //disk->setIsLabeled(true);
         if (reLabel)
             catalogs_->relabel(diskLabelDialog->label(), 
                 diskLabelDialog->side());

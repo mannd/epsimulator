@@ -74,7 +74,7 @@ public:
     // QString::null if single sided
     virtual QString translatedSide() const;
 
-    void setIsLabeled(bool isLabeled) {isLabeled_ = isLabeled;}
+    //void setIsLabeled(bool isLabeled) {isLabeled_ = isLabeled;}
     void setLabelData(const LabelData&);
     void setLabel(const QString& label);
     void setSide(const QString& side);
@@ -86,7 +86,7 @@ public:
         diskCache_ = diskCache;
     }
 
-    bool isLabeled() const {return isLabeled_;}
+    bool isLabeled() const {return !label().isEmpty();}
     LabelData labelData() const;
     QString label() const; 
     QString side() const;
@@ -132,7 +132,7 @@ private:
                     // e.g. /home/user/MyStudies
     QString cachePath_; // path to optical disk cache
     LabelData labelData_;
-    bool isLabeled_;
+    //bool isLabeled_;
     EpCore::Options::DiskCache diskCache_;
 
 };

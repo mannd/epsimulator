@@ -30,8 +30,12 @@ EP Simulator Help
    - List, intervals, etc. can only be viewed by administrator.  In Prucka
      lists can be viewed by not edited by non-administrators.
 ** Optical disk emulation
-   Study data can be stored on an actual optical disk, a hard drive
-   directory, or a hard drive directory disguised to mimic an optical disk.
+*** Disk types
+    Study data can be stored on an actual optical disk, a hard drive
+    directory, or a hard drive directory disguised to mimic an optical disk.
+*** Eject disk
+    Eject disk has no effect when a hard drive directory is used as the local
+    storage medium.
 ** EP List edit boxes
    - There are numbered rows rather than "bullets" preceding items.
    - Administrator mode works differently (see Administrator mode).
