@@ -47,10 +47,10 @@ void EpCore::saveMagicNumber(unsigned int magicNumber, QDataStream& out) {
         << static_cast<quint16>(out.version());
 }
 
-bool EpCore::systemFileExists(const Options* const options,
-                              const QString &fileName) {
-    return QFile(joinPaths(activeSystemPath(options), fileName)).exists();
-}
+// bool EpCore::systemFileExists(const Options* const options,
+//                               const QString &fileName) {
+//     return QFile(joinPaths(activeSystemPath(options), fileName)).exists();
+// }
 
 unsigned int EpCore::magicNumber(const QString& filePath) {
     QFile file(filePath);
@@ -172,14 +172,6 @@ QString EpCore::rootPath() {
 QDir EpCore::systemDirectory() {
     /// TODO windows shouldn't use subdirectory of program directory
     return directoryOf("System");
-}
-
-// returns the main System path, depending on whether networking is used
-QString EpCore::activeSystemPath(const Options* const options) {
-    if (options->includeNetworkCatalog())
-        return options->networkStudyPath;
-    else
-        return options->systemCatalogPath;
 }
 
 // joins together 2 elements of a path, e.g. '/home' and '/src/'

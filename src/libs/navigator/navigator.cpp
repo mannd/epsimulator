@@ -499,7 +499,7 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                 if (flow == Export) {
                     statusBar()->showMessage(tr("Copying files..."));
                     EpCore::copyFilesToPath(selectedFiles,
-                                            EpCore::activeSystemPath(options_),
+                                            options_->activeSystemPath(),
                                             path, EpCore::Overwrite);
                     statusBar()->clearMessage();
                 }

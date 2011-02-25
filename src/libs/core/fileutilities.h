@@ -62,8 +62,8 @@ template<typename T>
 void loadData(T& data);
 
 void saveMagicNumber(unsigned int magicNumber, QDataStream& out);
-bool systemFileExists(const Options* const options,
-                      const QString& fileName);
+// bool systemFileExists(const Options* const options,
+//                       const QString& fileName);
 
 unsigned int magicNumber(const QString& filePath);
 bool versionOk(int majorVersion, int MinorVersion);
@@ -92,7 +92,6 @@ QDir directoryOf(const QString& subdir);
 QDir rootDirectory();
 QString rootPath();
 QDir systemDirectory();
-QString activeSystemPath(const Options* const);
 
 void copyFilesToPath(const QStringList& files, const QString& sourcePath,
                      const QString& destPath,

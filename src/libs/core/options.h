@@ -127,6 +127,13 @@ public:
         return filePathFlags.testFlag(Options::EnableNetworkStorage);
     }
 
+    inline QString activeSystemPath() const {
+        if (includeNetworkCatalog())
+            return networkStudyPath;
+        else
+            return systemCatalogPath;
+    }
+        
     bool administratorAccountRequired;
     bool hideSimulatorMenu;
     bool permanentDelete;
