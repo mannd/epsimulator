@@ -49,6 +49,7 @@
 #include "study.h"
 #include "studyconfiguration.h"
 #include "studymanager.h"
+#include "studytable.h"
 #include "systemstorage.h"
 #include "tablelistview.h"
 #include "user.h"
@@ -989,10 +990,16 @@ void Navigator::createButtonFrame() {
  * source is current in the catalogComboBox_.
  */
 void Navigator::createTableListView() {
-    tableListView_ = new TableListView(centralWidget_,
+    // tableListView_ = new TableListView(centralWidget_,
+    //     options_->oldStyleNavigator);
+    // connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
+    //     int)), this, SLOT(newStudy()));
+    tableListView_ = new TableListView(0, 
         options_->oldStyleNavigator);
     connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
         int)), this, SLOT(newStudy()));
+    studyTable_ = new StudyTable(centralWidget_);
+
 }
 
 void Navigator::createStudyTable() {

@@ -52,6 +52,7 @@ class CatalogComboBox;
 class FilterCatalogDialog;
 class MoveCopyStudyDialog;
 class StatusBar;
+class StudyTable;
 class TableListView;
 
 class Navigator : public EpGui::AbstractMainWindow {
@@ -186,6 +187,7 @@ private:
     QSplitter* centralWidget_;
     AbstractButtonFrame* buttonFrame_;
     TableListView* tableListView_;
+    StudyTable* studyTable_;
 
     // Actions
 

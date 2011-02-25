@@ -69,7 +69,6 @@ static bool createLocalStorage() {
     return true;
 }
 
-
 // The default database is set to either the Network or System path.
 // If no default database is found on the Network path, the System path
 // is used.  The System database is created automatically if it does
