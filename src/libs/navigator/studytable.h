@@ -54,7 +54,6 @@ public:
     enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
 
     StudyTable(QWidget* parent = 0);
-    ~StudyTable();
 
     void setSource(Catalog::Source);
 
@@ -79,6 +78,8 @@ public:
     //                       // or 0 if none selected
 
 private:
+    void setHeaderLabels(QSqlTableModel*);
+
     QSqlTableModel* model_;
     // class TableListViewItem;
 

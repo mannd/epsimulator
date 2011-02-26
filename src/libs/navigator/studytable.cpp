@@ -48,14 +48,7 @@ StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
                                 QSqlDatabase::database(EpCore::Constants::EPSIM_SYSTEM_DB));
     model_->setTable("CatalogEntries");
     model_->setSort(CatalogEntry_StudyDateTime, Qt::DescendingOrder);
-    model_->setHeaderData(CatalogEntry_StudyType, Qt::Horizontal, tr("Study Type"));
-    model_->setHeaderData(CatalogEntry_LastName, Qt::Horizontal, tr("Last Name"));
-    model_->setHeaderData(CatalogEntry_FirstName, Qt::Horizontal, tr("First Name"));
-    model_->setHeaderData(CatalogEntry_PatientMrn, Qt::Horizontal, tr("Patient MRN"));
-    model_->setHeaderData(CatalogEntry_StudyDateTime, Qt::Horizontal, tr("Study Date/Time"));
-    model_->setHeaderData(CatalogEntry_StudyConfig, Qt::Horizontal, tr("Study Config"));
-    model_->setHeaderData(CatalogEntry_StudyNumber, Qt::Horizontal, tr("Study Number"));
-    model_->setHeaderData(CatalogEntry_StudyLocation, Qt::Horizontal, tr("Location of Study"));
+    setHeaderLabels(model_);
     model_->select();
     setModel(model_);
     
@@ -69,15 +62,29 @@ StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
      setColumnHidden(CatalogEntry_StudyKey, true);
      setEditTriggers(QAbstractItemView::NoEditTriggers);
      resizeColumnsToContents();
+     setShowGrid(false);
+     verticalHeader()->hide();
      QHeaderView* header = horizontalHeader();
      header->setStretchLastSection(true);;
      header->setSortIndicator(CatalogEntry_StudyDateTime, Qt::DescendingOrder);
+     header->setSortIndicatorShown(true);
      header->setMovable(false);
 
 //     setRootIsDecorated(false);
 }
 
-StudyTable::~StudyTable() {}
+void StudyTable::setHeaderLabels(QSqlTableModel* model) {
+    model->setHeaderData(CatalogEntry_StudyType, Qt::Horizontal, tr("Study Type"));
+    model->setHeaderData(CatalogEntry_LastName, Qt::Horizontal, tr("Last Name"));
+    model->setHeaderData(CatalogEntry_FirstName, Qt::Horizontal, tr("First Name"));
+    model->setHeaderData(CatalogEntry_PatientMrn, Qt::Horizontal, tr("Patient MRN"));
+    model->setHeaderData(CatalogEntry_StudyDateTime, Qt::Horizontal, tr("Study Date/Time"));
+    model->setHeaderData(CatalogEntry_StudyConfig, Qt::Horizontal, tr("Study Config"));
+    model->setHeaderData(CatalogEntry_StudyNumber, Qt::Horizontal, tr("Study Number"));
+    model->setHeaderData(CatalogEntry_StudyLocation, Qt::Horizontal, 
+                         tr("Location of Study Files"));
+}
+
 
 // /**
 //  * Sets up the columns according to oldStyle.
