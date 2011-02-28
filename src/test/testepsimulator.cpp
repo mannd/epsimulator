@@ -909,6 +909,16 @@ void TestEpSimulator::testLocalStorage() {
     QVERIFY(l.hardDrivePath() == QDir::homePath() + "/epsim_studies");
 }
 
+void TestEpSimulator::testOpticalDiskCache() {
+    Options* o = Options::instance();
+    o->diskCache = Options::AutoCache;
+    OpticalDisk disk(QDir::homePath(), QDir::homePath());
+    QVERIFY(!disk.isRemovable());
+    // AutoCache is converted internally by OpticalDisk to a
+    // real caching state
+    QVERIFY(disk.diskCache() == Options::NoCache);
+}
+
 void TestEpSimulator::cleanupTestCase() {
     bool workingPathUnchanged = QDir::currentPath() == workingPath_;
     QVERIFY(workingPathUnchanged);

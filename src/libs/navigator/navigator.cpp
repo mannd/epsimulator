@@ -421,7 +421,8 @@ void Navigator::filterStudies() {
 
 void Navigator::unfilterStudies() {
     // do the unfiltering here
-    tableListView_->removeFilter();
+    // tableListView_->removeFilter();
+    studyTable_->removeFilter();
     statusBar_->updateFilterLabel(false);
     removeStudiesFilterAction_->setEnabled(false);
     filterStudiesAction_->setEnabled(true);
@@ -907,6 +908,7 @@ void Navigator::initializeOpticalDisk() {
                                            options_->systemCatalogPath);
         currentDisk_->readLabel();
         currentDisk_->setDiskCache(options_->diskCache);
+        currentDisk_->init();
 
     }
     catch (EpCore::IoError& e) { 
@@ -1325,10 +1327,16 @@ void Navigator::processFilter() {
 		endDate = filterCatalogDialog_->endDate();
 		break;
 	}	
-        TableListView::FilterStudyType filterStudyType =
-            filterCatalogDialog_->filterStudyType();
+        // TableListView::FilterStudyType filterStudyType =
+        //     filterCatalogDialog_->filterStudyType();
+        StudyTable::FilterStudyType filterStudyType =
+            static_cast<StudyTable::FilterStudyType>(filterCatalogDialog_->filterStudyType());
  
-        tableListView_->applyFilter(filterStudyType, lastNameRegExp,
+        // tableListView_->applyFilter(filterStudyType, lastNameRegExp,
+        //     firstNameRegExp, mrnRegExp, studyConfigRegExp, 
+        //     studyNumberRegExp, studyLocationRegExp, 
+        //     anyDate, startDate, endDate);
+        studyTable_->applyFilter(filterStudyType, lastNameRegExp,
             firstNameRegExp, mrnRegExp, studyConfigRegExp, 
             studyNumberRegExp, studyLocationRegExp, 
             anyDate, startDate, endDate);

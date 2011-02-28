@@ -59,6 +59,7 @@ public:
     static QString studiesDirName() {return studiesDirName_;}
     static QString makeStudiesPath(const QString& path);
 
+    virtual void init();
     virtual void eject(QWidget*);
     virtual void burn();
 
@@ -86,7 +87,10 @@ public:
         diskCache_ = diskCache;
     }
 
+    bool isInitialized() const {return initialized_;}
     bool isLabeled() const {return !label().isEmpty();}
+    bool isRemovable() const;
+
     LabelData labelData() const;
     QString label() const; 
     QString side() const;
@@ -121,7 +125,6 @@ protected:
 
 private:
     OpticalDisk(OpticalDisk&);
-    bool isRemovable() const {return false;}
     bool useDiskCache() const {
         return EpCore::useDiskCache(path_);
     }
@@ -134,7 +137,7 @@ private:
     LabelData labelData_;
     //bool isLabeled_;
     EpCore::Options::DiskCache diskCache_;
-
+    bool initialized_;
 };
 
 class EmulatedOpticalDisk : public OpticalDisk {

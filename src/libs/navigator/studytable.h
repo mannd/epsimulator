@@ -27,6 +27,7 @@
 #include <QTableView>
 
 class QRegExp;
+class QSortFilterProxyModel;
 class QSqlTableModel;
 
 namespace EpStudy {
@@ -57,17 +58,17 @@ public:
 
     void setSource(Catalog::Source);
 
-    // void applyFilter(FilterStudyType filterStudyType,
-    //                 const QRegExp& lastName,
-    //                 const QRegExp& firstName,
-    //                 const QRegExp& mrn,
-    //                 const QRegExp& studyConfig,
-    //                 const QRegExp& studyNumber,
-    //                 const QRegExp& studyLocation,
-    //                 bool anyDate,
-    //                 const QDate& startDate,
-    //                 const QDate& endDate);
-    // void removeFilter();
+    void applyFilter(FilterStudyType filterStudyType,
+                    const QRegExp& lastName,
+                    const QRegExp& firstName,
+                    const QRegExp& mrn,
+                    const QRegExp& studyConfig,
+                    const QRegExp& studyNumber,
+                    const QRegExp& studyLocation,
+                    bool anyDate,
+                    const QDate& startDate,
+                    const QDate& endDate);
+    void removeFilter();
     // void showTable();
     // void adjustColumns();
     // void exportCSV(const QString& fileName);
@@ -80,6 +81,9 @@ public:
 private:
     void setHeaderLabels(QSqlTableModel*);
 
+    QSqlTableModel* systemModel_;
+    QSqlTableModel* opticalModel_;
+    QSqlTableModel* networkModel_;
     QSqlTableModel* model_;
     // class TableListViewItem;
 

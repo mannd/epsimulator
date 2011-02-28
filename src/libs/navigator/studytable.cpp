@@ -29,6 +29,7 @@
 #include <QFile>
 #include <QHeaderView>
 #include <QRegExp>
+#include <QSortFilterProxyModel>
 #include <QSqlDatabase>
 #include <QSqlTableModel>
 #include <QStringList>
@@ -37,6 +38,7 @@
 // uncomment below to show a key column in the table
 // #define DEBUGKEYS 1
 
+namespace EpConstants = EpCore::Constants;
 using EpNavigator::StudyTable;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
@@ -44,34 +46,50 @@ using EpStudy::StudyConfiguration;
 StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
 //     : QTreeWidget(parent),filtered_(false), oldStyle_(oldStyle),
 //       catalog_(0) {
-    model_ = new QSqlTableModel(this, 
-                                QSqlDatabase::database(EpCore::Constants::EPSIM_SYSTEM_DB));
-    model_->setTable("CatalogEntries");
+    systemModel_ = new QSqlTableModel(this, 
+                                QSqlDatabase::database(EpConstants::EPSIM_SYSTEM_DB));
+    opticalModel_ = 0; /* new QSqlTableModel(this, 
+                          QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB));*/
+    networkModel_ = 0; /*new QSqlTableModel(this, 
+                         QSqlDatabase::database(EpConstants::EPSIM_NETWORK_DB));*/
+    setSource(Catalog::System);
+    model_->setTable(EpConstants::EPSIM_CATALOG_TABLENAME);
     model_->setSort(CatalogEntry_StudyDateTime, Qt::DescendingOrder);
     setHeaderLabels(model_);
     model_->select();
-    setModel(model_);
-    
- 
-    //     adjustColumns();
-    //     setAllColumnsShowFocus(true);
-//     setSortingEnabled(true);
-     setSelectionBehavior(QAbstractItemView::SelectRows);
-     setSelectionMode(QAbstractItemView::SingleSelection);
-     setColumnHidden(CatalogEntry_Id, true);
-     setColumnHidden(CatalogEntry_StudyKey, true);
-     setEditTriggers(QAbstractItemView::NoEditTriggers);
-     resizeColumnsToContents();
-     setShowGrid(false);
-     verticalHeader()->hide();
-     QHeaderView* header = horizontalHeader();
-     header->setStretchLastSection(true);;
-     header->setSortIndicator(CatalogEntry_StudyDateTime, Qt::DescendingOrder);
-     header->setSortIndicatorShown(true);
-     header->setMovable(false);
-
-//     setRootIsDecorated(false);
+    QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setSourceModel(model_);
+    setModel(proxyModel);
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setColumnHidden(CatalogEntry_Id, true);
+    setColumnHidden(CatalogEntry_StudyKey, true);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
+    resizeColumnsToContents();
+    setShowGrid(false);
+    verticalHeader()->hide();
+    QHeaderView* header = horizontalHeader();
+    header->setStretchLastSection(true);;
+    header->setSortIndicator(CatalogEntry_StudyDateTime, Qt::DescendingOrder);
+    header->setSortIndicatorShown(true);
+    header->setMovable(false);
 }
+
+void StudyTable::setSource(Catalog::Source source) {
+    switch (source) {
+    case Catalog::Network :
+        model_ = networkModel_;
+        break;
+    case Catalog::Optical :
+        model_ = opticalModel_;
+        break;
+    case Catalog::System :
+    default :
+        model_ = systemModel_;
+    }
+    model_->select();
+}
+    
 
 void StudyTable::setHeaderLabels(QSqlTableModel* model) {
     model->setHeaderData(CatalogEntry_StudyType, Qt::Horizontal, tr("Study Type"));
@@ -216,54 +234,58 @@ void StudyTable::setHeaderLabels(QSqlTableModel* model) {
 // }
 
 
-// void StudyTable::applyFilter( FilterStudyType filterStudyType,
-//                                             const QRegExp& lastName,
-//                                             const QRegExp& firstName,
-//                                             const QRegExp& mrn,
-//                                             const QRegExp& studyConfig,
-//                                             const QRegExp& studyNumber,
-//                                             const QRegExp& studyLocation,
-//                                             bool anyDate,
-//                                             const QDate& startDate,
-//                                             const QDate& endDate) {
-//     bool match = false;
-//     QTreeWidgetItemIterator it(this);
-//     while (*it) {
-//         if (StudyTableItem* item = static_cast<StudyTableItem*>(*it)) {
-//             QDate studyDate = item->dateTime().date();
-//             match = lastName.exactMatch(item->text(LastNameCol)) &&
-//                 firstName.exactMatch(item->text(FirstNameCol)) &&
-//                 mrn.exactMatch(item->text(MRNCol)) &&
-//                 studyConfig.exactMatch(item->text(ConfigCol)) &&
-//                 studyNumber.exactMatch(item->text(NumberCol)) &&
-//                 studyLocation.exactMatch(item->text(LocationCol)) &&
-//                 (anyDate ? true : (startDate <= studyDate)) &&
-//                 (studyDate <= endDate);
-//             switch (filterStudyType) {
-//                 case AnyStudyType :
-//                     break;
-//                 case StudyType :
-//                     match = match && !item->isPreregisterStudy();
-//                     break;
-//                 case PreregisterType :
-//                     match = match && item->isPreregisterStudy();
-//                     break;
-//             }
-//             item->setFilteredOut(!match);
-//         }
-//         ++it;
-//     }
-//     filtered_ = true;
-//     showTable();
-// }
+void StudyTable::applyFilter( FilterStudyType filterStudyType,
+                                            const QRegExp& lastName,
+                                            const QRegExp& firstName,
+                                            const QRegExp& mrn,
+                                            const QRegExp& studyConfig,
+                                            const QRegExp& studyNumber,
+                                            const QRegExp& studyLocation,
+                                            bool anyDate,
+                                            const QDate& startDate,
+                                            const QDate& endDate) {
+    QString filter = "LastName='lastName'";
+    model_->setFilter(filter);
+    // bool match = false;
+    // QTreeWidgetItemIterator it(this);
+    // while (*it) {
+    //     if (StudyTableItem* item = static_cast<StudyTableItem*>(*it)) {
+    //         QDate studyDate = item->dateTime().date();
+    //         match = lastName.exactMatch(item->text(LastNameCol)) &&
+    //             firstName.exactMatch(item->text(FirstNameCol)) &&
+    //             mrn.exactMatch(item->text(MRNCol)) &&
+    //             studyConfig.exactMatch(item->text(ConfigCol)) &&
+    //             studyNumber.exactMatch(item->text(NumberCol)) &&
+    //             studyLocation.exactMatch(item->text(LocationCol)) &&
+    //             (anyDate ? true : (startDate <= studyDate)) &&
+    //             (studyDate <= endDate);
+    //         switch (filterStudyType) {
+    //             case AnyStudyType :
+    //                 break;
+    //             case StudyType :
+    //                 match = match && !item->isPreregisterStudy();
+    //                 break;
+    //             case PreregisterType :
+    //                 match = match && item->isPreregisterStudy();
+    //                 break;
+    //         }
+    //         item->setFilteredOut(!match);
+    //     }
+    //     ++it;
+    // }
+    // filtered_ = true;
+    // showTable();
+}
 
-// void StudyTable::removeFilter() {
-//     QTreeWidgetItemIterator it(this);
-//     while (*it) {
-//         StudyTableItem* item = static_cast<StudyTableItem*>(*it);
-//         item->setFilteredOut(false);
-//         ++it;
-//     }
-//     filtered_ = false;
-//     showTable();
-// }
+void StudyTable::removeFilter() {
+    model_->setTable(EpConstants::EPSIM_CATALOG_TABLENAME);
+    model_->select();
+    // QTreeWidgetItemIterator it(this);
+    // while (*it) {
+    //     StudyTableItem* item = static_cast<StudyTableItem*>(*it);
+    //     item->setFilteredOut(false);
+    //     ++it;
+    // }
+    // filtered_ = false;
+    // showTable();
+}

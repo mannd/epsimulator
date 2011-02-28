@@ -69,10 +69,16 @@ const QString OpticalDisk::studiesDirName_ = "studies";
 
 OpticalDisk::OpticalDisk(const QString& path, const QString& cachePath)
     : path_(path),
-    cachePath_(EpCore::joinPaths(cachePath, cacheDirName_)),
-    diskCache_(Options::AutoCache) {
-    qDebug() << "Studies path:\t" << path_;
-    qDebug() << "Cache path:\t" << cachePath_;
+      cachePath_(EpCore::joinPaths(cachePath, cacheDirName_)),
+      diskCache_(Options::AutoCache),
+      initialized_(true) {
+    // work out insane caching combinations
+    if (isRemovable())
+        diskCache_ == Options::ForceCache;
+    else {
+        if (diskCache_ == Options::AutoCache)
+            diskCache_ = Options::NoCache;
+    }
     clearCache();
 }
 
@@ -80,8 +86,18 @@ OpticalDisk::~OpticalDisk() {
     clearCache();
 }
 
+void OpticalDisk::init() {
+    // setup database on disk or in cache
+
+    // if (successful)
+    initialized_ = true;
+}
 QString OpticalDisk::makeStudiesPath(const QString& path) {
     return EpCore::joinPaths(path, studiesDirName_);
+}
+
+bool OpticalDisk::isRemovable() const {
+    return EpCore::isRemovableMedia(path_);
 }
 
 void OpticalDisk::clearCache() {
