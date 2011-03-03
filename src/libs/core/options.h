@@ -107,6 +107,7 @@ public:
     QString exportFilePath;
     QString tempStudyPath;
     QString systemCatalogPath;
+    QString cachePath;   // example: /home/mannd/.epsimulator/cache
     QString labName;    // name of ep lab study for this computer
     // use lab name in location column of TableListView 
     // for for Network, if false or if lab name is empty,
@@ -152,9 +153,10 @@ public:
     // not a real option, but convenient to have the password hash here
     QString passwordHash;
 
-    enum DiskCache {
+    // controls whether to use disk caching for non-removable disks
+    enum UseCache {
         NoCache, ForceCache, AutoCache
-    } diskCache;
+    } useCache;
 
     int numChannels;
 

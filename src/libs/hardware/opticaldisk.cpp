@@ -64,22 +64,25 @@ QDataStream& operator>>(QDataStream& in, LabelData& labelData) {
 // class OpticalDisk
 
 const QString OpticalDisk::labelFileName_ = "label.dat";
-const QString OpticalDisk::cacheDirName_ = ".cache";
 const QString OpticalDisk::studiesDirName_ = "studies";
 
 OpticalDisk::OpticalDisk(const QString& path, const QString& cachePath)
     : path_(path),
-      cachePath_(EpCore::joinPaths(cachePath, cacheDirName_)),
-      diskCache_(Options::AutoCache),
-      initialized_(true) {
-    // work out insane caching combinations
+      cachePath_(cachePath),
+      useCache_(Options::AutoCache),
+      initialized_(false) {
+    // work out insane caching combinationsb
     if (isRemovable())
-        diskCache_ == Options::ForceCache;
+        useCache_ == Options::ForceCache;
     else {
-        if (diskCache_ == Options::AutoCache)
-            diskCache_ = Options::NoCache;
+        if (useCache_ == Options::AutoCache)
+            useCache_ = Options::NoCache;
     }
     clearCache();
+}
+
+void OpticalDisk::setUseCache(Options::UseCache useCache) {
+    useCache_ = useCache;
 }
 
 OpticalDisk::~OpticalDisk() {
@@ -92,6 +95,12 @@ void OpticalDisk::init() {
     // if (successful)
     initialized_ = true;
 }
+
+// done with disk, copy cache is necessary
+void OpticalDisk::close() {
+    
+}
+
 QString OpticalDisk::makeStudiesPath(const QString& path) {
     return EpCore::joinPaths(path, studiesDirName_);
 }
@@ -101,7 +110,7 @@ bool OpticalDisk::isRemovable() const {
 }
 
 void OpticalDisk::clearCache() {
-    if (!useDiskCache())
+    if (!useCache())
         return;
     QDir cacheDir(cachePath_);
     if (cacheDir.exists())
@@ -112,7 +121,7 @@ void OpticalDisk::clearCache() {
 }
 
 void OpticalDisk::loadCache() {
-    if (!useDiskCache())
+    if (!useCache())
         return;
 
 }

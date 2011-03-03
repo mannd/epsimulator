@@ -318,6 +318,8 @@ void TestEpSimulator::testOptions() {
     QVERIFY(s == o->opticalStudyPath);
     o->opticalStudyPath = s;
     QVERIFY(s == o->opticalStudyPath);
+    QVERIFY(o->cachePath == joinPaths(QDir::homePath(), ".epsimulator",
+                                      "cache"));
     delete o;
 }
 
@@ -911,12 +913,12 @@ void TestEpSimulator::testLocalStorage() {
 
 void TestEpSimulator::testOpticalDiskCache() {
     Options* o = Options::instance();
-    o->diskCache = Options::AutoCache;
+    o->useCache = Options::AutoCache;
     OpticalDisk disk(QDir::homePath(), QDir::homePath());
     QVERIFY(!disk.isRemovable());
     // AutoCache is converted internally by OpticalDisk to a
     // real caching state
-    QVERIFY(disk.diskCache() == Options::NoCache);
+    QVERIFY(disk.useCache() == Options::NoCache);
 }
 
 void TestEpSimulator::cleanupTestCase() {

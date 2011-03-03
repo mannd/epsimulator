@@ -20,6 +20,7 @@
 
 #include "options.h"
 
+#include "coreconstants.h"
 #include "fileutilities.h"
 #include "localstorage.h"
 #include "systemstorage.h"
@@ -52,11 +53,13 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      permanentDelete(false),
 		      simulationControlFlags(DefaultUserControl),
                       passwordHash(),
-		      diskCache(AutoCache),
+		      useCache(AutoCache),
 		      numChannels(48)
 {
     EpCore::SystemStorage systemStorage;
     systemCatalogPath = systemStorage.path();
+    cachePath = EpCore::joinPaths(systemCatalogPath,
+                                  Constants::EPSIM_CACHE_DIRNAME);
     EpCore::LocalStorage localStorage;
     opticalStudyPath = localStorage.opticalDiskPath();
 }
@@ -105,7 +108,7 @@ void Options::readSettings() {
         filePathFlags, settings);
     recorderFlags = readFlags<RecorderFlags>("recorderFlags",
         recorderFlags, settings);
-    diskCache = readFlags<DiskCache>("diskCache", diskCache, settings);
+    useCache = readFlags<UseCache>("useCache", useCache, settings);
     /// TODO other options here...
 
     settings.endGroup();
@@ -152,7 +155,7 @@ void Options::writeSettings() {
     settings.setValue("opticalDiskFlags", int(opticalDiskFlags));
     settings.setValue("filePathFlags", int(filePathFlags));
     settings.setValue("recorderFlags", int(recorderFlags));
-    settings.setValue("diskCache", int(diskCache));
+    settings.setValue("useCache", int(useCache));
     /// TODO add other options here...
 
     settings.endGroup();

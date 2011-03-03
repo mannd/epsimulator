@@ -62,6 +62,7 @@ public:
     virtual void init();
     virtual void eject(QWidget*);
     virtual void burn();
+    virtual void close();
 
 
     virtual void readLabel();
@@ -83,9 +84,7 @@ public:
         setLabel(label);
         setSide(side);
     }
-    void setDiskCache(EpCore::Options::DiskCache diskCache) {
-        diskCache_ = diskCache;
-    }
+    void setUseCache(EpCore::Options::UseCache);
 
     bool isInitialized() const {return initialized_;}
     bool isLabeled() const {return !label().isEmpty();}
@@ -94,7 +93,7 @@ public:
     LabelData labelData() const;
     QString label() const; 
     QString side() const;
-    EpCore::Options::DiskCache diskCache() const {return diskCache_;}
+    EpCore::Options::UseCache useCache() const {return useCache_;}
 
     virtual bool allowSideChange() const {return true;}
     virtual bool showAllSideButtons() const {return true;}
@@ -115,7 +114,6 @@ protected:
     // first bytes of label file
     enum {MagicNumber = 0x99c798f3};    
     static const QString labelFileName_;
-    static const QString cacheDirName_;
 
     void load(const QString& fileName);
     void save(const QString& fileName) const;
@@ -125,9 +123,6 @@ protected:
 
 private:
     OpticalDisk(OpticalDisk&);
-    bool useDiskCache() const {
-        return EpCore::useDiskCache(path_);
-    }
     
     static const QString studiesDirName_;
 
@@ -136,7 +131,7 @@ private:
     QString cachePath_; // path to optical disk cache
     LabelData labelData_;
     //bool isLabeled_;
-    EpCore::Options::DiskCache diskCache_;
+    EpCore::Options::UseCache useCache_;
     bool initialized_;
 };
 
@@ -181,6 +176,7 @@ private:
         QString name;
         LabelData labelData;
     };
+
     typedef std::vector<DiskInfo*> DiskInfoList;
 
     int makeLabel(const QString& diskName, QStringList& labelList,

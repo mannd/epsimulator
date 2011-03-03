@@ -887,6 +887,7 @@ void Navigator::updateSystemSettings() {
 // private
 
 void Navigator::initializeOpticalDisk() {
+    
    try {
         delete currentDisk_;
         currentDisk_ = 0;
@@ -907,7 +908,7 @@ void Navigator::initializeOpticalDisk() {
             currentDisk_ = new OpticalDisk(options_->opticalStudyPath,
                                            options_->systemCatalogPath);
         currentDisk_->readLabel();
-        currentDisk_->setDiskCache(options_->diskCache);
+        currentDisk_->setUseCache(options_->useCache);
         currentDisk_->init();
 
     }

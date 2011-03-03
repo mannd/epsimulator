@@ -241,8 +241,8 @@ void EpCore::copyFilesToSystem(const QStringList& files,
 bool EpCore::useDiskCache(const QString& path) {
     Options* options = Options::instance();
     options->load();
-    bool useCache = (options->diskCache == Options::ForceCache ||
-        (options->diskCache == Options::AutoCache &&
+    bool useCache = (options->useCache == Options::ForceCache ||
+        (options->useCache == Options::AutoCache &&
          EpCore::isRemovableMedia(path)));
     delete options;
     return useCache;
