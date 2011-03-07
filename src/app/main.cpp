@@ -189,6 +189,7 @@ static void displayVersion() {
 static void displayMessages() {
     using EpCore::Options;
     Options* options = Options::instance();
+    options->load();
     if (!options->opticalDiskFlags.testFlag(Options::AllowRealOpticalDisk))
         qDebug() << "No optical disk use permitted.";
     delete options;

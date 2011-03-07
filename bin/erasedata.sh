@@ -12,7 +12,7 @@ if [ "${dirname:0:1}" != "/" ]; then
 fi
 echo "Erasing from "$dirname/../System
 
-rm -i -f ~/.config/EP\ Studios/EPSimulator.conf
+rm -f ~/.config/EP\ Studios/EPSimulator.conf
 rm -fr ~/MyStudies/*
 rm -fr ~/epsim_studies
 rm -f $dirname/../src/test/catalog.dat

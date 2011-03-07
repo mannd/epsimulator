@@ -98,10 +98,9 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
                                                            parent),
                                         filterCatalogDialog_(0),
                                         currentDisk_(0) {
-    setAttribute(Qt::WA_DeleteOnClose);
+    setAttribute(Qt::WA_DeleteOnClose); // maybe move to AbstractMainWindow
     setMinimumWidth(800);
     options_->load();
-    createDefaultDataDir();
     createOpticalDrive();
     createCatalogs();    
     createActions();
@@ -605,44 +604,6 @@ void Navigator::ejectDisk() {
     createCatalogs();
     refreshCatalogs();
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
-}
-
-/**
- * When the program starts for the first time, there needs to be a default
- * location for data storage. This function creates a "MyStudies"
- * directory in the user home directory for this purpose,
- * unless it already exists. It will not overwrite it if the
- * directory already exists.
- * 
- * TODO An alternative design would be to 
- * defer this until an optical disk is chosen, in other words, default
- * to no optical disk until studies are created.
- */
-void Navigator::createDefaultDataDir() {
-    QString defaultDataDirName = "MyStudies";
-    if (!QDir::home().exists(defaultDataDirName)) {
-        if (!QDir::home().mkdir(defaultDataDirName)) {
-            QMessageBox::warning(this, 
-                                 tr("Could Not Create Data Directory"),
-                                 tr("The default data directory, %1"
-                                    " could not be created. Setting"
-                                    " default data directory to %2.")
-                                 .arg(QDir::home()
-                                 .filePath(defaultDataDirName))
-                                 .arg(QDir::homePath()));
-            options_->opticalStudyPath = QDir::homePath();
-        }
-        else {
-            QMessageBox::information(this,
-                                     tr("Default Data Directory Created"),
-                                     tr("A default data directory, %1"
-                                        " has been created.  Change this"
-                                        " in the System Options dialog to"
-                                        " the path to your optical disk.")
-                                     .arg(QDir::home()
-                                     .filePath(defaultDataDirName)));
-        }
-    }
 }
 
 /** 
