@@ -33,7 +33,7 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* const options,
         options_->administratorAccountRequired);
     hideSimulatorMenuCheckBox->setChecked(
         options_->hideSimulatorMenu);
-    switch(options_->diskCache) {
+    switch(options_->useCache) {
     case Options::NoCache:
         noCacheRadioButton->setChecked(true);
         break;
@@ -106,11 +106,11 @@ void SimulatorSettingsDialog::setOptions() {
     options_->hideSimulatorMenu =
         hideSimulatorMenuCheckBox->isChecked();
     if (diskCacheButtonGroup->checkedButton() == noCacheRadioButton)
-        options_->diskCache = Options::NoCache;
+        options_->useCache = Options::NoCache;
     else if (diskCacheButtonGroup->checkedButton() == forceCacheRadioButton)
-        options_->diskCache = Options::ForceCache;
+        options_->useCache = Options::ForceCache;
     else
-        options_->diskCache = Options::AutoCache;
+        options_->useCache = Options::AutoCache;
     setFlag(options_->opticalDiskFlags, Options::Emulation,
         emulateOpticalDisk());;
     setFlag(options_->opticalDiskFlags, Options::DualSided,

@@ -258,15 +258,13 @@ int main(int argc, char **argv) {
         return 1;
     if (!createLocalStorage())
         return 1;
-    // below gives error message 'cannot connect to X server' on ubuntu
-    //EpCore::testCdTools(&app);
     if (!createConnection())
         return 1;
     if (!createEmptyCatalog())
         return 1;
     if (!createSystemCatalogDbConnection())
         return 1;
-    displayMessages();          // special settings are displayed
+    displayMessages();          // special messages/settings are displayed
 
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
     navigator->restore();
