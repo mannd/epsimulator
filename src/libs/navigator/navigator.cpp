@@ -113,7 +113,6 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
         this, SLOT(changeCatalog()));
 
     updateWindowTitle();
-    options_->readSettings();
     studyManager_ = new StudyManager(options_->systemCatalogPath,
                                      QString(".epsimulator"),
                                      options_->opticalStudyPath,
@@ -848,7 +847,6 @@ void Navigator::updateSystemSettings() {
 // private
 
 void Navigator::initializeOpticalDisk() {
-    
    try {
         delete currentDisk_;
         currentDisk_ = 0;
@@ -868,10 +866,9 @@ void Navigator::initializeOpticalDisk() {
         else 
             currentDisk_ = new OpticalDisk(options_->opticalStudyPath,
                                            options_->systemCatalogPath);
-        currentDisk_->readLabel();
         currentDisk_->setUseCache(options_->useCache);
         currentDisk_->init();
-
+        currentDisk_->readLabel();
     }
     catch (EpCore::IoError& e) { 
         int ret = QMessageBox::warning(this, tr("Error"),

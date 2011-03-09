@@ -34,6 +34,9 @@ public:
     QString filePath(const QString& fileName) const; // returns full system
                                                      // path of fileName,
                                                      // does not create file
+
+    QString cachePath() const;                       // full path of system
+                                                     // cache
     bool exists() const;
 
     void setPath(QString path) {path_ = path;} // mostly for testing

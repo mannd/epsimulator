@@ -880,6 +880,7 @@ void TestEpSimulator::testSystemStorage() {
     s.setPath("test2/");
     QString fileName("/wow/");
     QVERIFY(s.filePath(fileName) == "test2/wow");
+    QVERIFY(s.cachePath() == "test2/cache");
 }
 
 void TestEpSimulator::testRemovableMedia() {

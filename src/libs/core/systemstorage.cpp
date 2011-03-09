@@ -20,6 +20,7 @@
 
 #include "systemstorage.h"
 
+#include "coreconstants.h"
 #include "fileutilities.h"
 
 #include <QDir>
@@ -39,6 +40,10 @@ bool SystemStorage::init() {
 
 QString SystemStorage::filePath(const QString& fileName) const {
     return EpCore::joinPaths(path_, fileName);
+}
+
+QString SystemStorage::cachePath() const {
+    return filePath(Constants::EPSIM_CACHE_DIRNAME);
 }
 
 bool SystemStorage::exists() const {

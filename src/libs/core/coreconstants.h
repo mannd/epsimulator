@@ -37,7 +37,7 @@ namespace Constants {
 
 const char* const EPSIM_VERSION     = APP_VERSION;
 const char* const EPSIM_AUTHOR      = "EP Studios, Inc.";
-const char* const EPSIM_YEAR        = "2010";
+const char* const EPSIM_YEAR        = "2011";
 
 // Database -- only define 1 of the below
 //#define MYSQL
