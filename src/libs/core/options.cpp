@@ -20,7 +20,6 @@
 
 #include "options.h"
 
-#include "coreconstants.h"
 #include "fileutilities.h"
 #include "localstorage.h"
 #include "systemstorage.h"
@@ -58,8 +57,7 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 {
     EpCore::SystemStorage systemStorage;
     systemCatalogPath = systemStorage.path();
-    cachePath = EpCore::joinPaths(systemCatalogPath,
-                                  Constants::EPSIM_CACHE_DIRNAME);
+    cachePath = systemStorage.cachePath();
     EpCore::LocalStorage localStorage;
     opticalStudyPath = localStorage.opticalDiskPath();
 }
