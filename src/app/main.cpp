@@ -44,7 +44,7 @@
 
 static bool createSystemStorage() {
     EpCore::SystemStorage systemStorage;
-    // The SystemStorage should never change during program
+    // SystemStorage should never change during program
     // so you should only have to init() it once here.
     if (!systemStorage.init()) {   
         QMessageBox::critical(0, QObject::tr("System Storage Error"),
@@ -110,7 +110,10 @@ static bool createConnection() {
 	QString langSubDir = "de";
 #elif defined FRENCH
 	QString langSubDir = "fr";
+#else
+        QString langSubDir = "None";
 #endif
+        Q_ASSERT(langSubDir != "None");
 	if (!QFile::copy(joinPaths(EpCore::rootPath(),
                                    "db", langSubDir,
                                    dbFileName), 
@@ -137,6 +140,7 @@ static bool createConnection() {
 
 static QString systemCatalogDbFilePath() {
     EpCore::SystemStorage systemStorage;
+    Q_ASSERT(systemStorage.exists());
     const QString catalogDbFileName(EpCore::Constants::
                                     EPSIM_CATALOG_DB_FILENAME);
     return systemStorage.filePath(catalogDbFileName);

@@ -18,12 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/** @file
- * Basically the navigator window is the main window.  When switching to
- * the epsimulator window, we will actually just be changing the menus
- * and the central widget
- */
-
 #include "navigator.h"
 
 #include "actions.h"
@@ -87,9 +81,7 @@ using EpGui::SelectStudyConfigDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyManager;
-using EpNavigator::EditStudyConfigsDialog;
 using EpNavigator::Navigator;
-using EpNavigator::StatusBar;
 
 using namespace EpHardware::EpOpticalDisk;
 
@@ -98,9 +90,9 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
                                                            parent),
                                         filterCatalogDialog_(0),
                                         currentDisk_(0) {
-    setAttribute(Qt::WA_DeleteOnClose); // maybe move to AbstractMainWindow
+    setAttribute(Qt::WA_DeleteOnClose);
     setMinimumWidth(800);
-    options_->load();
+    options_->load();  // options_ is protected member of AbstractMainWindow
     createOpticalDrive();
     createCatalogs();    
     createActions();
@@ -871,26 +863,28 @@ void Navigator::initializeOpticalDisk() {
         currentDisk_->readLabel();
     }
     catch (EpCore::IoError& e) { 
-        int ret = QMessageBox::warning(this, tr("Error"),
-                             tr("Could not find disk %1. "
-                                "Enter the correct path to your "
-                                "optical drive or Exit").arg(e.fileName()), 
-                                tr("Continue"),
-                                tr("Exit Program"), "", 0, 0);
-        if (ret == 1)
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(tr("Error"));
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setText(tr("Could not find disk %1.").arg(e.fileName()));
+        msgBox.setInformativeText(tr("Enter the correct path to your "
+                                     "optical drive or Exit"));
+        QPushButton* continueButton = msgBox.addButton(tr("Continue"), 
+                                                       QMessageBox::AcceptRole);
+        QPushButton* exitButton = msgBox.addButton(tr("Exit Program"), 
+                                                   QMessageBox::RejectRole);
+        msgBox.exec();
+        if (msgBox.clickedButton() == exitButton)
             exit(1);
-        else {
+        else if (msgBox.clickedButton() == continueButton) {
             QFileDialog* fd = new QFileDialog(this);
             fd->setFileMode(QFileDialog::Directory);
             if (fd->exec() == QDialog::Accepted) {
                 QStringList files = fd->selectedFiles();
-                QString fileName = QString();
                 if (!files.isEmpty()) {
-                    fileName = files[0];
-                    if (!fileName.isEmpty()) {
-                        options_->opticalStudyPath = fileName;
-                        options_->writeSettings();
-                    }
+                    QString fileName = files[0];
+                    options_->opticalStudyPath = fileName;
+                    options_->writeSettings();
                 }
             }
             delete fd;
