@@ -90,9 +90,10 @@ public:
         DualSided               = 0x000002,
         UseOpticalDiskAsDefault = 0x000004, // on initial run, use real optical
                                             // disk as opticalStudyPath
-        AllowRealOpticalDisk    = 0x000008  // ok to use real optical disk
+        AllowRealOpticalDisk    = 0x000008, // ok to use real optical disk
                                             // if not set don't allow real
                                             // optical disk as opticalStudyPath
+        AllowEmulation          = 0x000010
     };
     Q_DECLARE_FLAGS(OpticalDiskFlags, OpticalDiskFlag)
     OpticalDiskFlags opticalDiskFlags;
@@ -166,12 +167,13 @@ public:
     void readSettings();
     void writeSettings();
 
-    void load() {readSettings();}
+    void load();
     void save() {writeSettings();}
 
 protected:
     Options();
 private:
+    void imposeConstraints();
     void disallowOpticalDisk();
 };
 

@@ -44,9 +44,14 @@ SimulatorSettingsDialog::SimulatorSettingsDialog(Options* const options,
         autoCacheRadioButton->setChecked(true);
         break;
     }
-
-    setEmulateOpticalDisk(options_->
-        opticalDiskFlags.testFlag(Options::Emulation));
+    
+    if (!options_->opticalDiskFlags.testFlag(Options::AllowEmulation)) {
+        emulateOpticalDiskCheckBox->setEnabled(false);
+        setEmulateOpticalDisk(false);
+    }
+    else
+        setEmulateOpticalDisk(options_->
+                              opticalDiskFlags.testFlag(Options::Emulation));
     setDualSidedDisk(options_->
         opticalDiskFlags.testFlag(Options::DualSided));
     setEmulatedOpticalDiskCapacity(options_->emulatedOpticalDiskCapacity);

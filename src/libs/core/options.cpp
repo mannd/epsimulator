@@ -31,6 +31,7 @@
 
 // for testing and development, don't allow real optical disk
 #define epNoRemovableMediaAllowed
+#define epNoEmulatedOpticalDiskAllowed
 
 using EpCore::Options;
 
@@ -110,9 +111,21 @@ void Options::readSettings() {
     /// TODO other options here...
 
     settings.endGroup();
+}
+
+void Options::load() {
+    readSettings();
+    imposeConstraints();
+}
+
+void Options::imposeConstraints() {
 #ifdef epNoRemovableMediaAllowed
     opticalDiskFlags = opticalDiskFlags & ~AllowRealOpticalDisk;
     disallowOpticalDisk();
+#endif
+#ifdef epNoEmulatedOpticalDiskAllowed
+    opticalDiskFlags = opticalDiskFlags & ~Emulation;
+    opticalDiskFlags = opticalDiskFlags & ~AllowEmulation;
 #endif
 }
 
@@ -127,10 +140,6 @@ void Options::disallowOpticalDisk() {
  * Writes options to QSettings (platform-dependent location).
  */
 void Options::writeSettings() {
-#ifdef epNoRemovableMediaAllowed
-    opticalDiskFlags = opticalDiskFlags ^ AllowRealOpticalDisk;
-    disallowOpticalDisk();
-#endif
     QSettings settings;
     settings.beginGroup("options");
 
@@ -159,6 +168,4 @@ void Options::writeSettings() {
     settings.endGroup();
 }
 
-Options::~Options() {
-   // writeSettings();
-}
+Options::~Options() {}

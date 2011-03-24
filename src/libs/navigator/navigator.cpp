@@ -597,25 +597,22 @@ void Navigator::ejectDisk() {
     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
-/** 
- * Label the optical disk. Opens a dialog to get the label and side,
- * then writes both to the label.dat file in the catalog directory
- * of the disk.  Not that the catalog directory is NOT necessarily the
- * root directory of the disk; with emulated optical disks they are
- * different, but the disk itself handles this.  
- * Here is the logic:
- *           Not an emulated disk:   Allow side changes any time.  All
- *               three buttons are always available. 
- *           Emulated disk:
- *               New disk: Only allow side change if isTwoSided()
- *               Flipping a disk: allow side change (don't allow 
- *                  flipping 1 sided disks)
- *               Relabeling: don't allow any side changes at all
- *           OpticalDisk::allowSideChange() will set itself appropriately
- * 
- * @param reLabel true if relabeling already labeled disk
- * @param disk OpticalDisk that is to be labeled
- */
+ 
+// Label the optical disk. Opens a dialog to get the label and side,
+// then writes both to the label.dat file in the catalog directory
+// of the disk.  Not that the catalog directory is NOT necessarily the
+// root directory of the disk; with emulated optical disks they are
+// different, but the disk itself handles this.  
+// Here is the logic:
+//           Not an emulated disk:   Allow side changes any time.  All
+//               three buttons are always available. 
+//           Emulated disk:
+//               New disk: Only allow side change if isTwoSided()
+//               Flipping a disk: allow side change (don't allow 
+//                  flipping 1 sided disks)
+//               Relabeling: don't allow any side changes at all
+//           OpticalDisk::allowSideChange() will set itself appropriately
+
 void Navigator::labelDisk(bool reLabel, OpticalDisk* disk) {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     QString oldLabel = disk->label();
@@ -912,12 +909,11 @@ void Navigator::createCentralWidget() {
     refreshCatalogs();
 }
 
-/**
- * Create the "blue bar" to the side of the Navigator window.  Uses
- * setupButton to make each button.  The parent of the buttonFrame is
- * the centralWidget_.  This is also the parent of the 
- * tableListView_.
- */
+
+// Create the "blue bar" to the side of the Navigator window.  Uses
+// setupButton to make each button.  The parent of the buttonFrame is
+// the centralWidget_.  This is also the parent of the 
+// tableListView_.
 void Navigator::createButtonFrame() {
     if (options_->bluePanelStyle ==
         Options::TransparentButtons) // set up flat buttons
@@ -939,11 +935,8 @@ void Navigator::createButtonFrame() {
         SLOT(reports()), true); 
 }
 
-/** @brief Creates the TableListView object.
- *
- * The tableListView_ contains the list of studies, and reflects whatever
- * source is current in the catalogComboBox_.
- */
+// The tableListView_ contains the list of studies, and reflects whatever
+// source is current in the catalogComboBox_.
 void Navigator::createTableListView() {
     // tableListView_ = new TableListView(centralWidget_,
     //     options_->oldStyleNavigator);
@@ -958,7 +951,6 @@ void Navigator::createTableListView() {
 }
 
 void Navigator::createStudyTable() {
-
 }
 
 void Navigator::createStatusBar() {
@@ -1074,7 +1066,8 @@ void Navigator::createActions() {
     arrhythmiaTypesAction_ = createAction(this, tr("Arrhythmia Types"),
                                           tr("Arrhythmia types"),
                                           SLOT(arrhythmiaTypes()));
-    arrhythmiaTolerancesAction_ = createAction(this, tr("Arrhythmia Tolerances"),
+    arrhythmiaTolerancesAction_ = createAction(this, 
+                                               tr("Arrhythmia Tolerances"),
                                                tr("Arrhythmia tolerances"),
                                                SLOT(arrhythmiaTolerances()));
     blockDescriptionsAction_ = createAction(this, tr("Block Descriptions"),
@@ -1105,8 +1098,6 @@ void Navigator::createActions() {
                                          Qt::Key_Escape);
     // add directly to Navigator window -- not on menu
     addAction(clearSelectionAction_);
-
-
 }
 
 void Navigator::createToolBars() {
@@ -1202,7 +1193,6 @@ void Navigator::createMenus() {
     administrationMenu_->addSeparator();
     administrationMenu_->addAction(simulatorSettingsAction());
 
-
     menuBar()->addSeparator();
 
     helpMenu_ = menuBar()->addMenu(tr("&Help"));
@@ -1226,11 +1216,10 @@ void Navigator::writeSettings() {
     settings.endGroup();
 }
 
-/**
- * Read the current settings, including location of the centralWidget_.
- * This will also read the last "disk" used if optical disk emulation is
- * on.
- */
+
+// Read the current settings, including location of the centralWidget_.
+// This will also read the last "disk" used if optical disk emulation is
+// on.
 void Navigator::readSettings() {
     QSettings settings;
     settings.beginGroup("navigator");
@@ -1374,13 +1363,13 @@ bool Navigator::getStudyInformation(Study* study) {
     return false;
 }
 
-/// This returns a pointer to a study selected from the catalog, 
-/// returns 0 if no study selected
+// This returns a pointer to a study selected from the catalog, 
+// returns 0 if no study selected
 Study* Navigator::getSelectedStudy() {
     return tableListView_->study();
 }
 
-/// Returns study selected in the catalog, or, if none selected, a new study.
+// Returns study selected in the catalog, or, if none selected, a new study.
 Study* Navigator::getNewStudy() {
     Study* study = getSelectedStudy();
     if (study) {
@@ -1401,10 +1390,11 @@ Study* Navigator::getNewStudy() {
         return new Study;
 }
 
-/// This checks to make sure the selected study is on the optical disk catalog.
-/// If something is wrong with the catalog and the study is not physically present
-/// on disk, despite being in the catalog, the actual disk processing 
-/// should raise an exception.
+// This checks to make sure the selected study is on the optical disk catalog.
+// If something is wrong with the catalog and the study 
+// is not physically present
+// on disk, despite being in the catalog, the actual disk processing 
+// should raise an exception.
 bool Navigator::studyOnDisk(const Study* s) const {
     return catalogs_->studyPresentOnOpticalDisk(s);
 }
