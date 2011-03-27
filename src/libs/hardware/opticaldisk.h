@@ -199,6 +199,8 @@ private:
 class HardDrive : public OpticalDisk {
 public:
     HardDrive(const QString& path);
+    
+    virtual bool allowSideChange() const {return false;}
 };
 
 } // namespace EpOpticalDisk

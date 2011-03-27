@@ -87,6 +87,7 @@ void loadSystemData(unsigned int magicNumber, const QString& fileName,
 		    T& data, Options* options);
 
 void deleteDir(const QString& path);
+void deleteDirContents(const QString& path);
 void copyDir(const QString& sourcePath, const QString& destinationPath);
 QDir directoryOf(const QString& subdir);
 QDir rootDirectory();

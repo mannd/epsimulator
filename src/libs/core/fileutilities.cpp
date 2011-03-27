@@ -30,10 +30,6 @@
 using namespace EpCore::Constants;
 
 /**
- * @namespace EpCore Program functions that only require QtCore, not QtGui.
- */
-
-/**
  * Writes unique integer and version numbers to datastream, to insure only
  * that files are truly epsimulator files.
  * @param magicNumber Unique int for each file type.
@@ -76,17 +72,10 @@ unsigned int EpCore::magicNumber(const QString& filePath) {
     return magic;
 }
 
-
-
-/**
- * Deletes the directory, and all subdirs and files.
- * @param path Path to dir to be deleted.
- * Note path MUST be a directory, not a file.
- */
-void EpCore::deleteDir(const QString& path) {
+void EpCore::deleteDirContents(const QString& path) {
     QDir d(path);
     if (!d.exists())
-        throw FileNotFoundError(path);
+        return;
     // infinite recursion if filters not set
     QFileInfoList list = d.entryInfoList(QDir::AllEntries 
         | QDir::NoDotAndDotDot);
@@ -99,6 +88,18 @@ void EpCore::deleteDir(const QString& path) {
         else
             d.remove(fileInfo.filePath());
     }
+}
+
+/**
+ * Deletes the directory, and all subdirs and files.
+ * @param path Path to dir to be deleted.
+ * Note path MUST be a directory, not a file.
+ */
+void EpCore::deleteDir(const QString& path) {
+    QDir d(path);
+    if (!d.exists())
+        throw FileNotFoundError(path);
+    deleteDirContents(path);
     d.rmdir(path);
 }
 

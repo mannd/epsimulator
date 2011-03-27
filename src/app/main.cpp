@@ -185,9 +185,9 @@ static void displayVersion() {
              << "Build"
              << EpCore::Constants::APP_VERSION_BUILD_STR;
     qDebug() << "Compiled using Qt Version"
-             << QT_VERSION_STR;
+             << QT_VERSION_STR << ".";
     qDebug() << "Running on Qt Version"
-             << qVersion();
+             << qVersion() << ".";
 }
 
 static void displayMessages() {

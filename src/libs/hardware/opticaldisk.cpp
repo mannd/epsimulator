@@ -73,7 +73,7 @@ OpticalDisk::OpticalDisk(const QString& path, const QString& cachePath)
       initialized_(false) {
     // work out insane caching combinationsb
     if (isRemovable())
-        useCache_ == Options::ForceCache;
+        useCache_ = Options::ForceCache;
     else {
         if (useCache_ == Options::AutoCache)
             useCache_ = Options::NoCache;
@@ -114,10 +114,7 @@ void OpticalDisk::clearCache() {
         return;
     QDir cacheDir(cachePath_);
     if (cacheDir.exists())
-        EpCore::deleteDir(cachePath_);
-    if (!cacheDir.exists() && !cacheDir.mkdir(cachePath_))
-        throw EpCore::SystemDirectoryNotFoundError(cachePath_,
-                                                   "could not create cache.");
+        EpCore::deleteDirContents(cachePath_);
 }
 
 void OpticalDisk::loadCache() {
@@ -430,7 +427,7 @@ void EmulatedOpticalDisk::saveLastDisk() {
 HardDrive::HardDrive(const QString& path) :
         OpticalDisk(path, path) {
     setLabel(path);
-    //setIsLabeled(true);
+
     using EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
     if (!QFile::exists(EpCore::joinPaths(path, EPSIM_CATALOG_DB_FILENAME)))
         if (!QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
