@@ -942,7 +942,7 @@ void Navigator::createTableListView() {
     //     options_->oldStyleNavigator);
     // connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
     //     int)), this, SLOT(newStudy()));
-    tableListView_ = new TableListView(0, 
+    tableListView_ = new TableListView(0,
         options_->oldStyleNavigator);
     connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
         int)), this, SLOT(newStudy()));

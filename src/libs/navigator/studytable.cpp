@@ -48,8 +48,8 @@ StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
 //       catalog_(0) {
     systemModel_ = new QSqlTableModel(this, 
                                 QSqlDatabase::database(EpConstants::EPSIM_SYSTEM_DB));
-    opticalModel_ = 0; /* new QSqlTableModel(this, 
-                          QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB));*/
+    opticalModel_ = new QSqlTableModel(this,
+                        QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB));
     networkModel_ = 0; /*new QSqlTableModel(this, 
                          QSqlDatabase::database(EpConstants::EPSIM_NETWORK_DB));*/
     setSource(Catalog::System);

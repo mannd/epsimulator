@@ -103,6 +103,8 @@ public:
 
     QString path() const {return path_;}    // root path of this optical disk
     // labelPath() == path() in this class, but see EmulatedOpticalDisk.
+    // The top level writable path for a "disk" is always equal to
+    // the labelPath().
     virtual QString labelPath() const {return path_;}  // path to label
     virtual QString labelFilePath() const; // full path to label.dat
     virtual QString studiesPath() const;    // full path of studies dir
