@@ -35,7 +35,16 @@ bool SystemStorage::init() {
     QDir dir = QDir(path_);
     if (!exists() && !dir.mkpath(path_))
         return false;
+    if (isRemovableMedia(path_))
+        return false;           // this shouldn't happen
+    if (!makeCachePath())
+        return false;
     return true;                // path_ exists or was made
+}
+
+bool SystemStorage::makeCachePath() {
+    QDir dir = QDir(cachePath());
+    return dir.exists() || dir.mkpath(cachePath());
 }
 
 QString SystemStorage::filePath(const QString& fileName) const {

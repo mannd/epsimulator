@@ -845,17 +845,18 @@ void Navigator::initializeOpticalDisk() {
             if (!currentDisk_) {
                 currentDisk_ = new EmulatedOpticalDisk(
                     options_->opticalStudyPath,
-                    options_->systemCatalogPath,
+                    options_->cachePath,
                     options_->opticalDiskFlags.testFlag(Options::DualSided));
                 currentDisk_->saveLastDisk();
             }
         }
         else if (!EpCore::isRemovableMedia(options_->opticalStudyPath))
-            currentDisk_ = new HardDrive(options_->opticalStudyPath);
+            currentDisk_ = new HardDrive(options_->opticalStudyPath,
+                                         options_->cachePath);
         else 
             currentDisk_ = new OpticalDisk(options_->opticalStudyPath,
-                                           options_->systemCatalogPath);
-        currentDisk_->setUseCache(options_->useCache);
+                                           options_->cachePath);
+        currentDisk_->setCacheControl(options_->cacheControl);
         currentDisk_->init();
         currentDisk_->readLabel();
     }

@@ -46,6 +46,9 @@ struct LabelData {
     bool operator!=(const LabelData&) const;
 };
 
+// OpticalDisk is a directory that behind the scenes manages 
+// caching, as well as burning back to the disk if it really is
+// an optical disk.  
 class OpticalDisk {
     Q_DECLARE_TR_FUNCTIONS(OpticalDisk)
 public:
@@ -62,7 +65,7 @@ public:
     virtual void init();
     virtual void eject(QWidget*);
     virtual void burn();
-    virtual void close();
+    void close();
 
 
     virtual void readLabel();
@@ -84,7 +87,7 @@ public:
         setLabel(label);
         setSide(side);
     }
-    void setUseCache(EpCore::Options::UseCache);
+    virtual void setCacheControl(EpCore::Options::CacheControl);
 
     bool isInitialized() const {return initialized_;}
     bool isLabeled() const {return !label().isEmpty();}
@@ -93,7 +96,6 @@ public:
     LabelData labelData() const;
     QString label() const; 
     QString side() const;
-    EpCore::Options::UseCache useCache() const {return useCache_;}
 
     virtual bool allowSideChange() const {return true;}
     virtual bool showAllSideButtons() const {return true;}
@@ -120,9 +122,15 @@ protected:
     void load(const QString& fileName);
     void save(const QString& fileName) const;
 
+    void setUseCache(bool enable) {
+        useCache_ = enable;
+        enable ? workingPath_ = cachePath_ : workingPath_ = path_;
+    }
+    bool useCache() const {return useCache_;}
     void clearCache();
     void loadCache();   // copy optical disk catalog to cache
 
+    QString workingPath() const {return workingPath_;}
 private:
     OpticalDisk(OpticalDisk&);
     
@@ -131,10 +139,12 @@ private:
     QString path_;  // optical drive path, all the way to study dir
                     // e.g. /home/user/MyStudies
     QString cachePath_; // path to optical disk cache
+    QString workingPath_; // either path_ or cachePath_, depending on useCache_
     LabelData labelData_;
     //bool isLabeled_;
-    EpCore::Options::UseCache useCache_;
+    EpCore::Options::CacheControl cacheControl_;
     bool initialized_;
+    bool useCache_;
 };
 
 class EmulatedOpticalDisk : public OpticalDisk {
@@ -153,6 +163,8 @@ public:
     void readLabel();
     void writeLabel() const;
     virtual void saveLastDisk();   // saves last diskName
+
+    virtual void setCacheControl(EpCore::Options::CacheControl);
 
     // allowing relabeling of emulated disks will mess up 
     // the path to the emulated disk,
@@ -200,9 +212,10 @@ private:
 
 class HardDrive : public OpticalDisk {
 public:
-    HardDrive(const QString& path);
+    HardDrive(const QString& path, const QString& cachePath);
     
     virtual bool allowSideChange() const {return false;}
+    virtual void setCacheControl(EpCore::Options::CacheControl);
 };
 
 } // namespace EpOpticalDisk

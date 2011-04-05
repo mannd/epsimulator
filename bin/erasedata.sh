@@ -31,6 +31,7 @@ echo "Erasing from "$HOME/.epsimulator
 
 rm -f $HOME/.epsimulator/amplifier.dat
 rm -f $HOME/.epsimulator/catalog.dat
+rm -f $HOME/.epsimulator/catalog.db
 rm -f $HOME/.epsimulator/config.dat
 rm -f $HOME/.epsimulator/columnformats.dat
 rm -f $HOME/.epsimulator/eplists.dat
@@ -39,4 +40,4 @@ rm -f $HOME/.epsimulator/label.dat
 rm -f $HOME/.epsimulator/protocols.dat
 rm -f $HOME/.epsimulator/windowsettings.dat
 rm -fr $HOME/.epsimulator/studies
-rm -fr $HOME/.epsimulator/.cache
+rm -fr $HOME/.epsimulator/cache

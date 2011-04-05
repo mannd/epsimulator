@@ -82,6 +82,7 @@ private slots:
     void testPatient();
     void testStudyTable();
     void testLocalStorage();
+    void testSystemStorageInit();
     void testOpticalDiskCache();
 
     void cleanupTestCase();
