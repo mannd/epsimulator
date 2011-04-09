@@ -141,8 +141,7 @@ private:
     void updateWindowTitle();
 
     // Optical disk related
-    void createDefaultDataDir();    // creates ~/MyStudies if it doesn't exist
-    void labelDisk(bool reLabel, EpHardware::EpOpticalDisk::OpticalDisk* disk);
+    void labelDisk(bool reLabel);
 
     // Filtering
     void processFilter();

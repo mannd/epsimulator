@@ -105,10 +105,6 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
         this, SLOT(changeCatalog()));
 
     updateWindowTitle();
-    studyManager_ = new StudyManager(options_->systemCatalogPath,
-                                     QString(".epsimulator"),
-                                     options_->opticalStudyPath,
-                                     options_->networkStudyPath);
 }
 
 Navigator::~Navigator() {
@@ -116,7 +112,6 @@ Navigator::~Navigator() {
     delete currentDisk_;
     delete user_;
     delete options_;
-    delete studyManager_;
 }
 
 void Navigator::clearSelection() {
@@ -329,7 +324,7 @@ void Navigator::moveStudyData(MoveCopyStudyDialog& dialog,
             ejectDisk();
             // if disk isn't labelled, label it
             if (!currentDisk_->isLabeled())
-                labelDisk(false, currentDisk_);
+                labelDisk(false);
             // if labels the same, throw sourcedestinationsameerror
             if (sourceLabel == currentDisk_->label())
                 throw EpCore::SourceDestinationSameError(dialog.sourcePath());
@@ -590,7 +585,7 @@ void Navigator::ejectDisk() {
     currentDisk_->eject(this);
     createOpticalDrive();
     if (!currentDisk_->isLabeled())
-        labelDisk(false, currentDisk_);
+        labelDisk(false);
     delete catalogs_;
     createCatalogs();
     refreshCatalogs();
@@ -613,19 +608,18 @@ void Navigator::ejectDisk() {
 //               Relabeling: don't allow any side changes at all
 //           OpticalDisk::allowSideChange() will set itself appropriately
 
-void Navigator::labelDisk(bool reLabel, OpticalDisk* disk) {
+void Navigator::labelDisk(bool reLabel) {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
-    QString oldLabel = disk->label();
+    QString oldLabel = currentDisk_->label();
     // Disabled buttons can't be set, so do this first.
-    diskLabelDialog->setLabelSide(oldLabel, disk->side());
-    diskLabelDialog->enableNoneButton(disk->showAllSideButtons() || 
-        !disk->isTwoSided());    
-    diskLabelDialog->enableSideButtons(disk->allowSideChange());
+    diskLabelDialog->setLabelSide(oldLabel, currentDisk_->side());
+    diskLabelDialog->enableNoneButton(currentDisk_->showAllSideButtons() || 
+        !currentDisk_->isTwoSided());    
+    diskLabelDialog->enableSideButtons(currentDisk_->allowSideChange());
     if (diskLabelDialog->exec() == QDialog::Accepted) {
-        disk->setLabelSide(diskLabelDialog->label(), 
+        currentDisk_->setLabelSide(diskLabelDialog->label(), 
             diskLabelDialog->side());
-        disk->writeLabel();
-        //disk->setIsLabeled(true);
+        currentDisk_->writeLabel();
         if (reLabel)
             catalogs_->relabel(diskLabelDialog->label(), 
                 diskLabelDialog->side());
@@ -635,7 +629,7 @@ void Navigator::labelDisk(bool reLabel, OpticalDisk* disk) {
 }
 
 void Navigator::relabelDisk() {
-    labelDisk(true, currentDisk_);
+    labelDisk(true);
 }
 
 void Navigator::channelLabels() {

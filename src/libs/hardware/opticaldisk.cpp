@@ -79,7 +79,7 @@ void OpticalDisk::setCacheControl(Options::CacheControl cacheControl) {
     switch(cacheControl) {
     case Options::AutoCache:
     case Options::ForceCache: 
-        setUseCache(true);
+        setUseCache(true);      // setUseCache sets workingPath_
         break;
     case Options::NoCache:
 	// always use a cache if removable disk
@@ -91,24 +91,42 @@ void OpticalDisk::setCacheControl(Options::CacheControl cacheControl) {
 OpticalDisk::~OpticalDisk() {}
 
 void OpticalDisk::init() {
-    // setup database on disk or in cache
+    if (initialized_)
+        return;
+    bool labelFileExists = QDir(path_).exists(labelFileName_);
+    bool catalogFileExists = QDir(path_)
+        .exists(EpCore::Constants::EPSIM_CATALOG_DB_FILENAME);
     if (useCache_) {
         clearCache();
         QStringList files;
-        files << labelFileName_ << EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
+        if (labelFileExists)
+            files << labelFileName_;
+        if (catalogFileExists)
+            files << EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
         EpCore::copyFilesToPath(files, path_, cachePath_);
     }
+    readLabel();                // reads label.dat in workingPath_
+                                // or creates it
+    /// TODO create catalog file in workingPath_
     initialized_ = true;
 }
 
 // done with disk, copy cache is necessary
 void OpticalDisk::close() {
+    if (!initialized_)
+        return;
     if (useCache_) {
+        QStringList files;
+        files << labelFileName_ 
+              << EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
+        if (!isRemovable())
+            EpCore::copyFilesToPath(files, cachePath_, path_);
+        else
+            burn(files, cachePath_);
         // closeStudy(); // copy or burn study files
-        // closeCatalog(); // copy or burn catalog.db
-        // if (labelChanged()) 
-        //    closeLabel();  // copy or burn label if changed
+        clearCache();
     }
+    initialized_ = false;
 }
 
 QString OpticalDisk::makeStudiesPath(const QString& path) {
@@ -125,11 +143,6 @@ void OpticalDisk::clearCache() {
     QDir cacheDir(cachePath_);
     if (cacheDir.exists())
         EpCore::deleteDirContents(cachePath_);
-}
-
-void OpticalDisk::loadCache() {
-    if (!useCache())
-        return;
 }
 
 /**
@@ -156,15 +169,19 @@ void OpticalDisk::eject(QWidget* w) {
 
 void OpticalDisk::burn() {}
 
+void OpticalDisk::burn(const QStringList& /*files*/,
+                       const QString& /*source*/) {
+    // burn files in source onto disk
+}
+
 // full path of the label.dat file, including file name.
 QString OpticalDisk::labelFilePath() const {
-    return EpCore::joinPaths(labelPath(), labelFileName_);
+    return EpCore::joinPaths(workingPath(), labelFileName_);
 }
 
 // full path to the studies directory on the disk. 
 QString OpticalDisk::studiesPath() const {
     return makeStudiesPath(path_);
-    // return QDir::cleanPath(path_ + "/studies");
 }
 
 // loads the label and side data in label.dat.
@@ -399,7 +416,6 @@ void EmulatedOpticalDisk::readLabel() {
     // create /disks dir if not already present.
     makePath();
     OpticalDisk::load(labelFilePath());
-    //setIsLabeled(!label().isEmpty());
 }
 
 void EmulatedOpticalDisk::writeLabel() const {
