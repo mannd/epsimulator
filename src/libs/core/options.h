@@ -67,7 +67,7 @@ public:
         PatientStatusBarHasTitle    = 0x000002,
         RecorderHasStatusBar        = 0x000004,
         DefaultRecorderFlags        = ImmovablePatientStatusBar 
-        | RecorderHasStatusBar  
+                                      | RecorderHasStatusBar  
     };
     Q_DECLARE_FLAGS(RecorderFlags, RecorderFlag)
     RecorderFlags recorderFlags;
@@ -155,9 +155,9 @@ public:
     QString passwordHash;
 
     // controls whether to use disk caching for non-removable disks
-    enum UseCache {
+    enum CacheControl {
         NoCache, ForceCache, AutoCache
-    } useCache;
+    } cacheControl;
 
     int numChannels;
 

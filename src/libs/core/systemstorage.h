@@ -29,6 +29,7 @@ class SystemStorage {
 public:
     SystemStorage();
     bool init();                // creates system directory if nonexistant
+    bool makeCachePath();       // create cache subdir in system dir
     QString operator()() const {return path_;}
     QString path() const {return path_;}
     QString filePath(const QString& fileName) const; // returns full system

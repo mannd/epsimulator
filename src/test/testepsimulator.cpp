@@ -337,11 +337,11 @@ void TestEpSimulator::testOptionsFlags() {
 void TestEpSimulator::testOpticalDisk() {
     QCOMPARE(OpticalDisk::makeStudiesPath("test"), QString("test/studies"));
     QCOMPARE(OpticalDisk::studiesDirName(), QString("studies"));
-    OpticalDisk* o = new OpticalDisk(".", ".");
+    OpticalDisk* o = new OpticalDisk(".", "./tmp");
     QCOMPARE(o->path(), o->labelPath());
     QCOMPARE(o->path(), QString("."));
     delete o;
-    EmulatedOpticalDisk* e = new EmulatedOpticalDisk(".", ".", true);
+    EmulatedOpticalDisk* e = new EmulatedOpticalDisk(".", "./tmp", true);
     QVERIFY(e->path() != e->labelPath());
     delete e;
 }
@@ -912,14 +912,17 @@ void TestEpSimulator::testLocalStorage() {
     QVERIFY(l.hardDrivePath() == QDir::homePath() + "/epsim_studies");
 }
 
+void TestEpSimulator::testSystemStorageInit() {
+    SystemStorage ss;
+    QVERIFY(ss.init());
+}
+
 void TestEpSimulator::testOpticalDiskCache() {
     Options* o = Options::instance();
-    o->useCache = Options::AutoCache;
-    OpticalDisk disk(QDir::homePath(), QDir::homePath());
+    o->cacheControl = Options::AutoCache;
+    OpticalDisk disk(QDir::homePath(), o->systemCatalogPath);
     QVERIFY(!disk.isRemovable());
-    // AutoCache is converted internally by OpticalDisk to a
-    // real caching state
-    QVERIFY(disk.useCache() == Options::NoCache);
+    // test workingPath here
 }
 
 void TestEpSimulator::cleanupTestCase() {

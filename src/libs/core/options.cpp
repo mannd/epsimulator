@@ -53,7 +53,7 @@ Options::Options() :  screenFlags(DefaultScreenFlags),
 		      permanentDelete(false),
 		      simulationControlFlags(DefaultUserControl),
                       passwordHash(),
-		      useCache(AutoCache),
+		      cacheControl(AutoCache),
 		      numChannels(48)
 {
     EpCore::SystemStorage systemStorage;
@@ -107,7 +107,8 @@ void Options::readSettings() {
         filePathFlags, settings);
     recorderFlags = readFlags<RecorderFlags>("recorderFlags",
         recorderFlags, settings);
-    useCache = readFlags<UseCache>("useCache", useCache, settings);
+    cacheControl = readFlags<CacheControl>("cacheControl", cacheControl, 
+                                           settings);
     /// TODO other options here...
 
     settings.endGroup();
@@ -162,7 +163,7 @@ void Options::writeSettings() {
     settings.setValue("opticalDiskFlags", int(opticalDiskFlags));
     settings.setValue("filePathFlags", int(filePathFlags));
     settings.setValue("recorderFlags", int(recorderFlags));
-    settings.setValue("useCache", int(useCache));
+    settings.setValue("cacheControl", int(cacheControl));
     /// TODO add other options here...
 
     settings.endGroup();

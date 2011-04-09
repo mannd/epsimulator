@@ -149,9 +149,9 @@ static QString systemCatalogDbFilePath() {
 static bool createEmptyCatalog() {
     if (!QFile::exists(systemCatalogDbFilePath())) {
         if (!QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
-                                           "db/"
-                                           + QString(EpCore::Constants::
-                                                     EPSIM_CATALOG_DB_FILENAME)), 
+                                           "db/",
+                                           QString(EpCore::Constants::
+                                                   EPSIM_CATALOG_DB_FILENAME)), 
                          systemCatalogDbFilePath())) {
             QMessageBox::critical(0, QObject::tr("Database Error"),
                                   QObject::tr("Cannot find or create "
@@ -185,9 +185,9 @@ static void displayVersion() {
              << "Build"
              << EpCore::Constants::APP_VERSION_BUILD_STR;
     qDebug() << "Compiled using Qt Version"
-             << QT_VERSION_STR << ".";
+             << QT_VERSION_STR;
     qDebug() << "Running on Qt Version"
-             << qVersion() << ".";
+             << qVersion();
 }
 
 static void displayMessages() {
