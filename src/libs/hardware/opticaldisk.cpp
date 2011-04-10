@@ -75,6 +75,8 @@ OpticalDisk::OpticalDisk(const QString& path, const QString& cachePath)
     setCacheControl(Options::AutoCache);
 }
 
+OpticalDisk::~OpticalDisk() {}
+
 void OpticalDisk::setCacheControl(Options::CacheControl cacheControl) {
     switch(cacheControl) {
     case Options::AutoCache:
@@ -88,7 +90,9 @@ void OpticalDisk::setCacheControl(Options::CacheControl cacheControl) {
     }
 }
 
-OpticalDisk::~OpticalDisk() {}
+bool OpticalDisk::isRemovable() const {
+    return EpCore::isRemovableMedia(path_);
+}
 
 void OpticalDisk::init() {
     if (initialized_)
@@ -107,8 +111,30 @@ void OpticalDisk::init() {
     }
     readLabel();                // reads label.dat in workingPath_
                                 // or creates it
-    /// TODO create catalog file in workingPath_
+    if (!workingCatalogFileExists())
+        if (!createWorkingCatalogFile())
+            throw EpCore::WriteError(EpCore::Constants::EPSIM_CATALOG_DB_FILENAME);
     initialized_ = true;
+}
+
+void OpticalDisk::clearCache() {
+    if (!useCache())
+        return;
+    QDir cacheDir(cachePath_);
+    if (cacheDir.exists())
+        EpCore::deleteDirContents(cachePath_);
+}
+
+bool OpticalDisk::workingCatalogFileExists() {
+    return QDir(workingPath_).exists(EpCore::Constants::EPSIM_CATALOG_DB_FILENAME);
+}
+
+bool OpticalDisk::createWorkingCatalogFile() {
+    return QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
+                                         "db/",
+                                         QString(EpCore::Constants::
+                                                 EPSIM_CATALOG_DB_FILENAME)), 
+                       workingPath_);
 }
 
 // done with disk, copy cache is necessary
@@ -119,11 +145,16 @@ void OpticalDisk::close() {
         QStringList files;
         files << labelFileName_ 
               << EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
-        if (!isRemovable())
+        if (!isRemovable()) {
             EpCore::copyFilesToPath(files, cachePath_, path_);
-        else
+            EpCore::deleteDir(studiesPath());
+            EpCore::copyDir(EpCore::joinPaths(workingPath_, studiesDirName_),
+                            path_);
+        }
+        else {
             burn(files, cachePath_);
-        // closeStudy(); // copy or burn study files
+            //burn studies directory from cachePath_ to path_
+        }
         clearCache();
     }
     initialized_ = false;
@@ -133,17 +164,6 @@ QString OpticalDisk::makeStudiesPath(const QString& path) {
     return EpCore::joinPaths(path, studiesDirName_);
 }
 
-bool OpticalDisk::isRemovable() const {
-    return EpCore::isRemovableMedia(path_);
-}
-
-void OpticalDisk::clearCache() {
-    if (!useCache())
-        return;
-    QDir cacheDir(cachePath_);
-    if (cacheDir.exists())
-        EpCore::deleteDirContents(cachePath_);
-}
 
 /**
  * Displays change disk message.  Does nothing unless the actual disk is

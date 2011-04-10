@@ -133,6 +133,8 @@ protected:
     QString workingPath() const {return workingPath_;}
 private:
     OpticalDisk(OpticalDisk&);
+    bool workingCatalogFileExists();
+    bool createWorkingCatalogFile();
     
     static const QString studiesDirName_;
 
