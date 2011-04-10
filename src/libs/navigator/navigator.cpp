@@ -903,8 +903,6 @@ void Navigator::createCentralWidget() {
     createTableListView();
     refreshCatalogs();
 }
-
-
 // Create the "blue bar" to the side of the Navigator window.  Uses
 // setupButton to make each button.  The parent of the buttonFrame is
 // the centralWidget_.  This is also the parent of the 

@@ -107,8 +107,22 @@ void OpticalDisk::init() {
     }
     readLabel();                // reads label.dat in workingPath_
                                 // or creates it
-    /// TODO create catalog file in workingPath_
+    if (!workingCatalogFileExists())
+        if (!createWorkingCatalogFile())
+            throw EpCore::WriteError(EpCore::Constants::EPSIM_CATALOG_DB_FILENAME);
     initialized_ = true;
+}
+
+bool OpticalDisk::workingCatalogFileExists() {
+    return QDir(workingPath_).exists(EpCore::Constants::EPSIM_CATALOG_DB_FILENAME);
+}
+
+bool OpticalDisk::createWorkingCatalogFile() {
+    return QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
+                                         "db/",
+                                         QString(EpCore::Constants::
+                                                 EPSIM_CATALOG_DB_FILENAME)), 
+                       workingPath_);
 }
 
 // done with disk, copy cache is necessary
