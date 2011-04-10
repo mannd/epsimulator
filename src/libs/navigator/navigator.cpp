@@ -91,7 +91,7 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
                                         filterCatalogDialog_(0),
                                         currentDisk_(0) {
     setAttribute(Qt::WA_DeleteOnClose);
-    setMinimumWidth(800);
+    setMinimumWidth(1000);
     options_->load();  // options_ is protected member of AbstractMainWindow
     createOpticalDrive();
     createCatalogs();    
