@@ -325,6 +325,8 @@ void TestEpSimulator::testOptions() {
 
 void TestEpSimulator::testOptionsFlags() {
     Options* o = Options::instance();
+    o->readSettings();
+    bool originalEnableAcquisition = o->filePathFlags.testFlag(Options::EnableAcquisition);
     setFlag(o->filePathFlags, Options::EnableAcquisition);
     QVERIFY(o->filePathFlags.testFlag(Options::EnableAcquisition));
     clearFlag(o->filePathFlags, Options::EnableAcquisition);
@@ -332,6 +334,14 @@ void TestEpSimulator::testOptionsFlags() {
     o->writeSettings();
     o->readSettings();  // enable acquisition should still be off
     QVERIFY(!o->filePathFlags.testFlag(Options::EnableAcquisition));
+    // turn it back on, or it will mess up epsimulator
+    if (originalEnableAcquisition)
+        setFlag(o->filePathFlags, Options::EnableAcquisition);
+    else
+        clearFlag(o->filePathFlags, Options::EnableAcquisition);
+    o->writeSettings();
+    QVERIFY(o->filePathFlags.testFlag(Options::EnableAcquisition) 
+            == originalEnableAcquisition);
 }
 
 void TestEpSimulator::testOpticalDisk() {
