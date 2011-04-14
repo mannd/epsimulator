@@ -31,6 +31,7 @@
 #include <QMessageBox>
 #include <QProcess>
 #include <QSettings>
+#include <QSqlDatabase>
 #include <QStringList>
 
 #include <QtDebug>
@@ -115,6 +116,21 @@ void OpticalDisk::init() {
         if (!createWorkingCatalogFile())
             throw EpCore::WriteError(EpCore::Constants::EPSIM_CATALOG_DB_FILENAME);
     initialized_ = true;
+}
+
+void OpticalDisk::createOpticalCatalogDbConnection() {
+    // catalog.db must be present, don't call until init() called
+    Q_ASSERT(initialized_);
+    QSqlDatabase db = QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB,
+                                                EpCore::Constants::EPSIM_OPTICAL_DB);
+    db.setHostName(EpCore::Constants::EPSIM_DB_HOSTNAME);
+    db.setDatabaseName(EpCore::joinPaths(workingPath_, 
+                                         EpCore::Constants::EPSIM_CATALOG_DB_FILENAME));
+    db.setUserName(EpCore::Constants::EPSIM_DB_USERNAME);
+    db.setPassword(EpCore::Constants::EPSIM_DB_PASSWORD);
+    if (!db.open()) {
+        // throw
+    }
 }
 
 void OpticalDisk::clearCache() {

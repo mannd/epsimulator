@@ -52,7 +52,10 @@ public:
         CatalogEntry_StudyNumber = 8,
         CatalogEntry_StudyLocation = 9
     };
-    enum FilterStudyType {AnyStudyType, StudyType, PreregisterType};
+    enum FilterStudyType {AnyStudyType, 
+                          StudyType, 
+                          PreregisterType
+    };
 
     StudyTable(QWidget* parent = 0);
 

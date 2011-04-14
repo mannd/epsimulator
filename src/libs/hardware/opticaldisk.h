@@ -135,6 +135,7 @@ private:
     OpticalDisk(OpticalDisk&);
     bool workingCatalogFileExists();
     bool createWorkingCatalogFile();
+    void createOpticalCatalogDbConnection();
     
     static const QString studiesDirName_;
 
