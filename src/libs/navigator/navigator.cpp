@@ -129,39 +129,35 @@ void Navigator::closeEvent(QCloseEvent* event) {
 
 // Blue bar actions
 void Navigator::newStudy() {
-    // actually New Study button is grayed out if EnableAcquisition not set,
-    // but just in case...
-    if (!options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
-        QMessageBox::information(this, tr("Acquisition Not Enabled"),
-            tr("This workstation is not set up for acquisition. "
-            "Select the System Settings menu item to enable acquisition."));
-	return;
-    }
-    if (!currentDisk_->isLabeled()) 
+    // New Study button is grayed out/absent if EnableAcquisition not set,
+    // so this shouldn't happen:
+    Q_ASSERT(options_->filePathFlags.testFlag(Options::EnableAcquisition));
+    if (!currentDisk_->isLabeled()) {
         relabelDisk();
+        if (!currentDisk_->isLabeled())
+            return; // couldn't label disk so bail out
+    }
     // if after all the above we finally have a label...
-    if (currentDisk_->isLabeled()) {
-        Study* study = getNewStudy();
-        SelectStudyConfigDialog* selectStudyConfigDialog  =
-            new SelectStudyConfigDialog(this);
-        if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
-            study->setPreregisterStudy(false);
-            study->setStudyConfiguration(selectStudyConfigDialog
-                                         ->studyConfiguration());
-            if (getStudyInformation(study)) {
-                catalogs_->addStudy(study, currentDisk_->label(),
-                                    currentDisk_->translatedSide(),
-                                    options_->labName, user_->machineName());
-                refreshCatalogs();
-                startStudy(study);
-            }
-            else
-                delete study;
+    Study* study = getNewStudy();
+    SelectStudyConfigDialog* selectStudyConfigDialog  =
+        new SelectStudyConfigDialog(this);
+    if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
+        study->setPreregisterStudy(false);
+        study->setStudyConfiguration(selectStudyConfigDialog
+                                     ->studyConfiguration());
+        if (getStudyInformation(study)) {
+            catalogs_->addStudy(study, currentDisk_->label(),
+                                currentDisk_->translatedSide(),
+                                options_->labName, user_->machineName());
+            refreshCatalogs();
+            startStudy(study);
         }
         else
             delete study;
-        delete selectStudyConfigDialog;
     }
+    else
+        delete study;
+    delete selectStudyConfigDialog;
 }
 
 void Navigator::continueStudy() {
@@ -607,7 +603,6 @@ void Navigator::ejectDisk() {
 //                  flipping 1 sided disks)
 //               Relabeling: don't allow any side changes at all
 //           OpticalDisk::allowSideChange() will set itself appropriately
-
 void Navigator::labelDisk(bool reLabel) {
     DiskLabelDialog* diskLabelDialog = new DiskLabelDialog(this);
     QString oldLabel = currentDisk_->label();
