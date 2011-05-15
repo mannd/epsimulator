@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>9</number>
+    <number>8</number>
    </property>
    <widget class="QWidget" name="consciousSedationTab">
     <attribute name="title">
@@ -79,11 +79,6 @@
    <widget class="QWidget" name="ordersTab">
     <attribute name="title">
      <string>Orders</string>
-    </attribute>
-   </widget>
-   <widget class="QWidget" name="complicationsTab">
-    <attribute name="title">
-     <string>Complications</string>
     </attribute>
    </widget>
    <widget class="QWidget" name="contrastTab">

@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
@@ -229,50 +229,84 @@
       <attribute name="title">
        <string>Recorder</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="showTileCascadeCheckBox">
-         <property name="text">
-          <string>Show Tile and Cascade Menu Items</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="emulateWindowsManagerCheckBox">
-         <property name="text">
-          <string>Emulate CardioLab Windows Manager</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="emulatePruckaTilingCheckBox">
-         <property name="text">
-          <string>Tiling Using CardioLab Layout</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="immovablePatientStatusBarCheckBox">
-         <property name="text">
-          <string>Immovable Patient Status Bar</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QCheckBox" name="patientStatusBarHasTitleCheckBox">
-         <property name="text">
-          <string>Patient Status Bar Has Title</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QCheckBox" name="recorderHasStatusBarCheckBox">
-         <property name="text">
-          <string>Recorder Window Has Status Bar</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QCheckBox" name="showTileCascadeCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>42</y>
+         <width>235</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Show Tile and Cascade Menu Items</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="emulateWindowsManagerCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>107</y>
+         <width>248</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Emulate CardioLab Windows Manager</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="emulatePruckaTilingCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>172</y>
+         <width>199</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Tiling Using CardioLab Layout</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="immovablePatientStatusBarCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>237</y>
+         <width>199</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Immovable Patient Status Bar</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="patientStatusBarHasTitleCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>302</y>
+         <width>189</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Patient Status Bar Has Title</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="recorderHasStatusBarCheckBox">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>367</y>
+         <width>222</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Recorder Window Has Status Bar</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="tabHardware">
       <attribute name="title">

@@ -59,6 +59,7 @@ AbstractMainWindow::AbstractMainWindow(Options* options,
 
 AbstractMainWindow::~AbstractMainWindow() {
     delete user_;
+    delete options_;
 }
 
 void AbstractMainWindow::simulatorSettings() {

@@ -90,7 +90,7 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
                                         currentDisk_(0) {
     setAttribute(Qt::WA_DeleteOnClose);
     setMinimumWidth(1000);
-    options_->load();  // options_ is protected member of AbstractMainWindow
+    options()->load();
     createOpticalDrive();
     createCatalogs();    
     createActions();
@@ -108,7 +108,6 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
 Navigator::~Navigator() {
     delete catalogs_;
     delete currentDisk_;
-    delete options_;
 }
 
 void Navigator::clearSelection() {
@@ -128,7 +127,7 @@ void Navigator::closeEvent(QCloseEvent* event) {
 void Navigator::newStudy() {
     // New Study button is grayed out/absent if EnableAcquisition not set,
     // so this shouldn't happen:
-    Q_ASSERT(options_->filePathFlags.testFlag(Options::EnableAcquisition));
+    Q_ASSERT(options()->filePathFlags.testFlag(Options::EnableAcquisition));
     if (!currentDisk_->isLabeled()) {
         relabelDisk();
         if (!currentDisk_->isLabeled())
@@ -145,7 +144,7 @@ void Navigator::newStudy() {
         if (getStudyInformation(study)) {
             catalogs_->addStudy(study, currentDisk_->label(),
                                 currentDisk_->translatedSide(),
-                                options_->labName, user()->machineName());
+                                options()->labName, user()->machineName());
             refreshCatalogs();
             startStudy(study);
         }
@@ -173,7 +172,7 @@ void Navigator::continueStudy() {
             study->setPreregisterStudy(false);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),
-                    options_->labName, user()->machineName());
+                    options()->labName, user()->machineName());
             refreshCatalogs();
             startStudy(study);
         }
@@ -331,12 +330,12 @@ void Navigator::moveStudyData(MoveCopyStudyDialog& dialog,
                 regenerateCatalogs();
             else
                 c.create(currentDisk_->label(), currentDisk_->side(),
-                          options_->labName, user()->machineName());
+                          options()->labName, user()->machineName());
         }
         else {    // we are copying from disk or dir to dir
             EpCore::copyDir(tmpDir.absolutePath(), dialog.destinationPath());
             OpticalCatalog c(dialog.destinationPath());
-            c.create(dialog.destinationPath(), QString(), options_->labName,
+            c.create(dialog.destinationPath(), QString(), options()->labName,
                 user()->machineName());
         }
     }
@@ -369,7 +368,7 @@ void Navigator::deleteStudy() {
                 refreshCatalogs();
                 // delete item;
                 if (!study->isPreregisterStudy() 
-                    && options_->permanentDelete)
+                    && options()->permanentDelete)
                     EpCore::deleteDir(currentDisk_->studiesPath() 
                         + study->dirName());
             }
@@ -409,7 +408,7 @@ void Navigator::unfilterStudies() {
 }
 
 void Navigator::refreshCatalogs() {
-    bool includeNetwork = options_->
+    bool includeNetwork = options()->
                           filePathFlags.testFlag(Options::EnableNetworkStorage);
     catalogComboBox_->refresh(includeNetwork);
     catalogs_->refresh();
@@ -425,7 +424,7 @@ void Navigator::applyFilter() {
 
 void Navigator::regenerateCatalogs() {
     catalogs_->regenerate(currentDisk_->label(), currentDisk_->side(), 
-                          options_->labName, user()->machineName());
+                          options()->labName, user()->machineName());
     refreshCatalogs();
 }
 
@@ -479,7 +478,7 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                 if (flow == Export) {
                     statusBar()->showMessage(tr("Copying files..."));
                     EpCore::copyFilesToPath(selectedFiles,
-                                            options_->activeSystemPath(),
+                                            options()->activeSystemPath(),
                                             path, EpCore::Overwrite);
                     statusBar()->clearMessage();
                 }
@@ -702,7 +701,7 @@ void Navigator::updateWindowTitle() {
 }
 
 void Navigator::updateStatusBarUserLabel() {
-    statusBar_->updateUserLabel(options_->oldStyleNavigator ?
+    statusBar_->updateUserLabel(options()->oldStyleNavigator ?
         user()->role() : user()->name());
 }
 
@@ -743,7 +742,7 @@ void Navigator::setCatalogOptical() {
 
 void Navigator::setCatalogOther() {
     QFileDialog fd(this, tr("Select Catalog"),
-        options_->systemCatalogPath, Catalog::defaultFileName());
+        options()->systemCatalogPath, Catalog::defaultFileName());
     if (fd.exec() == QDialog::Accepted) {
         catalogs_->setCatalogPath(Catalog::Other, fd.directory().path());
         catalogs_->refresh();   // to reload Other catalog
@@ -785,7 +784,7 @@ void Navigator::updateSimulatorSettings() {
         createCentralWidget();
         delete catalogs_;
         createCatalogs();
-        tableListView_->setOldStyle(options_->oldStyleNavigator);
+        tableListView_->setOldStyle(options()->oldStyleNavigator);
         tableListView_->adjustColumns();
         refreshCatalogs();   // This repopulates the TableListView.
         // Need to do below to make sure user label
@@ -804,7 +803,7 @@ void Navigator::updateSimulatorSettings() {
 }
 
 void Navigator::updateSystemSettings() {
-    networkSwitchAction_->setEnabled(options_
+    networkSwitchAction_->setEnabled(options()
         ->filePathFlags.testFlag(Options::EnableNetworkStorage));
     // optical disk, status bar and catalog might be changed 
     createOpticalDrive();
@@ -825,24 +824,24 @@ void Navigator::initializeOpticalDisk() {
    try {
         delete currentDisk_;
         currentDisk_ = 0;
-        if (options_->opticalDiskFlags.testFlag(Options::Emulation)) {
+        if (options()->opticalDiskFlags.testFlag(Options::Emulation)) {
             currentDisk_ = EmulatedOpticalDisk::getLastDisk(
-                options_->opticalStudyPath);
+                options()->opticalStudyPath);
             if (!currentDisk_) {
                 currentDisk_ = new EmulatedOpticalDisk(
-                    options_->opticalStudyPath,
-                    options_->cachePath,
-                    options_->opticalDiskFlags.testFlag(Options::DualSided));
+                    options()->opticalStudyPath,
+                    options()->cachePath,
+                    options()->opticalDiskFlags.testFlag(Options::DualSided));
                 currentDisk_->saveLastDisk();
             }
         }
-        else if (!EpCore::isRemovableMedia(options_->opticalStudyPath))
-            currentDisk_ = new HardDrive(options_->opticalStudyPath,
-                                         options_->cachePath);
+        else if (!EpCore::isRemovableMedia(options()->opticalStudyPath))
+            currentDisk_ = new HardDrive(options()->opticalStudyPath,
+                                         options()->cachePath);
         else 
-            currentDisk_ = new OpticalDisk(options_->opticalStudyPath,
-                                           options_->cachePath);
-        currentDisk_->setCacheControl(options_->cacheControl);
+            currentDisk_ = new OpticalDisk(options()->opticalStudyPath,
+                                           options()->cachePath);
+        currentDisk_->setCacheControl(options()->cacheControl);
         currentDisk_->init();
         currentDisk_->readLabel();
     }
@@ -867,8 +866,8 @@ void Navigator::initializeOpticalDisk() {
                 QStringList files = fd->selectedFiles();
                 if (!files.isEmpty()) {
                     QString fileName = files[0];
-                    options_->opticalStudyPath = fileName;
-                    options_->writeSettings();
+                    options()->opticalStudyPath = fileName;
+                    options()->writeSettings();
                 }
             }
             delete fd;
@@ -885,7 +884,7 @@ void Navigator::createOpticalDrive() {
 }
 
 void Navigator::createCatalogs() {
-    catalogs_ = new Catalogs(options_, currentDisk_->labelPath());
+    catalogs_ = new Catalogs(options(), currentDisk_->labelPath());
 }
  
 void Navigator::createCentralWidget() {
@@ -901,13 +900,13 @@ void Navigator::createCentralWidget() {
 // the centralWidget_.  This is also the parent of the 
 // tableListView_.
 void Navigator::createButtonFrame() {
-    if (options_->bluePanelStyle ==
+    if (options()->bluePanelStyle ==
         Options::TransparentButtons) // set up flat buttons
         buttonFrame_ = new NewStyleButtonFrame(centralWidget_,
-                                               options_->bluePanelTweak);
+                                               options()->bluePanelTweak);
     else
         buttonFrame_ = new OldStyleButtonFrame(centralWidget_);
-    if (options_->filePathFlags.testFlag(Options::EnableAcquisition)) {
+    if (options()->filePathFlags.testFlag(Options::EnableAcquisition)) {
         buttonFrame_->addButton("New Study", "hi64-newstudy",
             SLOT(newStudy()));
     }
@@ -925,11 +924,11 @@ void Navigator::createButtonFrame() {
 // source is current in the catalogComboBox_.
 void Navigator::createTableListView() {
     // tableListView_ = new TableListView(centralWidget_,
-    //     options_->oldStyleNavigator);
+    //     options()->oldStyleNavigator);
     // connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
     //     int)), this, SLOT(newStudy()));
     tableListView_ = new TableListView(0,
-        options_->oldStyleNavigator);
+        options()->oldStyleNavigator);
     connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
         int)), this, SLOT(newStudy()));
     studyTable_ = new StudyTable(centralWidget_);
@@ -947,7 +946,7 @@ void Navigator::createStatusBar() {
 
 void Navigator::updateMenus() {
     simulatorSettingsAction()->setVisible(showSimulatorSettings());
-    bool enableAcquisition = options_->filePathFlags.testFlag(Options::EnableAcquisition);
+    bool enableAcquisition = options()->filePathFlags.testFlag(Options::EnableAcquisition);
     newAction_->setEnabled(enableAcquisition);
     continueAction_->setEnabled(enableAcquisition);
     preregisterAction_->setEnabled(enableAcquisition);
@@ -986,7 +985,7 @@ void Navigator::createActions() {
     networkSwitchAction_ = createAction(this, tr("Network"),
         tr("Switch to network catalog"), SLOT(setCatalogNetwork()));
     // networkSwitchAction_ only enabled if set in options
-    networkSwitchAction_->setEnabled(options_->
+    networkSwitchAction_->setEnabled(options()->
         filePathFlags.testFlag(Options::EnableNetworkStorage));
     systemSwitchAction_ = createAction(this, tr("System"),
         tr("Switch to system catalog"), SLOT(setCatalogSystem()));
@@ -1090,7 +1089,7 @@ void Navigator::createToolBars() {
     navigatorToolBar_ = new QToolBar(tr("Navigator")); 
     navigatorToolBar_->setObjectName("NavigatorToolBar");
     navigatorToolBar_->setAutoFillBackground(true);
-    catalogComboBox_ = new CatalogComboBox(options_->includeNetworkCatalog());
+    catalogComboBox_ = new CatalogComboBox(options()->includeNetworkCatalog());
     navigatorToolBar_->addWidget(catalogComboBox_);
     navigatorToolBar_->addSeparator();
     navigatorToolBar_->addAction(filterStudiesAction_);
@@ -1300,11 +1299,11 @@ void Navigator::startStudy(Study* study, bool review) {
     }
     study->setPath(studyPath);
     study->save();
-    bool allowAcquisition = options_->
+    bool allowAcquisition = options()->
         filePathFlags.testFlag(Options::EnableAcquisition) && !review;
     using EpRecorder::Recorder;
     Recorder* recorder = new Recorder(study, currentDisk_, user(),
-                                      options_, allowAcquisition,
+                                      options(), allowAcquisition,
                                       EpRecorder::Primary, this);
     recorder->restore();
     //recorder->setupInitialScreen();

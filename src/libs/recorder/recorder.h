@@ -327,7 +327,7 @@ void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow,
     if (!open && !alreadyOpen)
         return;
     if (open) {
-        internalWidget = new T(study_, options_, number);
+        internalWidget = new T(study_, options(), number);
         subWindow = centralWidget_->addSubWindow(internalWidget, 
             Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
         QMenu* systemMenu = new QMenu(subWindow);
@@ -336,7 +336,7 @@ void Recorder::openSubWindow(bool open, QMdiSubWindow*& subWindow,
         connect(closeAct, SIGNAL(triggered()), subWindow, SLOT(close()));
         systemMenu->addAction(closeAct);
         subWindow->setSystemMenu(systemMenu);
-        subWindow->setOption(QMdiSubWindow::RubberBandResize, options_->
+        subWindow->setOption(QMdiSubWindow::RubberBandResize, options()->
             screenFlags.testFlag(EpCore::Options::EmulateWindowsManager));
         subWindow->installEventFilter(this);
         subWindow->setMouseTracking(true);

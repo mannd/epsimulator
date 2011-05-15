@@ -57,6 +57,7 @@ protected:
     virtual void updateSystemSettings() = 0;
     virtual void readSettings() = 0;
     void filler();
+    EpCore::Options* options() const {return options_;}
     EpCore::User* user() const {return user_;}
 
     bool showSimulatorSettings();
@@ -76,7 +77,6 @@ protected:
     QAction* systemSettingsAction() {return systemSettingsAction_;}
 
     // protected data members not so bad in this case :)
-    EpCore::Options* options_;
 
                        
 protected slots:
@@ -99,6 +99,7 @@ private:
     void createActions();
     void changeDatabase();
 
+    EpCore::Options* options_;
     EpCore::User* user_;
 
     QAction* intervalsAction_;

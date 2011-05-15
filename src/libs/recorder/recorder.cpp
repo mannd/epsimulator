@@ -153,7 +153,7 @@ Recorder::~Recorder() {
     if (allowWriteSettings_)
         writeSettings();
     if (recorderWindow_ == Primary) {
-        //amplifier_->save(DataStream<Amplifier>::createDataStream(options_));
+        //amplifier_->save(DataStream<Amplifier>::createDataStream(options()));
         delete amplifier_;
         delete patient_;
         // Recorder took possession of study_, so has to kill it now.
@@ -162,7 +162,7 @@ Recorder::~Recorder() {
 }
 
 void Recorder::loadAmplifier() {
-    // DataStream<Amplifier>* dataStream = DataStream<Amplifier>::createDataStream(options_);
+    // DataStream<Amplifier>* dataStream = DataStream<Amplifier>::createDataStream(options());
     // amplifier_->load(dataStream);
     // delete dataStream;
     //EpCore::SystemData<EpHardware::EpAmplifier::Amplifier> systemData(options_);
@@ -248,7 +248,7 @@ void Recorder::setupInitialScreen(bool tile) {
         hide();
     centralWidget_->update();
     centralWidget_->closeAllSubWindows();
-    if (options_->screenFlags.testFlag(Options::TwoRecorderWindows)) {
+    if (options()->screenFlags.testFlag(Options::TwoRecorderWindows)) {
         if (recorderWindow_ == Primary && allowAcquisition_) {
             realTimeWindowOpen(true);
         }
@@ -384,7 +384,7 @@ void Recorder::newWindow() {
         return;                 // only allow a single secondary window
     if (administrationAllowed()) {
         Recorder* newRecorder = new Recorder(study_, currentDisk_,
-                                             user(), options_, false, Secondary,
+                                             user(), options(), false, Secondary,
                                              this);
         newRecorder->restore();
         secondaryRecorderPresent_ = true;
@@ -429,10 +429,10 @@ void Recorder::updateSystemSettings() {
 void Recorder::updateSimulatorSettings() {
     QDockWidget* dockWidget =
         qobject_cast<QDockWidget*>(patientStatusBar_->parentWidget());
-    dockWidget->setWindowTitle(options_->recorderFlags
+    dockWidget->setWindowTitle(options()->recorderFlags
                                .testFlag(Options::PatientStatusBarHasTitle)
         ? tr("Patient Status") : "");
-    if (options_->recorderFlags.testFlag(Options::ImmovablePatientStatusBar))
+    if (options()->recorderFlags.testFlag(Options::ImmovablePatientStatusBar))
         dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     else
         dockWidget->setFeatures(QDockWidget::DockWidgetClosable
@@ -461,7 +461,7 @@ void Recorder::connectReviewWindows() {
 void Recorder::realTimeWindowOpen(bool open) {
     openSubWindow(open, realTimeSubWindow_, realTimeWindow_);
     // no system menu or close button if we are emulating Prucka
-    if (open && options_->screenFlags.testFlag(Options::EmulateWindowsManager))
+    if (open && options()->screenFlags.testFlag(Options::EmulateWindowsManager))
         realTimeSubWindow_->setWindowFlags(realTimeSubWindow_->windowFlags() 
             & ~Qt::WindowSystemMenuHint);
 }
@@ -652,8 +652,8 @@ void Recorder::openSatMonitor() {
 }
 
 void Recorder::tileSubWindows() {
-    if (options_->screenFlags.testFlag(Options::EmulateWindowsManager) ||
-        options_->screenFlags.testFlag(Options::EmulatePruckaTiling))
+    if (options()->screenFlags.testFlag(Options::EmulateWindowsManager) ||
+        options()->screenFlags.testFlag(Options::EmulatePruckaTiling))
         // Prucka-like tiling
         setupInitialScreen(true);
     else
@@ -677,7 +677,7 @@ void Recorder::cascadeSubWindows() {
  * to the PatientStatusBar.
  */
 void Recorder::createStatusBar() {
-    if (options_->recorderFlags.testFlag(Options::RecorderHasStatusBar))
+    if (options()->recorderFlags.testFlag(Options::RecorderHasStatusBar))
         statusBar()->showMessage(QString());
     else
         statusBar()->hide();
@@ -1057,9 +1057,9 @@ void Recorder::updateMenus() {
     logAction_->setChecked(logPresent);
     realTimeAction_->setEnabled(allowAcquisition_
                                 && recorderWindow_ != Secondary);
-    tileAction_->setVisible(options_->screenFlags
+    tileAction_->setVisible(options()->screenFlags
                             .testFlag(Options::ShowTileCascade));
-    cascadeAction_->setVisible(options_->screenFlags.testFlag
+    cascadeAction_->setVisible(options()->screenFlags.testFlag
                               (Options::ShowTileCascade));
 }
 
@@ -1068,7 +1068,7 @@ void Recorder::saveStudyConfiguration() {
         return;
 //    StudyConfigurations configList;
 //    DataStream<StudyConfigurations>* dataStream =
-//        DataStream<StudyConfigurations>::createDataStream(options_);
+//        DataStream<StudyConfigurations>::createDataStream(options());
 //    configList.replace(*study_->studyConfiguration());
 //    configList.save(dataStream);
 //    delete dataStream;
