@@ -68,7 +68,6 @@ public slots:
 
 protected:
     void closeEvent(QCloseEvent*);
-    virtual EpCore::User* user() const {return user_;}
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const {
         return currentDisk_;}
 

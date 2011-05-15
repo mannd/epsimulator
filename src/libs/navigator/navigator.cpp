@@ -42,7 +42,6 @@
 #include "statusbar.h"
 #include "study.h"
 #include "studyconfiguration.h"
-#include "studymanager.h"
 #include "studytable.h"
 #include "systemstorage.h"
 #include "tablelistview.h"
@@ -80,7 +79,6 @@ using EpGui::PatientDialog;
 using EpGui::SelectStudyConfigDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
-using EpStudy::StudyManager;
 using EpNavigator::Navigator;
 
 using namespace EpHardware::EpOpticalDisk;
@@ -110,7 +108,6 @@ Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
 Navigator::~Navigator() {
     delete catalogs_;
     delete currentDisk_;
-    delete user_;
     delete options_;
 }
 
@@ -148,7 +145,7 @@ void Navigator::newStudy() {
         if (getStudyInformation(study)) {
             catalogs_->addStudy(study, currentDisk_->label(),
                                 currentDisk_->translatedSide(),
-                                options_->labName, user_->machineName());
+                                options_->labName, user()->machineName());
             refreshCatalogs();
             startStudy(study);
         }
@@ -176,7 +173,7 @@ void Navigator::continueStudy() {
             study->setPreregisterStudy(false);
             catalogs_->addStudy(study, currentDisk_->label(),
                     currentDisk_->translatedSide(),
-                    options_->labName, user_->machineName());
+                    options_->labName, user()->machineName());
             refreshCatalogs();
             startStudy(study);
         }
@@ -334,13 +331,13 @@ void Navigator::moveStudyData(MoveCopyStudyDialog& dialog,
                 regenerateCatalogs();
             else
                 c.create(currentDisk_->label(), currentDisk_->side(),
-                          options_->labName, user_->machineName());
+                          options_->labName, user()->machineName());
         }
         else {    // we are copying from disk or dir to dir
             EpCore::copyDir(tmpDir.absolutePath(), dialog.destinationPath());
             OpticalCatalog c(dialog.destinationPath());
             c.create(dialog.destinationPath(), QString(), options_->labName,
-                user_->machineName());
+                user()->machineName());
         }
     }
 }
@@ -428,7 +425,7 @@ void Navigator::applyFilter() {
 
 void Navigator::regenerateCatalogs() {
     catalogs_->regenerate(currentDisk_->label(), currentDisk_->side(), 
-                          options_->labName, user_->machineName());
+                          options_->labName, user()->machineName());
     refreshCatalogs();
 }
 
@@ -706,7 +703,7 @@ void Navigator::updateWindowTitle() {
 
 void Navigator::updateStatusBarUserLabel() {
     statusBar_->updateUserLabel(options_->oldStyleNavigator ?
-        user_->role() : user_->name());
+        user()->role() : user()->name());
 }
 
 void Navigator::updateAll() {
@@ -1306,7 +1303,7 @@ void Navigator::startStudy(Study* study, bool review) {
     bool allowAcquisition = options_->
         filePathFlags.testFlag(Options::EnableAcquisition) && !review;
     using EpRecorder::Recorder;
-    Recorder* recorder = new Recorder(study, currentDisk_, user_,
+    Recorder* recorder = new Recorder(study, currentDisk_, user(),
                                       options_, allowAcquisition,
                                       EpRecorder::Primary, this);
     recorder->restore();

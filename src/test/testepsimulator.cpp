@@ -42,7 +42,6 @@
 #include "saturation.h"
 #include "study.h"
 #include "studyconfiguration.h"
-#include "studymanager.h"
 #include "studytable.h"
 #include "systemstorage.h"
 #include "user.h"
@@ -865,13 +864,6 @@ void TestEpSimulator::testMark() {
     QVERIFY(mark.name() == tr("V4"));
     mark.setType(Mark::V5);
     QVERIFY(mark.name() == tr("V5"));
-}
-
-void TestEpSimulator::testStudyManager() {
-    StudyManager s("system","cache", "", "");
-    QVERIFY(s.cachePath() == "system/cache");
-    StudyManager s1;            // test default constructor
-    QVERIFY(s1.cachePath() == QString());
 }
 
 void TestEpSimulator::testSystemStorage() {

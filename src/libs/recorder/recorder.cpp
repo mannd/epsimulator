@@ -384,7 +384,7 @@ void Recorder::newWindow() {
         return;                 // only allow a single secondary window
     if (administrationAllowed()) {
         Recorder* newRecorder = new Recorder(study_, currentDisk_,
-                                             user_, options_, false, Secondary,
+                                             user(), options_, false, Secondary,
                                              this);
         newRecorder->restore();
         secondaryRecorderPresent_ = true;

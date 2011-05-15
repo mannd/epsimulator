@@ -27,20 +27,10 @@
 #include <QLineEdit>
 #include <QObject>
 
-/**
- * @namespace EpGui program functions that require QtGui
- */
 namespace EpGui {
 
 using EpCore::Options;
 
-/**
- * Opens a file dialog and provides a file for the lineEdit.
- * @param parent calling QDialog.
- * @param lineEdit function modifies the Text property of the LineEdit
- * @param defaultPath uses this path if lineEdit text is empty.  Avoids
- * random paths appearing, but is an optional parameter.
- */
 void browseFilePaths(QWidget* parent, QLineEdit* lineEdit,
                      const QString& defaultPath) {
     QString initialPath = defaultPath;
@@ -58,17 +48,6 @@ void browseFilePaths(QWidget* parent, QLineEdit* lineEdit,
     }
 }
 
-/**
- * Sets up icon, status tip, and slot for an action.  Note that
- * a slot must be passed as a const char*.
- * @param w calling QWidget. 
- * @param name name of action.
- * @param statusTip status tip.
- * @param slotName name of slot to be signaled by triggered(bool).
- * @param accelKey shortcut key,if any.
- * @param iconName icon, if any.  Just the name, no path.
- * @return pointer to the created QAction.
- */
 QAction* createAction(QWidget* w,
                       const QString& name,
                       const QString& statusTip,

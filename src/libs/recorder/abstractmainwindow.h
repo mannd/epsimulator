@@ -36,10 +36,6 @@ class OpticalDisk;
 }
 }
 
-namespace EpStudy {
-class StudyManager;
-}
-
 namespace EpGui {
 
 class AbstractMainWindow : public QMainWindow {
@@ -61,6 +57,8 @@ protected:
     virtual void updateSystemSettings() = 0;
     virtual void readSettings() = 0;
     void filler();
+    EpCore::User* user() const {return user_;}
+
     bool showSimulatorSettings();
     void updateWindowTitle(const QString& title = QString());
     bool administrationAllowed();
@@ -79,8 +77,7 @@ protected:
 
     // protected data members not so bad in this case :)
     EpCore::Options* options_;
-    EpCore::User* user_;                             
-    EpStudy::StudyManager* studyManager_;
+
                        
 protected slots:
     void about();
@@ -101,6 +98,8 @@ signals:
 private:
     void createActions();
     void changeDatabase();
+
+    EpCore::User* user_;
 
     QAction* intervalsAction_;
     QAction* columnFormatsAction_;

@@ -32,7 +32,6 @@
 #include "options.h"
 #include "passworddialog.h"
 #include "simulatorsettingsdialog.h"
-#include "studymanager.h"
 #include "systemdialog.h"
 #include "systemstorage.h"
 #include "user.h"
@@ -48,18 +47,19 @@ using EpCore::User;
 using EpCore::isRemovableMedia;
 using EpGui::AbstractMainWindow;
 using EpHardware::EpOpticalDisk::OpticalDisk;
-using EpStudy::StudyManager;
 using namespace EpCore::Constants;
 
 AbstractMainWindow::AbstractMainWindow(Options* options, 
                                        User* user,
                                        QWidget *parent)
     : QMainWindow(parent), options_(options),
-    user_(user), studyManager_(0) {
+    user_(user) {
     createActions();
 }
 
-AbstractMainWindow::~AbstractMainWindow() {}
+AbstractMainWindow::~AbstractMainWindow() {
+    delete user_;
+}
 
 void AbstractMainWindow::simulatorSettings() {
     if (administrationAllowed()) {
@@ -157,13 +157,7 @@ void AbstractMainWindow::systemSettings() {
             }
             options_->save();
             updateSystemSettings();
-            delete studyManager_;
-            studyManager_ = new StudyManager(options_->systemCatalogPath,
-                                     QString(".epsimulator"),
-                                     options_->opticalStudyPath,
-                                     options_->networkStudyPath);
-
-        }
+         }
     }
 }
 

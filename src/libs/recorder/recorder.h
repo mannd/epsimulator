@@ -91,7 +91,6 @@ public slots:
 
 protected:
     // these are definitions of abstract virtual functions in EpGui::AbstractMainWindow
-    virtual EpCore::User* user() const {return user_;}
     virtual EpHardware::EpOpticalDisk::OpticalDisk* currentDisk() const {return currentDisk_;}
     void closeEvent(QCloseEvent*);
 

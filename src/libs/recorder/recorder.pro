@@ -18,8 +18,7 @@ SOURCES += recorder.cpp \
     windowsetting.cpp \
     editprotocoldialog.cpp \
     editprotocolsdialog.cpp \
-    abstractmainwindow.cpp \
-    studymanager.cpp
+    abstractmainwindow.cpp
 HEADERS += recorder.h \
     patientdialog.h \
     patientstatusbar.h \
@@ -37,8 +36,7 @@ HEADERS += recorder.h \
     windowsetting.h \
     editprotocoldialog.h \
     editprotocolsdialog.h \
-    abstractmainwindow.h \
-    studymanager.h
+    abstractmainwindow.h
 INCLUDEPATH += ../gui \
     ../stimulator \
     ../patient \

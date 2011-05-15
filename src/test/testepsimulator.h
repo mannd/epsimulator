@@ -76,7 +76,6 @@ private slots:
     void testInterval();
     void testMark();
     void testColumnFormat();
-    void testStudyManager();
     void testSystemStorage();
     void testRemovableMedia();
     void testPatient();
