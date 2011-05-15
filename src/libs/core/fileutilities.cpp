@@ -205,7 +205,7 @@ void EpCore::copyFilesToPath(const QStringList& files,
     if (QDir(sourcePath) == QDir(destPath))
         throw EpCore::SourceDestinationSameError(sourcePath);
     if (files.isEmpty())
-        throw EpCore::FileNotFoundError("", "File list is empty.");
+        return; // cause nothing to do
     QStringListIterator iter(files);
     QString fileName;
     QString sourceFilePath;
@@ -220,8 +220,8 @@ void EpCore::copyFilesToPath(const QStringList& files,
             QFile(destFilePath).remove();
         // below will not overwrite files therefore above
         QFile::copy(sourceFilePath, destFilePath);
-        qDebug() << "Copying " << fileName << " from "
-                << sourcePath << " to " << destPath;
+//        qDebug() << "Copying " << fileName << " from "
+//                << sourcePath << " to " << destPath;
     }
 }
 

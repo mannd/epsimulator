@@ -71,7 +71,13 @@ OpticalDisk::OpticalDisk(const QString& path, const QString& cachePath)
     : path_(path),
       cachePath_(cachePath),
       initialized_(false) {
-    Q_ASSERT(path != cachePath); // we don't want this because clearing
+    // make sure absolute paths are used
+    QDir pathDir = QDir(path_);
+    QDir cachePathDir = QDir(cachePath_);
+    path_ = pathDir.absolutePath();
+    cachePath_ = cachePathDir.absolutePath();
+
+    Q_ASSERT(pathDir != cachePathDir); // we don't want this because clearing
                                  // cache would erase data
     setCacheControl(Options::AutoCache);
 }
@@ -101,6 +107,7 @@ void OpticalDisk::init() {
     bool labelFileExists = QDir(path_).exists(labelFileName_);
     bool catalogFileExists = QDir(path_)
         .exists(EpCore::Constants::EPSIM_CATALOG_DB_FILENAME);
+    bool studiesDirExists = QDir(path_).exists(studiesDirName_);
     if (useCache_) {
         clearCache();
         QStringList files;
@@ -109,12 +116,19 @@ void OpticalDisk::init() {
         if (catalogFileExists)
             files << EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
         EpCore::copyFilesToPath(files, path_, cachePath_);
+        if (studiesDirExists)
+            EpCore::copyDir(EpCore::joinPaths(path_, studiesDirName_),
+                            cachePath_);
     }
     readLabel();                // reads label.dat in workingPath_
                                 // or creates it
     if (!workingCatalogFileExists())
         if (!createWorkingCatalogFile())
-            throw EpCore::WriteError(EpCore::Constants::EPSIM_CATALOG_DB_FILENAME);
+            throw EpCore::WriteError(EpCore::Constants::
+                                     EPSIM_CATALOG_DB_FILENAME);
+    // create studies dir here if needed
+    if (!QDir(workingPath_).exists(studiesDirName_))
+        QDir(workingPath_).mkdir(studiesDirName_);
     initialized_ = true;
 }
 
@@ -146,11 +160,12 @@ bool OpticalDisk::workingCatalogFileExists() {
 }
 
 bool OpticalDisk::createWorkingCatalogFile() {
-    return QFile::copy(EpCore::joinPaths(EpCore::rootPath(),
-                                         "db/",
-                                         QString(EpCore::Constants::
-                                                 EPSIM_CATALOG_DB_FILENAME)), 
-                       workingPath_);
+    QString catalogFileName = EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
+    QString catalogTemplateName = EpCore::joinPaths(EpCore::rootPath(), "db/",
+                                                    catalogFileName);
+    QString opticalCatalogName = EpCore::joinPaths(workingPath_, 
+                                                   catalogFileName);
+    return QFile::copy(catalogTemplateName, opticalCatalogName);
 }
 
 // done with disk, copy cache is necessary
@@ -163,7 +178,7 @@ void OpticalDisk::close() {
               << EpCore::Constants::EPSIM_CATALOG_DB_FILENAME;
         if (!isRemovable()) {
             EpCore::copyFilesToPath(files, cachePath_, path_);
-            EpCore::deleteDir(studiesPath());
+           // EpCore::deleteDir(studiesPath());
             EpCore::copyDir(EpCore::joinPaths(workingPath_, studiesDirName_),
                             path_);
         }

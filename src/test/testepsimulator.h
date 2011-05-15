@@ -83,6 +83,8 @@ private slots:
     void testLocalStorage();
     void testSystemStorageInit();
     void testOpticalDiskCache();
+    void testHardDriveCache();
+    void testEmulatedOpticalDiskCache();
 
     void cleanupTestCase();
 
