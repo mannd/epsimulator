@@ -113,7 +113,8 @@ public:
     virtual QString studiesPath() const;    // full path of studies dir
     bool isOpticalDiskPath(const QString& path) const {
         return path == path_;}
-
+    void createOpticalCatalogDbConnection();
+    void removeDatabase();
 
 protected:
     // first bytes of label file
@@ -135,7 +136,7 @@ private:
     OpticalDisk(OpticalDisk&);
     bool workingCatalogFileExists();
     bool createWorkingCatalogFile();
-    void createOpticalCatalogDbConnection();
+
     
     static const QString studiesDirName_;
 

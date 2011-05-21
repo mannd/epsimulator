@@ -919,53 +919,83 @@ void TestEpSimulator::testSystemStorageInit() {
     QVERIFY(ss.init());
 }
 
-void TestEpSimulator::testOpticalDiskCache() {
+void TestEpSimulator::testRemovableOpticalDisk() {
     Options* o = Options::instance();
-    o->cacheControl = Options::AutoCache;
     QString cachePath = joinPaths(o->systemCatalogPath, "cache");
+    delete o;
+    LocalStorage localStorage;
+    localStorage.init();
+    OpticalDisk disk(localStorage.opticalDiskPath(), cachePath);
+    QVERIFY(disk.isRemovable());
+}
+
+void TestEpSimulator::testOpticalDiskCache() {
+    SystemStorage ss;
+    ss.init();
+    Options* o = Options::instance();
+    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
+    delete o;
     OpticalDisk disk("tmp", cachePath);
     QVERIFY(!disk.isRemovable());
     QVERIFY(disk.labelPath() == disk.path());
-    QVERIFY(disk.labelFilePath() == joinPaths(cachePath,
-                                              "label.dat"));
     QVERIFY(!disk.isInitialized());
     QVERIFY(!disk.isLabeled());
+    disk.init();
+    QVERIFY(disk.isInitialized());
+    disk.setLabel("test");
+    disk.writeLabel();
+    QVERIFY(disk.isLabeled());
+    disk.close();
+    QVERIFY(!disk.isInitialized());
+}
+
+void TestEpSimulator::testHardDriveCache() {
+    SystemStorage ss;
+    ss.init();
+    Options* o = Options::instance();
+    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
+    delete o;
+    HardDrive disk("tmp", cachePath);
+    QVERIFY(!disk.isRemovable());
+    QVERIFY(disk.labelPath() == disk.path());
+    QVERIFY(!disk.isInitialized());
+    QVERIFY(disk.isLabeled());  // HardDrive constructor sets
+                                // default label to path
     disk.init();
     QVERIFY(disk.isInitialized());
     disk.close();
     QVERIFY(!disk.isInitialized());
 }
 
-void TestEpSimulator::testHardDriveCache() {
+void TestEpSimulator::testEmulatedOpticalDiskCache() {
+    SystemStorage ss;
+    ss.init();
 //    Options* o = Options::instance();
-//    o->cacheControl = Options::AutoCache;
 //    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
-//    HardDrive disk("tmp", cachePath);
+//    delete o;
+//    EmulatedOpticalDisk disk("tmp", cachePath);
 //    QVERIFY(!disk.isRemovable());
-//    QVERIFY(disk.labelPath() == "tmp");
-//    QVERIFY(disk.labelFilePath() == joinPaths(cachePath,
-//                                              "label.dat"));
+//    //QVERIFY(disk.labelPath() == disk.path());
+//    qDebug() << disk.labelPath() << disk.path();
 //    QVERIFY(!disk.isInitialized());
 //    QVERIFY(!disk.isLabeled());
 //    disk.init();
 //    QVERIFY(disk.isInitialized());
 //    disk.close();
+//    QVERIFY(!disk.isInitialized());
 }
 
-void TestEpSimulator::testEmulatedOpticalDiskCache() {
-//    Options* o = Options::instance();
-//    o->cacheControl = Options::AutoCache;
-//    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
-//    EmulatedOpticalDisk disk("tmp", cachePath);
-//    QVERIFY(!disk.isRemovable());
-//    QVERIFY(disk.labelPath() == "tmp");
-//    QVERIFY(disk.labelFilePath() == joinPaths(cachePath,
-//                                              "label.dat"));
-//    QVERIFY(!disk.isInitialized());
-//    QVERIFY(!disk.isLabeled());
-//    disk.init();
-//    QVERIFY(disk.isInitialized());
-
+void TestEpSimulator::testCreateOpticalCatalogDbConnection() {
+    SystemStorage ss;
+    ss.init();
+    Options* o = Options::instance();
+    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
+    delete o;
+    OpticalDisk disk("tmp", cachePath);
+    disk.init();
+    disk.createOpticalCatalogDbConnection();
+    //disk.removeDatabase();
+    disk.close();
 }
 
 void TestEpSimulator::cleanupTestCase() {

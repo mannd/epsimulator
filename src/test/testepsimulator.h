@@ -82,9 +82,11 @@ private slots:
     void testStudyTable();
     void testLocalStorage();
     void testSystemStorageInit();
+    void testRemovableOpticalDisk();
     void testOpticalDiskCache();
     void testHardDriveCache();
     void testEmulatedOpticalDiskCache();
+    void testCreateOpticalCatalogDbConnection();
 
     void cleanupTestCase();
 
