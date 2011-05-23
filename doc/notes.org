@@ -819,3 +819,8 @@ class StudyPaths {
 * Catalogs reconsidered
 ** Database connections
    All database connections are opened and global.
+** Role of StudyTable
+   StudyTable sets up all 2 or 3 catalogs and switches back and forth among
+   them.  Study table can get the Study info from the table to continue or
+   review a study.  When adding a new study, StudyTable adds to optical disk,
+   System, and, if set up, Network catalogs.

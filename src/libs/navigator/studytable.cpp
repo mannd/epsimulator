@@ -169,24 +169,24 @@ void StudyTable::setHeaderLabels(QSqlTableModel* model) {
 //         addStudy(it.value().study, catalog->location(it.value()));
 // }
 
-// /**
-//  * Returns a pointer to a copy of the Study at selected StudyTable row.
-//  * Note that StudyTable owns its pointers, and so this returns a
-//  * new pointer to a copy of the study from the underlying catalog.
-//  * Catalogs keep their study members on the stack.  Sooo... the Study
-//  * pointer returned by this function is owned by the calling function,
-//  * which needs to delete it.
-//  * @return Study pointer, 0 if no row selected.
-//  */
-// Study* StudyTable::study() const {
-//     if (selectedItems().isEmpty())
-//         return 0;
-//     if (StudyTableItem* item = 
-//         static_cast<StudyTableItem*>(selectedItems()[0]))
-//         return new Study((*catalog_)[item->key()].study);
-//     else
-//         return 0;
-// }
+
+// Returns a pointer to a copy of the Study at selected StudyTable row.
+// Note that StudyTable owns its pointers, and so this returns a
+// new pointer to a copy of the study from the underlying catalog.
+// Catalogs keep their study members on the stack.  Sooo... the Study
+// pointer returned by this function is owned by the calling function,
+// which needs to delete it.
+Study* StudyTable::study() const {
+    if (selectedIndexes().isEmpty())
+        return 0;
+//    if (StudyTableItem* item =
+//        static_cast<StudyTableItem*>(selectedItems()[0]))
+//        return new Study((*catalog_)[item->key()].study);
+//    else
+        return 0;
+}
+
+void StudyTable::addStudy(const Study& study, const QString& location) {}
 
 // void StudyTable::addStudy(const Study& study, const QString& location) {
 //         StudyTableItem* t = new StudyTableItem(this, study.key(), 

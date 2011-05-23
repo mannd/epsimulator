@@ -56,6 +56,15 @@ public:
                           StudyType, 
                           PreregisterType
     };
+    enum UpdateFlag {
+        NoUpdate        = 0x00,
+        OpticalUpdate   = 0x01,
+        SystemUpdate    = 0x02,
+        NetworkUpdate   = 0x04,
+        AllButNetworkUpdate = OpticalUpdate | SystemUpdate,
+        AllUpdate       = AllButNetworkUpdate | NetworkUpdate
+    };
+
 
     StudyTable(QWidget* parent = 0);
 
@@ -78,8 +87,8 @@ public:
 
     // void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
     // bool filtered() const {return filtered_;}
-    // EpStudy::Study* study() const; // returns currently selected study 
-    //                       // or 0 if none selected
+    EpStudy::Study* study() const; // returns currently selected study
+                                   // or 0 if none selected
 
 private:
     void setHeaderLabels(QSqlTableModel*);
@@ -90,7 +99,7 @@ private:
     QSqlTableModel* model_;
     // class TableListViewItem;
 
-    // void addStudy(const EpStudy::Study& study, const QString& location);
+    void addStudy(const EpStudy::Study& study, const QString& location);
 
     // bool filtered_;
     // bool oldStyle_;
