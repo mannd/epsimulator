@@ -74,6 +74,7 @@ static bool createLocalStorage() {
 // is used.  The System database is created automatically if it does
 // not exist already.  The Network database must be exported from a
 // System database; it is not created automatically.
+// This is the database that stores lists, etc. -- not the study database.
 static bool createConnection() {
     EpCore::SystemStorage systemStorage;
     using EpCore::Options;
@@ -190,6 +191,7 @@ static void displayVersion() {
              << qVersion();
 }
 
+// These are notifications of constraints used for compilation.
 static void displayMessages() {
     using EpCore::Options;
     Options* options = Options::instance();

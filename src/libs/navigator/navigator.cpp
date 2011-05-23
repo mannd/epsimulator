@@ -83,13 +83,15 @@ using EpNavigator::Navigator;
 
 using namespace EpHardware::EpOpticalDisk;
 
-Navigator::Navigator(QWidget* parent) : AbstractMainWindow(Options::instance(),
-                                                           User::instance(),
-                                                           parent),
-                                        filterCatalogDialog_(0),
-                                        currentDisk_(0) {
+Navigator::Navigator(QWidget* parent)
+    : AbstractMainWindow(Options::instance(),
+                         User::instance(),
+                         parent),
+      filterCatalogDialog_(0),
+      currentDisk_(0) {
     setAttribute(Qt::WA_DeleteOnClose);
     setMinimumWidth(1000);
+
     options()->load();
     createOpticalDrive();
     createCatalogs();    
@@ -885,6 +887,8 @@ void Navigator::createOpticalDrive() {
 
 void Navigator::createCatalogs() {
     catalogs_ = new Catalogs(options(), currentDisk_->labelPath());
+
+    currentDisk_->createOpticalCatalogDbConnection();
 }
  
 void Navigator::createCentralWidget() {

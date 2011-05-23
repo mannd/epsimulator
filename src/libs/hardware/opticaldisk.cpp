@@ -306,6 +306,7 @@ EmulatedOpticalDisk::EmulatedOpticalDisk(const QString& path,
     diskName_ = "disk_" + QDateTime::currentDateTime().toString(
             "ddMMyyyyhhmmsszzz");
     setSide(isTwoSided_ ? "A" : 0);
+    setCacheControl(Options::AutoCache);
 //    saveLastDisk();  // this must be done by calling function
 }
 

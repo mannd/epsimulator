@@ -21,11 +21,9 @@
 #ifndef OPTICALDISK_H
 #define OPTICALDISK_H
 
-#include "fileutilities.h"
 #include "options.h"
 
 #include <QCoreApplication>
-#include <QString>
 
 #include <vector>
 

@@ -816,3 +816,6 @@ class StudyPaths {
 };
 #+END_SRC
 
+* Catalogs reconsidered
+** Database connections
+   All database connections are opened and global.

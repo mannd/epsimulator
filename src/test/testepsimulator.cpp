@@ -920,9 +920,9 @@ void TestEpSimulator::testSystemStorageInit() {
 }
 
 void TestEpSimulator::testRemovableOpticalDisk() {
-    Options* o = Options::instance();
-    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
-    delete o;
+    SystemStorage ss;
+    ss.init();
+    QString cachePath = ss.cachePath();
     LocalStorage localStorage;
     localStorage.init();
     OpticalDisk disk(localStorage.opticalDiskPath(), cachePath);
@@ -932,9 +932,7 @@ void TestEpSimulator::testRemovableOpticalDisk() {
 void TestEpSimulator::testOpticalDiskCache() {
     SystemStorage ss;
     ss.init();
-    Options* o = Options::instance();
-    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
-    delete o;
+    QString cachePath = ss.cachePath();
     OpticalDisk disk("tmp", cachePath);
     QVERIFY(!disk.isRemovable());
     QVERIFY(disk.labelPath() == disk.path());
@@ -952,9 +950,7 @@ void TestEpSimulator::testOpticalDiskCache() {
 void TestEpSimulator::testHardDriveCache() {
     SystemStorage ss;
     ss.init();
-    Options* o = Options::instance();
-    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
-    delete o;
+    QString cachePath = ss.cachePath();
     HardDrive disk("tmp", cachePath);
     QVERIFY(!disk.isRemovable());
     QVERIFY(disk.labelPath() == disk.path());
@@ -970,27 +966,40 @@ void TestEpSimulator::testHardDriveCache() {
 void TestEpSimulator::testEmulatedOpticalDiskCache() {
     SystemStorage ss;
     ss.init();
-//    Options* o = Options::instance();
-//    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
-//    delete o;
-//    EmulatedOpticalDisk disk("tmp", cachePath);
-//    QVERIFY(!disk.isRemovable());
-//    //QVERIFY(disk.labelPath() == disk.path());
-//    qDebug() << disk.labelPath() << disk.path();
-//    QVERIFY(!disk.isInitialized());
-//    QVERIFY(!disk.isLabeled());
-//    disk.init();
-//    QVERIFY(disk.isInitialized());
-//    disk.close();
-//    QVERIFY(!disk.isInitialized());
+    QString cachePath = ss.cachePath();
+    EmulatedOpticalDisk disk("tmp", cachePath);
+    QVERIFY(!disk.isRemovable());
+    QVERIFY(disk.labelPath() != disk.path());
+    qDebug() << disk.labelPath() << disk.path();
+    QVERIFY(!disk.isInitialized());
+    QVERIFY(!disk.isLabeled());
+    disk.init();
+    QVERIFY(disk.isInitialized());
+    disk.close();
+    QVERIFY(!disk.isInitialized());
+}
+
+void TestEpSimulator::testForceCacheEmulatedOpticalDiskCache() {
+    SystemStorage ss;
+    ss.init();
+    QString cachePath = ss.cachePath();
+    EmulatedOpticalDisk disk("tmp", cachePath);
+    QVERIFY(!disk.isRemovable());
+    QVERIFY(disk.labelPath() != disk.path());
+    qDebug() << disk.labelPath() << disk.path();
+    QVERIFY(!disk.isInitialized());
+    QVERIFY(!disk.isLabeled());
+    disk.setCacheControl(Options::ForceCache);
+    disk.init();
+    QVERIFY(disk.isInitialized());
+    disk.close();
+    QVERIFY(!disk.isInitialized());
 }
 
 void TestEpSimulator::testCreateOpticalCatalogDbConnection() {
     SystemStorage ss;
     ss.init();
-    Options* o = Options::instance();
-    QString cachePath = joinPaths(o->systemCatalogPath, "cache");
-    delete o;
+    QString cachePath = ss.cachePath();
     OpticalDisk disk("tmp", cachePath);
     disk.init();
     disk.createOpticalCatalogDbConnection();
