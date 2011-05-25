@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by EP Studios, Inc.                                *
+ *   Copyright (C) 2010, 2011 by EP Studios, Inc.                          *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,7 +30,6 @@ class StudyManager {
 public:
     StudyManager();
     StudyManager(const QString& systemPath,
-                 const QString& cacheDirName,
                  const QString& opticalPath,
                  const QString& networkPath);
 
@@ -38,11 +37,8 @@ public:
     void setOpticalPath(const QString& opticalPath) {opticalPath_ = opticalPath;}
     void setNetworkPath(const QString& networkPath) {networkPath_ = networkPath;}
 
-    QString cachePath() const {return cachePath_;}
-    
 private:
     QString systemPath_;
-    QString cachePath_;
     QString opticalPath_;
     QString networkPath_;
     

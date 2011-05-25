@@ -197,7 +197,7 @@ static void displayMessages() {
     Options* options = Options::instance();
     options->load();
     if (!options->opticalDiskFlags.testFlag(Options::AllowRealOpticalDisk))
-        qDebug() << "No optical disk use permitted.";
+        qDebug() << "No removable optical disk use permitted.";
     if (!options->opticalDiskFlags.testFlag(Options::AllowEmulation))
         qDebug() << "No optical disk emulation permitted.";
     delete options;

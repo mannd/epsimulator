@@ -907,6 +907,17 @@ void TestEpSimulator::testPatient() {
 void TestEpSimulator::testStudyTable() {
     StudyTable t;
     QVERIFY(t.parent() == 0);
+    QVERIFY(t.key().isEmpty());
+    QVERIFY(t.source() == Catalog::System);
+    t.setSource(Catalog::Optical);
+    QVERIFY(t.source() == Catalog::Optical);
+    t.setSource(Catalog::System);
+    Study s;
+    Name name("test", "", "");
+    s.setName(name);
+    t.addStudy(s, "here");
+    qDebug() << "Study key =" << t.key();
+    QVERIFY(s.key() == t.key());
 }
 
 void TestEpSimulator::testLocalStorage() {

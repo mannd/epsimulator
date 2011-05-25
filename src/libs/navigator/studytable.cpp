@@ -31,6 +31,7 @@
 #include <QRegExp>
 #include <QSortFilterProxyModel>
 #include <QSqlDatabase>
+#include <QSqlRecord>
 #include <QSqlTableModel>
 #include <QStringList>
 #include <QTextStream>
@@ -52,14 +53,23 @@ StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
                         QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB));
     networkModel_ = 0; /*new QSqlTableModel(this, 
                          QSqlDatabase::database(EpConstants::EPSIM_NETWORK_DB));*/
-    setSource(Catalog::System);
+    model_ = systemModel_;
+    initModel();
+    proxyModel_ = new QSortFilterProxyModel(this);
+    proxyModel_->setSourceModel(model_);
+    setHeaderLabels(model_);
+    setModel(proxyModel_);
+    createHeader();
+
+}
+
+void StudyTable::initModel() {
     model_->setTable(EpConstants::EPSIM_CATALOG_TABLENAME);
     model_->setSort(CatalogEntry_StudyDateTime, Qt::DescendingOrder);
-    setHeaderLabels(model_);
     model_->select();
-    QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
-    proxyModel->setSourceModel(model_);
-    setModel(proxyModel);
+}
+
+void StudyTable::createHeader() {
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setSelectionMode(QAbstractItemView::SingleSelection);
     setColumnHidden(CatalogEntry_Id, true);
@@ -76,6 +86,7 @@ StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
 }
 
 void StudyTable::setSource(Catalog::Source source) {
+    source_ = source;
     switch (source) {
     case Catalog::Network :
         model_ = networkModel_;
@@ -87,7 +98,10 @@ void StudyTable::setSource(Catalog::Source source) {
     default :
         model_ = systemModel_;
     }
-    model_->select();
+    //    setHeaderLabels(model_);
+    initModel();
+    proxyModel_->setSourceModel(model_);
+    setHeaderLabels(model_);
 }
     
 
@@ -176,17 +190,35 @@ void StudyTable::setHeaderLabels(QSqlTableModel* model) {
 // Catalogs keep their study members on the stack.  Sooo... the Study
 // pointer returned by this function is owned by the calling function,
 // which needs to delete it.
-Study* StudyTable::study() const {
-    if (selectedIndexes().isEmpty())
-        return 0;
-//    if (StudyTableItem* item =
-//        static_cast<StudyTableItem*>(selectedItems()[0]))
-//        return new Study((*catalog_)[item->key()].study);
-//    else
-        return 0;
+// Study* StudyTable::study() const {
+//     if (selectedIndexes().isEmpty())
+//         return 0;
+// //    if (StudyTableItem* item =
+// //        static_cast<StudyTableItem*>(selectedItems()[0]))
+// //        return new Study((*catalog_)[item->key()].study);
+// //    else
+//         return 0;
+// }
+
+QString StudyTable::key() const {
+    QModelIndex index = currentIndex();
+    qDebug() << index;
+    QString key;
+    if (index.isValid()) {
+        QSqlRecord record = model_->record(index.row());
+        key = record.value(CatalogEntry_StudyKey).toString();
+    }
+    return key;
 }
 
-void StudyTable::addStudy(const Study& study, const QString& location) {}
+void StudyTable::addStudy(const Study& study, const QString& location) {
+    int row = model_->rowCount();
+    model_->insertRow(row);
+    QModelIndex index = model_->index(row, CatalogEntry_StudyKey);
+    model_->setData(index, study.key());
+    model_->submitAll();
+    setCurrentIndex(index);
+}
 
 // void StudyTable::addStudy(const Study& study, const QString& location) {
 //         StudyTableItem* t = new StudyTableItem(this, study.key(), 

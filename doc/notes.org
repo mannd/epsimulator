@@ -824,3 +824,40 @@ class StudyPaths {
    them.  Study table can get the Study info from the table to continue or
    review a study.  When adding a new study, StudyTable adds to optical disk,
    System, and, if set up, Network catalogs.
+** Lifecycle of a Study
+*** New Study
+**** New Study button clicked, no old study selected
+     - Study* s = new Study;
+     - QString key = s->key();	// QUuid::createUuid().toString();
+     - QString studyDirName = key;
+** Review of CardioLink Operator's Manual
+*** Types of Data
+    - database data
+    - waveform data
+    - simulator data
+*** Files
+    - catalog.db 
+    - study.dat
+    - patient.dat
+    - config.dat
+    - waveform.dat
+*** catalog.db
+    Question is: put all of study data into catalog.db?  Then it would be
+    possible to extract a complete Study object from catalog.db.  Then no need
+    for study.dat.  If so, catalog.db is kept in all 3 places potentially.  If
+    so, patient.dat is only kept in study directory either on optical drive or
+    network, after waveform data moved.  
+*** Notes from the Cardiolink Manual
+    - 
+*** Possible solution
+    Create study directory in all open catalogs (i.e. System and Optical
+    plus/minus the Network catalog.
+**** Consequences
+     - studies directory in each location
+     - study.dat file used for binary study data
+     - catalog.db limited to what appears in StudyTable - faster, cleaner
+     - binary data copied from OpticalDisk to System at study close
+     - if Network catalog used, copy waveform data too, then batch copy to
+       Network server in background
+*** Option for No Optical Disk?????
+    All data saved to System, possible also to Network?

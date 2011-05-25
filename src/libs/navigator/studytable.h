@@ -50,7 +50,7 @@ public:
         CatalogEntry_StudyDateTime = 6,
         CatalogEntry_StudyConfig = 7,
         CatalogEntry_StudyNumber = 8,
-        CatalogEntry_StudyLocation = 9
+        CatalogEntry_StudyLocation = 9 
     };
     enum FilterStudyType {AnyStudyType, 
                           StudyType, 
@@ -87,19 +87,25 @@ public:
 
     // void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
     // bool filtered() const {return filtered_;}
-    EpStudy::Study* study() const; // returns currently selected study
+    //EpStudy::Study* study() const; // returns currently selected study
                                    // or 0 if none selected
-
+    QString key() const;           // return selected study key
+                                   // or empty string
+    Catalog::Source source() const {return source_;}
+    void addStudy(const EpStudy::Study& study, const QString& location);
 private:
+    void initModel();
+    void createHeader();
     void setHeaderLabels(QSqlTableModel*);
 
     QSqlTableModel* systemModel_;
     QSqlTableModel* opticalModel_;
     QSqlTableModel* networkModel_;
+    QSortFilterProxyModel* proxyModel_;
     QSqlTableModel* model_;
     // class TableListViewItem;
 
-    void addStudy(const EpStudy::Study& study, const QString& location);
+    Catalog::Source source_;
 
     // bool filtered_;
     // bool oldStyle_;

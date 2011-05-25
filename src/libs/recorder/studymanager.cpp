@@ -28,11 +28,10 @@ using EpStudy::StudyManager;
 StudyManager::StudyManager() {} // all data members initialized to QString()
 
 StudyManager::StudyManager(const QString& systemPath,
-                           const QString& cacheDirName,
                            const QString& opticalPath,
                            const QString& networkPath)
     : systemPath_(systemPath), opticalPath_(opticalPath),
       networkPath_(networkPath) {
-    cachePath_ = joinPaths(systemPath, cacheDirName);
+
 }
 

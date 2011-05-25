@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2006 - 2011 by EP Studios, Inc.                         *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -93,7 +93,9 @@ public:
         AllowRealOpticalDisk    = 0x000008, // ok to use real optical disk
                                             // if not set don't allow real
                                             // optical disk as opticalStudyPath
-        AllowEmulation          = 0x000010
+        AllowEmulation          = 0x000010,
+        NoOpticalCatalog        = 0x000012  // future use: all data stored in
+                                            // System only, no optical catalog
     };
     Q_DECLARE_FLAGS(OpticalDiskFlags, OpticalDiskFlag)
     OpticalDiskFlags opticalDiskFlags;

@@ -431,10 +431,11 @@ void Navigator::regenerateCatalogs() {
 }
 
 void Navigator::changeCatalog() {
-     catalogs_->setCurrentCatalog(catalogComboBox_->source());
-     tableListView_->load(catalogs_->currentCatalog());
-     applyFilter();
-     statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
+    studyTable_->setSource(catalogComboBox_->source());
+    catalogs_->setCurrentCatalog(catalogComboBox_->source());
+    tableListView_->load(catalogs_->currentCatalog());
+    applyFilter();
+    statusBar_->updateSourceLabel(catalogs_->currentCatalog()->path());
 }
 
 void Navigator::exportLists() {
@@ -1355,7 +1356,8 @@ bool Navigator::getStudyInformation(Study* study) {
 // This returns a pointer to a study selected from the catalog, 
 // returns 0 if no study selected
 Study* Navigator::getSelectedStudy() {
-    return tableListView_->study();
+    //return tableListView_->study();
+    return 0;                   // TODO: this is just until StudyManager implemented
 }
 
 // Returns study selected in the catalog, or, if none selected, a new study.
