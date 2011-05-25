@@ -54,6 +54,7 @@ StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
     networkModel_ = 0; /*new QSqlTableModel(this, 
                          QSqlDatabase::database(EpConstants::EPSIM_NETWORK_DB));*/
     model_ = systemModel_;
+    source_ = Catalog::System;
     initModel();
     proxyModel_ = new QSortFilterProxyModel(this);
     proxyModel_->setSourceModel(model_);
@@ -98,10 +99,9 @@ void StudyTable::setSource(Catalog::Source source) {
     default :
         model_ = systemModel_;
     }
-    //    setHeaderLabels(model_);
     initModel();
-    proxyModel_->setSourceModel(model_);
     setHeaderLabels(model_);
+    proxyModel_->setSourceModel(model_);
 }
     
 
