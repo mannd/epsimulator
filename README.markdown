@@ -18,3 +18,7 @@ If you want to run the program outside of the Qt Creator environment, use the
 `epsimulator.sh` shell program in the `bin` directory to launch the program in
 Linux, or double-click the `epsimulator.exe` program in the bin directory in
 Windows.
+
+### Dependencies
+
+**EP Simulator** requires sqlite3.
