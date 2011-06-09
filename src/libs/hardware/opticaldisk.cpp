@@ -197,6 +197,7 @@ void OpticalDisk::close() {
         }
         clearCache();
     }
+    QSqlDatabase::removeDatabase(EpConstants::EPSIM_OPTICAL_DB);
     initialized_ = false;
 }
 
