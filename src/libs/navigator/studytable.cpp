@@ -47,6 +47,7 @@ using EpStudy::StudyConfiguration;
 StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
 //     : QTreeWidget(parent),filtered_(false), oldStyle_(oldStyle),
 //       catalog_(0) {
+    Q_ASSERT(QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB).isOpen());
     systemModel_ = new QSqlTableModel(this, 
                                 QSqlDatabase::database(EpConstants::EPSIM_SYSTEM_DB));
     opticalModel_ = new QSqlTableModel(this,
@@ -56,11 +57,13 @@ StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
     model_ = systemModel_;
     source_ = Catalog::System;
     initModel();
-    proxyModel_ = new QSortFilterProxyModel(this);
-    proxyModel_->setSourceModel(model_);
+    //proxyModel_ = new QSortFilterProxyModel(this);
+    //proxyModel_->setSourceModel(model_);
     setHeaderLabels(model_);
-    setModel(proxyModel_);
+    setModel(model_);
     createHeader();
+//    setSelectionMode(SingleSelection);
+//    setSelectionBehavior(SelectRows);
 
 }
 
@@ -101,7 +104,7 @@ void StudyTable::setSource(Catalog::Source source) {
     }
     initModel();
     setHeaderLabels(model_);
-    proxyModel_->setSourceModel(model_);
+    setModel(model_);
 }
     
 
@@ -190,6 +193,21 @@ void StudyTable::setHeaderLabels(QSqlTableModel* model) {
 // Catalogs keep their study members on the stack.  Sooo... the Study
 // pointer returned by this function is owned by the calling function,
 // which needs to delete it.
+Study* StudyTable::study() const {
+    QModelIndex index = currentIndex();
+    if (!index.isValid())
+        return 0;
+    QSqlRecord record = model_->record(index.row());
+    Study study;
+    study.setKey(record.value(CatalogEntry_StudyKey).toString());
+    //study.setName();
+
+    return new Study(study);
+}
+
+
+
+
 // Study* StudyTable::study() const {
 //     if (selectedIndexes().isEmpty())
 //         return 0;
@@ -202,7 +220,6 @@ void StudyTable::setHeaderLabels(QSqlTableModel* model) {
 
 QString StudyTable::key() const {
     QModelIndex index = currentIndex();
-    qDebug() << index;
     QString key;
     if (index.isValid()) {
         QSqlRecord record = model_->record(index.row());
@@ -214,10 +231,13 @@ QString StudyTable::key() const {
 void StudyTable::addStudy(const Study& study, const QString& location) {
     int row = model_->rowCount();
     model_->insertRow(row);
-    QModelIndex index = model_->index(row, CatalogEntry_StudyKey);
-    model_->setData(index, study.key());
+    model_->setData(model_->index(row, CatalogEntry_StudyKey), study.key());
+    model_->setData(model_->index(row, CatalogEntry_LastName),
+                    study.name().last());
+    model_->setData(model_->index(row, CatalogEntry_FirstName),
+                    study.name().first());
     model_->submitAll();
-    setCurrentIndex(index);
+    setCurrentIndex(model_->index(row, 0));
 }
 
 // void StudyTable::addStudy(const Study& study, const QString& location) {

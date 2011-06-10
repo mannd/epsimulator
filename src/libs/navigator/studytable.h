@@ -87,7 +87,7 @@ public:
 
     // void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
     // bool filtered() const {return filtered_;}
-    //EpStudy::Study* study() const; // returns currently selected study
+    EpStudy::Study* study() const; // returns currently selected study
                                    // or 0 if none selected
     QString key() const;           // return selected study key
                                    // or empty string
@@ -101,7 +101,7 @@ private:
     QSqlTableModel* systemModel_;
     QSqlTableModel* opticalModel_;
     QSqlTableModel* networkModel_;
-    QSortFilterProxyModel* proxyModel_;
+    //QSortFilterProxyModel* proxyModel_;
     QSqlTableModel* model_;
     // class TableListViewItem;
 

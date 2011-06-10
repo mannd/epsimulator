@@ -48,6 +48,8 @@
 
 #include <QDir>
 #include <QListView>
+#include <QSqlRecord>
+#include <QSqlTableModel>
 #include <QtDebug>
 
 #include <cmath>
@@ -67,6 +69,7 @@ using namespace EpRecorder;
 using namespace EpStudy;
 
 void TestEpSimulator::initTestCase() {
+
     QString workingPath = QDir::currentPath();
     QDir workingDir = QDir::current();
     if (workingDir.dirName() == "test") {
@@ -905,19 +908,50 @@ void TestEpSimulator::testPatient() {
 }
 
 void TestEpSimulator::testStudyTable() {
-    StudyTable t;
-    QVERIFY(t.parent() == 0);
-    QVERIFY(t.key().isEmpty());
-    QVERIFY(t.source() == Catalog::System);
-    t.setSource(Catalog::Optical);
-    QVERIFY(t.source() == Catalog::Optical);
-    t.setSource(Catalog::System);
-    Study s;
-    Name name("test", "", "");
-    s.setName(name);
-    t.addStudy(s, "here");
-    qDebug() << "Study key =" << t.key();
-    QVERIFY(s.key() == t.key());
+    // need to create optical disk and create optical db connection
+    SystemStorage ss;
+    ss.init();
+    QString cachePath = ss.cachePath();
+    OpticalDisk disk("tmp", cachePath);
+    disk.init();
+    disk.createOpticalCatalogDbConnection();
+    {   // need to change scope in order to close database
+        StudyTable t;
+        QVERIFY(t.parent() == 0);
+        QVERIFY(t.key().isEmpty());
+        QVERIFY(t.source() == Catalog::System);
+        t.setSource(Catalog::Optical);
+        QVERIFY(t.source() == Catalog::Optical);
+        t.setSource(Catalog::System);
+        QVERIFY(t.source() == Catalog::System);
+        t.setSource(Catalog::Optical);
+        Study s;
+        Name name("test", "", "");
+        s.setName(name);
+        QVERIFY(t.model()->rowCount() == 0);
+        t.addStudy(s, "here");
+        QVERIFY(t.model()->rowCount() == 1);
+        QSqlTableModel* model;
+
+        QVERIFY(t.model()->rowCount() == 1);
+        model = qobject_cast<QSqlTableModel*>(t.model());
+        QSqlRecord record = model->record(0);
+        QString key = record.value("StudyKey").toString();
+        qDebug() << "key" << key;
+        QVERIFY(s.key() == key);
+        qDebug() << "t.key()" << t.key();
+        QVERIFY(s.key() == t.key());
+        QVERIFY(s.name().last() == "test");
+        Study* s1 = t.study();
+        QVERIFY(s1->key() == s.key());
+       // QVERIFY(s1->name().last() == s.name().last());
+        delete s1;
+    }
+    disk.close();
+
+    // would like to test below, but don't know how to select
+    // row on QTableView without Gui
+    //QVERIFY(s.key() == t.key());
 }
 
 void TestEpSimulator::testLocalStorage() {

@@ -94,6 +94,7 @@ public:
     QDateTime dateTime() const {return dateTime_;}
     QString key() const;    // Generates key based on name and datetime
     // to identify study uniquely.
+    void setKey(const QString& key) {key_ = key;}
     bool isPreregisterStudy() const {return isPregisterStudy_;}
     QString heartName() const {return heartName_;}
     StudyConfiguration* studyConfiguration() const { 
