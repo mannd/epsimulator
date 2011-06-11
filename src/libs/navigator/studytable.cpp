@@ -44,7 +44,8 @@ using EpNavigator::StudyTable;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 
-StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
+StudyTable::StudyTable(QWidget* parent) : QTableView(parent),
+    oldStyle_(false) {       // for now
 //     : QTreeWidget(parent),filtered_(false), oldStyle_(oldStyle),
 //       catalog_(0) {
     Q_ASSERT(QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB).isOpen());
@@ -78,6 +79,13 @@ void StudyTable::createHeader() {
     setSelectionMode(QAbstractItemView::SingleSelection);
     setColumnHidden(CatalogEntry_Id, true);
     setColumnHidden(CatalogEntry_StudyKey, true);
+    if (oldStyle_) {
+        setColumnHidden(CatalogEntry_FullName, true);
+    }
+    else {
+        setColumnHidden(CatalogEntry_LastName, true);
+        setColumnHidden(CatalogEntry_FirstName, true);
+    }
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     resizeColumnsToContents();
     setShowGrid(false);
@@ -110,15 +118,24 @@ void StudyTable::setSource(Catalog::Source source) {
     
 
 void StudyTable::setHeaderLabels(QSqlTableModel* model) {
-    model->setHeaderData(CatalogEntry_StudyType, Qt::Horizontal, tr("Study Type"));
-    model->setHeaderData(CatalogEntry_LastName, Qt::Horizontal, tr("Last Name"));
-    model->setHeaderData(CatalogEntry_FirstName, Qt::Horizontal, tr("First Name"));
-    model->setHeaderData(CatalogEntry_PatientMrn, Qt::Horizontal, tr("Patient MRN"));
-    model->setHeaderData(CatalogEntry_StudyDateTime, Qt::Horizontal, tr("Study Date/Time"));
-    model->setHeaderData(CatalogEntry_StudyConfig, Qt::Horizontal, tr("Study Config"));
-    model->setHeaderData(CatalogEntry_StudyNumber, Qt::Horizontal, tr("Study Number"));
-    model->setHeaderData(CatalogEntry_StudyLocation, Qt::Horizontal, 
-                         tr("Location of Study Files"));
+    model->setHeaderData(CatalogEntry_StudyType,
+                         Qt::Horizontal, tr("Study Type"));
+    model->setHeaderData(CatalogEntry_LastName,
+                         Qt::Horizontal, tr("Last Name"));
+    model->setHeaderData(CatalogEntry_FirstName,
+                         Qt::Horizontal, tr("First Name"));
+    model->setHeaderData(CatalogEntry_FullName,
+                         Qt::Horizontal, tr("Patient Name"));
+    model->setHeaderData(CatalogEntry_PatientMrn,
+                         Qt::Horizontal, tr("Patient MRN"));
+    model->setHeaderData(CatalogEntry_StudyDateTime,
+                         Qt::Horizontal, tr("Study Date/Time"));
+    model->setHeaderData(CatalogEntry_StudyConfig,
+                         Qt::Horizontal, tr("Study Config"));
+    model->setHeaderData(CatalogEntry_StudyNumber,
+                         Qt::Horizontal, tr("Study Number"));
+    model->setHeaderData(CatalogEntry_StudyLocation,
+                         Qt::Horizontal, tr("Location of Study Files"));
 }
 
 
@@ -240,6 +257,8 @@ void StudyTable::addStudy(const Study& study, const QString& location) {
                     study.name().last());
     model_->setData(model_->index(row, CatalogEntry_FirstName),
                     study.name().first());
+    model_->setData(model_->index(row, CatalogEntry_FullName),
+                    study.name().lastFirstMiddle());
     model_->setData(model_->index(row, CatalogEntry_PatientMrn),
                     study.mrn());
     model_->setData(model_->index(row, CatalogEntry_StudyDateTime ), 
