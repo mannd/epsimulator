@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>StudyConfigurationDialog</class>
  <widget class="QDialog" name="StudyConfigurationDialog">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,7 +30,7 @@
    <item row="0" column="2" colspan="2">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>16</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="blankPage"/>
      <widget class="QWidget" name="amplifierPage">
@@ -143,9 +146,6 @@
              </widget>
             </item>
            </layout>
-           <zorder>label_3</zorder>
-           <zorder>scaleComboBox</zorder>
-           <zorder>horizontalSpacer_2</zorder>
           </widget>
          </widget>
          <widget class="QWidget" name="hardwareSettingsTab">
@@ -162,7 +162,7 @@
             </rect>
            </property>
           </widget>
-          <widget class="QWidget" name="layoutWidget">
+          <widget class="QWidget" name="layoutWidget1">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -499,7 +499,7 @@
                   <string>Display graph for</string>
                  </property>
                 </widget>
-                <widget class="QWidget" name="layoutWidget">
+                <widget class="QWidget" name="layoutWidget2">
                  <property name="geometry">
                   <rect>
                    <x>40</x>
@@ -567,7 +567,7 @@
                   </item>
                  </layout>
                 </widget>
-                <zorder>layoutWidget</zorder>
+                <zorder>layoutWidget2</zorder>
                 <zorder>label_4</zorder>
                </widget>
               </item>
@@ -764,7 +764,7 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget3">
           <property name="geometry">
            <rect>
             <x>30</x>
