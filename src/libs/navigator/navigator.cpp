@@ -147,6 +147,7 @@ void Navigator::newStudy() {
             catalogs_->addStudy(study, currentDisk_->label(),
                                 currentDisk_->translatedSide(),
                                 options()->labName, user()->machineName());
+            studyTable_->addStudy(*study, currentDisk_->label());
             refreshCatalogs();
             startStudy(study);
         }

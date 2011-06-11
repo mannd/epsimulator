@@ -81,6 +81,7 @@ void StudyTable::createHeader() {
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     resizeColumnsToContents();
     setShowGrid(false);
+    setSortingEnabled(true);
     verticalHeader()->hide();
     QHeaderView* header = horizontalHeader();
     header->setStretchLastSection(true);;
@@ -232,9 +233,9 @@ void StudyTable::addStudy(const Study& study, const QString& location) {
     int row = model_->rowCount();
     model_->insertRow(row);
     model_->setData(model_->index(row, CatalogEntry_StudyKey), study.key());
-    // model_->setData(model_-index(row, CatalogEntry_StudyType),
-    //                  study.isPreregisterStudy() ? tr("Pre-Register")
-    //                 : tr("Study"));
+    model_->setData(model_->index(row, CatalogEntry_StudyType),
+                     study.isPreregisterStudy() ? tr("Pre-Register")
+              : tr("Study"));
     model_->setData(model_->index(row, CatalogEntry_LastName),
                     study.name().last());
     model_->setData(model_->index(row, CatalogEntry_FirstName),
