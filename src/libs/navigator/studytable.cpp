@@ -44,8 +44,8 @@ using EpNavigator::StudyTable;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 
-StudyTable::StudyTable(QWidget* parent) : QTableView(parent),
-    oldStyle_(false) {       // for now
+StudyTable::StudyTable(bool oldStyleNavigator, QWidget* parent)
+    : QTableView(parent), oldStyle_(oldStyleNavigator) {       // for now
 //     : QTreeWidget(parent),filtered_(false), oldStyle_(oldStyle),
 //       catalog_(0) {
     Q_ASSERT(QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB).isOpen());
@@ -57,15 +57,7 @@ StudyTable::StudyTable(QWidget* parent) : QTableView(parent),
                          QSqlDatabase::database(EpConstants::EPSIM_NETWORK_DB));*/
     model_ = systemModel_;
     source_ = Catalog::System;
-    initModel();
-    //proxyModel_ = new QSortFilterProxyModel(this);
-    //proxyModel_->setSourceModel(model_);
-    setHeaderLabels(model_);
-    setModel(model_);
-    createHeader();
-//    setSelectionMode(SingleSelection);
-//    setSelectionBehavior(SelectRows);
-
+    adjustColumns();
 }
 
 void StudyTable::initModel() {
@@ -79,13 +71,9 @@ void StudyTable::createHeader() {
     setSelectionMode(QAbstractItemView::SingleSelection);
     setColumnHidden(CatalogEntry_Id, true);
     setColumnHidden(CatalogEntry_StudyKey, true);
-    if (oldStyle_) {
-        setColumnHidden(CatalogEntry_FullName, true);
-    }
-    else {
-        setColumnHidden(CatalogEntry_LastName, true);
-        setColumnHidden(CatalogEntry_FirstName, true);
-    }
+    setColumnHidden(CatalogEntry_FullName, oldStyle_);
+    setColumnHidden(CatalogEntry_LastName, !oldStyle_);
+    setColumnHidden(CatalogEntry_FirstName, !oldStyle_);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     resizeColumnsToContents();
     setShowGrid(false);
@@ -136,6 +124,13 @@ void StudyTable::setHeaderLabels(QSqlTableModel* model) {
                          Qt::Horizontal, tr("Study Number"));
     model->setHeaderData(CatalogEntry_StudyLocation,
                          Qt::Horizontal, tr("Location of Study Files"));
+}
+
+void StudyTable::adjustColumns() {
+    initModel();
+    setHeaderLabels(model_);
+    setModel(model_);
+    createHeader();
 }
 
 
@@ -212,13 +207,16 @@ void StudyTable::setHeaderLabels(QSqlTableModel* model) {
 // pointer returned by this function is owned by the calling function,
 // which needs to delete it.
 Study* StudyTable::study() const {
-    QModelIndex index = currentIndex();
-    if (!index.isValid())
+    QModelIndexList indexList = selectedIndexes();
+    //QModelIndex index = currentIndex();
+    if (indexList.count() < 1)
         return 0;
+    QModelIndex index = indexList[0];
     QSqlRecord record = model_->record(index.row());
     Study study;
     study.setKey(record.value(CatalogEntry_StudyKey).toString());
-    //study.setName();
+    study.setName(EpPatient::Name(record.value(CatalogEntry_LastName).toString(),
+                       record.value(CatalogEntry_FirstName).toString()));
 
     return new Study(study);
 }

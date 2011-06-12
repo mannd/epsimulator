@@ -67,7 +67,7 @@ public:
     };
 
 
-    StudyTable(QWidget* parent = 0);
+    StudyTable(bool oldStyleNavigator, QWidget* parent = 0);
 
     void setSource(Catalog::Source);
 
@@ -83,7 +83,7 @@ public:
                     const QDate& endDate);
     void removeFilter();
     // void showTable();
-    // void adjustColumns();
+    void adjustColumns();
     // void exportCSV(const QString& fileName);
 
     void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}

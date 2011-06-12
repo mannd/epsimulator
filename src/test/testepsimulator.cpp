@@ -916,7 +916,7 @@ void TestEpSimulator::testStudyTable() {
     disk.init();
     disk.createOpticalCatalogDbConnection();
     {   // need to change scope in order to close database
-        StudyTable t;
+        StudyTable t(true);
         QVERIFY(t.parent() == 0);
         QVERIFY(t.key().isEmpty());
         QVERIFY(t.source() == Catalog::System);
