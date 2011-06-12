@@ -113,7 +113,7 @@ Navigator::~Navigator() {
 }
 
 void Navigator::clearSelection() {
-    tableListView_->clearSelection();
+    studyTable_->clearSelection();
 }
 
 // protected
