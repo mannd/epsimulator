@@ -18,7 +18,7 @@ HEADERS += navigator.h \
     movecopystudydialog.h \
     editstudyconfigsdialog.h \
     studytable.h \
-    studydatabase.h
+    studymanager.h
 SOURCES += navigator.cpp \
     catalogcombobox.cpp \
     catalog.cpp \
@@ -30,7 +30,7 @@ SOURCES += navigator.cpp \
     movecopystudydialog.cpp \
     editstudyconfigsdialog.cpp \
     studytable.cpp \
-    studydatabase.cpp
+    studymanager.cpp
 INCLUDEPATH += ../gui \
     ../recorder \
     ../patient \

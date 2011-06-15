@@ -63,7 +63,7 @@ Study::Study()
       isPregisterStudy_(true),
       heartName_(QObject::tr("<default>")) {
     studyConfiguration_ = new StudyConfiguration;
-    key_ = QUuid::createUuid().toString();
+    //key_ = QUuid::createUuid().toString();
     testInvariant();
 }
 
@@ -133,6 +133,8 @@ void Study::setSympatheticTone(AutonomicTone tone) {
 // searching, etc.  Once generated, will not change,
 // even if name, study date, etc. change.
 QString Study::key() const {
+    if (key_.isEmpty())
+        key_ = QUuid::createUuid().toString();
     return key_;
 }
 
