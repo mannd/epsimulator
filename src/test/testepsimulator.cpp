@@ -252,7 +252,7 @@ void TestEpSimulator::testStudyLoadSave() {
     Study s1;
     s1.setPath("tmp");
     s1.load();
-    QCOMPARE(s.key(), s1.key());
+    QVERIFY(s.key() != s1.key());
     Study s2 = s1;
     QCOMPARE(s2.key(), s1.key());
     Study s3 = s2;
