@@ -175,6 +175,11 @@ QDir EpCore::systemDirectory() {
     return directoryOf("System");
 }
 
+bool EpCore::makePath(const QString& path) {
+    QDir dir = QDir(path);
+    return dir.exists() || dir.mkpath(path);
+}
+
 // joins together 2 elements of a path, e.g. '/home' and '/src/'
 // duplicate, missing '/'s are fixed
 QString EpCore::joinPaths(const QString & p1, const QString & p2) {

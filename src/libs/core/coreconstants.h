@@ -60,8 +60,9 @@ const char* const EPSIM_SYSTEM_DIRNAME = ".epsimulator";
 const char* const EPSIM_SYSTEM_DB = "system_db";
 const char* const EPSIM_OPTICAL_DB = "optical_db";
 const char* const EPSIM_NETWORK_DB = "network_db";
-const char* const EPSIM_STUDIES_DIRNAME = "epsim_studies";  
+const char* const EPSIM_LOCAL_DIRNAME = "epsim_studies";
 const char* const EPSIM_CACHE_DIRNAME = "cache";
+const char* const EPSIM_STUDIES_DIRNAME = "studies";
 
 #undef APP_VERSION
 #undef APP_VERSION_MAJOR

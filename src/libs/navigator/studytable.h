@@ -46,11 +46,12 @@ public:
         CatalogEntry_StudyType = 2,
         CatalogEntry_LastName = 3,
         CatalogEntry_FirstName = 4,
-        CatalogEntry_PatientMrn = 5,
-        CatalogEntry_StudyDateTime = 6,
-        CatalogEntry_StudyConfig = 7,
-        CatalogEntry_StudyNumber = 8,
-        CatalogEntry_StudyLocation = 9 
+        CatalogEntry_FullName = 5,
+        CatalogEntry_PatientMrn = 6,
+        CatalogEntry_StudyDateTime = 7,
+        CatalogEntry_StudyConfig = 8,
+        CatalogEntry_StudyNumber = 9,
+        CatalogEntry_StudyLocation = 10 
     };
     enum FilterStudyType {AnyStudyType, 
                           StudyType, 
@@ -66,7 +67,7 @@ public:
     };
 
 
-    StudyTable(QWidget* parent = 0);
+    StudyTable(bool oldStyleNavigator, QWidget* parent = 0);
 
     void setSource(Catalog::Source);
 
@@ -82,10 +83,10 @@ public:
                     const QDate& endDate);
     void removeFilter();
     // void showTable();
-    // void adjustColumns();
+    void adjustColumns();
     // void exportCSV(const QString& fileName);
 
-    // void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
+    void setOldStyle(bool oldStyle) {oldStyle_ = oldStyle;}
     // bool filtered() const {return filtered_;}
     EpStudy::Study* study() const; // returns currently selected study
                                    // or 0 if none selected
@@ -108,7 +109,7 @@ private:
     Catalog::Source source_;
 
     // bool filtered_;
-    // bool oldStyle_;
+    bool oldStyle_;
 
     // Catalog* catalog_;      // the catalog underlying this TableListView
     

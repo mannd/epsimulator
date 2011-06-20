@@ -32,19 +32,14 @@ SystemStorage::SystemStorage() {
 }
 
 bool SystemStorage::init() {
-    QDir dir = QDir(path_);
-    if (!exists() && !dir.mkpath(path_))
-        return false;
-    if (isRemovableMedia(path_))
-        return false;           // this shouldn't happen
-    if (!makeCachePath())
-        return false;
-    return true;                // path_ exists or was made
+    // makePath() will create path_ parent directory
+    return !isRemovableMedia(path_) &&
+        makePath(cachePath()) &&
+        makePath(studiesPath());
 }
 
-bool SystemStorage::makeCachePath() {
-    QDir dir = QDir(cachePath());
-    return dir.exists() || dir.mkpath(cachePath());
+QString SystemStorage::studiesPath() const {
+    return filePath(Constants::EPSIM_STUDIES_DIRNAME);
 }
 
 QString SystemStorage::filePath(const QString& fileName) const {

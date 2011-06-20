@@ -93,7 +93,7 @@ QDir directoryOf(const QString& subdir);
 QDir rootDirectory();
 QString rootPath();
 QDir systemDirectory();
-
+bool makePath(const QString&);
 void copyFilesToPath(const QStringList& files, const QString& sourcePath,
                      const QString& destPath,
                      CopyFlag = DoNotOverwrite);

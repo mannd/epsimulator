@@ -113,7 +113,7 @@ Navigator::~Navigator() {
 }
 
 void Navigator::clearSelection() {
-    tableListView_->clearSelection();
+    studyTable_->clearSelection();
 }
 
 // protected
@@ -147,6 +147,7 @@ void Navigator::newStudy() {
             catalogs_->addStudy(study, currentDisk_->label(),
                                 currentDisk_->translatedSide(),
                                 options()->labName, user()->machineName());
+            studyTable_->addStudy(*study, currentDisk_->label());
             refreshCatalogs();
             startStudy(study);
         }
@@ -209,6 +210,9 @@ void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
     study->setPreregisterStudy(true);
     if (getStudyInformation(study)) {
+        // add to System and possibly Network StudyTables
+        // and to System and possibly Network folders
+
         catalogs_->addStudy(study);
         refreshCatalogs();
         // refreshCatalogs() catches IO errors, so should 
@@ -416,6 +420,7 @@ void Navigator::refreshCatalogs() {
     catalogs_->refresh();
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
     tableListView_->load(catalogs_->currentCatalog());
+    studyTable_->setSource(catalogComboBox_->source());
     applyFilter();
 }
 
@@ -789,6 +794,8 @@ void Navigator::updateSimulatorSettings() {
         createCatalogs();
         tableListView_->setOldStyle(options()->oldStyleNavigator);
         tableListView_->adjustColumns();
+        studyTable_->setOldStyle(options()->oldStyleNavigator);
+        studyTable_->adjustColumns();
         refreshCatalogs();   // This repopulates the TableListView.
         // Need to do below to make sure user label
         // matches Navigator style.
@@ -897,6 +904,7 @@ void Navigator::createCentralWidget() {
     setCentralWidget(centralWidget_);
     createButtonFrame();
     createTableListView();
+    createStudyTable();
     refreshCatalogs();
 }
 
@@ -913,7 +921,7 @@ void Navigator::createButtonFrame() {
         buttonFrame_ = new OldStyleButtonFrame(centralWidget_);
     if (options()->filePathFlags.testFlag(Options::EnableAcquisition)) {
         buttonFrame_->addButton("New Study", "hi64-newstudy",
-            SLOT(newStudy()));
+                                SLOT(newStudy()));
     }
     buttonFrame_->addButton("Continue Study", "hi64-continuestudy",
         SLOT(continueStudy()));
@@ -934,13 +942,17 @@ void Navigator::createTableListView() {
     //     int)), this, SLOT(newStudy()));
     tableListView_ = new TableListView(0,
         options()->oldStyleNavigator);
-    connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
-        int)), this, SLOT(newStudy()));
-    studyTable_ = new StudyTable(centralWidget_);
-
+    //connect(tableListView_, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,
+    //                                                 int)), this,
+    //        SLOT(newStudy(const QModelIndex&)));
+    //studyTable_ = new StudyTable(options()->oldStyleNavigator, centralWidget_);
 }
 
 void Navigator::createStudyTable() {
+    studyTable_ = new StudyTable(options()->oldStyleNavigator, centralWidget_);
+    connect(studyTable_, SIGNAL(doubleClicked(const QModelIndex&)),
+            this, SLOT(newStudy()));
+
 }
 
 void Navigator::createStatusBar() {
@@ -1357,6 +1369,7 @@ bool Navigator::getStudyInformation(Study* study) {
 // returns 0 if no study selected
 Study* Navigator::getSelectedStudy() {
     //return tableListView_->study();
+    return studyTable_->study();
     return 0;                   // TODO: this is just until StudyManager implemented
 }
 

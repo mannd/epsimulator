@@ -44,7 +44,8 @@ using EpNavigator::StudyTable;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 
-StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
+StudyTable::StudyTable(bool oldStyleNavigator, QWidget* parent)
+    : QTableView(parent), oldStyle_(oldStyleNavigator) {       // for now
 //     : QTreeWidget(parent),filtered_(false), oldStyle_(oldStyle),
 //       catalog_(0) {
     Q_ASSERT(QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB).isOpen());
@@ -56,15 +57,7 @@ StudyTable::StudyTable(QWidget* parent) : QTableView(parent) {
                          QSqlDatabase::database(EpConstants::EPSIM_NETWORK_DB));*/
     model_ = systemModel_;
     source_ = Catalog::System;
-    initModel();
-    //proxyModel_ = new QSortFilterProxyModel(this);
-    //proxyModel_->setSourceModel(model_);
-    setHeaderLabels(model_);
-    setModel(model_);
-    createHeader();
-//    setSelectionMode(SingleSelection);
-//    setSelectionBehavior(SelectRows);
-
+    adjustColumns();
 }
 
 void StudyTable::initModel() {
@@ -78,9 +71,13 @@ void StudyTable::createHeader() {
     setSelectionMode(QAbstractItemView::SingleSelection);
     setColumnHidden(CatalogEntry_Id, true);
     setColumnHidden(CatalogEntry_StudyKey, true);
+    setColumnHidden(CatalogEntry_FullName, oldStyle_);
+    setColumnHidden(CatalogEntry_LastName, !oldStyle_);
+    setColumnHidden(CatalogEntry_FirstName, !oldStyle_);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     resizeColumnsToContents();
     setShowGrid(false);
+    setSortingEnabled(true);
     verticalHeader()->hide();
     QHeaderView* header = horizontalHeader();
     header->setStretchLastSection(true);;
@@ -109,15 +106,31 @@ void StudyTable::setSource(Catalog::Source source) {
     
 
 void StudyTable::setHeaderLabels(QSqlTableModel* model) {
-    model->setHeaderData(CatalogEntry_StudyType, Qt::Horizontal, tr("Study Type"));
-    model->setHeaderData(CatalogEntry_LastName, Qt::Horizontal, tr("Last Name"));
-    model->setHeaderData(CatalogEntry_FirstName, Qt::Horizontal, tr("First Name"));
-    model->setHeaderData(CatalogEntry_PatientMrn, Qt::Horizontal, tr("Patient MRN"));
-    model->setHeaderData(CatalogEntry_StudyDateTime, Qt::Horizontal, tr("Study Date/Time"));
-    model->setHeaderData(CatalogEntry_StudyConfig, Qt::Horizontal, tr("Study Config"));
-    model->setHeaderData(CatalogEntry_StudyNumber, Qt::Horizontal, tr("Study Number"));
-    model->setHeaderData(CatalogEntry_StudyLocation, Qt::Horizontal, 
-                         tr("Location of Study Files"));
+    model->setHeaderData(CatalogEntry_StudyType,
+                         Qt::Horizontal, tr("Study Type"));
+    model->setHeaderData(CatalogEntry_LastName,
+                         Qt::Horizontal, tr("Last Name"));
+    model->setHeaderData(CatalogEntry_FirstName,
+                         Qt::Horizontal, tr("First Name"));
+    model->setHeaderData(CatalogEntry_FullName,
+                         Qt::Horizontal, tr("Patient Name"));
+    model->setHeaderData(CatalogEntry_PatientMrn,
+                         Qt::Horizontal, tr("Patient MRN"));
+    model->setHeaderData(CatalogEntry_StudyDateTime,
+                         Qt::Horizontal, tr("Study Date/Time"));
+    model->setHeaderData(CatalogEntry_StudyConfig,
+                         Qt::Horizontal, tr("Study Config"));
+    model->setHeaderData(CatalogEntry_StudyNumber,
+                         Qt::Horizontal, tr("Study Number"));
+    model->setHeaderData(CatalogEntry_StudyLocation,
+                         Qt::Horizontal, tr("Location of Study Files"));
+}
+
+void StudyTable::adjustColumns() {
+    initModel();
+    setHeaderLabels(model_);
+    setModel(model_);
+    createHeader();
 }
 
 
@@ -194,13 +207,16 @@ void StudyTable::setHeaderLabels(QSqlTableModel* model) {
 // pointer returned by this function is owned by the calling function,
 // which needs to delete it.
 Study* StudyTable::study() const {
-    QModelIndex index = currentIndex();
-    if (!index.isValid())
+    QModelIndexList indexList = selectedIndexes();
+    //QModelIndex index = currentIndex();
+    if (indexList.count() < 1)
         return 0;
+    QModelIndex index = indexList[0];
     QSqlRecord record = model_->record(index.row());
     Study study;
     study.setKey(record.value(CatalogEntry_StudyKey).toString());
-    //study.setName();
+    study.setName(EpPatient::Name(record.value(CatalogEntry_LastName).toString(),
+                       record.value(CatalogEntry_FirstName).toString()));
 
     return new Study(study);
 }
@@ -232,10 +248,26 @@ void StudyTable::addStudy(const Study& study, const QString& location) {
     int row = model_->rowCount();
     model_->insertRow(row);
     model_->setData(model_->index(row, CatalogEntry_StudyKey), study.key());
+    model_->setData(model_->index(row, CatalogEntry_StudyType),
+                     study.isPreregisterStudy() ? tr("Pre-Register")
+              : tr("Study"));
     model_->setData(model_->index(row, CatalogEntry_LastName),
                     study.name().last());
     model_->setData(model_->index(row, CatalogEntry_FirstName),
                     study.name().first());
+    model_->setData(model_->index(row, CatalogEntry_FullName),
+                    study.name().lastFirstMiddle());
+    model_->setData(model_->index(row, CatalogEntry_PatientMrn),
+                    study.mrn());
+    model_->setData(model_->index(row, CatalogEntry_StudyDateTime ), 
+                    study.dateTime().toString("yyyy/MM/dd hh:mm:ss"));
+    model_->setData(model_->index(row, CatalogEntry_StudyConfig),
+                    study.isPreregisterStudy() ?
+                    QString() : study.studyConfiguration()->name());
+    model_->setData(model_->index(row, CatalogEntry_StudyNumber),
+                    study.number());
+    model_->setData(model_->index(row, CatalogEntry_StudyLocation),
+                    location);
     model_->submitAll();
     setCurrentIndex(model_->index(row, 0));
 }
