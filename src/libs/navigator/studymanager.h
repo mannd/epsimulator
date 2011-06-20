@@ -22,12 +22,14 @@
 #define STUDYMANAGER_H
 
 #include "catalog.h"
+//#include "opticaldisk.h"
 
 #include <QString>
 
-namespace EpNavigator{
-class Catalog;
-}
+namespace EpHardware {
+namespace EpOpticalDisk {
+class OpticalDisk;
+}}
 
 namespace EpStudy {
 
@@ -39,11 +41,12 @@ public:
                  const QString& opticalPath,
                  const QString& networkPath,
                  const QString& otherPath = QString());
-    
 
     void setSystemPath(const QString& systemPath) {
         systemPath_ = systemPath;
     }
+
+    void setOpticalDisk(EpHardware::EpOpticalDisk::OpticalDisk*);
     void setOpticalPath(const QString& opticalPath) {
         opticalPath_ = opticalPath;
     }
@@ -53,15 +56,25 @@ public:
     void setOtherPath(const QString& otherPath) {
         otherPath_ = otherPath;
     }
+    void setCatalog(EpNavigator::Catalog::Source);
+    void setStudy(Study*);
+
+    void addStudyToCatalog(Study*);
+    void addStudy(Study*);      // handles pre-register, network
+    Study* study();
+
 
 private:
     QString systemPath_;
     QString opticalPath_;
     QString networkPath_;
     QString otherPath_;
-    
+    bool useNetwork_;
+    EpNavigator::Catalog::Source catalogSource_;
+    EpHardware::EpOpticalDisk::OpticalDisk* opticalDisk_;
+    Study* study_;
 };
 
 } // namespace EpStudy
 
-#endif // STUDYMANAGER_H
+#endif

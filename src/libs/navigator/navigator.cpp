@@ -210,6 +210,9 @@ void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
     study->setPreregisterStudy(true);
     if (getStudyInformation(study)) {
+        // add to System and possibly Network StudyTables
+        // and to System and possibly Network folders
+
         catalogs_->addStudy(study);
         refreshCatalogs();
         // refreshCatalogs() catches IO errors, so should 
@@ -417,6 +420,7 @@ void Navigator::refreshCatalogs() {
     catalogs_->refresh();
     catalogs_->setCurrentCatalog(catalogComboBox_->source());
     tableListView_->load(catalogs_->currentCatalog());
+    studyTable_->setSource(catalogComboBox_->source());
     applyFilter();
 }
 

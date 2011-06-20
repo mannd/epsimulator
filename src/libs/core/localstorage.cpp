@@ -31,13 +31,10 @@ LocalStorage::LocalStorage() {
     // Unix only so far.  Must fix when allowing optical disks
     opticalDiskPath_ = "/media/cdrom";
     hardDrivePath_ = EpCore::joinPaths(QDir::homePath(), 
-                                       EpCore::Constants::EPSIM_STUDIES_DIRNAME);
+                                       EpCore::Constants::EPSIM_LOCAL_DIRNAME);
 }
 
 bool LocalStorage::init() {
     // create default hard drive path
-    QDir dir = QDir(hardDrivePath_);
-    if (!dir.exists() && !dir.mkpath(hardDrivePath_))
-        return false;
-    return true;
+    return makePath(hardDrivePath_);
 }

@@ -886,6 +886,14 @@ void TestEpSimulator::testSystemStorage() {
     QString fileName("/wow/");
     QVERIFY(s.filePath(fileName) == "test2/wow");
     QVERIFY(s.cachePath() == "test2/cache");
+    s.setPath("tmp");
+    s.init();
+    QVERIFY(s.exists());
+    s.setPath("tmp/testSystemPath");
+    QVERIFY(!s.exists());
+    s.init();
+    QVERIFY(s.exists());
+    QVERIFY(QDir(s.cachePath()).exists());
 }
 
 void TestEpSimulator::testRemovableMedia() {
@@ -957,6 +965,10 @@ void TestEpSimulator::testStudyTable() {
 void TestEpSimulator::testLocalStorage() {
     LocalStorage l;
     QVERIFY(l.hardDrivePath() == QDir::homePath() + "/epsim_studies");
+    l.setHardDrivePath("tmp/tempLocalStorage");
+    QVERIFY(l.hardDrivePath() == "tmp/tempLocalStorage");
+    l.init();
+    QVERIFY(QDir(l.hardDrivePath()).exists());
 }
 
 void TestEpSimulator::testSystemStorageInit() {
@@ -1050,6 +1062,12 @@ void TestEpSimulator::testCreateOpticalCatalogDbConnection() {
     disk.createOpticalCatalogDbConnection();
     //disk.removeDatabase();
     disk.close();
+}
+
+void TestEpSimulator::testMakePath() {
+    QString path = "tmp/testMakePath";
+    EpCore::makePath(path);
+    QVERIFY(QDir(path).exists());
 }
 
 void TestEpSimulator::cleanupTestCase() {

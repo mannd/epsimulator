@@ -25,7 +25,11 @@
 using EpCore::joinPaths;
 using EpStudy::StudyManager;
 
-StudyManager::StudyManager() {} // all data members initialized to QString()
+StudyManager::StudyManager() {
+    
+    
+
+} 
 
 StudyManager::StudyManager(const QString& systemPath,
                            const QString& opticalPath,
