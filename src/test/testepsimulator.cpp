@@ -1076,6 +1076,7 @@ void TestEpSimulator::testStudyManager() {
     SystemStorage ss;
     ss.init();
     QVERIFY(ss.path() == sm.systemPath());
+    QVERIFY(sm.source() == Catalog::System);
 }
 
 void TestEpSimulator::cleanupTestCase() {

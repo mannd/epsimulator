@@ -42,6 +42,7 @@ public:
                  const QString& otherPath = QString());
 
     QString systemPath() const {return systemPath_;}
+    EpNavigator::Catalog::Source source() const {return catalogSource_;}
 
     void setSystemPath(const QString& systemPath) {
         systemPath_ = systemPath;
