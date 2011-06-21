@@ -42,6 +42,7 @@
 #include "saturation.h"
 #include "study.h"
 #include "studyconfiguration.h"
+#include "studymanager.h"
 #include "studytable.h"
 #include "systemstorage.h"
 #include "user.h"
@@ -1068,6 +1069,13 @@ void TestEpSimulator::testMakePath() {
     QString path = "tmp/testMakePath";
     EpCore::makePath(path);
     QVERIFY(QDir(path).exists());
+}
+
+void TestEpSimulator::testStudyManager() {
+    StudyManager sm;
+    SystemStorage ss;
+    ss.init();
+    QVERIFY(ss.path() == sm.systemPath());
 }
 
 void TestEpSimulator::cleanupTestCase() {

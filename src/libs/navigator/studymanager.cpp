@@ -21,14 +21,17 @@
 #include "studymanager.h"
 
 #include "fileutilities.h"
+#include "systemstorage.h"
 
 using EpCore::joinPaths;
+using EpCore::SystemStorage;
+using EpNavigator::Catalog;
 using EpStudy::StudyManager;
 
-StudyManager::StudyManager() {
-    
-    
-
+StudyManager::StudyManager() 
+    : catalogSource_(Catalog::System), opticalDisk_(0) {
+    SystemStorage systemStorage;
+    systemPath_ = systemStorage.path();
 } 
 
 StudyManager::StudyManager(const QString& systemPath,

@@ -22,7 +22,6 @@
 #define STUDYMANAGER_H
 
 #include "catalog.h"
-//#include "opticaldisk.h"
 
 #include <QString>
 
@@ -41,6 +40,8 @@ public:
                  const QString& opticalPath,
                  const QString& networkPath,
                  const QString& otherPath = QString());
+
+    QString systemPath() const {return systemPath_;}
 
     void setSystemPath(const QString& systemPath) {
         systemPath_ = systemPath;
