@@ -815,7 +815,10 @@ class StudyPaths {
     QString networkPath;
 };
 #+END_SRC
-
+** Revision of above
+   - Needs to know
+     - OpticalDisk* pointer to current disk, must be valid
+     - 
 * Catalogs reconsidered
 ** Database connections
    All database connections are opened and global.

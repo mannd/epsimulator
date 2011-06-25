@@ -88,7 +88,9 @@ void TestEpSimulator::initTestCase() {
         workingDir.mkdir("tmp");
     QCOMPARE(dir.exists(), true);
     workingPath_ = workingDir.absolutePath();
-    //qDebug() << workingPath_;
+    qDebug() << "\nWorking path for tests is" << workingPath_;
+    QString testPath = workingPath_ + QDir::separator() + "tmp";
+    qDebug() << "\nTest path is" << testPath;
     // must set below up for QSettings to work right
     qApp->setOrganizationName("EP Studios");
     qApp->setOrganizationDomain("epstudiossoftware.com");
@@ -246,7 +248,6 @@ void TestEpSimulator::testStudyFileName() {
 void TestEpSimulator::testStudyLoadSave() {
     Study s;
     s.setPath("tmp");
-    //qDebug() << "tmp path = " << s.filePath();
     Name name("Doe", "James", "");
     s.setName(name);
     s.save();
@@ -946,9 +947,7 @@ void TestEpSimulator::testStudyTable() {
         model = qobject_cast<QSqlTableModel*>(t.model());
         QSqlRecord record = model->record(0);
         QString key = record.value("StudyKey").toString();
-        qDebug() << "key" << key;
         QVERIFY(s.key() == key);
-        qDebug() << "t.key()" << t.key();
         QVERIFY(s.key() == t.key());
         QVERIFY(s.name().last() == "test");
         Study* s1 = t.study();
@@ -957,10 +956,6 @@ void TestEpSimulator::testStudyTable() {
         delete s1;
     }
     disk.close();
-
-    // would like to test below, but don't know how to select
-    // row on QTableView without Gui
-    //QVERIFY(s.key() == t.key());
 }
 
 void TestEpSimulator::testLocalStorage() {
@@ -1028,7 +1023,6 @@ void TestEpSimulator::testEmulatedOpticalDiskCache() {
     EmulatedOpticalDisk disk("tmp", cachePath);
     QVERIFY(!disk.isRemovable());
     QVERIFY(disk.labelPath() != disk.path());
-    qDebug() << disk.labelPath() << disk.path();
     QVERIFY(!disk.isInitialized());
     QVERIFY(!disk.isLabeled());
     disk.init();
@@ -1044,7 +1038,6 @@ void TestEpSimulator::testForceCacheEmulatedOpticalDiskCache() {
     EmulatedOpticalDisk disk("tmp", cachePath);
     QVERIFY(!disk.isRemovable());
     QVERIFY(disk.labelPath() != disk.path());
-    qDebug() << disk.labelPath() << disk.path();
     QVERIFY(!disk.isInitialized());
     QVERIFY(!disk.isLabeled());
     disk.setCacheControl(Options::ForceCache);
@@ -1072,11 +1065,28 @@ void TestEpSimulator::testMakePath() {
 }
 
 void TestEpSimulator::testStudyManager() {
-    StudyManager sm;
     SystemStorage ss;
     ss.init();
+    StudyManager sm;
+    // check some defaults
     QVERIFY(ss.path() == sm.systemPath());
-    QVERIFY(sm.source() == Catalog::System);
+    QVERIFY(!sm.useNetwork());
+    QVERIFY(sm.catalog() == Catalog::System);
+    sm.setCatalog(Catalog::Optical);
+    QVERIFY(sm.catalog() == Catalog::Optical);
+    StudyManager sm2(0);        // other constructor
+    QVERIFY(ss.path() == sm2.systemPath());
+    QVERIFY(!sm2.useNetwork());
+    QVERIFY(sm2.catalog() == Catalog::System);
+}
+
+void TestEpSimulator::testStudyManagerLoadStudy() {
+    StudyManager sm;
+    sm.setSystemPath("tmp/testSystemPath");
+    QVERIFY(sm.systemPath() == "tmp/testSystemPath");
+    Study* study = sm.getPreregisterStudy("12345");
+    QVERIFY(study);
+    QVERIFY(study->key() == "12345");
 }
 
 void TestEpSimulator::cleanupTestCase() {
@@ -1142,5 +1152,5 @@ void TestEpSimulator::completePatientDialog(PatientDialog* p) {
 }
 
 QTEST_MAIN(TestEpSimulator)
-//#include "testepsimulator.moc"
+
 

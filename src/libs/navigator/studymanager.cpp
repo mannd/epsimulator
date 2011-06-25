@@ -21,18 +21,23 @@
 #include "studymanager.h"
 
 #include "fileutilities.h"
+#include "study.h"
 #include "systemstorage.h"
 
 using EpCore::joinPaths;
 using EpCore::SystemStorage;
+using EpHardware::EpOpticalDisk::OpticalDisk;
 using EpNavigator::Catalog;
+using EpStudy::Study;
 using EpStudy::StudyManager;
 
 StudyManager::StudyManager() 
-    : catalogSource_(Catalog::System), opticalDisk_(0) {
-    SystemStorage systemStorage;
-    systemPath_ = systemStorage.path();
-} 
+    : opticalDisk_(0),
+      catalogSource_(Catalog::System), 
+      useNetwork_(false), 
+      study_(0) {
+    init();
+}
 
 StudyManager::StudyManager(const QString& systemPath,
                            const QString& opticalPath,
@@ -43,3 +48,42 @@ StudyManager::StudyManager(const QString& systemPath,
 
 }
 
+StudyManager::StudyManager(OpticalDisk* disk,
+                           Catalog::Source source,
+                           bool useNetwork) 
+    : opticalDisk_(disk), catalogSource_(source), useNetwork_(useNetwork) {
+    init();
+}
+
+void StudyManager::init() {
+    SystemStorage systemStorage;
+    systemPath_ = systemStorage.path();
+}    
+
+Study* StudyManager::getPreregisterStudy(const QString& key) {
+    Study* study = new Study;
+    if (useNetwork_)
+        study->setPath(networkPath_);
+    else
+        study->setPath(systemPath_);
+    study->setKey(key);
+    study->load();
+    return study;
+}
+
+void StudyManager::addStudy(Study* study) {
+    if (!study)
+        return;
+    if (study->isPreregisterStudy())
+        addPreregisterStudy(study);
+    // else addFullStudy();
+}
+
+void StudyManager::addPreregisterStudy(Study* study) {
+    if (!study || !study->isPreregisterStudy())
+        return;
+}
+
+Study* StudyManager::study(const QString& /*key*/) {
+    return 0;
+}

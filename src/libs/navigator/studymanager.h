@@ -40,9 +40,17 @@ public:
                  const QString& opticalPath,
                  const QString& networkPath,
                  const QString& otherPath = QString());
+    StudyManager(EpHardware::EpOpticalDisk::OpticalDisk*,
+                 // StudyTable*, ????
+                 EpNavigator::Catalog::Source = EpNavigator::Catalog::System,
+                 bool useNetwork = false);
+                 
 
+    Study* getPreregisterStudy(const QString& key);
     QString systemPath() const {return systemPath_;}
-    EpNavigator::Catalog::Source source() const {return catalogSource_;}
+
+    bool useNetwork() const {return useNetwork_;}
+    EpNavigator::Catalog::Source catalog() const {return catalogSource_;}
 
     void setSystemPath(const QString& systemPath) {
         systemPath_ = systemPath;
@@ -58,22 +66,28 @@ public:
     void setOtherPath(const QString& otherPath) {
         otherPath_ = otherPath;
     }
-    void setCatalog(EpNavigator::Catalog::Source);
+    void setUseNetwork(bool value) {useNetwork_ = value;}
+    void setCatalog(EpNavigator::Catalog::Source source) {
+        catalogSource_ = source;}
     void setStudy(Study*);
 
     void addStudyToCatalog(Study*);
     void addStudy(Study*);      // handles pre-register, network
     Study* study();
+    Study* study(const QString& key);
 
 
 private:
+    void init();
+    void addPreregisterStudy(Study*);
+
     QString systemPath_;
     QString opticalPath_;
     QString networkPath_;
     QString otherPath_;
-    bool useNetwork_;
-    EpNavigator::Catalog::Source catalogSource_;
     EpHardware::EpOpticalDisk::OpticalDisk* opticalDisk_;
+    EpNavigator::Catalog::Source catalogSource_;
+    bool useNetwork_;
     Study* study_;
 };
 

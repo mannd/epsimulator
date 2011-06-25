@@ -90,6 +90,7 @@ private slots:
     void testCreateOpticalCatalogDbConnection();
     void testMakePath();
     void testStudyManager();
+    void testStudyManagerLoadStudy();
 
     void cleanupTestCase();
 
