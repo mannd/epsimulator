@@ -1089,6 +1089,12 @@ void TestEpSimulator::testStudyManagerLoadStudy() {
     QVERIFY(study->key() == "12345");
 }
 
+void TestEpSimulator::testStudyManagerStudiesPath() {
+    StudyManager sm;
+    sm.setNetworkPath("tmp/testNetworkPath");
+    QVERIFY(sm.networkStudiesPath() == "tmp/testNetworkPath/studies");
+}
+
 void TestEpSimulator::cleanupTestCase() {
     bool workingPathUnchanged = QDir::currentPath() == workingPath_;
     QVERIFY(workingPathUnchanged);

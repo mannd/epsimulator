@@ -42,6 +42,7 @@
 #include "statusbar.h"
 #include "study.h"
 #include "studyconfiguration.h"
+#include "studymanager.h"
 #include "studytable.h"
 #include "systemstorage.h"
 #include "tablelistview.h"
@@ -79,6 +80,7 @@ using EpGui::PatientDialog;
 using EpGui::SelectStudyConfigDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
+using EpStudy::StudyManager;
 using EpNavigator::Navigator;
 
 using namespace EpHardware::EpOpticalDisk;
@@ -94,7 +96,8 @@ Navigator::Navigator(QWidget* parent)
 
     options()->load();
     createOpticalDrive();
-    createCatalogs();    
+    createStudyManager();
+    createCatalogs();
     createActions();
     createMenus();
     createToolBars();
@@ -109,6 +112,7 @@ Navigator::Navigator(QWidget* parent)
 
 Navigator::~Navigator() {
     delete catalogs_;
+    delete studyManager_;
     delete currentDisk_;
 }
 
@@ -207,11 +211,12 @@ void Navigator::reviewStudy() {
 }
 
 void Navigator::preregisterPatient() {
-    Study* study = getNewStudy();
+    //Study* study = getNewStudy();
+    Study* study = new Study;
     study->setPreregisterStudy(true);
     if (getStudyInformation(study)) {
+        studyManager_->addStudy(study);
         // add to System and possibly Network StudyTables
-        // and to System and possibly Network folders
 
         catalogs_->addStudy(study);
         refreshCatalogs();
@@ -897,6 +902,10 @@ void Navigator::createCatalogs() {
     catalogs_ = new Catalogs(options(), currentDisk_->labelPath());
 
     currentDisk_->createOpticalCatalogDbConnection();
+}
+
+void Navigator::createStudyManager() {
+    studyManager_ = new StudyManager(currentDisk_);
 }
  
 void Navigator::createCentralWidget() {

@@ -75,7 +75,7 @@ public:
 
     void setStudyConfiguration(StudyConfiguration* config);
 
-    EpPatient::Name name() const {return name_;};
+    EpPatient::Name name() const {return name_;}
     QString mrn() const {return mrn_;}
     QString number() const {return number_;}
     QString accountNumber() const {return accountNumber_;}
@@ -105,7 +105,7 @@ public:
     // specific study directory
     QString filePath();     // Returns full path of study.dat file,
     QString configFilePath();   // returns full path of config.dat file
-    QString dirName() const {return "/" + key();}
+    QString dirName() const;
     QString fileName() const {return fileName_;}
 
 private:

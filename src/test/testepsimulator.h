@@ -91,6 +91,7 @@ private slots:
     void testMakePath();
     void testStudyManager();
     void testStudyManagerLoadStudy();
+    void testStudyManagerStudiesPath();
 
     void cleanupTestCase();
 

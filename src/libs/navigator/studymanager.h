@@ -48,6 +48,9 @@ public:
 
     Study* getPreregisterStudy(const QString& key);
     QString systemPath() const {return systemPath_;}
+    QString systemStudiesPath() const;
+    QString networkStudiesPath() const;
+    QString opticalStudiesPath() const;
 
     bool useNetwork() const {return useNetwork_;}
     EpNavigator::Catalog::Source catalog() const {return catalogSource_;}
@@ -80,6 +83,7 @@ public:
 private:
     void init();
     void addPreregisterStudy(Study*);
+    QString studiesPath(const QString& path) const;
 
     QString systemPath_;
     QString opticalPath_;
