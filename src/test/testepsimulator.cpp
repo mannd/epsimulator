@@ -939,7 +939,7 @@ void TestEpSimulator::testStudyTable() {
         Name name("test", "", "");
         s.setName(name);
         QVERIFY(t.model()->rowCount() == 0);
-        t.addStudy(s, "here");
+        t.addStudy(&s, "here");
         QVERIFY(t.model()->rowCount() == 1);
         QSqlTableModel* model;
 

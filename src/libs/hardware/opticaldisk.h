@@ -32,6 +32,10 @@ class QFile;
 class QStringList;
 class QWidget;
 
+namespace EpStudy {
+class Study;
+}
+
 namespace EpHardware { 
 namespace EpOpticalDisk {
 

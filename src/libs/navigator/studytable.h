@@ -93,7 +93,7 @@ public:
     QString key() const;           // return selected study key
                                    // or empty string
     Catalog::Source source() const {return source_;}
-    void addStudy(const EpStudy::Study& study, const QString& location);
+    void addStudy(EpStudy::Study* study, const QString& location);
 private:
     void initModel();
     void createHeader();

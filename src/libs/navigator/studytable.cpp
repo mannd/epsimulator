@@ -244,28 +244,28 @@ QString StudyTable::key() const {
     return key;
 }
 
-void StudyTable::addStudy(const Study& study, const QString& location) {
+void StudyTable::addStudy(Study* study, const QString& location) {
     int row = model_->rowCount();
     model_->insertRow(row);
-    model_->setData(model_->index(row, CatalogEntry_StudyKey), study.key());
+    model_->setData(model_->index(row, CatalogEntry_StudyKey), study->key());
     model_->setData(model_->index(row, CatalogEntry_StudyType),
-                     study.isPreregisterStudy() ? tr("Pre-Register")
+                     study->isPreregisterStudy() ? tr("Pre-Register")
               : tr("Study"));
     model_->setData(model_->index(row, CatalogEntry_LastName),
-                    study.name().last());
+                    study->name().last());
     model_->setData(model_->index(row, CatalogEntry_FirstName),
-                    study.name().first());
+                    study->name().first());
     model_->setData(model_->index(row, CatalogEntry_FullName),
-                    study.name().lastFirstMiddle());
+                    study->name().lastFirstMiddle());
     model_->setData(model_->index(row, CatalogEntry_PatientMrn),
-                    study.mrn());
+                    study->mrn());
     model_->setData(model_->index(row, CatalogEntry_StudyDateTime ), 
-                    study.dateTime().toString("yyyy/MM/dd hh:mm:ss"));
+                    study->dateTime().toString("yyyy/MM/dd hh:mm:ss"));
     model_->setData(model_->index(row, CatalogEntry_StudyConfig),
-                    study.isPreregisterStudy() ?
-                    QString() : study.studyConfiguration()->name());
+                    study->isPreregisterStudy() ?
+                    QString() : study->studyConfiguration()->name());
     model_->setData(model_->index(row, CatalogEntry_StudyNumber),
-                    study.number());
+                    study->number());
     model_->setData(model_->index(row, CatalogEntry_StudyLocation),
                     location);
     model_->submitAll();

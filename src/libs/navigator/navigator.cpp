@@ -151,7 +151,7 @@ void Navigator::newStudy() {
             catalogs_->addStudy(study, currentDisk_->label(),
                                 currentDisk_->translatedSide(),
                                 options()->labName, user()->machineName());
-            studyTable_->addStudy(*study, currentDisk_->label());
+            studyTable_->addStudy(study, currentDisk_->label());
             refreshCatalogs();
             startStudy(study);
         }
@@ -217,6 +217,7 @@ void Navigator::preregisterPatient() {
     if (getStudyInformation(study)) {
         studyManager_->addStudy(study);
         // add to System and possibly Network StudyTables
+        studyTable_->addStudy(study, QString());
 
         catalogs_->addStudy(study);
         refreshCatalogs();
