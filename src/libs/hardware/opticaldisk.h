@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2006, 2011 by EP Studios, Inc.                          *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -57,7 +57,7 @@ public:
     // note: returns translation of "B" if side is anything other than 
     // empty or "A"
     static QString translateSide(const QString& side);
-    static QString studiesDirName() {return studiesDirName_;}
+    static QString studiesDirName();
     static QString makeStudiesPath(const QString& path);
 
     virtual void init();
@@ -134,9 +134,6 @@ private:
     OpticalDisk(OpticalDisk&);
     bool workingCatalogFileExists();
     bool createWorkingCatalogFile();
-
-    
-    static const QString studiesDirName_;
 
     QString path_;  // optical drive path, all the way to study dir
                     // e.g. /home/user/MyStudies

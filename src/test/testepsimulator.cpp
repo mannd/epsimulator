@@ -1093,6 +1093,18 @@ void TestEpSimulator::testStudyManagerStudiesPath() {
     StudyManager sm;
     sm.setNetworkPath("tmp/testNetworkPath");
     QVERIFY(sm.networkStudiesPath() == "tmp/testNetworkPath/studies");
+    SystemStorage ss;
+    QVERIFY(sm.systemStudiesPath() == ss.studiesPath());
+    sm.setSystemPath("tmp/testSystemPath");
+    QVERIFY(sm.systemStudiesPath() == "tmp/testSystemPath/studies");
+}
+
+void TestEpSimulator::testOpticalDiskStudiesDir() {
+    OpticalDisk disk("tmp", "tmpPath");
+    qDebug() << disk.path();
+    QVERIFY(disk.path() == joinPaths(workingPath_, "tmp"));
+    QVERIFY(disk.studiesPath() == joinPaths(workingPath_,
+                                            "tmpPath/studies"));
 }
 
 void TestEpSimulator::cleanupTestCase() {
@@ -1103,6 +1115,7 @@ void TestEpSimulator::cleanupTestCase() {
 	QCOMPARE(QDir::current().exists("tmp"), false);
     }
 }
+
 
 // private functions
 
