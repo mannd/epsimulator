@@ -92,12 +92,16 @@ public:
                                    // or 0 if none selected
     QString key() const;           // return selected study key
                                    // or empty string
+    bool isPreregisterStudy() const;
     Catalog::Source source() const {return source_;}
-    void addStudy(const EpStudy::Study& study, const QString& location);
+    void addStudy(EpStudy::Study* study, const QString& location);
 private:
     void initModel();
     void createHeader();
     void setHeaderLabels(QSqlTableModel*);
+
+    void addStudy(QSqlTableModel* model, EpStudy::Study* study,
+                  const QString& location);
 
     QSqlTableModel* systemModel_;
     QSqlTableModel* opticalModel_;

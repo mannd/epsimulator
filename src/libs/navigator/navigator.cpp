@@ -42,6 +42,7 @@
 #include "statusbar.h"
 #include "study.h"
 #include "studyconfiguration.h"
+#include "studymanager.h"
 #include "studytable.h"
 #include "systemstorage.h"
 #include "tablelistview.h"
@@ -79,6 +80,7 @@ using EpGui::PatientDialog;
 using EpGui::SelectStudyConfigDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
+using EpStudy::StudyManager;
 using EpNavigator::Navigator;
 
 using namespace EpHardware::EpOpticalDisk;
@@ -94,7 +96,8 @@ Navigator::Navigator(QWidget* parent)
 
     options()->load();
     createOpticalDrive();
-    createCatalogs();    
+    createStudyManager();
+    createCatalogs();
     createActions();
     createMenus();
     createToolBars();
@@ -109,6 +112,7 @@ Navigator::Navigator(QWidget* parent)
 
 Navigator::~Navigator() {
     delete catalogs_;
+    delete studyManager_;
     delete currentDisk_;
 }
 
@@ -147,7 +151,7 @@ void Navigator::newStudy() {
             catalogs_->addStudy(study, currentDisk_->label(),
                                 currentDisk_->translatedSide(),
                                 options()->labName, user()->machineName());
-            studyTable_->addStudy(*study, currentDisk_->label());
+            studyTable_->addStudy(study, currentDisk_->label());
             refreshCatalogs();
             startStudy(study);
         }
@@ -210,8 +214,9 @@ void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
     study->setPreregisterStudy(true);
     if (getStudyInformation(study)) {
+        studyManager_->addStudy(study);
         // add to System and possibly Network StudyTables
-        // and to System and possibly Network folders
+        studyTable_->addStudy(study, QString());
 
         catalogs_->addStudy(study);
         refreshCatalogs();
@@ -898,6 +903,10 @@ void Navigator::createCatalogs() {
 
     currentDisk_->createOpticalCatalogDbConnection();
 }
+
+void Navigator::createStudyManager() {
+    studyManager_ = new StudyManager(currentDisk_);
+}
  
 void Navigator::createCentralWidget() {
     centralWidget_ = new QSplitter(Qt::Horizontal, this);
@@ -1369,8 +1378,8 @@ bool Navigator::getStudyInformation(Study* study) {
 // returns 0 if no study selected
 Study* Navigator::getSelectedStudy() {
     //return tableListView_->study();
-    return studyTable_->study();
-    return 0;                   // TODO: this is just until StudyManager implemented
+    QString key = studyTable_->key();
+    return studyManager_->study(key);
 }
 
 // Returns study selected in the catalog, or, if none selected, a new study.

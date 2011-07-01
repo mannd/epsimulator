@@ -138,6 +138,10 @@ QString Study::key() const {
     return key_;
 }
 
+QString Study::dirName() const {
+    return QDir::separator() + key();
+}
+
 QString Study::filePath() {
     Q_ASSERT(!path_.isEmpty());
     return EpCore::joinPaths(path_ , fileName_);

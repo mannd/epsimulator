@@ -43,6 +43,7 @@ class OpticalDisk; }
 
 namespace EpStudy { 
 class Study; 
+class StudyManager;
 }
 
 namespace EpNavigator {
@@ -125,6 +126,7 @@ private:
     void initializeOpticalDisk();
     void createOpticalDrive();
     void createCatalogs();
+    void createStudyManager();
     void createCentralWidget();
     void createButtonFrame();
     void createTableListView();
@@ -185,6 +187,7 @@ private:
     QSplitter* centralWidget_;
     AbstractButtonFrame* buttonFrame_;
     TableListView* tableListView_;
+    EpStudy::StudyManager* studyManager_;
     StudyTable* studyTable_;
 
     // Actions

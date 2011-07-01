@@ -12,7 +12,8 @@ SOURCES += options.cpp \
     mark.cpp \
     columnformat.cpp \
     systemstorage.cpp \
-    localstorage.cpp
+    localstorage.cpp \
+    networkstorage.cpp
 unix:SOURCES += ../../os/fileutilities_unix.cpp
 win32:SOURCES += ../../os/fileutilities_win.cpp
 HEADERS += options.h \
@@ -27,7 +28,8 @@ HEADERS += options.h \
     columnformat.h \
     coreconstants.h \
     systemstorage.h \
-    localstorage.h
+    localstorage.h \
+    networkstorage.h
 win32:LIBS += -lws2_32 \
     -lkernel32 \
     -loleaut32

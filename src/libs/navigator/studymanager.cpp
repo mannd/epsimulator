@@ -20,16 +20,30 @@
 
 #include "studymanager.h"
 
+#include "coreconstants.h"
 #include "fileutilities.h"
+#include "opticaldisk.h"
+#include "study.h"
+#include "systemstorage.h"
+
+#include <QDir>
 
 using EpCore::joinPaths;
+using EpCore::SystemStorage;
+using EpHardware::EpOpticalDisk::OpticalDisk;
+using EpNavigator::Catalog;
+using EpStudy::Study;
 using EpStudy::StudyManager;
 
-StudyManager::StudyManager() {
-    
-    
-
-} 
+// StudyManager knows how to read and write Studies to the 3
+// catalog locations -- so that Study doesn't have to.
+StudyManager::StudyManager() 
+    : opticalDisk_(0),
+      catalogSource_(Catalog::System), 
+      useNetwork_(false), 
+      study_(0) {
+    init();
+}
 
 StudyManager::StudyManager(const QString& systemPath,
                            const QString& opticalPath,
@@ -40,3 +54,66 @@ StudyManager::StudyManager(const QString& systemPath,
 
 }
 
+StudyManager::StudyManager(OpticalDisk* disk,
+                           Catalog::Source source,
+                           bool useNetwork) 
+    : opticalDisk_(disk), catalogSource_(source), useNetwork_(useNetwork) {
+    init();
+}
+
+void StudyManager::init() {
+    SystemStorage systemStorage;
+    systemPath_ = systemStorage.path();
+}    
+
+QString StudyManager::studiesPath(const QString& path) const {
+    return EpCore::joinPaths(path, EpCore::Constants::EPSIM_STUDIES_DIRNAME);
+}
+
+QString StudyManager::networkStudiesPath() const {
+    return studiesPath(networkPath_);
+}
+
+QString StudyManager::systemStudiesPath() const {
+    return studiesPath(systemPath_);
+}
+
+QString StudyManager::opticalStudiesPath() const {
+    //return studiesPath(opticalDisk_->workingPath());
+    /// TODO fix OpticalDisk!
+    return QString();
+}
+
+Study* StudyManager::getPreregisterStudy(const QString& key) {
+    Study* study = new Study;
+    study->setKey(key);
+    if (useNetwork_)
+        study->setPath(networkPath_);
+    else
+        study->setPath(systemPath_);
+    study->load();
+    return study;
+}
+
+void StudyManager::addStudy(Study* study) {
+    if (!study)
+        return;
+    if (study->isPreregisterStudy())
+        addPreregisterStudy(study);
+    // else addFullStudy();
+}
+
+void StudyManager::addPreregisterStudy(Study* study) {
+    if (!study || !study->isPreregisterStudy())
+        return;
+    QString studyPath(joinPaths(systemPath_, "studies", study->dirName()));
+    QDir studyDir(studyPath);
+    if (!studyDir.exists() && !studyDir.mkdir(studyPath))
+        return;
+    study->setPath(studyPath);
+    study->save();
+}
+
+Study* StudyManager::study(const QString& /*key*/) {
+    return 0;
+}

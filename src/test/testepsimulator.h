@@ -89,7 +89,10 @@ private slots:
     void testForceCacheEmulatedOpticalDiskCache();
     void testCreateOpticalCatalogDbConnection();
     void testMakePath();
-
+    void testStudyManager();
+    void testStudyManagerLoadStudy();
+    void testStudyManagerStudiesPath();
+    void testOpticalDiskStudiesDir();
     void cleanupTestCase();
 
 private:

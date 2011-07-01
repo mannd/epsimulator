@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2006, 2011 by EP Studios, Inc.                          *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -67,7 +67,6 @@ QDataStream& operator>>(QDataStream& in, LabelData& labelData) {
 // class OpticalDisk
 
 const QString OpticalDisk::labelFileName_ = "label.dat";
-const QString OpticalDisk::studiesDirName_ = "studies";
 
 OpticalDisk::OpticalDisk(const QString& path, const QString& cachePath)
     : path_(path),
@@ -103,13 +102,17 @@ bool OpticalDisk::isRemovable() const {
     return EpCore::isRemovableMedia(path_);
 }
 
+QString OpticalDisk::studiesDirName() {
+    return EpConstants::EPSIM_STUDIES_DIRNAME;
+}
+
 void OpticalDisk::init() {
     if (initialized_)
         return;
     bool labelFileExists = QDir(path_).exists(labelFileName_);
     bool catalogFileExists = QDir(path_)
         .exists(EpConstants::EPSIM_CATALOG_DB_FILENAME);
-    bool studiesDirExists = QDir(path_).exists(studiesDirName_);
+    bool studiesDirExists = QDir(path_).exists(studiesDirName());
     if (useCache_) {
         clearCache();
         QStringList files;
@@ -119,7 +122,7 @@ void OpticalDisk::init() {
             files << EpConstants::EPSIM_CATALOG_DB_FILENAME;
         EpCore::copyFilesToPath(files, path_, cachePath_);
         if (studiesDirExists)
-            EpCore::copyDir(EpCore::joinPaths(path_, studiesDirName_),
+            EpCore::copyDir(EpCore::joinPaths(path_, studiesDirName()),
                             cachePath_);
     }
     readLabel();                // reads label.dat in workingPath_
@@ -129,8 +132,8 @@ void OpticalDisk::init() {
             throw EpCore::WriteError(EpConstants::
                                      EPSIM_CATALOG_DB_FILENAME);
     // create studies dir here if needed
-    if (!QDir(workingPath_).exists(studiesDirName_))
-        QDir(workingPath_).mkdir(studiesDirName_);
+    if (!QDir(workingPath_).exists(studiesDirName()))
+        QDir(workingPath_).mkdir(studiesDirName());
     initialized_ = true;
 }
 
@@ -188,7 +191,7 @@ void OpticalDisk::close() {
         if (!isRemovable()) {
             EpCore::copyFilesToPath(files, cachePath_, path_);
            // EpCore::deleteDir(studiesPath());
-            EpCore::copyDir(EpCore::joinPaths(workingPath_, studiesDirName_),
+            EpCore::copyDir(EpCore::joinPaths(workingPath_, studiesDirName()),
                             path_);
         }
         else {
@@ -202,7 +205,7 @@ void OpticalDisk::close() {
 }
 
 QString OpticalDisk::makeStudiesPath(const QString& path) {
-    return EpCore::joinPaths(path, studiesDirName_);
+    return EpCore::joinPaths(path, studiesDirName());
 }
 
 
@@ -242,7 +245,7 @@ QString OpticalDisk::labelFilePath() const {
 
 // full path to the studies directory on the disk. 
 QString OpticalDisk::studiesPath() const {
-    return makeStudiesPath(path_);
+    return makeStudiesPath(workingPath_);
 }
 
 // loads the label and side data in label.dat.
