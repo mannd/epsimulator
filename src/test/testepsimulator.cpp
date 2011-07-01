@@ -952,7 +952,7 @@ void TestEpSimulator::testStudyTable() {
         QVERIFY(s.name().last() == "test");
         Study* s1 = t.study();
         QVERIFY(s1->key() == s.key());
-       // QVERIFY(s1->name().last() == s.name().last());
+        QVERIFY(s1->name().last() == s.name().last());
         delete s1;
     }
     disk.close();

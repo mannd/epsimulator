@@ -67,6 +67,7 @@ void StudyTable::initModel() {
 }
 
 void StudyTable::createHeader() {
+    const int defaultSectionSize = 150; // so the header isn't squooshed
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setSelectionMode(QAbstractItemView::SingleSelection);
     setColumnHidden(CatalogEntry_Id, true);
@@ -80,7 +81,8 @@ void StudyTable::createHeader() {
     setSortingEnabled(true);
     verticalHeader()->hide();
     QHeaderView* header = horizontalHeader();
-    header->setStretchLastSection(true);;
+    header->setDefaultSectionSize(defaultSectionSize);
+    header->setStretchLastSection(true);
     header->setSortIndicator(CatalogEntry_StudyDateTime, Qt::DescendingOrder);
     header->setSortIndicatorShown(true);
     header->setMovable(false);
@@ -242,6 +244,16 @@ QString StudyTable::key() const {
         key = record.value(CatalogEntry_StudyKey).toString();
     }
     return key;
+}
+
+bool StudyTable::isPreregisterStudy() const {
+    QModelIndex index = currentIndex();
+    bool result = false;
+    if (index.isValid()) {
+        QSqlRecord record = model_->record(index.row());
+        result = record.value(CatalogEntry_StudyType).toBool();
+    }
+    return result;
 }
 
 void StudyTable::addStudy(Study* study, const QString& location) {

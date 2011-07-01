@@ -211,8 +211,7 @@ void Navigator::reviewStudy() {
 }
 
 void Navigator::preregisterPatient() {
-    //Study* study = getNewStudy();
-    Study* study = new Study;
+    Study* study = getNewStudy();
     study->setPreregisterStudy(true);
     if (getStudyInformation(study)) {
         studyManager_->addStudy(study);
@@ -1379,8 +1378,8 @@ bool Navigator::getStudyInformation(Study* study) {
 // returns 0 if no study selected
 Study* Navigator::getSelectedStudy() {
     //return tableListView_->study();
-    return studyTable_->study();
-    return 0;                   // TODO: this is just until StudyManager implemented
+    QString key = studyTable_->key();
+    return studyManager_->study(key);
 }
 
 // Returns study selected in the catalog, or, if none selected, a new study.
