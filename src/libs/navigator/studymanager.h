@@ -53,7 +53,7 @@ public:
     QString opticalStudiesPath() const;
 
     bool useNetwork() const {return useNetwork_;}
-    EpNavigator::Catalog::Source catalog() const {return catalogSource_;}
+    EpNavigator::Catalog::Source activeCatalog() const {return activeCatalog_;}
 
     void setSystemPath(const QString& systemPath) {
         systemPath_ = systemPath;
@@ -70,8 +70,8 @@ public:
         otherPath_ = otherPath;
     }
     void setUseNetwork(bool value) {useNetwork_ = value;}
-    void setCatalog(EpNavigator::Catalog::Source source) {
-        catalogSource_ = source;}
+    void setActiveCatalog(EpNavigator::Catalog::Source activeCatalog) {
+        activeCatalog_ = activeCatalog;}
     void setStudy(Study*);
 
     void addStudyToCatalog(Study*);
@@ -83,6 +83,7 @@ public:
 private:
     void init();
     void addPreregisterStudy(Study*);
+    void addFullStudy(Study*);
     QString studiesPath(const QString& path) const;
 
     QString systemPath_;
@@ -90,7 +91,7 @@ private:
     QString networkPath_;
     QString otherPath_;
     EpHardware::EpOpticalDisk::OpticalDisk* opticalDisk_;
-    EpNavigator::Catalog::Source catalogSource_;
+    EpNavigator::Catalog::Source activeCatalog_;
     bool useNetwork_;
     Study* study_;
 };

@@ -818,7 +818,65 @@ class StudyPaths {
 ** Revision of above
    - Needs to know
      - OpticalDisk* pointer to current disk, must be valid
-     - 
+** enum ReadWriteOptions
+*** Cases
+    - No network
+      - Read
+	- Preregister Study
+	  Read study data from System.  This implies that System must
+          contain study.dat for each study done on that system.  The
+          data is read from whatever catalog is active.  If a full
+          study is selected, the new study is changed to a preregister
+          study.  Note that can also be read from optical disk if it
+          is active.  
+	- Full Study
+	  Get key from active catalog.  Try to open from optical
+          disk.  If optical disk not present, display error; offer to
+          change disks.
+      - Write
+	- Preregister Study
+	  Write to study.dat in System.  Write to System catalog.db.
+          Preregister studies will only show up in System catalog.
+	- Full Study
+	  Write to study.dat in System and on optical disk.  Update
+          System and optical disk catalogs.
+    - Network
+      - Read
+	- Preregister Study
+	  Get key from active catalog.  Both Network and System
+          catalogs contain preregister study data.  If using Network
+          catalog, read study.dat from Network folder; if using System
+          catalog, read study.dat from System.
+	- Full Study
+	  If System or Optical catalog active, then get data from
+          Optical catalog.  If Network catalog active, then get data
+          from Network.  Note Network data can be reviewed, but not continued.
+      - Write
+	- Preregister Study
+	  Write to System and Network catalogs and study.dat in both places.
+	- Full Study
+	  Write study.dat in all 3 locations.
+*** Summary of cases
+    - Always get study key from active catalog.  StudyTable::key()
+      does this.
+    - StudyManager needs to know from where to read study.dat.  This
+      is the active catalog.
+    - StudyManager writes study.dat to all available catalogs, only
+      exception is preregister study data which is not written to the
+      optical disk.
+    - StudyTable uses same logic as StudyManager in writing to
+      catalogs.
+*** Write logic
+    - WriteNetwork
+    - WriteSystem
+    - WriteOptical
+    - class WriteLogic(bool useNetwork)
+    - enum WriteLocations
+    - WriteLogic::setUseNetwork(bool value);
+    - WriteLocations WriteLogic::preRegisterStudy();
+    - WriteLocations WriteLogic::fullStudy();
+*** class StudyWriter(bool useNetwork) {}
+    as above
 * Catalogs reconsidered
 ** Database connections
    All database connections are opened and global.

@@ -93,6 +93,7 @@ private slots:
     void testStudyManagerLoadStudy();
     void testStudyManagerStudiesPath();
     void testOpticalDiskStudiesDir();
+    void testStudyWriter();
     void cleanupTestCase();
 
 private:

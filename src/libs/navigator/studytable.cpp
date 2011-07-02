@@ -67,7 +67,7 @@ void StudyTable::initModel() {
 }
 
 void StudyTable::createHeader() {
-    const int defaultSectionSize = 150; // so the header isn't squooshed
+    const int defaultSectionSize = 140; // so the header isn't squooshed
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setSelectionMode(QAbstractItemView::SingleSelection);
     setColumnHidden(CatalogEntry_Id, true);

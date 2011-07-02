@@ -36,8 +36,6 @@ namespace EpStudy {
 
 namespace EpNavigator {
 
-struct StudyData;
-
 class StudyTable : public QTableView {
 public:
     enum {
@@ -114,7 +112,7 @@ private:
 
     // bool filtered_;
     bool oldStyle_;
-
+    bool useNetwork_;
     // Catalog* catalog_;      // the catalog underlying this TableListView
     
 }; // TableListView

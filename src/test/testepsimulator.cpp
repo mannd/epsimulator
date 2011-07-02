@@ -44,6 +44,7 @@
 #include "studyconfiguration.h"
 #include "studymanager.h"
 #include "studytable.h"
+#include "studywriter.h"
 #include "systemstorage.h"
 #include "user.h"
 
@@ -1071,13 +1072,13 @@ void TestEpSimulator::testStudyManager() {
     // check some defaults
     QVERIFY(ss.path() == sm.systemPath());
     QVERIFY(!sm.useNetwork());
-    QVERIFY(sm.catalog() == Catalog::System);
-    sm.setCatalog(Catalog::Optical);
-    QVERIFY(sm.catalog() == Catalog::Optical);
+    QVERIFY(sm.activeCatalog() == Catalog::System);
+    sm.setActiveCatalog(Catalog::Optical);
+    QVERIFY(sm.activeCatalog() == Catalog::Optical);
     StudyManager sm2(0);        // other constructor
     QVERIFY(ss.path() == sm2.systemPath());
     QVERIFY(!sm2.useNetwork());
-    QVERIFY(sm2.catalog() == Catalog::System);
+    QVERIFY(sm2.activeCatalog() == Catalog::System);
 }
 
 void TestEpSimulator::testStudyManagerLoadStudy() {
@@ -1105,6 +1106,25 @@ void TestEpSimulator::testOpticalDiskStudiesDir() {
     QVERIFY(disk.path() == joinPaths(workingPath_, "tmp"));
     QVERIFY(disk.studiesPath() == joinPaths(workingPath_,
                                             "tmpPath/studies"));
+}
+
+void TestEpSimulator::testStudyWriter() {
+    StudyWriter sw;             // test default no network
+    QVERIFY(!sw.useNetwork());
+    QVERIFY(sw.preRegisterStudy() == StudyWriter::WriteSystem);
+    QVERIFY(sw.fullStudy() == StudyWriter::WriteSystemOptical);
+    sw.setUseNetwork(true);
+    QVERIFY(sw.preRegisterStudy() == StudyWriter::WriteNetworkSystem);
+    QVERIFY(sw.fullStudy() == StudyWriter::WriteAll);
+    Study s;
+    s.setPreregisterStudy(true);
+    QVERIFY(sw.study(&s) == StudyWriter::WriteNetworkSystem);
+    s.setPreregisterStudy(false);
+    QVERIFY(sw.study(&s) == StudyWriter::WriteAll);
+    sw.setUseNetwork(false);
+    QVERIFY(sw.study(&s) == StudyWriter::WriteSystemOptical);
+    s.setPreregisterStudy(true);
+    QVERIFY(sw.study(&s) == StudyWriter::WriteSystem);
 }
 
 void TestEpSimulator::cleanupTestCase() {

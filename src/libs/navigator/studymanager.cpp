@@ -39,7 +39,7 @@ using EpStudy::StudyManager;
 // catalog locations -- so that Study doesn't have to.
 StudyManager::StudyManager() 
     : opticalDisk_(0),
-      catalogSource_(Catalog::System), 
+      activeCatalog_(Catalog::System), 
       useNetwork_(false), 
       study_(0) {
     init();
@@ -55,9 +55,9 @@ StudyManager::StudyManager(const QString& systemPath,
 }
 
 StudyManager::StudyManager(OpticalDisk* disk,
-                           Catalog::Source source,
+                           Catalog::Source activeCatalog,
                            bool useNetwork) 
-    : opticalDisk_(disk), catalogSource_(source), useNetwork_(useNetwork) {
+    : opticalDisk_(disk), activeCatalog_(activeCatalog), useNetwork_(useNetwork) {
     init();
 }
 
@@ -100,7 +100,7 @@ void StudyManager::addStudy(Study* study) {
         return;
     if (study->isPreregisterStudy())
         addPreregisterStudy(study);
-    // else addFullStudy();
+    else addFullStudy(study);
 }
 
 void StudyManager::addPreregisterStudy(Study* study) {
@@ -113,6 +113,19 @@ void StudyManager::addPreregisterStudy(Study* study) {
     study->setPath(studyPath);
     study->save();
 }
+
+void StudyManager::addFullStudy(Study* study) {
+    if (!study || study->isPreregisterStudy())
+        return;
+    // QString studyPath(joinPaths(systemPath_, "studies", study->dirName()));
+    // QDir studyDir(studyPath);
+    // if (!studyDir.exists() && !studyDir.mkdir(studyPath))
+    //     return;
+    // study->setPath(studyPath);
+    // study->save();
+    return;
+}
+
 
 Study* StudyManager::study(const QString& /*key*/) {
     return 0;
