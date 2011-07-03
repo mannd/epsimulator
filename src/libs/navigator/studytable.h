@@ -31,7 +31,8 @@ class QSortFilterProxyModel;
 class QSqlTableModel;
 
 namespace EpStudy {
-    class Study;
+class Study;
+class StudyWriter;
 }
 
 namespace EpNavigator {
@@ -65,7 +66,8 @@ public:
     };
 
 
-    StudyTable(bool oldStyleNavigator, QWidget* parent = 0);
+    StudyTable(bool oldStyleNavigator, EpStudy::StudyWriter*,
+               QWidget* parent = 0);
 
     void setSource(Catalog::Source);
 
@@ -98,9 +100,8 @@ private:
     void createHeader();
     void setHeaderLabels(QSqlTableModel*);
 
-    void addStudy(QSqlTableModel* model, EpStudy::Study* study,
+    void updateModel(QSqlTableModel* model, EpStudy::Study* study,
                   const QString& location);
-
     QSqlTableModel* systemModel_;
     QSqlTableModel* opticalModel_;
     QSqlTableModel* networkModel_;
@@ -113,6 +114,7 @@ private:
     // bool filtered_;
     bool oldStyle_;
     bool useNetwork_;
+    EpStudy::StudyWriter* studyWriter_;
     // Catalog* catalog_;      // the catalog underlying this TableListView
     
 }; // TableListView

@@ -927,7 +927,8 @@ void TestEpSimulator::testStudyTable() {
     disk.init();
     disk.createOpticalCatalogDbConnection();
     {   // need to change scope in order to close database
-        StudyTable t(true);
+        StudyWriter* sw = new StudyWriter;
+        StudyTable t(true, sw);
         QVERIFY(t.parent() == 0);
         QVERIFY(t.key().isEmpty());
         QVERIFY(t.source() == Catalog::System);
@@ -955,6 +956,7 @@ void TestEpSimulator::testStudyTable() {
         QVERIFY(s1->key() == s.key());
         QVERIFY(s1->name().last() == s.name().last());
         delete s1;
+        delete sw;
     }
     disk.close();
 }
@@ -1102,7 +1104,6 @@ void TestEpSimulator::testStudyManagerStudiesPath() {
 
 void TestEpSimulator::testOpticalDiskStudiesDir() {
     OpticalDisk disk("tmp", "tmpPath");
-    qDebug() << disk.path();
     QVERIFY(disk.path() == joinPaths(workingPath_, "tmp"));
     QVERIFY(disk.studiesPath() == joinPaths(workingPath_,
                                             "tmpPath/studies"));

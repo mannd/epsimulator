@@ -24,6 +24,7 @@
 #include "coreconstants.h"
 #include "error.h"
 #include "study.h"
+#include "studywriter.h"
 #include "studyconfiguration.h"
 
 #include <QFile>
@@ -43,16 +44,20 @@ namespace EpConstants = EpCore::Constants;
 using EpNavigator::StudyTable;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
+using EpStudy::StudyWriter;
 
-StudyTable::StudyTable(bool oldStyleNavigator, QWidget* parent)
-    : QTableView(parent), oldStyle_(oldStyleNavigator) {       // for now
-//     : QTreeWidget(parent),filtered_(false), oldStyle_(oldStyle),
-//       catalog_(0) {
+StudyTable::StudyTable(bool oldStyleNavigator, 
+                       StudyWriter* studyWriter,
+                       QWidget* parent)
+    : QTableView(parent), oldStyle_(oldStyleNavigator),
+      studyWriter_(studyWriter) {
+    Q_ASSERT(studyWriter);
     Q_ASSERT(QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB).isOpen());
     systemModel_ = new QSqlTableModel(this, 
                                 QSqlDatabase::database(EpConstants::EPSIM_SYSTEM_DB));
     opticalModel_ = new QSqlTableModel(this,
                         QSqlDatabase::database(EpConstants::EPSIM_OPTICAL_DB));
+    useNetwork_ = false;        // TODO don't need this 
     networkModel_ = 0; /*new QSqlTableModel(this, 
                          QSqlDatabase::database(EpConstants::EPSIM_NETWORK_DB));*/
     model_ = systemModel_;
@@ -257,32 +262,46 @@ bool StudyTable::isPreregisterStudy() const {
 }
 
 void StudyTable::addStudy(Study* study, const QString& location) {
-    int row = model_->rowCount();
-    model_->insertRow(row);
-    model_->setData(model_->index(row, CatalogEntry_StudyKey), study->key());
-    model_->setData(model_->index(row, CatalogEntry_StudyType),
+    StudyWriter::WriteLocations writeLocations = studyWriter_->study(study);
+    // if (writeLocations & StudyWriter::WriteOptical)
+    //     updateModel(opticalModel_, study, location);
+    // if (writeLocations & StudyWriter::WriteSystem)
+    //    updateModel(systemModel_, study, location);
+     // ((writeLocations & StudyWriter::WriteNetwork) && useNetwork_)
+     //    updateModel(networkModel_, study, location);
+    updateModel(model_, study, location);
+}
+
+void StudyTable::updateModel(QSqlTableModel* model, 
+                             Study* study, 
+                             const QString& location) {
+    int row = model->rowCount();
+    model->insertRow(row);
+    model->setData(model->index(row, CatalogEntry_StudyKey), study->key());
+    model->setData(model->index(row, CatalogEntry_StudyType),
                      study->isPreregisterStudy() ? tr("Pre-Register")
               : tr("Study"));
-    model_->setData(model_->index(row, CatalogEntry_LastName),
+    model->setData(model->index(row, CatalogEntry_LastName),
                     study->name().last());
-    model_->setData(model_->index(row, CatalogEntry_FirstName),
+    model->setData(model->index(row, CatalogEntry_FirstName),
                     study->name().first());
-    model_->setData(model_->index(row, CatalogEntry_FullName),
+    model->setData(model->index(row, CatalogEntry_FullName),
                     study->name().lastFirstMiddle());
-    model_->setData(model_->index(row, CatalogEntry_PatientMrn),
+    model->setData(model->index(row, CatalogEntry_PatientMrn),
                     study->mrn());
-    model_->setData(model_->index(row, CatalogEntry_StudyDateTime ), 
+    model->setData(model->index(row, CatalogEntry_StudyDateTime ), 
                     study->dateTime().toString("yyyy/MM/dd hh:mm:ss"));
-    model_->setData(model_->index(row, CatalogEntry_StudyConfig),
+    model->setData(model->index(row, CatalogEntry_StudyConfig),
                     study->isPreregisterStudy() ?
                     QString() : study->studyConfiguration()->name());
-    model_->setData(model_->index(row, CatalogEntry_StudyNumber),
+    model->setData(model->index(row, CatalogEntry_StudyNumber),
                     study->number());
-    model_->setData(model_->index(row, CatalogEntry_StudyLocation),
+    model->setData(model->index(row, CatalogEntry_StudyLocation),
                     location);
-    model_->submitAll();
+    model->submitAll();
     setCurrentIndex(model_->index(row, 0));
 }
+
 
 // void StudyTable::addStudy(const Study& study, const QString& location) {
 //         StudyTableItem* t = new StudyTableItem(this, study.key(), 

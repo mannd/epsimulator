@@ -44,6 +44,7 @@
 #include "studyconfiguration.h"
 #include "studymanager.h"
 #include "studytable.h"
+#include "studywriter.h"
 #include "systemstorage.h"
 #include "tablelistview.h"
 #include "user.h"
@@ -81,6 +82,7 @@ using EpGui::SelectStudyConfigDialog;
 using EpStudy::Study;
 using EpStudy::StudyConfiguration;
 using EpStudy::StudyManager;
+using EpStudy::StudyWriter;
 using EpNavigator::Navigator;
 
 using namespace EpHardware::EpOpticalDisk;
@@ -113,6 +115,7 @@ Navigator::Navigator(QWidget* parent)
 Navigator::~Navigator() {
     delete catalogs_;
     delete studyManager_;
+    delete studyWriter_;
     delete currentDisk_;
 }
 
@@ -905,6 +908,8 @@ void Navigator::createCatalogs() {
 }
 
 void Navigator::createStudyManager() {
+    studyWriter_ = new StudyWriter(options()->
+                                   includeNetworkCatalog());
     studyManager_ = new StudyManager(currentDisk_);
 }
  
@@ -958,7 +963,9 @@ void Navigator::createTableListView() {
 }
 
 void Navigator::createStudyTable() {
-    studyTable_ = new StudyTable(options()->oldStyleNavigator, centralWidget_);
+    studyTable_ = new StudyTable(options()->oldStyleNavigator, 
+                                 studyWriter_,
+                                 centralWidget_);
     connect(studyTable_, SIGNAL(doubleClicked(const QModelIndex&)),
             this, SLOT(newStudy()));
 
