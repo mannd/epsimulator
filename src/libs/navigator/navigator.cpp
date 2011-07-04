@@ -910,7 +910,7 @@ void Navigator::createCatalogs() {
 void Navigator::createStudyManager() {
     studyWriter_ = new StudyWriter(options()->
                                    includeNetworkCatalog());
-    studyManager_ = new StudyManager(currentDisk_);
+    studyManager_ = new StudyManager(currentDisk_, studyWriter_);
 }
  
 void Navigator::createCentralWidget() {

@@ -22,6 +22,7 @@
 #include "fileutilities.h"
 #include "localstorage.h"
 #include "navigator.h"
+#include "networkstorage.h"
 #include "options.h"
 #include "systemstorage.h"
 
@@ -52,6 +53,23 @@ static bool createSystemStorage() {
                                           "default System storage path %1.")
                               .arg(systemStorage.path()));
         return false;
+    }
+    return true;
+}
+
+static bool createNetworkStorage() {
+    using EpCore::Options;
+    Options* options = Options::instance();
+    options->load();
+    if (options->filePathFlags.testFlag(Options::EnableNetworkStorage)) {
+        EpCore::NetworkStorage networkStorage(options->networkStudyPath);
+        if (!networkStorage.init()) {
+            QMessageBox::information(0, QObject::tr("Network Storage Error"),
+                                     QObject::tr("Cannot find or create "
+                                                 "Network storage path %1.")
+                                     .arg(networkStorage.path()));
+            return false;
+        }
     }
     return true;
 }

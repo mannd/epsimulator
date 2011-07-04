@@ -919,6 +919,7 @@ void TestEpSimulator::testPatient() {
 }
 
 void TestEpSimulator::testStudyTable() {
+    QSKIP("StudyTable under construction", SkipSingle);
     // need to create optical disk and create optical db connection
     SystemStorage ss;
     ss.init();
@@ -936,8 +937,9 @@ void TestEpSimulator::testStudyTable() {
         QVERIFY(t.source() == Catalog::Optical);
         t.setSource(Catalog::System);
         QVERIFY(t.source() == Catalog::System);
-        t.setSource(Catalog::Optical);
+
         Study s;
+        s.setPreregisterStudy(true);
         Name name("test", "", "");
         s.setName(name);
         QVERIFY(t.model()->rowCount() == 0);
@@ -1070,6 +1072,7 @@ void TestEpSimulator::testMakePath() {
 void TestEpSimulator::testStudyManager() {
     SystemStorage ss;
     ss.init();
+    StudyWriter* sw = new StudyWriter;
     StudyManager sm;
     // check some defaults
     QVERIFY(ss.path() == sm.systemPath());
@@ -1077,10 +1080,11 @@ void TestEpSimulator::testStudyManager() {
     QVERIFY(sm.activeCatalog() == Catalog::System);
     sm.setActiveCatalog(Catalog::Optical);
     QVERIFY(sm.activeCatalog() == Catalog::Optical);
-    StudyManager sm2(0);        // other constructor
+    StudyManager sm2(0, sw);        // other constructor
     QVERIFY(ss.path() == sm2.systemPath());
     QVERIFY(!sm2.useNetwork());
     QVERIFY(sm2.activeCatalog() == Catalog::System);
+    delete sw;
 }
 
 void TestEpSimulator::testStudyManagerLoadStudy() {

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by EP Studios, Inc.                                *
+ *   Copyright (C) 2011 by EP Studios, Inc.                                *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

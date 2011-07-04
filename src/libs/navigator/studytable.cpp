@@ -263,13 +263,14 @@ bool StudyTable::isPreregisterStudy() const {
 
 void StudyTable::addStudy(Study* study, const QString& location) {
     StudyWriter::WriteLocations writeLocations = studyWriter_->study(study);
-    // if (writeLocations & StudyWriter::WriteOptical)
-    //     updateModel(opticalModel_, study, location);
-    // if (writeLocations & StudyWriter::WriteSystem)
-    //    updateModel(systemModel_, study, location);
-     // ((writeLocations & StudyWriter::WriteNetwork) && useNetwork_)
-     //    updateModel(networkModel_, study, location);
-    updateModel(model_, study, location);
+     if (writeLocations & StudyWriter::WriteOptical)
+         updateModel(opticalModel_, study, location);
+     if (writeLocations & StudyWriter::WriteSystem)
+        updateModel(systemModel_, study, location);
+     if ((writeLocations & StudyWriter::WriteNetwork) && useNetwork_)
+        updateModel(networkModel_, study, location);
+    //updateModel(model_, study, location);
+    //setCurrentIndex(model_->index(model_->rowCount() - 1, 0));
 }
 
 void StudyTable::updateModel(QSqlTableModel* model, 
@@ -299,7 +300,7 @@ void StudyTable::updateModel(QSqlTableModel* model,
     model->setData(model->index(row, CatalogEntry_StudyLocation),
                     location);
     model->submitAll();
-    setCurrentIndex(model_->index(row, 0));
+//    setCurrentIndex(model_->index(row, 0));
 }
 
 

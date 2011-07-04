@@ -23,8 +23,6 @@
 
 #include "catalog.h"
 
-#include <QString>
-
 namespace EpHardware {
 namespace EpOpticalDisk {
 class OpticalDisk;
@@ -32,16 +30,14 @@ class OpticalDisk;
 
 namespace EpStudy {
 
+class StudyWriter;
+
 // manages complex Study file handling
 class StudyManager {
 public:
     StudyManager();
-    StudyManager(const QString& systemPath,
-                 const QString& opticalPath,
-                 const QString& networkPath,
-                 const QString& otherPath = QString());
     StudyManager(EpHardware::EpOpticalDisk::OpticalDisk*,
-                 // StudyTable*, ????
+                 StudyWriter*,
                  EpNavigator::Catalog::Source = EpNavigator::Catalog::System,
                  bool useNetwork = false);
                  
@@ -91,6 +87,7 @@ private:
     QString networkPath_;
     QString otherPath_;
     EpHardware::EpOpticalDisk::OpticalDisk* opticalDisk_;
+    StudyWriter* studyWriter_;
     EpNavigator::Catalog::Source activeCatalog_;
     bool useNetwork_;
     Study* study_;

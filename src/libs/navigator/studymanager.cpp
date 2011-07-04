@@ -24,11 +24,11 @@
 #include "fileutilities.h"
 #include "opticaldisk.h"
 #include "study.h"
+#include "studywriter.h"
 #include "systemstorage.h"
 
-#include <QDir>
-
 using EpCore::joinPaths;
+using EpCore::makePath;
 using EpCore::SystemStorage;
 using EpHardware::EpOpticalDisk::OpticalDisk;
 using EpNavigator::Catalog;
@@ -39,25 +39,19 @@ using EpStudy::StudyManager;
 // catalog locations -- so that Study doesn't have to.
 StudyManager::StudyManager() 
     : opticalDisk_(0),
+      studyWriter_(0),
       activeCatalog_(Catalog::System), 
       useNetwork_(false), 
       study_(0) {
     init();
 }
 
-StudyManager::StudyManager(const QString& systemPath,
-                           const QString& opticalPath,
-                           const QString& networkPath,
-                           const QString& otherPath)
-    : systemPath_(systemPath), opticalPath_(opticalPath),
-      networkPath_(networkPath), otherPath_(otherPath) {
-
-}
-
 StudyManager::StudyManager(OpticalDisk* disk,
+                           StudyWriter* studyWriter,
                            Catalog::Source activeCatalog,
                            bool useNetwork) 
-    : opticalDisk_(disk), activeCatalog_(activeCatalog), useNetwork_(useNetwork) {
+    : opticalDisk_(disk), studyWriter_(studyWriter),
+      activeCatalog_(activeCatalog), useNetwork_(useNetwork) {
     init();
 }
 
@@ -106,23 +100,19 @@ void StudyManager::addStudy(Study* study) {
 void StudyManager::addPreregisterStudy(Study* study) {
     if (!study || !study->isPreregisterStudy())
         return;
-    QString studyPath(joinPaths(systemPath_, "studies", study->dirName()));
-    QDir studyDir(studyPath);
-    if (!studyDir.exists() && !studyDir.mkdir(studyPath))
+    StudyWriter::WriteLocations locations = studyWriter_->study(study);
+    QString studyPath(joinPaths(systemStudiesPath(), study->dirName()));
+    if (!makePath(studyPath))
         return;
-    study->setPath(studyPath);
-    study->save();
+    if (locations & StudyWriter::WriteSystem) {
+        study->setPath(studyPath);
+        study->save();
+    }
 }
 
 void StudyManager::addFullStudy(Study* study) {
     if (!study || study->isPreregisterStudy())
         return;
-    // QString studyPath(joinPaths(systemPath_, "studies", study->dirName()));
-    // QDir studyDir(studyPath);
-    // if (!studyDir.exists() && !studyDir.mkdir(studyPath))
-    //     return;
-    // study->setPath(studyPath);
-    // study->save();
     return;
 }
 
