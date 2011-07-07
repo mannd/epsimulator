@@ -43,6 +43,28 @@
 #   include <QtCore/QTranslator>
 #endif
 
+static EpCore::Options* options = 0;
+
+static bool loadOptions() {
+    options = EpCore::Options::instance();
+    if (options)
+        options->load();
+    else
+        QMessageBox::critical(0, QObject::tr("Options Load Error"),
+                              QObject::tr("Cannot load System options."));
+    return options;
+}
+
+static void deleteOptions() {
+    delete options;
+}
+
+static void disableNetworkStorage() {
+    EpCore::clearFlag(options->filePathFlags, 
+                      EpCore::Options::EnableNetworkStorage);
+}
+
+
 static bool createSystemStorage() {
     EpCore::SystemStorage systemStorage;
     // SystemStorage should never change during program
@@ -59,14 +81,14 @@ static bool createSystemStorage() {
 
 static bool createNetworkStorage() {
     using EpCore::Options;
-    Options* options = Options::instance();
-    options->load();
     if (options->filePathFlags.testFlag(Options::EnableNetworkStorage)) {
         EpCore::NetworkStorage networkStorage(options->networkStudyPath);
         if (!networkStorage.init()) {
             QMessageBox::information(0, QObject::tr("Network Storage Error"),
                                      QObject::tr("Cannot find or create "
-                                                 "Network storage path %1.")
+                                                 "Network storage path %1. "
+                                                 "Use System Settings dialog "
+                                                 "to set up Network.")
                                      .arg(networkStorage.path()));
             return false;
         }
@@ -97,8 +119,6 @@ static bool createConnection() {
     EpCore::SystemStorage systemStorage;
     using EpCore::Options;
     using EpCore::joinPaths;
-    Options* options = Options::instance();
-    options->load();
     const QString dbFileName(EpCore::Constants::EPSIM_DB_FILENAME);
     QString dbFilePath(systemStorage.filePath(dbFileName));
     if (options->includeNetworkCatalog()) {
@@ -120,7 +140,6 @@ static bool createConnection() {
 	    dbFilePath = networkDbFilePath;
 	}
     }
-    delete options;
     if (!QFile::exists(dbFilePath)) {
 	// copy language specific default database
 #ifdef ENGLISH
@@ -212,13 +231,10 @@ static void displayVersion() {
 // These are notifications of constraints used for compilation.
 static void displayMessages() {
     using EpCore::Options;
-    Options* options = Options::instance();
-    options->load();
     if (!options->opticalDiskFlags.testFlag(Options::AllowRealOpticalDisk))
         qDebug() << "No removable optical disk use permitted.";
     if (!options->opticalDiskFlags.testFlag(Options::AllowEmulation))
         qDebug() << "No optical disk emulation permitted.";
-    delete options;
 }
 
 static void displayHelp() {
@@ -279,11 +295,15 @@ int main(int argc, char **argv) {
     app.installTranslator(&translator);
 #endif
 
-    // SystemStorage must be created before database connection
-    // or Options used.
     if (!createSystemStorage())
         return 1;
     if (!createLocalStorage())
+        return 1;
+    // SystemStorage and LocalStorage must be created before database
+    // connection or Options used.
+    if (!loadOptions())
+        return 1;
+    if (!createNetworkStorage())
         return 1;
     if (!createConnection())
         return 1;
@@ -292,6 +312,7 @@ int main(int argc, char **argv) {
     if (!createSystemCatalogDbConnection())
         return 1;
     displayMessages();          // special messages/settings are displayed
+    deleteOptions();
 
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
     navigator->restore();

@@ -922,3 +922,27 @@ class StudyPaths {
        Network server in background
 *** Option for No Optical Disk?????
     All data saved to System, possible also to Network?
+* Network considerations
+** System database
+*** General considerations
+    When Enable Network Storage is checked in the System Settings
+    dialog, the epsimulator.db database used is located in the root dir
+    of the Network Study Path.
+*** System start
+**** Options
+     If the epsimulator.db file is present at system start, a the
+     createConnection() function in main.cpp connects to it instead of
+     the database file in the System dir.  If not present:
+       - option 1: create new blank epsimulator.db
+       - option 2: copy local [systemdir]/epsimulator.db to [networkdir]/epsimulator.db
+       - option 3: merge local [systemdir]/epsimulator.db to [networkdir]/epsimulator.db
+       - option 4: quit and suggest manually setting up
+         [networkdir]/epsimulator.db
+**** Functions needed
+     - copy blank database to network
+     - copy system database to network
+     - merge system database to network
+       - if we do above, can we eliminated duplicates?  Maybe merging
+         is not appropriate for the System database, although it
+         certainly needs to be an option for the Study database.
+** Study database
