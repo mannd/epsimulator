@@ -44,5 +44,7 @@ QString NetworkStorage::filePath(const QString& fileName) const {
 }
 
 bool NetworkStorage::exists() const {
+    if (path_.isEmpty())
+        return false;
     return QDir(path_).exists();
 }

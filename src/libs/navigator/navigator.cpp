@@ -919,7 +919,7 @@ void Navigator::createCentralWidget() {
     createButtonFrame();
     createTableListView();
     createStudyTable();
-    refreshCatalogs();
+    //refreshCatalogs();
 }
 
 // Create the "blue bar" to the side of the Navigator window.  Uses
