@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2006, 2011 by EP Studios, Inc.                          *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -61,16 +61,10 @@ static void deleteOptions() {
 }
 
 static void disableNetworkStorage() {
-    QMessageBox::information(0, QObject::tr("Network Storage Path Not Valid"),
-                             QObject::tr("Network path is not a valid path. "
-                                         "Please use System Settings dialog "
-                                         "under Tools menu to enter a valid "
-                                         "Network path."));
     EpCore::clearFlag(options->filePathFlags, 
                       EpCore::Options::EnableNetworkStorage);
     options->save();
 }
-
 
 static bool createSystemStorage() {
     EpCore::SystemStorage systemStorage;
@@ -157,38 +151,16 @@ static bool createConnection() {
         EpCore::NetworkStorage networkStorage(options->networkStudyPath);
         Q_ASSERT(networkStorage.exists()); // must exist or was disabled
                                            // prior to this!
+        QString networkDbFilePath = networkStorage.filePath(dbFileName);
+        if (!copyDefaultDatabase(networkDbFilePath)) {
+            QMessageBox::critical(0, QObject::tr("Network Database Error"),
+        			  QObject::tr("Cannot find or create "
+        				      "default Database file."));
+            disableNetworkStorage();
+        }
+        else
+            dbFilePath = networkDbFilePath;
     }
-
-    //         QString networkDbFilePath = networkStorage.filePath(dbFileName);
-    //         if (!copyDefaultDatabase(networkDbFilePath)) {
-    //         QMessageBox::critical(0, QObject::tr("Network Database Error"),
-    //     			  QObject::tr("Cannot find or create "
-    //     				      "default Database file."));
-    //         return false;
-    //     }
-
-    // }
-    // // If no network database found, 
-    // if (!QFile::exists(dbFilePath)) {
-    //     if (options->includeNetworkCatalog()) {
-    //         QMessageBox::question(0, QObject::tr("No Network Database Found"),
-    //                               QObject::tr("Do you want to copy present "
-    //                                           "System database to the network, "
-    //                                           "or start with a fresh "
-    //                                           "network database?"));
-    //         // process copy database here
-
-    //     }
-    //     // copy language specific default database
-    //     if (!copyDefaultDatabase(dbFilePath)) {
-    //         QMessageBox::critical(0, QObject::tr("Database Error"),
-    //     			  QObject::tr("Cannot find or create "
-    //     				      "default Network "
-    //                                           "Database file %1.")
-    //                               .arg(networkDbFilePath)));
-    //         return false;
-    //     }
-    // }
     QSqlDatabase db = 
         QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB);
     db.setHostName(EpCore::Constants::EPSIM_DB_HOSTNAME);
@@ -262,6 +234,8 @@ static void displayMessages() {
         qDebug() << "No removable optical disk use permitted.";
     if (!options->opticalDiskFlags.testFlag(Options::AllowEmulation))
         qDebug() << "No optical disk emulation permitted.";
+    if (!options->includeNetworkCatalog())
+        qDebug() << "No network storage.";
 }
 
 static void displayHelp() {
@@ -271,7 +245,9 @@ static void displayHelp() {
         "Options:\n"
         "    --help          Display this help\n"
         "    --version       Display program version\n"
-        "    --testcd        Display CD drive status";
+        "    --testcd        Display CD drive status\n"
+        "    --no-network    Disable network storage\n"
+        "    --no-messages   Disable messages at program start";
     qWarning("%s", helpText);
 }
 
@@ -286,6 +262,9 @@ static void testCd() {
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     QStringList arguments = app.arguments();
+    bool noNetwork = false;
+    bool noMessages = false;
+    bool validArgument = false;
     if (arguments.contains("--help") || arguments.contains("-h")) {
         displayHelp();
         return 0;
@@ -298,12 +277,22 @@ int main(int argc, char **argv) {
         testCd();
         return 0;
     }
-    if (argc > 1) {     // hey, some other unknown option was given
+    if (arguments.contains("--no-network")) {
+        noNetwork = true;
+        validArgument = true;
+    }
+    if (arguments.contains("--no-messages")) {
+        noMessages = true;
+        validArgument = true;
+    }
+    else if (argc > 1 && !validArgument) {     // hey, some other unknown option
+                                               // was given
         displayError(argv[1]);
         return 1;
     }
     // display version information with routine start
-    displayVersion();
+    if (!noMessages)
+        displayVersion();
 
     app.setOrganizationName("EP Studios");
     app.setOrganizationDomain("epstudiossoftware.com");
@@ -330,6 +319,8 @@ int main(int argc, char **argv) {
     // connection or Options used.
     if (!loadOptions())
         return 1;
+    if (noNetwork)
+        disableNetworkStorage();
     if (!createNetworkStorage())
         disableNetworkStorage();
     if (!createConnection())
@@ -338,7 +329,8 @@ int main(int argc, char **argv) {
         return 1;
     if (!createSystemCatalogDbConnection())
         return 1;
-    displayMessages();          // special messages/settings are displayed
+    if (!noMessages)
+        displayMessages();          // special messages/settings are displayed
     deleteOptions();
 
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;
