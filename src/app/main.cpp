@@ -146,13 +146,14 @@ static bool createConnection() {
                               .arg(systemDbFilePath));
         return false;
     }
-    QString dbFilePath(systemStorage.filePath(dbFileName));
+    QString dbFilePath(systemDbFilePath);
     if (options->includeNetworkCatalog()) {
         EpCore::NetworkStorage networkStorage(options->networkStudyPath);
         Q_ASSERT(networkStorage.exists()); // must exist or was disabled
                                            // prior to this!
         QString networkDbFilePath = networkStorage.filePath(dbFileName);
-        if (!copyDefaultDatabase(networkDbFilePath)) {
+        if (!QFile::exists(networkDbFilePath) &&
+            !copyDefaultDatabase(networkDbFilePath)) {
             QMessageBox::critical(0, QObject::tr("Network Database Error"),
         			  QObject::tr("Cannot find or create "
         				      "default Database file."));

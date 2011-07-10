@@ -107,6 +107,7 @@ QString joinPaths(const QString&, const QString&, const QString&,
 
 QString capitalize(const QString&);
 
+bool isRemovableMedia(const QString& path);
 bool isRemovableMedia(const QDir& dir);     // attempts to determine if
                                             // directory is removable media
 bool useDiskCache(const QString& path);

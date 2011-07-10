@@ -79,17 +79,28 @@ void AbstractMainWindow::changeDatabase() {
         QString networkDbFilePath = 
             EpCore::joinPaths(networkPath, EPSIM_DB_FILENAME);
         if (!QFile::exists(networkDbFilePath)) {
-            QMessageBox::information(0, QObject::tr("Database Error"),
-				     QObject::tr("Cannot find Network "
-						 "Database file. "
-						 "Will use local "
-						 "Database file. "
-						 "Network storage is "
-						 "disabled."));
-	    // get rid of network storage until user fixes the problem
-	    EpCore::clearFlag(options_->filePathFlags, 
+            // copy System database to network
+            int result = QMessageBox::warning(this,
+                                             tr("Network Database Not Found"),
+                                             tr("Select Ok to copy current "
+                                                "databases to Network. "
+                                                "Select Cancel to disable "
+                                                "Network storage."),
+                                             QMessageBox::Ok |
+                                             QMessageBox::Cancel);
+            if (result == QMessageBox::Cancel) {
+                // get rid of network storage until user fixes the problem
+                EpCore::clearFlag(options_->filePathFlags,
                               Options::EnableNetworkStorage);
-            return;
+                return;
+            }
+            else {
+                EpCore::SystemStorage systemStorage;
+                if (!QFile::copy(systemStorage.filePath(EPSIM_DB_FILENAME),
+                                 networkDbFilePath))
+                    throw EpCore::WriteError(networkDbFilePath);
+                // copy databases
+            }
         }
         // Note that Qt will display warning here,
         // and there seems no way to suppress it.
