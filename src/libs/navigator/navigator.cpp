@@ -524,7 +524,7 @@ void Navigator::moveData(DataFlow flow, DataType type) {
                 QSqlQuery("ROLLBACK;"); // Sqlite specific?
                 // reset database connection
                 QSqlDatabase db = QSqlDatabase::database();
-                db.close();;
+                db.close();
                 db.open();
             }
         }
