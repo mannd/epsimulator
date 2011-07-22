@@ -32,8 +32,9 @@ class QSqlRecord;
 class QToolBar;
 
 namespace EpCore {
-class User;
+class NetworkStorage;
 class Options;
+class User;
 }
 
 namespace EpHardware { 
@@ -182,6 +183,7 @@ private:
     Catalogs* catalogs_;
     StatusBar* statusBar_;
     EpHardware::EpOpticalDisk::OpticalDisk* currentDisk_;
+    EpCore::NetworkStorage* networkStorage_;
     //EpCore::User* user_;
 
     // central widget stuff

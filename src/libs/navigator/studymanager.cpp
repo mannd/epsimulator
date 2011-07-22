@@ -59,6 +59,10 @@ StudyManager::StudyManager(OpticalDisk* disk,
 void StudyManager::init() {
     SystemStorage systemStorage;
     systemPath_ = systemStorage.path();
+    // if (useNetwork_) {
+    //     NetworkStorage networkStorage;
+    //     networkPath_ = networkStorage.path();
+    // }
 }    
 
 QString StudyManager::studiesPath(const QString& path) const {
@@ -77,6 +81,11 @@ QString StudyManager::opticalStudiesPath() const {
     //return studiesPath(opticalDisk_->workingPath());
     /// TODO fix OpticalDisk!
     return QString();
+}
+
+QString StudyManager::activeCatalogStudiesPath() const {
+    return QString();
+    //    switch (activeCatalog_)
 }
 
 Study* StudyManager::getPreregisterStudy(const QString& key) {
@@ -111,6 +120,7 @@ void StudyManager::addPreregisterStudy(Study* study) {
             throw EpCore::WriteError(studyPath);
         study->setPath(studyPath);
         study->save();
+
     }
 }
 
@@ -123,4 +133,5 @@ void StudyManager::addFullStudy(Study* study) {
 
 Study* StudyManager::study(const QString& /*key*/) {
     return 0;
+        
 }

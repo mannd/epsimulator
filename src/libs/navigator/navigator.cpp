@@ -33,6 +33,7 @@
 #include "guiutilities.h"
 #include "interval.h"
 #include "movecopystudydialog.h"
+#include "networkstorage.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "patientdialog.h"
@@ -74,6 +75,7 @@
 using EpCore::capitalize;
 using EpCore::ColumnFormat;
 using EpCore::Interval;
+using EpCore::NetworkStorage;
 using EpCore::Options;
 using EpCore::User;
 using EpGui::EditListDialog;
@@ -92,11 +94,14 @@ Navigator::Navigator(QWidget* parent)
                          User::instance(),
                          parent),
       filterCatalogDialog_(0),
-      currentDisk_(0) {
+      currentDisk_(0),
+      networkStorage_(0) {
     setAttribute(Qt::WA_DeleteOnClose);
     setMinimumWidth(1000);
 
     options()->load();
+    if (options()->includeNetworkCatalog())
+        networkStorage_ = new NetworkStorage(options()->networkStudyPath);
     createOpticalDrive();
     createStudyManager();
     createCatalogs();
@@ -117,6 +122,7 @@ Navigator::~Navigator() {
     delete studyManager_;
     delete studyWriter_;
     delete currentDisk_;
+    delete networkStorage_;
 }
 
 void Navigator::clearSelection() {
@@ -1386,6 +1392,7 @@ bool Navigator::getStudyInformation(Study* study) {
 Study* Navigator::getSelectedStudy() {
     //return tableListView_->study();
     QString key = studyTable_->key();
+    qDebug() << "study key =" << key;
     return studyManager_->study(key);
 }
 

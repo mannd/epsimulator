@@ -81,6 +81,7 @@ private:
     void addPreregisterStudy(Study*);
     void addFullStudy(Study*);
     QString studiesPath(const QString& path) const;
+    QString activeCatalogStudiesPath() const;
 
     QString systemPath_;
     QString opticalPath_;

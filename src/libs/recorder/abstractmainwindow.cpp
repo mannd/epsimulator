@@ -152,6 +152,8 @@ void AbstractMainWindow::systemSettings() {
             currentDisk()->translatedSide(), this);
         if (systemDialog.exec() == QDialog::Accepted) {
             systemDialog.setOptions();
+            /// TODO must change database also if network path changes
+            /// must deal with NetworkStorage too
             if (usingNetwork != options_->includeNetworkCatalog()) {
                 qDebug() << "Using network changed!";
                 changeDatabase();

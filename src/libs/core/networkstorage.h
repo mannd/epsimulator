@@ -37,7 +37,7 @@ public:
     QString studiesPath() const; // full path of studies dir
     bool exists() const;
 
-    void setPath(QString path) {path_ = path;} // mostly for testing
+    void setPath(QString path) {path_ = path;} 
 private:
     QString path_;
 };

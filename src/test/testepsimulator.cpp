@@ -1136,6 +1136,11 @@ void TestEpSimulator::testStudyWriter() {
 void TestEpSimulator::testNetworkStorage() {
     NetworkStorage ns("");
     QVERIFY(!ns.exists());
+    QVERIFY(ns.path().isEmpty());
+    ns.setPath("test");
+    QVERIFY(ns.path() == "test");
+    NetworkStorage ns1("test2");
+    QVERIFY(ns1.path() == "test2");
 }
 
 void TestEpSimulator::cleanupTestCase() {
