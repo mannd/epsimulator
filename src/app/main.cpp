@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by EP Studios, Inc.                                *
+ *   Copyright (C) 2006, 2011 by EP Studios, Inc.                          *
  *   mannd@epstudiossoftware.com                                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -56,14 +56,15 @@ static bool loadOptions() {
 }
 
 static void deleteOptions() {
+    // any change in options should already have been saved by now
     delete options;
 }
 
 static void disableNetworkStorage() {
     EpCore::clearFlag(options->filePathFlags, 
                       EpCore::Options::EnableNetworkStorage);
+    options->save();
 }
-
 
 static bool createSystemStorage() {
     EpCore::SystemStorage systemStorage;
@@ -96,6 +97,25 @@ static bool createNetworkStorage() {
     return true;
 }
 
+static bool copyDefaultDatabase(const QString& path) {
+	// copy language specific default database
+#ifdef ENGLISH
+	QString langSubDir = "en";
+#elif defined GERMAN
+	QString langSubDir = "de";
+#elif defined FRENCH
+	QString langSubDir = "fr";
+#else
+        QString langSubDir = "None";
+#endif
+        Q_ASSERT(langSubDir != "None");
+        QString defaultDbPath = 
+            EpCore::joinPaths(EpCore::rootPath(),
+                              "db", langSubDir,
+                              EpCore::Constants::EPSIM_DB_FILENAME);
+	return QFile::copy(defaultDbPath, path);
+}
+
 static bool createLocalStorage() {
     EpCore::LocalStorage localStorage;
     // default hard drive studies directory is created if not already present
@@ -110,57 +130,37 @@ static bool createLocalStorage() {
 }
 
 // The default database is set to either the Network or System path.
-// If no default database is found on the Network path, the System path
-// is used.  The System database is created automatically if it does
-// not exist already.  The Network database must be exported from a
-// System database; it is not created automatically.
 // This is the database that stores lists, etc. -- not the study database.
 static bool createConnection() {
     EpCore::SystemStorage systemStorage;
     using EpCore::Options;
     using EpCore::joinPaths;
     const QString dbFileName(EpCore::Constants::EPSIM_DB_FILENAME);
-    QString dbFilePath(systemStorage.filePath(dbFileName));
-    if (options->includeNetworkCatalog()) {
-	QString networkDbFilePath = joinPaths(options->networkStudyPath,
-                                              dbFileName);
-	if (!QFile::exists(networkDbFilePath)) {
-	    QMessageBox::warning(0, QObject::tr("Database Error"),
-                                 QObject::tr("Cannot find Network "
-                                             "Database file. "
-                                             "Will use local "
-                                             "Database file. "
-                                             "Network storage is "
-                                             "disabled."));
-	    // get rid of network storage until user fixes the problem
-	    EpCore::clearFlag(options->filePathFlags, 
-			       Options::EnableNetworkStorage);
-	}
-	else {
-	    dbFilePath = networkDbFilePath;
-	}
+    QString systemDbFilePath = systemStorage.filePath(dbFileName);
+    // always create a System database
+    if (!QFile::exists(systemDbFilePath) && 
+        !copyDefaultDatabase(systemDbFilePath)) {
+        QMessageBox::critical(0, QObject::tr("System Database Error"),
+                              QObject::tr("Cannot find or create "
+                                          "default System Database file %1.")
+                              .arg(systemDbFilePath));
+        return false;
     }
-    if (!QFile::exists(dbFilePath)) {
-	// copy language specific default database
-#ifdef ENGLISH
-	QString langSubDir = "en";
-#elif defined GERMAN
-	QString langSubDir = "de";
-#elif defined FRENCH
-	QString langSubDir = "fr";
-#else
-        QString langSubDir = "None";
-#endif
-        Q_ASSERT(langSubDir != "None");
-	if (!QFile::copy(joinPaths(EpCore::rootPath(),
-                                   "db", langSubDir,
-                                   dbFileName), 
-			 dbFilePath)) {
-	    QMessageBox::critical(0, QObject::tr("Database Error"),
-				  QObject::tr("Cannot find or create "
-					      "default Database file."));
-	    return false;
-	}
+    QString dbFilePath(systemDbFilePath);
+    if (options->includeNetworkCatalog()) {
+        EpCore::NetworkStorage networkStorage(options->networkStudyPath);
+        Q_ASSERT(networkStorage.exists()); // must exist or was disabled
+                                           // prior to this!
+        QString networkDbFilePath = networkStorage.filePath(dbFileName);
+        if (!QFile::exists(networkDbFilePath) &&
+            !copyDefaultDatabase(networkDbFilePath)) {
+            QMessageBox::critical(0, QObject::tr("Network Database Error"),
+        			  QObject::tr("Cannot find or create "
+        				      "default Database file."));
+            disableNetworkStorage();
+        }
+        else
+            dbFilePath = networkDbFilePath;
     }
     QSqlDatabase db = 
         QSqlDatabase::addDatabase(EpCore::Constants::EPSIM_BACKEND_DB);
@@ -235,6 +235,8 @@ static void displayMessages() {
         qDebug() << "No removable optical disk use permitted.";
     if (!options->opticalDiskFlags.testFlag(Options::AllowEmulation))
         qDebug() << "No optical disk emulation permitted.";
+    if (!options->includeNetworkCatalog())
+        qDebug() << "No network storage.";
 }
 
 static void displayHelp() {
@@ -244,7 +246,9 @@ static void displayHelp() {
         "Options:\n"
         "    --help          Display this help\n"
         "    --version       Display program version\n"
-        "    --testcd        Display CD drive status";
+        "    --testcd        Display CD drive status\n"
+        "    --no-network    Disable network storage\n"
+        "    --no-messages   Disable messages at program start";
     qWarning("%s", helpText);
 }
 
@@ -259,6 +263,9 @@ static void testCd() {
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     QStringList arguments = app.arguments();
+    bool noNetwork = false;
+    bool noMessages = false;
+    bool validArgument = false;
     if (arguments.contains("--help") || arguments.contains("-h")) {
         displayHelp();
         return 0;
@@ -271,12 +278,22 @@ int main(int argc, char **argv) {
         testCd();
         return 0;
     }
-    if (argc > 1) {     // hey, some other unknown option was given
+    if (arguments.contains("--no-network")) {
+        noNetwork = true;
+        validArgument = true;
+    }
+    if (arguments.contains("--no-messages")) {
+        noMessages = true;
+        validArgument = true;
+    }
+    else if (argc > 1 && !validArgument) {     // hey, some other unknown option
+                                               // was given
         displayError(argv[1]);
         return 1;
     }
     // display version information with routine start
-    displayVersion();
+    if (!noMessages)
+        displayVersion();
 
     app.setOrganizationName("EP Studios");
     app.setOrganizationDomain("epstudiossoftware.com");
@@ -303,15 +320,18 @@ int main(int argc, char **argv) {
     // connection or Options used.
     if (!loadOptions())
         return 1;
+    if (noNetwork)
+        disableNetworkStorage();
     if (!createNetworkStorage())
-        return 1;
+        disableNetworkStorage();
     if (!createConnection())
         return 1;
     if (!createEmptyCatalog())
         return 1;
     if (!createSystemCatalogDbConnection())
         return 1;
-    displayMessages();          // special messages/settings are displayed
+    if (!noMessages)
+        displayMessages();          // special messages/settings are displayed
     deleteOptions();
 
     EpNavigator::Navigator* navigator = new EpNavigator::Navigator;

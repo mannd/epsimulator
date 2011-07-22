@@ -21,6 +21,7 @@
 #include "studymanager.h"
 
 #include "coreconstants.h"
+#include "error.h"
 #include "fileutilities.h"
 #include "opticaldisk.h"
 #include "study.h"
@@ -98,13 +99,16 @@ void StudyManager::addStudy(Study* study) {
 }
 
 void StudyManager::addPreregisterStudy(Study* study) {
-    if (!study || !study->isPreregisterStudy())
-        return;
     StudyWriter::WriteLocations locations = studyWriter_->study(study);
     QString studyPath(joinPaths(systemStudiesPath(), study->dirName()));
     if (!makePath(studyPath))
-        return;
-    if (locations & StudyWriter::WriteSystem) {
+        throw EpCore::WriteError(studyPath);
+    study->setPath(studyPath);  // always write to System
+    study->save();
+    if (locations & StudyWriter::WriteNetwork) {
+        studyPath = joinPaths(networkStudiesPath(), study->dirName());
+        if (!makePath(studyPath))
+            throw EpCore::WriteError(studyPath);
         study->setPath(studyPath);
         study->save();
     }

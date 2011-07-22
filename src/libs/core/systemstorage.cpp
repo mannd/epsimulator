@@ -51,5 +51,7 @@ QString SystemStorage::cachePath() const {
 }
 
 bool SystemStorage::exists() const {
+    if (path_.isEmpty())
+        return false;
     return QDir(path_).exists();
 }

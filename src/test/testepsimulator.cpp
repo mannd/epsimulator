@@ -32,6 +32,7 @@
 #include "listselector.h"
 #include "localstorage.h"
 #include "mockdatastream.h"
+#include "networkstorage.h"
 #include "opticaldisk.h"
 #include "options.h"
 #include "passworddialog.h"
@@ -1130,6 +1131,11 @@ void TestEpSimulator::testStudyWriter() {
     QVERIFY(sw.study(&s) == StudyWriter::WriteSystemOptical);
     s.setPreregisterStudy(true);
     QVERIFY(sw.study(&s) == StudyWriter::WriteSystem);
+}
+
+void TestEpSimulator::testNetworkStorage() {
+    NetworkStorage ns("");
+    QVERIFY(!ns.exists());
 }
 
 void TestEpSimulator::cleanupTestCase() {

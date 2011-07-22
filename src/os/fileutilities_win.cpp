@@ -30,6 +30,10 @@
 
 #include <cstdlib>
 
+bool EpCore::isRemovableMedia(const QString& path) {
+    return isRemovableMedia(QDir(path));
+}
+
 bool EpCore::isRemovableMedia(const QDir& dir) {
     QString path = dir.absolutePath();
     path = path.toUpper() + "\\";
