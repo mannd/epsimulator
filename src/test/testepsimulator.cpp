@@ -1143,6 +1143,15 @@ void TestEpSimulator::testNetworkStorage() {
     QVERIFY(ns1.path() == "test2");
 }
 
+void TestEpSimulator::testCapitalize() {
+    QString s1 = "hello";
+    QVERIFY(capitalize(s1) == "Hello");
+    QString s2 = "HELLO";
+    QVERIFY(capitalize(s2) == s2);
+    QString s3 = "3tell";
+    QVERIFY(capitalize(s3) == s3);
+}
+
 void TestEpSimulator::cleanupTestCase() {
     bool workingPathUnchanged = QDir::currentPath() == workingPath_;
     QVERIFY(workingPathUnchanged);

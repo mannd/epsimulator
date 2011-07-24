@@ -95,6 +95,7 @@ private slots:
     void testOpticalDiskStudiesDir();
     void testStudyWriter();
     void testNetworkStorage();
+    void testCapitalize();
     void cleanupTestCase();
 
 private:
