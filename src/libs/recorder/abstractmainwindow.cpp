@@ -42,6 +42,8 @@
 #include <QSqlError>
 #include <QUrl>
 
+#include <QtDebug>
+
 using EpCore::Options;
 using EpCore::User;
 using EpCore::isRemovableMedia;
@@ -57,7 +59,10 @@ AbstractMainWindow::AbstractMainWindow(Options* options,
     createActions();
 }
 
-AbstractMainWindow::~AbstractMainWindow() {
+AbstractMainWindow::~AbstractMainWindow() {}
+
+void AbstractMainWindow::closeLastWindow() {
+    // called by Navigator destructor, delete pointers
     delete user_;
     delete options_;
 }

@@ -38,21 +38,22 @@ using EpStudy::StudyManager;
 
 // StudyManager knows how to read and write Studies to the 3
 // catalog locations -- so that Study doesn't have to.
-StudyManager::StudyManager() 
-    : opticalDisk_(0),
-      studyWriter_(0),
-      activeCatalog_(Catalog::System), 
-      useNetwork_(false), 
-      study_(0) {
-    init();
-}
+// StudyManager::StudyManager() 
+//     : opticalDisk_(0),
+//       studyWriter_(0),
+//       activeCatalog_(Catalog::System), 
+//       useNetwork_(false), 
+//       study_(0) {
+//     init();
+// }
 
 StudyManager::StudyManager(OpticalDisk* disk,
                            StudyWriter* studyWriter,
-                           Catalog::Source activeCatalog,
-                           bool useNetwork) 
-    : opticalDisk_(disk), studyWriter_(studyWriter),
-      activeCatalog_(activeCatalog), useNetwork_(useNetwork) {
+                           const QString& networkPath,
+                           Catalog::Source activeCatalog)
+    : opticalDisk_(disk), networkPath_(networkPath),
+      studyWriter_(studyWriter),
+      activeCatalog_(activeCatalog) {
     init();
 }
 

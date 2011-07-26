@@ -1074,22 +1074,22 @@ void TestEpSimulator::testStudyManager() {
     SystemStorage ss;
     ss.init();
     StudyWriter* sw = new StudyWriter;
-    StudyManager sm;
+    StudyManager sm(0, 0);
     // check some defaults
     QVERIFY(ss.path() == sm.systemPath());
-    QVERIFY(!sm.useNetwork());
+    //    QVERIFY(!sm.useNetwork());
     QVERIFY(sm.activeCatalog() == Catalog::System);
     sm.setActiveCatalog(Catalog::Optical);
     QVERIFY(sm.activeCatalog() == Catalog::Optical);
     StudyManager sm2(0, sw);        // other constructor
     QVERIFY(ss.path() == sm2.systemPath());
-    QVERIFY(!sm2.useNetwork());
+    //QVERIFY(!sm2.useNetwork());
     QVERIFY(sm2.activeCatalog() == Catalog::System);
     delete sw;
 }
 
 void TestEpSimulator::testStudyManagerLoadStudy() {
-    StudyManager sm;
+    StudyManager sm(0, 0);
     sm.setSystemPath("tmp/testSystemPath");
     QVERIFY(sm.systemPath() == "tmp/testSystemPath");
     Study* study = sm.getPreregisterStudy("12345");
@@ -1098,7 +1098,7 @@ void TestEpSimulator::testStudyManagerLoadStudy() {
 }
 
 void TestEpSimulator::testStudyManagerStudiesPath() {
-    StudyManager sm;
+    StudyManager sm(0, 0);
     sm.setNetworkPath("tmp/testNetworkPath");
     QVERIFY(sm.networkStudiesPath() == "tmp/testNetworkPath/studies");
     SystemStorage ss;

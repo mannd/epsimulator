@@ -123,6 +123,7 @@ Navigator::~Navigator() {
     delete studyWriter_;
     delete currentDisk_;
     delete networkStorage_;
+    closeLastWindow();
 }
 
 void Navigator::clearSelection() {
@@ -914,9 +915,10 @@ void Navigator::createCatalogs() {
 }
 
 void Navigator::createStudyManager() {
-    studyWriter_ = new StudyWriter(options()->
-                                   includeNetworkCatalog());
-    studyManager_ = new StudyManager(currentDisk_, studyWriter_);
+    bool useNetwork = options()->includeNetworkCatalog();
+    studyWriter_ = new StudyWriter(useNetwork);
+    QString networkPath = useNetwork ? networkStorage_->path() : QString();
+    studyManager_ = new StudyManager(currentDisk_, studyWriter_, networkPath);
 }
  
 void Navigator::createCentralWidget() {

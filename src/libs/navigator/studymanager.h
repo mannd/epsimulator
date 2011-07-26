@@ -35,11 +35,11 @@ class StudyWriter;
 // manages complex Study file handling
 class StudyManager {
 public:
-    StudyManager();
+    //    StudyManager();
     StudyManager(EpHardware::EpOpticalDisk::OpticalDisk*,
                  StudyWriter*,
-                 EpNavigator::Catalog::Source = EpNavigator::Catalog::System,
-                 bool useNetwork = false);
+                 const QString& networkPath = QString(),
+                 EpNavigator::Catalog::Source = EpNavigator::Catalog::System);
                  
 
     Study* getPreregisterStudy(const QString& key);
@@ -48,7 +48,7 @@ public:
     QString networkStudiesPath() const;
     QString opticalStudiesPath() const;
 
-    bool useNetwork() const {return useNetwork_;}
+    //    bool useNetwork() const {return useNetwork_;}
     EpNavigator::Catalog::Source activeCatalog() const {return activeCatalog_;}
 
     void setSystemPath(const QString& systemPath) {

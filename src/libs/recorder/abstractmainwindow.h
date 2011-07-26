@@ -26,6 +26,7 @@
 class QAction;
 
 namespace EpCore {
+class NetworkStorage;
 class Options;
 class User;
 }
@@ -57,12 +58,14 @@ protected:
     virtual void updateSystemSettings() = 0;
     virtual void readSettings() = 0;
     void filler();
+    EpCore::NetworkStorage* networkStorage() const {return networkStorage_;}
     EpCore::Options* options() const {return options_;}
     EpCore::User* user() const {return user_;}
 
     bool showSimulatorSettings();
     void updateWindowTitle(const QString& title = QString());
     bool administrationAllowed();
+    void closeLastWindow();
 
     QAction* intervalsAction() {return intervalsAction_;}
     QAction* columnFormatsAction() {return columnFormatsAction_;}
@@ -101,6 +104,7 @@ private:
 
     EpCore::Options* options_;
     EpCore::User* user_;
+    EpCore::NetworkStorage* networkStorage_;
 
     QAction* intervalsAction_;
     QAction* columnFormatsAction_;
