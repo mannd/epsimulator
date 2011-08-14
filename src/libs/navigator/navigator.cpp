@@ -123,7 +123,7 @@ Navigator::~Navigator() {
     delete studyWriter_;
     delete currentDisk_;
     delete networkStorage_;
-    closeLastWindow();
+    deletePointers();
 }
 
 void Navigator::clearSelection() {

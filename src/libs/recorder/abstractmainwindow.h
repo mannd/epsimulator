@@ -65,7 +65,7 @@ protected:
     bool showSimulatorSettings();
     void updateWindowTitle(const QString& title = QString());
     bool administrationAllowed();
-    void closeLastWindow();
+    void deletePointers();
 
     QAction* intervalsAction() {return intervalsAction_;}
     QAction* columnFormatsAction() {return columnFormatsAction_;}

@@ -61,8 +61,8 @@ AbstractMainWindow::AbstractMainWindow(Options* options,
 
 AbstractMainWindow::~AbstractMainWindow() {}
 
-void AbstractMainWindow::closeLastWindow() {
-    // called by Navigator destructor, delete pointers
+void AbstractMainWindow::deletePointers() {
+    // called by Navigator destructor only
     delete user_;
     delete options_;
 }
