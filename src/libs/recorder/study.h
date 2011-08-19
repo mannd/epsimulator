@@ -43,6 +43,7 @@ public:
     Study& operator=(const Study& rhs);
 
     void resetKey() {key_ = QString();}
+    bool makeStudyPath();
     void load();        // load study.dat file
     void save();        // save study.dat file
     void setPreregisterStudy(bool value) {isPregisterStudy_ = value;}
@@ -101,9 +102,10 @@ public:
         return studyConfiguration_;}
 
     // file related members
-    QString path() const {return path_;} // returns path to
-    // specific study directory
+    QString path() const {return path_;} // root path that contains
+        // studies directory
     QString filePath();     // Returns full path of study.dat file,
+            // == path_ + "studies" + {KEY...} + study.dat+
     QString configFilePath();   // returns full path of config.dat file
     QString dirName() const;
     QString fileName() const {return fileName_;}
@@ -113,6 +115,7 @@ private:
     static const int maxEf_ = 99;
     static const int minTone_ = 0;
     static const int maxTone_ = 100;
+    static const QString studiesDirName_;
     enum {MagicNumber = 0x99c798f5};  // for study.dat file
 
     void testInvariant() const;

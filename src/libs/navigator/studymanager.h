@@ -44,8 +44,6 @@ public:
 
     Study* getPreregisterStudy(const QString& key);
     QString systemPath() const {return systemPath_;}
-    QString systemStudiesPath() const;
-    QString networkStudiesPath() const;
     QString opticalStudiesPath() const;
 
     //    bool useNetwork() const {return useNetwork_;}

@@ -12,3 +12,4 @@ fi
 
 $dirname/erasedata.sh
 $dirname/erasedatabase.sh
+$dirname/erasetmp.sh

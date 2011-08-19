@@ -36,22 +36,12 @@ using EpNavigator::Catalog;
 using EpStudy::Study;
 using EpStudy::StudyManager;
 
-// StudyManager knows how to read and write Studies to the 3
-// catalog locations -- so that Study doesn't have to.
-// StudyManager::StudyManager() 
-//     : opticalDisk_(0),
-//       studyWriter_(0),
-//       activeCatalog_(Catalog::System), 
-//       useNetwork_(false), 
-//       study_(0) {
-//     init();
-// }
-
 StudyManager::StudyManager(OpticalDisk* disk,
                            StudyWriter* studyWriter,
                            const QString& networkPath,
                            Catalog::Source activeCatalog)
-    : opticalDisk_(disk), networkPath_(networkPath),
+    : networkPath_(networkPath),
+      opticalDisk_(disk),
       studyWriter_(studyWriter),
       activeCatalog_(activeCatalog) {
     init();
@@ -70,14 +60,6 @@ QString StudyManager::studiesPath(const QString& path) const {
     return EpCore::joinPaths(path, EpCore::Constants::EPSIM_STUDIES_DIRNAME);
 }
 
-QString StudyManager::networkStudiesPath() const {
-    return studiesPath(networkPath_);
-}
-
-QString StudyManager::systemStudiesPath() const {
-    return studiesPath(systemPath_);
-}
-
 QString StudyManager::opticalStudiesPath() const {
     //return studiesPath(opticalDisk_->workingPath());
     /// TODO fix OpticalDisk!
@@ -85,17 +67,27 @@ QString StudyManager::opticalStudiesPath() const {
 }
 
 QString StudyManager::activeCatalogStudiesPath() const {
-    return QString();
-    //    switch (activeCatalog_)
+    QString path;
+    switch (activeCatalog_) {
+        case Catalog::Network:
+            path = networkPath_;
+            break;
+        case Catalog::System:
+            path = systemPath_;
+            break;
+        case Catalog::Optical:
+            path = opticalPath_;
+            break;
+        default:
+            Q_ASSERT(false);
+    }
+    return path;
 }
 
 Study* StudyManager::getPreregisterStudy(const QString& key) {
     Study* study = new Study;
     study->setKey(key);
-    if (useNetwork_)
-        study->setPath(networkPath_);
-    else
-        study->setPath(systemPath_);
+    study->setPath(activeCatalogStudiesPath());
     study->load();
     return study;
 }
@@ -110,18 +102,15 @@ void StudyManager::addStudy(Study* study) {
 
 void StudyManager::addPreregisterStudy(Study* study) {
     StudyWriter::WriteLocations locations = studyWriter_->study(study);
-    QString studyPath(joinPaths(systemStudiesPath(), study->dirName()));
-    if (!makePath(studyPath))
-        throw EpCore::WriteError(studyPath);
-    study->setPath(studyPath);  // always write to System
+    study->setPath(systemPath_);  // always write to System
+    if (!study->makeStudyPath())
+        throw EpCore::WriteError(study->filePath());
     study->save();
     if (locations & StudyWriter::WriteNetwork) {
-        studyPath = joinPaths(networkStudiesPath(), study->dirName());
-        if (!makePath(studyPath))
-            throw EpCore::WriteError(studyPath);
-        study->setPath(studyPath);
+        study->setPath(networkPath_);
+        if (!study->makeStudyPath())
+            throw EpCore::WriteError(study->filePath());
         study->save();
-
     }
 }
 
@@ -132,7 +121,14 @@ void StudyManager::addFullStudy(Study* study) {
 }
 
 
-Study* StudyManager::study(const QString& /*key*/) {
-    return 0;
-        
+Study* StudyManager::study(const QString& key) {
+    if (key.isEmpty())
+        return 0;
+    // lookup key, get new Study and set it to study.dat
+    Study* study = new Study;
+    study->setKey(key);
+    study->setPath(activeCatalogStudiesPath());
+    qDebug() << "activeCatalogStudiesPath() ==" << activeCatalogStudiesPath();
+    study->load();
+    return study;
 }

@@ -141,6 +141,8 @@ void Navigator::closeEvent(QCloseEvent* event) {
 
 // Blue bar actions
 void Navigator::newStudy() {
+    /// FIXME
+    return;
     // New Study button is grayed out/absent if EnableAcquisition not set,
     // so this shouldn't happen:
     Q_ASSERT(options()->filePathFlags.testFlag(Options::EnableAcquisition));
@@ -174,6 +176,8 @@ void Navigator::newStudy() {
 }
 
 void Navigator::continueStudy() {
+    /// FIXME
+    return;
     Study* study = getSelectedStudy();
     if (!study) {
         noStudySelectedError();
@@ -206,6 +210,8 @@ void Navigator::continueStudy() {
 }
 
 void Navigator::reviewStudy() {
+    /// FIXME
+    return;
     Study* study = getSelectedStudy();
     if ((study) && !study->isPreregisterStudy()) {
         // if study not on this optical disk change disk and return
@@ -1319,6 +1325,8 @@ void Navigator::processFilter() {
 }
 
 void Navigator::startStudy(Study* study, bool review) {
+    /// FIXME
+    return;
     // write study files
     QString studiesPath = currentDisk_->studiesPath();
     if (EpCore::useDiskCache(studiesPath)) {
@@ -1392,9 +1400,7 @@ bool Navigator::getStudyInformation(Study* study) {
 // This returns a pointer to a study selected from the catalog, 
 // returns 0 if no study selected
 Study* Navigator::getSelectedStudy() {
-    //return tableListView_->study();
     QString key = studyTable_->key();
-    qDebug() << "study key =" << key;
     return studyManager_->study(key);
 }
 

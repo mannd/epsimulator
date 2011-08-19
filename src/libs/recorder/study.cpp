@@ -20,6 +20,7 @@
 
 #include "study.h"
 
+#include "coreconstants.h"
 #include "error.h"
 #include "fileutilities.h"
 #include "studyconfiguration.h"
@@ -39,13 +40,13 @@ const QDate defaultBirthDate = QDate::currentDate().addYears(-50);
 const AutonomicTone defaultVagalTone = 70;
 const AutonomicTone defaultSympatheticTone = 30;
 
-
 const int Study::minEf_;
 const int Study::maxEf_;
 const int Study::minTone_;
 const int Study::maxTone_;
 const QString Study::fileName_ = "study.dat";
 const QString Study::configFileName_ = "config.dat";
+const QString Study::studiesDirName_ = EpCore::Constants::EPSIM_STUDIES_DIRNAME;
 
 Study::Study() 
     : dateTime_(QDateTime::currentDateTime()),
@@ -83,6 +84,10 @@ Study& Study::operator =(const Study& rhs) {
     copyStudy(rhs);
     testInvariant();
     return *this;
+}
+
+bool Study::makeStudyPath() {
+    return EpCore::makePath(dirName());
 }
 
 void Study::load() {
@@ -139,17 +144,17 @@ QString Study::key() const {
 }
 
 QString Study::dirName() const {
-    return QDir::separator() + key();
+    return EpCore::joinPaths(path_, studiesDirName_, key());
 }
 
 QString Study::filePath() {
     Q_ASSERT(!path_.isEmpty());
-    return EpCore::joinPaths(path_ , fileName_);
+    return EpCore::joinPaths(dirName(), fileName_);
 }
 
 QString Study::configFilePath() {
     Q_ASSERT(!path_.isEmpty());
-    return EpCore::joinPaths(path_, configFileName_);
+    return EpCore::joinPaths(dirName(), configFileName_);
 }
 
 // private

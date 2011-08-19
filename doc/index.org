@@ -22,6 +22,10 @@ EP Simulator Help
 ** Navigator blue sidebar
    - This is programmable to version 5 or version 6 appearance.
    - There is no "Mac-Lab" version of the sidebar.
+** Navigator study table
+   - If study selected when New Study, Continue Study or Pre-Register buttons
+     selected, behavior is to copy selected study into Patient Information dialog.
+   - ESC key unselects selected study.
 ** Patient Information dialog
    Second tab is not Contact, but Physiology.  The Patient Information dialog
    in EP Simulator is used to set up the patient simulation.

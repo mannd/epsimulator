@@ -6,7 +6,7 @@ lang="en" xml:lang="en">
 <title>EP Simulator Help</title>
 <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2010-11-28 20:10:16 EST"/>
+<meta name="generated" content="2011-08-14 19:27:57 EDT"/>
 <meta name="author" content="David Mann"/>
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -86,12 +86,18 @@ lang="en" xml:lang="en">
 <li><a href="#sec-4.1">4.1 Help System </a></li>
 <li><a href="#sec-4.2">4.2 Simulator Settings menu </a></li>
 <li><a href="#sec-4.3">4.3 Navigator blue sidebar </a></li>
-<li><a href="#sec-4.4">4.4 Patient Information dialog </a></li>
-<li><a href="#sec-4.5">4.5 Administrator mode </a></li>
-<li><a href="#sec-4.6">4.6 Optical disk emulation </a></li>
-<li><a href="#sec-4.7">4.7 EP List edit boxes </a></li>
-<li><a href="#sec-4.8">4.8 Look and feel </a></li>
-<li><a href="#sec-4.9">4.9 No ADT option in Navigator </a></li>
+<li><a href="#sec-4.4">4.4 Navigator study table </a></li>
+<li><a href="#sec-4.5">4.5 Patient Information dialog </a></li>
+<li><a href="#sec-4.6">4.6 Administrator mode </a></li>
+<li><a href="#sec-4.7">4.7 Optical disk emulation </a>
+<ul>
+<li><a href="#sec-4.7.1">4.7.1 Disk types </a></li>
+<li><a href="#sec-4.7.2">4.7.2 Eject disk </a></li>
+</ul>
+</li>
+<li><a href="#sec-4.8">4.8 EP List edit boxes </a></li>
+<li><a href="#sec-4.9">4.9 Look and feel </a></li>
+<li><a href="#sec-4.10">4.10 No ADT option in Navigator </a></li>
 </ul>
 </li>
 </ul>
@@ -204,8 +210,25 @@ There is no "Mac-Lab" version of the sidebar.
 </div>
 
 <div id="outline-container-4.4" class="outline-3">
-<h3 id="sec-4.4">4.4 Patient Information dialog </h3>
+<h3 id="sec-4.4">4.4 Navigator study table </h3>
 <div id="text-4.4">
+
+<ul>
+<li>
+If study selected when New Study, Continue Study or Pre-Register buttons
+selected, behavior is to copy selected study into Patient Information dialog.
+</li>
+<li>
+ESC key unselects selected study.
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-4.5" class="outline-3">
+<h3 id="sec-4.5">4.5 Patient Information dialog </h3>
+<div id="text-4.5">
 
 <p>Second tab is not Contact, but Physiology.  The Patient Information dialog
 in EP Simulator is used to set up the patient simulation.
@@ -213,9 +236,9 @@ in EP Simulator is used to set up the patient simulation.
 
 </div>
 
-<div id="outline-container-4.5" class="outline-3">
-<h3 id="sec-4.5">4.5 Administrator mode </h3>
-<div id="text-4.5">
+<div id="outline-container-4.6" class="outline-3">
+<h3 id="sec-4.6">4.6 Administrator mode </h3>
+<div id="text-4.6">
 
 <ul>
 <li>
@@ -230,9 +253,16 @@ lists can be viewed by not edited by non-administrators.
 
 </div>
 
-<div id="outline-container-4.6" class="outline-3">
-<h3 id="sec-4.6">4.6 Optical disk emulation </h3>
-<div id="text-4.6">
+<div id="outline-container-4.7" class="outline-3">
+<h3 id="sec-4.7">4.7 Optical disk emulation </h3>
+<div id="text-4.7">
+
+
+</div>
+
+<div id="outline-container-4.7.1" class="outline-4">
+<h4 id="sec-4.7.1">4.7.1 Disk types </h4>
+<div id="text-4.7.1">
 
 <p>Study data can be stored on an actual optical disk, a hard drive
 directory, or a hard drive directory disguised to mimic an optical disk.
@@ -240,9 +270,20 @@ directory, or a hard drive directory disguised to mimic an optical disk.
 
 </div>
 
-<div id="outline-container-4.7" class="outline-3">
-<h3 id="sec-4.7">4.7 EP List edit boxes </h3>
-<div id="text-4.7">
+<div id="outline-container-4.7.2" class="outline-4">
+<h4 id="sec-4.7.2">4.7.2 Eject disk </h4>
+<div id="text-4.7.2">
+
+<p>Eject disk has no effect when a hard drive directory is used as the local
+storage medium.
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-4.8" class="outline-3">
+<h3 id="sec-4.8">4.8 EP List edit boxes </h3>
+<div id="text-4.8">
 
 <ul>
 <li>
@@ -259,9 +300,9 @@ IMPROVEMENT: List selectors have up/down buttons to rearrange ordered lists.
 
 </div>
 
-<div id="outline-container-4.8" class="outline-3">
-<h3 id="sec-4.8">4.8 Look and feel </h3>
-<div id="text-4.8">
+<div id="outline-container-4.9" class="outline-3">
+<h3 id="sec-4.9">4.9 Look and feel </h3>
+<div id="text-4.9">
 
 <p>It is not possible (and probably not desirable) to reproduce the exact
 "look and feel" of the Prucka system.  Several properties of the Prucka
@@ -273,9 +314,9 @@ slavishly exact.
 
 </div>
 
-<div id="outline-container-4.9" class="outline-3">
-<h3 id="sec-4.9">4.9 No ADT option in Navigator </h3>
-<div id="text-4.9">
+<div id="outline-container-4.10" class="outline-3">
+<h3 id="sec-4.10">4.10 No ADT option in Navigator </h3>
+<div id="text-4.10">
 
 </div>
 </div>
@@ -283,7 +324,7 @@ slavishly exact.
 <div id="postamble"><p class="author"> Author: David Mann
 <a href="mailto:mannd@epstudiossoftware.com">&lt;mannd@epstudiossoftware.com&gt;</a>
 </p>
-<p class="date"> Date: 2010-11-28 20:10:16 EST</p>
+<p class="date"> Date: 2011-08-14 19:27:57 EDT</p>
 <p>HTML generated by org-mode 6.21b in emacs 23</p>
 </div></body>
 </html>
