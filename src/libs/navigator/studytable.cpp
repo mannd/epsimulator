@@ -242,7 +242,11 @@ Study* StudyTable::study() const {
 // }
 
 QString StudyTable::key() const {
-    QModelIndex index = currentIndex();
+    QModelIndexList indexList = selectedIndexes();
+    //QModelIndex index = currentIndex();
+    if (indexList.count() < 1)
+        return 0;
+    QModelIndex index = indexList[0];
     QString key;
     if (index.isValid()) {
         QSqlRecord record = model_->record(index.row());
