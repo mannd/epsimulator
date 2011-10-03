@@ -214,11 +214,9 @@ void StudyTable::adjustColumns() {
 // pointer returned by this function is owned by the calling function,
 // which needs to delete it.
 Study* StudyTable::study() const {
-    QModelIndexList indexList = selectedIndexes();
-    //QModelIndex index = currentIndex();
-    if (indexList.count() < 1)
+    QModelIndex index = selectedModelIndex();
+    if (!index.isValid())
         return 0;
-    QModelIndex index = indexList[0];
     QSqlRecord record = model_->record(index.row());
     Study study;
     study.setKey(record.value(CatalogEntry_StudyKey).toString());
@@ -226,6 +224,15 @@ Study* StudyTable::study() const {
                        record.value(CatalogEntry_FirstName).toString()));
 
     return new Study(study);
+}
+
+// Returns selected row QModelIndex, returns invalid QModelIndex
+// if no selection. Not the same as currentIndex().
+QModelIndex StudyTable::selectedModelIndex() const {
+    QModelIndexList indexList = selectedIndexes();
+    if (indexList.count() < 1)
+        return QModelIndex();
+    return indexList[0];
 }
 
 
@@ -242,11 +249,9 @@ Study* StudyTable::study() const {
 // }
 
 QString StudyTable::key() const {
-    QModelIndexList indexList = selectedIndexes();
-    //QModelIndex index = currentIndex();
-    if (indexList.count() < 1)
+    QModelIndex index = selectedModelIndex();
+    if (!index.isValid())
         return 0;
-    QModelIndex index = indexList[0];
     QString key;
     if (index.isValid()) {
         QSqlRecord record = model_->record(index.row());
@@ -256,13 +261,13 @@ QString StudyTable::key() const {
 }
 
 bool StudyTable::isPreregisterStudy() const {
-    QModelIndex index = currentIndex();
-    bool result = false;
+    QModelIndex index = selectedModelIndex();
     if (index.isValid()) {
         QSqlRecord record = model_->record(index.row());
-        result = record.value(CatalogEntry_StudyType).toBool();
+         return record.value(CatalogEntry_StudyType).toBool();
     }
-    return result;
+    else
+        return false;
 }
 
 void StudyTable::addStudy(Study* study, const QString& location) {

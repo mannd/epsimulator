@@ -99,6 +99,7 @@ private:
     void initModel();
     void createHeader();
     void setHeaderLabels(QSqlTableModel*);
+    QModelIndex selectedModelIndex() const;
 
     void updateModel(QSqlTableModel* model, EpStudy::Study* study,
                   const QString& location);
