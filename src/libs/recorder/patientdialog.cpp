@@ -37,6 +37,7 @@ PatientDialog::PatientDialog(QWidget* parent) :
     setupUi(this);
     ageLineEdit->setEnabled(false);
     tabWidget->setCurrentIndex(0);
+    lastNameLineEdit->setFocus();
 
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));

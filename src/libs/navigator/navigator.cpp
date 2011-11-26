@@ -141,8 +141,6 @@ void Navigator::closeEvent(QCloseEvent* event) {
 
 // Blue bar actions
 void Navigator::newStudy() {
-    /// FIXME
-    return;
     // New Study button is grayed out/absent if EnableAcquisition not set,
     // so this shouldn't happen:
     Q_ASSERT(options()->filePathFlags.testFlag(Options::EnableAcquisition));
@@ -153,6 +151,7 @@ void Navigator::newStudy() {
     }
     // if after all the above we finally have a label...
     Study* study = getNewStudy();
+    // need try/catch block here so that study gets deleted if error.
     SelectStudyConfigDialog* selectStudyConfigDialog  =
         new SelectStudyConfigDialog(this);
     if (selectStudyConfigDialog->exec() == QDialog::Accepted) {
@@ -160,12 +159,12 @@ void Navigator::newStudy() {
         study->setStudyConfiguration(selectStudyConfigDialog
                                      ->studyConfiguration());
         if (getStudyInformation(study)) {
-            catalogs_->addStudy(study, currentDisk_->label(),
-                                currentDisk_->translatedSide(),
-                                options()->labName, user()->machineName());
+//            catalogs_->addStudy(study, currentDisk_->label(),
+//                                currentDisk_->translatedSide(),
+//                                options()->labName, user()->machineName());
             studyTable_->addStudy(study, currentDisk_->label());
-            refreshCatalogs();
-            startStudy(study);
+//            refreshCatalogs();
+            // startStudy(study);
         }
         else
             delete study;
@@ -229,15 +228,12 @@ void Navigator::reviewStudy() {
 void Navigator::preregisterPatient() {
     Study* study = getNewStudy();
     study->setPreregisterStudy(true);
+    // need try/catch around this so that study is
+    // deleted if IO error.
     if (getStudyInformation(study)) {
         studyManager_->addStudy(study);
         // add to System and possibly Network StudyTables
         studyTable_->addStudy(study, QString());
-
-        catalogs_->addStudy(study);
-        refreshCatalogs();
-        // refreshCatalogs() catches IO errors, so should 
-        // be no resource leak
     }
     delete study;
 }

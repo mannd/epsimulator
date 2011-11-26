@@ -76,8 +76,6 @@ public:
 
 private:
     void init();
-    void addPreregisterStudy(Study*);
-    void addFullStudy(Study*);
     QString studiesPath(const QString& path) const;
     QString activeCatalogStudiesPath() const;
 

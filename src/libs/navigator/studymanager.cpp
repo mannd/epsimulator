@@ -95,12 +95,8 @@ Study* StudyManager::getPreregisterStudy(const QString& key) {
 void StudyManager::addStudy(Study* study) {
     if (!study)
         return;
-    if (study->isPreregisterStudy())
-        addPreregisterStudy(study);
-    else addFullStudy(study);
-}
-
-void StudyManager::addPreregisterStudy(Study* study) {
+    // StudyWriter::study() checks type of study (preregister or not)
+    // and returns locations where study data will be written.
     StudyWriter::WriteLocations locations = studyWriter_->study(study);
     study->setPath(systemPath_);  // always write to System
     if (!study->makeStudyPath())
@@ -112,14 +108,13 @@ void StudyManager::addPreregisterStudy(Study* study) {
             throw EpCore::WriteError(study->filePath());
         study->save();
     }
+    if (locations & StudyWriter::WriteOptical) {
+        study->setPath(opticalPath_);
+        if (!study->makeStudyPath())
+            throw EpCore::WriteError(study->filePath());
+        study->save();
+    }
 }
-
-void StudyManager::addFullStudy(Study* study) {
-    if (!study || study->isPreregisterStudy())
-        return;
-    return;
-}
-
 
 Study* StudyManager::study(const QString& key) {
     if (key.isEmpty())
@@ -128,7 +123,6 @@ Study* StudyManager::study(const QString& key) {
     Study* study = new Study;
     study->setKey(key);
     study->setPath(activeCatalogStudiesPath());
-    qDebug() << "activeCatalogStudiesPath() ==" << activeCatalogStudiesPath();
     study->load();
     return study;
 }
