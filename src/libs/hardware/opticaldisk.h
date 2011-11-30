@@ -117,6 +117,7 @@ public:
         return path == path_;}
     void createOpticalCatalogDbConnection();
     void removeDatabase();
+    QString workingPath() const {return workingPath_;}
 
 protected:
     // first bytes of label file
@@ -133,7 +134,6 @@ protected:
     bool useCache() const {return useCache_;}
     void clearCache();
 
-    QString workingPath() const {return workingPath_;}
 private:
     OpticalDisk(OpticalDisk&);
     bool workingCatalogFileExists();

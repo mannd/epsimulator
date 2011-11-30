@@ -61,9 +61,7 @@ QString StudyManager::studiesPath(const QString& path) const {
 }
 
 QString StudyManager::opticalStudiesPath() const {
-    //return studiesPath(opticalDisk_->workingPath());
-    /// TODO fix OpticalDisk!
-    return QString();
+    return studiesPath(opticalDisk_->workingPath());
 }
 
 QString StudyManager::activeCatalogStudiesPath() const {
