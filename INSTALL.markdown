@@ -4,6 +4,7 @@
 
 * [Qt SKD](http://qt.nokia.com/downloads) is recommended.
 * Linux, Max OSX, or Windows
+* Sqlite3
 
 ## Installation
 

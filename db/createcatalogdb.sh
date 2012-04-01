@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 echo making empty system catalog database now if not already present....
 rm -f ../../db/catalog.db
