@@ -235,23 +235,10 @@ QModelIndex StudyTable::selectedModelIndex() const {
     return indexList[0];
 }
 
-
-
-
-// Study* StudyTable::study() const {
-//     if (selectedIndexes().isEmpty())
-//         return 0;
-// //    if (StudyTableItem* item =
-// //        static_cast<StudyTableItem*>(selectedItems()[0]))
-// //        return new Study((*catalog_)[item->key()].study);
-// //    else
-//         return 0;
-// }
-
 QString StudyTable::key() const {
     QModelIndex index = selectedModelIndex();
     if (!index.isValid())
-        return 0;
+        return QString();
     QString key;
     if (index.isValid()) {
         QSqlRecord record = model_->record(index.row());
